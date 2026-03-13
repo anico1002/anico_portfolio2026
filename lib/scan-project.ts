@@ -1,7 +1,7 @@
 import "server-only";
 import fs from "fs";
 import path from "path";
-import { parseContent, type ContentLink, type ContentStat, type ContentMeta, type ContentTextBlock } from "./parse-content";
+import { parseContent, type ContentLink, type ContentStat, type ContentMeta, type ContentTextBlock, type ContentButton } from "./parse-content";
 import { projects, type Project } from "./projects";
 
 const IMAGE_EXTS = /\.(jpg|jpeg|png|gif|webp|avif)$/i;
@@ -13,12 +13,16 @@ export interface ScannedSection {
 
 export interface ScannedProject {
   thumbnail: string;
+  /** Hero image for project page: file named *_hero.(png|jpg|...) in project root */
+  heroImage?: string;
   /** Sections with titles (populated when sub-folders exist) */
   sections: ScannedSection[];
   /** Flat image list — fallback / used by hero floating cards */
   images: (string | string[])[];
   links: ContentLink[];
   stats: ContentStat[];
+  /** CTA button from [button] in content.txt (download / visit web) */
+  ctaButton?: ContentButton;
   /** Parsed key:value metadata from content.txt */
   meta: ContentMeta;
   /** Default-locale text blocks from content.txt */
@@ -66,7 +70,7 @@ function imgLetter(name: string): string {
  */
 function buildImageList(dir: string, urlPrefix: string): (string | string[])[] {
   const files = fs.readdirSync(dir)
-    .filter((f) => isImage(f) && !f.replace(IMAGE_EXTS, "").endsWith("_thumb"));
+    .filter((f) => isImage(f) && !f.replace(IMAGE_EXTS, "").endsWith("_thumb") && !f.replace(IMAGE_EXTS, "").endsWith("_hero"));
 
   // Group by numeric position
   const groups = new Map<number, string[]>();
@@ -102,6 +106,12 @@ export function getScannedProject(slug: string): ScannedProject | null {
     .sort()[0];
   const thumbnail = thumbFile ? `${urlBase}/${thumbFile}` : "";
 
+  /* ── Hero image (xxx_hero.png en la raíz de la carpeta del proyecto) ── */
+  const heroFile = allEntries
+    .filter((f) => isImage(f) && f.replace(IMAGE_EXTS, "").endsWith("_hero"))
+    .sort()[0];
+  const heroImage = heroFile ? `${urlBase}/${heroFile}` : undefined;
+
   /* ── content.txt ── */
   const contentPath = path.join(projectDir, "content.txt");
   const parsed = fs.existsSync(contentPath)
@@ -134,12 +144,14 @@ export function getScannedProject(slug: string): ScannedProject | null {
 
   return {
     thumbnail,
+    heroImage,
     sections,
     images,
-    links:   parsed?.links   ?? [],
-    stats:   parsed?.stats   ?? [],
-    meta:    parsed?.meta    ?? {},
-    locales: parsed?.locales ?? {},
+    links:     parsed?.links     ?? [],
+    stats:     parsed?.stats     ?? [],
+    ctaButton: parsed?.button,
+    meta:      parsed?.meta      ?? {},
+    locales:   parsed?.locales   ?? {},
     text: {
       overview:  parsed?.overview,
       challenge: parsed?.challenge,
@@ -175,6 +187,7 @@ export function buildProjectFromScanned(slug: string, scanned: ScannedProject): 
     aspectRatio:  m.aspect_ratio ?? "4/3",
     palette:      1,
     thumbnail:    scanned.thumbnail,
+    heroImage:    scanned.heroImage,
     images:       scanned.images,
     sections:     scanned.sections.length ? scanned.sections : undefined,
     links:        scanned.links.length    ? scanned.links    : undefined,
@@ -183,6 +196,7 @@ export function buildProjectFromScanned(slug: string, scanned: ScannedProject): 
     process:        scanned.text.process   ?? "",
     outcome:        scanned.text.outcome   ?? "",
     stats:          scanned.stats,
+    ctaButton:      scanned.ctaButton,
     localizations:  Object.keys(scanned.locales).length ? scanned.locales : undefined,
   };
 }
@@ -213,9 +227,17 @@ export function getEnrichedProjects(): Project[] {
     return {
       ...p,
       thumbnail: scanned.thumbnail || p.thumbnail,
+      heroImage: scanned.heroImage ?? p.heroImage,
       images:    scanned.images.length    ? scanned.images    : p.images,
       sections:  scanned.sections.length  ? scanned.sections  : undefined,
       links:     scanned.links.length     ? scanned.links     : p.links,
+      ctaButton: scanned.ctaButton ?? p.ctaButton,
+      stats:         scanned.stats,
+      overview:      scanned.text.overview  ?? p.overview,
+      challenge:     scanned.text.challenge ?? p.challenge,
+      process:       scanned.text.process   ?? p.process,
+      outcome:       scanned.text.outcome   ?? p.outcome,
+      localizations: Object.keys(scanned.locales).length > 0 ? { ...p.localizations, ...scanned.locales } : p.localizations,
     };
   });
   const hardcodedSlugs = new Set(projects.map((p) => p.slug));

@@ -10,7 +10,7 @@ aspect_ratio: 3/4
 order: 6
 
 [overview]
-In 2020 I developed a self-initiated art direction and UI/UX proposal for a Disney karting game at Gameloft Barcelona. The concept was built around a simple but ambitious premise: what would a Disney karting game look like if it were designed to appeal equally to adult fans of the IP and to younger players? The result is a visual system that honours Disney's iconic characters and brand equity while pushing the aesthetic into bolder, more cinematic territory.
+In 2020 I developed an art direction and UI/UX proposal for a Disney karting game at Gameloft Barcelona. The concept was built around a simple but ambitious premise: what would a Disney karting game look like if it were designed to appeal equally to adult fans of the intellectual property and younger players? The result is a visual system that pays homage to Disney's iconic characters and brand value, while taking the aesthetic into bolder, more cinematic territory.
 
 [challenge]
 The challenge was creating a UI language that stays true to Disney's brand style while introducing a more mature tone — appealing to a target audience that is not exclusively children. Every design decision had to balance the warmth and playfulness of the Disney universe with the high production standards expected of a modern mobile racing title.

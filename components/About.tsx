@@ -12,7 +12,7 @@ export default function About() {
     <section id="about" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-muted">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <ScrollReveal className="relative" y={0} x={60}>
+          <ScrollReveal className="relative" y={50}>
             <div className="aspect-[4/5] bg-accent overflow-hidden relative">
               <img
                 src="/about.webp"
@@ -21,7 +21,7 @@ export default function About() {
               />
             </div>
           </ScrollReveal>
-          <ScrollReveal delay={0.1} y={0} x={-60}>
+          <ScrollReveal delay={0.1} y={50}>
             <div>
               <p className="text-muted-foreground text-sm tracking-widest uppercase mb-4">
                 {t.title}

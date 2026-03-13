@@ -79,4 +79,42 @@ vercel --prod
 
 ---
 
+## 4. Probar en móvil sin desplegar
+
+### Opción A: Emulador del navegador (rápido)
+
+1. Arranca el proyecto: `npm run dev`
+2. Abre en Chrome/Edge: **http://localhost:3000**
+3. Abre las DevTools (F12 o Cmd+Option+I en Mac)
+4. Activa el **modo dispositivo**: icono de móvil/tablet en la barra de herramientas, o **Cmd+Shift+M** (Mac) / **Ctrl+Shift+M** (Windows)
+5. Elige un dispositivo (iPhone, Pixel, etc.) o un tamaño personalizado para ver el ratio de pantalla móvil
+
+### Opción B: Ver en tu móvil real (misma WiFi)
+
+1. **Misma WiFi:** El móvil tiene que estar en la **misma red WiFi** que el ordenador (no datos móviles).
+
+2. Arranca el servidor:
+   ```bash
+   npm run dev:mobile
+   ```
+
+3. **Obtén la IP real de tu Mac:** En otra terminal ejecuta:
+   ```bash
+   ipconfig getifaddr en0
+   ```
+   (Si no devuelve nada, prueba `en1` o `en2`: `ipconfig getifaddr en1`). Verás una IP tipo `192.168.1.45`.
+
+4. En el **móvil**, en el navegador escribe **exactamente** esa IP con el puerto:
+   ```
+   http://192.168.1.45:3000
+   ```
+   (Sustituye por la IP que te haya salido en el paso 3; **no** uses literalmente "192.168.x.x".)
+
+5. **Si sigue sin cargar:**
+   - **Firewall de Mac:** Preferencias del Sistema → Red → Firewall → Opciones. Asegúrate de permitir conexiones entrantes para "Node" o desactiva el firewall temporalmente para probar.
+   - Comprueba que en el ordenador sí abre **http://localhost:3000** con el servidor en marcha.
+   - Algunos routers aíslan dispositivos (red "invitados"): el móvil y el Mac deben estar en la misma red (misma WiFi doméstica).
+
+---
+
 *Si guardas en el futuro un token (por ejemplo para CI), usa variables de entorno en Vercel o en GitHub Actions, nunca en el código ni en archivos commiteados.*

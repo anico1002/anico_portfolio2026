@@ -17,10 +17,14 @@ export type Project = {
   aspectRatio: string;   // e.g. "4/3", "3/4", "1/1", "16/9"
   palette: number; // 1–5, tints the image container bg while loading
   thumbnail: string;
+  /** Hero image for project page: from xxx_hero.(png|jpg|...) in project folder */
+  heroImage?: string;
   images: (string | string[])[]; // string[] = fade slider group
   // Enriched at runtime by lib/scan-project.ts (server-only)
   sections?: { title?: string; images: (string | string[])[] }[];
   links?: { label: string; url: string }[];
+  /** CTA button from content.txt [button] (download / visit web) */
+  ctaButton?: { label: string; url: string };
   /** Locale overrides from content.txt [block.locale] sections */
   localizations?: Record<string, Partial<Pick<Project, "overview" | "challenge" | "process" | "outcome" | "stats">>>;
   // Case study content
@@ -28,7 +32,7 @@ export type Project = {
   challenge: string;
   process: string;
   outcome: string;
-  stats: { value: string; label: string }[];
+  stats: { text: string }[];
 };
 
 export const projects: Project[] = [
@@ -66,10 +70,10 @@ export const projects: Project[] = [
     outcome:
       "The landing page launched in 2024 as Fundfy's primary conversion surface. The design successfully bridges the gap between regulated financial product and exclusive lifestyle brand, a combination that differentiates Fundfy in the increasingly crowded European crypto investment space. The page is live at fundfy.io.",
     stats: [
-      { value: "+450%", label: "Cumulative returns since 2018" },
-      { value: "MiCA", label: "European regulation" },
-      { value: "4", label: "Portfolio tiers designed" },
-      { value: "2024", label: "Launch year" },
+      { text: "+450% Cumulative returns since 2018" },
+      { text: "MiCA European regulation" },
+      { text: "4 Portfolio tiers designed" },
+      { text: "2024 Launch year" },
     ],
   },
 
@@ -112,10 +116,10 @@ export const projects: Project[] = [
     outcome:
       "The GM World! identity launched with the 2024 forum edition and was adopted across the full event brand: stage design, digital promotion, printed materials, and speaker assets. The modular system is flexible enough to extend to future editions without requiring a full redesign each year.",
     stats: [
-      { value: "2024", label: "Launch year" },
-      { value: "Global", label: "Event scope" },
-      { value: "Web3", label: "Industry" },
-      { value: "Metacampus", label: "Client" },
+      { text: "2024 Launch year" },
+      { text: "Global Event scope" },
+      { text: "Web3 Industry" },
+      { text: "Metacampus Client" },
     ],
   },
 
@@ -166,10 +170,10 @@ export const projects: Project[] = [
     outcome:
       "The redesigned UI shipped as the definitive visual identity for Asphalt Unite, establishing the esports aesthetic that will carry the franchise forward on console and PC platforms. Internal user testing showed a 40% reduction in navigation errors compared to the previous prototype, and the art direction received unanimous approval from the publishing stakeholders on first presentation.",
     stats: [
-      { value: "40%", label: "Fewer nav errors" },
-      { value: "3", label: "Vehicle class systems" },
-      { value: "Console", label: "Primary platform" },
-      { value: "2023", label: "Ship year" },
+      { text: "40% Fewer nav errors" },
+      { text: "3 Vehicle class systems" },
+      { text: "Console Primary platform" },
+      { text: "2023 Ship year" },
     ],
   },
 
@@ -207,10 +211,10 @@ export const projects: Project[] = [
     outcome:
       "Metacampus launched with the new identity in 2023 and used it across their full digital presence, including a Figma-prototyped website delivered for the development team. The geometric system proved flexible enough to extend into social media templates, presentation decks, and event materials without losing coherence.",
     stats: [
-      { value: "4", label: "Brand pillars" },
-      { value: "2023", label: "Launch year" },
-      { value: "Web3", label: "Industry" },
-      { value: "Figma", label: "Prototype delivered" },
+      { text: "4 Brand pillars" },
+      { text: "2023 Launch year" },
+      { text: "Web3 Industry" },
+      { text: "Figma Prototype delivered" },
     ],
   },
 
@@ -270,10 +274,10 @@ export const projects: Project[] = [
     outcome:
       "The proposal served as an internal creative benchmark and art direction reference at Gameloft Barcelona, demonstrating what a high-quality Disney karting title could look and feel like with the right creative investment. The project remains one of the most complete self-initiated concept packages in my portfolio, covering UI, character design, kart customisation, and marketing assets from a single cohesive visual brief.",
     stats: [
-      { value: "29", label: "Screens designed" },
-      { value: "2020", label: "Year" },
-      { value: "Disney", label: "IP" },
-      { value: "Self", label: "Initiated" },
+      { text: "29 Screens designed" },
+      { text: "2020 Year" },
+      { text: "Disney IP" },
+      { text: "Self Initiated" },
     ],
   },
 
@@ -311,10 +315,10 @@ export const projects: Project[] = [
     outcome:
       "The prototype was fully interactive and shareable, published on Protopie for anyone to try. It demonstrated that significant usability improvements are achievable within Netflix's existing design language, and generated significant engagement when shared in design communities.",
     stats: [
-      { value: "Protopie", label: "Prototype tool" },
-      { value: "2019", label: "Year" },
-      { value: "100%", label: "Brand compliant" },
-      { value: "Self", label: "Initiated" },
+      { text: "Protopie Prototype tool" },
+      { text: "2019 Year" },
+      { text: "100% Brand compliant" },
+      { text: "Self Initiated" },
     ],
   },
 
@@ -348,10 +352,10 @@ export const projects: Project[] = [
     outcome:
       "A fully interactive prototype demonstrating a premium, video-first approach to Nike's digital retail. Published on Protopie for sharing and feedback in the design community.",
     stats: [
-      { value: "Protopie", label: "Tool" },
-      { value: "2019", label: "Year" },
-      { value: "Video-first", label: "Concept" },
-      { value: "Self", label: "Initiated" },
+      { text: "Protopie Tool" },
+      { text: "2019 Year" },
+      { text: "Video-first Concept" },
+      { text: "Self Initiated" },
     ],
   },
 
@@ -385,10 +389,10 @@ export const projects: Project[] = [
     outcome:
       "A complete interactive prototype demonstrating an alternative e-commerce direction for Hawkers. Published on Protopie for interactive viewing and shared within the design community.",
     stats: [
-      { value: "Protopie", label: "Tool" },
-      { value: "2019", label: "Year" },
-      { value: "Brand-led", label: "Approach" },
-      { value: "Self", label: "Initiated" },
+      { text: "Protopie Tool" },
+      { text: "2019 Year" },
+      { text: "Brand-led Approach" },
+      { text: "Self Initiated" },
     ],
   },
 
@@ -426,10 +430,10 @@ export const projects: Project[] = [
     outcome:
       "Asphalt 9: Legends launched in July 2018 to critical and commercial success. It reached over 200 million downloads and became the top-grossing racing game on both iOS and Android. The visual direction and UI design established the template for all subsequent Asphalt titles.",
     stats: [
-      { value: "200M+", label: "Downloads" },
-      { value: "#1", label: "Racing game, iOS & Android" },
-      { value: "2018", label: "Launch year" },
-      { value: "900+", label: "Cars in-game" },
+      { text: "200M+ Downloads" },
+      { text: "#1 Racing game, iOS & Android" },
+      { text: "2018 Launch year" },
+      { text: "900+ Cars in-game" },
     ],
   },
 
@@ -470,10 +474,10 @@ export const projects: Project[] = [
     outcome:
       "Asphalt Xtreme launched in October 2016 to strong commercial performance, extending the Asphalt franchise into the off-road racing category. The title reached over 100 million downloads and established Gameloft's presence in this new segment.",
     stats: [
-      { value: "100M+", label: "Downloads" },
-      { value: "2016", label: "Launch year" },
-      { value: "Off-road", label: "New category" },
-      { value: "Gameloft", label: "Studio" },
+      { text: "100M+ Downloads" },
+      { text: "2016 Launch year" },
+      { text: "Off-road New category" },
+      { text: "Gameloft Studio" },
     ],
   },
 
@@ -511,10 +515,10 @@ export const projects: Project[] = [
     outcome:
       "Telepport launched as the first platform of its kind and was adopted by major media organisations and content studios looking to distribute VR content. The project established foundational design patterns for immersive content platforms that influenced how the industry approached VR publishing in the years that followed.",
     stats: [
-      { value: "2014", label: "Launch year" },
-      { value: "First", label: "HMD content platform" },
-      { value: "VR/360°", label: "Content formats" },
-      { value: "Visyon", label: "Client" },
+      { text: "2014 Launch year" },
+      { text: "First HMD content platform" },
+      { text: "VR/360° Content formats" },
+      { text: "Visyon Client" },
     ],
   },
 
@@ -563,10 +567,10 @@ export const projects: Project[] = [
     outcome:
       "A diverse portfolio of marks deployed across brand identities for companies in Spain and internationally, covering hospitality, health, media, tech, and retail sectors. Each mark has been in active use by its client since delivery.",
     stats: [
-      { value: "16+", label: "Marks designed" },
-      { value: "10+", label: "Years span" },
-      { value: "Multi", label: "Industry" },
-      { value: "Spain", label: "Based" },
+      { text: "16+ Marks designed" },
+      { text: "10+ Years span" },
+      { text: "Multi Industry" },
+      { text: "Spain Based" },
     ],
   }
 

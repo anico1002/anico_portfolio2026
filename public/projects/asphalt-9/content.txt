@@ -6,23 +6,26 @@ year: 2018
 role: Senior Designer
 deliverables: Game UI Design, HUD Design, Menu Flows, Vehicle Screens, Asset Production
 tags: Game UI/UX, Mobile, HUD Design
-aspect_ratio: 16/9
+aspect_ratio:
 order: 10
 
 [overview]
 Asphalt 9: Legends is the ninth entry in Gameloft's flagship racing franchise and the most ambitious mobile racing game ever built at the time of launch. I was part of the UI/UX team at Gameloft Barcelona, working on the interface from pre-production through ship: designing menu systems, vehicle showcase screens, the in-game HUD, and the social and multiplayer surfaces that would define how hundreds of millions of players experience the game.
 
+[button]
+Download now! https://apps.apple.com/gt/story/id1441913825
+
 [challenge]
 Mobile game UI operates under extreme constraints: tiny touch targets, a fraction of a second to communicate critical information during gameplay, and the need to serve both 7-year-olds and competitive adult players on the same screen. Asphalt 9 also had to push visual quality beyond anything the franchise had done before, the game's visual technology was industry-leading and the UI had to match that ambition without overwhelming players.
 
 [process]
-The design work spanned the full interface: from high-level information architecture (how do you navigate a game with 900+ cars and dozens of game modes?) to individual HUD elements (how do you show speed, nitro, and position without blocking the spectacle on screen?). Vehicle showcase screens were designed to feel like automotive photography, large format, dramatic lighting, minimal chrome, while the menu system used a consistent spatial metaphor to help players always know where they were in the game.
+The design work spanned the full interface: from high-level information architecture (how do you navigate a game with 300+ cars and dozens of game modes?) to individual HUD elements (how do you show speed, nitro, and position without blocking the spectacle on screen?). Vehicle showcase screens were designed to feel like automotive photography, large format, dramatic lighting, minimal chrome, while the menu system used a consistent spatial metaphor to help players always know where they were in the game.
 
 [outcome]
 Asphalt 9: Legends launched in July 2018 to critical and commercial success. It reached over 200 million downloads and became the top-grossing racing game on both iOS and Android. The visual direction and UI design established the template for all subsequent Asphalt titles.
 
 [stats]
-200M+ | Downloads
-#1 | Racing game, iOS & Android
-2018 | Launch year
-900+ | Cars in-game
+200M+ Downloads
+#1 Racing game, iOS & Android
+2018 Launch year
+300+ Cars in-game

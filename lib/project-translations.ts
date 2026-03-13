@@ -30,10 +30,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "La UI rediseñada se lanzó como la identidad visual definitiva de Asphalt Unite, estableciendo la estética esports que acompañará a la franquicia en consola y PC. Las pruebas de usuario internas mostraron un 40% menos de errores de navegación respecto al prototipo anterior, y la dirección de arte fue aprobada de forma unánime por los stakeholders editoriales en la primera presentación.",
     stats: [
-      { value: "40%", label: "Menos errores de nav." },
-      { value: "3", label: "Sistemas de clase" },
-      { value: "Consola", label: "Plataforma principal" },
-      { value: "2023", label: "Año de lanzamiento" },
+      { text: "40% · Menos errores de nav." },
+      { text: "3 · Sistemas de clase" },
+      { text: "Consola · Plataforma principal" },
+      { text: "2023 · Año de lanzamiento" },
     ],
   },
 
@@ -51,10 +51,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "Metacampus lanzó con la nueva identidad en 2023 y la utilizó en toda su presencia digital, incluyendo un website prototipado en Figma entregado al equipo de desarrollo. El sistema geométrico resultó lo suficientemente flexible para extenderse a plantillas de redes sociales, presentaciones y materiales de eventos sin perder coherencia.",
     stats: [
-      { value: "4", label: "Pilares de marca" },
-      { value: "2023", label: "Año de lanzamiento" },
-      { value: "Web3", label: "Sector" },
-      { value: "Figma", label: "Prototipo entregado" },
+      { text: "4 · Pilares de marca" },
+      { text: "2023 · Año de lanzamiento" },
+      { text: "Web3 · Sector" },
+      { text: "Figma · Prototipo entregado" },
     ],
   },
 
@@ -72,10 +72,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "Asphalt 9: Legends se lanzó en julio de 2018 con un éxito crítico y comercial arrollador. Alcanzó más de 200 millones de descargas y se convirtió en el juego de carreras más rentable tanto en iOS como en Android. La dirección visual y el diseño de UI establecieron la plantilla para todos los títulos Asphalt posteriores.",
     stats: [
-      { value: "200M+", label: "Descargas" },
-      { value: "#1", label: "Juego de carreras, iOS y Android" },
-      { value: "2018", label: "Año de lanzamiento" },
-      { value: "900+", label: "Coches en el juego" },
+      { text: "200M+ · Descargas" },
+      { text: "#1 · Juego de carreras, iOS y Android" },
+      { text: "2018 · Año de lanzamiento" },
+      { text: "900+ · Coches en el juego" },
     ],
   },
 
@@ -93,10 +93,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "El prototipo fue completamente interactivo y compartible, publicado en Protopie para que cualquiera pudiera probarlo. Demostró que es posible conseguir mejoras de usabilidad significativas dentro del lenguaje de diseño existente de Netflix, y generó una respuesta notable al compartirse en comunidades de diseño.",
     stats: [
-      { value: "Protopie", label: "Herramienta de prototipado" },
-      { value: "2019", label: "Año" },
-      { value: "100%", label: "Cumple la marca" },
-      { value: "Personal", label: "Proyecto" },
+      { text: "Protopie · Herramienta de prototipado" },
+      { text: "2019 · Año" },
+      { text: "100% · Cumple la marca" },
+      { text: "Personal · Proyecto" },
     ],
   },
 
@@ -114,10 +114,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "Telepport se lanzó como la primera plataforma de su tipo y fue adoptada por grandes organizaciones de medios y estudios de contenido que buscaban distribuir contenido VR. El proyecto estableció patrones de diseño fundamentales para plataformas de contenido inmersivo que influyeron en cómo el sector abordó la publicación de VR en los años siguientes.",
     stats: [
-      { value: "2014", label: "Año de lanzamiento" },
-      { value: "Primera", label: "Plataforma de contenido HMD" },
-      { value: "VR/360°", label: "Formatos de contenido" },
-      { value: "Visyon", label: "Cliente" },
+      { text: "2014 · Año de lanzamiento" },
+      { text: "Primera · Plataforma de contenido HMD" },
+      { text: "VR/360° · Formatos de contenido" },
+      { text: "Visyon · Cliente" },
     ],
   },
 
@@ -135,10 +135,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "La landing page se lanzó en 2024 como la principal superficie de conversión de Fundfy. El diseño tiende con éxito el puente entre producto financiero regulado y marca de lifestyle exclusiva, una combinación que diferencia a Fundfy en el cada vez más concurrido espacio europeo de inversión en cripto. La página está activa en fundfy.io.",
     stats: [
-      { value: "+450%", label: "Rentabilidad acumulada desde 2018" },
-      { value: "MiCA", label: "Regulación europea" },
-      { value: "4", label: "Niveles de cartera diseñados" },
-      { value: "2024", label: "Año de lanzamiento" },
+      { text: "+450% · Rentabilidad acumulada desde 2018" },
+      { text: "MiCA · Regulación europea" },
+      { text: "4 · Niveles de cartera diseñados" },
+      { text: "2024 · Año de lanzamiento" },
     ],
   },
 
@@ -157,10 +157,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "SwifT es gratuito, se distribuye como binario universal (arm64 + x86_64) y se instala en menos de 30 segundos mediante un .pkg firmado. La landing page convierte visitantes con un único CTA 'Descargar Gratis' y sin fricción de registro. 14 idiomas disponibles en el lanzamiento, con una arquitectura diseñada para añadir más sin cambios en la UI.",
     stats: [
-      { value: "1", label: "Atajo para traducir" },
-      { value: "14", label: "Idiomas al lanzamiento" },
-      { value: "~4 MB", label: "Tamaño de la app" },
-      { value: "Gratis", label: "Para siempre" },
+      { text: "1 · Atajo para traducir" },
+      { text: "14 · Idiomas al lanzamiento" },
+      { text: "~4 MB · Tamaño de la app" },
+      { text: "Gratis · Para siempre" },
     ],
   },
 
@@ -178,10 +178,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "La propuesta funcionó como referencia creativa interna y guía de dirección de arte en Gameloft Barcelona, demostrando cómo podría verse un título de karting Disney de alta calidad con la inversión creativa adecuada. El proyecto sigue siendo uno de los paquetes conceptuales más completos de mi portfolio por iniciativa propia, cubriendo UI, diseño de personajes, personalización de kart y assets de marketing desde un único brief visual coherente.",
     stats: [
-      { value: "29", label: "Pantallas diseñadas" },
-      { value: "2020", label: "Año" },
-      { value: "Disney", label: "IP" },
-      { value: "Personal", label: "Iniciativa" },
+      { text: "29 · Pantallas diseñadas" },
+      { text: "2020 · Año" },
+      { text: "Disney · IP" },
+      { text: "Personal · Iniciativa" },
     ],
   },
 
@@ -199,10 +199,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "La identidad de GM World! se lanzó con la edición del foro de 2024 y se adoptó en toda la marca del evento: diseño de escenario, promoción digital, materiales impresos y assets de ponentes. El sistema modular es lo suficientemente flexible para extenderse a ediciones futuras sin requerir un rediseño completo cada año.",
     stats: [
-      { value: "2024", label: "Año de lanzamiento" },
-      { value: "Global", label: "Alcance del evento" },
-      { value: "Web3", label: "Sector" },
-      { value: "Metacampus", label: "Cliente" },
+      { text: "2024 · Año de lanzamiento" },
+      { text: "Global · Alcance del evento" },
+      { text: "Web3 · Sector" },
+      { text: "Metacampus · Cliente" },
     ],
   },
 
@@ -220,10 +220,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "Asphalt Xtreme se lanzó en octubre de 2016 con un sólido rendimiento comercial, extendiendo la franquicia Asphalt a la categoría de carreras off-road. El título alcanzó más de 100 millones de descargas y consolidó la presencia de Gameloft en este nuevo segmento.",
     stats: [
-      { value: "100M+", label: "Descargas" },
-      { value: "2016", label: "Año de lanzamiento" },
-      { value: "Off-road", label: "Nueva categoría" },
-      { value: "Gameloft", label: "Estudio" },
+      { text: "100M+ · Descargas" },
+      { text: "2016 · Año de lanzamiento" },
+      { text: "Off-road · Nueva categoría" },
+      { text: "Gameloft · Estudio" },
     ],
   },
 
@@ -241,10 +241,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "Un prototipo interactivo completo que demuestra una aproximación premium con el vídeo como protagonista para el retail digital de Nike. Publicado en Protopie para su visualización y feedback en la comunidad de diseño.",
     stats: [
-      { value: "Protopie", label: "Herramienta" },
-      { value: "2019", label: "Año" },
-      { value: "Vídeo primero", label: "Concepto" },
-      { value: "Personal", label: "Proyecto" },
+      { text: "Protopie · Herramienta" },
+      { text: "2019 · Año" },
+      { text: "Vídeo primero · Concepto" },
+      { text: "Personal · Proyecto" },
     ],
   },
 
@@ -262,10 +262,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "Un prototipo interactivo completo que muestra una dirección alternativa de e-commerce para Hawkers. Publicado en Protopie para su visualización interactiva y compartido dentro de la comunidad de diseño.",
     stats: [
-      { value: "Protopie", label: "Herramienta" },
-      { value: "2019", label: "Año" },
-      { value: "Marca primero", label: "Enfoque" },
-      { value: "Personal", label: "Proyecto" },
+      { text: "Protopie · Herramienta" },
+      { text: "2019 · Año" },
+      { text: "Marca primero · Enfoque" },
+      { text: "Personal · Proyecto" },
     ],
   },
 
@@ -283,10 +283,10 @@ const es: Record<string, ProjectTranslation> = {
     outcome:
       "Un portfolio diverso de marcas desplegadas en identidades corporativas para empresas en España e internacionalmente, abarcando los sectores de hostelería, salud, medios, tecnología y retail. Cada marca ha estado en uso activo por su cliente desde su entrega.",
     stats: [
-      { value: "16+", label: "Marcas diseñadas" },
-      { value: "10+", label: "Años de trabajo" },
-      { value: "Multi", label: "Sectorial" },
-      { value: "España", label: "Origen" },
+      { text: "16+ · Marcas diseñadas" },
+      { text: "10+ · Años de trabajo" },
+      { text: "Multi · Sectorial" },
+      { text: "España · Origen" },
     ],
   },
 };

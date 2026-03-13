@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { translations } from "@/lib/i18n";
@@ -13,8 +12,9 @@ import ProjectHero from "./ProjectHero";
 
 const isThumb = (src: string) => /_thumb|thumb\.(png|jpg|jpeg|gif|webp)/i.test(src);
 
-/** Primera imagen del proyecto (01 de la primera carpeta o primera de la lista). */
-function getFirstProjectImage(project: Project): string | null {
+/** Imagen de hero: xxx_hero en carpeta del proyecto, o si no existe la primera imagen del proyecto. */
+function getProjectHeroImage(project: Project): string | null {
+  if (project.heroImage) return project.heroImage;
   if (project.sections?.length) {
     const first = project.sections[0].images[0];
     if (first) {
@@ -85,7 +85,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
   const { locale } = useApp();
   const t = translations[locale].project;
   const p = getLocalizedProject(project, locale);
-  const heroImage = getFirstProjectImage(project);
+  const heroImage = getProjectHeroImage(project);
   const contentBlocks = getProjectContentBlocks(project);
 
   return (
@@ -140,6 +140,18 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                 </p>
               </div>
             )}
+            {p.ctaButton && (
+              <div className="mt-8">
+                <a
+                  href={p.ctaButton.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
+                >
+                  {p.ctaButton.label}
+                </a>
+              </div>
+            )}
             </ScrollReveal>
           </div>
         </section>
@@ -190,78 +202,48 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
           </section>
         )}
 
-        {/* Imágenes por sección: misma estructura que reto/proceso (section con padding + max-w-6xl sin padding interno) */}
+        {/* Imágenes por sección: una sola columna, full width, altura natural, sin huecos */}
         {contentBlocks.length > 0 && (() => {
           const groups = groupBlocksBySection(contentBlocks);
           return (
-            <section className="px-6 md:px-12 lg:px-24">
-              {groups.map((group, sectionIndex) => {
-                const isSlideshowSection = group.blocks.every((b) => b.type === "slideshow");
-                const useGrid2x2 = isSlideshowSection && group.blocks.length >= 2;
-
-                return (
-                  <div key={sectionIndex} className="max-w-6xl mx-auto">
-                    {group.title && (
-                      <div className="pt-16 pb-6">
-                        <h2 className="font-display text-2xl md:text-3xl font-semibold text-primary text-left">
-                          {group.title}
-                        </h2>
-                      </div>
-                    )}
-                    {useGrid2x2 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-                        {group.blocks.map((block, i) => (
-                          <div key={i} className="relative overflow-hidden">
-                            <ImageFadeSlideshow
-                              urls={block.urls}
-                              alt={`${p.name} ${group.title ?? ""} ${i + 1}`}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col gap-0">
-                        {group.blocks.map((block, i) => {
-                          const isMarketing = sectionIndex === groups.length - 1 && group.blocks.length >= 2;
-                          const isFirstTallImage = isMarketing && i === 0 && block.type === "image";
-                          const aspect = isFirstTallImage ? "2/3" : "16/9";
-                          const forceLoad = isMarketing;
-                          return block.type === "image" ? (
-                            <div
-                              key={i}
-                              className="relative w-full bg-muted overflow-hidden"
-                              style={{ aspectRatio: aspect }}
-                            >
-                              <Image
-                                src={block.urls[0]}
-                                alt={`${p.name} ${group.title ?? ""} ${i + 1}`}
-                                fill
-                                className={isFirstTallImage ? "object-contain w-full" : "object-cover w-full"}
-                                unoptimized={block.urls[0].endsWith(".gif") || block.urls[0].startsWith("/projects/")}
-                                sizes="(max-width: 1152px) 100vw, 1152px"
-                                loading={forceLoad ? "eager" : "lazy"}
-                                priority={forceLoad}
-                              />
-                            </div>
-                          ) : (
-                            <div key={i} className="relative w-full overflow-hidden" style={{ aspectRatio: "16/9" }}>
-                              <ImageFadeSlideshow
-                                urls={block.urls}
-                                alt={`${p.name} ${group.title ?? ""} ${i + 1}`}
-                              />
-                            </div>
-                          );
-                        })}
-                      </div>
+            <section className="px-6 md:px-12 lg:px-24 overflow-x-hidden">
+              {groups.map((group, sectionIndex) => (
+                <div key={sectionIndex} className="max-w-6xl mx-auto">
+                  {group.title && (
+                    <div className="pt-16 pb-6">
+                      <h2 className="font-display text-2xl md:text-3xl font-semibold text-primary text-left">
+                        {group.title}
+                      </h2>
+                    </div>
+                  )}
+                  <div className="w-screen relative left-1/2 -translate-x-1/2 md:relative md:left-0 md:translate-x-0 md:w-full flex flex-col gap-0">
+                    {group.blocks.map((block, i) =>
+                      block.type === "image" ? (
+                        <div key={i} className="relative w-full bg-muted shrink-0">
+                          {/* Imagen a ancho completo, altura natural, sin recorte */}
+                          <img
+                            src={block.urls[0]}
+                            alt={`${p.name} ${group.title ?? ""} ${i + 1}`}
+                            className="w-full h-auto block object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div key={i} className="relative w-full shrink-0">
+                          <ImageFadeSlideshow
+                            urls={block.urls}
+                            alt={`${p.name} ${group.title ?? ""} ${i + 1}`}
+                          />
+                        </div>
+                      )
                     )}
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </section>
           );
         })()}
 
-        {/* Results / stats */}
+        {/* Outcomes / Project impact — solo si hay contenido en content.txt */}
         {p.stats && p.stats.length > 0 && (
           <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-primary text-primary-foreground">
             <div className="max-w-6xl mx-auto">
@@ -271,43 +253,19 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
               <h2 className="font-display text-3xl md:text-4xl font-semibold mb-16">
                 {locale === "es" ? "Impacto del proyecto" : "Project impact"}
               </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 {p.stats.map((stat, i) => (
                   <div
                     key={i}
                     className="border border-primary-foreground/20 p-6 hover:border-primary-foreground/50 transition-colors"
                   >
-                    <span className="text-primary-foreground/40 text-sm">
+                    <span className="text-primary-foreground/40 text-sm font-display">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <p className="font-display text-lg font-medium mt-4">
-                      {stat.value} — {stat.label}
+                    <p className="font-display text-lg font-medium mt-4 text-primary-foreground">
+                      {stat.text}
                     </p>
                   </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Design stack */}
-        {p.tags && p.tags.length > 0 && (
-          <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
-            <div className="max-w-4xl mx-auto text-center">
-              <p className="text-muted-foreground text-sm tracking-widest uppercase mb-2">
-                {locale === "es" ? "Herramientas" : "Tools"}
-              </p>
-              <h2 className="font-display text-3xl md:text-4xl font-semibold mb-12">
-                {locale === "es" ? "Stack de diseño" : "Design stack"}
-              </h2>
-              <div className="flex flex-wrap justify-center gap-4">
-                {p.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-6 py-3 border border-border text-sm font-medium"
-                  >
-                    {tag}
-                  </span>
                 ))}
               </div>
             </div>

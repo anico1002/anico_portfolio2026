@@ -10,11 +10,15 @@
  *   [overview.es]       ← same block, Spanish locale variant
  *   Texto en español...
  *
- *   [stats]             ← each line: "value | label"
- *   29 | Screens Designed
+ *   [stats]             ← one line = one box, exact text shown
+ *   200M+ Downloads
+ *   #1 Racing game, iOS & Android
  *
  *   [links]             ← each line: "label | url"
  *   View on Behance | https://...
+ *
+ *   [button]            ← single CTA: one line "Label https://..."
+ *   Download now! https://apps.apple.com/...
  */
 
 export interface ContentMeta {
@@ -35,9 +39,9 @@ export interface ContentLink {
   url: string;
 }
 
+/** Una línea = un stat; se muestra el texto exacto en la caja */
 export interface ContentStat {
-  value: string;
-  label: string;
+  text: string;
 }
 
 export type ContentTextBlock = {
@@ -47,6 +51,12 @@ export type ContentTextBlock = {
   outcome?: string;
 };
 
+/** CTA button: "Label https://..." in [button] block */
+export interface ContentButton {
+  label: string;
+  url: string;
+}
+
 export interface ParsedContent {
   meta: ContentMeta;
   overview?: string;
@@ -55,6 +65,8 @@ export interface ParsedContent {
   outcome?: string;
   stats: ContentStat[];
   links: ContentLink[];
+  /** CTA button (download / visit web) from [button] block */
+  button?: ContentButton;
   /** Locale variants: key = locale code ("es", "fr", …) */
   locales: Record<string, ContentTextBlock>;
 }
@@ -73,7 +85,16 @@ export function parseContent(text: string): ParsedContent {
     if (currentBlock === null) return;
     const content = blockLines.join("\n").trim();
 
-    if (currentLocale !== null && TEXT_BLOCKS.has(currentBlock)) {
+    if (currentBlock === "button" && currentLocale === null) {
+      const line = content.split("\n")[0]?.trim() ?? "";
+      const urlMatch = line.match(/\s+(https?:\/\/\S+)$/);
+      if (urlMatch) {
+        result.button = {
+          label: line.slice(0, urlMatch.index).trim(),
+          url: urlMatch[1].trim(),
+        };
+      }
+    } else if (currentLocale !== null && TEXT_BLOCKS.has(currentBlock)) {
       // Locale variant → store in locales map
       if (!result.locales[currentLocale]) result.locales[currentLocale] = {};
       (result.locales[currentLocale] as Record<string, string>)[currentBlock] = content;
@@ -86,11 +107,9 @@ export function parseContent(text: string): ParsedContent {
         case "stats":
           result.stats = content
             .split("\n")
-            .filter((l) => l.includes("|"))
-            .map((l) => {
-              const idx = l.indexOf("|");
-              return { value: l.slice(0, idx).trim(), label: l.slice(idx + 1).trim() };
-            });
+            .map((l) => l.trim())
+            .filter(Boolean)
+            .map((line) => ({ text: line }));
           break;
         case "links":
           result.links = content

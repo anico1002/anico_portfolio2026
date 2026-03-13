@@ -7,6 +7,9 @@ import ProyectoDetail from "@/components/ProyectoDetail";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 
+/** Contenido textual desde content.txt; sin caché para que los cambios se vean al actualizar el archivo */
+export const dynamic = "force-dynamic";
+
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -48,7 +51,7 @@ export default async function ProyectoPage({ params }: Props) {
         </Link>
         <span className="text-white text-sm font-medium">{project.year}</span>
       </header>
-      <main>
+      <main className="overflow-x-hidden">
         <ProyectoDetail project={project} prev={prev} next={next} />
       </main>
       <Footer showBackToHome />

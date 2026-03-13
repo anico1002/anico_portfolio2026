@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} cursor-none md:cursor-none`}>
+      <body className={`${inter.variable} min-w-0`}>
         <AppProvider>
           <ViewportEffects>{children}</ViewportEffects>
         </AppProvider>

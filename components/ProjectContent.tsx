@@ -242,8 +242,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
                   <p className="text-white/30 text-xs mb-4 font-display">
                     {String(i + 1).padStart(2, "0")}
                   </p>
-                  <p className="font-display text-2xl font-semibold mb-1">{stat.value}</p>
-                  <p className="text-white/50 text-sm">{stat.label}</p>
+                  <p className="font-display text-2xl font-semibold">{stat.text}</p>
                 </div>
               ))}
             </div>

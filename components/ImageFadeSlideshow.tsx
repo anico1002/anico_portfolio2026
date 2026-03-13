@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 interface ImageFadeSlideshowProps {
@@ -10,6 +10,27 @@ interface ImageFadeSlideshowProps {
   className?: string;
 }
 
+/** Detecta la relación de aspecto de la primera imagen para que el contenedor no muestre fondo gris. */
+function useAspectRatio(firstUrl: string | null) {
+  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+  const measured = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!firstUrl || measured.current === firstUrl) return;
+    measured.current = firstUrl;
+    setAspectRatio(null);
+    const img = new window.Image();
+    img.onload = () => {
+      if (img.naturalWidth && img.naturalHeight) {
+        setAspectRatio(img.naturalWidth / img.naturalHeight);
+      }
+    };
+    img.src = firstUrl;
+  }, [firstUrl]);
+
+  return aspectRatio;
+}
+
 export default function ImageFadeSlideshow({
   urls,
   alt,
@@ -17,6 +38,7 @@ export default function ImageFadeSlideshow({
   className = "",
 }: ImageFadeSlideshowProps) {
   const [index, setIndex] = useState(0);
+  const aspectRatio = useAspectRatio(urls[0] ?? null);
 
   useEffect(() => {
     if (urls.length < 2) return;
@@ -28,15 +50,22 @@ export default function ImageFadeSlideshow({
 
   const unopt = (src: string) => src.endsWith(".gif") || src.startsWith("/projects/");
 
+  const containerStyle = aspectRatio != null
+    ? { aspectRatio: `${aspectRatio}` }
+    : { aspectRatio: "16/9" as const };
+
   if (urls.length === 0) return null;
   if (urls.length === 1) {
     return (
-      <div className={`relative w-full bg-muted overflow-hidden aspect-video ${className}`}>
+      <div
+        className={`relative w-full overflow-hidden ${className}`}
+        style={containerStyle}
+      >
         <Image
           src={urls[0]}
           alt={alt}
           fill
-          className="object-contain"
+          className="object-cover"
           unoptimized={unopt(urls[0])}
           sizes="(max-width: 1152px) 100vw, 1152px"
         />
@@ -45,7 +74,10 @@ export default function ImageFadeSlideshow({
   }
 
   return (
-    <div className={`relative w-full bg-muted overflow-hidden aspect-video ${className}`}>
+    <div
+      className={`relative w-full overflow-hidden ${className}`}
+      style={containerStyle}
+    >
       {urls.map((src, i) => (
         <div
           key={src}
@@ -56,7 +88,7 @@ export default function ImageFadeSlideshow({
             src={src}
             alt={`${alt} ${i + 1}`}
             fill
-            className="object-contain"
+            className="object-cover"
             unoptimized={unopt(src)}
             sizes="(max-width: 1152px) 100vw, 1152px"
           />
