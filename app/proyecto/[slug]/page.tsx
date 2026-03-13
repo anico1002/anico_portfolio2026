@@ -2,17 +2,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
-import { getEnrichedProjects, discoverProjectSlugs } from "@/lib/scan-project";
-import { projects } from "@/lib/projects";
+import { getEnrichedProjects } from "@/lib/scan-project";
 import ProyectoDetail from "@/components/ProyectoDetail";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
-  const hardcoded = projects.map((p) => p.slug);
-  const discovered = discoverProjectSlugs();
-  const all = Array.from(new Set([...hardcoded, ...discovered]));
-  return all.map((slug) => ({ slug }));
+  return getEnrichedProjects().map((p) => ({ slug: p.slug }));
 }
 
 type Props = { params: Promise<{ slug: string }> };
