@@ -6,7 +6,6 @@ year: 2018
 role: Senior UI/UX Designer
 deliverables: Game UI Design, HUD Design, Menu Flows, Vehicle Screens, Asset Production
 tags: Game UI/UX, Mobile, HUD Design
-aspect_ratio:
 
 [overview]
 Asphalt 9: Legends is the ninth entry in Gameloft's flagship racing franchise and the most ambitious mobile racing game ever built at the time of launch. I was part of the UI/UX team at Gameloft Barcelona, working on the interface from pre-production through ship: designing menu systems, vehicle showcase screens, the in-game HUD, and the social and multiplayer surfaces that would define how hundreds of millions of players experience the game.

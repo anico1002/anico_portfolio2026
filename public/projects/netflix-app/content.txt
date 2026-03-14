@@ -6,7 +6,6 @@ year: 2019
 role: Senior Designer
 deliverables: UI/UX Design, Interactive Prototype, Interaction Design
 tags: App Design, Prototyping, Self Project
-aspect_ratio: 4/3
 
 [overview]
 This was a self-initiated project, a personal exploration of what a redesigned Netflix app might look and feel like. The goal wasn't to replace Netflix's existing design (which is excellent) but to use the constraints of an established brand system as a creative brief: what new interactions are possible within these rules? What features would make the experience meaningfully better?

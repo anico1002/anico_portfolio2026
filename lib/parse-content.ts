@@ -30,7 +30,6 @@ export interface ContentMeta {
   role?: string;
   deliverables?: string;
   tags?: string;
-  aspect_ratio?: string;
 }
 
 export interface ContentLink {

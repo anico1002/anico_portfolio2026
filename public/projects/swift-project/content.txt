@@ -6,7 +6,6 @@ year: 2026
 role: Designer & Developer
 deliverables: macOS App Design, Landing Page, App Icon, Brand Identity
 tags: App Design
-aspect_ratio: 3/4
 
 [overview]
 SwifT Translator started as a personal frustration: translating text on macOS meant switching apps, opening browser tabs, copying and pasting. Every existing solution broke the flow. So I built one that didn't. SwifT Translator lives in the menu bar, requires no setup, no account, and no API keys, you select text in any application, press a shortcut, and get the translation as a native macOS notification. The design covers the full product surface: the macOS app UI, the app icon, and the marketing landing page.

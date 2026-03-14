@@ -6,7 +6,6 @@ year: 2024
 role: Senior UI/UX Designer
 deliverables: Art Direction, UI/UX Design, Character Design, Game UI Proposal
 tags: Game UI/UX, Web3
-aspect_ratio: 3/4
 
 [overview]
 In 2023, I led the comprehensive visual transformation of CyberTitans, a competitive auto-battler developed by LitLab Games. My role involved a full UI/UX redesign and the creation of a new brand identity, including a custom-built typeface. The project was driven by a clear strategic goal: to elevate the game’s presence within the Web3 gaming space by merging a gritty, tactical cyberpunk aesthetic with the clean, functional standards of high-end product design. The result is a cohesive ecosystem that bridges the gap between hardcore strategy gaming and the emerging blockchain economy.

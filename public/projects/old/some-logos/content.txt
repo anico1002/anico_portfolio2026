@@ -6,7 +6,6 @@ year: 2014 – 2024
 role: Senior Designer
 deliverables: Logo Design, Brand Identity, Visual Systems, Usage Guidelines
 tags: Branding, Logo, Identity
-aspect_ratio: 3/4
 order: 13
 
 [overview]

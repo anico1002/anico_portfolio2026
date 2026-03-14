@@ -6,7 +6,6 @@ year: 2019
 role: Senior Designer
 deliverables: UX Design, Interactive Prototype, Interaction Design
 tags: App Design, Prototyping, E-Commerce
-aspect_ratio: 1/1
 
 [overview]
 A self-initiated prototype exploring what a video-first Nike e-commerce experience might look and feel like. The project uses Protopie's advanced interaction capabilities to build a fully interactive concept, replacing static product photography with short looping video clips and reimagining browsing and checkout flows around that richer content format.

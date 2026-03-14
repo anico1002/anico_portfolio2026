@@ -6,7 +6,6 @@ year: 2025
 role: Senior Designer
 deliverables: Brand Identity, Visual System, Corporate Assets, Digital Templates
 tags: Branding, Web, Art Direction
-aspect_ratio: 16/9
 
 [overview]
 Elite athletes possess a unique high-performance mindset, yet the transition to a post-sport career is often a fragmented and daunting journey. ACT, Athlete Career Training, is a London-based platform designed to formalize this evolution. The project involved creating a digital ecosystem where sporting organizations, employers, and athletes converge. By leveraging AI-driven insights and structured career transition support, the platform transforms raw athletic discipline into measurable corporate value. The design scope encompassed the core web platform, the Transition Path user flow, and a visual identity that balances sporting energy with professional credibility.

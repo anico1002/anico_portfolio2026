@@ -6,7 +6,6 @@ year: 2014
 role: Senior Designer
 deliverables: Platform Design, UX Design, Immersive UI, Content System
 tags: VR, Immersive, Platform
-aspect_ratio: 4/3
 order: 12
 
 [overview]

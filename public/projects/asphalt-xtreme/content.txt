@@ -6,7 +6,6 @@ year: 2016
 role: Senior UI/UX Designer
 deliverables: Game UI/UX, Logo Design, Custom Typography, Marketing Assets
 tags: Game UI/UX, Logo, Mobile
-aspect_ratio: 1/1
 
 [overview]
 Asphalt Xtreme is the off-road entry in Gameloft's Asphalt franchise, a departure from the street racing formula that defined Asphalt 8 and later Asphalt 9. I joined the project at Gameloft Barcelona as UI/UX designer, working across the full game interface: from the custom logo and typography system to the menu flows, HUD design, and marketing assets that would launch the title in October 2016.

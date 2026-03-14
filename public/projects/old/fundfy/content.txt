@@ -6,7 +6,6 @@ year: 2024
 role: Senior Designer
 deliverables: Landing Page Design, Visual Design, UX Design, Art Direction
 tags: Fintech, Landing Page, Dark Mode
-aspect_ratio: 3/4
 order: 2
 
 [overview]

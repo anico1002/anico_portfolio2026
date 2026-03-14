@@ -198,7 +198,6 @@ export function buildProjectFromScanned(slug: string, scanned: ScannedProject): 
     tags,
     description:  m.subtitle  ?? "",
     size:         "regular",
-    aspectRatio:  m.aspect_ratio ?? "4/3",
     palette:      1,
     thumbnail:    scanned.thumbnail,
     heroImage:    scanned.heroImage,

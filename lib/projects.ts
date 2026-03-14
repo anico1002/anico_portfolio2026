@@ -14,7 +14,6 @@ export type Project = {
   tags: string[];
   description: string;
   size: "regular" | "regular";
-  aspectRatio: string;   // e.g. "4/3", "3/4", "1/1", "16/9"
   palette: number; // 1–5, tints the image container bg while loading
   thumbnail: string;
   /** Hero image for project page: from xxx_hero.(png|jpg|...) in project folder */
@@ -52,7 +51,6 @@ export const projects: Project[] = [
     description:
       "Corporate landing page for Fundfy, a regulated European investment club offering managed crypto and digital asset portfolios combined with exclusive lifestyle experiences.",
     size: "regular",
-    aspectRatio: "3/4",
     palette: 2,
     thumbnail: "/projects/fundfy/01_hero.png",
     images: [
@@ -93,7 +91,6 @@ export const projects: Project[] = [
     description:
       "Brand development and corporate identity for GM World!, Metacampus's annual global forum focused on Web3, Artificial Intelligence, and the Metaverse, designed to evolve with each host city.",
     size: "regular",
-    aspectRatio: "16/9",
     palette: 2,
     thumbnail: `${BASE}/GM.png`,
     images: [
@@ -139,7 +136,6 @@ export const projects: Project[] = [
     description:
       "Full UI/UX redesign of the Asphalt franchise's new entry, cross-platform navigation built for console, with a bold esports-inspired visual language.",
     size: "regular",
-    aspectRatio: "1/1",
     palette: 1,
     thumbnail: `${BASE}/AU.png`,
     images: [
@@ -193,7 +189,6 @@ export const projects: Project[] = [
     description:
       "Corporate identity and website for an educational hub specialising in Web3, Artificial Intelligence, and the Metaverse, clean, geometric, and built for a rapidly evolving space.",
     size: "regular",
-    aspectRatio: "4/3",
     palette: 2,
     thumbnail: `${BASE}/metacampus.png`,
     images: [
@@ -234,7 +229,6 @@ export const projects: Project[] = [
     description:
       "Self-initiated UI/UX and art direction proposal for a Disney karting game, maintaining the franchise's iconic brand aesthetics while introducing a more mature visual tone that broadens the target audience beyond children.",
     size: "regular",
-    aspectRatio: "3/4",
     palette: 4,
     thumbnail: `${BASE}/disney.png`,
     images: [
@@ -292,7 +286,6 @@ export const projects: Project[] = [
     description:
       "A fully interactive Protopie prototype redesigning the Netflix app, new interactions, a 'seen movies' carousel, and a reimagined main menu, all within Netflix's brand guidelines.",
     size: "regular",
-    aspectRatio: "4/3",
     palette: 4,
     thumbnail: `${BASE}/netflix.png`,
     images: [
@@ -333,7 +326,6 @@ export const projects: Project[] = [
     description:
       "A fully interactive Protopie prototype reimagining Nike's e-commerce experience, exploring video-first product presentation and experimental interaction patterns within the brand's visual system.",
     size: "regular",
-    aspectRatio: "1/1",
     palette: 5,
     thumbnail: `${BASE}/nike.png`,
     images: [
@@ -370,7 +362,6 @@ export const projects: Project[] = [
     description:
       "Self-initiated e-commerce concept for Hawkers, the Spanish eyewear brand, redesigning the shopping experience to match the brand's irreverent, digital-native personality. Built entirely in Protopie.",
     size: "regular",
-    aspectRatio: "3/4",
     palette: 4,
     thumbnail: `${BASE}/hawkers.png`,
     images: [
@@ -407,7 +398,6 @@ export const projects: Project[] = [
     description:
       "UI/UX design for Asphalt 9: Legends, the flagship mobile racing game from Gameloft that went on to be downloaded over 200 million times worldwide.",
     size: "regular",
-    aspectRatio: "16/9",
     palette: 3,
     thumbnail: `${BASE}/A9.png`,
     images: [
@@ -448,7 +438,6 @@ export const projects: Project[] = [
     description:
       "UI/UX design, logo creation, custom typography, and marketing campaign assets for Asphalt Xtreme, Gameloft Barcelona's off-road racing entry in the Asphalt franchise.",
     size: "regular",
-    aspectRatio: "1/1",
     palette: 3,
     thumbnail: `${BASE}/AXT.png`,
     images: [
@@ -492,7 +481,6 @@ export const projects: Project[] = [
     description:
       "Platform design for Visyon's Telepport, the first centralised hub for head-mounted display content, allowing creators to distribute immersive experiences to any HMD device.",
     size: "regular",
-    aspectRatio: "4/3",
     palette: 5,
     thumbnail: `${BASE}/telepport.png`,
     images: [
@@ -533,7 +521,6 @@ export const projects: Project[] = [
     description:
       "A curated collection of logo and brand identity marks created for clients across hospitality, healthcare, technology, retail, and entertainment, each developed in response to a specific brief and audience.",
     size: "regular",
-    aspectRatio: "3/4",
     palette: 1,
     thumbnail: `${BASE}/some_logos.gif`,
     images: [
