@@ -7,7 +7,6 @@ role: Senior UI/UX Designer
 deliverables: UI/UX Design, Art Direction, Esports Branding, Console Navigation, Prototyping
 tags: Game UI/UX, Art Direction, Esports
 aspect_ratio: 1/1
-order: 4
 
 [overview]
 Asphalt Unite is a new chapter in Gameloft's long-running racing franchise, a title built from the ground up for console platforms and designed to compete in the esports arena. I joined the project as the lead UI/UX designer, tasked with rethinking every surface of the game's interface: from vehicle class presentation and main menu flows to garage experiences and in-game HUD elements.

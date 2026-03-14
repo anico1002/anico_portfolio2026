@@ -7,7 +7,6 @@ role: Senior UI/UX Designer
 deliverables: Brand Identity, Visual System, Corporate Assets, Digital Templates
 tags: Branding, Web3, Art Direction
 aspect_ratio: 16/9
-order: 3
 
 [overview]
 GM World! is the annual global forum hosted by Metacampus, a Web3 education company, bringing together industry leaders, creators and innovators around the topics of artificial intelligence, the Metaverse and decentralized technology. In 2024 I developed the full brand identity and visual assets for the event, creating a system flexible enough to evolve with each edition while maintaining a consistent core identity.

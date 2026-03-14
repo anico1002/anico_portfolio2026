@@ -1,0 +1,24 @@
+name: ACT - Athlete Career Training
+subtitle: Empowering elite athletes to bridge the gap between professional sports and the corporate world.
+client: Metacampus
+category: Brand Identity & Web
+year: 2025
+role: Senior Designer
+deliverables: Brand Identity, Visual System, Corporate Assets, Digital Templates
+tags: Branding, Web, Art Direction
+aspect_ratio: 16/9
+
+[overview]
+Elite athletes possess a unique high-performance mindset, yet the transition to a post-sport career is often a fragmented and daunting journey. ACT, Athlete Career Training, is a London-based platform designed to formalize this evolution. The project involved creating a digital ecosystem where sporting organizations, employers, and athletes converge. By leveraging AI-driven insights and structured career transition support, the platform transforms raw athletic discipline into measurable corporate value. The design scope encompassed the core web platform, the Transition Path user flow, and a visual identity that balances sporting energy with professional credibility.
+
+[challenge]
+The primary challenge was architectural, specifically how to present a complex multi-sided marketplace involving athletes, recruiters, and sporting bodies without overwhelming the user. We had to move away from the traditional job board aesthetic to create a space that felt like a high-performance training ground. From a Product Design perspective, the difficulty lay in the Transition Path. It needed to feel like a progression rather than a restart. We had to design an interface that could handle data-heavy AI insights while maintaining a clean, motivational UX that resonates with individuals used to high-stakes environments.
+
+[process]
+The design process focused on Skills, Mindset, and Growth as the three pillars of the UI. We implemented a clean, dark-themed aesthetic to evoke a sense of premium Elite Talent and focus. Key features include an AI-powered matching engine, My, Myself and AI, which translates athletic achievements into corporate competencies. The user journey was mapped to ensure that Second Opportunities felt earned and intuitive. For the technical interface, we prioritized scannability in the Latest Talents and Latest Offers modules, ensuring that recruiters can identify high-performers at a glance through a data-driven dashboard.
+
+[outcome]
+ACT successfully launched as a comprehensive career transition tool, providing a clear Transition Path for athletes entering the next chapter of their lives. The platform now hosts a curated community of Gamechangers, offering sporting organizations a structured way to support their alumni. Through a streamlined UX and a "let opportunities come to you" philosophy, the product reduces the friction of career switching, turning the end of a sporting career into the start of a high-impact professional journey.
+
+[stats]
+

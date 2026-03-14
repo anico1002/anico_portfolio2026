@@ -187,7 +187,7 @@ export function buildProjectFromScanned(slug: string, scanned: ScannedProject): 
   return {
     id:           0,
     slug,
-    index:        String(m.order ?? 99).padStart(2, "0"),
+    index:        "",
     name:         m.name      ?? slug,
     subtitle:     m.subtitle  ?? "",
     client:       m.client    ?? "",
@@ -262,10 +262,10 @@ export function getEnrichedProjects(): Project[] {
     const scanned = getScannedProject(slug);
     if (scanned) enriched.push(buildProjectFromScanned(slug, scanned));
   }
-  enriched.sort((a, b) => {
-    const oa = a.index ? parseInt(a.index) : 99;
-    const ob = b.index ? parseInt(b.index) : 99;
-    return oa - ob;
-  });
+  const parseYear = (y: string) => {
+    const m = y.match(/\d{4}/g);
+    return m ? parseInt(m[m.length - 1]) : 0;
+  };
+  enriched.sort((a, b) => parseYear(b.year) - parseYear(a.year));
   return enriched.filter((p) => !DISABLED_PROJECT_SLUGS.includes(p.slug));
 }

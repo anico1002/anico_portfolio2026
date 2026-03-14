@@ -7,7 +7,6 @@ role: Senior Designer
 deliverables: UX Design, Interactive Prototype, E-Commerce Design
 tags: App Design, Prototyping, E-Commerce
 aspect_ratio: 3/4
-order: 9
 
 [overview]
 Hawkers built its brand around personality and social media, a digital-native eyewear brand with a strong point of view. This self-initiated prototype reimagines its e-commerce experience to feel as distinctive as the brand itself: playful, visual, and unapologetically product-focused. The entire concept was built and prototyped in Protopie.

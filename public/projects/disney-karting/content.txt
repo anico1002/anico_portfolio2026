@@ -7,7 +7,6 @@ role: Senior UI/UX Designer
 deliverables: Art Direction, UI/UX Design, Character Design, Game UI Proposal
 tags: Game UI/UX, Art Direction, Disney
 aspect_ratio: 3/4
-order: 6
 
 [overview]
 In 2020 I developed an art direction and UI/UX proposal for a Disney karting game at Gameloft Barcelona. The concept was built around a simple but ambitious premise: what would a Disney karting game look like if it were designed to appeal equally to adult fans of the intellectual property and younger players? The result is a visual system that pays homage to Disney's iconic characters and brand value, while taking the aesthetic into bolder, more cinematic territory.

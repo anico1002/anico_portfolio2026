@@ -31,7 +31,6 @@ export interface ContentMeta {
   deliverables?: string;
   tags?: string;
   aspect_ratio?: string;
-  order?: number;
 }
 
 export interface ContentLink {
@@ -148,11 +147,7 @@ export function parseContent(text: string): ParsedContent {
     if (kvMatch) {
       const key = kvMatch[1].toLowerCase();
       const val = kvMatch[2].trim();
-      if (key === "order") {
-        result.meta.order = parseInt(val) || 0;
-      } else {
-        (result.meta as Record<string, string>)[key] = val;
-      }
+      (result.meta as Record<string, string>)[key] = val;
     }
   }
 
