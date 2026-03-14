@@ -18,6 +18,8 @@ export type Project = {
   thumbnail: string;
   /** Hero image for project page: from xxx_hero.(png|jpg|...) in project folder */
   heroImage?: string;
+  /** Hero video for project page: from xxx_hero.(mp4|webm|mov) in project folder */
+  heroVideo?: string;
   images: (string | string[])[]; // string[] = fade slider group
   // Enriched at runtime by lib/scan-project.ts (server-only)
   sections?: { title?: string; images: (string | string[])[]; videos?: string[] }[];

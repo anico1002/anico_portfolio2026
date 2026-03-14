@@ -57,7 +57,16 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
     <>
       {/* Hero */}
       <section className="relative h-screen overflow-hidden">
-        {heroImage && (
+        {p.heroVideo ? (
+          <video
+            src={p.heroVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : heroImage ? (
           <Image
             src={heroImage}
             alt={p.name}
@@ -66,7 +75,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
             priority
             unoptimized={heroImage.endsWith(".gif")}
           />
-        )}
+        ) : null}
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 h-full flex flex-col justify-end pb-16 px-6 md:px-12 lg:px-24 max-w-6xl mx-auto w-full">
           <p className="text-white/70 text-sm tracking-widest uppercase mb-4">

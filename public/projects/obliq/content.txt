@@ -1,0 +1,25 @@
+name: OBLIQ
+subtitle: A premium visual identity and digital home for high-end film production.
+category: Brand Identity & Web
+year: 2025
+role: Senior Designer
+deliverables: Brand Identity, Visual System, Corporate Assets, Digital Templates
+tags: Branding, Web, Art Direction
+
+[overview]
+Obliq Productions is a production house defined by its cinematic eye and technical precision. They needed a brand identity that felt as polished as the productions they deliver. I was tasked with building the entire visual ecosystem from the ground up: a minimalist brand identity, a comprehensive brand manual, and a corporate website designed to act as a high-fidelity gallery for their portfolio. The result is a cohesive system where the brand provides the structure and the content provides the soul.
+
+[button]
+Launch Project https://obliqproductions.com/
+
+[challenge]
+The main challenge was creating a brand that felt authoritative yet invisible. In production, the "house" brand should never overshadow the director’s work. We needed to solve the tension between a bold, recognizable logo and a website that had to remain neutral enough to host diverse visual styles. The digital experience required a heavy focus on performance and motion, ensuring that high-bitrate video content loaded seamlessly without compromising the clean, architectural layout of the site.
+
+[process]
+The identity is rooted in the concept of the oblique line, directly reflected in the slanted 'I' of the logotype to convey a unique perspective. This geometric precision anchors the entire typographic system. While the brand manual ensures consistency across all touchpoints, the website uses framing devices as a secondary visual resource to organize content. I opted for a dark-mode aesthetic to mimic the cinematic experience, using a minimalist navigation structure that directs all user attention toward the video reels.
+
+[outcome]
+The final delivery included a complete brand toolkit and a live, production-ready website that has redefined Obliq’s digital presence. Since the launch, the brand has successfully positioned the studio for higher-tier commercial and narrative projects. The website serves as a high-performance portfolio that scales across devices, maintaining its premium feel whether viewed on a smartphone or a studio monitor.
+
+[stats]
+

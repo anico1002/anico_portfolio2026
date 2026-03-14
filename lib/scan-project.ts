@@ -18,6 +18,8 @@ export interface ScannedProject {
   videos?: string[];
   /** Hero image for project page: file named *_hero.(png|jpg|...) in project root */
   heroImage?: string;
+  /** Hero video for project page: file named *_hero.(mp4|webm|mov) in project root */
+  heroVideo?: string;
   /** Sections with titles (populated when sub-folders exist) */
   sections: ScannedSection[];
   /** Flat image list — fallback / used by hero floating cards */
@@ -96,7 +98,7 @@ function buildImageList(dir: string, urlPrefix: string): (string | string[])[] {
 
 function buildVideoList(dir: string, urlPrefix: string): string[] {
   return fs.readdirSync(dir)
-    .filter((f) => VIDEO_EXTS.test(f))
+    .filter((f) => VIDEO_EXTS.test(f) && !f.replace(VIDEO_EXTS, "").endsWith("_hero"))
     .sort()
     .map((f) => `${urlPrefix}/${f}`);
 }
@@ -116,11 +118,16 @@ export function getScannedProject(slug: string): ScannedProject | null {
     .sort()[0];
   const thumbnail = thumbFile ? `${urlBase}/${thumbFile}` : "";
 
-  /* ── Hero image (xxx_hero.png en la raíz de la carpeta del proyecto) ── */
+  /* ── Hero image / video (*_hero.ext en la raíz) ── */
   const heroFile = allEntries
     .filter((f) => isImage(f) && f.replace(IMAGE_EXTS, "").endsWith("_hero"))
     .sort()[0];
   const heroImage = heroFile ? `${urlBase}/${heroFile}` : undefined;
+
+  const heroVideoFile = allEntries
+    .filter((f) => VIDEO_EXTS.test(f) && f.replace(VIDEO_EXTS, "").endsWith("_hero"))
+    .sort()[0];
+  const heroVideo = heroVideoFile ? `${urlBase}/${heroVideoFile}` : undefined;
 
   /* ── content.txt ── */
   const contentPath = path.join(projectDir, "content.txt");
@@ -158,6 +165,7 @@ export function getScannedProject(slug: string): ScannedProject | null {
   return {
     thumbnail,
     heroImage,
+    heroVideo,
     sections,
     images,
     ...(rootVideos.length ? { videos: rootVideos } : {}),
@@ -201,6 +209,7 @@ export function buildProjectFromScanned(slug: string, scanned: ScannedProject): 
     palette:      1,
     thumbnail:    scanned.thumbnail,
     heroImage:    scanned.heroImage,
+    heroVideo:    scanned.heroVideo,
     images:       scanned.images,
     videos:       scanned.videos,
     sections:     scanned.sections.length ? scanned.sections : undefined,
@@ -242,6 +251,7 @@ export function getEnrichedProjects(): Project[] {
       ...p,
       thumbnail: scanned.thumbnail || p.thumbnail,
       heroImage: scanned.heroImage ?? p.heroImage,
+      heroVideo: scanned.heroVideo ?? p.heroVideo,
       images:    scanned.images.length    ? scanned.images    : p.images,
       videos:    scanned.videos ?? p.videos,
       sections:  scanned.sections.length  ? scanned.sections  : undefined,

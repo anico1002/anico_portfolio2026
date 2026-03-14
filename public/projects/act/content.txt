@@ -1,4 +1,4 @@
-name: ACT - Athlete Career Training
+name: Athlete Career Training
 subtitle: Empowering elite athletes to bridge the gap between professional sports and the corporate world.
 client: Metacampus
 category: Brand Identity & Web
