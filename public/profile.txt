@@ -1,0 +1,32 @@
+# ─────────────────────────────────────────────
+# profile.txt — Textos editables del portfolio
+# Edita este archivo y refresca el navegador
+# {yoe} se reemplaza automáticamente con los años de experiencia
+# ─────────────────────────────────────────────
+
+career_start: 1998
+email: hola@anico.es
+linkedin: https://es.linkedin.com/in/anico
+
+[meta]
+title: anico | Senior Designer
+description: Senior Designer specialising in game UI/UX, brand art direction, and digital product design.
+
+[hero]
+eyebrow: Senior Designer · {yoe}+ years of craft
+headline: Crafting digital Experiences
+desc: Product design, game UI/UX and brand art direction. {yoe} years engineering scalable architectures and high-fidelity interfaces at the intersection of digital product, emerging platforms and gaming.
+
+[about]
+job_title: Senior Designer
+bio1: Senior Designer with {yoe}+ years of experience in interactive design, specialising in video game UI/UX, brand art direction, and immersive technology.
+bio2: Passionate about new technologies, art, illustration, and design. Over more than a decade I've focused specifically on game UI/UX, working with studios like Gameloft Barcelona on titles that have been downloaded hundreds of millions of times.
+bio3: I collaborate as a freelancer with agencies, studios, and direct clients across brand identity, web, and emerging platforms including Web3 and VR. Based in Spain. Open to new projects.
+disciplines: Interactive Design, Game UI/UX, Brand Art Direction, UX Prototyping, Web3 & VR Design, Illustration, Figma, Protopie
+
+[contact]
+title: Have a project in mind?
+desc: I'm always open to new interesting projects. Let's talk about how I can help you.
+
+[marquee]
+VISUAL & USER EXPERIENCE · UI/UX VIDEOGAMES · BRAND ART DIRECTOR · INTERACTIVE PROTOTYPE · WEB3 & VR DESIGNER ·

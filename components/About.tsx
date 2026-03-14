@@ -4,9 +4,16 @@ import { useApp } from "@/context/AppContext";
 import { translations } from "@/lib/i18n";
 import ScrollReveal from "./ScrollReveal";
 
-export default function About() {
+interface AboutProps {
+  profileAbout?: { jobTitle: string; bio: string[]; disciplines: string[] };
+}
+
+export default function About({ profileAbout }: AboutProps) {
   const { locale } = useApp();
-  const t = translations[locale].about;
+  const base = translations[locale].about;
+  const t = profileAbout
+    ? { ...base, headline: profileAbout.jobTitle, bio: profileAbout.bio, disciplines: profileAbout.disciplines }
+    : base;
 
   return (
     <section id="about" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-muted">

@@ -12,6 +12,9 @@ order: 9
 [overview]
 Hawkers built its brand around personality and social media, a digital-native eyewear brand with a strong point of view. This self-initiated prototype reimagines its e-commerce experience to feel as distinctive as the brand itself: playful, visual, and unapologetically product-focused. The entire concept was built and prototyped in Protopie.
 
+[button]
+Live Prototype https://cloud.protopie.io/p/iHQ8PA4fc3Y?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%23F5F5F5&bgImage=undefined&playSpeed=1
+
 [challenge]
 Hawkers has an expressive brand identity that its digital retail experience doesn't fully reflect. The design challenge was to create an e-commerce concept with the same energy as its marketing, bold, fast, image-led, without sacrificing the clarity and conversion efficiency that retail design requires.
 
@@ -22,7 +25,4 @@ Built entirely in Protopie, the prototype explores a visually rich shopping inte
 A complete interactive prototype demonstrating an alternative e-commerce direction for Hawkers. Published on Protopie for interactive viewing and shared within the design community.
 
 [stats]
-Protopie | Tool
-2019 | Year
-Brand-led | Approach
-Self | Initiated
+

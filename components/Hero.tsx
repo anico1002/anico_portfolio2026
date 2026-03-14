@@ -8,14 +8,27 @@ import { useApp } from "@/context/AppContext";
 import { translations } from "@/lib/i18n";
 
 interface HeroProps {
-  /** URLs de imágenes en /hero-imgs (orden alfabético). Loop infinito entre todas. */
   heroImages: string[];
+  profileHero?: { eyebrow: string; headline: string; desc: string };
 }
 
-export default function Hero({ heroImages }: HeroProps) {
+export default function Hero({ heroImages, profileHero }: HeroProps) {
   const { locale } = useApp();
-  const t = translations[locale].hero;
+  const base = translations[locale].hero;
+  const t = profileHero ? { ...base, ...profileHero } : base;
+  const [shuffled, setShuffled] = useState(heroImages);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const arr = [...heroImages];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    setShuffled(arr);
+    setActiveIndex(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const ref = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -28,12 +41,12 @@ export default function Hero({ heroImages }: HeroProps) {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   useEffect(() => {
-    if (heroImages.length === 0) return;
+    if (shuffled.length === 0) return;
     const id = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % heroImages.length);
+      setActiveIndex((i) => (i + 1) % shuffled.length);
     }, 5000);
     return () => clearInterval(id);
-  }, [heroImages.length]);
+  }, [shuffled.length]);
 
   const headlineLines = t.headline.split("\n");
 
@@ -41,7 +54,7 @@ export default function Hero({ heroImages }: HeroProps) {
     <section ref={ref} className="h-screen relative overflow-hidden">
       {/* Background: imágenes en public/hero-imgs, loop infinito */}
       <motion.div className="absolute inset-0 overflow-hidden bg-muted" style={{ y: imageY }}>
-        {heroImages.map((src, i) => (
+        {shuffled.map((src, i) => (
           <div
             key={i}
             className="absolute inset-0 transition-opacity duration-1000"
@@ -83,7 +96,7 @@ export default function Hero({ heroImages }: HeroProps) {
       </motion.div>
 
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10">
-        <ArrowDown className="w-5 h-5 text-white/70 animate-bounce-down" />
+        <ArrowDown className="w-6 h-6 text-white animate-bounce-down" />
       </div>
     </section>
   );

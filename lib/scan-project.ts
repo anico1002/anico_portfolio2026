@@ -5,14 +5,17 @@ import { parseContent, type ContentLink, type ContentStat, type ContentMeta, typ
 import { projects, type Project } from "./projects";
 
 const IMAGE_EXTS = /\.(jpg|jpeg|png|gif|webp|avif)$/i;
+const VIDEO_EXTS = /\.(mp4|webm|mov)$/i;
 
 export interface ScannedSection {
   title?: string;
   images: (string | string[])[];
+  videos?: string[];
 }
 
 export interface ScannedProject {
   thumbnail: string;
+  videos?: string[];
   /** Hero image for project page: file named *_hero.(png|jpg|...) in project root */
   heroImage?: string;
   /** Sections with titles (populated when sub-folders exist) */
@@ -91,6 +94,13 @@ function buildImageList(dir: string, urlPrefix: string): (string | string[])[] {
     });
 }
 
+function buildVideoList(dir: string, urlPrefix: string): string[] {
+  return fs.readdirSync(dir)
+    .filter((f) => VIDEO_EXTS.test(f))
+    .sort()
+    .map((f) => `${urlPrefix}/${f}`);
+}
+
 /* ── main export ─────────────────────────────────────────────── */
 
 export function getScannedProject(slug: string): ScannedProject | null {
@@ -135,18 +145,22 @@ export function getScannedProject(slug: string): ScannedProject | null {
       const title = dir.replace(/^\d+[-_]?/, "").replace(/[-_]/g, " ").trim() || undefined;
       const sectionDir = path.join(projectDir, dir);
       const imgs = buildImageList(sectionDir, `${urlBase}/${dir}`);
-      return { title, images: imgs };
+      const vids = buildVideoList(sectionDir, `${urlBase}/${dir}`);
+      return { title, images: imgs, ...(vids.length ? { videos: vids } : {}) };
     });
     images = sections.flatMap((s) => s.images);
   } else {
     images = buildImageList(projectDir, urlBase);
   }
 
+  const rootVideos = buildVideoList(projectDir, urlBase);
+
   return {
     thumbnail,
     heroImage,
     sections,
     images,
+    ...(rootVideos.length ? { videos: rootVideos } : {}),
     links:     parsed?.links     ?? [],
     stats:     parsed?.stats     ?? [],
     ctaButton: parsed?.button,
@@ -189,6 +203,7 @@ export function buildProjectFromScanned(slug: string, scanned: ScannedProject): 
     thumbnail:    scanned.thumbnail,
     heroImage:    scanned.heroImage,
     images:       scanned.images,
+    videos:       scanned.videos,
     sections:     scanned.sections.length ? scanned.sections : undefined,
     links:        scanned.links.length    ? scanned.links    : undefined,
     overview:       scanned.text.overview  ?? "",
@@ -229,6 +244,7 @@ export function getEnrichedProjects(): Project[] {
       thumbnail: scanned.thumbnail || p.thumbnail,
       heroImage: scanned.heroImage ?? p.heroImage,
       images:    scanned.images.length    ? scanned.images    : p.images,
+      videos:    scanned.videos ?? p.videos,
       sections:  scanned.sections.length  ? scanned.sections  : undefined,
       links:     scanned.links.length     ? scanned.links     : p.links,
       ctaButton: scanned.ctaButton ?? p.ctaButton,

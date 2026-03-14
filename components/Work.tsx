@@ -1,11 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import type { Project } from "@/lib/projects";
 import ScrollReveal from "./ScrollReveal";
+
+const FILTERS = [
+  { label: "All",         match: (_tags: string[]) => true },
+  { label: "Game UI/UX",  match: (t: string[]) => t.includes("Game UI/UX") },
+  { label: "App Design",  match: (t: string[]) => t.includes("App Design") },
+  { label: "Branding",    match: (t: string[]) => t.includes("Branding") },
+  { label: "Prototyping", match: (t: string[]) => t.includes("Prototyping") },
+  { label: "Web3 & VR",   match: (t: string[]) => t.includes("Web3") || t.includes("VR") },
+];
 
 function getDisplayImage(project: Project): string | null {
   const isThumb = (src: string) => /_thumb|thumb\.(png|jpg|jpeg|gif|webp)/i.test(src);
@@ -32,6 +42,10 @@ interface WorkProps {
 
 export default function Work({ projects }: WorkProps) {
   const { locale } = useApp();
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const activeMatch = FILTERS.find((f) => f.label === activeFilter)!.match;
+  const filtered = projects.filter((p) => activeMatch(p.tags ?? []));
 
   return (
     <section id="projects" className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
@@ -44,16 +58,31 @@ export default function Work({ projects }: WorkProps) {
             {locale === "es" ? "Trabajo seleccionado" : "Selected projects"}
           </h2>
         </div>
-        <span className="hidden md:block text-muted-foreground">
-          ({String(projects.length).padStart(2, "0")})
-        </span>
+        <div className="hidden md:flex items-center gap-2">
+          {FILTERS.map((f) => (
+            <button
+              key={f.label}
+              onClick={() => setActiveFilter(f.label)}
+              className={`px-3 py-1 text-xs font-medium border rounded-full transition-colors ${
+                activeFilter === f.label
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border bg-background text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+          <span className="text-muted-foreground text-sm ml-2">
+            ({String(filtered.length).padStart(2, "0")})
+          </span>
+        </div>
       </ScrollReveal>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-        {projects.map((project, i) => {
+      <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-8 md:gap-12">
+        {filtered.map((project, i) => {
           const coverSrc = getDisplayImage(project);
           return (
-          <ScrollReveal key={project.slug} delay={i * 0.1} y={50}>
+          <ScrollReveal key={project.slug} delay={activeFilter === "All" ? i * 0.1 : 0} y={50}>
             <Link
               href={`/proyecto/${project.slug}`}
               className="group block"
@@ -73,9 +102,7 @@ export default function Work({ projects }: WorkProps) {
                   <div className="absolute inset-0 bg-muted" />
                 )}
                 <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500" />
-                <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 group-hover:scale-100 scale-0">
-                  <ArrowUpRight className="w-5 h-5 text-primary" />
-                </div>
+                <ArrowUpRight className="absolute top-4 right-4 w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <div className="flex justify-between items-start">
                 <div>

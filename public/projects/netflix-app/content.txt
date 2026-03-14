@@ -12,6 +12,9 @@ order: 7
 [overview]
 This was a self-initiated project, a personal exploration of what a redesigned Netflix app might look and feel like. The goal wasn't to replace Netflix's existing design (which is excellent) but to use the constraints of an established brand system as a creative brief: what new interactions are possible within these rules? What features would make the experience meaningfully better?
 
+[button]
+Live Prototype https://cloud.protopie.io/p/V4jcv2wpqBc?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%23F5F5F5&bgImage=undefined&playSpeed=1
+
 [challenge]
 Redesigning a product used by hundreds of millions of people means working under the weight of established habit. Any change has to feel like an improvement, not a departure, users should feel 'that's exactly what I wanted' rather than 'this is different.' The additional constraint of staying strictly within Netflix's brand guidelines meant the innovation had to come from interaction and information architecture, not visual novelty.
 
@@ -22,7 +25,3 @@ I built the entire prototype in Protopie, a high-fidelity interactive tool that 
 The prototype was fully interactive and shareable, published on Protopie for anyone to try. It demonstrated that significant usability improvements are achievable within Netflix's existing design language, and generated significant engagement when shared in design communities.
 
 [stats]
-Protopie | Prototype tool
-2019 | Year
-100% | Brand compliant
-Self | Initiated

@@ -5,9 +5,9 @@ export const translations = {
   en: {
     nav: { work: "Projects", about: "About", contact: "Contact" },
     hero: {
-      eyebrow: "Senior Designer · 28+ years of craft",
+      eyebrow: `Senior Designer · ${yoe}+ years of craft`,
       headline: "Crafting digital\nExperiences",
-      desc: "Product design, game UI/UX and brand art direction. 28 years engineering scalable architectures and high-fidelity interfaces at the intersection of digital product, emerging platforms and gaming.",
+      desc: `Product design, game UI/UX and brand art direction. ${yoe} years engineering scalable architectures and high-fidelity interfaces at the intersection of digital product, emerging platforms and gaming.`,
       cta: "View projects",
       scroll: "Scroll",
     },
@@ -37,7 +37,7 @@ export const translations = {
       title: "Have a project in mind?",
       desc: "I'm always open to new interesting projects. Let's talk about how I can help you.",
       email: "hola@anico.es",
-      copyright: "© 2026 anico. All rights reserved.",
+      copyright: `© ${new Date().getFullYear()} anico. All rights reserved.`,
       footerTagline: "",
     },
     skills: {
@@ -97,7 +97,7 @@ export const translations = {
       title: "¿Tienes un proyecto en mente?",
       desc: "Siempre estoy abierto a proyectos interesantes. Hablemos de cómo puedo ayudarte.",
       email: "hola@anico.es",
-      copyright: "© 2026 anico. Todos los derechos reservados.",
+      copyright: `© ${new Date().getFullYear()} anico. Todos los derechos reservados.`,
       footerTagline: "",
     },
     skills: {

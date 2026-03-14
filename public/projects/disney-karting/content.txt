@@ -3,7 +3,7 @@ subtitle: A self-initiated art direction proposal for a Disney karting game with
 client: Gameloft Barcelona
 category: Video Game UI/UX
 year: 2020
-role: Senior Designer
+role: Senior UI/UX Designer
 deliverables: Art Direction, UI/UX Design, Character Design, Game UI Proposal
 tags: Game UI/UX, Art Direction, Disney
 aspect_ratio: 3/4
@@ -22,7 +22,4 @@ Starting from IP and character analysis, I built a design system around Disney's
 The proposal served as an internal creative benchmark and art direction reference at Gameloft Barcelona, demonstrating what a high-quality Disney karting title could look and feel like with the right creative investment. The project remains one of the most complete self-initiated concept packages in my portfolio, covering UI, character design, kart customisation, and marketing assets from a single cohesive visual brief.
 
 [stats]
-29 | Screens Designed
-2020 | Year
-Disney | IP
-Self | Initiated
+

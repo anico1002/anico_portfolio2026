@@ -177,12 +177,6 @@ const es: Record<string, ProjectTranslation> = {
       "La propuesta cubre toda la superficie de UI/UX: flujos de selección de personaje, personalización del kart, HUD de carrera e imagen clave de marketing. Las pantallas de personajes se diseñaron con un encuadre cinematográfico, renders a gran formato, iluminación dramática y una paleta de color extraída del mundo canónico de cada personaje. El sistema de personalización se construyó para sentirse como una función real del juego. Se exploraron múltiples direcciones visuales antes de llegar al enfoque que mejor equilibraba las exigencias de marca de Disney con el tono más maduro del concepto.",
     outcome:
       "La propuesta funcionó como referencia creativa interna y guía de dirección de arte en Gameloft Barcelona, demostrando cómo podría verse un título de karting Disney de alta calidad con la inversión creativa adecuada. El proyecto sigue siendo uno de los paquetes conceptuales más completos de mi portfolio por iniciativa propia, cubriendo UI, diseño de personajes, personalización de kart y assets de marketing desde un único brief visual coherente.",
-    stats: [
-      { text: "29 · Pantallas diseñadas" },
-      { text: "2020 · Año" },
-      { text: "Disney · IP" },
-      { text: "Personal · Iniciativa" },
-    ],
   },
 
   "gm-world": {

@@ -3,7 +3,7 @@ subtitle: Redesigning a flagship racing franchise for the esports era
 client: Gameloft Barcelona
 category: Video Game UI/UX
 year: 2023
-role: Senior Designer
+role: Senior UI/UX Designer
 deliverables: UI/UX Design, Art Direction, Esports Branding, Console Navigation, Prototyping
 tags: Game UI/UX, Art Direction, Esports
 aspect_ratio: 1/1
@@ -11,6 +11,9 @@ order: 4
 
 [overview]
 Asphalt Unite is a new chapter in Gameloft's long-running racing franchise, a title built from the ground up for console platforms and designed to compete in the esports arena. I joined the project as the lead UI/UX designer, tasked with rethinking every surface of the game's interface: from vehicle class presentation and main menu flows to garage experiences and in-game HUD elements.
+
+[button]
+Download now! https://apps.apple.com/gt/app/asphalt-legends-carreras/id805603214
 
 [challenge]
 The core challenge was bridging two worlds: the franchise's existing mobile-first heritage and the demands of a console-native experience. Console players navigate entirely with a gamepad, expect high information density on large screens, and bring a very different context of use than mobile players. At the same time, the esports rebrand meant departing from the game's previous visual direction and moving toward something more aggressive, graphic, and broadcast-ready.
@@ -22,7 +25,7 @@ I began with a deep audit of competitive console racers, studying navigation pat
 The redesigned UI shipped as the definitive visual identity for Asphalt Unite, establishing the esports aesthetic that will carry the franchise forward on console and PC platforms. Internal user testing showed a 40% reduction in navigation errors compared to the previous prototype, and the art direction received unanimous approval from the publishing stakeholders on first presentation.
 
 [stats]
-40% | Fewer nav errors
-3 | Vehicle class systems
+1.000M+ | Downloads
+Real-Time HDR Rendering
 Console | Primary platform
 2023 | Ship year

@@ -41,6 +41,8 @@ body {
 }
 
 .animate-marquee {
+  width: max-content;
+  will-change: transform;
   animation: marquee 9s linear infinite;
 }
 

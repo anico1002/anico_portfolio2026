@@ -21,7 +21,8 @@ export type Project = {
   heroImage?: string;
   images: (string | string[])[]; // string[] = fade slider group
   // Enriched at runtime by lib/scan-project.ts (server-only)
-  sections?: { title?: string; images: (string | string[])[] }[];
+  sections?: { title?: string; images: (string | string[])[]; videos?: string[] }[];
+  videos?: string[];
   links?: { label: string; url: string }[];
   /** CTA button from content.txt [button] (download / visit web) */
   ctaButton?: { label: string; url: string };
@@ -273,12 +274,7 @@ export const projects: Project[] = [
       "The proposal covers the full UI/UX surface: character selection flows, kart customisation, race HUD, and marketing key art. Character screens were designed with a cinematic framing, large-format character renders, dramatic lighting, and a colour palette drawn from each character's canonical world rather than a generic brand palette. The decal and customisation system was built to feel like a proper game feature, not an afterthought. Multiple visual directions were explored before landing on the approach that best balanced Disney's brand requirements with the more mature tone the concept demanded.",
     outcome:
       "The proposal served as an internal creative benchmark and art direction reference at Gameloft Barcelona, demonstrating what a high-quality Disney karting title could look and feel like with the right creative investment. The project remains one of the most complete self-initiated concept packages in my portfolio, covering UI, character design, kart customisation, and marketing assets from a single cohesive visual brief.",
-    stats: [
-      { text: "29 Screens designed" },
-      { text: "2020 Year" },
-      { text: "Disney IP" },
-      { text: "Self Initiated" },
-    ],
+    stats: [],
   },
 
   {

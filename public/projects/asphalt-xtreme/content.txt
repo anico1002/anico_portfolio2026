@@ -3,7 +3,7 @@ subtitle: UI/UX, logo, and marketing design for Gameloft's off-road racing title
 client: Gameloft Barcelona
 category: Video Game UI/UX
 year: 2016
-role: Senior Designer
+role: Senior UI/UX Designer
 deliverables: Game UI/UX, Logo Design, Custom Typography, Marketing Assets
 tags: Game UI/UX, Logo, Mobile
 aspect_ratio: 1/1
@@ -25,4 +25,4 @@ Asphalt Xtreme launched in October 2016 to strong commercial performance, extend
 100M+ | Downloads
 2016 | Launch year
 Off-road | New category
-Gameloft | Studio
+Gameloft Barcelona

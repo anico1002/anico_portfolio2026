@@ -3,14 +3,14 @@ subtitle: A fresh identity for the education hub at the frontier of Web3 and AI
 client: Metacampus
 category: Brand Identity & Web
 year: 2023
-role: Senior Designer
+role: Senior UI/UX Designer
 deliverables: Corporate Identity, Web Design, Figma Prototype, Visual System
 tags: Branding, Web Design, Web3
 aspect_ratio: 4/3
 order: 5
 
 [overview]
-Metacampus is an educational hub focused on emerging technologies: Web3, Artificial Intelligence, and the Metaverse. As a young company at the vanguard of these fields, they needed an identity that felt simultaneously credible and energetic, capable of attracting both enterprise clients and individual learners. I led the full design process from initial concept to delivered design system and interactive Figma prototype.
+Metacampus is an educational center focused on emerging technologies: Web3, Artificial Intelligence and Metaverse. As a young company at the forefront of these fields, they needed an identity that was both credible and energetic, capable of attracting both business clients and individual students. I led the entire design process from the initial concept to the design system delivered and implemented on the platform.
 
 [challenge]
 The brief called for a fresh, clean aesthetic that conveyed education and learning. But the risk with emerging-tech branding is defaulting to the same visual clichés, neon gradients, abstract 3D blobs, dark-mode-only palettes, that every crypto and AI startup uses. I needed to create something that felt genuinely modern without disappearing into the noise of the category.
@@ -22,7 +22,4 @@ The concept grew from Metacampus's own structure: the company is organised aroun
 Metacampus launched with the new identity in 2023 and used it across their full digital presence, including a Figma-prototyped website delivered for the development team. The geometric system proved flexible enough to extend into social media templates, presentation decks, and event materials without losing coherence.
 
 [stats]
-4 | Brand pillars
-2023 | Launch year
-Web3 | Industry
-Figma | Prototype delivered
+

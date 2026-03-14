@@ -3,14 +3,14 @@ subtitle: Brand identity for a global forum at the frontier of Web3, AI, and the
 client: Metacampus
 category: Brand Identity & Web
 year: 2024
-role: Senior Designer
+role: Senior UI/UX Designer
 deliverables: Brand Identity, Visual System, Corporate Assets, Digital Templates
 tags: Branding, Web3, Art Direction
 aspect_ratio: 16/9
 order: 3
 
 [overview]
-GM World! is the annual global forum organised by Metacampus, a Web3 education company, bringing together industry leaders, creators, and innovators around the themes of artificial intelligence, the Metaverse, and decentralised technology. In 2024 I developed the full brand identity and visual assets for the forum, creating a system flexible enough to evolve with each edition while maintaining a consistent core identity.
+GM World! is the annual global forum hosted by Metacampus, a Web3 education company, bringing together industry leaders, creators and innovators around the topics of artificial intelligence, the Metaverse and decentralized technology. In 2024 I developed the full brand identity and visual assets for the event, creating a system flexible enough to evolve with each edition while maintaining a consistent core identity.
 
 [challenge]
 The forum is international by design, each edition takes place in a different host city, with a different cultural context. The brand needed to be globally neutral enough to work anywhere, while also adaptable enough to absorb local character without losing coherence. It also had to position GM World! as a serious professional event, not just another Web3 hype vehicle.
@@ -22,7 +22,4 @@ The identity is built around a bold, modular typographic system that serves as t
 The GM World! identity launched with the 2024 forum edition and was adopted across the full event brand: stage design, digital promotion, printed materials, and speaker assets. The modular system is flexible enough to extend to future editions without requiring a full redesign each year.
 
 [stats]
-2024 | Launch year
-Global | Event scope
-Web3 | Industry
-Metacampus | Client
+

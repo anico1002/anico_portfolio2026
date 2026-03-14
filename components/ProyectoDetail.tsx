@@ -33,7 +33,8 @@ function getProjectHeroImage(project: Project): string | null {
 
 export type ContentBlock =
   | { sectionTitle?: string; type: "image"; urls: [string] }
-  | { sectionTitle?: string; type: "slideshow"; urls: string[] };
+  | { sectionTitle?: string; type: "slideshow"; urls: string[] }
+  | { sectionTitle?: string; type: "video"; url: string };
 
 /** Bloques de contenido por sección: imagen única o slideshow (1a,1b,1c). */
 function getProjectContentBlocks(project: Project): ContentBlock[] {
@@ -51,11 +52,17 @@ function getProjectContentBlocks(project: Project): ContentBlock[] {
         const src = Array.isArray(img) ? img[0] : img;
         if (src && !isThumb(src)) push(section.title, img);
       }
+      for (const vid of section.videos ?? []) {
+        blocks.push({ sectionTitle: section.title, type: "video", url: vid });
+      }
     }
   } else {
     for (const img of project.images) {
       const src = Array.isArray(img) ? img[0] : img;
       if (src && !isThumb(src)) push(undefined, img);
+    }
+    for (const vid of project.videos ?? []) {
+      blocks.push({ sectionTitle: undefined, type: "video", url: vid });
     }
   }
   return blocks;
@@ -206,7 +213,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
         {contentBlocks.length > 0 && (() => {
           const groups = groupBlocksBySection(contentBlocks);
           return (
-            <section className="px-6 md:px-12 lg:px-24 overflow-x-hidden">
+            <section className="px-6 md:px-12 lg:px-24 py-24 md:py-32 overflow-x-hidden">
               {groups.map((group, sectionIndex) => (
                 <div key={sectionIndex} className="max-w-6xl mx-auto">
                   {group.title && (
@@ -218,9 +225,19 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                   )}
                   <div className="w-screen relative left-1/2 -translate-x-1/2 md:relative md:left-0 md:translate-x-0 md:w-full flex flex-col gap-0">
                     {group.blocks.map((block, i) =>
-                      block.type === "image" ? (
+                      block.type === "video" ? (
                         <div key={i} className="relative w-full bg-muted shrink-0">
-                          {/* Imagen a ancho completo, altura natural, sin recorte */}
+                          <video
+                            src={block.url}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-auto block"
+                          />
+                        </div>
+                      ) : block.type === "image" ? (
+                        <div key={i} className="relative w-full bg-muted shrink-0">
                           <img
                             src={block.urls[0]}
                             alt={`${p.name} ${group.title ?? ""} ${i + 1}`}

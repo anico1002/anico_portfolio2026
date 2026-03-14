@@ -3,7 +3,7 @@ subtitle: Game UI for one of the most-downloaded mobile racers of all time
 client: Gameloft Barcelona
 category: Video Game UI/UX
 year: 2018
-role: Senior Designer
+role: Senior UI/UX Designer
 deliverables: Game UI Design, HUD Design, Menu Flows, Vehicle Screens, Asset Production
 tags: Game UI/UX, Mobile, HUD Design
 aspect_ratio:

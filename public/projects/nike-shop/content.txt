@@ -12,6 +12,9 @@ order: 8
 [overview]
 A self-initiated prototype exploring what a video-first Nike e-commerce experience might look and feel like. The project uses Protopie's advanced interaction capabilities to build a fully interactive concept, replacing static product photography with short looping video clips and reimagining browsing and checkout flows around that richer content format.
 
+[button]
+Live Prototype https://cloud.protopie.io/p/E5yJ3wbGufT?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%23F5F5F5&bgImage=undefined&playSpeed=1
+
 [challenge]
 Nike leads in physical retail innovation but its digital shopping experience has remained relatively conservative for such an expressive brand. The challenge was to design something that felt as bold and product-focused as Nike's physical stores, using motion and interaction to bring the same energy to the screen.
 
@@ -22,7 +25,3 @@ The entire prototype was built in Protopie, taking advantage of the tool's abili
 A fully interactive prototype demonstrating a premium, video-first approach to Nike's digital retail. Published on Protopie for sharing and feedback in the design community.
 
 [stats]
-Protopie | Tool
-2019 | Year
-Video-first | Concept
-Self | Initiated

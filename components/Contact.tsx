@@ -5,9 +5,18 @@ import { useApp } from "@/context/AppContext";
 import { translations } from "@/lib/i18n";
 import ScrollReveal from "./ScrollReveal";
 
-export default function Contact() {
+interface ContactProps {
+  profileContact?: { title: string; desc: string };
+  email?: string;
+  linkedin?: string;
+}
+
+export default function Contact({ profileContact, email, linkedin }: ContactProps) {
   const { locale } = useApp();
-  const t = translations[locale].contact;
+  const base = translations[locale].contact;
+  const t = profileContact ? { ...base, ...profileContact } : base;
+  const emailAddr = email ?? t.email;
+  const linkedinUrl = linkedin ?? "https://es.linkedin.com/in/anico";
 
   return (
     <section
@@ -27,14 +36,14 @@ export default function Contact() {
         </p>
         <div className="flex justify-center gap-6">
           <a
-            href={`mailto:${t.email}`}
+            href={`mailto:${emailAddr}`}
             className="w-12 h-12 border border-primary-foreground/30 rounded-full flex items-center justify-center hover:bg-primary-foreground hover:text-primary transition-all"
             aria-label="Email"
           >
             <Mail className="w-5 h-5" />
           </a>
           <a
-            href="https://es.linkedin.com/in/anico"
+            href={linkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="w-12 h-12 border border-primary-foreground/30 rounded-full flex items-center justify-center hover:bg-primary-foreground hover:text-primary transition-all"

@@ -5,12 +5,15 @@ category: Video Game UI/UX
 year: 2024
 role: Senior UI/UX Designer
 deliverables: Art Direction, UI/UX Design, Character Design, Game UI Proposal
-tags: Game UI/UX, Art Direction, Crypto
+tags: Game UI/UX, Web3
 aspect_ratio: 3/4
 order: 2
 
 [overview]
 In 2023, I led the comprehensive visual transformation of CyberTitans, a competitive auto-battler developed by LitLab Games. My role involved a full UI/UX redesign and the creation of a new brand identity, including a custom-built typeface. The project was driven by a clear strategic goal: to elevate the game’s presence within the Web3 gaming space by merging a gritty, tactical cyberpunk aesthetic with the clean, functional standards of high-end product design. The result is a cohesive ecosystem that bridges the gap between hardcore strategy gaming and the emerging blockchain economy.
+
+[button]
+Download Now! https://store.steampowered.com/app/2350590/CyberTitans/?l=latam
 
 [challenge]
 The primary challenge was to design an interface that could manage the inherent complexity of a crypto-based game, including marketplace interactions, wallet integration, and token management, without overwhelming the player. In the auto-battler genre, information density is high; therefore, the UI language needed to be surgically precise. We had to move away from generic "cyberpunk" tropes to create a unique, premium visual identity that felt authoritative, secure, and ready for global e-sports competition.
@@ -22,8 +25,4 @@ The process began with the development of a custom typeface, designed to ensure 
 The redesign successfully established a new creative benchmark for the LitLab Games ecosystem, professionalizing the user experience and strengthening the brand's market position. The custom typeface and visual language became the backbone of CyberTitans' identity, creating a seamless transition between the game's competitive action and its underlying economic infrastructure. Today, the project stands as a testament to how strategic branding and user-centric UI can lower the entry barriers for Web3 gaming, delivering a high-fidelity experience that resonates with both crypto-natives and traditional gamers.
 
 [stats]
-10M+ | Downloads
-#1 | AutoBattler Game
-2024 | Launch year
-Web3 | Category
 
