@@ -54,26 +54,40 @@ export default function Hero({ heroImages, profileHero }: HeroProps) {
     <section ref={ref} className="h-screen relative overflow-hidden">
       {/* Background: imágenes en public/hero-imgs, loop infinito */}
       <motion.div className="absolute inset-0 overflow-hidden bg-muted" style={{ y: imageY }}>
-        {shuffled.map((src, i) => (
-          <div
-            key={i}
-            className="absolute inset-0 transition-opacity duration-1000"
-            style={{
-              zIndex: i === activeIndex ? 1 : 0,
-              opacity: i === activeIndex ? 1 : 0,
-            }}
-          >
-            <Image
-              src={src}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="100vw"
-              unoptimized={src.endsWith(".gif") || src.startsWith("/hero-imgs/")}
-              priority={i === 0}
-            />
-          </div>
-        ))}
+        {shuffled.map((src, i) => {
+          const isVideo = /\.(mp4|webm|mov)$/i.test(src);
+          return (
+            <div
+              key={i}
+              className="absolute inset-0 transition-opacity duration-1000"
+              style={{
+                zIndex: i === activeIndex ? 1 : 0,
+                opacity: i === activeIndex ? 1 : 0,
+              }}
+            >
+              {isVideo ? (
+                <video
+                  src={src}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  unoptimized
+                  priority={i === 0}
+                />
+              )}
+            </div>
+          );
+        })}
         <div className="absolute inset-0 bg-black/60 z-10" />
       </motion.div>
 

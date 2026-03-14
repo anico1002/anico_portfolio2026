@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 const HERO_IMGS_DIR = "public/hero-imgs";
-const IMAGE_EXTS = /\.(jpg|jpeg|png|gif|webp|avif)$/i;
+const MEDIA_EXTS = /\.(jpg|jpeg|png|gif|webp|avif|mp4|webm|mov)$/i;
 
 /**
  * Returns the list of image paths in /hero-imgs for the home hero carousel.
@@ -15,7 +15,7 @@ export function getHeroImages(): string[] {
 
   const files = fs
     .readdirSync(dir)
-    .filter((f) => IMAGE_EXTS.test(f))
+    .filter((f) => MEDIA_EXTS.test(f))
     .sort();
 
   return files.map((f) => `/hero-imgs/${f}`);
