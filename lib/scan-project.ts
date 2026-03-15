@@ -6,6 +6,7 @@ import { projects, type Project } from "./projects";
 
 const IMAGE_EXTS = /\.(jpg|jpeg|png|gif|webp|avif)$/i;
 const VIDEO_EXTS = /\.(mp4|webm|mov)$/i;
+const PHONE_MEDIA_EXTS = /\.(mp4|webm|mov|jpg|jpeg|png|gif|webp|avif)$/i;
 
 export interface ScannedSection {
   title?: string;
@@ -28,6 +29,8 @@ export interface ScannedProject {
   stats: ContentStat[];
   /** CTA button from [button] in content.txt (download / visit web) */
   ctaButton?: ContentButton;
+  /** Phone mockup block detected from *_phone.* file */
+  phoneMockup?: { mediaUrl: string; isVideo: boolean; bgUrl?: string; phoneRatio: string };
   /** Parsed key:value metadata from content.txt */
   meta: ContentMeta;
   /** Default-locale text blocks from content.txt */
@@ -75,7 +78,13 @@ function imgLetter(name: string): string {
  */
 function buildImageList(dir: string, urlPrefix: string): (string | string[])[] {
   const files = fs.readdirSync(dir)
-    .filter((f) => isImage(f) && !f.replace(IMAGE_EXTS, "").endsWith("_thumb") && !f.replace(IMAGE_EXTS, "").endsWith("_hero"));
+    .filter((f) => isImage(f)
+      && !f.replace(IMAGE_EXTS, "").endsWith("_thumb")
+      && !f.replace(IMAGE_EXTS, "").endsWith("_hero")
+      && !f.replace(IMAGE_EXTS, "").endsWith("_phone")
+      && !f.replace(IMAGE_EXTS, "").endsWith("_phone_bg")
+      && !f.replace(IMAGE_EXTS, "").endsWith("_src")
+    );
 
   // Group by numeric position
   const groups = new Map<number, string[]>();
@@ -98,7 +107,11 @@ function buildImageList(dir: string, urlPrefix: string): (string | string[])[] {
 
 function buildVideoList(dir: string, urlPrefix: string): string[] {
   return fs.readdirSync(dir)
-    .filter((f) => VIDEO_EXTS.test(f) && !f.replace(VIDEO_EXTS, "").endsWith("_hero"))
+    .filter((f) => VIDEO_EXTS.test(f)
+      && !f.replace(VIDEO_EXTS, "").endsWith("_hero")
+      && !f.replace(VIDEO_EXTS, "").endsWith("_phone")
+      && !f.replace(VIDEO_EXTS, "").endsWith("_src")
+    )
     .sort()
     .map((f) => `${urlPrefix}/${f}`);
 }
@@ -128,6 +141,14 @@ export function getScannedProject(slug: string): ScannedProject | null {
     .filter((f) => VIDEO_EXTS.test(f) && f.replace(VIDEO_EXTS, "").endsWith("_hero"))
     .sort()[0];
   const heroVideo = heroVideoFile ? `${urlBase}/${heroVideoFile}` : undefined;
+
+  /* ── Phone mockup (*_phone.ext) ── */
+  const phoneMediaFile = allEntries
+    .filter((f) => PHONE_MEDIA_EXTS.test(f) && f.replace(PHONE_MEDIA_EXTS, "").endsWith("_phone"))
+    .sort()[0];
+  const phoneBgFile = allEntries
+    .filter((f) => IMAGE_EXTS.test(f) && f.replace(IMAGE_EXTS, "").endsWith("_phone_bg"))
+    .sort()[0];
 
   /* ── content.txt ── */
   const contentPath = path.join(projectDir, "content.txt");
@@ -162,10 +183,19 @@ export function getScannedProject(slug: string): ScannedProject | null {
 
   const rootVideos = buildVideoList(projectDir, urlBase);
 
+  const phoneRatio = parsed?.meta?.phoneRatio ?? "9/16";
+  const phoneMockup = phoneMediaFile ? {
+    mediaUrl: `${urlBase}/${phoneMediaFile}`,
+    isVideo: VIDEO_EXTS.test(phoneMediaFile),
+    bgUrl: phoneBgFile ? `${urlBase}/${phoneBgFile}` : undefined,
+    phoneRatio,
+  } : undefined;
+
   return {
     thumbnail,
     heroImage,
     heroVideo,
+    phoneMockup,
     sections,
     images,
     ...(rootVideos.length ? { videos: rootVideos } : {}),
@@ -220,6 +250,7 @@ export function buildProjectFromScanned(slug: string, scanned: ScannedProject): 
     outcome:        scanned.text.outcome   ?? "",
     stats:          scanned.stats,
     ctaButton:      scanned.ctaButton,
+    phoneMockup:    scanned.phoneMockup,
     localizations:  Object.keys(scanned.locales).length ? scanned.locales : undefined,
   };
 }
@@ -257,6 +288,7 @@ export function getEnrichedProjects(): Project[] {
       sections:  scanned.sections.length  ? scanned.sections  : undefined,
       links:     scanned.links.length     ? scanned.links     : p.links,
       ctaButton: scanned.ctaButton ?? p.ctaButton,
+      phoneMockup: scanned.phoneMockup ?? p.phoneMockup,
       stats:         scanned.stats,
       overview:      scanned.text.overview  ?? p.overview,
       challenge:     scanned.text.challenge ?? p.challenge,

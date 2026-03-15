@@ -9,6 +9,7 @@ import { getLocalizedProject } from "@/lib/project-translations";
 import ScrollReveal from "./ScrollReveal";
 import ImageFadeSlideshow from "./ImageFadeSlideshow";
 import ProjectHero from "./ProjectHero";
+import PhoneMockup from "./PhoneMockup";
 
 const isThumb = (src: string) => /_thumb|thumb\.(png|jpg|jpeg|gif|webp)/i.test(src);
 
@@ -34,11 +35,16 @@ function getProjectHeroImage(project: Project): string | null {
 export type ContentBlock =
   | { sectionTitle?: string; type: "image"; urls: [string] }
   | { sectionTitle?: string; type: "slideshow"; urls: string[] }
-  | { sectionTitle?: string; type: "video"; url: string };
+  | { sectionTitle?: string; type: "video"; url: string }
+  | { sectionTitle?: string; type: "mockup"; mediaUrl: string; isVideo: boolean; bgUrl?: string; phoneRatio: string };
 
 /** Bloques de contenido por sección: imagen única o slideshow (1a,1b,1c). */
 function getProjectContentBlocks(project: Project): ContentBlock[] {
   const blocks: ContentBlock[] = [];
+
+  if (project.phoneMockup) {
+    blocks.push({ type: "mockup", ...project.phoneMockup });
+  }
   const push = (sectionTitle: string | undefined, img: string | string[]) => {
     const urls = Array.isArray(img) ? img.filter((s) => s && !isThumb(s)) : [img];
     if (urls.length === 0) return;
@@ -210,9 +216,23 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
           </section>
         )}
 
+        {/* Phone mockup block — full-width, outside max-w container */}
+        {contentBlocks
+          .filter((b): b is Extract<ContentBlock, { type: "mockup" }> => b.type === "mockup")
+          .map((block, i) => (
+            <PhoneMockup
+              key={i}
+              mediaUrl={block.mediaUrl}
+              isVideo={block.isVideo}
+              bgUrl={block.bgUrl}
+              phoneRatio={block.phoneRatio}
+              palette={project.palette}
+            />
+          ))}
+
         {/* Imágenes por sección: una sola columna, full width, altura natural, sin huecos */}
-        {contentBlocks.length > 0 && (() => {
-          const groups = groupBlocksBySection(contentBlocks);
+        {contentBlocks.filter(b => b.type !== "mockup").length > 0 && (() => {
+          const groups = groupBlocksBySection(contentBlocks.filter(b => b.type !== "mockup") as Exclude<ContentBlock, { type: "mockup" }>[]);
           return (
             <section className="px-6 md:px-12 lg:px-24 py-24 md:py-32 overflow-x-hidden">
               {groups.map((group, sectionIndex) => (
@@ -245,14 +265,14 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                             className="w-full h-auto block object-contain"
                           />
                         </div>
-                      ) : (
+                      ) : block.type === "slideshow" ? (
                         <div key={i} className="relative w-full shrink-0">
                           <ImageFadeSlideshow
                             urls={block.urls}
                             alt={`${p.name} ${group.title ?? ""} ${i + 1}`}
                           />
                         </div>
-                      )
+                      ) : null
                     )}
                   </div>
                 </div>

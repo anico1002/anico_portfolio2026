@@ -30,6 +30,8 @@ export interface ContentMeta {
   role?: string;
   deliverables?: string;
   tags?: string;
+  /** Phone mockup aspect ratio override, e.g. "9/16" (iPhone 8) or "393/852" (modern iPhone) */
+  phoneRatio?: string;
 }
 
 export interface ContentLink {

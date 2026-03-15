@@ -27,6 +27,8 @@ export type Project = {
   links?: { label: string; url: string }[];
   /** CTA button from content.txt [button] (download / visit web) */
   ctaButton?: { label: string; url: string };
+  /** Phone mockup block: video/image inside a CSS phone frame */
+  phoneMockup?: { mediaUrl: string; isVideo: boolean; bgUrl?: string; phoneRatio: string };
   /** Locale overrides from content.txt [block.locale] sections */
   localizations?: Record<string, Partial<Pick<Project, "overview" | "challenge" | "process" | "outcome" | "stats">>>;
   // Case study content
