@@ -28,7 +28,7 @@ export type Project = {
   /** CTA button from content.txt [button] (download / visit web) */
   ctaButton?: { label: string; url: string };
   /** Phone mockup block: video/image inside a CSS phone frame */
-  phoneMockup?: { mediaUrl: string; isVideo: boolean; bgUrl?: string; phoneRatio: string };
+  phoneMockup?: { mediaUrl: string; isVideo: boolean; bgUrl?: string; phoneRatio: string; phoneColor: string };
   /** Locale overrides from content.txt [block.locale] sections */
   localizations?: Record<string, Partial<Pick<Project, "overview" | "challenge" | "process" | "outcome" | "stats">>>;
   // Case study content
@@ -292,13 +292,7 @@ export const projects: Project[] = [
     size: "regular",
     palette: 4,
     thumbnail: `${BASE}/netflix.png`,
-    images: [
-      `${BASE}/netflix_app.gif`,
-      `${BASE}/netflix.png`,
-      `${BASE}/netflix.png`,
-      `${BASE}/netflix_app.gif`,
-      `${BASE}/netflix.png`,
-    ],
+    images: [],
     overview:
       "This was a self-initiated project, a personal exploration of what a redesigned Netflix app might look and feel like. The goal wasn't to replace Netflix's existing design (which is excellent) but to use the constraints of an established brand system as a creative brief: what new interactions are possible within these rules? What features would make the experience meaningfully better?",
     challenge:
@@ -332,9 +326,7 @@ export const projects: Project[] = [
     size: "regular",
     palette: 5,
     thumbnail: `${BASE}/nike.png`,
-    images: [
-      `${BASE}/nike_shop_ok.gif`,
-    ],
+    images: [],
     overview:
       "A self-initiated prototype exploring what a video-first Nike e-commerce experience might look and feel like. The project uses Protopie's advanced interaction capabilities to build a fully interactive concept, replacing static product photography with short looping video clips and reimagining browsing and checkout flows around that richer content format.",
     challenge:
@@ -368,9 +360,7 @@ export const projects: Project[] = [
     size: "regular",
     palette: 4,
     thumbnail: `${BASE}/hawkers.png`,
-    images: [
-      `${BASE}/hawkers_shop.gif`,
-    ],
+    images: [],
     overview:
       "Hawkers built its brand around personality and social media, a digital-native eyewear brand with a strong point of view. This self-initiated prototype reimagines its e-commerce experience to feel as distinctive as the brand itself: playful, visual, and unapologetically product-focused. The entire concept was built and prototyped in Protopie.",
     challenge:
