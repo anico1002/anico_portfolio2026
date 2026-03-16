@@ -35,7 +35,7 @@ components/
   Nav.tsx             # Header fijo: logo SVG (anico_logo.svg) + Projects, About, Contact
   Hero.tsx            # Hero home: carousel de imágenes (heroImages prop), parallax, título en 2 líneas, flecha abajo con bounce
   Marquee.tsx         # Banda de texto infinito (disciplinas)
-  Work.tsx            # Grid de proyectos (cards con thumbnail, nombre, categoría, año)
+  Work.tsx            # Masonry grid de proyectos (cards con thumbnail, nombre, categoría, año). Layout flex con columnas explícitas via useColumnCount hook (md=2cols, 2xl=3cols); orden row-first (izq→der, arriba→abajo); alturas libres por ratio natural del thumb
   About.tsx           # Foto (public/about.webp, object-right) + bio + disciplinas en labels/pills; ScrollReveal entrada vertical (y=50) como el resto
   Contact.tsx         # Título + descripción + 2 iconos: Mail (mailto) y LinkedIn (enlace)
   Footer.tsx          # Copyright centrado; en proyecto muestra "Back to home"
@@ -119,7 +119,7 @@ public/
 | Contact        | hola@anico.es, solo Mail + LinkedIn |
 | Footer         | © 2026, centrado, sin tagline |
 | Logo           | anico_logo.svg en Nav y header proyecto (0.7x) |
-| Proyectos      | Enriquecidos desde `lib/projects.ts` + `public/projects/<slug>/`; 3 slugs deshabilitados |
+| Proyectos      | Masonry grid, orden row-first; thumbs con ratio natural (cambia dimensiones del archivo para controlar altura); enriquecidos desde `lib/projects.ts` + `public/projects/<slug>/`; 3 slugs deshabilitados |
 | Página proyecto| Texto desde content.txt; botón CTA sin icono; imágenes/slideshows full width (slideshow: aspect ratio detectado, sin fondo gris); Outcomes con numeritos; sin Tools/Design stack; force-dynamic |
 
 ---
