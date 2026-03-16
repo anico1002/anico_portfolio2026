@@ -92,6 +92,19 @@ $FFMPEG -i input_src.mp4 -vcodec libx264 -crf 26 -preset slow \
 - **Theme tokens** (Tailwind v4 inline in `globals.css`): `background` #fff, `foreground`/`primary` #0a0a0a, `muted` #f5f5f5, `border` #e5e5e5
 - **Locale:** hardcoded `"en"` in `context/AppContext.tsx` — the Spanish translations in `lib/i18n.ts` exist but are unused
 
+## SEO & GEO
+
+- **`app/sitemap.ts`** — auto-generates `/sitemap.xml` from `getEnrichedProjects()`
+- **`app/robots.ts`** — `/robots.txt` with AI crawler permissions (GPTBot, PerplexityBot, ClaudeBot, anthropic-ai)
+- **`components/JsonLd.tsx`** — exports `<PersonSchema>` (injected in `layout.tsx` `<head>`) and `<CreativeWorkSchema>` (injected in each project page)
+- **`public/llms.txt`** — plain-text site description for LLM crawlers (GEO standard)
+- **OG image:** uses `/about.webp` provisionally — replace with a proper 1200×630px `/og-image.png` for ideal social sharing
+
+## Unused components
+
+- `components/Skills.tsx` — exists but is **not mounted** in `app/page.tsx`
+- `components/CustomCursor.tsx` — exists but is **not used** (system cursor active; no `cursor-none` on body)
+
 ## Deployment
 
 Vercel project: `anico_portfolio2026` → domain `anico.design`. Push to `main` triggers auto-deploy.

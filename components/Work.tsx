@@ -78,28 +78,29 @@ export default function Work({ projects }: WorkProps) {
         </div>
       </ScrollReveal>
 
-      <div className="grid md:grid-cols-2 2xl:grid-cols-3 gap-8 md:gap-12">
+      <div className="md:columns-2 2xl:columns-3 gap-8 md:gap-12">
         {filtered.map((project, i) => {
           const coverSrc = getDisplayImage(project);
           return (
-          <ScrollReveal key={project.slug} delay={activeFilter === "All" ? i * 0.1 : 0} y={50}>
+          <ScrollReveal key={project.slug} delay={activeFilter === "All" ? i * 0.1 : 0} y={50} className="break-inside-avoid mb-8 md:mb-12">
             <Link
               href={`/proyecto/${project.slug}`}
               className="group block"
             >
               <article className="group cursor-pointer">
-              <div className="relative overflow-hidden bg-muted aspect-[4/3] mb-6">
+              <div className="relative overflow-hidden bg-muted mb-6">
                 {coverSrc ? (
                   <Image
                     src={coverSrc}
                     alt={project.name}
-                    fill
-                    className="object-cover"
+                    width={0}
+                    height={0}
                     sizes="(max-width: 768px) 100vw, 50vw"
+                    className="w-full h-auto block"
                     unoptimized={coverSrc.endsWith(".gif") || coverSrc.startsWith("/projects/")}
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-muted" />
+                  <div className="aspect-[4/3] bg-muted" />
                 )}
                 <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500" />
                 <ArrowUpRight className="absolute top-4 right-4 w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
