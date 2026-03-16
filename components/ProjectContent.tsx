@@ -82,7 +82,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
             {p.category}
           </p>
           <h1
-            className="font-display font-semibold text-white leading-tight"
+            className="font-display font-extrabold tracking-tight text-white leading-tight"
             style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)" }}
           >
             {p.name}
@@ -144,7 +144,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
             <div className="grid lg:grid-cols-2 gap-16 md:gap-24">
               {p.challenge && (
                 <div className="relative">
-                  <p className="absolute -top-8 left-0 font-display font-semibold text-[#0a0a0a]/5 text-8xl md:text-9xl select-none">
+                  <p className="absolute -top-8 left-0 font-display font-extrabold tracking-tight text-[#0a0a0a]/5 text-8xl md:text-9xl select-none">
                     01
                   </p>
                   <p className="text-[#737373] text-xs tracking-widest uppercase mb-4 relative z-10">
@@ -155,7 +155,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
               )}
               {p.process && (
                 <div className="relative">
-                  <p className="absolute -top-8 left-0 font-display font-semibold text-[#0a0a0a]/5 text-8xl md:text-9xl select-none">
+                  <p className="absolute -top-8 left-0 font-display font-extrabold tracking-tight text-[#0a0a0a]/5 text-8xl md:text-9xl select-none">
                     02
                   </p>
                   <p className="text-[#737373] text-xs tracking-widest uppercase mb-4 relative z-10">
@@ -173,7 +173,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
       {galleryImages.length > 0 && (
         <section className="py-24 md:py-32">
           <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-24">
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-[#0a0a0a] mb-12">
+            <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight text-[#0a0a0a] mb-12">
               {locale === "es" ? "Diseños del proyecto" : "Project designs"}
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
@@ -205,7 +205,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
             <div key={si} className="mb-16">
               {section.title && (
                 <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-24 mb-8">
-                  <h3 className="font-display text-2xl font-semibold text-[#0a0a0a]">
+                  <h3 className="font-display text-2xl font-extrabold tracking-tight text-[#0a0a0a]">
                     {section.title}
                   </h3>
                 </div>
@@ -251,7 +251,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
                   <p className="text-white/30 text-xs mb-4 font-display">
                     {String(i + 1).padStart(2, "0")}
                   </p>
-                  <p className="font-display text-2xl font-semibold">{stat.text}</p>
+                  <p className="font-display text-2xl font-extrabold tracking-tight">{stat.text}</p>
                 </div>
               ))}
             </div>
@@ -326,7 +326,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
               <p className="text-[#737373] text-xs tracking-widest uppercase mb-1">
                 {locale === "es" ? "Volver" : "Back to"}
               </p>
-              <p className="font-display font-semibold text-[#0a0a0a]">
+              <p className="font-display font-extrabold tracking-tight text-[#0a0a0a]">
                 {locale === "es" ? "Todo el trabajo" : "All projects"}
               </p>
             </div>
@@ -339,7 +339,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
               <p className="text-[#737373] text-xs tracking-widest uppercase mb-1">
                 {t.nextProject}
               </p>
-              <p className="font-display font-semibold text-[#0a0a0a] group-hover:text-[#404040] transition-colors duration-200">
+              <p className="font-display font-extrabold tracking-tight text-[#0a0a0a] group-hover:text-[#404040] transition-colors duration-200">
                 {next.name}
               </p>
             </div>
@@ -351,7 +351,7 @@ export default function ProjectContent({ project, next }: ProjectContentProps) {
       {/* CTA */}
       <section className="py-24 md:py-32 text-center">
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-24">
-          <h2 className="font-display text-3xl md:text-5xl font-semibold text-[#0a0a0a] mb-8">
+          <h2 className="font-display text-3xl md:text-5xl font-extrabold tracking-tight text-[#0a0a0a] mb-8">
             {locale === "es" ? "¿Trabajamos juntos?" : "Want to work together?"}
           </h2>
           <a

@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useScroll, useSpring, useTransform, motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
 import { translations } from "@/lib/i18n";
 import type { Project } from "@/lib/projects";
@@ -101,6 +103,10 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
   const heroImage = getProjectHeroImage(project);
   const contentBlocks = getProjectContentBlocks(project);
 
+  const { scrollY } = useScroll();
+  const rawY = useTransform(scrollY, [0, 350], [0, -100]);
+  const y = useSpring(rawY, { stiffness: 380, damping: 38 });
+
   return (
     <>
       <ProjectHero
@@ -111,7 +117,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
         videoSrc={project.heroVideo}
       />
 
-      <div className="relative bg-white z-10">
+      <motion.div className="relative bg-white z-10" style={{ y }}>
         {/* Meta grid */}
         <section className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
           <div className="max-w-6xl mx-auto">
@@ -146,7 +152,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
             </div>
             {p.overview && (
               <div className="max-w-3xl">
-                <h2 className="font-display text-3xl md:text-4xl font-semibold mb-6">
+                <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-6">
                   {t.overview}
                 </h2>
                 <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
@@ -184,7 +190,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                       <p className="text-muted-foreground text-sm tracking-widest uppercase mb-4">
                         {t.challenge}
                       </p>
-                      <h3 className="font-display text-2xl md:text-3xl font-semibold mb-6">
+                      <h3 className="font-display text-2xl md:text-3xl font-extrabold tracking-tight mb-6">
                         {locale === "es" ? "El reto" : "Problem to solve"}
                       </h3>
                       <p className="text-muted-foreground leading-relaxed">
@@ -202,7 +208,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                       <p className="text-muted-foreground text-sm tracking-widest uppercase mb-4">
                         {t.process}
                       </p>
-                      <h3 className="font-display text-2xl md:text-3xl font-semibold mb-6">
+                      <h3 className="font-display text-2xl md:text-3xl font-extrabold tracking-tight mb-6">
                         {locale === "es" ? "Mi enfoque" : "My approach"}
                       </h3>
                       <p className="text-muted-foreground leading-relaxed">
@@ -226,7 +232,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                 <div key={sectionIndex} className="max-w-6xl mx-auto">
                   {group.title && (
                     <div className="pt-16 pb-6">
-                      <h2 className="font-display text-2xl md:text-3xl font-semibold text-primary text-left">
+                      <h2 className="font-display text-2xl md:text-3xl font-extrabold tracking-tight text-primary text-left">
                         {group.title}
                       </h2>
                     </div>
@@ -246,10 +252,13 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                         </div>
                       ) : block.type === "image" ? (
                         <div key={i} className="relative w-full bg-muted shrink-0">
-                          <img
+                          <Image
                             src={block.urls[0]}
                             alt={`${p.name} ${group.title ?? ""} ${i + 1}`}
-                            className="w-full h-auto block object-contain"
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-full h-auto block"
                           />
                         </div>
                       ) : block.type === "slideshow" ? (
@@ -290,7 +299,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
               <p className="text-primary-foreground/60 text-sm tracking-widest uppercase mb-2">
                 {t.outcomes}
               </p>
-              <h2 className="font-display text-3xl md:text-4xl font-semibold mb-16">
+              <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-16">
                 {locale === "es" ? "Impacto del proyecto" : "Project impact"}
               </h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -325,7 +334,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                   <p className="text-muted-foreground text-sm mb-1">
                     {locale === "es" ? "Proyecto anterior" : "Previous project"}
                   </p>
-                  <p className="font-display text-xl md:text-2xl font-semibold group-hover:text-secondary transition-colors">
+                  <p className="font-display text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-secondary transition-colors">
                     {prev.name}
                   </p>
                 </div>
@@ -340,7 +349,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
                   <p className="text-muted-foreground text-sm mb-1">
                     {t.nextProject}
                   </p>
-                  <p className="font-display text-xl md:text-2xl font-semibold group-hover:text-secondary transition-colors">
+                  <p className="font-display text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-secondary transition-colors">
                     {next.name}
                   </p>
                 </div>
@@ -349,7 +358,7 @@ export default function ProyectoDetail({ project, prev, next }: ProyectoDetailPr
             </Link>
           </div>
         </section>
-      </div>
+      </motion.div>
     </>
   );
 }

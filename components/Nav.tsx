@@ -63,7 +63,7 @@ export default function Nav() {
             <Link
               key={key}
               href={href}
-              className="font-display text-4xl text-primary-foreground font-semibold hover:opacity-60 transition-opacity"
+              className="font-display text-4xl text-primary-foreground font-extrabold tracking-tight hover:opacity-60 transition-opacity"
               onClick={() => setMobileOpen(false)}
             >
               {t[key]}

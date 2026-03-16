@@ -28,7 +28,7 @@ export default function Contact({ profileContact, email, linkedin }: ContactProp
         <p className="text-primary-foreground/60 text-sm tracking-widest uppercase mb-4">
           {t.eyebrow}
         </p>
-        <h2 className="font-display text-4xl md:text-6xl font-semibold mb-8">
+        <h2 className="font-display text-4xl md:text-6xl font-extrabold tracking-tight mb-8">
           {t.title}
         </h2>
         <p className="text-primary-foreground/70 text-lg mb-12 max-w-xl mx-auto">

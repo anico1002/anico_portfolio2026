@@ -6,6 +6,7 @@ import { getEnrichedProjects } from "@/lib/scan-project";
 import ProyectoDetail from "@/components/ProyectoDetail";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
+import { CreativeWorkSchema } from "@/components/JsonLd";
 
 export function generateStaticParams() {
   return getEnrichedProjects().map((p) => ({ slug: p.slug }));
@@ -18,9 +19,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const projects = getEnrichedProjects();
   const project = projects.find((p) => p.slug === slug);
   if (!project) return { title: "Project" };
+  const description = project.description || project.subtitle;
+  const image = project.heroImage || project.thumbnail || "/about.webp";
+  const url = `https://anico.design/proyecto/${slug}`;
   return {
-    title: `${project.name} | anico Senior Designer`,
-    description: project.description || project.subtitle,
+    title: project.name,
+    description,
+    openGraph: {
+      type: "article",
+      url,
+      title: project.name,
+      description,
+      images: [{ url: image, alt: project.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.name,
+      description,
+      images: [image],
+    },
+    alternates: { canonical: url },
   };
 }
 
@@ -36,6 +54,13 @@ export default async function ProyectoPage({ params }: Props) {
 
   return (
     <>
+      <CreativeWorkSchema
+        name={project.name}
+        description={project.description || project.subtitle}
+        url={`https://anico.design/proyecto/${project.slug}`}
+        image={project.heroImage || project.thumbnail}
+        year={project.year}
+      />
       <header className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-6 flex justify-between items-center mix-blend-difference">
         <Link
           href="/"

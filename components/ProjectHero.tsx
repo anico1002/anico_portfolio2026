@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 
 interface ProjectHeroProps {
@@ -15,23 +14,16 @@ interface ProjectHeroProps {
 const isLocalPath = (s: string) => s.startsWith("/");
 
 export default function ProjectHero({ src, alt, category, title, videoSrc }: ProjectHeroProps) {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const contentY = useTransform(scrollYProgress, [0, 0.5], ["0%", "80px"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  // Window-level scroll — needed because section is sticky
+  const { scrollY } = useScroll();
+  const imageY         = useTransform(scrollY, [0, 900], ["0%", "30%"]);
+  const contentY       = useTransform(scrollY, [0, 450], ["0%", "80px"]);
+  const contentOpacity = useTransform(scrollY, [0, 360], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-screen overflow-hidden bg-muted">
+    <section className="relative h-screen overflow-hidden sticky top-0 z-0 bg-muted">
       {(videoSrc || src) && (
-        <motion.div
-          className="absolute inset-0"
-          style={{ y: imageY }}
-        >
+        <motion.div className="absolute inset-0" style={{ y: imageY }}>
           {videoSrc ? (
             <video
               src={videoSrc}
@@ -69,7 +61,7 @@ export default function ProjectHero({ src, alt, category, title, videoSrc }: Pro
         <p className="text-white/70 text-sm tracking-widest uppercase mb-4">
           {category}
         </p>
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold text-white max-w-4xl">
+        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white max-w-4xl">
           {title}
         </h1>
       </motion.div>

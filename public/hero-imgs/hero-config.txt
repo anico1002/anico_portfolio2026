@@ -1,0 +1,14 @@
+# Hero carousel — configuración de imágenes
+# ─────────────────────────────────────────
+# Formato: nombre-del-archivo | Nombre del proyecto | slug-del-proyecto
+# Las líneas que empiezan por # son comentarios y se ignoran.
+# El slug es la última parte de la URL del proyecto: /proyecto/[slug]
+
+A92023_class-A_esports2.png | Asphalt Unite       | asphalt-unite
+AXT6_4.png                  | Asphalt Xtreme      | asphalt-xtreme
+CyberTitans.png             | Cyber Titans        | cybertitans
+dk_01.png                   | Disney Karting      | disney-karting
+ElReto_14.png               | El Reto MasterChef  | elreto-masterchef
+nike_shop_ok.mp4            | Nike Shop           | nike-shop
+obliq_hero.mp4              | Obliq               | obliq
+SwifT_hero.png              | SwifT               | swift-project

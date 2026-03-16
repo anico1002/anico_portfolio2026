@@ -18,13 +18,13 @@ export default function About({ profileAbout }: AboutProps) {
   return (
     <section id="about" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-muted">
       <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-start">
           <ScrollReveal className="relative" y={50}>
-            <div className="aspect-[4/5] bg-accent overflow-hidden relative">
+            <div className="aspect-[1296/630] bg-accent overflow-hidden relative">
               <img
                 src="/about.webp"
                 alt=""
-                className="absolute inset-0 w-full h-full object-cover object-right"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
           </ScrollReveal>
@@ -33,7 +33,7 @@ export default function About({ profileAbout }: AboutProps) {
               <p className="text-muted-foreground text-sm tracking-widest uppercase mb-4">
                 {t.title}
               </p>
-              <h2 className="font-display text-3xl md:text-4xl font-semibold mb-6 leading-tight">
+              <h2 className="font-display text-3xl md:text-4xl font-extrabold tracking-tight mb-6 leading-tight">
                 {t.headline}
               </h2>
               {t.bio.map((paragraph, i) => (

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface PhoneMockupProps {
   mediaUrl: string;
   isVideo: boolean;
@@ -270,10 +272,11 @@ export default function PhoneMockup({
       style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
     />
   ) : (
-    <img
+    <Image
       src={mediaUrl}
       alt=""
-      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }}
+      fill
+      className="object-cover"
     />
   );
 
@@ -286,8 +289,7 @@ export default function PhoneMockup({
 
         {/* Background */}
         {bgUrl ? (
-          <img src={bgUrl} alt="" aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover" />
+          <Image src={bgUrl} alt="" aria-hidden="true" fill className="object-cover" />
         ) : (
           <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
         )}

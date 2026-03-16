@@ -8,7 +8,7 @@ interface MarqueeProps {
 
 export default function Marquee({ text: textProp }: MarqueeProps) {
   const text = textProp || FALLBACK;
-  const cls = "shrink-0 font-display text-5xl md:text-7xl font-semibold text-muted-foreground/20";
+  const cls = "shrink-0 font-display text-5xl md:text-7xl font-extrabold tracking-tight text-muted-foreground/20";
   return (
     <section className="py-8 border-y border-border overflow-hidden">
       <div className="flex whitespace-nowrap animate-marquee">
