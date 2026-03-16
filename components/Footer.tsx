@@ -13,7 +13,7 @@ export default function Footer({ showBackToHome }: FooterProps) {
   const t = translations[locale].contact;
 
   return (
-    <footer className="py-8 px-6 md:px-12 border-t border-border">
+    <footer className="py-2 md:py-8 px-6 md:px-12 border-t border-border">
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 text-center">
         <p className="text-muted-foreground text-sm">{t.copyright}</p>
         {showBackToHome && (

@@ -23,6 +23,14 @@ export default function Hero({ heroImages, profileHero }: HeroProps) {
   const [shuffled, setShuffled] = useState(heroImages);
   const [activeIndex, setActiveIndex] = useState(0);
   const [progressKey, setProgressKey] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const zoomRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -74,7 +82,7 @@ export default function Hero({ heroImages, profileHero }: HeroProps) {
   return (
     <section className="h-screen relative overflow-hidden sticky top-0 z-0">
       {/* Background carousel */}
-      <motion.div className="absolute inset-0 overflow-hidden bg-muted" style={{ y: imageY }}>
+      <motion.div className="absolute inset-0 overflow-hidden bg-muted" style={{ y: isMobile ? 0 : imageY }}>
         {shuffled.map((item, i) => {
           const isVideo = /\.(mp4|webm|mov)$/i.test(item.src);
           return (
@@ -89,6 +97,7 @@ export default function Hero({ heroImages, profileHero }: HeroProps) {
               <div
                 ref={(el) => { zoomRefs.current[i] = el; }}
                 className="absolute inset-0"
+                style={{ willChange: 'transform' }}
               >
                 {isVideo ? (
                   <video
@@ -136,7 +145,7 @@ export default function Hero({ heroImages, profileHero }: HeroProps) {
       </motion.div>
 
       {/* Bottom right: project label + progress bars */}
-      <div className="absolute bottom-6 right-6 md:right-12 z-20 flex items-center gap-4">
+      <div className="absolute bottom-14 md:bottom-6 right-6 md:right-12 z-20 hidden md:flex items-center gap-4">
         <AnimatePresence mode="wait">
           {currentItem?.projectName && currentItem?.projectSlug && (
             <motion.div
@@ -159,7 +168,7 @@ export default function Hero({ heroImages, profileHero }: HeroProps) {
 
         <div className="flex items-center gap-1.5">
           {shuffled.map((_, i) => (
-            <div key={i} className="w-8 h-[2px] bg-white/25 overflow-hidden rounded-full">
+            <div key={i} className="w-5 md:w-8 h-[2px] bg-white/25 overflow-hidden rounded-full">
               {i === activeIndex ? (
                 <div key={progressKey} className="h-full bg-white animate-hero-progress" />
               ) : i < activeIndex ? (

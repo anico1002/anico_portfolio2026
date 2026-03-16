@@ -19,7 +19,7 @@ export default function About({ profileAbout }: AboutProps) {
     <section id="about" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-muted">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-[3fr_2fr] gap-16 items-start">
-          <ScrollReveal className="relative" y={50}>
+          <ScrollReveal className="relative -mx-6 md:mx-0 -mt-24 md:mt-0" y={50}>
             <div className="aspect-[1296/630] bg-accent overflow-hidden relative">
               <img
                 src="/about.webp"

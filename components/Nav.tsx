@@ -54,11 +54,11 @@ export default function Nav() {
 
       {/* Mobile menu */}
       <nav
-        className={`fixed inset-0 z-40 bg-primary flex items-center justify-center md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-primary flex items-end justify-end md:hidden transition-opacity duration-300 ${
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex flex-col gap-8 text-center">
+        <div className="flex flex-col gap-8 items-end pb-16 pr-6">
           {navLinks.map(({ key, href }) => (
             <Link
               key={key}

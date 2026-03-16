@@ -71,10 +71,7 @@ export default function Work({ projects }: WorkProps) {
     <section id="projects" className="py-24 md:py-32 px-6 md:px-12 lg:px-24">
       <ScrollReveal className="flex justify-between items-end mb-16">
         <div>
-          <p className="text-muted-foreground text-sm tracking-widest uppercase mb-2">
-            Portfolio
-          </p>
-          <h2 className="font-display text-4xl md:text-5xl font-semibold">
+          <h2 className="font-display text-4xl md:text-5xl font-extrabold">
             {locale === "es" ? "Trabajo seleccionado" : "Selected projects"}
           </h2>
         </div>
@@ -130,7 +127,7 @@ export default function Work({ projects }: WorkProps) {
                       </div>
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="font-display text-xl font-semibold mb-1 group-hover:text-secondary transition-colors">
+                          <h3 className="font-display text-xl font-extrabold mb-1 group-hover:text-secondary transition-colors">
                             {project.name}
                           </h3>
                           <p className="text-muted-foreground text-sm">
