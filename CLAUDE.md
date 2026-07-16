@@ -88,6 +88,9 @@ $FFMPEG -i input_src.mp4 -vcodec libx264 -crf 26 -preset slow \
 - **Content width:** `max-w-6xl mx-auto` with `px-6 md:px-12`
 - **Images:** always `object-cover`, never `object-contain`; use `aspect-[4/3]` or `aspect-[16/10]` ratios (no fixed px heights)
 - **Mobile project images:** full-width with `w-screen relative left-1/2 -translate-x-1/2` wrapper; `md:relative md:left-0 md:translate-x-0 md:w-full`
+- **Mobile full-bleed within padded section:** use `-mx-6 md:mx-0` to break out of `px-6`; add `-mt-24 md:mt-0` to also remove top section padding
+- **Typography weight:** headlines use `font-display font-extrabold`; `font-semibold` is not used for display text
+- **Hero zoom on mobile:** parallax (`imageY`) is disabled on mobile via `isMobile` state + `window.matchMedia`; zoom CSS animation needs `willChange: 'transform'` for iOS Safari GPU compositing
 - **Logo:** `public/anico_logo.svg` at `h-[22px] w-auto`; add `invert` on dark backgrounds
 - **Theme tokens** (Tailwind v4 inline in `globals.css`): `background` #fff, `foreground`/`primary` #0a0a0a, `muted` #f5f5f5, `border` #e5e5e5
 - **Locale:** hardcoded `"en"` in `context/AppContext.tsx` — the Spanish translations in `lib/i18n.ts` exist but are unused
