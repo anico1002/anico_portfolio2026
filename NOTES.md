@@ -50,6 +50,23 @@ el escaneo del filesystem.
 
 ## Pendientes
 
+- **Separar el portfolio en dos recorridos: app/web y videojuegos** (pedido el 2026-09-09).
+  Una **pantalla de selección inicial** donde el visitante elige por dónde entrar, y de ahí
+  **dos páginas independientes** — proyectos de web/app por un lado, portfolio de videojuegos
+  por otro. Son dos públicos distintos y hoy van mezclados.
+  Dicho como aviso, **no como encargo inmediato**: *«ya lo haremos»*.
+  - Referencia que trajo él, **como ejemplo y no como dirección cerrada**:
+    `https://www.art-yakushev.com/` y su página de proyectos `/work`. La vio en A1 y le
+    pareció brillante. Sin diseccionar todavía.
+  - Cuando se ataque, se empieza por una **búsqueda de referencia abierta** con varias
+    opciones para que elija él — es el protocolo, antes de proponer o codificar nada.
+  - Contexto medido (A1, sep-2026): el portfolio va hoy con **Inter** en todo y paleta
+    blanco/negro, e Inter es la tipografía **nº 1** en portfolios (36 sitios indexados) —
+    la elección actual es exactamente la media. En los héroes de portfolio casi ninguna
+    tipografía de titular se repite: ahí la tipografía es la firma. Valores de referencia
+    sobre 49 héroes: titular 22/**40**/68 px · cuerpo 14/**18**/20 · ratio ×3 · padding
+    15/**60**/176 · contenedor ~1.226 px · radio 16 · sombra 8 % · degradado 10 %.
+
 - **`.next.bak/` sin borrar** (aquí y en `anico_portfolio26_old`). Es caché regenerable; se puede
   tirar cuando Alberto dé el OK.
 - **Token de GitHub expuesto**: el remote `origin` lleva un `gho_…` en texto plano en la URL.
