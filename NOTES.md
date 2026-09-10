@@ -67,12 +67,14 @@ el escaneo del filesystem.
     sobre 49 héroes: titular 22/**40**/68 px · cuerpo 14/**18**/20 · ratio ×3 · padding
     15/**60**/176 · contenedor ~1.226 px · radio 16 · sombra 8 % · degradado 10 %.
 
-- **`.next.bak/` sin borrar** (aquí y en `anico_portfolio26_old`). Es caché regenerable; se puede
-  tirar cuando Alberto dé el OK.
-- **Token de GitHub expuesto**: el remote `origin` lleva un `gho_…` en texto plano en la URL.
-  Conviene revocarlo en GitHub → Settings → Developer settings y dejar el remote limpio
-  (`git remote set-url origin https://github.com/anico1002/anico_portfolio2026.git`), con las
-  credenciales en el keychain o vía `gh auth login`.
+- ~~`.next.bak/` sin borrar~~ — **resuelto el 2026-09-10**: borrada aquí y en
+  `anico_portfolio26_old` (593 MB de caché de Next de marzo, sin fuentes dentro).
+- ~~Token de GitHub expuesto en el remote~~ — **resuelto el 2026-09-10**: el remote quedó limpio
+  (`https://github.com/anico1002/anico_portfolio2026.git`). El token seguía vivo, pero nunca
+  llegó a subirse a ningún repo. La autenticación la dan `osxkeychain` y `gh auth`, así que el
+  token en la URL era redundante — verificado con `fetch`. **No hace falta revocarlo.**
+  Lo mismo se limpió en `CSS-Picker` y `ElReto-app-2026-Lovable`, y `sync-all.sh` ya no escribe
+  credenciales en su manifiesto (detalle en `_machine-config/README.md`).
 
 ## Comandos
 
