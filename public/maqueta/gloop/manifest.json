@@ -1,0 +1,4 @@
+[
+  { "file": "screens/equipos-noche-en-marcha.png", "kind": "image", "ratio": "1206/2622", "slot": "Pantalla clave · Equipos (inicio)", "note": "Captura nativa (simulador iPhone 18 Pro, build del 11-oct). Escenario night: héroe «Vuestra noche · El Piso» + lista de equipos." },
+  { "file": "screens/equipos-nueva-experiencia.png", "kind": "image", "ratio": "1206/2622", "slot": "Pantalla clave · Equipos (inicio)", "note": "Alternativa: escenario por defecto, héroe «Nueva experiencia · Sónar 2027» + lista de equipos." }
+]

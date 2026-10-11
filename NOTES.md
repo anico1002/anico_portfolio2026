@@ -48,6 +48,65 @@ Verificar que ha quedado arreglado contando en el log: `grep -c FATAL` a 0 y tan
 peticiones hayas hecho tú. Pasa sobre todo tras cambiar `public/projects/`, porque ahí se cachea
 el escaneo del filesystem.
 
+## 2026-10-11 (cierre) — MAQUETA DE HOME DE PRODUCT + CASO GLOOP (rama `case-study-maqueta`)
+
+Objetivo de Alberto: casos de estudio profesionales de sus apps (Gloop primero; luego El Reto,
+7News, Dovla, Interactius, WineUp) y una home de Product separada de Games. Enfoque y criterio de
+textos: memoria `casos-estudio-enfoque` (venderle a él de la idea al handoff, sin cliente, IA en
+todo, redacción tipo Metalab sin paja).
+
+**Dónde verlo:** `npm run dev` → `localhost:3000/maqueta/home` (clic en Gloop) y `/maqueta/gloop`.
+Piezas en `components/case-study/` (`primitives.tsx`, `SiteNav.tsx`, `SmoothScroll.tsx`).
+Dependencia nueva: `lenis`. Nada en producción; la web actual no se ha tocado.
+
+**Decidido (no relitigar):**
+- Referencias: **Metalab** (caso Midjourney) para concepto, tamaños (56/40/20/16 px a 1300) y
+  redacción; **Yakushev** para parallax (Lenis + tarjeta a su velocidad + imagen interna en sentido
+  contrario), cifras gigantes y titulares. Inspirarse fuerte, **no copiar** (se rechazó el crecer
+  con inclinación 3D de Yakushev por demasiado copiado).
+- Easings **exactos de Metalab** (sacados de su JS): máscara 0,8 s `Power3.easeInOut` con imagen
+  1,3 → 1; textos 0,8 s `Power3.easeOut` +90 px, escalonado 0,2; transición home → caso 1,5 s
+  `Power4.easeInOut`.
+- **Geist + Geist Mono** (antetítulos en minúscula); probadas y descartadas Bricolage e Inter.
+- **Cantos rectos** en todo (solo los móviles conservan la forma del iPhone). Sin selector
+  claro/oscuro: color por proyecto (Gloop = glows de la app, magenta ampliado y subido).
+- **Home → caso:** clic en la miniatura → crece EN LA HOME a pantalla completa → cambia de página →
+  la imagen se enmascara hacia arriba (franja de cabecera 56 %) → titular arriba-izq y ficha
+  abajo-der en diagonal. La miniatura de la home y la portada del caso son **la misma imagen**.
+- **Patrón de caso** (para todos): cabecera → intro a la izquierda + UN móvil con vídeo-resumen del
+  flujo completo → detalles. Una sola imagen que crece con el scroll por caso (la de la app nativa).
+- **Home de Product:** solo proyectos de producto (sin juegos ni marca/web). Primera pantalla:
+  titular + primer proyecto + párrafo abajo a la derecha; luego «19–26», el resto en rejilla
+  escalonada asimétrica con algunas tarjetas a sangre. Texto de tarjeta solo a un lado:
+  `01 / 2026` · nombre · descripción.
+
+**Valoración de Alberto al cerrar: «no estamos llegando al nivel de diseño de Yakushev».** La
+estructura y los efectos están; falta el salto de dirección de arte. Próxima sesión, empezar por
+ahí: diseccionar qué hace Yakushev a nivel gráfico (escala y contraste tipográfico, mezcla de
+pesos/estilos, detalles editoriales, ritmo de vacíos, texturas, micro-tipografía, hover/cursor,
+carga de la home) y proponer 2-3 direcciones antes de seguir puliendo layout. Con placeholders
+grises cuesta juzgarlo: conseguir antes material real (abajo).
+
+**PENDIENTE EN EL MACBOOK — capturas y vídeos nativos de Gloop** (en el Mac mini el simulador
+tiró SpringBoard y salieron popups: no repetir aquí). Compilar `Gloop-app/ios` en un derivedData
+fuera del repo, simulador sin ventana, `simctl status_bar override --time 9:41`, y abrir pantallas
+con argumentos (`-GloopSkipSplash YES -GloopScenario … -GloopTab … -GloopRoute …`). Rutas útiles
+(`GloopDesign/App/DebugLaunch.swift`): `night:piso`, `nightStart:piso`, `tab:piso`,
+`expense:piso:x1`, `debt:piso:you:marcos`, `chat:piso`, `crewResults:cracks`, `invite:piso`,
+`experienceJoin`, `experienceResult`, `event:<id>`; covers `crew:cracks`, `viewer:n14:0`,
+`game:piso:<id>`, `invitation`, `newTeam`, `route`. Pocos relanzamientos seguidos. Ojo: Podium,
+Culpable y De 0 a 100 son `GamePlaceholder` en nativo y Clones solo existe en la web; la ruleta
+solo se dispara tocando. **El vídeo-resumen del flujo completo**, mejor grabado en el iPhone.
+Destino: `public/maqueta/gloop/{screens,phone,hero}/`.
+**Las capturas nativas NO se suben** (repo público, UI sin publicar): `public/maqueta/gloop/screens/`
+está en `.gitignore`; las 2 que hay viven solo en el Mac mini. Alberto hará las imágenes estáticas
+(portada/miniatura, composiciones); los vídeos de móvil los hace Claude.
+
+**Otros pendientes de la maqueta:** textos definitivos (Alberto los está revisando; están en
+castellano, la web final va en inglés; validar la premisa de la intro) · ruta corta
+`anico.design/gloop` · contraseña opcional para casos sensibles (al final) · casos de El Reto
+(este sí con datos), 7News, Dovla, Interactius y WineUp (preguntarle lo que no se sepa).
+
 ## Pendientes
 
 - **Separar el portfolio en dos recorridos: app/web y videojuegos** (pedido el 2026-09-09).

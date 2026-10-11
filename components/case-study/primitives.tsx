@@ -1,0 +1,358 @@
+"use client";
+
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+
+/* Piezas de la maqueta de caso de estudio.
+   Los colores salen de variables CSS que fija cada caso (--case-bg, --case-fg…),
+   así cada proyecto elige su fondo sin depender de un modo claro/oscuro. */
+
+type Kind = "imagen" | "vídeo" | "diagrama" | "código";
+type From = "top" | "bottom" | "left" | "right";
+
+// Curvas de Metalab (sacadas de su código, GSAP → cubic-bezier).
+export const POWER3_INOUT = [0.645, 0.045, 0.355, 1] as const; // máscaras (0,8 s)
+export const POWER4_INOUT = [0.76, 0, 0.24, 1] as const; // miniatura → pantalla completa (1,5 s)
+export const POWER3_OUT = [0.215, 0.61, 0.355, 1] as const; // textos (0,8 s, +90 px)
+
+// Máscara cerrada según la dirección por la que entra la cortinilla.
+const CLOSED: Record<From, string> = {
+  top: "inset(0% 0% 100% 0%)",
+  bottom: "inset(100% 0% 0% 0%)",
+  left: "inset(0% 100% 0% 0%)",
+  right: "inset(0% 0% 0% 100%)",
+};
+
+/** Parallax externo (gesto Yakushev): el bloque entero se desplaza a su propia
+    velocidad mientras cruza la pantalla. `speed` en px de recorrido total
+    (positivo = va más lento que el scroll, negativo = más rápido). */
+export function Parallax({
+  children,
+  speed = 60,
+  className = "",
+}: {
+  children: React.ReactNode;
+  speed?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [speed / 2, -speed / 2]);
+  if (reduce) return <div className={className}>{children}</div>;
+  return (
+    <motion.div ref={ref} className={className} style={{ y }}>
+      {children}
+    </motion.div>
+  );
+}
+
+/** Medio completo: parallax externo + MaskReveal de Metalab (0,8 s, Power3.easeInOut: la
+    máscara se abre en una dirección mientras el contenido baja de escala 1,3 a 1) +
+    parallax interno sutil, con la
+    imagen moviéndose en sentido contrario dentro de su marco. */
+export function MaskReveal({
+  children,
+  from = "bottom",
+  speed = 60,
+  className = "",
+}: {
+  children: React.ReactNode;
+  from?: From;
+  speed?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const innerY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+
+  if (reduce) return <div className={className}>{children}</div>;
+  return (
+    <Parallax speed={speed} className={className}>
+      <motion.div
+        ref={ref}
+        className="overflow-hidden"
+        initial={{ clipPath: CLOSED[from] }}
+        whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
+        viewport={{ once: true, margin: "-10% 0px" }}
+        transition={{ duration: 0.8, ease: POWER3_INOUT }}
+      >
+        <motion.div
+          initial={{ scale: 1.3 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true, margin: "-10% 0px" }}
+          transition={{ duration: 0.8, ease: POWER3_INOUT }}
+        >
+          {/* Parallax interno: escala 1.12 para que el desplazamiento no deje bordes. */}
+          <motion.div style={{ y: innerY, scale: 1.12 }}>{children}</motion.div>
+        </motion.div>
+      </motion.div>
+    </Parallax>
+  );
+}
+
+/** Momento grande: una ventana recortada en el centro que se abre con el scroll
+    hasta quedar a sangre, con el contenido desescalándose y en parallax. */
+export function WindowReveal({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const inset = useTransform(scrollYProgress, [0.05, 0.5], [18, 0]);
+  const side = useTransform(scrollYProgress, [0.05, 0.5], [26, 0]);
+    const clipPath = useTransform(
+    [inset, side],
+    ([i, s]) => `inset(${i}% ${s}% ${i}% ${s}%)`
+  );
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1.3, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
+
+  if (reduce) return <div className="h-[100svh] w-full">{children}</div>;
+
+  return (
+    <div ref={ref} className="relative h-[120svh] w-full">
+      <motion.div className="absolute inset-0 overflow-hidden" style={{ clipPath }}>
+        <motion.div className="h-full w-full" style={{ scale, y }}>
+          {children}
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
+// Transición home → caso (como HOMEPAGE_TO_CASE_STUDY de Metalab): la miniatura crece EN
+// LA HOME hasta pantalla completa (1,5 s, Power4.easeInOut) y solo entonces se cambia de
+// página. La home deja esta marca para que el caso arranque ya con la imagen a pantalla
+// completa, sin entrada propia: así no se nota el cambio.
+export const FLIGHT_KEY = "case-flight";
+export const FLIGHT_S = 1.5;
+
+/** ¿Se llega al caso desde la miniatura de la home (imagen ya a pantalla completa)? */
+function readFlight(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return sessionStorage.getItem(FLIGHT_KEY) === "landed";
+  } catch {
+    return false;
+  }
+}
+
+/** Bloque de texto que entra con barrido de máscara desde abajo (0,8 s, Power3.easeInOut)
+    mientras sube 90 px (Power3.easeOut), como los textos de Metalab. */
+export function MaskText({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
+  return (
+    <motion.div
+      className={className}
+      initial={{ clipPath: CLOSED.bottom, y: 90 }}
+      animate={{ clipPath: "inset(0% 0% 0% 0%)", y: 0 }}
+      transition={{
+        clipPath: { duration: 0.8, ease: POWER3_INOUT, delay },
+        y: { duration: 0.8, ease: POWER3_OUT, delay },
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Cabecera del caso. Si se llega desde la home, la imagen ya viene a pantalla completa
+    (creció allí); si no, entra con la máscara de Metalab. Después se enmascara hacia arriba
+    y queda como franja de cabecera, y en el hueco de abajo entra `overlay` (titular y
+    ficha) con barridos de máscara. La portada funde al vídeo (`children`) cuando exista.
+    Con el scroll, parallax sutil de la imagen. */
+export function CaseHero({
+  poster,
+  children,
+  overlay,
+  videoReady = false,
+}: {
+  poster: React.ReactNode;
+  children: React.ReactNode;
+  overlay: (textDelay: number) => React.ReactNode;
+  /** Mientras no haya vídeo real, la portada se queda (no funde a un placeholder). */
+  videoReady?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  // Se lee en el primer render: así la cabecera sabe si debe aparecer ya montada.
+  const [flown] = useState(readFlight);
+  useEffect(() => {
+    try {
+      sessionStorage.removeItem(FLIGHT_KEY);
+    } catch {}
+  }, []);
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
+
+  // Secuencia: imagen a pantalla completa → se enmascara hacia arriba (máscara de Metalab,
+  // 0,8 s, Power3.easeInOut) y queda como franja de cabecera → entran titular y ficha en
+  // el hueco de abajo. Si se entra directo, antes la imagen aparece con su máscara.
+  const BAND = 44; // % de pantalla que la imagen deja libre abajo para los textos
+  const full = "inset(0% 0% 0% 0%)";
+  const band = `inset(0% 0% ${BAND}% 0%)`;
+  const retractAt = flown ? 0.35 : 1.1;
+  const textDelay = retractAt + 0.45;
+  const posterFade = textDelay + 1.6;
+
+  const clip = reduce
+    ? { initial: false as const, animate: { clipPath: band } }
+    : flown
+      ? {
+          initial: { clipPath: full },
+          animate: { clipPath: band },
+          transition: { duration: 0.8, ease: POWER3_INOUT, delay: retractAt },
+        }
+      : {
+          initial: { clipPath: CLOSED.bottom },
+          animate: { clipPath: [CLOSED.bottom, full, full, band] },
+          transition: { duration: 0.8 + 0.3 + 0.8, ease: POWER3_INOUT, times: [0, 0.42, 0.58, 1] },
+        };
+
+  return (
+    <section ref={ref} className="relative h-[100svh] w-full overflow-hidden">
+      <motion.div className="absolute inset-0" {...clip}>
+        <motion.div className="absolute inset-0" style={reduce ? undefined : { y: mediaY }}>
+          {children}
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: videoReady ? 0 : 1 }}
+            transition={{ duration: 1, delay: posterFade }}
+          >
+            {poster}
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      {/* Degradado arriba para que la nav se lea sobre la imagen. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[18%]"
+        style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--case-bg) 55%, transparent), transparent)" }}
+      />
+      <div className="absolute inset-x-0 bottom-0" style={{ height: `${BAND}%` }}>
+        {overlay(textDelay)}
+      </div>
+    </section>
+  );
+}
+
+/** Imagen o vídeo real (por extensión). Vídeo: en bucle, mudo y en línea, como el hero
+    del portfolio. Cubre el contenedor (object-cover). */
+function Media({ src, alt }: { src: string; alt: string }) {
+  const cls = "absolute inset-0 h-full w-full object-cover";
+  if (/\.(mp4|webm|mov)$/i.test(src))
+    return <video className={cls} src={src} autoPlay muted loop playsInline aria-label={alt} />;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img className={cls} src={src} alt={alt} />;
+}
+
+/** Caja con el medio real (`src`) o, mientras no exista, gris con la indicación de qué
+    imagen va ahí. */
+export function Placeholder({
+  kind = "imagen",
+  label,
+  ratio = "16/9",
+  src,
+  className = "",
+}: {
+  kind?: Kind;
+  label: string;
+  ratio?: string;
+  src?: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative w-full overflow-hidden bg-[var(--case-ph)] ${className}`}
+      style={{ aspectRatio: ratio }}
+    >
+      {src ? (
+        <Media src={src} alt={label} />
+      ) : (
+        <>
+          <span className="absolute left-4 top-4 border border-[var(--case-line)] px-2.5 py-1 font-[family-name:var(--font-case-mono)] text-[11px] uppercase tracking-[0.08em] text-[var(--case-muted)]">
+            {kind === "vídeo" ? "▶ vídeo" : kind}
+          </span>
+          <p className="absolute inset-x-4 bottom-4 max-w-[46ch] text-[13px] leading-snug text-[var(--case-muted)]">
+            {label}
+          </p>
+        </>
+      )}
+    </div>
+  );
+}
+
+/** Móvil (proporción iPhone 393×852): pantalla real (`src`) o placeholder gris. */
+export function Phone({ label, src, className = "" }: { label: string; src?: string; className?: string }) {
+  return (
+    <div className={`w-full ${className}`}>
+      <div
+        className="relative mx-auto w-full overflow-hidden rounded-[13%/6%] border border-[var(--case-line)] bg-[var(--case-ph)]"
+        style={{ aspectRatio: "393/852" }}
+      >
+        {src ? (
+          <Media src={src} alt={label} />
+        ) : (
+          <>
+            <div className="absolute left-1/2 top-[2.4%] h-[3.2%] w-[30%] -translate-x-1/2 rounded-full bg-[var(--case-bg)]" />
+            <p className="absolute inset-x-[10%] bottom-[6%] text-center text-[12px] leading-snug text-[var(--case-muted)]">
+              {label}
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** Aparición con desenfoque → foco (el gesto de los textos de Yakushev). */
+export function FadeIn({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      className={className}
+      initial={reduce ? false : { opacity: 0, y: 32, filter: "blur(14px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-12% 0px" }}
+      transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Antetítulo en mono (los «Introduction», «The vision»… de Metalab). */
+export function Eyebrow({ children }: { children: React.ReactNode }) {
+  return <p className="mb-6 font-[family-name:var(--font-case-mono)] text-[clamp(13px,1.1vw,15px)] text-[var(--case-muted)]">
+      {children}
+    </p>;
+}
+
+/** Pie de texto que acompaña a un medio grande. */
+export function Caption({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <p className={`max-w-[34ch] text-[clamp(14px,1.25vw,16px)] leading-[1.45] text-[var(--case-muted)] ${className}`}>
+      {children}
+    </p>
+  );
+}

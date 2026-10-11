@@ -48,3 +48,6 @@ build/
 .env.*
 .vite/
 coverage/
+
+# Capturas nativas de Gloop sin publicar (repo público)
+/public/maqueta/gloop/screens/
