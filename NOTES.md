@@ -107,6 +107,13 @@ castellano, la web final va en inglés; validar la premisa de la intro) · ruta 
 `anico.design/gloop` · contraseña opcional para casos sensibles (al final) · casos de El Reto
 (este sí con datos), 7News, Dovla, Interactius y WineUp (preguntarle lo que no se sepa).
 
+**Carpeta fantasma en el escritorio (2026-10-11).** Apareció `~/Desktop/Vibe_Projects/anico_portfolio2026`
+**vacía** (sin archivos ni git), creada a las 17:55 durante la sesión. Ningún script de
+`_machine-config` crea esa ruta; lo más probable es que la creara una herramienta de Claude que aún
+tenía la ruta vieja de antes de la mudanza de julio. Borrada con `rmdir` (solo borra vacías), con OK
+de Alberto. El trabajo estaba íntegro aquí. Si reaparece: buscar qué la crea antes de borrarla, y
+**nunca** `rm -r` ahí sin mirar dentro.
+
 ## Pendientes
 
 - **Separar el portfolio en dos recorridos: app/web y videojuegos** (pedido el 2026-09-09).
