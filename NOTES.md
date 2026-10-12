@@ -57,7 +57,10 @@ Todo sale ya de dos archivos; **no meter valores sueltos** en componentes:
   móvil, suelo 13 px en escritorio), escala tipográfica `.t-label … .t-d1` (tabla dentro, con mínimos de
   legibilidad en los pequeños), variables `--ease-*`/`--dur-*` y `.hov` (hover 0,8 entra / 0,3 sale).
 Excepciones a propósito: `FitTitle` (se mide) y el «Siguiente caso» en vw (se rehace en B5).
-Pendiente del bloque A: **A3** (motivo de marca: Alberto lo piensa) y **A4** (intro: propuestas en el chat).
+**Standby (Alberto, 2026-10-12): A3 y A4 juntos, hasta tener motivo de marca.** Propuestas de intro
+(solo primera visita, ~2 s, scroll bloqueado): 1) la línea central que se dibuja y se abre en la
+entrada B (si la línea acaba siendo el motivo); 2) contador de años tipo cuentakilómetros; 3) «anico»
+letra a letra en gigante que encoge hasta el logo del menú. Recomendada: 1, o 3 si no hay línea.
 Siguiente: bloque B.
 
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-12, MacBook)
