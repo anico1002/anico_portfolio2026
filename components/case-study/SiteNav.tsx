@@ -27,7 +27,9 @@ const items = [
 
 type Key = (typeof items)[number][0];
 
-export default function SiteNav({ active = "product" }: { active?: Key | null }) {
+/** `menu={false}`: solo logo y sol/luna (en la entrada partida, donde las dos mitades ya son
+    la elección y un menú encima sobraría). */
+export default function SiteNav({ active = "product", menu = true }: { active?: Key | null; menu?: boolean }) {
   const [open, setOpen] = useState(false);
 
   // Menú de móvil abierto: scroll parado; se cierra solo si la pantalla pasa a escritorio.
@@ -51,7 +53,7 @@ export default function SiteNav({ active = "product" }: { active?: Key | null })
           <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
         </TLink>
         <div className="flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6">
-          {items.map(([key, label, href]) => (
+          {menu && items.map(([key, label, href]) => (
             <TLink
               key={key}
               href={href}
@@ -62,9 +64,11 @@ export default function SiteNav({ active = "product" }: { active?: Key | null })
               {key === active ? label : <BlurText text={label} />}
             </TLink>
           ))}
-          <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
-            Menú
-          </button>
+          {menu && (
+            <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
+              Menú
+            </button>
+          )}
           <ThemeToggle />
         </div>
       </nav>

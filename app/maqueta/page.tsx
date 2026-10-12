@@ -133,7 +133,7 @@ export default function EntryB() {
   }, []);
   return (
     <main className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased md:flex-row">
-      <SiteNav active={null} />
+      <SiteNav active={null} menu={false} />
       {sides.map((s, i) => {
         const left = i === 0;
         const picked = chosen === s.key;
