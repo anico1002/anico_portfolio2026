@@ -2,7 +2,7 @@
 
 /* Logo de anico con cada letra suelta (trazos de public/anico_logo.svg, de izquierda a derecha).
    Lo usa el barrido entre páginas como indicador de carga (2026-10-12; sustituye al relleno de
-   izquierda a derecha, demasiado típico): las letras empiezan desordenadas y desenfocadas y,
+   izquierda a derecha, demasiado típico): las letras empiezan a otra altura (solo en vertical) y desenfocadas y,
    según avanza la carga, vuelven a su sitio enfocándose, con el mismo desenfoque y la misma
    ola escalonada que el hover del menú. Colorea con `currentColor`. */
 
@@ -17,16 +17,16 @@ export const LETTERS = [
 /** Desorden de cada letra en unidades del dibujo (el logo mide 439×96): [x, y]. */
 export type Scatter = [number, number][];
 
-/** Desorden nuevo, parecido al de referencia (a abajo, n e ı arriba, c abajo, o algo arriba a la
-    derecha) pero distinto cada vez dentro de unos márgenes. */
+/** Desorden nuevo, solo vertical (cada letra en su columna, a otra altura): a abajo, n e ı
+    arriba, c abajo, o algo arriba. Distinto cada vez dentro de unos márgenes. */
 export function scatter(): Scatter {
   const r = (a: number, b: number) => a + Math.random() * (b - a);
   return [
-    [r(-110, -70), r(60, 105)], // a: abajo y a la izquierda
-    [r(-45, -15), r(-110, -70)], // n: arriba
-    [r(10, 40), r(-140, -95)], // ı: más arriba
-    [r(60, 100), r(85, 130)], // c: abajo
-    [r(115, 155), r(-25, 25)], // o: a la derecha
+    [0, r(60, 105)], // a: abajo
+    [0, r(-110, -70)], // n: arriba
+    [0, r(-140, -95)], // ı: más arriba
+    [0, r(85, 130)], // c: abajo
+    [0, r(-45, -15)], // o: algo arriba
   ];
 }
 
