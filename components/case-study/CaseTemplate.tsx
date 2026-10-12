@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
 import {
   CaseHero,
+  CaseHeroOverlay,
   Eyebrow,
   FadeIn,
   MaskReveal,
-  MaskText,
   Parallax,
   Phone,
   Placeholder,
@@ -237,8 +237,6 @@ export default function CaseTemplate({
   media: CaseMedia;
   next: { name: string; href: string; thumb?: string };
 }) {
-  // Cuanto más largo el nombre, menor el cuerpo (puede ir a dos líneas).
-  const nameVw = Math.min(12, 150 / c.name.length);
   const facts: [string, string][] = [
     ["Para", c.client ?? "Proyecto propio"],
     ["Rol", c.role],
@@ -260,33 +258,7 @@ export default function CaseTemplate({
       <CaseHero
         videoReady={!!media.hero && media.hero.src !== media.thumb}
         poster={<Placeholder ratio="auto" className="h-full" src={media.thumb} label={c.name} />}
-        overlay={(t) => (
-          <div className={`${grid} h-full content-between gap-y-6 pb-6 pt-4 md:pb-7 md:pt-3 ${wrap}`}>
-            <div className="col-span-12 self-start overflow-hidden md:col-span-8">
-              <motion.h1
-                className="font-extrabold leading-[0.88] tracking-[-0.045em]"
-                style={{ fontSize: `clamp(44px, ${nameVw}vw, 200px)` }}
-                initial={{ y: "100%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 0.8, ease: POWER3_INOUT, delay: t }}
-              >
-                {c.name}
-              </motion.h1>
-            </div>
-            <div className="col-span-12 self-end md:col-span-4 md:col-start-9">
-              <MaskText delay={t + 0.2}>
-                <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
-                  {facts.map(([k, v]) => (
-                    <div key={k}>
-                      <dt className={`${mono} text-[12px] text-[var(--case-muted)]`}>{k}</dt>
-                      <dd className="mt-1 text-[clamp(14px,1.1vw,16px)] leading-snug">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </MaskText>
-            </div>
-          </div>
-        )}
+        overlay={(t) => <CaseHeroOverlay name={c.name} facts={facts} delay={t} />}
       >
         {media.hero &&
           media.hero.src !== media.thumb &&

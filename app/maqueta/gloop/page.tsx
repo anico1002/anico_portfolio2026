@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import SiteNav from "@/components/case-study/SiteNav";
-import { motion } from "framer-motion";
 import {
   Caption,
   CaseHero,
+  CaseHeroOverlay,
   Eyebrow,
   FadeIn,
   MaskReveal,
   Parallax,
-  MaskText,
-  POWER3_INOUT,
   Phone,
   Placeholder,
   WindowReveal,
@@ -59,37 +57,16 @@ export default function GloopCase() {
           />
         }
         overlay={(t) => (
-          // En diagonal: titular arriba a la izquierda, ficha abajo a la derecha (la base del
-          // titular queda por encima de la ficha).
-          <div className={`${grid} h-full content-between gap-y-6 pb-6 pt-4 md:grid-rows-[1fr] md:pb-7 md:pt-3 ${wrap}`}>
-            <div className="col-span-12 self-start overflow-hidden md:col-span-7">
-              <motion.h1
-                className="text-[clamp(72px,12vw,200px)] font-extrabold leading-[0.85] tracking-[-0.045em]"
-                initial={{ y: "100%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 0.8, ease: POWER3_INOUT, delay: t }}
-              >
-                Gloop
-              </motion.h1>
-            </div>
-            <div className="col-span-12 self-end md:col-span-4 md:col-start-9">
-              <MaskText delay={t + 0.2}>
-                <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
-                  {[
-                    ["Proyecto", "App social para grupos de amigos"],
-                    ["Rol", "Lead Product Designer"],
-                    ["Entregables", "Estrategia · UX/UI · Design system · App nativa iOS"],
-                    ["Año", "2026 · En desarrollo"],
-                  ].map(([k, v]) => (
-                    <div key={k}>
-                      <dt className={`${mono} text-[12px] text-[var(--case-muted)]`}>{k}</dt>
-                      <dd className="mt-1 text-[clamp(14px,1.1vw,16px)] leading-snug">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </MaskText>
-            </div>
-          </div>
+          <CaseHeroOverlay
+            name="Gloop"
+            delay={t}
+            facts={[
+              ["Proyecto", "App social para grupos de amigos"],
+              ["Rol", "Lead Product Designer"],
+              ["Entregables", "Estrategia · UX/UI · Design system · App nativa iOS"],
+              ["Año", "2026 · En desarrollo"],
+            ]}
+          />
         )}
       >
         <Placeholder

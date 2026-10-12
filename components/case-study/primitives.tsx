@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 /* Piezas de la maqueta de caso de estudio.
    Los colores salen de variables CSS que fija cada caso (--case-bg, --case-fg…),
@@ -365,5 +365,74 @@ export function Caption({ children, className = "" }: { children: React.ReactNod
     <p className={`max-w-[34ch] text-[clamp(14px,1.25vw,16px)] leading-[1.45] text-[var(--case-muted)] ${className}`}>
       {children}
     </p>
+  );
+}
+
+/** Titular del caso en una sola línea a todo el ancho: mide el texto y ajusta el cuerpo para
+    llenar el hueco (tope 12vw / 200 px). Si en pantallas estrechas quedara por debajo de 44 px,
+    se permite partirlo en dos líneas. Sin estado: escribe el estilo directamente. */
+function FitTitle({ text, delay }: { text: string; delay: number }) {
+  const box = useRef<HTMLDivElement>(null);
+  const h = useRef<HTMLHeadingElement>(null);
+  useLayoutEffect(() => {
+    // El tamaño va en variables CSS del contenedor: motion.h1 reescribe su propio `style` al
+    // animar y pisaría un fontSize puesto en el titular.
+    const fit = () => {
+      const el = h.current;
+      const b = box.current;
+      if (!el || !b) return;
+      b.style.setProperty("--fit-ws", "nowrap");
+      b.style.setProperty("--fit", "100px");
+      el.style.width = "";
+      const size = Math.min(window.innerWidth * 0.12, 200, (100 * b.clientWidth) / el.scrollWidth);
+      if (size < 44) {
+        b.style.setProperty("--fit-ws", "normal");
+        b.style.setProperty("--fit", "44px");
+        el.style.width = "100%";
+      } else b.style.setProperty("--fit", `${size}px`);
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, [text]);
+  return (
+    <div ref={box} className="w-full overflow-hidden">
+      <motion.h1
+        ref={h}
+        className="w-max max-w-none font-extrabold leading-[0.88] tracking-[-0.045em] [font-size:var(--fit,clamp(44px,9vw,200px))] [white-space:var(--fit-ws,nowrap)]"
+        initial={{ y: "100%" }}
+        animate={{ y: "0%" }}
+        transition={{ duration: 0.8, ease: POWER3_INOUT, delay }}
+      >
+        {text}
+      </motion.h1>
+    </div>
+  );
+}
+
+/** Cabecera común a todos los casos (2026-10-12): titular arriba a la izquierda a todo el
+    ancho y en una línea; ficha debajo, a la derecha. */
+export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [string, string][]; delay: number }) {
+  return (
+    <div className="flex h-full flex-col justify-between gap-6 px-4 pb-6 pt-4 md:px-6 md:pb-7 md:pt-3">
+      <FitTitle text={name} delay={delay} />
+      <div className="grid grid-cols-12 gap-x-4 md:gap-x-6">
+        <div className="col-span-12 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
+          <MaskText delay={delay + 0.2}>
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
+              {facts.map(([k, v]) => (
+                <div key={k}>
+                  <dt className="font-[family-name:var(--font-case-mono)] text-[12px] uppercase tracking-[0.08em] text-[var(--case-muted)]">
+                    {k}
+                  </dt>
+                  <dd className="mt-1 text-[clamp(14px,1.1vw,16px)] leading-snug">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </MaskText>
+        </div>
+      </div>
+    </div>
   );
 }
