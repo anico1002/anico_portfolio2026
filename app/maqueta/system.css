@@ -159,8 +159,14 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 .ink[data-ink="light"] .ink-logo { filter: invert(1); }
 .ink[data-ink="dark"]  .ink-logo { filter: none; }
 
-/* Letras del logo de carga (LogoLetters): cada cambio de progreso se suaviza. */
-.logo-letter { transition: transform var(--dur-fast) var(--ease-out); }
+/* Rodillo del logo de carga (LogoLetters): el mismo gesto que el hover del menú (RollText),
+   misma duración, curva y ola de 15 ms por letra. */
+@keyframes logo-roll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+.logo-roll { animation: logo-roll var(--dur-base) var(--ease-in-out) both; animation-delay: calc(var(--i) * 15ms); }
+@media (prefers-reduced-motion: reduce) { .logo-roll { animation: none; } }
 
 /* Serif cursiva en palabras destacadas de los titulares (Instrument Serif Italic, con Instrument
    Sans). Algo más grande para que su altura de x case con la sans. */

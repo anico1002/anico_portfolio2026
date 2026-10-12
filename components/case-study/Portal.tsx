@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import LogoLetters from "@/components/case-study/LogoLetters";
 import { DUR, EASE } from "@/lib/maqueta/motion";
@@ -13,8 +13,8 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
    barrido sigue subiendo hasta descubrir la nueva. Es el mismo gesto del telón de la entrada
    (de abajo arriba). Se probaron los paneles laterales de Metalab y se descartaron por
    demasiado parecidos (2026-10-12). Con la pantalla tapada espera a que la página nueva esté lista
-   (ruta, fuentes, imágenes y vídeos de la primera pantalla; tope 6 s) y las letras del logo del
-   centro suben a su sitio dentro de su máscara con ese progreso. Mientras dura, la
+   (ruta, fuentes, imágenes y vídeos de la primera pantalla; tope 6 s) y mientras tanto el logo del
+   centro hace el rodillo del hover del menú, en bucle. Mientras dura, la
    capa se come los clics y el scroll queda parado (B6). La miniatura → caso y la entrada B
    tienen su propia transición; esta es la de todo lo demás. */
 
@@ -56,10 +56,13 @@ export function TLink({ href, onClick, ...rest }: React.ComponentProps<typeof Li
 
 const SHUT = "inset(0% 0% 0% 0%)";
 
+/** Un giro del rodillo del logo: su duración, la ola de 15 ms de las 5 letras y una pausa breve. */
+const ROLL_MS = DUR.base * 1000 + 4 * 15 + 150;
+
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 const twoFrames = () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
 /** Una imagen o un vídeo, listos para pintarse sin hueco. */
-function ready(m: HTMLImageElement | HTMLVideoElement): Promise<unknown> {
+function isReady(m: HTMLImageElement | HTMLVideoElement): Promise<unknown> {
   if (m instanceof HTMLImageElement) return m.complete && m.naturalWidth ? Promise.resolve() : m.decode();
   if (m.readyState >= 2) return Promise.resolve();
   return new Promise<void>((r) => m.addEventListener("loadeddata", () => r(), { once: true }));
@@ -79,38 +82,42 @@ export default function PortalLayer() {
     }
   }, [s, router]);
 
-  // Progreso de carga (0–1) que pinta el logo. Tramos: tapar 0 → 0,15 · llega la ruta 0,35 ·
-  // el resto se reparte entre fuentes, imágenes y vídeos que entran en la primera pantalla.
-  const [progress, setProgress] = useState(0);
-
-  // Tapada la pantalla: no se destapa hasta que la página nueva está lista (o pasan 6 s).
+  // Rodillo del logo: un giro nada más empezar a subir el barrido y, mientras la página nueva no
+  // esté lista, otro y otro. Al terminar la carga se acaba el giro en curso y se destapa.
+  const [cycle, setCycle] = useState(0);
+  const pathRef = useRef(path);
   useEffect(() => {
-    if (s.phase !== "covered") return;
-    if (path !== s.href) {
-      setProgress(0.15);
-      return;
-    }
+    pathRef.current = path;
+  }, [path]);
+
+  const active = s.phase === "closing" || s.phase === "covered";
+  useEffect(() => {
+    if (!active || reduced()) return;
     let alive = true;
-    setProgress(0.35);
+    let ready = false;
     (async () => {
-      await twoFrames();
-      const media = [...document.querySelectorAll<HTMLImageElement | HTMLVideoElement>("main img, main video")].filter((m) => {
-        const r = m.getBoundingClientRect();
-        return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
-      });
-      const waits = [document.fonts?.ready ?? Promise.resolve(), ...media.map(ready)];
-      let done = 0;
-      const tick = () => alive && setProgress(0.35 + (0.65 * ++done) / waits.length);
-      await Promise.race([Promise.all(waits.map((w) => w.then(tick, tick))), sleep(6000)]);
-      if (!alive) return;
-      setProgress(1);
-      await sleep(DUR.fast * 1000 + 4 * 40 + 60); // que la última letra (ola de 40 ms) llegue a su sitio
-      if (alive) set({ ...state, phase: "opening" });
+      // Lista = la ruta es la nueva y ya ha pintado fuentes, imágenes y vídeos de la primera
+      // pantalla (o han pasado 6 s, para no quedarse nunca tapado).
+      const settle = (async () => {
+        while (alive && (state.phase !== "covered" || pathRef.current !== state.href)) await sleep(50);
+        await twoFrames();
+        const media = [...document.querySelectorAll<HTMLImageElement | HTMLVideoElement>("main img, main video")].filter((m) => {
+          const r = m.getBoundingClientRect();
+          return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
+        });
+        await Promise.race([Promise.all([document.fonts?.ready, ...media.map((m) => isReady(m).catch(() => {}))]), sleep(6000)]);
+      })();
+      settle.then(() => (ready = true));
+      do {
+        setCycle((c) => c + 1);
+        await sleep(ROLL_MS);
+      } while (alive && !ready);
+      if (alive && state.phase === "covered") set({ ...state, phase: "opening" });
     })();
     return () => {
       alive = false;
     };
-  }, [s, path]);
+  }, [active]);
 
   if (s.phase === "idle") return null;
   const shut = s.phase === "closing" || s.phase === "covered";
@@ -129,7 +136,6 @@ export default function PortalLayer() {
             set({ ...state, phase: "covered" });
             router.push(state.href);
           } else if (state.phase === "opening") {
-            setProgress(0);
             set({ ...state, phase: "idle", href: null });
             scrollLock.start();
           }
@@ -137,9 +143,9 @@ export default function PortalLayer() {
       >
         {/* Logo fijo en el centro: la máscara lo descubre y lo vuelve a tapar al pasar. Va en
             el color del fondo (el panel es del color del texto) y al mismo tamaño que en la cabecera. */}
-        {/* Carga: las letras del logo suben a su sitio dentro de su máscara según avanza la carga.
+        {/* Carga: el logo hace el rodillo del menú, en bucle mientras carga la página nueva.
             En el color del fondo (el panel es del texto). */}
-        <LogoLetters progress={progress} className="h-[1.125rem] w-auto text-[var(--case-bg)] md:h-[1.375rem]" />
+        <LogoLetters cycle={cycle} className="h-[1.125rem] w-auto text-[var(--case-bg)] md:h-[1.375rem]" />
       </motion.div>
     </div>
   );

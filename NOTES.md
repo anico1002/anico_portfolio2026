@@ -41,7 +41,7 @@ los titulares (se marcan con `*asteriscos*` en el texto → `.serif-em`). Geist 
 
 El desenfoque se quitó de toda la maqueta (Safari lo hacía mal y es caro de animar). Equivalencias:
 hover de enlaces = letras que ruedan (`RollText`); entrada de textos (`FadeIn`, conserva el nombre) =
-barrido de abajo arriba; logo de carga = letras que suben por su máscara; «Siguiente caso» = ventana que
+barrido de abajo arriba; logo de carga = el rodillo del hover del menú, en bucle mientras carga; «Siguiente caso» = ventana que
 se abre; menú de móvil = capa sólida que baja; salida de titulares de la portada = máscara que sigue al
 borde entre mitades (lateral en escritorio, vertical en móvil), al ritmo de la imagen.
 
@@ -99,8 +99,8 @@ Siguiente: bloque B.
 (`components/case-study/Portal.tsx`: `TLink` y `go()`; **barrido vertical** de abajo arriba del color del
 texto, como el telón; los paneles laterales de Metalab se descartaron por demasiado copiados;
 con la pantalla tapada espera a que la página nueva esté lista —ruta, fuentes, imágenes y vídeos de la
-primera pantalla, tope 6 s— y las letras del logo del centro, al tamaño de la cabecera, vuelven a su sitio enfocándose con ese
-progreso (`LogoLetters.tsx`; desorden distinto cada vez; el relleno de izquierda a derecha se descartó por típico)); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
+primera pantalla, tope 6 s— y el logo del centro, al tamaño de la cabecera, hace el rodillo del hover del menú en bucle mientras carga
+(`LogoLetters.tsx`; antes relleno de izquierda a derecha, luego letras desordenadas: descartados)); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
 cabecera: se probó la placa de cristal de Metalab y **se descartó** (prefiere el menú en su sitio
 invirtiéndose, como Yakushev); hover del menú = desenfoque → foco letra a letra (`BlurText`); menú propio en móvil; llegada al
 caso en 1,2 s con 0,2 s de espera; «Siguiente caso» propio (`NextCase.tsx`): portada desenfocada que se enfoca
