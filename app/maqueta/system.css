@@ -174,7 +174,8 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
    acido · titular normal y palabras clave con degradado ácido (lima → cian en oscuro; en claro, un
            verde → azul eléctrico más profundo, porque lima y cian no se leen sobre blanco)
    mezcla · el titular en gris y las palabras clave con el degradado ácido
-   serif · Instrument Serif cursiva (la anterior). */
+   serif · Instrument Serif cursiva (la anterior)
+   imagen · ventana con imágenes de la sección dentro de la frase (`[m]` en el texto). */
 .kw { font-style: normal; }
 #case-root[data-em="color"] .t-hero { color: var(--case-muted); }
 #case-root[data-em="color"] .kw { color: var(--case-fg); }
@@ -193,3 +194,16 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
    en Instrument Sans (la misma familia que el resto), mayúsculas espaciadas y peso medio. Se probaron
    Geist Mono e Instrument Serif (recta y cursiva) y se descartaron (2026-10-12). */
 .t-tag { font-family: var(--font-case-sans), sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* Ventana dentro de la frase (`[m]`, opción «imagen»). Cantos rectos como toda la maqueta; se abre con
+   máscara desde el centro cuando entra el titular. Fuera de ?em=imagen no ocupa sitio. */
+.inline-media { display: none; }
+#case-root[data-em="imagen"] .inline-media {
+  display: inline-block; position: relative; overflow: hidden;
+  width: 1.7em; height: 0.78em; margin: 0 0.06em; vertical-align: -0.02em;
+  background: var(--case-ph);
+  clip-path: inset(0 50% 0 50%);
+  transition: clip-path var(--dur-base) var(--ease-in-out) 0.4s;
+}
+#case-root[data-em="imagen"] .inline-media.is-open { clip-path: inset(0 0 0 0); }
+.inline-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }

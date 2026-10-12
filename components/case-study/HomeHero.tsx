@@ -18,10 +18,30 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
 
 const SLIDE_MS = 2600; // cada diapositiva del pase (fundido + zoom lento de salida)
 
-/** `*palabras*` del titular → palabras clave (`.kw`); cómo se destacan lo decide el CSS (`?em=`). */
-const withEm = (t: string) =>
-  t.split(/(\*[^*]+\*)/).map((part, i) =>
-    part.startsWith("*") ? (
+/** Ventana pequeña dentro de la frase (opción «imagen» del énfasis, a prueba): pasa las imágenes de
+    la sección en corte rápido, como un montaje. Solo se ve con `?em=imagen` (CSS `.inline-media`). */
+function InlineMedia({ slides, open }: { slides: readonly string[]; open: boolean }) {
+  const [k, setK] = useState(0);
+  useEffect(() => {
+    if (!open) return;
+    const id = setInterval(() => setK((n) => (n + 1) % slides.length), 700);
+    return () => clearInterval(id);
+  }, [open, slides.length]);
+  return (
+    <span className={`inline-media ${open ? "is-open" : ""}`} aria-hidden>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={slides[k]} alt="" />
+    </span>
+  );
+}
+
+/** `*palabras*` del titular → palabras clave (`.kw`; cómo se destacan lo decide el CSS, `?em=`).
+    `[m]` → ventana con imágenes dentro de la frase. */
+const withEm = (t: string, slides: readonly string[], open: boolean) =>
+  t.split(/(\*[^*]+\*|\[m\])/).map((part, i) =>
+    part === "[m]" ? (
+      <InlineMedia key={i} slides={slides} open={open} />
+    ) : part.startsWith("*") ? (
       <em key={i} className="kw">
         {part.slice(1, -1)}
       </em>
@@ -118,10 +138,10 @@ export default function HomeHero({
             <h1 className="col-span-12 md:col-span-8">
               {retracted ? (
                 <MaskText delay={DUR.slow / 2}>
-                  <span className="block t-hero">{withEm(title)}</span>
+                  <span className="block t-hero">{withEm(title, slides, true)}</span>
                 </MaskText>
               ) : (
-                <span className="block t-hero opacity-0">{withEm(title)}</span>
+                <span className="block t-hero opacity-0">{withEm(title, slides, false)}</span>
               )}
             </h1>
           </div>

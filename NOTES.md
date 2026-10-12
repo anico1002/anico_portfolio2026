@@ -38,6 +38,13 @@ solo estilo `.t-tag`: Instrument Sans 500, MAYÚSCULAS, espaciado 0,1 em (se pro
 Instrument Serif; descartadas). Geist Mono ya no se carga. Display a peso 700 (Instrument Sans no llega a 800). Intro de las homes
 `.t-hero` a 64 px (empezó en 80). Las máscaras de texto llevan margen por abajo para no cortar g/j/p.
 
+## Énfasis en titulares (en prueba, 2026-10-12)
+
+Recurso sans + serif cursiva: le gusta pero lo ve **trillado**. Gris + palabras en color pleno:
+**descartado** (pierde potencia). **Degradado ácido en las palabras clave: le gusta mucho**, pero el color
+necesita un fundamento y más usos (no solo ahí); idea: **verde ácido para Games, violeta ácido para
+Product**. Pendiente decidir. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen` (en `layout.tsx`).
+
 ## Sin desenfoques: todo es máscara (2026-10-12)
 
 El desenfoque se quitó de toda la maqueta (Safari lo hacía mal y es caro de animar). Equivalencias:
