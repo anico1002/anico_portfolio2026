@@ -22,6 +22,30 @@ const CLOSED: Record<From, string> = {
   right: "inset(0% 0% 0% 100%)",
 };
 
+/** ¿Ha entrado ya en pantalla? (una vez). Sustituye a `whileInView` de framer-motion: en Safari,
+    al llegar a una página navegando (no recargando), su detector no se disparaba nunca y los
+    bloques se quedaban invisibles (2026-10-12). Este usa el IntersectionObserver del navegador
+    directamente, que sí funciona. `margin` como el rootMargin de CSS. */
+export function useSeen<T extends Element>(ref: React.RefObject<T | null>, margin = "0px") {
+  const [seen, setSeen] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || seen) return;
+    const io = new IntersectionObserver(
+      (es) => {
+        if (es.some((e) => e.isIntersecting)) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: margin }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref, margin, seen]);
+  return seen;
+}
+
 /** Parallax externo (gesto Yakushev): el bloque entero se desplaza a su propia
     velocidad mientras cruza la pantalla. `speed` en px de recorrido total
     (positivo = va más lento que el scroll, negativo = más rápido). */
@@ -65,6 +89,7 @@ export function MaskReveal({
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const innerY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const seen = useSeen(ref, "-10% 0px");
 
   if (reduce) return <div className={className}>{children}</div>;
   return (
@@ -73,14 +98,12 @@ export function MaskReveal({
         ref={ref}
         className="overflow-hidden"
         initial={{ clipPath: CLOSED[from] }}
-        whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
-        viewport={{ once: true, margin: "-10% 0px" }}
+        animate={{ clipPath: seen ? "inset(0% 0% 0% 0%)" : CLOSED[from] }}
         transition={{ duration: DUR.base, ease: EASE.inOut }}
       >
         <motion.div
           initial={{ scale: 1.3 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
+          animate={{ scale: seen ? 1 : 1.3 }}
           transition={{ duration: DUR.base, ease: EASE.inOut }}
         >
           {/* Parallax interno: escala 1.12 para que el desplazamiento no deje bordes. */}
@@ -348,12 +371,15 @@ export function FadeIn({
   className?: string;
 }) {
   const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const seen = useSeen(ref, "-12% 0px");
+  const hidden = { opacity: 0, y: 32, filter: "blur(14px)" };
   return (
     <motion.div
+      ref={ref}
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 32, filter: "blur(14px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-12% 0px" }}
+      initial={reduce ? false : hidden}
+      animate={reduce || seen ? { opacity: 1, y: 0, filter: "blur(0px)" } : hidden}
       transition={{ duration: DUR.slow, delay, ease: EASE.out }}
     >
       {children}

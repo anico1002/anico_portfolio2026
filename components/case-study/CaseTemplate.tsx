@@ -14,6 +14,7 @@ import {
   Phone,
   Placeholder,
   WindowReveal,
+  useSeen,
 } from "@/components/case-study/primitives";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import type { CaseCopy } from "@/lib/maqueta/cases";
@@ -43,13 +44,15 @@ function Reveal({ children, from = "bottom", speed = 60 }: { children: React.Rea
     left: "inset(0% 100% 0% 0%)",
     right: "inset(0% 0% 0% 100%)",
   }[from];
+  const ref = useRef<HTMLDivElement>(null);
+  const seen = useSeen(ref, "-8% 0px");
   if (reduce) return <div>{children}</div>;
   return (
     <Parallax speed={speed}>
       <motion.div
+        ref={ref}
         initial={{ clipPath: closed }}
-        whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
-        viewport={{ once: true, margin: "-8% 0px" }}
+        animate={{ clipPath: seen ? "inset(0% 0% 0% 0%)" : closed }}
         transition={{ duration: DUR.base, ease: EASE.inOut }}
       >
         {children}

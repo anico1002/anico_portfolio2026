@@ -30,6 +30,14 @@ icono de la app de la 'S' geométrica al **rayo** — y corregido el copy de
 Ojo: esas 3 imágenes se habían actualizado **en la carpeta vieja** por error. Si algún cambio de
 assets "no se ve", comprobar primero en cuál de las dos carpetas se tocó.
 
+## Safari: no usar `whileInView` de framer-motion
+
+En Safari, al llegar a una página navegando (no recargando), el detector de `whileInView` no se
+disparaba nunca y los bloques con entrada se quedaban invisibles: páginas en blanco tras el barrido
+(2026-10-12; en Chrome no pasaba). Las entradas usan `useSeen()` de `components/case-study/primitives.tsx`,
+que va sobre el IntersectionObserver del navegador. Para comprobar en WebKit sin Safari:
+`PLAYWRIGHT_BROWSERS_PATH=<scratchpad>/pw-browsers npx playwright-core install webkit`.
+
 ## Si el dev server se vuelve loco
 
 Síntoma: la página se autorecarga sin parar, no responde, pero `curl` devuelve 200. En el log,
