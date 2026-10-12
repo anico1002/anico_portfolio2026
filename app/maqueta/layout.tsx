@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
+import FlightLayer from "@/components/case-study/Flight";
 
 // Maqueta de caso de estudio: Geist para todo (elegida frente a Inter y Bricolage,
 // 2026-10-11) y Geist Mono para antetítulos y etiquetas. Nada de esto toca el resto
@@ -49,6 +50,8 @@ export default function MaquetaLayout({ children }: { children: React.ReactNode 
       <style>{`html, body { overflow-x: clip; } html { scroll-behavior: auto; }${themes}`}</style>
       <SmoothScroll />
       {children}
+      {/* Capa de la transición home → caso: vive aquí para sobrevivir al cambio de página. */}
+      <FlightLayer />
     </div>
   );
 }

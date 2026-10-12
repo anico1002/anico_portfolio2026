@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { endFlight } from "@/components/case-study/Flight";
 
 /* Piezas de la maqueta de caso de estudio.
    Los colores salen de variables CSS que fija cada caso (--case-bg, --case-fg…),
@@ -190,7 +191,14 @@ export function CaseHero({
     try {
       sessionStorage.removeItem(FLIGHT_KEY);
     } catch {}
-  }, []);
+    if (!flown) return;
+    // Llegando desde la home: la capa del vuelo sigue encima. Se retira cuando la portada ya
+    // está pintada (y, si es vídeo, en el mismo fotograma), así no hay parpadeo.
+    const m = ref.current?.querySelector("[data-poster] img, [data-poster] video") as HTMLImageElement | HTMLVideoElement | null;
+    if (!m) endFlight();
+    else if (m instanceof HTMLVideoElement) endFlight(m);
+    else m.decode().then(() => endFlight(), () => endFlight());
+  }, [flown]);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const mediaY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
@@ -225,6 +233,7 @@ export function CaseHero({
         <motion.div className="absolute inset-0" style={reduce ? undefined : { y: mediaY }}>
           {children}
           <motion.div
+            data-poster
             className="absolute inset-0"
             initial={{ opacity: 1 }}
             animate={{ opacity: videoReady ? 0 : 1 }}

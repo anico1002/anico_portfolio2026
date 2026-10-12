@@ -2,17 +2,15 @@
 
 import Link from "next/link";
 import SiteNav from "@/components/case-study/SiteNav";
+import { markLanded, startFlight } from "@/components/case-study/Flight";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useRef, useState } from "react";
 import {
   Eyebrow,
   FadeIn,
-  FLIGHT_KEY,
-  FLIGHT_S,
   MaskReveal,
-  POWER4_INOUT,
+  POWER3_INOUT,
   Parallax,
   Placeholder,
 } from "@/components/case-study/primitives";
@@ -44,26 +42,33 @@ const layout: { col: string; ratio: string; offset: string; speed: number; bleed
   { col: "md:col-start-1 md:col-span-7", ratio: "4/3", offset: "md:mt-[40vh]", speed: 90, bleed: "left" },
 ];
 
-function Card({ p, i, slot, offset }: { p: P; i: number; slot: number; offset?: string }) {
+function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; offset?: string; onLeave?: () => void }) {
   // `i` numera el proyecto; `slot` es su hueco en la composición (las cifras ocupan uno).
   const l = layout[slot % layout.length];
   const router = useRouter();
   const frame = useRef<HTMLDivElement>(null);
-  const [grow, setGrow] = useState<DOMRect | null>(null);
 
-  // Al abrir un caso, la miniatura crece aquí mismo hasta pantalla completa y solo
-  // entonces se cambia de página (el caso arranca con esa imagen ya a pantalla completa).
+  // La página del caso se precarga ANTES del clic (al pasar por encima y, en reposo, al
+  // montarse la home): si se pidiera en el clic, su respuesta llegaría en mitad del vuelo y
+  // React la procesaría entonces, congelando la animación unos instantes.
+  useEffect(() => {
+    if (!p.href) return;
+    const href = p.href;
+    const idle = window.requestIdleCallback ?? ((f: () => void) => setTimeout(f, 1200));
+    const id = idle(() => router.prefetch(href));
+    return () => (window.cancelIdleCallback ? window.cancelIdleCallback(id as number) : clearTimeout(id as unknown as number));
+  }, [p.href, router]);
+
+  // Al abrir un caso, la miniatura crece hasta pantalla completa en la capa del layout
+  // (Flight) y solo entonces se cambia de página; el resto de la home se desvanece.
   const open = (e: React.MouseEvent) => {
     if (!p.href || !p.thumb || !frame.current) return;
     e.preventDefault();
-    router.prefetch(p.href);
-    setGrow(frame.current.getBoundingClientRect());
-  };
-  const landed = () => {
-    try {
-      sessionStorage.setItem(FLIGHT_KEY, "landed");
-    } catch {}
-    if (p.href) router.push(p.href);
+    onLeave?.();
+    startFlight(p.thumb, frame.current, () => {
+      markLanded();
+      if (p.href) router.push(p.href, { scroll: true });
+    });
   };
   // Texto solo en un lado (izquierda, bajo la imagen): número/año, nombre y descripción.
   const body = (
@@ -93,38 +98,8 @@ function Card({ p, i, slot, offset }: { p: P; i: number; slot: number; offset?: 
   // Yakushev; dentro, la imagen hace su parallax interno en sentido contrario.
   return (
     <Parallax speed={l.speed} className={`col-span-12 ${l.col} ${offset ?? l.offset}`}>
-      {/* Portal al body: dentro de la tarjeta (con transform) `fixed` no sería la pantalla. */}
-      {grow &&
-        p.thumb &&
-        createPortal(
-        /\.(mp4|webm|mov)$/i.test(p.thumb) ? (
-          <motion.video
-            src={p.thumb}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="pointer-events-none fixed left-0 top-0 z-[100] object-cover"
-            initial={{ x: grow.left, y: grow.top, width: grow.width, height: grow.height }}
-            animate={{ x: 0, y: 0, width: "100vw", height: "100svh" }}
-            transition={{ duration: FLIGHT_S, ease: POWER4_INOUT }}
-            onAnimationComplete={landed}
-          />
-        ) : (
-          <motion.img
-            src={p.thumb}
-            alt=""
-            className="pointer-events-none fixed left-0 top-0 z-[100] object-cover"
-            initial={{ x: grow.left, y: grow.top, width: grow.width, height: grow.height }}
-            animate={{ x: 0, y: 0, width: "100vw", height: "100svh" }}
-            transition={{ duration: FLIGHT_S, ease: POWER4_INOUT }}
-            onAnimationComplete={landed}
-          />
-        ),
-          document.body
-        )}
       {p.href ? (
-        <Link href={p.href} onClick={open} className="group block">
+        <Link href={p.href} onClick={open} onMouseEnter={() => p.href && router.prefetch(p.href)} className="group block">
           {body}
         </Link>
       ) : (
@@ -152,8 +127,12 @@ export default function HomeView({
   /** Bloque secundario bajo la rejilla (p. ej. «Marca y web» en Product). */
   more?: { eyebrow: string; title: string; items: P[] };
 }) {
+  const [leaving, setLeaving] = useState(false);
+  const leave = () => setLeaving(true);
   return (
-    <main
+    <motion.main
+      animate={{ opacity: leaving ? 0 : 1 }}
+      transition={{ duration: 0.8, ease: POWER3_INOUT }}
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
       <SiteNav active={active} />
@@ -171,7 +150,7 @@ export default function HomeView({
           las cifras del rango de años y el segundo proyecto; luego la rejilla escalonada. */}
       <section className={`mt-10 md:mt-12 ${wrap}`}>
         <div className={`${grid} gap-y-20 md:gap-y-0`}>
-          <Card p={items[0]} i={0} slot={0} offset="" />
+          <Card p={items[0]} i={0} slot={0} offset="" onLeave={leave} />
           <FadeIn delay={0.15} className="col-span-12 md:col-span-4 md:col-start-9 md:self-end md:pb-14">
             <p className="text-[clamp(16px,1.35vw,18px)] leading-[1.5] text-[var(--case-muted)]">{intro}</p>
           </FadeIn>
@@ -180,9 +159,9 @@ export default function HomeView({
               <p className="text-[clamp(96px,19vw,300px)] font-extrabold leading-[0.8] tracking-[-0.055em]">{years}</p>
             </FadeIn>
           </Parallax>
-          {items[1] && <Card p={items[1]} i={1} slot={1} offset="md:mt-24" />}
+          {items[1] && <Card p={items[1]} i={1} slot={1} offset="md:mt-24" onLeave={leave} />}
           {items.slice(2).map((p, k) => (
-            <Card key={p.name} p={p} i={k + 2} slot={k + 2} />
+            <Card key={p.name} p={p} i={k + 2} slot={k + 2} onLeave={leave} />
           ))}
         </div>
       </section>
@@ -197,7 +176,7 @@ export default function HomeView({
           </div>
           <div className={`${grid} gap-y-20 md:gap-y-0`}>
             {more.items.map((p, k) => (
-              <Card key={p.name} p={p} i={items.length + k} slot={k + 1} />
+              <Card key={p.name} p={p} i={items.length + k} slot={k + 1} onLeave={leave} />
             ))}
           </div>
         </section>
@@ -214,6 +193,6 @@ export default function HomeView({
           </Link>
         </FadeIn>
       </footer>
-    </main>
+    </motion.main>
   );
 }
