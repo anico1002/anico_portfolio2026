@@ -18,11 +18,11 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
 
 const SLIDE_MS = 2600; // cada diapositiva del pase (fundido + zoom lento de salida)
 
-/** `*palabras*` del titular → serif cursiva (`.serif-em`). */
+/** `*palabras*` del titular → palabras clave (`.kw`); cómo se destacan lo decide el CSS (`?em=`). */
 const withEm = (t: string) =>
   t.split(/(\*[^*]+\*)/).map((part, i) =>
     part.startsWith("*") ? (
-      <em key={i} className="serif-em">
+      <em key={i} className="kw">
         {part.slice(1, -1)}
       </em>
     ) : (
