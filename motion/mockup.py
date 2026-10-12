@@ -31,13 +31,11 @@ SETUPS = {
     "thumb": {
         "photo": f"{ROOT}/public/projects/swift-project/SwifT_thumb.png",
         # Perspectiva sacada de la propia foto: SIFT entre la landing real (en inglés, 1512 px) y
-        # la foto (210 puntos, error medio 0,25 px), refinada para que el borde superior caiga
-        # justo bajo la barra de menús. Pantalla centrada en el eje de la web (x = 756 px CSS),
-        # 1098 × 659 px CSS → estas esquinas. El canto derecho de la foto no es paralelo a la
-        # perspectiva del contenido (imperfección del montaje): se recorta con `clip`.
-        "quad": [(-300.2, 126.3), (916.6, 259.1), (1026.0, 943.4), (-247.0, 869.6)],
-        # Contorno real de la pantalla en la foto (bajo la barra de menús oscura, que se conserva).
-        "clip": [(-10, 158), (913, 255), (931, 762), (931, 1030), (-10, 1030)],
+        # la foto (210 puntos, error medio 0,25 px). Bordes medidos por píxeles (último blanco
+        # antes del bisel): el derecho cae en x = 1246 px CSS en todas las filas y el superior en
+        # y ≈ 3, justo bajo la barra de menús. Pantalla centrada en el eje de la web (756):
+        # 981 × 589 px CSS → estas esquinas. La franja gris de la derecha es el bisel, no pantalla.
+        "quad": [(-229.5, 137.2), (857.4, 255.6), (952.5, 866.6), (-179.1, 794.7)],
         "crop_top": 48,  # quita la barra de menús clara del vídeo
         "focus": (430, 480), "sharp": 210, "soft": 430, "max_sigma": 3.5,
         "shade_k": 161,
