@@ -82,7 +82,7 @@ export default function PortalLayer() {
     }
   }, [s, router]);
 
-  // Rodillo del logo: un giro nada más empezar a subir el barrido y, mientras la página nueva no
+  // Rodillo del logo: un giro en cuanto el barrido deja ver el logo y, mientras la página nueva no
   // esté lista, otro y otro. Al terminar la carga se acaba el giro en curso y se destapa.
   const [cycle, setCycle] = useState(0);
   const pathRef = useRef(path);
@@ -108,6 +108,9 @@ export default function PortalLayer() {
         await Promise.race([Promise.all([document.fonts?.ready, ...media.map((m) => isReady(m).catch(() => {}))]), sleep(6000)]);
       })();
       settle.then(() => (ready = true));
+      // El logo está en el centro: el barrido no lo descubre hasta media subida. Antes de eso el
+      // giro pasaría tapado, así que el primero espera a que se vea.
+      if (state.phase === "closing") await sleep(DUR.base * 1000 * 0.55);
       do {
         setCycle((c) => c + 1);
         await sleep(ROLL_MS);
