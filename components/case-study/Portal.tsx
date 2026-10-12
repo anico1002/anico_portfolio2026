@@ -105,9 +105,9 @@ export default function PortalLayer() {
         }}
       >
         {/* Logo fijo en el centro: la máscara lo descubre y lo vuelve a tapar al pasar. Va en
-            el color del fondo (el panel es del color del texto). */}
+            el color del fondo (el panel es del color del texto) y al mismo tamaño que en la cabecera. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/anico_logo.svg" alt="" className="h-[2rem] w-auto light-invert md:h-[2.5rem]" />
+        <img src="/anico_logo.svg" alt="" className="h-[1.125rem] w-auto light-invert md:h-[1.375rem]" />
       </motion.div>
     </div>
   );
