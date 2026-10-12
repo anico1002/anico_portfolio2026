@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
 import {
   CaseHero,
@@ -55,6 +55,28 @@ function Reveal({ children, from = "bottom", speed = 60 }: { children: React.Rea
         {children}
       </motion.div>
     </Parallax>
+  );
+}
+
+/** Como WindowReveal, pero con la proporción del propio medio (16:9 a todo el ancho): la
+    ventana se abre con el scroll y termina mostrando el vídeo entero, sin recorte. */
+function FeatureReveal({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
+  const inset = useTransform(scrollYProgress, [0.1, 1], [16, 0]);
+  const side = useTransform(scrollYProgress, [0.1, 1], [24, 0]);
+  const clipPath = useTransform([inset, side], ([i, sd]) => `inset(${i}% ${sd}% ${i}% ${sd}%)`);
+  const scale = useTransform(scrollYProgress, [0, 1], [1.18, 1]);
+  if (reduce) return <div className="aspect-video w-full">{children}</div>;
+  return (
+    <div ref={ref} className="relative aspect-video w-full">
+      <motion.div className="absolute inset-0 overflow-hidden" style={{ clipPath }}>
+        <motion.div className="h-full w-full" style={{ scale }}>
+          {children}
+        </motion.div>
+      </motion.div>
+    </div>
   );
 }
 
@@ -236,7 +258,7 @@ export default function CaseTemplate({
 
       {/* 0 · Cabecera: la miniatura (la misma que creció en la home) funde a la portada. */}
       <CaseHero
-        videoReady={!!media.hero}
+        videoReady={!!media.hero && media.hero.src !== media.thumb}
         poster={<Placeholder ratio="auto" className="h-full" src={media.thumb} label={c.name} />}
         overlay={(t) => (
           <div className={`${grid} h-full content-between gap-y-6 pb-6 pt-4 md:pb-7 md:pt-3 ${wrap}`}>
@@ -267,6 +289,7 @@ export default function CaseTemplate({
         )}
       >
         {media.hero &&
+          media.hero.src !== media.thumb &&
           (media.hero.video ? (
             <video className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} autoPlay muted loop playsInline />
           ) : (
@@ -321,7 +344,21 @@ export default function CaseTemplate({
         </section>
       )}
 
-      {/* 2 · Momento grande: la imagen de escenario del proyecto se abre a sangre. */}
+      {/* 2a · Momento grande del caso: su medio estrella crece hasta pantalla completa. */}
+      {c.feature && (
+        <div className="mt-28 md:mt-40">
+          <FeatureReveal>
+            {/\.(mp4|webm|mov)$/i.test(c.feature) ? (
+              <video className="h-full w-full object-cover" src={c.feature} autoPlay muted loop playsInline aria-label={c.name} />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={c.feature} alt={c.name} className="h-full w-full object-cover" />
+            )}
+          </FeatureReveal>
+        </div>
+      )}
+
+      {/* 2b · Momento grande: la imagen de escenario del proyecto se abre a sangre. */}
       {media.phone?.bg && (
         <div className="mt-28 md:mt-40">
           <WindowReveal>

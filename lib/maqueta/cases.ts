@@ -45,6 +45,8 @@ export type CaseCopy = {
       movimiento hechos con motion/mockup.py). */
   thumb?: string;
   hero?: string;
+  /** Medio que crece hasta pantalla completa con el scroll justo después de la intro. */
+  feature?: string;
 };
 
 export const CASES: CaseCopy[] = [
@@ -101,7 +103,10 @@ export const CASES: CaseCopy[] = [
     section: "product",
     // Mockups en movimiento (motion/swift-hero → motion/mockup.py sobre las fotos de concepto).
     thumb: "/maqueta/swift/thumb.mp4",
-    hero: "/maqueta/swift/hero.mp4",
+    // Cabecera = la misma miniatura que crece desde la home (sin cambio de plano); el vídeo
+    // horizontal del portátil se ve entero en el momento grande tras la intro.
+    hero: "/maqueta/swift/thumb.mp4",
+    feature: "/maqueta/swift/hero.mp4",
     name: "SwifT Translator",
     line: "Traductor para la barra de menús de macOS",
     year: "2026",
