@@ -5,7 +5,11 @@
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-12 noche, MacBook)
 
 Rama `case-study-maqueta`, todo commiteado y pusheado. `npm run dev` → `localhost:3000/maqueta`.
-Vista previa en Vercel (no producción) desplegada al cerrar: el enlace está en el chat de la sesión.
+**Demo pública de la maqueta: https://anico-maqueta.vercel.app** (proyecto de Vercel aparte, `anico-maqueta`,
+`prj_IPCyRe2TsbnQvF3UZ65J1x0NVSaX`; nada que ver con anico.design). La raíz redirige a `/maqueta` (solo en
+ese proyecto, `next.config.ts`). Para actualizarla, desde la rama:
+`VERCEL_ORG_ID=team_KTElqOD9OtNMTmjQ9Vc7BPgB VERCEL_PROJECT_ID=prj_IPCyRe2TsbnQvF3UZ65J1x0NVSaX vercel deploy --prod --yes`
+(sube los vídeos de Gloop aunque estén fuera de git, porque salen del disco: hacerlo desde el MacBook).
 
 **Hecho en esta sesión** (detalle en las secciones de arriba): bloque A (sistema de movimiento,
 escala tipográfica `.t-*`, escala fluida); bloque B (barrido vertical entre páginas con logo que hace el
