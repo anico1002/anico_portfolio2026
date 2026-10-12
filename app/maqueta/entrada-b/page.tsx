@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import SiteNav from "@/components/case-study/SiteNav";
-import { POWER3_INOUT, POWER3_OUT } from "@/components/case-study/primitives";
+import { POWER3_INOUT, POWER3_OUT, POWER4_INOUT } from "@/components/case-study/primitives";
+import { startCurtain } from "@/components/case-study/Curtain";
 
 /* Entrada · alternativa B (2026-10-12): pantalla partida por la mitad, Product a la izquierda
    y Games a la derecha. Titulares juntos en el centro, pegados a la línea central; un párrafo corto
@@ -54,16 +56,17 @@ const sides: Side[] = [
 ];
 
 /** Pase de fondo: fundido con un ligero zoom de salida (1,08 → 1) en cada diapositiva. */
-function Slides({ srcs, active }: { srcs: string[]; active: boolean }) {
+function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: boolean; frozen?: boolean }) {
   const [i, setI] = useState(0);
   useEffect(() => {
-    if (!active) return;
+    if (!active || frozen) return;
     const t = setInterval(() => setI((n) => (n + 1) % srcs.length), 1600);
     return () => clearInterval(t);
-  }, [active, srcs.length]);
+  }, [active, frozen, srcs.length]);
   return (
     <motion.div
       aria-hidden
+      data-slides
       className="absolute inset-0 overflow-hidden"
       initial={false}
       animate={{ opacity: active ? 1 : 0 }}
@@ -100,6 +103,22 @@ const noHover = () => typeof window !== "undefined" && window.matchMedia("(hover
 export default function EntryB() {
   const [hover, setHover] = useState<Side["key"] | null>(null);
   const [touch, setTouch] = useState(false);
+  // Al elegir una mitad: crece hasta cubrir la pantalla (titular al centro) y, al terminar, el
+  // telón del layout toma el relevo y se levanta con un barrido sobre la home de esa sección.
+  const [chosen, setChosen] = useState<Side["key"] | null>(null);
+  const handed = useRef(false);
+  const router = useRouter();
+  const handOff = (s: Side, half: HTMLElement) => {
+    if (handed.current) return;
+    handed.current = true;
+    // La diapositiva visible ahora mismo (la de más opacidad) y su escala exacta.
+    const imgs = [...half.querySelectorAll<HTMLImageElement>("[data-slides] img")];
+    const img = imgs.sort((a, b) => +getComputedStyle(b).opacity - +getComputedStyle(a).opacity)[0];
+    const m = img && getComputedStyle(img).transform;
+    const scale = m && m !== "none" ? new DOMMatrixReadOnly(m).a : 1;
+    startCurtain({ src: img?.getAttribute("src") ?? s.slides[0], scale, label: s.label, from: "/maqueta/entrada-b" });
+    router.push(s.href);
+  };
   useEffect(() => {
     const id = requestAnimationFrame(() => setTouch(noHover()));
     return () => cancelAnimationFrame(id);
@@ -109,21 +128,35 @@ export default function EntryB() {
       <SiteNav active={null} />
       {sides.map((s, i) => {
         const left = i === 0;
-        const on = touch || hover === s.key;
-        const off = !touch && hover !== null && !on;
+        const picked = chosen === s.key;
+        const other = chosen !== null && !picked;
+        const on = picked || (!chosen && (touch || hover === s.key));
+        const off = other || (!chosen && !touch && hover !== null && !on);
         return (
           <motion.div
             key={s.key}
-            className={`relative min-h-[50svh] overflow-hidden md:min-h-[100svh] ${left ? "" : "md:border-l md:border-[var(--case-line)]"}`}
+            className={`relative overflow-hidden ${other ? "min-h-0" : "min-h-[50svh] md:min-h-[100svh]"} ${left || chosen ? "" : "md:border-l md:border-[var(--case-line)]"}`}
             initial={false}
-            animate={{ flexGrow: on && !touch ? 1.25 : 1 }}
+            animate={{ flexGrow: chosen ? (picked ? 1 : 0) : on && !touch ? 1.25 : 1 }}
             style={{ flexBasis: 0 }}
-            transition={{ duration: 0.8, ease: POWER3_INOUT }}
+            transition={{ duration: chosen ? 1.2 : 0.8, ease: chosen ? POWER4_INOUT : POWER3_INOUT }}
+            onAnimationComplete={() => {
+              if (picked) handOff(s, document.querySelector(`[data-half="${s.key}"]`) as HTMLElement);
+            }}
+            data-half={s.key}
             onMouseEnter={() => !touch && setHover(s.key)}
             onMouseLeave={() => !touch && setHover(null)}
           >
-            <Link href={s.href} className="absolute inset-0 block" aria-label={s.label}>
-              <Slides srcs={s.slides} active={on} />
+            <Link
+              href={s.href}
+              className="absolute inset-0 block"
+              aria-label={s.label}
+              onClick={(e) => {
+                e.preventDefault();
+                if (!chosen) setChosen(s.key);
+              }}
+            >
+              <Slides srcs={s.slides} active={on} frozen={picked} />
               <motion.div
                 className={`relative h-full transition-colors duration-500 ${on ? "text-white" : ""}`}
                 initial={false}
@@ -133,13 +166,14 @@ export default function EntryB() {
                 {/* Titulares juntos en el centro de la pantalla, cada uno pegado a la línea central
                     con un pequeño margen: «Product» a su izquierda y «Games» a su derecha. */}
                 <div
-                  className={`absolute inset-0 flex items-center overflow-hidden ${left ? "justify-center md:justify-end md:pr-5" : "justify-center md:justify-start md:pl-5"}`}
+                  className={`absolute inset-0 flex items-center overflow-hidden ${picked ? "justify-center" : left ? "justify-center md:justify-end md:pr-5" : "justify-center md:justify-start md:pl-5"}`}
                 >
                   <motion.p
-                    className="text-[clamp(56px,8.5vw,168px)] font-extrabold leading-[0.82] tracking-[-0.055em]"
+                    layout="position"
+                    className="whitespace-nowrap text-[clamp(56px,8.5vw,168px)] font-extrabold leading-[0.82] tracking-[-0.055em]"
                     initial={{ y: "110%" }}
                     animate={{ y: "0%" }}
-                    transition={{ duration: 0.8, ease: POWER3_INOUT, delay: 0.15 + i * 0.1 }}
+                    transition={{ duration: 0.8, ease: POWER3_INOUT, delay: 0.15 + i * 0.1, layout: { duration: 1.2, ease: POWER4_INOUT } }}
                   >
                     {s.label}
                   </motion.p>
@@ -149,8 +183,8 @@ export default function EntryB() {
                 <motion.div
                   className={`absolute bottom-6 max-w-[30ch] md:bottom-8 ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
                   initial={false}
-                  animate={{ opacity: on ? 1 : 0, y: on ? 0 : 16 }}
-                  transition={{ duration: 0.6, ease: POWER3_OUT, delay: on ? 0.15 : 0 }}
+                  animate={{ opacity: on && !chosen ? 1 : 0, y: on && !chosen ? 0 : 16 }}
+                  transition={{ duration: chosen ? 0.3 : 0.6, ease: POWER3_OUT, delay: on && !chosen ? 0.15 : 0 }}
                 >
                   <p className={`mb-3 text-[12px] opacity-60 ${mono} ${left ? "text-left" : "text-right"}`}>
                     0{i + 1} — {s.label}
