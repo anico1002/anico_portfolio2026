@@ -37,6 +37,10 @@ SETUPS = {
         # 981 × 589 px CSS → estas esquinas. La franja gris de la derecha es el bisel, no pantalla.
         "quad": [(-229.5, 137.2), (857.4, 255.6), (952.5, 866.6), (-179.1, 794.7)],
         "crop_top": 48,  # quita la barra de menús clara del vídeo
+        # Esquina inferior derecha, junto a la piedra: más desenfoque (petición de Alberto).
+        "extra_blur": [(930, 760, 230, 7.0)],
+        # …y también el canto de la pantalla sobre la piedra: se desenfoca la imagen ya compuesta.
+        "edge_blur": [(950, 775, 170, 5.0)],
         "focus": (430, 480), "sharp": 210, "soft": 430, "max_sigma": 3.5,
         "shade_k": 161,
         # Base del portátil desenfocada por delante, abajo a la izquierda: todo lo que queda por
@@ -78,7 +82,12 @@ def sigma_map(cfg, shape):
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
     d = np.hypot(xx - cfg["focus"][0], yy - cfg["focus"][1])
     t = np.clip((d - cfg["sharp"]) / (cfg["soft"] - cfg["sharp"]), 0, 1)
-    return t * cfg["max_sigma"]
+    sig = t * cfg["max_sigma"]
+    # Zonas de desenfoque extra: (x, y, radio, sigma), con caída suave hacia fuera.
+    for x, y, r, s in cfg.get("extra_blur", []):
+        k = np.clip(1 - np.hypot(xx - x, yy - y) / r, 0, 1) ** 1.5
+        sig = np.maximum(sig, k * s)
+    return sig
 
 
 def main():
@@ -91,7 +100,8 @@ def main():
     mask = mask_for(cfg, (H, W))
     shade = shading(photo, cfg)
     sig = sigma_map(cfg, (H, W))
-    levels = [0.0, cfg["max_sigma"] / 2, cfg["max_sigma"]]
+    smax = float(sig.max())
+    levels = [0.0, smax / 2, smax]
     # Peso de cada nivel de desenfoque: interpolación lineal entre nítido, medio y máximo.
     idx = sig / levels[1]
     w0 = np.clip(1 - idx, 0, 1)
@@ -108,6 +118,8 @@ def main():
         np.array([(0, 0), (sw, 0), (sw, sh), (0, sh)], np.float32), np.array(cfg["quad"], np.float32)
     )
     base = photo.astype(np.float32)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    edge = [(np.clip(1 - np.hypot(xx - x, yy - y) / r, 0, 1) ** 1.2)[..., None] for x, y, r, _ in cfg.get("edge_blur", [])]
 
     enc = None
     if test is None:
@@ -126,6 +138,8 @@ def main():
         dof = sum(w * (warped if s == 0 else cv2.GaussianBlur(warped, (0, 0), s)) for w, s in zip(wts, levels))
         lit = dof * shade
         comp = base * (1 - mask) + lit * mask
+        for k, (_, _, _, s) in zip(edge, cfg.get("edge_blur", [])):
+            comp = comp * (1 - k) + cv2.GaussianBlur(comp, (0, 0), s) * k
         comp = np.clip(comp, 0, 255).astype(np.uint8)
         if edges:
             cv2.polylines(comp, [np.array(cfg["quad"], np.int32)], True, (0, 0, 255), 2, cv2.LINE_AA)
