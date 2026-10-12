@@ -35,11 +35,55 @@ function InlineMedia({ slides, open }: { slides: readonly string[]; open: boolea
   );
 }
 
+/** Palabras que cambian (opción «rota» del énfasis, a prueba): cada 2,4 s la palabra sale por arriba
+    de su máscara y entra la siguiente por abajo (el gesto del menú), y el hueco se ajusta al ancho
+    de cada una. Fuera de `?em=rota` se ve solo la primera, quieta. */
+function Rotating({ words, run }: { words: string[]; run: boolean }) {
+  const [k, setK] = useState(0);
+  const [w, setW] = useState<number[]>([]);
+  const measure = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const m = () => setW([...(measure.current?.children ?? [])].map((c) => c.getBoundingClientRect().width));
+    m();
+    document.fonts?.ready.then(m);
+    window.addEventListener("resize", m);
+    return () => window.removeEventListener("resize", m);
+  }, [words]);
+  useEffect(() => {
+    if (!run) return;
+    const id = setInterval(() => setK((n) => (n + 1) % words.length), 2400);
+    return () => clearInterval(id);
+  }, [run, words.length]);
+  return (
+    <span className="rot" style={w[k] ? { width: w[k] } : undefined}>
+      <span ref={measure} aria-hidden className="rot-measure">
+        {words.map((x) => (
+          <span key={x}>{x}</span>
+        ))}
+      </span>
+      <AnimatePresence initial={false}>
+        <motion.span
+          key={words[k]}
+          className="rot-word"
+          initial={{ y: "110%" }}
+          animate={{ y: "0%" }}
+          exit={{ y: "-110%" }}
+          transition={{ duration: DUR.base, ease: EASE.inOut }}
+        >
+          {words[k]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
 /** `*palabras*` del titular → palabras clave (`.kw`; cómo se destacan lo decide el CSS, `?em=`).
-    `[m]` → ventana con imágenes dentro de la frase. */
+    `[m]` → ventana con imágenes dentro de la frase. `{a|b|c}` → palabras que cambian. */
 const withEm = (t: string, slides: readonly string[], open: boolean) =>
-  t.split(/(\*[^*]+\*|\[m\])/).map((part, i) =>
-    part === "[m]" ? (
+  t.split(/(\*[^*]+\*|\[m\]|\{[^}]+\})/).map((part, i) =>
+    part.startsWith("{") ? (
+      <Rotating key={i} words={part.slice(1, -1).split("|")} run={open} />
+    ) : part === "[m]" ? (
       <InlineMedia key={i} slides={slides} open={open} />
     ) : part.startsWith("*") ? (
       <em key={i} className="kw">
@@ -52,10 +96,13 @@ const withEm = (t: string, slides: readonly string[], open: boolean) =>
 
 export default function HomeHero({
   title,
+  rotating,
   slides,
   nav,
 }: {
   title: string;
+  /** Variante del titular con palabras que cambian (`{a|b|c}`), para la prueba `?em=rota`. */
+  rotating?: string;
   slides: readonly string[];
   /** La barra (logo + menú), montada en modo `docked`: aparece al pie y se pega arriba. */
   nav: React.ReactNode;
@@ -67,6 +114,13 @@ export default function HomeHero({
   const [i, setI] = useState(() => Math.max(0, curtain ? slides.indexOf(curtain.src) : 0));
   const [retracted, setRetracted] = useState(false);
   const first = useRef<HTMLImageElement>(null);
+  // Prueba de énfasis activa (`?em=`, la fija el layout en #case-root antes de pintar).
+  const [em, setEm] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setEm(document.getElementById("case-root")?.dataset.em));
+    return () => cancelAnimationFrame(id);
+  }, []);
+  const text = em === "rota" && rotating ? rotating : title;
 
   // Relevo con el telón: cuando la primera imagen está pintada, el telón se funde; la retirada
   // empieza cuando el fundido ya va por la mitad. Directo: la máscara de entrada y luego retirada.
@@ -138,10 +192,10 @@ export default function HomeHero({
             <h1 className="col-span-12 md:col-span-8">
               {retracted ? (
                 <MaskText delay={DUR.slow / 2}>
-                  <span className="block t-hero">{withEm(title, slides, true)}</span>
+                  <span className="block t-hero">{withEm(text, slides, true)}</span>
                 </MaskText>
               ) : (
-                <span className="block t-hero opacity-0">{withEm(title, slides, false)}</span>
+                <span className="block t-hero opacity-0">{withEm(text, slides, false)}</span>
               )}
             </h1>
           </div>

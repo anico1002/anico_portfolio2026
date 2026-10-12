@@ -115,6 +115,7 @@ export default function HomeView({
   active,
   slides,
   title,
+  rotating,
   intro,
   items,
   more,
@@ -123,6 +124,8 @@ export default function HomeView({
   /** Pase de imágenes de la cabecera (las mismas que en la entrada partida). */
   slides: readonly string[];
   title: string;
+  /** Titular con palabras que cambian, para la prueba `?em=rota`. */
+  rotating?: string;
   intro: string;
   items: P[];
   /** Bloque secundario bajo la rejilla (p. ej. «Marca y web» en Product). */
@@ -137,7 +140,7 @@ export default function HomeView({
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
 
-      <HomeHero title={title} slides={slides} nav={<SiteNav active={active} docked />} />
+      <HomeHero title={title} rotating={rotating} slides={slides} nav={<SiteNav active={active} docked />} />
 
       {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después la
           rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:

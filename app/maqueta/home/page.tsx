@@ -29,6 +29,7 @@ export default function ProductHome() {
       active="product"
       slides={SLIDES.product}
       title="Diseño *productos digitales* [m] de la idea al código nativo."
+      rotating="Diseño {productos digitales|apps nativas|sistemas de diseño|prototipos} de la idea al código nativo."
       intro="Más de 25 años diseñando interfaces, ahora con la IA como herramienta de construcción. Estrategia, UX/UI, sistemas y prototipos que se pueden tocar."
       items={items}
       more={{

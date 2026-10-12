@@ -177,6 +177,7 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
    serif · Instrument Serif cursiva (la anterior)
    imagen · ventana con imágenes de la sección dentro de la frase (`[m]` en el texto)
    cursiva · la cursiva de la propia Instrument Sans, sin cambiar de familia
+   rota · una palabra del titular cambia cada 2,4 s con la máscara del menú (`{a|b|c}`)
    ancho · las palabras clave en Instrument Sans condensada (eje de anchura al 75 %); al entrar el
            titular se comprimen desde la anchura normal. */
 .kw { font-style: normal; }
@@ -214,3 +215,15 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 }
 #case-root[data-em="imagen"] .inline-media.is-open { clip-path: inset(0 0 0 0); }
 .inline-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Palabras que cambian (`{a|b|c}`, opción «rota»): máscara del ancho de la palabra visible, que se
+   ajusta suave al cambiar; la saliente y la entrante comparten celda. Margen abajo para no cortar
+   los descendentes. */
+.rot {
+  display: inline-grid; vertical-align: bottom; overflow: hidden; white-space: nowrap;
+  padding-bottom: 0.14em; margin-bottom: -0.14em;
+  transition: width var(--dur-base) var(--ease-in-out);
+}
+.rot-word { grid-area: 1 / 1; display: inline-block; }
+.rot-measure { position: absolute; visibility: hidden; pointer-events: none; white-space: nowrap; }
+.rot-measure > span { display: inline-block; }
