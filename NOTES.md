@@ -74,9 +74,7 @@ Todo sale ya de dos archivos; **no meter valores sueltos** en componentes:
   móvil, suelo 13 px en escritorio), escala tipográfica `.t-label … .t-d1` (tabla dentro, con mínimos de
   legibilidad en los pequeños), variables `--ease-*`/`--dur-*` y `.hov` (hover 0,8 entra / 0,3 sale).
 Excepciones a propósito: `FitTitle` (se mide) y el «Siguiente caso» en vw (se rehace en B5).
-**Standby (Alberto, 2026-10-12): A3 y A4 juntos, hasta tener motivo de marca.** Va con ellos la
-barra de Yakushev que aparece por debajo del hero y se queda fija arriba al hacer scroll (le gusta mucho;
-explorarla junto a la intro). Propuestas de intro
+**Standby (Alberto, 2026-10-12): A3 y A4 juntos, hasta tener motivo de marca.** (La barra de Yakushev que estaba aquí ya está hecha en las homes.) Propuestas de intro
 (solo primera visita, ~2 s, scroll bloqueado): 1) la línea central que se dibuja y se abre en la
 entrada B (si la línea acaba siendo el motivo); 2) contador de años tipo cuentakilómetros; 3) «anico»
 letra a letra en gigante que encoge hasta el logo del menú. Recomendada: 1, o 3 si no hay línea.
@@ -95,8 +93,8 @@ al pasar + ola de desenfoque en el nombre, texto estrecho a la izquierda; vuelo 
 gigante de Metalab se descartó (copiado, y Alberto duda de los tipos gigantes en general).
 **Cabecera de las homes (2026-10-12):** `HomeHero.tsx` continúa la entrada sin corte —el telón se funde
 cuando la cabecera pinta la misma imagen (`endCurtain`)—, pase de imágenes a pantalla completa
-(`lib/maqueta/sections.ts`, compartido con la entrada) y máscara de abajo arriba hasta dejar una franja
-del alto del texto. Intro en `.t-hero` (80 px a 1440, medida de Yakushev: 79 px, peso 400). Fuera el
+(`lib/maqueta/sections.ts`, compartido con la entrada) y máscara de abajo arriba hasta media pantalla; el texto respira en la mitad de abajo y la barra (logo +
+menú, `SiteNav docked`) aparece al pie y al hacer scroll se queda `sticky` arriba (la barra de Yakushev). Intro en `.t-hero` (80 px a 1440, medida de Yakushev: 79 px, peso 400). Fuera el
 antetítulo «Alberto Nicolás · …». En la entrada, «01»/«02» pequeños pegados al titular (antes repetidos
 abajo).
 **Entrada decidida: la pantalla partida** es ahora `/maqueta` (adonde lleva el logo); la A queda en

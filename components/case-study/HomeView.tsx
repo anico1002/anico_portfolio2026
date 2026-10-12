@@ -139,9 +139,8 @@ export default function HomeView({
       transition={{ duration: DUR.base, ease: EASE.inOut }}
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
-      <SiteNav active={active} />
 
-      <HomeHero label={label} title={title} slides={slides} />
+      <HomeHero label={label} title={title} slides={slides} nav={<SiteNav active={active} docked />} />
 
       {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después la
           rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:

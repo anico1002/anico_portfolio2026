@@ -30,8 +30,17 @@ const items = [
 type Key = (typeof items)[number][0];
 
 /** `menu={false}`: solo logo y sol/luna (en la entrada partida, donde las dos mitades ya son
-    la elección y un menú encima sobraría). */
-export default function SiteNav({ active = "product", menu = true }: { active?: Key | null; menu?: boolean }) {
+    la elección y un menú encima sobraría). `docked`: la barra no va fija arriba sino en el flujo
+    de la página; quien la monta la coloca (en las homes, al pie de la cabecera y `sticky`). */
+export default function SiteNav({
+  active = "product",
+  menu = true,
+  docked = false,
+}: {
+  active?: Key | null;
+  menu?: boolean;
+  docked?: boolean;
+}) {
   const [open, setOpen] = useState(false);
 
   // Menú de móvil abierto: scroll parado; se cierra solo si la pantalla pasa a escritorio.
@@ -49,7 +58,7 @@ export default function SiteNav({ active = "product", menu = true }: { active?: 
 
   return (
     <>
-      <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 md:px-6">
+      <nav className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50"} flex h-[3.5rem] items-center justify-between px-4 md:px-6`}>
         <TLink href="/maqueta" aria-label="anico · inicio">
           <Inked className="block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
