@@ -84,10 +84,10 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
   );
 }
 
-/** «01» / «02» en tamaño de etiqueta, alineado con la parte alta de las mayúsculas del titular. */
+/** «01» / «02» en tamaño de etiqueta, centrado en vertical con la palabra del titular. */
 function Num({ n, side }: { n: number; side: "left" | "right" }) {
   return (
-    <span className={`inline-block align-top t-label opacity-70 ${mono} ${side === "left" ? "mr-2 md:mr-3" : "ml-2 md:ml-3"}`}>
+    <span className={`inline-block t-label opacity-70 ${mono} ${side === "left" ? "mr-2 md:mr-3" : "ml-2 md:ml-3"}`}>
       0{n}
     </span>
   );
@@ -180,7 +180,10 @@ export default function EntryB() {
             >
               <Slides srcs={s.slides} active={on} frozen={picked} />
               <motion.div
-                className={`relative h-full hov ${on ? "text-white" : ""}`}
+                className={`relative h-full ${on ? "text-white" : ""}`}
+                // Solo el color con CSS: la opacidad (atenuar la otra mitad) la anima framer. Si la clase
+                // del hover también la transicionaba, las dos se pisaban y la atenuación iba a saltos.
+                style={{ transition: "color var(--dur-fast) var(--ease-out)" }}
                 initial={false}
                 animate={{ opacity: off ? 0.35 : 1 }}
                 transition={{ duration: inOrOut(off), ease: EASE.inOut }}
@@ -195,14 +198,14 @@ export default function EntryB() {
                   {/* Máscara ajustada al titular: entra desde abajo y sale por arriba sin verse fuera. */}
                   <div className="overflow-hidden pb-[0.06em]">
                     <motion.p
-                      className="whitespace-nowrap t-d3"
+                      className="flex items-center whitespace-nowrap t-d3"
                       initial={{ y: "110%" }}
                       // Al elegir, los dos titulares se van con la máscara del borde (como la imagen): la
                       // mitad crece ya sin texto y el nombre no reaparece en el telón ni en la home.
                       animate={chosen ? { y: "0%", clipPath: exitClip(chosen, stacked) } : { y: "0%", clipPath: OPEN }}
                       transition={chosen ? EXIT : { duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER }}
                     >
-                      {/* Número pequeño pegado arriba del titular: delante de la P de «Product» y detrás de
+                      {/* Número pequeño centrado con el titular: delante de la P de «Product» y detrás de
                           la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
                       {left && <Num n={i + 1} side="left" />}
                       {s.label}
