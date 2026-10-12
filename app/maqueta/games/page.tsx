@@ -17,7 +17,6 @@ export default function GamesHome() {
   return (
     <HomeView
       active="games"
-      label="Games"
       slides={SLIDES.games}
       title="Interfaces para juegos que llegan a cientos de millones de jugadores."
       intro="Más de una década centrado en UI/UX de videojuegos, con estudios como Gameloft Barcelona: menús, HUD, sistemas visuales y marketing, de la preproducción al lanzamiento."

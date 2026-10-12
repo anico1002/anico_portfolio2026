@@ -27,7 +27,6 @@ export default function ProductHome() {
   return (
     <HomeView
       active="product"
-      label="Product"
       slides={SLIDES.product}
       title="Diseño productos digitales de la idea al código nativo."
       intro="Más de 25 años diseñando interfaces, ahora con la IA como herramienta de construcción. Estrategia, UX/UI, sistemas y prototipos que se pueden tocar."

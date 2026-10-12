@@ -113,7 +113,6 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
 
 export default function HomeView({
   active,
-  label,
   slides,
   title,
   intro,
@@ -121,8 +120,6 @@ export default function HomeView({
   more,
 }: {
   active: "product" | "games";
-  /** Nombre de la sección (titular central de la cabecera, el mismo que en la entrada). */
-  label: string;
   /** Pase de imágenes de la cabecera (las mismas que en la entrada partida). */
   slides: readonly string[];
   title: string;
@@ -140,7 +137,7 @@ export default function HomeView({
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
 
-      <HomeHero label={label} title={title} slides={slides} nav={<SiteNav active={active} docked />} />
+      <HomeHero title={title} slides={slides} nav={<SiteNav active={active} docked />} />
 
       {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después la
           rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:

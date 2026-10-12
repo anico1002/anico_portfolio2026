@@ -12,20 +12,17 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
    abajo arriba hasta la mitad de la pantalla: abajo queda el texto de intro con aire y, al pie,
    la barra de logo y menú, que al hacer scroll se queda pegada arriba.
 
-   Llegando desde la entrada, el telón del layout está encima con la misma imagen, velo y
-   titular: esta cabecera arranca idéntica y, cuando ha pintado esa imagen, le pide al telón
+   Llegando desde la entrada, el telón del layout está encima con la misma imagen y velo: esta cabecera arranca idéntica y, cuando ha pintado esa imagen, le pide al telón
    que se funda (`endCurtain`). Entrando directo, la imagen aparece con la máscara de siempre
    y hace la misma retirada. */
 
 const SLIDE_MS = 2600; // cada diapositiva del pase (fundido + zoom lento de salida)
 
 export default function HomeHero({
-  label,
   title,
   slides,
   nav,
 }: {
-  label: string;
   title: string;
   slides: readonly string[];
   /** La barra (logo + menú), montada en modo `docked`: aparece al pie y se pega arriba. */
@@ -33,7 +30,7 @@ export default function HomeHero({
 }) {
   const reduce = useReducedMotion();
   const curtain = useCurtain();
-  // Se decide en el primer render: si hay telón, arrancar igual que él (su imagen, su titular).
+  // Se decide en el primer render: si hay telón, arrancar igual que él (su imagen).
   const [arrived] = useState(() => !!curtain);
   const [i, setI] = useState(() => Math.max(0, curtain ? slides.indexOf(curtain.src) : 0));
   const [retracted, setRetracted] = useState(false);
@@ -94,16 +91,6 @@ export default function HomeHero({
             animate={{ opacity: retracted ? 0.15 : 0.45 }}
             transition={{ duration: DUR.slow, ease: EASE.inOut }}
           />
-          {/* Titular de la sección en el centro (como en el telón): se desenfoca y se va al recogerse. */}
-          <motion.p
-            aria-hidden
-            className="absolute inset-0 flex items-center justify-center t-d3 text-white"
-            initial={arrived ? { opacity: 1, filter: "blur(0px)" } : { opacity: 0, filter: "blur(14px)" }}
-            animate={retracted ? { opacity: 0, filter: "blur(14px)" } : { opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: DUR.base, ease: EASE.out }}
-          >
-            {label}
-          </motion.p>
           {/* Precarga del resto del pase. */}
           <div className="hidden">
             {slides.map((s) => (

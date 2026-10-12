@@ -6,13 +6,13 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 
 /* Telón de la entrada → home de sección. La entrada hace crecer la mitad elegida hasta cubrir
-   la pantalla con el titular en el centro; en ese momento este telón, idéntico (misma imagen y
-   escala, mismo velo, mismo titular), toma el relevo en el layout para sobrevivir al cambio de
+   la pantalla (ya sin titulares); en ese momento este telón, idéntico (misma imagen y
+   escala, mismo velo; sin titular: al elegir, los titulares se van al momento), toma el relevo en el layout para sobrevivir al cambio de
    página. Ya no se levanta entero (2026-10-12): la cabecera de la home (HomeHero) pinta debajo
    exactamente lo mismo y, cuando lo tiene listo, llama a `endCurtain()`; el telón se funde y la
    cabecera sigue sola (pase de imágenes y máscara hasta la franja del texto). */
 
-type Curtain = { src: string; scale: number; label: string; from: string };
+type Curtain = { src: string; scale: number; from: string };
 
 let curtain: Curtain | null = null;
 let ending = false;
@@ -88,9 +88,6 @@ export default function CurtainLayer() {
         transition={{ duration: DUR.slow, ease: EASE.inOut }}
       />
       <div className="absolute inset-0 bg-black/45" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <p className="t-d3 text-white">{c.label}</p>
-      </div>
     </motion.div>
   );
 }

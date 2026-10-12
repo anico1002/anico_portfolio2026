@@ -100,7 +100,7 @@ const noHover = () => typeof window !== "undefined" && window.matchMedia("(hover
 export default function EntryB() {
   const [hover, setHover] = useState<Side["key"] | null>(null);
   const [touch, setTouch] = useState(false);
-  // Al elegir una mitad: crece hasta cubrir la pantalla (titular al centro) y, al terminar, el
+  // Al elegir una mitad: crece hasta cubrir la pantalla (los titulares se van al clicar) y, al terminar, el
   // telón del layout toma el relevo y se levanta con un barrido sobre la home de esa sección.
   const [chosen, setChosen] = useState<Side["key"] | null>(null);
   const handed = useRef(false);
@@ -113,7 +113,7 @@ export default function EntryB() {
     const img = imgs.sort((a, b) => +getComputedStyle(b).opacity - +getComputedStyle(a).opacity)[0];
     const m = img && getComputedStyle(img).transform;
     const scale = m && m !== "none" ? new DOMMatrixReadOnly(m).a : 1;
-    startCurtain({ src: img?.getAttribute("src") ?? s.slides[0], scale, label: s.label, from: "/maqueta" });
+    startCurtain({ src: img?.getAttribute("src") ?? s.slides[0], scale, from: "/maqueta" });
     router.push(s.href);
   };
   useEffect(() => {
@@ -176,14 +176,15 @@ export default function EntryB() {
                     apiladas) van a su lado y justo encima de su párrafo, formando un bloque con él (`--ph` = alto
                     del párrafo): Product a la izquierda, Games a la derecha. */}
                 <div
-                  className={`absolute inset-0 flex overflow-hidden ${picked ? "items-center justify-center" : `items-end pb-[calc(var(--ph,0px)+2.5rem)] md:items-center md:pb-0 ${left ? "justify-start px-4 md:justify-end md:pl-0 md:pr-5" : "justify-end px-4 md:justify-start md:pl-5 md:pr-0"}`}`}
+                  className={`absolute inset-0 flex overflow-hidden ${`items-end pb-[calc(var(--ph,0px)+2.5rem)] md:items-center md:pb-0 ${left ? "justify-start px-4 md:justify-end md:pl-0 md:pr-5" : "justify-end px-4 md:justify-start md:pl-5 md:pr-0"}`}`}
                 >
                   <motion.p
-                    layout="position"
                     className="whitespace-nowrap t-d3"
                     initial={{ y: "110%" }}
-                    animate={{ y: "0%" }}
-                    transition={{ duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER, layout: { duration: DUR.slow, ease: EASE.screen } }}
+                    // Al elegir, los dos titulares se van al momento (desenfoque rápido): la mitad crece
+                    // ya sin texto y el nombre no reaparece en el telón ni en la home.
+                    animate={chosen ? { y: "0%", opacity: 0, filter: "blur(14px)" } : { y: "0%", opacity: 1, filter: "blur(0px)" }}
+                    transition={chosen ? { duration: DUR.fast, ease: EASE.out } : { duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER }}
                   >
                     {/* Número pequeño pegado arriba del titular: delante de la P de «Product» y detrás de
                         la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
