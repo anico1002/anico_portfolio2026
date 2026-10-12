@@ -115,7 +115,7 @@ export default function HomeHero({
         {/* Mitad de abajo: el texto de intro con aire, que entra cuando la imagen ya se recoge. */}
         <div className="absolute inset-x-0 bottom-[3.5rem] top-1/2 px-4 pt-8 md:px-6 md:pt-12">
           <div className="grid grid-cols-12 gap-x-4 md:gap-x-6">
-            <h1 className="col-span-12 md:col-span-10 lg:col-span-9">
+            <h1 className="col-span-12 md:col-span-8">
               {retracted ? (
                 <MaskText delay={DUR.slow / 2}>
                   <span className="block t-hero">{withEm(title)}</span>

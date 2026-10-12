@@ -78,7 +78,7 @@ html:has(#case-root) {
 .t-statement { font-size: 1.625rem;  line-height: 1.15; letter-spacing: -0.03em; }
 .t-intro     { font-size: 1.75rem;   line-height: 1.12; letter-spacing: -0.025em; }
 .t-h2        { font-size: 2rem;      line-height: 1.04; letter-spacing: -0.035em; font-weight: 500; }
-.t-hero      { font-size: 1.875rem;  line-height: 1.12;  letter-spacing: -0.02em;  font-weight: 400; }
+.t-hero      { font-size: 1.875rem;  line-height: 1.12;  letter-spacing: -0.02em;  font-weight: 400; text-wrap: balance; }
 .t-h1        { font-size: 2.5rem;    line-height: 1.02; letter-spacing: -0.04em;  font-weight: 500; }
 .t-d3        { font-size: 3.5rem;    line-height: 0.84; letter-spacing: -0.055em; font-weight: 700; }
 .t-d2        { font-size: 3.75rem;   line-height: 0.85; letter-spacing: -0.055em; font-weight: 700; }
