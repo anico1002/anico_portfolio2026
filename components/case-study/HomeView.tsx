@@ -97,15 +97,30 @@ function Card({ p, i, slot, offset }: { p: P; i: number; slot: number; offset?: 
       {grow &&
         p.thumb &&
         createPortal(
-        <motion.img
-          src={p.thumb}
-          alt=""
-          className="pointer-events-none fixed left-0 top-0 z-[100] object-cover"
-          initial={{ x: grow.left, y: grow.top, width: grow.width, height: grow.height }}
-          animate={{ x: 0, y: 0, width: "100vw", height: "100svh" }}
-          transition={{ duration: FLIGHT_S, ease: POWER4_INOUT }}
-          onAnimationComplete={landed}
-        />,
+        /\.(mp4|webm|mov)$/i.test(p.thumb) ? (
+          <motion.video
+            src={p.thumb}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="pointer-events-none fixed left-0 top-0 z-[100] object-cover"
+            initial={{ x: grow.left, y: grow.top, width: grow.width, height: grow.height }}
+            animate={{ x: 0, y: 0, width: "100vw", height: "100svh" }}
+            transition={{ duration: FLIGHT_S, ease: POWER4_INOUT }}
+            onAnimationComplete={landed}
+          />
+        ) : (
+          <motion.img
+            src={p.thumb}
+            alt=""
+            className="pointer-events-none fixed left-0 top-0 z-[100] object-cover"
+            initial={{ x: grow.left, y: grow.top, width: grow.width, height: grow.height }}
+            animate={{ x: 0, y: 0, width: "100vw", height: "100svh" }}
+            transition={{ duration: FLIGHT_S, ease: POWER4_INOUT }}
+            onAnimationComplete={landed}
+          />
+        ),
           document.body
         )}
       {p.href ? (

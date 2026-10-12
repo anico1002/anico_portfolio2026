@@ -41,6 +41,10 @@ export type CaseCopy = {
   cta?: { label: string; href: string };
   /** Proporción real del vídeo de móvil (*_phone), si no es la del iPhone moderno. */
   phoneRatio?: string;
+  /** Medios propios de la maqueta que sustituyen a los de la web actual (p. ej. mockups en
+      movimiento hechos con motion/mockup.py). */
+  thumb?: string;
+  hero?: string;
 };
 
 export const CASES: CaseCopy[] = [
@@ -95,6 +99,9 @@ export const CASES: CaseCopy[] = [
   {
     slug: "swift-project",
     section: "product",
+    // Mockups en movimiento (motion/swift-hero → motion/mockup.py sobre las fotos de concepto).
+    thumb: "/maqueta/swift/thumb.mp4",
+    hero: "/maqueta/swift/hero.mp4",
     name: "SwifT Translator",
     line: "Traductor para la barra de menús de macOS",
     year: "2026",

@@ -2,7 +2,7 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 import { getScannedProject } from "@/lib/scan-project";
-import type { CaseCopy } from "./cases";
+import { caseBySlug, type CaseCopy } from "./cases";
 
 /* Medios de un caso de la maqueta a partir de public/projects/<slug>/ (los de la web
    actual), repartidos por capítulos y con sus medidas: las láminas llevan texto pegado al
@@ -54,7 +54,9 @@ export function getCaseMedia(copy: CaseCopy): CaseMedia | null {
   const s = getScannedProject(copy.slug);
   if (!s) return null;
 
-  const hero = s.heroVideo
+  const hero = copy.hero
+    ? { src: copy.hero, video: /\.(mp4|webm|mov)$/i.test(copy.hero) }
+    : s.heroVideo
     ? { src: s.heroVideo, video: true }
     : s.heroImage
       ? { src: s.heroImage, video: false }
@@ -87,11 +89,11 @@ export function getCaseMedia(copy: CaseCopy): CaseMedia | null {
     });
   }
 
-  return { thumb: s.thumbnail, hero, phone, chapters: groups, extraTitles };
+  return { thumb: copy.thumb ?? s.thumbnail, hero, phone, chapters: groups, extraTitles };
 }
 
 /** Miniatura de un caso cualquiera (Gloop incluido) para «Siguiente caso». */
 export function thumbOf(slug: string): string | undefined {
   if (slug === "gloop") return "/maqueta/gloop/cover.jpg";
-  return getScannedProject(slug)?.thumbnail || undefined;
+  return caseBySlug(slug)?.thumb ?? (getScannedProject(slug)?.thumbnail || undefined);
 }

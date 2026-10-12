@@ -58,7 +58,15 @@ combina los dos: `motion/swift-hero/` → vídeo de 15 s, mudo y en bucle, de la
 dirigido en Premium (curva única, fundido + escala 0.98→1, sin rebote). Studio:
 `cd motion/swift-hero && npx hyperframes preview`. La captura (`capture/`) no se versiona:
 en otro Mac, `npx hyperframes capture https://swift-translator.vercel.app -o motion/swift-hero/capture`.
-Pendiente: que Alberto lo vea; si vale, render a MP4 y a la cabecera del caso SwifT.
+Le gustó. **Siguiente paso hecho: el vídeo dentro de las fotos de concepto del MacBook.**
+`motion/swift-screen/` = misma composición a 1920×1200 con barra de menús de macOS (la pantalla
+entera). `motion/mockup.py` la mete en `SwifT_hero.png` y `SwifT_thumb.png`: homografía a las
+esquinas medidas, luz sacada del fondo blanco de la propia foto, desenfoque de profundidad que
+imita el de la foto y máscara que respeta lo que está delante (barra oscura y base del portátil
+en la miniatura). Salen `public/maqueta/swift/{hero,thumb}.mp4` (1,1 y 0,6 MB) y se usan como
+miniatura de la home y cabecera del caso (`thumb`/`hero` en `lib/maqueta/cases.ts`). Render de
+HyperFrames: necesita `ffprobe` en el PATH (en este Mac no hay Homebrew: se usó
+`@ffprobe-installer/ffprobe`, el de `ffprobe-static` es Intel y sin Rosetta no arranca).
 
 ## 2026-10-12 (MacBook, «tira millas») — MAQUETA NAVEGABLE ENTERA
 

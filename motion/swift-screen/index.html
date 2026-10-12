@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /* SwifT — hero del caso (15 s, mudo, bucle). Marca: DESIGN.md. Movimiento: skill
+         motion-design, personalidad Premium (sin rebote, fundido + escala 0.98→1, pausas). */
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1200px;
+        overflow: hidden;
+        background: #ffffff;
+        font-family: -apple-system, "SF Pro Display", "Inter", sans-serif;
+        color: #1d1d1f;
+        -webkit-font-smoothing: antialiased;
+      }
+      .scene {
+        position: absolute;
+        top: 48px;
+        left: 0;
+        width: 1920px;
+        height: 1152px;
+        overflow: hidden;
+        background: #ffffff;
+      }
+      .scene-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      /* Capa ambiente: halo violeta muy suave (radial, nunca lineal: evita bandas en H.264). */
+      .halo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1500px;
+        height: 1500px;
+        margin: -750px 0 0 -750px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0) 62%);
+        pointer-events: none;
+      }
+      .keys {
+        display: flex;
+        gap: 22px;
+      }
+      .key {
+        width: 132px;
+        height: 132px;
+        border-radius: 26px;
+        background: #ffffff;
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 6px 0 #f2f2f2, 0 8px 40px rgba(0, 0, 0, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 64px;
+        font-weight: 500;
+        color: #1d1d1f;
+      }
+
+      /* Barra de menús de macOS: la pantalla del MacBook (variante para el mockup). */
+      .menubar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 48px;
+        z-index: 100;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        background: #f5f5f7;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        font-size: 21px;
+        color: #1d1d1f;
+      }
+      .menubar .left, .menubar .right { display: flex; align-items: center; gap: 30px; }
+      .menubar .apple { width: 22px; height: 22px; }
+      .menubar .app { font-weight: 700; }
+      .menubar .swift {
+        display: flex; align-items: center; justify-content: center;
+        width: 40px; height: 32px; border-radius: 8px; background: rgba(0, 0, 0, 0.1);
+      }
+      .menubar .swift img { width: 20px; height: 20px; }
+
+      /* ── Escena 1 · Icono ── */
+      #s1 { z-index: 1; }
+      #s1 .scene-content { gap: 56px; }
+      #s1-icon { width: 220px; height: 220px; filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.18)); }
+      #s1-title { margin: 0; font-size: 128px; font-weight: 700; letter-spacing: -3px; line-height: 1; }
+      #s1-title span { display: inline-block; }
+
+      /* ── Escena 2 · El gesto ── */
+      #s2 { z-index: 2; opacity: 0; }
+      #s2 .scene-content { gap: 64px; padding-top: 40px; }
+      .window {
+        width: 1260px;
+        border-radius: 22px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+      }
+      .window-bar {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 26px;
+        background: #f5f5f7;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      }
+      .dot { width: 16px; height: 16px; border-radius: 50%; }
+      .window-title { margin-left: 18px; font-size: 22px; font-weight: 600; color: #6e6e73; }
+      .window-body { padding: 70px 80px 84px; }
+      .window-label { font-size: 20px; font-weight: 600; letter-spacing: 3px; color: #6e6e73; text-transform: uppercase; }
+      .phrase { position: relative; isolation: isolate; display: inline-block; margin-top: 22px; white-space: nowrap; font-size: 68px; font-weight: 600; letter-spacing: -1.5px; line-height: 1.15; }
+      .select {
+        position: absolute;
+        left: -10px;
+        right: -10px;
+        top: 4px;
+        bottom: 0;
+        border-radius: 10px;
+        background: rgba(124, 58, 237, 0.18);
+        transform-origin: left center;
+      }
+      .notif {
+        position: absolute;
+        top: 56px;
+        right: 64px;
+        width: 600px;
+        display: flex;
+        gap: 22px;
+        align-items: center;
+        padding: 26px 30px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+      }
+      .notif img { width: 76px; height: 76px; }
+      .notif-app { font-size: 22px; font-weight: 600; color: #6e6e73; }
+      .notif-text { margin-top: 4px; font-size: 32px; font-weight: 600; letter-spacing: -0.4px; line-height: 1.2; }
+
+      /* ── Escena 3 · Motores ── */
+      #s3 { z-index: 3; opacity: 0; background: #f5f5f7; }
+      #s3 .scene-content { align-items: flex-start; padding: 0 180px; gap: 0; }
+      .eyebrow { font-size: 24px; font-weight: 600; letter-spacing: 4px; color: #7c3aed; text-transform: uppercase; }
+      .h2 { margin: 22px 0 0; font-size: 104px; font-weight: 700; letter-spacing: -3px; line-height: 1.02; }
+      .h2 span { display: block; }
+      .engines { margin-top: 80px; display: flex; gap: 32px; width: 100%; }
+      .engine {
+        flex: 1;
+        position: relative;
+        padding: 40px 40px 44px;
+        border-radius: 28px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      }
+      .engine-logo { width: 72px; height: 72px; object-fit: contain; }
+      .engine-name { margin-top: 30px; font-size: 38px; font-weight: 600; letter-spacing: -0.6px; }
+      .engine-meta { margin-top: 10px; font-size: 24px; color: #6e6e73; }
+      .badge {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        padding: 10px 20px;
+        border-radius: 999px;
+        background: rgba(124, 58, 237, 0.12);
+        color: #7c3aed;
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      /* ── Escena 4 · Cierre ── */
+      #s4 { z-index: 4; opacity: 0; }
+      #s4 .scene-content { gap: 70px; }
+      #s4-title { margin: 0; font-size: 150px; font-weight: 700; letter-spacing: -4px; line-height: 1; }
+      .sign { display: flex; align-items: center; gap: 16px; font-size: 32px; font-weight: 600; }
+      .sign img { width: 34px; height: 34px; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-kbh8" id="root" data-composition-id="main" data-width="1920" data-height="1200" data-start="0" data-duration="15">
+      <div class="menubar" id="menubar">
+        <div class="left">
+          <img class="apple" src="capture/assets/svgs/logo-243b0917.svg" alt="" />
+          <span class="app">Notes</span><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Window</span><span>Help</span>
+        </div>
+        <div class="right">
+          <span class="swift"><img src="capture/assets/favicon.png" alt="" style="border-radius: 5px" /></span>
+          <span>Mon 9:41</span>
+        </div>
+      </div>
+      <!-- Escena 1 · Icono -->
+      <div data-hf-id="hf-yihu" id="s1" class="scene">
+        <div data-hf-id="hf-288s" class="halo" id="s1-halo" data-layout-allow-overflow=""></div>
+        <div data-hf-id="hf-pypt" class="scene-content" data-layout-allow-overflow="">
+          <div data-hf-id="hf-xeiq" id="s1-icon-wrap"><img data-hf-id="hf-gyol" id="s1-icon" src="capture/assets/swift-app-icon.png" alt=""></div>
+          <h1 data-hf-id="hf-f60y" id="s1-title"><span data-hf-id="hf-0sqp">Translate</span>&#160;<span data-hf-id="hf-1brr">anything.</span></h1>
+        </div>
+      </div>
+
+      <!-- Escena 2 · El gesto: seleccionas, pulsas, ya está. Sin cursor. -->
+      <div data-hf-id="hf-nhc8" id="s2" class="scene" style="opacity: 0">
+        <div data-hf-id="hf-sqfy" id="s2-cam" class="scene-content" data-layout-allow-overflow="">
+          <div data-hf-id="hf-wl6u" class="window" id="s2-window">
+            <div data-hf-id="hf-85t8" class="window-bar">
+              <span data-hf-id="hf-nl8i" class="dot" style="background: #ff5f57"></span>
+              <span data-hf-id="hf-2kdq" class="dot" style="background: #ffbd2e"></span>
+              <span data-hf-id="hf-92gw" class="dot" style="background: #28c840"></span>
+              <span data-hf-id="hf-kmul" class="window-title">Notes</span>
+            </div>
+            <div data-hf-id="hf-2rdl" class="window-body">
+              <div data-hf-id="hf-cr7u" class="window-label">Spanish · ES</div>
+              <div data-hf-id="hf-58jb" class="phrase"><span data-hf-id="hf-beol" class="select" id="s2-select"></span><span data-hf-id="hf-b4tn" style="position: relative">¿Quedamos mañana a las nueve?</span></div>
+            </div>
+          </div>
+          <div data-hf-id="hf-5s8u" class="keys" id="s2-keys">
+            <div data-hf-id="hf-h2q6" class="key-wrap"><div data-hf-id="hf-nug0" class="key">⌥</div></div>
+            <div data-hf-id="hf-qyvm" class="key-wrap"><div data-hf-id="hf-p1d3" class="key">⌘</div></div>
+            <div data-hf-id="hf-rd6n" class="key-wrap"><div data-hf-id="hf-3egz" class="key">T</div></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-wyo6" class="notif" id="s2-notif">
+          <img data-hf-id="hf-k6o7" src="capture/assets/start-translatingin-30-seconds.png" alt="">
+          <div data-hf-id="hf-yeow">
+            <div data-hf-id="hf-cryq" class="notif-app">SwifT · English</div>
+            <div data-hf-id="hf-yqp2" class="notif-text">Shall we meet tomorrow at nine?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Escena 3 · Motores -->
+      <div data-hf-id="hf-6re3" id="s3" class="scene" style="opacity: 0">
+        <div data-hf-id="hf-lhjp" class="scene-content" data-layout-allow-overflow="">
+          <div data-hf-id="hf-dhtl" class="eyebrow" id="s3-eyebrow">Translation engines</div>
+          <h2 data-hf-id="hf-g4k4" class="h2" id="s3-title"><span data-hf-id="hf-cdju">Three engines.</span><span data-hf-id="hf-nvww">Zero setup.</span></h2>
+          <div data-hf-id="hf-imx5" class="engines">
+            <div data-hf-id="hf-loyh" class="engine" id="s3-e1">
+              <span data-hf-id="hf-zsl5" class="badge">Most accurate</span>
+              <img data-hf-id="hf-90ti" class="engine-logo" src="capture/assets/svgs/logo-68b088b8.svg" alt="">
+              <div data-hf-id="hf-hrch" class="engine-name">TranslateGemma 4B</div>
+              <div data-hf-id="hf-u2c9" class="engine-meta">On-device · No account</div>
+            </div>
+            <div data-hf-id="hf-pn2i" class="engine" id="s3-e2">
+              <img data-hf-id="hf-aagk" class="engine-logo" src="capture/assets/svgs/logo-243b0917.svg" alt="">
+              <div data-hf-id="hf-ouzx" class="engine-name">Apple Translation</div>
+              <div data-hf-id="hf-zjfe" class="engine-meta">On-device · Instant</div>
+            </div>
+            <div data-hf-id="hf-vssb" class="engine" id="s3-e3">
+              <img data-hf-id="hf-4vji" class="engine-logo" src="capture/assets/svgs/logo-d18effa5.svg" alt="">
+              <div data-hf-id="hf-ztwb" class="engine-name">Google Translate</div>
+              <div data-hf-id="hf-a2i1" class="engine-meta">Safety net · No key needed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Escena 4 · Cierre -->
+      <div data-hf-id="hf-gcyy" id="s4" class="scene" style="opacity: 0">
+        <div data-hf-id="hf-5v4b" class="halo" id="s4-halo" data-layout-allow-overflow=""></div>
+        <div data-hf-id="hf-2j33" class="scene-content" id="s4-content">
+          <h2 data-hf-id="hf-iszk" id="s4-title">One shortcut.</h2>
+          <div data-hf-id="hf-vh68" class="keys" id="s4-keys">
+            <div data-hf-id="hf-rrho" class="key-wrap"><div data-hf-id="hf-m8k8" class="key">⌥</div></div>
+            <div data-hf-id="hf-s5sp" class="key-wrap"><div data-hf-id="hf-qe2v" class="key">⌘</div></div>
+            <div data-hf-id="hf-sk3q" class="key-wrap"><div data-hf-id="hf-g9s3" class="key">T</div></div>
+          </div>
+          <div data-hf-id="hf-ody9" class="sign" id="s4-sign"><img data-hf-id="hf-5ws5" src="capture/assets/logo-63a7e754.svg" alt="">SwifT Translator</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      // Curva firma Premium (0.4, 0, 0.2, 1) ≈ power2.inOut; entradas con power3.out.
+      const SIG = "power2.inOut";
+
+      /* ── Escena 1 (0–3.2 s) ── */
+      tl.fromTo("#s1-halo", { scale: 0.9, opacity: 0 }, { scale: 1.08, opacity: 1, duration: 3.2, ease: "sine.inOut" }, 0);
+      tl.from("#s1-icon-wrap", { opacity: 0, scale: 0.98, y: 16, duration: 0.8, ease: "power3.out" }, 0.2);
+      tl.from("#s1-title span", { opacity: 0, y: 24, duration: 0.5, ease: SIG, stagger: 0.08 }, 1.1);
+      // Deriva lenta de cámara mientras se sostiene (capa ambiente; elemento distinto al de la entrada).
+      tl.fromTo("#s1 .scene-content", { scale: 1 }, { scale: 1.025, duration: 3.2, ease: "none" }, 0);
+
+      /* Transición 1 → 2: desenfoque (medium) */
+      tl.to("#s1", { filter: "blur(15px)", scale: 1.05, opacity: 0, duration: 0.4, ease: "power2.in" }, 2.9);
+      tl.fromTo("#s2", { filter: "blur(15px)", scale: 0.95, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.45, ease: "power2.out" }, 3.1);
+
+      /* ── Escena 2 (3.2–8.4 s) ── */
+      tl.from("#s2-window", { opacity: 0, y: 24, scale: 0.98, duration: 0.8, ease: "power3.out" }, 3.3);
+      tl.fromTo("#s2-select", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: SIG }, 4.3);
+      tl.from("#s2-keys .key-wrap", { opacity: 0, y: 20, duration: 0.35, ease: "power2.out", stagger: 0.08 }, 4.8);
+      // Pulsación (sin cursor): la tecla se hunde y vuelve, una tras otra.
+      [5.35, 5.45, 5.55].forEach((t, i) => {
+        const k = `#s2-keys .key-wrap:nth-child(${i + 1}) .key`;
+        tl.to(k, { y: 6, scale: 0.96, boxShadow: "0 0 0 #F2F2F2, 0 2px 10px rgba(0,0,0,0.12)", duration: 0.12, ease: "power2.in" }, t);
+        tl.to(k, { y: 0, scale: 1, boxShadow: "0 6px 0 #F2F2F2, 0 8px 40px rgba(0,0,0,0.12)", duration: 0.28, ease: "power2.out" }, t + 0.5);
+      });
+      tl.from("#s2-notif", { opacity: 0, x: 40, duration: 0.5, ease: "power3.out" }, 5.95);
+      tl.fromTo("#s2-cam", { scale: 1 }, { scale: 1.03, duration: 5.2, ease: "none" }, 3.2);
+
+      /* Transición 2 → 3 */
+      tl.to("#s2", { filter: "blur(15px)", scale: 1.05, opacity: 0, duration: 0.4, ease: "power2.in" }, 8.1);
+      tl.fromTo("#s3", { filter: "blur(15px)", scale: 0.95, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.45, ease: "power2.out" }, 8.3);
+
+      /* ── Escena 3 (8.4–11.8 s) ── */
+      tl.from("#s3-eyebrow", { opacity: 0, y: 16, duration: 0.35, ease: "power2.out" }, 8.5);
+      tl.from("#s3-title span", { opacity: 0, y: 24, duration: 0.5, ease: SIG, stagger: 0.08 }, 8.6);
+      tl.from(["#s3-e1", "#s3-e2", "#s3-e3"], { opacity: 0, y: 40, scale: 0.98, duration: 0.5, ease: "power3.out", stagger: 0.1 }, 9.1);
+      tl.from(".engine-logo", { opacity: 0, scale: 0.9, duration: 0.35, ease: "sine.out", stagger: 0.1 }, 9.35);
+      tl.from(".badge", { opacity: 0, x: 12, duration: 0.35, ease: "power2.out" }, 9.9);
+      tl.fromTo("#s3 .scene-content", { scale: 1 }, { scale: 1.02, duration: 3.4, ease: "none" }, 8.4);
+
+      /* Transición 3 → 4 */
+      tl.to("#s3", { filter: "blur(15px)", scale: 1.05, opacity: 0, duration: 0.4, ease: "power2.in" }, 11.5);
+      tl.fromTo("#s4", { filter: "blur(15px)", scale: 0.95, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.45, ease: "power2.out" }, 11.7);
+
+      /* ── Escena 4 (11.8–15 s) · la única con salida: funde a blanco = fotograma 0 ── */
+      tl.fromTo("#s4-halo", { scale: 0.95, opacity: 0 }, { scale: 1.08, opacity: 1, duration: 2.5, ease: "sine.inOut" }, 11.8);
+      tl.from("#s4-title", { opacity: 0, y: 24, scale: 0.98, duration: 0.8, ease: "power3.out" }, 11.9);
+      tl.from("#s4-keys .key-wrap", { opacity: 0, y: 20, duration: 0.35, ease: "power2.out", stagger: 0.08 }, 12.4);
+      tl.to("#s4-keys .key", { y: 6, scale: 0.96, duration: 0.12, ease: "power2.in" }, 13.0);
+      tl.to("#s4-keys .key", { y: 0, scale: 1, duration: 0.28, ease: "power2.out" }, 13.25);
+      tl.from("#s4-sign", { opacity: 0, y: 12, duration: 0.5, ease: SIG }, 13.4);
+      tl.to("#s4-content", { opacity: 0, scale: 0.99, duration: 0.6, ease: "power2.in" }, 14.3);
+      tl.to("#s4-halo", { opacity: 0, duration: 0.6, ease: "power2.in" }, 14.3);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
