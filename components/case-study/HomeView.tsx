@@ -44,7 +44,7 @@ const layout: { col: string; ratio: string; offset: string; speed: number; bleed
 ];
 
 function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; offset?: string; onLeave?: () => void }) {
-  // `i` numera el proyecto; `slot` es su hueco en la composición (las cifras ocupan uno).
+  // `i` numera el proyecto; `slot` es su hueco en la composición.
   const l = layout[slot % layout.length];
   const router = useRouter();
   const frame = useRef<HTMLDivElement>(null);
@@ -115,7 +115,6 @@ export default function HomeView({
   eyebrow,
   title,
   intro,
-  years,
   items,
   more,
 }: {
@@ -123,7 +122,6 @@ export default function HomeView({
   eyebrow: string;
   title: string;
   intro: string;
-  years: string;
   items: P[];
   /** Bloque secundario bajo la rejilla (p. ej. «Marca y web» en Product). */
   more?: { eyebrow: string; title: string; items: P[] };
@@ -147,20 +145,16 @@ export default function HomeView({
         </div>
       </header>
 
-      {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después
-          las cifras del rango de años y el segundo proyecto; luego la rejilla escalonada. */}
+      {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después la
+          rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:
+          copiaban mal el contador de Yakushev y ahí no tenían sentido.) */}
       <section className={`mt-10 md:mt-12 ${wrap}`}>
         <div className={`${grid} gap-y-20 md:gap-y-0`}>
           <Card p={items[0]} i={0} slot={0} offset="" onLeave={leave} />
           <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:self-end md:pb-14">
             <p className="t-body text-[var(--case-muted)]">{intro}</p>
           </FadeIn>
-          <Parallax speed={120} className="col-span-12 md:col-span-8 md:col-start-1 md:mt-20">
-            <FadeIn>
-              <p className="t-d1">{years}</p>
-            </FadeIn>
-          </Parallax>
-          {items[1] && <Card p={items[1]} i={1} slot={1} offset="md:mt-24" onLeave={leave} />}
+          {items[1] && <Card p={items[1]} i={1} slot={1} onLeave={leave} />}
           {items.slice(2).map((p, k) => (
             <Card key={p.name} p={p} i={k + 2} slot={k + 2} onLeave={leave} />
           ))}

@@ -29,7 +29,6 @@ export default function ProductHome() {
       eyebrow="Alberto Nicolás · Product Designer"
       title="Diseño productos digitales de la idea al código nativo."
       intro="Más de 25 años diseñando interfaces, ahora con la IA como herramienta de construcción. Estrategia, UX/UI, sistemas y prototipos que se pueden tocar."
-      years="19–26"
       items={items}
       more={{
         eyebrow: "Marca y web",

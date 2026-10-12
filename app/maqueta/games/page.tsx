@@ -19,7 +19,6 @@ export default function GamesHome() {
       eyebrow="Alberto Nicolás · Game UI/UX"
       title="Interfaces para juegos que llegan a cientos de millones de jugadores."
       intro="Más de una década centrado en UI/UX de videojuegos, con estudios como Gameloft Barcelona: menús, HUD, sistemas visuales y marketing, de la preproducción al lanzamiento."
-      years="16–24"
       items={items}
     />
   );
