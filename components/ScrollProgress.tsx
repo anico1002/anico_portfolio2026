@@ -31,6 +31,7 @@ export default function ScrollProgress() {
   return (
     <div
       className="fixed top-0 left-0 right-0 h-0.5 bg-primary origin-left z-[100] pointer-events-none"
+      data-scroll-progress
       style={{ transform: `scaleX(${progress})` }}
       aria-hidden
     />

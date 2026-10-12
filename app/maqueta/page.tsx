@@ -148,8 +148,11 @@ export default function EntryB() {
             animate={{ flexGrow: chosen ? (picked ? 1 : 0) : on && !touch ? 1.25 : 1 }}
             style={{ flexBasis: 0 }}
             transition={{ duration: chosen ? DUR.slow : inOrOut(on), ease: chosen ? EASE.screen : EASE.inOut }}
+            // El relevo lo da la mitad que se cierra: la elegida no siempre cambia de valor (en
+            // táctil ya está a 1, crece solo porque la otra encoge) y entonces no avisaría nunca.
             onAnimationComplete={() => {
-              if (picked) handOff(s, document.querySelector(`[data-half="${s.key}"]`) as HTMLElement);
+              const c = other && sides.find((x) => x.key === chosen);
+              if (c) handOff(c, document.querySelector(`[data-half="${c.key}"]`) as HTMLElement);
             }}
             data-half={s.key}
             onMouseEnter={() => !touch && setHover(s.key)}

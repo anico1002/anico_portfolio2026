@@ -135,3 +135,6 @@ html:has(#case-root) {
 @media (prefers-reduced-motion: reduce) {
   :is(a, button):hover .blur-text > span[aria-hidden] > span { animation: none; }
 }
+
+/* La barra de progreso de scroll de la web actual vive en el layout raíz: en la maqueta, fuera. */
+html:has(#case-root) [data-scroll-progress] { display: none; }
