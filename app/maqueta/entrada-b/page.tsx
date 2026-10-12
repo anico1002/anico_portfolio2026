@@ -7,7 +7,7 @@ import SiteNav from "@/components/case-study/SiteNav";
 import { POWER3_INOUT, POWER3_OUT } from "@/components/case-study/primitives";
 
 /* Entrada · alternativa B (2026-10-12): pantalla partida por la mitad, Product a la izquierda
-   y Games a la derecha. Titulares gigantes centrados en cada mitad; un párrafo corto
+   y Games a la derecha. Titulares juntos en el centro, pegados a la línea central; un párrafo corto
    justificado abajo, en el lado exterior y en espejo, que solo aparece al pasar por encima.
    Al pasar, esa mitad se ensancha un poco, pasa un pase de proyectos de fondo y la otra se
    atenúa. En táctil todo se ve siempre. La alternativa A sigue en /maqueta. */
@@ -130,10 +130,13 @@ export default function EntryB() {
                 animate={{ opacity: off ? 0.35 : 1 }}
                 transition={{ duration: 0.6, ease: POWER3_INOUT }}
               >
-                {/* Titular centrado en su mitad: lo importante. */}
-                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                {/* Titulares juntos en el centro de la pantalla, cada uno pegado a la línea central
+                    con un pequeño margen: «Product» a su izquierda y «Games» a su derecha. */}
+                <div
+                  className={`absolute inset-0 flex items-center overflow-hidden ${left ? "justify-center md:justify-end md:pr-5" : "justify-center md:justify-start md:pl-5"}`}
+                >
                   <motion.p
-                    className="text-[clamp(64px,11.5vw,220px)] font-extrabold leading-[0.82] tracking-[-0.055em]"
+                    className="text-[clamp(56px,8.5vw,168px)] font-extrabold leading-[0.82] tracking-[-0.055em]"
                     initial={{ y: "110%" }}
                     animate={{ y: "0%" }}
                     transition={{ duration: 0.8, ease: POWER3_INOUT, delay: 0.15 + i * 0.1 }}
