@@ -55,9 +55,11 @@ export default function SiteNav({ active = "product" }: { active?: Key | null })
             <TLink
               key={key}
               href={href}
+              aria-current={key === active ? "page" : undefined}
               className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
             >
-              <BlurText text={label} />
+              {/* La sección en la que ya estás no reacciona al hover. */}
+              {key === active ? label : <BlurText text={label} />}
             </TLink>
           ))}
           <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
