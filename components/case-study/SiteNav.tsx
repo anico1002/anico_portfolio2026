@@ -1,6 +1,7 @@
 import Link from "next/link";
+import ThemeToggle from "@/components/case-study/ThemeToggle";
 
-/** Nav común de las maquetas: logo (lleva a la entrada) + menú. `mix-blend-difference`
+/** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna. `mix-blend-difference`
     para que se lea sobre cualquier fondo (también encima de imágenes y vídeos). */
 export default function SiteNav({ active = "product" }: { active?: "product" | "games" | "about" | "contact" | null }) {
   const items = [
@@ -15,12 +16,13 @@ export default function SiteNav({ active = "product" }: { active?: "product" | "
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/anico_logo.svg" alt="anico" className="h-[22px] w-auto invert" />
       </Link>
-      <div className="flex gap-3 whitespace-nowrap text-[13px] text-white md:gap-6 md:text-[14px]">
+      <div className="flex items-center gap-3 whitespace-nowrap text-[13px] text-white md:gap-6 md:text-[14px]">
         {items.map(([key, label, href]) => (
           <Link key={key} href={href} className={key === active ? "" : "opacity-50 transition-opacity hover:opacity-100"}>
             {label}
           </Link>
         ))}
+        <ThemeToggle />
       </div>
     </nav>
   );

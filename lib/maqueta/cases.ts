@@ -25,7 +25,8 @@ export type CaseCopy = {
   client?: string;
   role: string;
   services: string[];
-  /** Color de acento (glow del fondo); `light` = caso sobre fondo claro. */
+  /** Color de la marca del proyecto. Ya no tiñe el fondo (desde 2026-10-12 la maqueta va en
+      negro/blanco con selector sol/luna); se guarda para fondos de mockups. */
   accent: string;
   accent2?: string;
   light?: boolean;

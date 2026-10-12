@@ -3,14 +3,6 @@ import { Eyebrow, FadeIn } from "@/components/case-study/primitives";
 
 /* Contacto: email y LinkedIn de public/profile.txt; texto del bloque [contact]. */
 
-const theme = {
-  "--case-bg": "#0A0A0B",
-  "--case-fg": "#F4F4F5",
-  "--case-muted": "rgba(244,244,245,0.55)",
-  "--case-line": "rgba(244,244,245,0.16)",
-  "--case-ph": "rgba(244,244,245,0.07)",
-} as React.CSSProperties;
-
 const wrap = "px-4 md:px-6";
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
 
@@ -20,7 +12,6 @@ const LINKEDIN = "https://es.linkedin.com/in/anico";
 export default function Contact() {
   return (
     <main
-      style={theme}
       className="relative flex min-h-screen flex-col justify-between bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
       <SiteNav active="contact" />

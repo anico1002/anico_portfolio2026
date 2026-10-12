@@ -62,6 +62,15 @@ leídos por `lib/maqueta/media.ts`. Cada caso tiene su color de acento sacado de
 claro u oscuro. Verificado en Chrome headless (escritorio y 390 px): sin errores, sin imágenes rotas,
 sin scroll horizontal.
 
+**Ajustes de Alberto tras verla (mismo día):**
+- Fondo **negro/blanco** con **sol/luna** a la derecha del menú (recuerda la elección; si no hay,
+  sigue al sistema). Fuera los colores por caso y el glow de Gloop.
+- plastic.design era referencia **solo para redactar**, no para maquetar: los casos vuelven a la
+  **asimetría** (Yakushev/Metalab): imagen grande a un lado y texto estrecho al otro, alternando, y
+  el resto de láminas en parejas escalonadas 7+5 con parallax distinto.
+- Home con el **ritmo de Yakushev**: casi un proyecto por pantalla; cuando coinciden dos, uno es
+  pequeño y va mucho más rápido.
+
 **Standby para Alberto:**
 - Sin caso aún (en gris en la home, sin enlace): **7News, Dovla, Interactius y WineUp** — no hay
   texto en la web actual. Hacen falta sus contenidos.

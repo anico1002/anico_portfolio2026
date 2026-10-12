@@ -22,32 +22,26 @@ import {
    del rango de años y rejilla escalonada asimétrica. Las miniaturas con caso crecen a
    pantalla completa antes de cambiar de página. */
 
-const theme = {
-  "--case-bg": "#0A0A0B",
-  "--case-fg": "#F4F4F5",
-  "--case-muted": "rgba(244,244,245,0.55)",
-  "--case-line": "rgba(244,244,245,0.16)",
-  "--case-ph": "rgba(244,244,245,0.07)",
-} as React.CSSProperties;
-
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
 
 export type P = { name: string; line: string; type: string; year: string; thumb?: string; href?: string }; // type: para filtros futuros
 
-
-// Composición escalonada que se repite: posición en la rejilla, proporción, desfase
-// vertical y velocidad de parallax distintos en cada tarjeta.
+// Ritmo de Yakushev (2026-10-12): mucho aire entre proyectos, casi uno por pantalla.
+// Solo a veces coinciden dos, y entonces uno es pequeño y se mueve mucho más rápido con
+// el scroll (slots 2 + 3 comparten fila). Se repite cada 6 proyectos.
 const layout: { col: string; ratio: string; offset: string; speed: number; bleed?: "left" | "right" }[] = [
-  { col: "md:col-start-1 md:col-span-7", ratio: "4/3", offset: "", speed: 70 },
-  { col: "md:col-start-9 md:col-span-4", ratio: "3/4", offset: "md:mt-48", speed: 170 },
-  { col: "md:col-start-3 md:col-span-5", ratio: "1/1", offset: "md:mt-24", speed: 110 },
+  { col: "md:col-start-1 md:col-span-8", ratio: "4/3", offset: "md:mt-[40vh]", speed: 60 },
   // A sangre por la derecha: la imagen llega al borde de la pantalla.
-  { col: "md:col-start-8 md:col-span-5", ratio: "4/3", offset: "md:mt-64", speed: 60, bleed: "right" },
+  { col: "md:col-start-5 md:col-span-8", ratio: "16/10", offset: "md:mt-[40vh]", speed: 80, bleed: "right" },
+  // Pareja: la pequeña y rápida a la izquierda…
+  { col: "md:col-start-1 md:col-span-3", ratio: "3/4", offset: "md:mt-[55vh]", speed: 300 },
+  // …y la grande y lenta a la derecha, en la misma fila.
+  { col: "md:col-start-6 md:col-span-7", ratio: "1/1", offset: "md:mt-[30vh]", speed: 60 },
+  { col: "md:col-start-3 md:col-span-8", ratio: "16/10", offset: "md:mt-[40vh]", speed: 50 },
   // A sangre por la izquierda.
-  { col: "md:col-start-1 md:col-span-4", ratio: "3/4", offset: "md:mt-16", speed: 150, bleed: "left" },
-  { col: "md:col-start-6 md:col-span-7", ratio: "16/10", offset: "md:mt-40", speed: 90 },
+  { col: "md:col-start-1 md:col-span-7", ratio: "4/3", offset: "md:mt-[40vh]", speed: 90, bleed: "left" },
 ];
 
 function Card({ p, i, slot, offset }: { p: P; i: number; slot: number; offset?: string }) {
@@ -145,7 +139,6 @@ export default function HomeView({
 }) {
   return (
     <main
-      style={theme}
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
       <SiteNav active={active} />
@@ -163,7 +156,7 @@ export default function HomeView({
           las cifras del rango de años y el segundo proyecto; luego la rejilla escalonada. */}
       <section className={`mt-10 md:mt-12 ${wrap}`}>
         <div className={`${grid} gap-y-20 md:gap-y-0`}>
-          <Card p={items[0]} i={0} slot={0} />
+          <Card p={items[0]} i={0} slot={0} offset="" />
           <FadeIn delay={0.15} className="col-span-12 md:col-span-4 md:col-start-9 md:self-end md:pb-14">
             <p className="text-[clamp(16px,1.35vw,18px)] leading-[1.5] text-[var(--case-muted)]">{intro}</p>
           </FadeIn>
@@ -187,7 +180,7 @@ export default function HomeView({
               <h2 className="text-[clamp(32px,4.4vw,72px)] font-medium leading-[1.04] tracking-[-0.035em]">{more.title}</h2>
             </FadeIn>
           </div>
-          <div className={`${grid} mt-16 gap-y-20 md:mt-24 md:gap-y-0`}>
+          <div className={`${grid} gap-y-20 md:gap-y-0`}>
             {more.items.map((p, k) => (
               <Card key={p.name} p={p} i={items.length + k} slot={k + 1} />
             ))}

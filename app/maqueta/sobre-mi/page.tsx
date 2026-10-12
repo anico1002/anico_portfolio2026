@@ -5,14 +5,6 @@ import { Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives"
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
    plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto. */
 
-const theme = {
-  "--case-bg": "#0A0A0B",
-  "--case-fg": "#F4F4F5",
-  "--case-muted": "rgba(244,244,245,0.55)",
-  "--case-line": "rgba(244,244,245,0.16)",
-  "--case-ph": "rgba(244,244,245,0.07)",
-} as React.CSSProperties;
-
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
@@ -35,7 +27,6 @@ const clients = ["Gameloft Barcelona", "MasterChef World", "Metacampus", "LitLab
 export default function About() {
   return (
     <main
-      style={theme}
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
       <SiteNav active="about" />

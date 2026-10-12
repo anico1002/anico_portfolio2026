@@ -20,24 +20,7 @@ import {
 /* Maqueta del caso de estudio de Gloop.
    Cajas y móviles grises = imágenes/vídeos que produce Alberto; el texto es borrador
    (en castellano para revisarlo; la web final va en inglés).
-   Fondo propio del proyecto (sin selector claro/oscuro): lo fija `theme`. */
-
-const theme = {
-  "--case-bg": "#0B0613",
-  "--case-fg": "#F4F1F8",
-  "--case-muted": "rgba(244,241,248,0.55)",
-  "--case-line": "rgba(244,241,248,0.16)",
-  "--case-ph": "rgba(244,241,248,0.07)",
-} as React.CSSProperties;
-
-// Fondo basado en el de la app de Gloop (`.screen-glow` en Gloop-app/app/globals.css):
-// tres glows radiales fijos, centro casi negro. Fijo detrás del scroll, como en la app.
-const glow = [
-  // Magenta ampliado (petición de Alberto): casi del tamaño del violeta y fundido con él.
-  "radial-gradient(90% 52% at -4% -14%, rgba(234, 92, 128, 0.55), transparent 70%)",
-  "radial-gradient(95% 46% at 72% -6%, rgba(128, 60, 236, 0.62), transparent 64%)",
-  "radial-gradient(62% 60% at 106% 26%, rgba(104, 56, 230, 0.52), transparent 62%)",
-].join(", ");
+   Fondo blanco/negro común a toda la maqueta (selector sol/luna en el menú). */
 
 // Énfasis por contraste de peso dentro de la misma familia (sin serif cursiva).
 const em = "font-bold not-italic";
@@ -56,10 +39,8 @@ const section = `pt-36 md:pt-56 ${wrap}`;
 export default function GloopCase() {
   return (
     <main
-      style={theme}
       className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{ background: glow }} />
       {/* Nav mínima */}
       <SiteNav />
 

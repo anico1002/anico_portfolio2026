@@ -29,36 +29,10 @@ const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
 const tIntro = "text-[clamp(28px,4.3vw,64px)] leading-[1.12] tracking-[-0.025em]";
 const tStatement = "text-[clamp(26px,3.1vw,44px)] leading-[1.18] tracking-[-0.03em]";
+const tTitle = "text-[clamp(24px,2.4vw,34px)] leading-[1.15] tracking-[-0.02em]";
 const tBody = "text-[clamp(16px,1.35vw,18px)] leading-[1.55]";
 const section = `pt-32 md:pt-48 ${wrap}`;
 
-const rgba = (hex: string, a: number) => {
-  const n = parseInt(hex.slice(1), 16);
-  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
-};
-
-function themeOf(c: CaseCopy) {
-  const vars = c.light
-    ? { bg: "#F2F1EE", fg: "#0B0B0C", muted: "rgba(11,11,12,0.58)", line: "rgba(11,11,12,0.14)", ph: "rgba(11,11,12,0.06)" }
-    : { bg: "#09090B", fg: "#F4F4F5", muted: "rgba(244,244,245,0.56)", line: "rgba(244,244,245,0.16)", ph: "rgba(244,244,245,0.07)" };
-  const a2 = c.accent2 ?? c.accent;
-  const k = c.light ? 0.6 : 1;
-  // Glows fijos como en Gloop: acento arriba a la izquierda, secundario arriba a la derecha.
-  const glow = [
-    `radial-gradient(80% 50% at -6% -12%, ${rgba(c.accent, 0.5 * k)}, transparent 70%)`,
-    `radial-gradient(70% 46% at 104% 8%, ${rgba(a2, 0.42 * k)}, transparent 66%)`,
-  ].join(", ");
-  return {
-    style: {
-      "--case-bg": vars.bg,
-      "--case-fg": vars.fg,
-      "--case-muted": vars.muted,
-      "--case-line": vars.line,
-      "--case-ph": vars.ph,
-    } as React.CSSProperties,
-    glow,
-  };
-}
 
 /** Lámina a su proporción natural: se abre con la máscara de Metalab, sin recortar. */
 function Reveal({ children, from = "bottom", speed = 60 }: { children: React.ReactNode; from?: "top" | "bottom" | "left" | "right"; speed?: number }) {
@@ -123,65 +97,109 @@ function MediaView({ item, alt }: { item: MediaItem; alt: string }) {
   );
 }
 
-const isTall = (m: MediaItem) => m.type !== "video" && m.h / m.w > 1.15;
+const ratio = (m: MediaItem) => (m.type === "video" ? 16 / 9 : m.w / m.h);
+const isTall = (m: MediaItem) => ratio(m) < 0.87;
+const isStrip = (m: MediaItem) => ratio(m) > 2.6;
 
-/** Reparte las láminas en filas: las altas, de dos en dos; las apaisadas, alternando
-    ancho completo y desplazadas, para que el ritmo no sea una columna plana. */
-function rows(items: MediaItem[]) {
-  const out: { items: MediaItem[]; cls: string[] }[] = [];
-  let wide = 0;
+// Velocidades de parallax distintas por pieza (gesto Yakushev), como en Gloop.
+const SPEEDS = [50, 170, 130, 60, 150, 90];
+
+/** Láminas que siguen a la fila principal: por parejas escalonadas 7 + 5 columnas con
+    desfase vertical, alternando el lado ancho (la alta va al hueco estrecho); las tiras
+    muy apaisadas, a lo ancho; la suelta, descentrada. */
+function scatter(items: MediaItem[]) {
+  const out: { m: MediaItem; cls: string; from: "top" | "bottom" | "left" | "right" }[] = [];
+  let pair = 0;
   for (let i = 0; i < items.length; i++) {
-    const m = items[i];
-    if (isTall(m)) {
-      if (items[i + 1] && isTall(items[i + 1])) {
-        out.push({ items: [m, items[i + 1]], cls: ["md:col-span-6", "md:col-span-6 md:mt-32"] });
-        i++;
-      } else {
-        out.push({ items: [m], cls: [out.length % 2 ? "md:col-span-7 md:col-start-6" : "md:col-span-7 md:col-start-1"] });
-      }
-    } else {
-      const pattern = ["md:col-span-12", "md:col-span-10 md:col-start-3", "md:col-span-10 md:col-start-1"];
-      out.push({ items: [m], cls: [pattern[wide++ % pattern.length]] });
+    const a = items[i];
+    const b = items[i + 1];
+    if (isStrip(a)) {
+      out.push({ m: a, cls: "md:col-span-12", from: "bottom" });
+      continue;
     }
+    if (!b || isStrip(b)) {
+      out.push({ m: a, cls: pair % 2 ? "md:col-span-8 md:col-start-5" : "md:col-span-8 md:col-start-2", from: pair % 2 ? "right" : "left" });
+      pair++;
+      continue;
+    }
+    // Ancha a la izquierda + estrecha a la derecha, o al revés; la alta, siempre estrecha.
+    let wideFirst = pair % 2 === 0;
+    if (isTall(a) && !isTall(b)) wideFirst = false;
+    if (isTall(b) && !isTall(a)) wideFirst = true;
+    out.push(
+      wideFirst
+        ? { m: a, cls: "md:col-span-7 md:col-start-1", from: "top" }
+        : { m: a, cls: "md:col-span-5 md:col-start-1", from: "top" },
+      wideFirst
+        ? { m: b, cls: "md:col-span-5 md:col-start-8 md:mt-28", from: "bottom" }
+        : { m: b, cls: "md:col-span-7 md:col-start-6 md:mt-28", from: "bottom" }
+    );
+    pair++;
+    i++;
   }
   return out;
 }
 
+/** Capítulo asimétrico: imagen grande a un lado y texto estrecho al otro, alternando el
+    lado en cada capítulo; después, el resto de láminas escalonadas. Sin imágenes, el
+    titular y el texto van en diagonal. */
 function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: string; title?: string; body?: string; items: MediaItem[] }) {
   const flip = n % 2 === 1;
-  let k = 0;
+  const [lead, ...rest] = items;
+  const text = (
+    <>
+      <p className={`text-[12px] text-[var(--case-muted)] ${mono}`}>
+        {String(n + 1).padStart(2, "0")} · {eyebrow}
+      </p>
+      {title && <h3 className={`mt-3 ${tTitle}`}>{title}</h3>}
+      {body && <p className={`mt-4 text-[var(--case-muted)] ${tBody}`}>{body}</p>}
+    </>
+  );
+
+  if (!lead)
+    return (
+      <section className={section}>
+        <div className={`${grid} gap-y-8`}>
+          <FadeIn className={`col-span-12 md:col-span-7 ${flip ? "md:col-start-5" : "md:col-start-2"}`}>
+            <p className={`mb-4 text-[12px] text-[var(--case-muted)] ${mono}`}>
+              {String(n + 1).padStart(2, "0")} · {eyebrow}
+            </p>
+            {title && <h3 className={tStatement}>{title}</h3>}
+          </FadeIn>
+          {body && (
+            <FadeIn className={`col-span-12 md:col-span-4 md:mt-10 ${flip ? "md:col-start-2" : "md:col-start-8"}`}>
+              <p className={`text-[var(--case-muted)] ${tBody}`}>{body}</p>
+            </FadeIn>
+          )}
+        </div>
+      </section>
+    );
+
+  const tall = isTall(lead);
+  const media = tall ? "md:col-span-5" : "md:col-span-7";
   return (
     <section className={section}>
-      <div className={`${grid} items-end gap-y-6`}>
-        <FadeIn className={`col-span-12 md:col-span-7 ${flip ? "md:col-start-6" : "md:col-start-1"}`}>
-          <p className={`mb-4 text-[12px] text-[var(--case-muted)] ${mono}`}>
-            {String(n + 1).padStart(2, "0")} · {eyebrow}
-          </p>
-          {title && <h2 className={tStatement}>{title}</h2>}
+      <div className={`${grid} items-center gap-y-8`}>
+        <div className={`col-span-12 ${media} ${flip ? `${tall ? "md:col-start-8" : "md:col-start-6"} md:order-2` : "md:col-start-1"}`}>
+          <Reveal from={flip ? "right" : "left"} speed={flip ? 150 : 90}>
+            <MediaView item={lead} alt={eyebrow} />
+          </Reveal>
+        </div>
+        <FadeIn
+          className={`col-span-12 md:col-span-4 ${flip ? `md:order-1 ${tall ? "md:col-start-2" : "md:col-start-1"}` : tall ? "md:col-start-8" : "md:col-start-9"}`}
+        >
+          {text}
         </FadeIn>
-        {body && (
-          <FadeIn className={`col-span-12 md:col-span-4 ${flip ? "md:col-start-1 md:row-start-1" : "md:col-start-9"}`}>
-            <p className={`text-[var(--case-muted)] ${tBody}`}>{body}</p>
-          </FadeIn>
-        )}
       </div>
-      {items.length > 0 && (
-        <div className={`${grid} mt-14 gap-y-10 md:mt-20 md:gap-y-16`}>
-          {rows(items).map((r, ri) =>
-            r.items.map((m, j) => {
-              const idx = ++k;
-              return (
-                <div key={`${ri}-${j}`} className={`col-span-12 ${r.cls[j]}`}>
-                  <Reveal from={(["bottom", "left", "top", "right"] as const)[(ri + j) % 4]} speed={j ? 120 : 50}>
-                    <MediaView item={m} alt={`${eyebrow} ${idx}`} />
-                  </Reveal>
-                  <p className={`mt-3 text-[11px] text-[var(--case-muted)] ${mono}`}>
-                    {eyebrow} — {String(idx).padStart(2, "0")}
-                  </p>
-                </div>
-              );
-            })
-          )}
+      {rest.length > 0 && (
+        <div className={`${grid} mt-20 gap-y-10 md:mt-32 md:gap-y-24`}>
+          {scatter(rest).map(({ m, cls, from }, k) => (
+            <div key={k} className={`col-span-12 ${cls}`}>
+              <Reveal from={from} speed={SPEEDS[k % SPEEDS.length]}>
+                <MediaView item={m} alt={`${eyebrow} ${k + 2}`} />
+              </Reveal>
+            </div>
+          ))}
         </div>
       )}
     </section>
@@ -197,7 +215,6 @@ export default function CaseTemplate({
   media: CaseMedia;
   next: { name: string; href: string; thumb?: string };
 }) {
-  const { style, glow } = themeOf(c);
   // Cuanto más largo el nombre, menor el cuerpo (puede ir a dos líneas).
   const nameVw = Math.min(12, 150 / c.name.length);
   const facts: [string, string][] = [
@@ -213,10 +230,8 @@ export default function CaseTemplate({
 
   return (
     <main
-      style={style}
       className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10" style={{ background: glow }} />
       <SiteNav active={c.section === "games" ? "games" : "product"} />
 
       {/* 0 · Cabecera: la miniatura (la misma que creció en la home) funde a la portada. */}
@@ -260,43 +275,58 @@ export default function CaseTemplate({
           ))}
       </CaseHero>
 
-      {/* 1 · Frase de cabecera + resumen con el reto como pregunta */}
-      <section className={`pt-24 md:pt-36 ${wrap}`}>
-        <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-10">
-            <p className={tIntro}>{c.tagline}</p>
-          </FadeIn>
-        </div>
-        <div className={`${grid} mt-20 gap-y-8 md:mt-32`}>
-          <FadeIn className="col-span-12 md:col-span-5">
-            <Eyebrow>Resumen</Eyebrow>
-            <h2 className={tStatement}>{c.question}</h2>
-          </FadeIn>
-          <FadeIn delay={0.1} className="col-span-12 space-y-5 md:col-span-5 md:col-start-8 md:pt-10">
-            {c.overview.map((p) => (
-              <p key={p.slice(0, 24)} className={`text-[var(--case-muted)] ${tBody}`}>
-                {p}
-              </p>
-            ))}
-          </FadeIn>
-        </div>
-      </section>
+      {/* 1 · Introducción asimétrica. Con móvil (patrón Gloop): texto a la izquierda, fijo
+          mientras pasa el móvil en parallax a la derecha. Sin móvil: frase grande arriba a la
+          izquierda y el resumen bajando en diagonal por la derecha. */}
+      {media.phone ? (
+        <section className={`pt-24 md:pt-36 ${wrap}`}>
+          <div className={`${grid} items-start gap-y-14`}>
+            <FadeIn className="col-span-12 md:sticky md:top-28 md:col-span-5">
+              <Eyebrow>Introducción</Eyebrow>
+              <p className={tStatement}>{c.tagline}</p>
+              <h2 className={`mt-10 ${tTitle}`}>{c.question}</h2>
+              <div className="mt-6 space-y-5">
+                {c.overview.map((p) => (
+                  <p key={p.slice(0, 24)} className={`text-[var(--case-muted)] ${tBody}`}>
+                    {p}
+                  </p>
+                ))}
+              </div>
+            </FadeIn>
+            <Parallax speed={90} className="col-span-12 md:col-span-4 md:col-start-8">
+              <FadeIn>
+                <Phone label={c.name} src={media.phone.src} ratio={media.phone.ratio} className="mx-auto max-w-[360px]" />
+              </FadeIn>
+            </Parallax>
+          </div>
+        </section>
+      ) : (
+        <section className={`pt-24 md:pt-36 ${wrap}`}>
+          <div className={`${grid} gap-y-12`}>
+            <FadeIn className="col-span-12 md:col-span-8">
+              <Eyebrow>Introducción</Eyebrow>
+              <p className={tIntro}>{c.tagline}</p>
+            </FadeIn>
+            <FadeIn delay={0.1} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-56">
+              <h2 className={tTitle}>{c.question}</h2>
+              <div className="mt-6 space-y-5">
+                {c.overview.map((p) => (
+                  <p key={p.slice(0, 24)} className={`text-[var(--case-muted)] ${tBody}`}>
+                    {p}
+                  </p>
+                ))}
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+      )}
 
-      {/* 2 · El móvil sobre su escenario (fondo de la web actual o el color del caso) */}
-      {media.phone && (
+      {/* 2 · Momento grande: la imagen de escenario del proyecto se abre a sangre. */}
+      {media.phone?.bg && (
         <div className="mt-28 md:mt-40">
           <WindowReveal>
-            <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
-              {media.phone.bg ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={media.phone.bg} alt="" className="absolute inset-0 h-full w-full object-cover" />
-              ) : (
-                <div className="absolute inset-0" style={{ background: `radial-gradient(60% 70% at 50% 40%, ${rgba(c.accent, 0.55)}, var(--case-bg))` }} />
-              )}
-              <div className="relative h-[78%]" style={{ aspectRatio: media.phone.ratio }}>
-                <Phone label={c.name} src={media.phone.src} ratio={media.phone.ratio} className="h-full" />
-              </div>
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={media.phone.bg} alt="" className="h-full w-full object-cover" />
           </WindowReveal>
         </div>
       )}

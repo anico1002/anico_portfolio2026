@@ -9,13 +9,6 @@ import { POWER3_INOUT } from "@/components/case-study/primitives";
 /* Entrada: el visitante elige por dónde entrar (pendiente del 2026-09-09: dos públicos,
    dos recorridos). Al pasar por encima de cada opción, su imagen ocupa el fondo. */
 
-const theme = {
-  "--case-bg": "#0A0A0B",
-  "--case-fg": "#F4F4F5",
-  "--case-muted": "rgba(244,244,245,0.55)",
-  "--case-line": "rgba(244,244,245,0.16)",
-} as React.CSSProperties;
-
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
 
 const ways = [
@@ -39,7 +32,6 @@ export default function Entry() {
   const [hover, setHover] = useState<string | null>(null);
   return (
     <main
-      style={theme}
       className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
       <SiteNav active={null} />
