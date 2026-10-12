@@ -48,6 +48,48 @@ Verificar que ha quedado arreglado contando en el log: `grep -c FATAL` a 0 y tan
 peticiones hayas hecho tú. Pasa sobre todo tras cambiar `public/projects/`, porque ahí se cachea
 el escaneo del filesystem.
 
+## 2026-10-12 (MacBook, «tira millas») — MAQUETA NAVEGABLE ENTERA
+
+Entrada en **`localhost:3000/maqueta`** (elegir Product o Games). Rutas: `/maqueta/home` (Product +
+bloque «Marca y web»), `/maqueta/games`, `/maqueta/sobre-mi`, `/maqueta/contacto`,
+`/maqueta/gloop` (a medida) y **14 casos** en `/maqueta/<slug>` con una plantilla común
+(`components/case-study/CaseTemplate.tsx`). Textos de cada caso en **`lib/maqueta/cases.ts`**
+(castellano, sacados solo del `content.txt` de la web actual; estructura de textos de
+**plastic.design** —frase de cabecera, resumen con el reto como pregunta, capítulos con
+titular-frase, pie corto, «Más trabajo» + «Hablemos»— y concisión de Metalab). Medios: los de
+`public/projects/<slug>/` tal cual, a su proporción natural (son láminas con texto; nunca recortar),
+leídos por `lib/maqueta/media.ts`. Cada caso tiene su color de acento sacado de su portada y fondo
+claro u oscuro. Verificado en Chrome headless (escritorio y 390 px): sin errores, sin imágenes rotas,
+sin scroll horizontal.
+
+**Standby para Alberto:**
+- Sin caso aún (en gris en la home, sin enlace): **7News, Dovla, Interactius y WineUp** — no hay
+  texto en la web actual. Hacen falta sus contenidos.
+- **Marca y web** (OBLIQ, ACT, GM World!, Metacampus) va como bloque aparte al final de Product. ¿Ahí, o
+  tercera sección propia?
+- Los protos hipercasuales de `games/` no están en Games (no estaban en la web actual).
+- Casos de concepto (Netflix, Nike, Hawkers, Two Dots) quedan cortos: en la web solo tienen el vídeo
+  del móvil. Encajan con la idea de mockups en escena + fotos de ambiente.
+- Idioma: todo en castellano como el resto de la maqueta; la web final va en inglés (los textos
+  viven en un solo archivo para traducirlos de una vez).
+- Cifra de Asphalt Unite «1.000M+ descargas»: es la que pone la web actual; suena a la franquicia
+  entera, confirmar.
+
+## 2026-10-12 (MacBook) — CASO GLOOP POBLADO CON MEDIOS NATIVOS
+
+Hecho el pendiente de capturas/vídeos: simulador **sin ventana** + **AXe** para toques reales
+(sin cursor ni círculos), 24 capturas y 8 grabaciones (vídeo-resumen de ~1 min + ruleta, juego del
+día, unirse por invitación, visor de Momentos, La Cuenta, llegada de un Momento). Montadas tipo
+Metalab: pantalla con esquinas de iPhone sobre campos de color de Gloop, cada pieza con la
+proporción exacta de su hueco. Conectadas en `app/maqueta/gloop/page.tsx` (hero, móvil de la intro,
+prototipo, 3 decisiones, 4 de experiencia, franja 21/9, ventana nativa, 3 juegos).
+Viven en `public/maqueta/gloop/media/` (**ignorado por git**, solo en el MacBook). El sistema para
+regenerarlas está en `scripts/case-media/` (README dentro).
+
+**Siguen en placeholder:** Clones (solo existe en web), las 3 tarjetas de casos límite (no hay ruta
+directa a moderación / cerrar con deudas / noche de 2), UI kit, diagramas y portada del siguiente caso.
+Pendiente de que Alberto valide el look de las composiciones antes de repetirlo en otros casos.
+
 ## 2026-10-11 (cierre) — MAQUETA DE HOME DE PRODUCT + CASO GLOOP (rama `case-study-maqueta`)
 
 Objetivo de Alberto: casos de estudio profesionales de sus apps (Gloop primero; luego El Reto,
@@ -87,7 +129,7 @@ pesos/estilos, detalles editoriales, ritmo de vacíos, texturas, micro-tipograf�
 carga de la home) y proponer 2-3 direcciones antes de seguir puliendo layout. Con placeholders
 grises cuesta juzgarlo: conseguir antes material real (abajo).
 
-**PENDIENTE EN EL MACBOOK — capturas y vídeos nativos de Gloop** (en el Mac mini el simulador
+**~~PENDIENTE EN EL MACBOOK~~ (hecho el 2026-10-12, ver arriba) — capturas y vídeos nativos de Gloop** (en el Mac mini el simulador
 tiró SpringBoard y salieron popups: no repetir aquí). Compilar `Gloop-app/ios` en un derivedData
 fuera del repo, simulador sin ventana, `simctl status_bar override --time 9:41`, y abrir pantallas
 con argumentos (`-GloopSkipSplash YES -GloopScenario … -GloopTab … -GloopRoute …`). Rutas útiles

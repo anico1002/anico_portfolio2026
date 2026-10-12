@@ -1,0 +1,24 @@
+import { notFound } from "next/navigation";
+import CaseTemplate from "@/components/case-study/CaseTemplate";
+import { CASES, caseBySlug, nextCase } from "@/lib/maqueta/cases";
+import { getCaseMedia, thumbOf } from "@/lib/maqueta/media";
+
+/* Casos de la maqueta salvo Gloop (que tiene página propia en /maqueta/gloop). */
+
+export function generateStaticParams() {
+  return CASES.map((c) => ({ slug: c.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const c = caseBySlug((await params).slug);
+  return { title: c ? `${c.name} · maqueta` : "Maqueta" };
+}
+
+export default async function CasePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const copy = caseBySlug(slug);
+  const media = copy && getCaseMedia(copy);
+  if (!copy || !media) notFound();
+  const n = nextCase(slug);
+  return <CaseTemplate copy={copy} media={media} next={{ ...n, thumb: thumbOf(n.slug) }} />;
+}

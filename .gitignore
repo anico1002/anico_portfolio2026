@@ -51,3 +51,4 @@ coverage/
 
 # Capturas nativas de Gloop sin publicar (repo público)
 /public/maqueta/gloop/screens/
+/public/maqueta/gloop/media/

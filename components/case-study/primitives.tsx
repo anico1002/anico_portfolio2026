@@ -295,12 +295,23 @@ export function Placeholder({
 }
 
 /** Móvil (proporción iPhone 393×852): pantalla real (`src`) o placeholder gris. */
-export function Phone({ label, src, className = "" }: { label: string; src?: string; className?: string }) {
+export function Phone({
+  label,
+  src,
+  ratio = "393/852",
+  className = "",
+}: {
+  label: string;
+  src?: string;
+  /** Proporción real de la grabación, si no es la del iPhone moderno. */
+  ratio?: string;
+  className?: string;
+}) {
   return (
     <div className={`w-full ${className}`}>
       <div
         className="relative mx-auto w-full overflow-hidden rounded-[13%/6%] border border-[var(--case-line)] bg-[var(--case-ph)]"
-        style={{ aspectRatio: "393/852" }}
+        style={{ aspectRatio: ratio }}
       >
         {src ? (
           <Media src={src} alt={label} />

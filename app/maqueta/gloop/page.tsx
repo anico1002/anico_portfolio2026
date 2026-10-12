@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import SiteNav from "@/components/case-study/SiteNav";
 import { motion } from "framer-motion";
 import {
@@ -67,6 +68,7 @@ export default function GloopCase() {
           máscara, el titular, la ficha y la intro. Composición asimétrica: titular abajo a
           la izquierda; ficha e intro en la columna de la derecha. */}
       <CaseHero
+        videoReady
         poster={
           <Placeholder
             ratio="auto"
@@ -113,6 +115,7 @@ export default function GloopCase() {
           kind="vídeo"
           ratio="auto"
           className="h-full"
+          src="/maqueta/gloop/media/hero.mp4"
           label="VÍDEO · la portada funde a él unos segundos después de llegar. App final en bucle, 1920×1080 mín."
         />
       </CaseHero>
@@ -134,6 +137,7 @@ export default function GloopCase() {
           <Parallax speed={90} className="col-span-12 md:col-span-4 md:col-start-8">
             <FadeIn>
               <Phone
+                src="/maqueta/gloop/media/phone-overview.mp4"
                 label="VÍDEO · overview del flujo completo de la app funcionando, de la primera pantalla al final (≈ 40–60 s en bucle)."
                 className="mx-auto max-w-[360px]"
               />
@@ -163,6 +167,7 @@ export default function GloopCase() {
             <MaskReveal from="top">
               <Placeholder
                 kind="vídeo"
+                src="/maqueta/gloop/media/prototipo.jpg"
                 label="Prototipo navegable en un móvil sobre fondo de color (o fotograma de los vídeos por escenario). Horizontal."
               />
             </MaskReveal>
@@ -183,23 +188,26 @@ export default function GloopCase() {
           {
             t: "Entrar sin esperas",
             d: "Unirse a un equipo cuesta un toque. La confianza la aporta quien invita; la moderación actúa después, con cada entrada visible para todo el grupo.",
+            src: "/maqueta/gloop/media/decision-unirse.mp4",
             ph: "Flujo de unirse a un equipo: invitación → dentro. 2–3 pantallas o vídeo corto.",
           },
           {
             t: "Un juego al día, por equipo",
             d: "Una pregunta diaria sobre alguien del grupo, que se responde en un minuto. El hábito que mantiene vivo cada equipo entre una salida y la siguiente.",
+            src: "/maqueta/gloop/media/decision-diario.mp4",
             ph: "El juego del día dentro de un equipo: pregunta → respuesta → ranking.",
           },
           {
             t: "La noche elige el juego",
             d: "Al empezar la noche, una ruleta escoge el juego según quién está presente. Cero menús en la mesa de un bar.",
+            src: "/maqueta/gloop/media/decision-ruleta.mp4",
             ph: "Vídeo de la ruleta: tarjeta → ruleta a pantalla completa → intro del juego.",
           },
         ].map((r, i) => (
           <div key={r.t} className={`${grid} mt-24 items-center gap-y-8 md:mt-40`}>
             <div className={`col-span-12 md:col-span-6 ${i % 2 ? "md:col-start-7 md:order-2" : "md:col-start-1"}`}>
               <MaskReveal from={i % 2 ? "right" : "left"} speed={i % 2 ? 150 : 90}>
-                <Placeholder kind={i === 2 ? "vídeo" : "imagen"} ratio="4/5" label={r.ph} />
+                <Placeholder kind={i === 2 ? "vídeo" : "imagen"} ratio="4/5" src={r.src} label={r.ph} />
               </MaskReveal>
             </div>
             <FadeIn
@@ -246,22 +254,22 @@ export default function GloopCase() {
         <div className={`${grid} mt-16 gap-y-6 md:mt-24`}>
           <div className="col-span-12 md:col-span-7">
             <MaskReveal from="top" speed={50}>
-              <Placeholder ratio="4/3" label="Equipos · composición con 2–3 pantallas del equipo y su foto como héroe." />
+              <Placeholder ratio="4/3" src="/maqueta/gloop/media/exp-equipos.jpg" label="Equipos · composición con 2–3 pantallas del equipo y su foto como héroe." />
             </MaskReveal>
           </div>
           <div className="col-span-12 md:col-span-5 md:mt-28">
             <MaskReveal from="bottom" speed={170}>
-              <Placeholder ratio="3/4" label="Noche · la noche en marcha (caras 2×2, marcador)." />
+              <Placeholder ratio="3/4" src="/maqueta/gloop/media/exp-noche.mp4" label="Noche · la noche en marcha (caras 2×2, marcador)." />
             </MaskReveal>
           </div>
           <div className="col-span-12 md:col-span-5">
             <MaskReveal from="top" speed={130}>
-              <Placeholder ratio="3/4" label="Momentos · visor tipo Stories / revelado a las 24 h." />
+              <Placeholder ratio="3/4" src="/maqueta/gloop/media/exp-momentos.mp4" label="Momentos · visor tipo Stories / revelado a las 24 h." />
             </MaskReveal>
           </div>
           <div className="col-span-12 md:col-span-7 md:mt-28">
             <MaskReveal from="bottom" speed={60}>
-              <Placeholder ratio="4/3" label="La Cuenta · gastos, deudas calculadas, marcar pagado." />
+              <Placeholder ratio="4/3" src="/maqueta/gloop/media/exp-cuenta.mp4" label="La Cuenta · gastos, deudas calculadas, marcar pagado." />
             </MaskReveal>
           </div>
         </div>
@@ -274,6 +282,7 @@ export default function GloopCase() {
           <Placeholder
             kind="vídeo"
             ratio="21/9"
+            src="/maqueta/gloop/media/flujo-dia.mp4"
             label="Vídeo de flujo: un día cualquiera con tu equipo (recorte del vídeo 1)."
           />
         </MaskReveal>
@@ -292,7 +301,7 @@ export default function GloopCase() {
           {["Podium", "Culpable", "De 0 a 100", "Clones"].map((g, i) => (
             <Parallax key={g} speed={[60, 150, 90, 180][i]} className="col-span-6 md:col-span-2">
               <FadeIn delay={i * 0.06}>
-                <Phone label={g} />
+                <Phone label={g} src={({ Podium: "/maqueta/gloop/media/game-podium.jpg", Culpable: "/maqueta/gloop/media/game-culpable.jpg", "De 0 a 100": "/maqueta/gloop/media/game-de0a100.jpg" } as Record<string, string>)[g]} />
               </FadeIn>
             </Parallax>
           ))}
@@ -318,6 +327,7 @@ export default function GloopCase() {
             kind="vídeo"
             ratio="auto"
             className="h-full"
+            src="/maqueta/gloop/media/nativa.mp4"
             label="La app nativa corriendo en el iPhone (grabación real o en mano). Liquid Glass, gestos, hápticos."
           />
         </WindowReveal>
@@ -394,16 +404,25 @@ export default function GloopCase() {
       </section>
 
       <footer className="mt-36 overflow-hidden pb-10 md:mt-56">
-        <div className={wrap}>
-          <MaskReveal from="bottom" className="mx-auto max-w-[560px]">
-            <Placeholder ratio="16/9" label="Portada del siguiente caso (El Reto)." />
-          </MaskReveal>
+        <Link href="/maqueta/elreto-masterchef" className="group block">
+          <div className={wrap}>
+            <MaskReveal from="bottom" className="mx-auto max-w-[560px]">
+              <Placeholder ratio="16/9" src="/projects/elreto-masterchef/ElReto_thumb.png" label="El Reto MasterChef" />
+            </MaskReveal>
+          </div>
+          <FadeIn>
+            <p className={`mt-8 text-center text-[13px] text-[var(--case-muted)] ${mono}`}>Siguiente caso · El Reto MasterChef</p>
+            <p className="-mt-1 whitespace-nowrap text-center text-[11.5vw] font-extrabold leading-none tracking-[-0.055em] transition-opacity group-hover:opacity-70">
+              Siguiente <em className={`${em}`}>caso</em>
+            </p>
+          </FadeIn>
+        </Link>
+        <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
+          <p className={`text-[12px] text-[var(--case-muted)] ${mono}`}>anico · 2026</p>
+          <Link href="/maqueta/contacto" className="text-[clamp(28px,3vw,44px)] font-medium tracking-[-0.03em] hover:opacity-70">
+            Hablemos →
+          </Link>
         </div>
-        <FadeIn>
-          <p className="-mt-[6vw] whitespace-nowrap text-center text-[17vw] font-extrabold leading-none tracking-[-0.055em]">
-            Siguiente <em className={`${em}`}>caso</em>
-          </p>
-        </FadeIn>
       </footer>
     </main>
   );
