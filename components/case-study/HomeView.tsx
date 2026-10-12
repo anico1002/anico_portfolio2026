@@ -138,7 +138,9 @@ export default function HomeView({
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
 
-      <HomeHero title={title} slides={slides} nav={<SiteNav active={active} docked />} />
+      {/* Logo fijo arriba desde el principio; el menú, al pie de la cabecera (sube y se pega arriba). */}
+      <SiteNav active={active} parts="logo" />
+      <HomeHero title={title} slides={slides} nav={<SiteNav active={active} docked parts="menu" />} />
 
       {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después la
           rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:

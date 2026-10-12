@@ -30,15 +30,19 @@ type Key = (typeof items)[number][0];
 
 /** `menu={false}`: solo logo y sol/luna (en la entrada partida, donde las dos mitades ya son
     la elección y un menú encima sobraría). `docked`: la barra no va fija arriba sino en el flujo
-    de la página; quien la monta la coloca (en las homes, al pie de la cabecera y `sticky`). */
+    de la página; quien la monta la coloca (en las homes, al pie de la cabecera y `sticky`).
+    `parts`: en las homes el logo y el menú van por separado (2026-10-12): el logo fijo arriba desde
+    el principio y el menú al pie de la cabecera, para leer en orden logo → titular → menú. */
 export default function SiteNav({
   active = "product",
   menu = true,
   docked = false,
+  parts = "all",
 }: {
   active?: Key | null;
   menu?: boolean;
   docked?: boolean;
+  parts?: "all" | "logo" | "menu";
 }) {
   const [open, setOpen] = useState(false);
 
@@ -57,34 +61,40 @@ export default function SiteNav({
 
   return (
     <>
-      <nav className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50"} flex h-[3.5rem] items-center justify-between px-4 md:px-6`}>
-        <TLink href="/maqueta" aria-label="anico · inicio">
-          <Inked className="block">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/anico_logo.svg" alt="anico" className="ink-logo h-[1.125rem] w-auto md:h-[1.375rem]" />
-          </Inked>
-        </TLink>
-        <div className="flex items-center gap-4 whitespace-nowrap t-nav md:gap-6">
-          {menu && items.map(([key, label, href]) => (
-            <TLink
-              key={key}
-              href={href}
-              aria-current={key === active ? "page" : undefined}
-              className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
-            >
-              {/* La sección en la que ya estás no reacciona al hover. */}
-              <Inked>{key === active ? label : <RollText text={label} />}</Inked>
-            </TLink>
-          ))}
-          {menu && (
-            <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
-              <Inked>Menú</Inked>
-            </button>
-          )}
-          <Inked className="flex">
-            <ThemeToggle />
-          </Inked>
-        </div>
+      <nav
+        className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts === "logo" ? "pointer-events-none" : ""}`}
+      >
+        {parts !== "menu" && (
+          <TLink href="/maqueta" aria-label="anico · inicio" className="pointer-events-auto">
+            <Inked className="block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/anico_logo.svg" alt="anico" className="ink-logo h-[1.125rem] w-auto md:h-[1.375rem]" />
+            </Inked>
+          </TLink>
+        )}
+        {parts !== "logo" && (
+          <div className="flex items-center gap-4 whitespace-nowrap t-nav md:gap-6">
+            {menu && items.map(([key, label, href]) => (
+              <TLink
+                key={key}
+                href={href}
+                aria-current={key === active ? "page" : undefined}
+                className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
+              >
+                {/* La sección en la que ya estás no reacciona al hover. */}
+                <Inked>{key === active ? label : <RollText text={label} />}</Inked>
+              </TLink>
+            ))}
+            {menu && (
+              <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
+                <Inked>Menú</Inked>
+              </button>
+            )}
+            <Inked className="flex">
+              <ThemeToggle />
+            </Inked>
+          </div>
+        )}
       </nav>
 
       <AnimatePresence>

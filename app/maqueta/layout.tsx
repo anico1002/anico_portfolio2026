@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Instrument_Sans, Playfair } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
 import PortalLayer from "@/components/case-study/Portal";
 import "./system.css";
 
-// Tipografía de la maqueta (2026-10-12): familia Instrument. Instrument Sans para todo e Instrument
-// Serif en cursiva para palabras destacadas de los titulares (`*palabras*` → `.kw`; cómo se destacan, a prueba con `?em=`). Antes era
+// Tipografía de la maqueta (2026-10-12): Instrument Sans para todo y Playfair
+// en cursiva para palabras destacadas de los titulares (`*palabras*` → `.kw`, en Playfair cursiva). Antes era
 // Geist (elegida frente a Inter y Bricolage el 2026-10-11). Los titulillos también van en Instrument
 // Sans (`.t-tag`); Geist Mono se quitó. Nada de esto toca el resto del portfolio.
-const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"], style: ["normal", "italic"], axes: ["wdth"] });
+const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"] });
 
 
-const serif = Instrument_Serif({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });
+// Cursiva de las palabras destacadas: Playfair (variable, con tamaño óptico). Elegida el 2026-10-12
+// tras probar Instrument Serif (estrecha), DM Serif Display, ácido, gris, barras, anchura y otras.
+const serif = Playfair({ variable: "--font-case-serif", subsets: ["latin"], style: "italic", axes: ["opsz"] });
 
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
@@ -39,7 +41,7 @@ const themes = `
 `;
 
 // Antes de pintar: la elección guardada o, si no hay, la del sistema. Así no parpadea.
-const pick = `(function(){var r=document.getElementById('case-root');try{var q=new URLSearchParams(location.search).get('em');if(q)sessionStorage.setItem('case-em',q);r.dataset.em=sessionStorage.getItem('case-em')||'barras';}catch(e){}try{var t=localStorage.getItem('case-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.dataset.caseTheme=t}catch(e){}})();`;
+const pick = `(function(){var r=document.getElementById('case-root');try{var t=localStorage.getItem('case-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.dataset.caseTheme=t}catch(e){}})();`;
 
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   return (

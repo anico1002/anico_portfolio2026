@@ -169,57 +169,16 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 .logo-roll { animation: logo-roll var(--dur-base) var(--ease-in-out) both; animation-delay: calc(var(--i) * 80ms); }
 @media (prefers-reduced-motion: reduce) { .logo-roll { animation: none; } }
 
-/* Palabras clave de los titulares (`*palabras*` → `.kw`). A prueba (2026-10-12) con `?em=`:
-   color · el titular en gris y las palabras clave en el color pleno del texto (sin cambiar de fuente)
-   acido · titular normal y palabras clave con degradado ácido (lima → cian en oscuro; en claro, un
-           verde → azul eléctrico más profundo, porque lima y cian no se leen sobre blanco)
-   mezcla · el titular en gris y las palabras clave con el degradado ácido
-   serif · Instrument Serif cursiva (la anterior)
-   imagen · ventana con imágenes de la sección dentro de la frase (`[m]` en el texto)
-   cursiva · la cursiva de la propia Instrument Sans, sin cambiar de familia
-   ancho · las palabras clave en Instrument Sans condensada (eje de anchura al 75 %); al entrar el
-           titular se comprimen desde la anchura normal. */
-.kw { font-style: normal; }
-#case-root[data-em="color"] .t-hero { color: var(--case-muted); }
-#case-root[data-em="color"] .kw { color: var(--case-fg); }
-#case-root[data-em="mezcla"] .t-hero { color: var(--case-muted); }
-#case-root:is([data-em="acido"], [data-em="mezcla"]) .kw {
-  background-image: linear-gradient(90deg, #d8ff3e 0%, #5dffb0 45%, #34e7ff 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone;
-}
-#case-root[data-case-theme="light"]:is([data-em="acido"], [data-em="mezcla"]) .kw {
-  background-image: linear-gradient(90deg, #22c55e 0%, #00b37e 40%, #0a84ff 100%);
-}
-#case-root[data-em="cursiva"] .kw { font-style: italic; }
-/* barras · cursiva de Instrument Sans entre barras: /productos digitales/. Las barras van rectas y
-   un punto más finas de color, para que enmarquen sin pesar. */
-#case-root[data-em="barras"] .kw { font-style: italic; }
-#case-root[data-em="barras"] .kw::before, #case-root[data-em="barras"] .kw::after { content: "/"; font-style: normal; color: var(--case-muted); }
-#case-root[data-em="barras"] .kw::before { margin-right: 0.04em; }
-#case-root[data-em="barras"] .kw::after { margin-left: 0.06em; }
-@keyframes kw-squeeze { from { font-stretch: 100%; } to { font-stretch: 75%; } }
-#case-root[data-em="ancho"] .kw { font-stretch: 75%; animation: kw-squeeze var(--dur-slow) var(--ease-in-out) 1.2s both; }
-@media (prefers-reduced-motion: reduce) { #case-root[data-em="ancho"] .kw { animation: none; } }
-#case-root[data-em="serif"] .kw { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: -0.01em; }
+/* Palabras clave de los titulares (`*palabras*` → `.kw`): Playfair cursiva (2026-10-12). Un 16 % más
+   grande para que su altura de x case con Instrument Sans, sin alterar el interlineado, y sin partirse
+   entre líneas. */
+.kw { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.16em; letter-spacing: -0.02em; line-height: 0; white-space: nowrap; }
 
 /* Titulillos (antetítulos y datos: «Introducción», «Rol», «01 / 2026»…): un solo estilo para todos,
    en Instrument Sans (la misma familia que el resto), mayúsculas espaciadas y peso medio. Se probaron
    Geist Mono e Instrument Serif (recta y cursiva) y se descartaron (2026-10-12). */
 .t-tag { font-family: var(--font-case-sans), sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; }
 
-/* Ventana dentro de la frase (`[m]`, opción «imagen»). Cantos rectos como toda la maqueta; se abre con
-   máscara desde el centro cuando entra el titular. Fuera de ?em=imagen no ocupa sitio. */
-.inline-media { display: none; }
-#case-root[data-em="imagen"] .inline-media {
-  display: inline-block; position: relative; overflow: hidden;
-  width: 1.7em; height: 0.78em; margin: 0 0.06em; vertical-align: -0.02em;
-  background: var(--case-ph);
-  clip-path: inset(0 50% 0 50%);
-  transition: clip-path var(--dur-base) var(--ease-in-out) 0.4s;
-}
-#case-root[data-em="imagen"] .inline-media.is-open { clip-path: inset(0 0 0 0); }
-.inline-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* Palabras que cambian (`{a|b|c}` en el titular de las homes; decidido 2026-10-12): máscara del ancho de la palabra visible, que se
    ajusta suave al cambiar; la saliente y la entrante comparten celda. Margen abajo para no cortar

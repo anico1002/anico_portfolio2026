@@ -32,8 +32,10 @@ assets "no se ve", comprobar primero en cuál de las dos carpetas se tocó.
 
 ## Tipografía (D3, 2026-10-12)
 
-Familia **Instrument**: Instrument Sans para todo e **Instrument Serif Italic** en palabras destacadas de
-los titulares (se marcan con `*asteriscos*` en el texto → `.serif-em`). Titulillos (antetítulos y datos) en un
+**Instrument Sans** para todo y **Playfair Italic** en palabras destacadas de los titulares (se marcan con
+`*asteriscos*` → `.kw`; 116 % del cuerpo de la sans y sin partirse entre líneas). Probadas y descartadas:
+Instrument Serif (estrecha), DM Sans + DM Serif Display, gris, ácido, imagen en la frase, cursiva de la
+sans, anchura variable, barras. Selector `?em=` retirado. Titulillos (antetítulos y datos) en un
 solo estilo `.t-tag`: Instrument Sans 500, MAYÚSCULAS, espaciado 0,1 em (se probaron Geist Mono e
 Instrument Serif; descartadas). Geist Mono ya no se carga. Display a peso 700 (Instrument Sans no llega a 800). Intro de las homes
 `.t-hero` a 64 px (empezó en 80). Las máscaras de texto llevan margen por abajo para no cortar g/j/p.
@@ -54,8 +56,7 @@ Recurso sans + serif cursiva: le gusta pero lo ve **trillado**. Gris + palabras 
 **descartado** (pierde potencia). Degradado ácido en las palabras clave: le gustó (idea: verde para Games, violeta para Product), pero
 **descartado**: en tema claro no funciona igual de bien. Se queda el titular con palabras que cambian;
 el énfasis se revisará más adelante. Imagen dentro de la frase (`[m]`): muy vista; solo si tiene un juego (ampliarse al
-pasar o con el scroll), no puesta porque sí. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen|cursiva|ancho|barras` (por defecto, barras: a prueba)
-(en `layout.tsx`). Anchura variable: no convence (y expandir exige otra fuente, p. ej. Mona Sans); descartada.
+pasar o con el scroll), no puesta porque sí. (Selector de pruebas retirado.) Anchura variable: no convence (y expandir exige otra fuente, p. ej. Mona Sans); descartada.
 
 ## Sin desenfoques: todo es máscara (2026-10-12)
 
@@ -131,7 +132,9 @@ gigante de Metalab se descartó (copiado, y Alberto duda de los tipos gigantes e
 **Cabecera de las homes (2026-10-12):** `HomeHero.tsx` continúa la entrada sin corte —el telón se funde
 cuando la cabecera pinta la misma imagen (`endCurtain`)—, pase de imágenes a pantalla completa
 (`lib/maqueta/sections.ts`, compartido con la entrada) y máscara de abajo arriba hasta media pantalla; el texto respira en la mitad de abajo y la barra (logo +
-menú, `SiteNav docked`) aparece al pie y al hacer scroll se queda `sticky` arriba (la barra de Yakushev). Intro en `.t-hero` (80 px a 1440, medida de Yakushev: 79 px, peso 400). Fuera el
+menú, `SiteNav docked`) aparece al pie y al hacer scroll se queda `sticky` arriba (la barra de Yakushev).
+Desde 2026-10-12 el **logo va aparte, fijo arriba a la izquierda desde el principio** y solo el menú va al
+pie (`parts="logo"|"menu"`): se lee logo → titular → menú. Intro en `.t-hero` (80 px a 1440, medida de Yakushev: 79 px, peso 400). Fuera el
 antetítulo «Alberto Nicolás · …». En la entrada, «01»/«02» pequeños pegados al titular (antes repetidos
 abajo).
 **Entrada decidida: la pantalla partida** es ahora `/maqueta` (adonde lleva el logo); la A queda en
