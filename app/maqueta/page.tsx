@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import SiteNav from "@/components/case-study/SiteNav";
 import { DUR, EASE, STAGGER, inOrOut } from "@/lib/maqueta/motion";
 import { startCurtain } from "@/components/case-study/Curtain";
+import { SLIDES } from "@/lib/maqueta/sections";
 
 /* Entrada de la maqueta (elegida 2026-10-12; adonde lleva el logo): pantalla partida por la mitad, Product a la izquierda
    y Games a la derecha. Titulares juntos en el centro, pegados a la línea central; un párrafo corto
@@ -30,28 +31,14 @@ const sides: Side[] = [
     label: "Product",
     text: "Apps, producto digital, marca y web. Diseño de la idea al código nativo, con prototipos que se pueden tocar.",
     href: "/maqueta/home",
-    slides: [
-      "/maqueta/gloop/cover.jpg",
-      "/projects/elreto-masterchef/ElReto_hero.png",
-      "/projects/swift-project/SwifT_hero.png",
-      "/projects/obliq/01/obliq_1.png",
-      "/projects/act/ACT_hero.png",
-      "/projects/metacampus/Metacampus_hero.png",
-    ],
+    slides: [...SLIDES.product],
   },
   {
     key: "games",
     label: "Games",
     text: "UI/UX de videojuegos: menús, HUD y sistemas visuales para títulos jugados por cientos de millones de personas.",
     href: "/maqueta/games",
-    slides: [
-      "/projects/asphalt-unite/AU_hero.png",
-      "/projects/cybertitans/CyberTitans_hero.png",
-      "/projects/two-dots/twodots_hero.png",
-      "/projects/disney-karting/Disney_hero.png",
-      "/projects/asphalt-9/A9_hero.png",
-      "/projects/asphalt-xtreme/AXT_hero.png",
-    ],
+    slides: [...SLIDES.games],
   },
 ];
 
@@ -94,6 +81,15 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
         ))}
       </div>
     </motion.div>
+  );
+}
+
+/** «01» / «02» en tamaño de etiqueta, alineado con la parte alta de las mayúsculas del titular. */
+function Num({ n, side }: { n: number; side: "left" | "right" }) {
+  return (
+    <span className={`inline-block align-top t-label opacity-70 ${mono} ${side === "left" ? "mr-2 md:mr-3" : "ml-2 md:ml-3"}`}>
+      0{n}
+    </span>
   );
 }
 
@@ -188,7 +184,11 @@ export default function EntryB() {
                     animate={{ y: "0%" }}
                     transition={{ duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER, layout: { duration: DUR.slow, ease: EASE.screen } }}
                   >
+                    {/* Número pequeño pegado arriba del titular: delante de la P de «Product» y detrás de
+                        la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
+                    {left && <Num n={i + 1} side="left" />}
                     {s.label}
+                    {!left && <Num n={i + 1} side="right" />}
                   </motion.p>
                 </div>
                 {/* Párrafo desplazado abajo, en el lado exterior (en espejo); solo al pasar por
@@ -200,9 +200,6 @@ export default function EntryB() {
                   animate={{ opacity: on && !chosen ? 1 : 0, y: on && !chosen ? 0 : 16 }}
                   transition={{ duration: chosen ? DUR.fast : inOrOut(on), ease: EASE.out, delay: on && !chosen ? STAGGER : 0 }}
                 >
-                  <p className={`mb-3 t-label opacity-60 ${mono} ${left ? "text-left" : "text-right"}`}>
-                    0{i + 1} — {s.label}
-                  </p>
                   <p
                     lang="es"
                     className={`hyphens-auto text-justify t-body ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}

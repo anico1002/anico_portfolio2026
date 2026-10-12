@@ -83,6 +83,12 @@ invirtiéndose, como Yakushev); hover del menú = desenfoque → foco letra a le
 caso en 1,2 s con 0,2 s de espera; «Siguiente caso» propio (`NextCase.tsx`): portada desenfocada que se enfoca
 al pasar + ola de desenfoque en el nombre, texto estrecho a la izquierda; vuelo al caso siguiente. El ticker
 gigante de Metalab se descartó (copiado, y Alberto duda de los tipos gigantes en general).
+**Cabecera de las homes (2026-10-12):** `HomeHero.tsx` continúa la entrada sin corte —el telón se funde
+cuando la cabecera pinta la misma imagen (`endCurtain`)—, pase de imágenes a pantalla completa
+(`lib/maqueta/sections.ts`, compartido con la entrada) y máscara de abajo arriba hasta dejar una franja
+del alto del texto. Intro en `.t-hero` (80 px a 1440, medida de Yakushev: 79 px, peso 400). Fuera el
+antetítulo «Alberto Nicolás · …». En la entrada, «01»/«02» pequeños pegados al titular (antes repetidos
+abajo).
 **Entrada decidida: la pantalla partida** es ahora `/maqueta` (adonde lleva el logo); la A queda en
 `/maqueta/entrada-a`. Falta: el botón «atrás» del navegador sigue cambiando de página en seco.
 

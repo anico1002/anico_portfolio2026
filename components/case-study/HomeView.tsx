@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
+import HomeHero from "@/components/case-study/HomeHero";
 import { markLanded, startFlight } from "@/components/case-study/Flight";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -112,14 +113,18 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
 
 export default function HomeView({
   active,
-  eyebrow,
+  label,
+  slides,
   title,
   intro,
   items,
   more,
 }: {
   active: "product" | "games";
-  eyebrow: string;
+  /** Nombre de la sección (titular central de la cabecera, el mismo que en la entrada). */
+  label: string;
+  /** Pase de imágenes de la cabecera (las mismas que en la entrada partida). */
+  slides: readonly string[];
   title: string;
   intro: string;
   items: P[];
@@ -136,19 +141,12 @@ export default function HomeView({
     >
       <SiteNav active={active} />
 
-      <header className={`pt-32 md:pt-44 ${wrap}`}>
-        <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-10">
-            <Eyebrow>{eyebrow}</Eyebrow>
-            <h1 className="t-h1">{title}</h1>
-          </FadeIn>
-        </div>
-      </header>
+      <HomeHero label={label} title={title} slides={slides} />
 
       {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después la
           rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:
           copiaban mal el contador de Yakushev y ahí no tenían sentido.) */}
-      <section className={`mt-10 md:mt-12 ${wrap}`}>
+      <section className={`mt-24 md:mt-40 ${wrap}`}>
         <div className={`${grid} gap-y-20 md:gap-y-0`}>
           <Card p={items[0]} i={0} slot={0} offset="" onLeave={leave} />
           <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:self-end md:pb-14">

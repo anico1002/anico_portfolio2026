@@ -63,6 +63,7 @@ html:has(#case-root) {
    .t-statement  26 → 48   frase destacada
    .t-intro      28 → 56   párrafo de intro del caso (Metalab: 56)
    .t-h2         32 → 72   titular de sección
+   .t-hero       36 → 80   intro de la home de sección (medida de la de Yakushev: 79 px a 1440)
    .t-h1         40 → 104  titular de página
    Display (cifras y palabras gigantes, extrabold)
    .t-d3         56 → 120  Product / Games en la entrada B y el telón
@@ -77,6 +78,7 @@ html:has(#case-root) {
 .t-statement { font-size: 1.625rem;  line-height: 1.15; letter-spacing: -0.03em; }
 .t-intro     { font-size: 1.75rem;   line-height: 1.12; letter-spacing: -0.025em; }
 .t-h2        { font-size: 2rem;      line-height: 1.04; letter-spacing: -0.035em; font-weight: 500; }
+.t-hero      { font-size: 2.25rem;   line-height: 1.1;  letter-spacing: -0.02em;  font-weight: 400; }
 .t-h1        { font-size: 2.5rem;    line-height: 1.02; letter-spacing: -0.04em;  font-weight: 500; }
 .t-d3        { font-size: 3.5rem;    line-height: 0.84; letter-spacing: -0.055em; font-weight: 800; }
 .t-d2        { font-size: 3.75rem;   line-height: 0.85; letter-spacing: -0.055em; font-weight: 800; }
@@ -92,6 +94,7 @@ html:has(#case-root) {
   .t-statement { font-size: 3rem; }
   .t-intro     { font-size: 3.5rem; }
   .t-h2        { font-size: 4.5rem; }
+  .t-hero      { font-size: 5rem; line-height: 1.06; }
   .t-h1        { font-size: 6.5rem; }
   .t-d3        { font-size: 7.5rem; }
   .t-d2        { font-size: 10.5rem; }

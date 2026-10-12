@@ -1,3 +1,4 @@
+import { SLIDES } from "@/lib/maqueta/sections";
 import HomeView from "@/components/case-study/HomeView";
 import { casesIn } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
@@ -16,7 +17,8 @@ export default function GamesHome() {
   return (
     <HomeView
       active="games"
-      eyebrow="Alberto Nicolás · Game UI/UX"
+      label="Games"
+      slides={SLIDES.games}
       title="Interfaces para juegos que llegan a cientos de millones de jugadores."
       intro="Más de una década centrado en UI/UX de videojuegos, con estudios como Gameloft Barcelona: menús, HUD, sistemas visuales y marketing, de la preproducción al lanzamiento."
       items={items}
