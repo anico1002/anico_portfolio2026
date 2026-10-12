@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
-import { DM_Sans, DM_Serif_Display } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
 import PortalLayer from "@/components/case-study/Portal";
 import "./system.css";
 
-// Tipografía de la maqueta (2026-10-12): DM Sans para todo (a prueba; antes Instrument Sans) y una serif
-// en cursiva para palabras destacadas de los titulares (`*palabras*` → `.serif-em`). Antes era
-// Geist (elegida frente a Inter y Bricolage el 2026-10-11). Los titulillos también van en la
+// Tipografía de la maqueta (2026-10-12): familia Instrument. Instrument Sans para todo e Instrument
+// Serif en cursiva para palabras destacadas de los titulares (`*palabras*` → `.serif-em`). Antes era
+// Geist (elegida frente a Inter y Bricolage el 2026-10-11). Los titulillos también van en Instrument
 // Sans (`.t-tag`); Geist Mono se quitó. Nada de esto toca el resto del portfolio.
-const sans = DM_Sans({ variable: "--font-case-sans", subsets: ["latin"], axes: ["opsz"] });
+const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"] });
 
 
-// Cursiva de las palabras destacadas: DM Serif Display, hermana de DM Sans. A prueba desde
-// 2026-10-12 (antes Instrument Serif, demasiado estrecha; Playfair, demasiado pequeña al lado).
-const serif = DM_Serif_Display({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });
+const serif = Instrument_Serif({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });
 
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
