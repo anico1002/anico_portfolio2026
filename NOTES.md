@@ -38,12 +38,15 @@ solo estilo `.t-tag`: Instrument Sans 500, MAYÚSCULAS, espaciado 0,1 em (se pro
 Instrument Serif; descartadas). Geist Mono ya no se carga. Display a peso 700 (Instrument Sans no llega a 800). Intro de las homes
 `.t-hero` a 64 px (empezó en 80). Las máscaras de texto llevan margen por abajo para no cortar g/j/p.
 
-## Titular de las homes: palabras que cambian (decidido 2026-10-12)
+## Titular de las homes: palabras que cambian (probado y aparcado, 2026-10-12)
 
 `{a|b|c}` en el titular → una palabra cambia cada 2,4 s, letra a letra en ola con la máscara del menú
 (`Rotating` en `HomeHero.tsx`). Le gusta para la intro: da movimiento y **hay que huir de lo estático**
 (también con imágenes siempre en movimiento). Como recurso gráfico general se queda corto; se reusará
-donde haga falta. Listas de palabras provisionales.
+donde haga falta. **Aparcado**: al cambiar el ancho de la palabra se recoloca la frase y salta de línea
+(Games 3-4 líneas según palabra y ancho), y cada idioma o pantalla pediría ajustes a mano. Si vuelve:
+regla de que la palabra que cambia vaya sola en su línea. El componente sigue en el código (solo actúa
+si el titular lleva `{a|b|c}`); los titulares de las homes van fijos.
 
 ## Énfasis en titulares (en prueba, 2026-10-12)
 
