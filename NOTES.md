@@ -48,6 +48,18 @@ Verificar que ha quedado arreglado contando en el log: `grep -c FATAL` a 0 y tan
 peticiones hayas hecho tú. Pasa sobre todo tras cambiar `public/projects/`, porque ahí se cachea
 el escaneo del filesystem.
 
+## 2026-10-12 (tarde) — BLOQUE A: SISTEMA (hecho A1, A2, A5)
+
+Todo sale ya de dos archivos; **no meter valores sueltos** en componentes:
+- `lib/maqueta/motion.ts` — `EASE` (out · inOut · screen, cada una con un papel), `DUR` (fast 0,3 ·
+  base 0,8 · slow 1,2 · screen 1,5 · drift 2,4), `STAGGER` 0,1 e `inOrOut(on)` (entra base, sale fast).
+- `app/maqueta/system.css` — escala fluida (raíz = ancho / lienzo; lienzos 390 y 1440, tope 18 px en
+  móvil, suelo 13 px en escritorio), escala tipográfica `.t-label … .t-d1` (tabla dentro, con mínimos de
+  legibilidad en los pequeños), variables `--ease-*`/`--dur-*` y `.hov` (hover 0,8 entra / 0,3 sale).
+Excepciones a propósito: `FitTitle` (se mide) y el «Siguiente caso» en vw (se rehace en B5).
+Pendiente del bloque A: **A3** (motivo de marca: Alberto lo piensa) y **A4** (intro: propuestas en el chat).
+Siguiente: bloque B.
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-12, MacBook)
 
 **Primera tarea de la próxima sesión:** abrir `docs/revision-calidad-2026-10-12.md` y decidir con

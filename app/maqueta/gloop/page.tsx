@@ -14,6 +14,7 @@ import {
   Placeholder,
   WindowReveal,
 } from "@/components/case-study/primitives";
+import { STAGGER } from "@/lib/maqueta/motion";
 
 /* Maqueta del caso de estudio de Gloop.
    Cajas y móviles grises = imágenes/vídeos que produce Alberto; el texto es borrador
@@ -27,10 +28,10 @@ const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 
 // Escala tipográfica (referencia Metalab a 1300 px: 56 · 40 · 20 · 16).
-const tIntro = "text-[clamp(28px,4.3vw,64px)] leading-[1.17] tracking-[-0.02em]";
-const tStatement = "text-[clamp(26px,3.1vw,44px)] leading-[1.18] tracking-[-0.03em]";
-const tTitle = "text-[clamp(24px,2.4vw,34px)] leading-[1.15] tracking-[-0.02em]";
-const tBody = "text-[clamp(16px,1.35vw,18px)] leading-[1.5]";
+const tIntro = "t-intro";
+const tStatement = "t-statement";
+const tTitle = "t-title";
+const tBody = "t-body";
 
 const section = `pt-36 md:pt-56 ${wrap}`;
 
@@ -83,7 +84,7 @@ export default function GloopCase() {
         <div className={`${grid} items-start gap-y-14`}>
           <FadeIn className="col-span-12 md:col-span-5 md:sticky md:top-28">
             <Eyebrow>Introducción</Eyebrow>
-            <p className="text-[clamp(24px,2.6vw,40px)] leading-[1.2] tracking-[-0.02em]">
+            <p className="t-title">
               La vida de un grupo de amigos está repartida entre chats, planes y fotos que nadie
               vuelve a mirar. Gloop la reúne en un solo lugar y la convierte en juego. Diseñé el
               producto de principio a fin, de la estrategia a una{" "}
@@ -171,7 +172,7 @@ export default function GloopCase() {
             <FadeIn
               className={`col-span-12 md:col-span-4 ${i % 2 ? "md:col-start-2 md:order-1" : "md:col-start-8"}`}
             >
-              <p className={`${mono} text-[13px] text-[var(--case-muted)]`}>0{i + 1}</p>
+              <p className={`${mono} t-label text-[var(--case-muted)]`}>0{i + 1}</p>
               <h3 className={`mt-3 ${tTitle}`}>{r.t}</h3>
               <p className={`mt-4 text-[var(--case-muted)] ${tBody}`}>{r.d}</p>
             </FadeIn>
@@ -258,7 +259,7 @@ export default function GloopCase() {
           </FadeIn>
           {["Podium", "Culpable", "De 0 a 100", "Clones"].map((g, i) => (
             <Parallax key={g} speed={[60, 150, 90, 180][i]} className="col-span-6 md:col-span-2">
-              <FadeIn delay={i * 0.06}>
+              <FadeIn delay={i * STAGGER}>
                 <Phone label={g} src={({ Podium: "/maqueta/gloop/media/game-podium.jpg", Culpable: "/maqueta/gloop/media/game-culpable.jpg", "De 0 a 100": "/maqueta/gloop/media/game-de0a100.jpg" } as Record<string, string>)[g]} />
               </FadeIn>
             </Parallax>
@@ -338,7 +339,7 @@ export default function GloopCase() {
           ].map(([n, l]) => (
             <FadeIn key={l}>
               <div className={`${grid} items-end border-t border-[var(--case-line)] pt-4`}>
-                <p className="col-span-12 text-[clamp(96px,19vw,300px)] font-extrabold leading-[0.8] tracking-[-0.055em] md:col-span-7">
+                <p className="col-span-12 t-d1 md:col-span-7">
                   {n}
                 </p>
                 <p className={`col-span-12 pb-3 md:col-span-4 md:col-start-9 ${tBody} text-[var(--case-muted)]`}>{l}</p>
@@ -369,15 +370,15 @@ export default function GloopCase() {
             </MaskReveal>
           </div>
           <FadeIn>
-            <p className={`mt-8 text-center text-[13px] text-[var(--case-muted)] ${mono}`}>Siguiente caso · El Reto MasterChef</p>
-            <p className="-mt-1 whitespace-nowrap text-center text-[11.5vw] font-extrabold leading-none tracking-[-0.055em] transition-opacity group-hover:opacity-70">
+            <p className={`mt-8 text-center t-label text-[var(--case-muted)] ${mono}`}>Siguiente caso · El Reto MasterChef</p>
+            <p className="-mt-1 whitespace-nowrap text-center text-[11.5vw] font-extrabold leading-none tracking-[-0.055em] hov group-hover:opacity-70">
               Siguiente <em className={`${em}`}>caso</em>
             </p>
           </FadeIn>
         </Link>
         <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
-          <p className={`text-[12px] text-[var(--case-muted)] ${mono}`}>anico · 2026</p>
-          <Link href="/maqueta/contacto" className="text-[clamp(28px,3vw,44px)] font-medium tracking-[-0.03em] hover:opacity-70">
+          <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · 2026</p>
+          <Link href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
             Hablemos →
           </Link>
         </div>

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
+import "./system.css";
 
 // Maqueta de caso de estudio: Geist para todo (elegida frente a Inter y Bricolage,
 // 2026-10-11) y Geist Mono para antetítulos y etiquetas. Nada de esto toca el resto
@@ -35,7 +36,7 @@ const themes = `
   }
   body:has(#case-root) { background: #0A0A0B; }
   body:has(#case-root[data-case-theme="light"]) { background: #FFFFFF; }
-  #case-root main { transition: background-color .5s ease, color .5s ease; }
+  #case-root main { transition: background-color var(--dur-base) var(--ease-in-out), color var(--dur-base) var(--ease-in-out); }
 `;
 
 // Antes de pintar: la elección guardada o, si no hay, la del sistema. Así no parpadea.

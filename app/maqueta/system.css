@@ -1,0 +1,99 @@
+/* Sistema de la maqueta (bloque A de docs/revision-calidad-2026-10-12.md): escala fluida,
+   escala tipográfica y tokens de movimiento en CSS. Solo afecta a páginas con #case-root:
+   la web en producción no lo ve.
+
+   ── Escala fluida pura (como Yakushev y Plastic) ──────────────────────────────────────────
+   El tamaño raíz es una fracción del ancho de pantalla, así que todo lo que va en rem
+   (textos, márgenes, huecos de Tailwind) crece y encoge a la vez, en la misma proporción.
+   Dos lienzos de diseño: móvil 390 px y escritorio 1440 px; en el lienzo, 1rem = 16 px.
+   - Móvil: tope a 18 px para que una tableta pequeña en vertical no se dispare.
+   - Escritorio: suelo a 13 px (de 768 a 1170 px de ancho) para que el texto siga legible.
+     Además, etiquetas, texto pequeño y párrafos llevan su propio mínimo (12 · 13,5 · 15,5 px).
+   Los breakpoints de Tailwind no se ven afectados: en media queries, rem es siempre 16 px. */
+html:has(#case-root) {
+  font-size: min(calc(100vw / 390 * 16), 18px);
+}
+@media (min-width: 768px) {
+  html:has(#case-root) {
+    font-size: max(13px, calc(100vw / 1440 * 16));
+  }
+}
+
+/* ── Movimiento (gemelo de lib/maqueta/motion.ts) ────────────────────────────────────────── */
+#case-root {
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-screen: cubic-bezier(0.76, 0, 0.24, 1);
+  --dur-fast: 0.3s;
+  --dur-base: 0.8s;
+  --dur-slow: 1.2s;
+}
+
+/* Hover: entra en `base` y sale en `fast` (Metalab: 0,8 s / 0,3 s). La duración que manda es
+   la del estado al que se va, por eso la larga va en :hover y la corta en el estado normal. */
+.hov {
+  transition-property: opacity, color, background-color, border-color;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-out);
+}
+.hov:hover,
+.hov:focus-visible,
+.group:hover .hov,
+.group:focus-visible .hov {
+  transition-duration: var(--dur-base);
+}
+
+/* Fundido cruzado de diapositivas (entra y sale a la vez: misma duración). */
+.xfade {
+  transition: opacity var(--dur-slow) var(--ease-in-out);
+}
+
+/* ── Escala tipográfica ────────────────────────────────────────────────────────────────────
+   Valores en rem del lienzo: «móvil 390 → escritorio 1440» en px. Cada clase fija tamaño,
+   interlineado y tracking (y el peso en titulares); el resto del marcado no los toca.
+
+   Texto
+   .t-label      12 → 13   antetítulos, etiquetas en mono, datos de ficha
+   .t-nav        13 → 15   menú
+   .t-small      14 → 15   pies de foto, botones, líneas secundarias
+   .t-body       16 → 18   párrafos
+   .t-lead       18 → 24   párrafo destacado, listas, títulos de tarjeta
+   Titulares
+   .t-title      24 → 36   titular de capítulo
+   .t-statement  26 → 48   frase destacada
+   .t-intro      28 → 56   párrafo de intro del caso (Metalab: 56)
+   .t-h2         32 → 72   titular de sección
+   .t-h1         40 → 104  titular de página
+   Display (cifras y palabras gigantes, extrabold)
+   .t-d3         56 → 120  Product / Games en la entrada B y el telón
+   .t-d2         60 → 168  «¿Hablamos?», contacto
+   .t-d1         88 → 232  cifras gigantes, entrada A */
+.t-label     { font-size: 0.75rem;   line-height: 1.3; }
+.t-nav       { font-size: 0.8125rem; line-height: 1.3; }
+.t-small     { font-size: 0.875rem;  line-height: 1.45; }
+.t-body      { font-size: 1rem;      line-height: 1.55; }
+.t-lead      { font-size: 1.125rem;  line-height: 1.35; letter-spacing: -0.01em; }
+.t-title     { font-size: 1.5rem;    line-height: 1.15; letter-spacing: -0.02em; }
+.t-statement { font-size: 1.625rem;  line-height: 1.15; letter-spacing: -0.03em; }
+.t-intro     { font-size: 1.75rem;   line-height: 1.12; letter-spacing: -0.025em; }
+.t-h2        { font-size: 2rem;      line-height: 1.04; letter-spacing: -0.035em; font-weight: 500; }
+.t-h1        { font-size: 2.5rem;    line-height: 1.02; letter-spacing: -0.04em;  font-weight: 500; }
+.t-d3        { font-size: 3.5rem;    line-height: 0.84; letter-spacing: -0.055em; font-weight: 800; }
+.t-d2        { font-size: 3.75rem;   line-height: 0.85; letter-spacing: -0.055em; font-weight: 800; }
+.t-d1        { font-size: 5.5rem;    line-height: 0.82; letter-spacing: -0.055em; font-weight: 800; }
+
+@media (min-width: 768px) {
+  .t-label     { font-size: max(12px, 0.8125rem); }
+  .t-nav       { font-size: max(13.5px, 0.9375rem); }
+  .t-small     { font-size: max(13.5px, 0.9375rem); }
+  .t-body      { font-size: max(15.5px, 1.125rem); }
+  .t-lead      { font-size: 1.5rem; }
+  .t-title     { font-size: 2.25rem; }
+  .t-statement { font-size: 3rem; }
+  .t-intro     { font-size: 3.5rem; }
+  .t-h2        { font-size: 4.5rem; }
+  .t-h1        { font-size: 6.5rem; }
+  .t-d3        { font-size: 7.5rem; }
+  .t-d2        { font-size: 10.5rem; }
+  .t-d1        { font-size: 14.5rem; }
+}

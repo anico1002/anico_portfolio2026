@@ -2,7 +2,8 @@
 
 import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useSyncExternalStore } from "react";
-import { FLIGHT_KEY, FLIGHT_S, POWER3_INOUT, POWER4_INOUT } from "@/components/case-study/primitives";
+import { FLIGHT_KEY, FLIGHT_S } from "@/components/case-study/primitives";
+import { DUR, EASE } from "@/lib/maqueta/motion";
 
 /* Transición home → caso (HOMEPAGE_TO_CASE_STUDY de Metalab: 1,5 s, Power4.easeInOut).
 
@@ -60,7 +61,7 @@ export async function endFlight(poster?: HTMLVideoElement | null) {
     } catch {}
   }
   await twoFrames();
-  await animate(overlay, { opacity: 0 }, { duration: 0.35, ease: POWER3_INOUT });
+  await animate(overlay, { opacity: 0 }, { duration: DUR.fast, ease: EASE.inOut });
   flight = null;
   ending = false;
   emit();
@@ -116,7 +117,7 @@ export default function FlightLayer() {
     className: "absolute max-w-none object-cover",
     initial: { left: pct(ox), top: pct(oy), width: pct(kw), height: pct(kh) },
     animate: { left: "0%", top: "0%", width: "100%", height: "100%" },
-    transition: { duration: FLIGHT_S, ease: POWER3_INOUT },
+    transition: { duration: FLIGHT_S, ease: EASE.inOut },
     onAnimationComplete: () => {
       if (ref.current) freeze(ref.current);
       f.onLanded();
@@ -129,7 +130,7 @@ export default function FlightLayer() {
       className="pointer-events-none fixed z-[100] overflow-hidden"
       initial={f.frame}
       animate={FULL}
-      transition={{ duration: FLIGHT_S - 0.2, ease: POWER4_INOUT }}
+      transition={{ duration: FLIGHT_S - 0.2, ease: EASE.screen }}
     >
       {isVideo(f.src) ? (
         <motion.video

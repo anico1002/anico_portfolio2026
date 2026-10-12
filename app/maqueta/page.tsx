@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
-import { POWER3_INOUT } from "@/components/case-study/primitives";
+import { DUR, EASE, STAGGER, inOrOut } from "@/lib/maqueta/motion";
 
 /* Entrada: el visitante elige por dónde entrar (pendiente del 2026-09-09: dos públicos,
    dos recorridos). Al pasar por encima de cada opción, su imagen ocupa el fondo. */
@@ -44,15 +44,15 @@ export default function Entry() {
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: hover === w.key ? 0.55 : 0, scale: hover === w.key ? 1 : 1.08 }}
-          transition={{ duration: 0.8, ease: POWER3_INOUT }}
+          transition={{ duration: inOrOut(hover === w.key), ease: EASE.inOut }}
         />
       ))}
       <div className="relative px-4 pb-8 md:px-6 md:pb-10">
         <motion.p
-          className={`mb-6 text-[12px] text-[var(--case-muted)] ${mono}`}
+          className={`mb-6 t-label text-[var(--case-muted)] ${mono}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ duration: DUR.base, ease: EASE.out, delay: DUR.base }}
         >
           Alberto Nicolás · Diseñador · Elige por dónde entrar
         </motion.p>
@@ -66,14 +66,14 @@ export default function Entry() {
           >
             <div className="flex items-end justify-between gap-6 overflow-hidden py-2">
               <motion.span
-                className="block text-[clamp(72px,17vw,280px)] font-extrabold leading-[0.86] tracking-[-0.055em]"
+                className="block t-d1"
                 initial={{ y: "100%" }}
                 animate={{ y: "0%" }}
-                transition={{ duration: 0.8, ease: POWER3_INOUT, delay: 0.15 * i }}
+                transition={{ duration: DUR.base, ease: EASE.inOut, delay: i * STAGGER }}
               >
                 {w.label}
               </motion.span>
-              <span className="hidden pb-4 text-right text-[clamp(14px,1.2vw,17px)] text-[var(--case-muted)] transition-colors group-hover:text-[var(--case-fg)] md:block">
+              <span className="hidden pb-4 text-right t-small text-[var(--case-muted)] hov group-hover:text-[var(--case-fg)] md:block">
                 {w.line} <span aria-hidden>→</span>
               </span>
             </div>

@@ -11,14 +11,14 @@ export default function SiteNav({ active = "product" }: { active?: "product" | "
     ["contact", "Contacto", "/maqueta/contacto"],
   ] as const;
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 text-[14px] mix-blend-difference md:px-6">
+    <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 mix-blend-difference md:px-6">
       <Link href="/maqueta" aria-label="anico · inicio">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/anico_logo.svg" alt="anico" className="h-[22px] w-auto invert" />
+        <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
       </Link>
-      <div className="flex items-center gap-3 whitespace-nowrap text-[13px] text-white md:gap-6 md:text-[14px]">
+      <div className="flex items-center gap-3 whitespace-nowrap t-nav text-white md:gap-6">
         {items.map(([key, label, href]) => (
-          <Link key={key} href={href} className={key === active ? "" : "opacity-50 transition-opacity hover:opacity-100"}>
+          <Link key={key} href={href} className={key === active ? "" : "opacity-50 hov hover:opacity-100"}>
             {label}
           </Link>
         ))}

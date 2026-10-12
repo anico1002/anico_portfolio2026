@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SiteNav from "@/components/case-study/SiteNav";
-import { POWER3_INOUT, POWER3_OUT, POWER4_INOUT } from "@/components/case-study/primitives";
+import { DUR, EASE, STAGGER, inOrOut } from "@/lib/maqueta/motion";
 import { startCurtain } from "@/components/case-study/Curtain";
 
 /* Entrada · alternativa B (2026-10-12): pantalla partida por la mitad, Product a la izquierda
@@ -70,7 +70,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
       className="absolute inset-0 overflow-hidden"
       initial={false}
       animate={{ opacity: active ? 1 : 0 }}
-      transition={{ duration: 0.6, ease: POWER3_INOUT }}
+      transition={{ duration: inOrOut(active), ease: EASE.inOut }}
     >
       <AnimatePresence initial={false}>
         <motion.img
@@ -81,7 +81,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
           initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ opacity: { duration: 0.8, ease: POWER3_INOUT }, scale: { duration: 2.4, ease: POWER3_OUT } }}
+          transition={{ opacity: { duration: DUR.base, ease: EASE.inOut }, scale: { duration: DUR.drift, ease: EASE.out } }}
         />
       </AnimatePresence>
       {/* Velo para que el texto blanco se lea sobre cualquier imagen. */}
@@ -139,7 +139,7 @@ export default function EntryB() {
             initial={false}
             animate={{ flexGrow: chosen ? (picked ? 1 : 0) : on && !touch ? 1.25 : 1 }}
             style={{ flexBasis: 0 }}
-            transition={{ duration: chosen ? 1.2 : 0.8, ease: chosen ? POWER4_INOUT : POWER3_INOUT }}
+            transition={{ duration: chosen ? DUR.slow : inOrOut(on), ease: chosen ? EASE.screen : EASE.inOut }}
             onAnimationComplete={() => {
               if (picked) handOff(s, document.querySelector(`[data-half="${s.key}"]`) as HTMLElement);
             }}
@@ -149,7 +149,7 @@ export default function EntryB() {
           >
             <Link
               href={s.href}
-              className="absolute inset-0 block"
+              className="group absolute inset-0 block"
               aria-label={s.label}
               onClick={(e) => {
                 e.preventDefault();
@@ -158,10 +158,10 @@ export default function EntryB() {
             >
               <Slides srcs={s.slides} active={on} frozen={picked} />
               <motion.div
-                className={`relative h-full transition-colors duration-500 ${on ? "text-white" : ""}`}
+                className={`relative h-full hov ${on ? "text-white" : ""}`}
                 initial={false}
                 animate={{ opacity: off ? 0.35 : 1 }}
-                transition={{ duration: 0.6, ease: POWER3_INOUT }}
+                transition={{ duration: inOrOut(off), ease: EASE.inOut }}
               >
                 {/* Titulares juntos en el centro de la pantalla, cada uno pegado a la línea central
                     con un pequeño margen: «Product» a su izquierda y «Games» a su derecha. */}
@@ -170,10 +170,10 @@ export default function EntryB() {
                 >
                   <motion.p
                     layout="position"
-                    className="whitespace-nowrap text-[clamp(56px,8.5vw,168px)] font-extrabold leading-[0.82] tracking-[-0.055em]"
+                    className="whitespace-nowrap t-d3"
                     initial={{ y: "110%" }}
                     animate={{ y: "0%" }}
-                    transition={{ duration: 0.8, ease: POWER3_INOUT, delay: 0.15 + i * 0.1, layout: { duration: 1.2, ease: POWER4_INOUT } }}
+                    transition={{ duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER, layout: { duration: DUR.slow, ease: EASE.screen } }}
                   >
                     {s.label}
                   </motion.p>
@@ -184,14 +184,14 @@ export default function EntryB() {
                   className={`absolute bottom-6 max-w-[30ch] md:bottom-8 ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
                   initial={false}
                   animate={{ opacity: on && !chosen ? 1 : 0, y: on && !chosen ? 0 : 16 }}
-                  transition={{ duration: chosen ? 0.3 : 0.6, ease: POWER3_OUT, delay: on && !chosen ? 0.15 : 0 }}
+                  transition={{ duration: chosen ? DUR.fast : inOrOut(on), ease: EASE.out, delay: on && !chosen ? STAGGER : 0 }}
                 >
-                  <p className={`mb-3 text-[12px] opacity-60 ${mono} ${left ? "text-left" : "text-right"}`}>
+                  <p className={`mb-3 t-label opacity-60 ${mono} ${left ? "text-left" : "text-right"}`}>
                     0{i + 1} — {s.label}
                   </p>
                   <p
                     lang="es"
-                    className={`hyphens-auto text-justify text-[clamp(16px,1.35vw,19px)] leading-[1.5] ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
+                    className={`hyphens-auto text-justify t-body ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
                   >
                     {s.text}
                   </p>

@@ -10,10 +10,10 @@ import {
   Eyebrow,
   FadeIn,
   MaskReveal,
-  POWER3_INOUT,
   Parallax,
   Placeholder,
 } from "@/components/case-study/primitives";
+import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 
 /* Home de una línea de trabajo (Product o Games). Composición de la maqueta del
    2026-10-11: titular, primer proyecto con el párrafo abajo a la derecha, cifras gigantes
@@ -86,12 +86,12 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
           />
         </MaskReveal>
       </div>
-      <p className={`mt-4 text-[12px] text-[var(--case-muted)] ${mono}`}>
+      <p className={`mt-4 t-label text-[var(--case-muted)] ${mono}`}>
         {String(i + 1).padStart(2, "0")}
         {p.year && ` / ${p.year}`}
       </p>
-      <h3 className="mt-1.5 text-[clamp(20px,1.8vw,26px)] font-medium leading-tight tracking-[-0.02em]">{p.name}</h3>
-      {p.line && <p className="mt-1 text-[15px] text-[var(--case-muted)]">{p.line}</p>}
+      <h3 className="mt-1.5 t-lead font-medium">{p.name}</h3>
+      {p.line && <p className="mt-1 t-small text-[var(--case-muted)]">{p.line}</p>}
     </>
   );
   // La tarjeta entera (número, imagen y textos) se desplaza a su velocidad, como en
@@ -132,7 +132,7 @@ export default function HomeView({
   return (
     <motion.main
       animate={{ opacity: leaving ? 0 : 1 }}
-      transition={{ duration: 0.8, ease: POWER3_INOUT }}
+      transition={{ duration: DUR.base, ease: EASE.inOut }}
       className="relative min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
       <SiteNav active={active} />
@@ -141,7 +141,7 @@ export default function HomeView({
         <div className={grid}>
           <FadeIn className="col-span-12 md:col-span-10">
             <Eyebrow>{eyebrow}</Eyebrow>
-            <h1 className="text-[clamp(40px,6.4vw,104px)] font-medium leading-[1.02] tracking-[-0.04em]">{title}</h1>
+            <h1 className="t-h1">{title}</h1>
           </FadeIn>
         </div>
       </header>
@@ -151,12 +151,12 @@ export default function HomeView({
       <section className={`mt-10 md:mt-12 ${wrap}`}>
         <div className={`${grid} gap-y-20 md:gap-y-0`}>
           <Card p={items[0]} i={0} slot={0} offset="" onLeave={leave} />
-          <FadeIn delay={0.15} className="col-span-12 md:col-span-4 md:col-start-9 md:self-end md:pb-14">
-            <p className="text-[clamp(16px,1.35vw,18px)] leading-[1.5] text-[var(--case-muted)]">{intro}</p>
+          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:self-end md:pb-14">
+            <p className="t-body text-[var(--case-muted)]">{intro}</p>
           </FadeIn>
           <Parallax speed={120} className="col-span-12 md:col-span-8 md:col-start-1 md:mt-20">
             <FadeIn>
-              <p className="text-[clamp(96px,19vw,300px)] font-extrabold leading-[0.8] tracking-[-0.055em]">{years}</p>
+              <p className="t-d1">{years}</p>
             </FadeIn>
           </Parallax>
           {items[1] && <Card p={items[1]} i={1} slot={1} offset="md:mt-24" onLeave={leave} />}
@@ -171,7 +171,7 @@ export default function HomeView({
           <div className={grid}>
             <FadeIn className="col-span-12 md:col-span-8">
               <Eyebrow>{more.eyebrow}</Eyebrow>
-              <h2 className="text-[clamp(32px,4.4vw,72px)] font-medium leading-[1.04] tracking-[-0.035em]">{more.title}</h2>
+              <h2 className="t-h2">{more.title}</h2>
             </FadeIn>
           </div>
           <div className={`${grid} gap-y-20 md:gap-y-0`}>
@@ -187,7 +187,7 @@ export default function HomeView({
           <Eyebrow>Contacto</Eyebrow>
           <Link
             href="/maqueta/contacto"
-            className="block text-[clamp(56px,11vw,180px)] font-extrabold leading-[0.85] tracking-[-0.055em] transition-opacity hover:opacity-70"
+            className="block t-d2 hov hover:opacity-70"
           >
             ¿Hablamos?
           </Link>

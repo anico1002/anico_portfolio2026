@@ -1,5 +1,6 @@
 import SiteNav from "@/components/case-study/SiteNav";
 import { Eyebrow, FadeIn } from "@/components/case-study/primitives";
+import { STAGGER } from "@/lib/maqueta/motion";
 
 /* Contacto: email y LinkedIn de public/profile.txt; texto del bloque [contact]. */
 
@@ -19,8 +20,8 @@ export default function Contact() {
       <section className={`pt-32 md:pt-44 ${wrap}`}>
         <FadeIn>
           <Eyebrow>Contacto</Eyebrow>
-          <h1 className="text-[clamp(64px,13vw,220px)] font-extrabold leading-[0.85] tracking-[-0.055em]">¿Hablamos?</h1>
-          <p className="mt-8 max-w-[38ch] text-[clamp(18px,1.6vw,22px)] leading-[1.45] text-[var(--case-muted)]">
+          <h1 className="t-d2">¿Hablamos?</h1>
+          <p className="mt-8 max-w-[38ch] t-lead text-[var(--case-muted)]">
             ¿Tienes un proyecto en mente? Siempre estoy abierto a proyectos interesantes. Cuéntame en qué puedo
             ayudarte.
           </p>
@@ -28,7 +29,7 @@ export default function Contact() {
       </section>
 
       <section className={`mt-24 pb-12 ${wrap}`}>
-        <FadeIn delay={0.1}>
+        <FadeIn delay={STAGGER}>
           <ul className="border-t border-[var(--case-line)]">
             {[
               ["Email", EMAIL, `mailto:${EMAIL}`],
@@ -41,8 +42,8 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   className="group flex items-baseline justify-between py-6"
                 >
-                  <span className={`text-[12px] text-[var(--case-muted)] ${mono}`}>{k}</span>
-                  <span className="text-[clamp(28px,4.4vw,64px)] font-medium tracking-[-0.035em] transition-opacity group-hover:opacity-70">
+                  <span className={`t-label text-[var(--case-muted)] ${mono}`}>{k}</span>
+                  <span className="t-statement font-medium hov group-hover:opacity-70">
                     {v} <span aria-hidden>↗</span>
                   </span>
                 </a>

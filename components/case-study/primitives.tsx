@@ -3,6 +3,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { endFlight } from "@/components/case-study/Flight";
+import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 
 /* Piezas de la maqueta de caso de estudio.
    Los colores salen de variables CSS que fija cada caso (--case-bg, --case-fg…),
@@ -11,10 +12,7 @@ import { endFlight } from "@/components/case-study/Flight";
 type Kind = "imagen" | "vídeo" | "diagrama" | "código";
 type From = "top" | "bottom" | "left" | "right";
 
-// Curvas de Metalab (sacadas de su código, GSAP → cubic-bezier).
-export const POWER3_INOUT = [0.645, 0.045, 0.355, 1] as const; // máscaras (0,8 s)
-export const POWER4_INOUT = [0.76, 0, 0.24, 1] as const; // miniatura → pantalla completa (1,5 s)
-export const POWER3_OUT = [0.215, 0.61, 0.355, 1] as const; // textos (0,8 s, +90 px)
+// Curvas y duraciones: siempre los tokens de lib/maqueta/motion.ts.
 
 // Máscara cerrada según la dirección por la que entra la cortinilla.
 const CLOSED: Record<From, string> = {
@@ -77,13 +75,13 @@ export function MaskReveal({
         initial={{ clipPath: CLOSED[from] }}
         whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
         viewport={{ once: true, margin: "-10% 0px" }}
-        transition={{ duration: 0.8, ease: POWER3_INOUT }}
+        transition={{ duration: DUR.base, ease: EASE.inOut }}
       >
         <motion.div
           initial={{ scale: 1.3 }}
           whileInView={{ scale: 1 }}
           viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{ duration: 0.8, ease: POWER3_INOUT }}
+          transition={{ duration: DUR.base, ease: EASE.inOut }}
         >
           {/* Parallax interno: escala 1.12 para que el desplazamiento no deje bordes. */}
           <motion.div style={{ y: innerY, scale: 1.12 }}>{children}</motion.div>
@@ -126,7 +124,7 @@ export function WindowReveal({ children }: { children: React.ReactNode }) {
 // página. La home deja esta marca para que el caso arranque ya con la imagen a pantalla
 // completa, sin entrada propia: así no se nota el cambio.
 export const FLIGHT_KEY = "case-flight";
-export const FLIGHT_S = 1.5;
+export const FLIGHT_S = DUR.screen;
 
 /** ¿Se llega al caso desde la miniatura de la home (imagen ya a pantalla completa)? */
 function readFlight(): boolean {
@@ -157,8 +155,8 @@ export function MaskText({
       initial={{ clipPath: CLOSED.bottom, y: 90 }}
       animate={{ clipPath: "inset(0% 0% 0% 0%)", y: 0 }}
       transition={{
-        clipPath: { duration: 0.8, ease: POWER3_INOUT, delay },
-        y: { duration: 0.8, ease: POWER3_OUT, delay },
+        clipPath: { duration: DUR.base, ease: EASE.inOut, delay },
+        y: { duration: DUR.base, ease: EASE.out, delay },
       }}
     >
       {children}
@@ -219,12 +217,12 @@ export function CaseHero({
       ? {
           initial: { clipPath: full },
           animate: { clipPath: band },
-          transition: { duration: 0.8, ease: POWER3_INOUT, delay: retractAt },
+          transition: { duration: DUR.base, ease: EASE.inOut, delay: retractAt },
         }
       : {
           initial: { clipPath: CLOSED.bottom },
           animate: { clipPath: [CLOSED.bottom, full, full, band] },
-          transition: { duration: 0.8 + 0.3 + 0.8, ease: POWER3_INOUT, times: [0, 0.42, 0.58, 1] },
+          transition: { duration: DUR.base + 0.3 + 0.8, ease: EASE.inOut, times: [0, 0.42, 0.58, 1] },
         };
 
   return (
@@ -237,7 +235,7 @@ export function CaseHero({
             className="absolute inset-0"
             initial={{ opacity: 1 }}
             animate={{ opacity: videoReady ? 0 : 1 }}
-            transition={{ duration: 1, delay: posterFade }}
+            transition={{ duration: DUR.slow, ease: EASE.inOut, delay: posterFade }}
           >
             {poster}
           </motion.div>
@@ -291,10 +289,10 @@ export function Placeholder({
         <Media src={src} alt={label} />
       ) : (
         <>
-          <span className="absolute left-4 top-4 border border-[var(--case-line)] px-2.5 py-1 font-[family-name:var(--font-case-mono)] text-[11px] uppercase tracking-[0.08em] text-[var(--case-muted)]">
+          <span className="absolute left-4 top-4 border border-[var(--case-line)] px-2.5 py-1 font-[family-name:var(--font-case-mono)] t-label uppercase tracking-[0.08em] text-[var(--case-muted)]">
             {kind === "vídeo" ? "▶ vídeo" : kind}
           </span>
-          <p className="absolute inset-x-4 bottom-4 max-w-[46ch] text-[13px] leading-snug text-[var(--case-muted)]">
+          <p className="absolute inset-x-4 bottom-4 max-w-[46ch] t-small text-[var(--case-muted)]">
             {label}
           </p>
         </>
@@ -327,7 +325,7 @@ export function Phone({
         ) : (
           <>
             <div className="absolute left-1/2 top-[2.4%] h-[3.2%] w-[30%] -translate-x-1/2 rounded-full bg-[var(--case-bg)]" />
-            <p className="absolute inset-x-[10%] bottom-[6%] text-center text-[12px] leading-snug text-[var(--case-muted)]">
+            <p className="absolute inset-x-[10%] bottom-[6%] text-center t-label text-[var(--case-muted)]">
               {label}
             </p>
           </>
@@ -354,7 +352,7 @@ export function FadeIn({
       initial={reduce ? false : { opacity: 0, y: 32, filter: "blur(14px)" }}
       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-12% 0px" }}
-      transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: DUR.slow, delay, ease: EASE.out }}
     >
       {children}
     </motion.div>
@@ -363,7 +361,7 @@ export function FadeIn({
 
 /** Antetítulo en mono (los «Introduction», «The vision»… de Metalab). */
 export function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <p className="mb-6 font-[family-name:var(--font-case-mono)] text-[clamp(13px,1.1vw,15px)] text-[var(--case-muted)]">
+  return <p className="mb-6 font-[family-name:var(--font-case-mono)] t-label text-[var(--case-muted)]">
       {children}
     </p>;
 }
@@ -371,7 +369,7 @@ export function Eyebrow({ children }: { children: React.ReactNode }) {
 /** Pie de texto que acompaña a un medio grande. */
 export function Caption({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`max-w-[34ch] text-[clamp(14px,1.25vw,16px)] leading-[1.45] text-[var(--case-muted)] ${className}`}>
+    <p className={`max-w-[34ch] t-small text-[var(--case-muted)] ${className}`}>
       {children}
     </p>
   );
@@ -412,7 +410,7 @@ function FitTitle({ text, delay }: { text: string; delay: number }) {
         className="w-max max-w-none font-extrabold leading-[0.88] tracking-[-0.045em] [font-size:var(--fit,clamp(44px,9vw,200px))] [white-space:var(--fit-ws,nowrap)]"
         initial={{ y: "100%" }}
         animate={{ y: "0%" }}
-        transition={{ duration: 0.8, ease: POWER3_INOUT, delay }}
+        transition={{ duration: DUR.base, ease: EASE.inOut, delay }}
       >
         {text}
       </motion.h1>
@@ -428,14 +426,14 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
       <FitTitle text={name} delay={delay} />
       <div className="grid grid-cols-12 gap-x-4 md:gap-x-6">
         <div className="col-span-12 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
-          <MaskText delay={delay + 0.2}>
+          <MaskText delay={delay + 2 * STAGGER}>
             <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
               {facts.map(([k, v]) => (
                 <div key={k}>
-                  <dt className="font-[family-name:var(--font-case-mono)] text-[12px] uppercase tracking-[0.08em] text-[var(--case-muted)]">
+                  <dt className="font-[family-name:var(--font-case-mono)] t-label uppercase tracking-[0.08em] text-[var(--case-muted)]">
                     {k}
                   </dt>
-                  <dd className="mt-1 text-[clamp(14px,1.1vw,16px)] leading-snug">{v}</dd>
+                  <dd className="mt-1 t-small">{v}</dd>
                 </div>
               ))}
             </dl>

@@ -13,9 +13,9 @@ import {
   Parallax,
   Phone,
   Placeholder,
-  POWER3_INOUT,
   WindowReveal,
 } from "@/components/case-study/primitives";
+import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import type { CaseCopy } from "@/lib/maqueta/cases";
 import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
 
@@ -27,10 +27,10 @@ import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
-const tIntro = "text-[clamp(28px,4.3vw,64px)] leading-[1.12] tracking-[-0.025em]";
-const tStatement = "text-[clamp(26px,3.1vw,44px)] leading-[1.18] tracking-[-0.03em]";
-const tTitle = "text-[clamp(24px,2.4vw,34px)] leading-[1.15] tracking-[-0.02em]";
-const tBody = "text-[clamp(16px,1.35vw,18px)] leading-[1.55]";
+const tIntro = "t-intro";
+const tStatement = "t-statement";
+const tTitle = "t-title";
+const tBody = "t-body";
 const section = `pt-32 md:pt-48 ${wrap}`;
 
 
@@ -50,7 +50,7 @@ function Reveal({ children, from = "bottom", speed = 60 }: { children: React.Rea
         initial={{ clipPath: closed }}
         whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
         viewport={{ once: true, margin: "-8% 0px" }}
-        transition={{ duration: 0.8, ease: POWER3_INOUT }}
+        transition={{ duration: DUR.base, ease: EASE.inOut }}
       >
         {children}
       </motion.div>
@@ -96,13 +96,13 @@ function Slides({ srcs, w, h, alt }: { srcs: string[]; w: number; h: number; alt
           src={s}
           alt={k === i ? alt : ""}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
+          className="absolute inset-0 h-full w-full object-cover xfade"
           style={{ opacity: k === i ? 1 : 0 }}
         />
       ))}
       <div className="absolute bottom-3 right-3 flex gap-1.5">
         {srcs.map((s, k) => (
-          <span key={s} className={`h-1.5 w-1.5 rounded-full bg-white transition-opacity ${k === i ? "opacity-100" : "opacity-40"}`} />
+          <span key={s} className={`h-1.5 w-1.5 rounded-full bg-white hov ${k === i ? "opacity-100" : "opacity-40"}`} />
         ))}
       </div>
     </div>
@@ -170,7 +170,7 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
   const [lead, ...rest] = items;
   const text = (
     <>
-      <p className={`text-[12px] text-[var(--case-muted)] ${mono}`}>
+      <p className={`t-label text-[var(--case-muted)] ${mono}`}>
         {String(n + 1).padStart(2, "0")} · {eyebrow}
       </p>
       {title && <h3 className={`mt-3 ${tTitle}`}>{title}</h3>}
@@ -183,7 +183,7 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
       <section className={section}>
         <div className={`${grid} gap-y-8`}>
           <FadeIn className={`col-span-12 md:col-span-7 ${flip ? "md:col-start-5" : "md:col-start-2"}`}>
-            <p className={`mb-4 text-[12px] text-[var(--case-muted)] ${mono}`}>
+            <p className={`mb-4 t-label text-[var(--case-muted)] ${mono}`}>
               {String(n + 1).padStart(2, "0")} · {eyebrow}
             </p>
             {title && <h3 className={tStatement}>{title}</h3>}
@@ -302,7 +302,7 @@ export default function CaseTemplate({
               <Eyebrow>Introducción</Eyebrow>
               <p className={tIntro}>{c.tagline}</p>
             </FadeIn>
-            <FadeIn delay={0.1} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-56">
+            <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-56">
               <h2 className={tTitle}>{c.question}</h2>
               <div className="mt-6 space-y-5">
                 {c.overview.map((p) => (
@@ -351,7 +351,7 @@ export default function CaseTemplate({
           {c.stats.map(([n, l]) => (
             <FadeIn key={l}>
               <div className={`${grid} items-end border-t border-[var(--case-line)] pt-4`}>
-                <p className="col-span-12 text-[clamp(80px,16vw,260px)] font-extrabold leading-[0.82] tracking-[-0.055em] md:col-span-8">
+                <p className="col-span-12 t-d1 md:col-span-8">
                   {n}
                 </p>
                 <p className={`col-span-12 pb-3 md:col-span-4 md:col-start-9 ${tBody} text-[var(--case-muted)]`}>{l}</p>
@@ -373,7 +373,7 @@ export default function CaseTemplate({
                 href={c.cta.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 text-[15px] transition-colors hover:bg-[var(--case-fg)] hover:text-[var(--case-bg)]"
+                className="mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small hov hover:bg-[var(--case-fg)] hover:text-[var(--case-bg)]"
               >
                 {c.cta.label} <span aria-hidden>↗</span>
               </a>
@@ -391,15 +391,15 @@ export default function CaseTemplate({
             </MaskReveal>
           </div>
           <FadeIn>
-            <p className={`mt-8 text-center text-[13px] text-[var(--case-muted)] ${mono}`}>Siguiente caso · {next.name}</p>
-            <p className="mt-2 whitespace-nowrap text-center text-[15vw] font-extrabold leading-none tracking-[-0.055em] transition-opacity group-hover:opacity-70">
+            <p className={`mt-8 text-center t-label text-[var(--case-muted)] ${mono}`}>Siguiente caso · {next.name}</p>
+            <p className="mt-2 whitespace-nowrap text-center text-[15vw] font-extrabold leading-none tracking-[-0.055em] hov group-hover:opacity-70">
               {next.name.length > 12 ? "Siguiente" : next.name}
             </p>
           </FadeIn>
         </Link>
         <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
-          <p className={`text-[12px] text-[var(--case-muted)] ${mono}`}>anico · {new Date().getFullYear()}</p>
-          <Link href="/maqueta/contacto" className="text-[clamp(28px,3vw,44px)] font-medium tracking-[-0.03em] hover:opacity-70">
+          <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · {new Date().getFullYear()}</p>
+          <Link href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
             Hablemos →
           </Link>
         </div>

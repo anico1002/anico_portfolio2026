@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteNav from "@/components/case-study/SiteNav";
 import { Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives";
+import { STAGGER } from "@/lib/maqueta/motion";
 
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
    plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto. */
@@ -8,7 +9,7 @@ import { Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives"
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
-const tBody = "text-[clamp(16px,1.35vw,18px)] leading-[1.55]";
+const tBody = "t-body";
 
 const YEARS = new Date().getFullYear() - 1998; // career_start de profile.txt
 
@@ -35,7 +36,7 @@ export default function About() {
         <div className={grid}>
           <FadeIn className="col-span-12 md:col-span-11">
             <Eyebrow>Sobre mí</Eyebrow>
-            <h1 className="text-[clamp(40px,6.4vw,104px)] font-medium leading-[1.02] tracking-[-0.04em]">
+            <h1 className="t-h1">
               {YEARS} años diseñando interfaces que la gente usa de verdad.
             </h1>
           </FadeIn>
@@ -52,12 +53,12 @@ export default function About() {
       <section className={`pt-24 md:pt-40 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
           <FadeIn className="col-span-12 md:col-span-5">
-            <p className="text-[clamp(26px,3.1vw,44px)] leading-[1.18] tracking-[-0.03em]">
+            <p className="t-statement">
               Diseñador sénior especializado en diseño interactivo, UI/UX de videojuegos, dirección de arte de
               marca y tecnologías inmersivas.
             </p>
           </FadeIn>
-          <FadeIn delay={0.1} className="col-span-12 space-y-5 md:col-span-5 md:col-start-8 md:pt-3">
+          <FadeIn delay={STAGGER} className="col-span-12 space-y-5 md:col-span-5 md:col-start-8 md:pt-3">
             <p className={`text-[var(--case-muted)] ${tBody}`}>
               Me apasionan la tecnología, el arte, la ilustración y el diseño. Durante más de una década me he
               centrado en la UI/UX de videojuegos, con estudios como Gameloft Barcelona, en títulos descargados
@@ -76,20 +77,20 @@ export default function About() {
       <section className={`pt-24 md:pt-40 ${wrap}`}>
         <div className={`${grid} gap-y-12`}>
           <FadeIn className="col-span-12 md:col-span-5">
-            <p className={`mb-6 text-[12px] text-[var(--case-muted)] ${mono}`}>Qué hago</p>
+            <p className={`mb-6 t-label text-[var(--case-muted)] ${mono}`}>Qué hago</p>
             <ul className="border-t border-[var(--case-line)]">
               {disciplines.map((d) => (
-                <li key={d} className="border-b border-[var(--case-line)] py-3 text-[clamp(18px,1.6vw,22px)] tracking-[-0.01em]">
+                <li key={d} className="border-b border-[var(--case-line)] py-3 t-lead">
                   {d}
                 </li>
               ))}
             </ul>
           </FadeIn>
-          <FadeIn delay={0.1} className="col-span-12 md:col-span-5 md:col-start-8">
-            <p className={`mb-6 text-[12px] text-[var(--case-muted)] ${mono}`}>Con quién he trabajado</p>
+          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-5 md:col-start-8">
+            <p className={`mb-6 t-label text-[var(--case-muted)] ${mono}`}>Con quién he trabajado</p>
             <ul className="border-t border-[var(--case-line)]">
               {clients.map((d) => (
-                <li key={d} className="border-b border-[var(--case-line)] py-3 text-[clamp(18px,1.6vw,22px)] tracking-[-0.01em]">
+                <li key={d} className="border-b border-[var(--case-line)] py-3 t-lead">
                   {d}
                 </li>
               ))}
@@ -103,7 +104,7 @@ export default function About() {
           <Eyebrow>Contacto</Eyebrow>
           <Link
             href="/maqueta/contacto"
-            className="block text-[clamp(56px,11vw,180px)] font-extrabold leading-[0.85] tracking-[-0.055em] transition-opacity hover:opacity-70"
+            className="block t-d2 hov hover:opacity-70"
           >
             ¿Hablamos?
           </Link>
