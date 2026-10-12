@@ -123,6 +123,14 @@ export default function EntryB() {
     const id = requestAnimationFrame(() => setTouch(noHover()));
     return () => cancelAnimationFrame(id);
   }, []);
+  // En móvil el titular va pegado encima del párrafo: cada mitad guarda el alto de su párrafo.
+  useEffect(() => {
+    const ro = new ResizeObserver((es) =>
+      es.forEach((e) => (e.target.parentElement as HTMLElement)?.style.setProperty("--ph", `${e.target.getBoundingClientRect().height}px`))
+    );
+    document.querySelectorAll("[data-para]").forEach((el) => ro.observe(el));
+    return () => ro.disconnect();
+  }, []);
   return (
     <main className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased md:flex-row">
       <SiteNav active={null} />
@@ -165,9 +173,10 @@ export default function EntryB() {
               >
                 {/* Titulares juntos en el centro de la pantalla, cada uno pegado a la línea central
                     con un pequeño margen: «Product» a su izquierda y «Games» a su derecha. En móvil (mitades
-                    apiladas) van a su lado, alineados con su párrafo: Product a la izquierda, Games a la derecha. */}
+                    apiladas) van a su lado y justo encima de su párrafo, formando un bloque con él (`--ph` = alto
+                    del párrafo): Product a la izquierda, Games a la derecha. */}
                 <div
-                  className={`absolute inset-0 flex items-center overflow-hidden ${picked ? "justify-center" : left ? "justify-start px-4 md:justify-end md:pl-0 md:pr-5" : "justify-end px-4 md:justify-start md:pl-5 md:pr-0"}`}
+                  className={`absolute inset-0 flex overflow-hidden ${picked ? "items-center justify-center" : `items-end pb-[calc(var(--ph,0px)+2.5rem)] md:items-center md:pb-0 ${left ? "justify-start px-4 md:justify-end md:pl-0 md:pr-5" : "justify-end px-4 md:justify-start md:pl-5 md:pr-0"}`}`}
                 >
                   <motion.p
                     layout="position"
@@ -182,6 +191,7 @@ export default function EntryB() {
                 {/* Párrafo desplazado abajo, en el lado exterior (en espejo); solo al pasar por
                     encima (en táctil, siempre). */}
                 <motion.div
+                  data-para
                   className={`absolute bottom-6 max-w-[30ch] md:bottom-8 ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
                   initial={false}
                   animate={{ opacity: on && !chosen ? 1 : 0, y: on && !chosen ? 0 : 16 }}
