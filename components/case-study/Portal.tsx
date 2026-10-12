@@ -56,8 +56,8 @@ export function TLink({ href, onClick, ...rest }: React.ComponentProps<typeof Li
 
 const SHUT = "inset(0% 0% 0% 0%)";
 
-/** Un giro del rodillo del logo: su duración, la ola de 15 ms de las 5 letras y una pausa breve. */
-const ROLL_MS = DUR.base * 1000 + 4 * 15 + 150;
+/** Un giro del rodillo del logo: su duración, la ola de 80 ms de las 5 letras y una pausa breve. */
+const ROLL_MS = DUR.base * 1000 + 4 * 80 + 150;
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 const twoFrames = () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
