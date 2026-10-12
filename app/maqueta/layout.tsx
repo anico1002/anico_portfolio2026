@@ -20,11 +20,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Fondo negro/blanco con selector sol/luna en el menú (2026-10-12; antes cada caso
-// tenía su color). Los colores salen de estas variables; las páginas no fijan ninguno.
+// Fondo negro/blanco puros con selector sol/luna en el menú (2026-10-12; antes cada caso
+// tenía su color, y el negro era #0A0A0B). Los colores salen de estas variables; las páginas no fijan ninguno.
 const themes = `
   #case-root, #case-root[data-case-theme="dark"] {
-    --case-bg: #0A0A0B; --case-fg: #F4F4F5;
+    --case-bg: #000000; --case-fg: #F4F4F5;
     --case-muted: rgba(244,244,245,0.56); --case-line: rgba(244,244,245,0.16); --case-ph: rgba(244,244,245,0.07);
     color-scheme: dark;
   }
@@ -33,7 +33,7 @@ const themes = `
     --case-muted: rgba(10,10,11,0.56); --case-line: rgba(10,10,11,0.14); --case-ph: rgba(10,10,11,0.06);
     color-scheme: light;
   }
-  body:has(#case-root) { background: #0A0A0B; }
+  body:has(#case-root) { background: #000000; }
   body:has(#case-root[data-case-theme="light"]) { background: #FFFFFF; }
   #case-root main { transition: background-color var(--dur-base) var(--ease-in-out), color var(--dur-base) var(--ease-in-out); }
 `;

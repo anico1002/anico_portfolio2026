@@ -49,9 +49,11 @@ borde entre mitades (lateral en escritorio, vertical en móvil), al ritmo de la 
 ## Contraste: tinta adaptativa, no `mix-blend-difference`
 
 La inversión por diferencia deja gris sobre gris en fondos medios (gris 128 → contraste 1:1): el logo se
-perdía. Ahora menú y textos de la entrada usan `Inked` (`components/case-study/Inked.tsx` +
+perdía. Ahora el menú usa `Inked` (`components/case-study/Inked.tsx` +
 `lib/maqueta/ink.ts`): mide el brillo real de lo que hay detrás (imagen/vídeo con sus velos, o color de
-fondo) y pone blanco o negro puro, nunca menos de 5,3:1. Depurar: `__inkBehind(el)` en la consola (dev).
+fondo) y pone blanco o negro puro, nunca menos de 5,3:1. En la portada se probó y se quitó (mareaba):
+allí los textos van en blanco sobre las imágenes y en el color del tema en reposo. Tema oscuro en negro
+puro (#000; antes #0A0A0B). Depurar: `__inkBehind(el)` en la consola (dev).
 
 ## Safari: no usar `whileInView` de framer-motion
 
