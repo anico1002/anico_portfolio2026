@@ -48,6 +48,39 @@ Verificar que ha quedado arreglado contando en el log: `grep -c FATAL` a 0 y tan
 peticiones hayas hecho tú. Pasa sobre todo tras cambiar `public/projects/`, porque ahí se cachea
 el escaneo del filesystem.
 
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-12, MacBook)
+
+**Primera tarea de la próxima sesión:** abrir `docs/revision-calidad-2026-10-12.md` y decidir con
+Alberto por dónde atacar. Es la revisión exhaustiva de Yakushev, Metalab y Plastic contra nuestra
+maqueta (medido en vivo, curvas sacadas de su código; anexo con todos los valores exactos).
+Diagnóstico: no nos faltan efectos, nos falta **disciplina** (una curva firma + 3 duraciones),
+**continuidad** (transición en todos los enlaces) y **un motivo propio repetido**. Mi propuesta de
+orden: bloque A (sistema de movimiento + motivo: la línea central de la entrada B) → B1 (transición en
+todos los enlaces) y C1 (hover de tarjetas) → decidir pronto la tipografía (D3: serif itálica mezclada).
+
+Rama `case-study-maqueta`, todo commiteado y pusheado. `npm run dev` → `localhost:3000/maqueta`.
+
+**Hecho hoy (además de lo de abajo):**
+- Tema negro/blanco con sol/luna; casos asimétricos; home al ritmo de Yakushev.
+- Portada de caso unificada (`CaseHeroOverlay`): titular en una línea a todo el ancho, ficha abajo dcha.
+- Transición home→caso reescrita (`components/case-study/Flight.tsx`): capa en el layout, arranque
+  con el encuadre exacto de la tarjeta, máscara (1,3 s) e imagen (1,5 s) a distinta velocidad,
+  relevo sin parpadeo (en vídeo, mismo fotograma), precarga antes del clic. Medido: sin pausas.
+- **Entrada B** (`/maqueta/entrada-b`, la que le gusta): pantalla partida Product/Games, titulares
+  juntos en la línea central, párrafo abajo en el lado exterior solo al pasar por encima, pase de
+  proyectos de fondo; al elegir, la mitad crece a pantalla completa y un telón
+  (`components/case-study/Curtain.tsx`) se levanta con barrido de abajo arriba sobre la home.
+  La entrada A sigue en `/maqueta` (decidir cuál se queda).
+- SwifT: vídeo HyperFrames dentro de las fotos de concepto del MacBook (`motion/mockup.py`, perspectiva
+  por registro SIFT con la landing real); miniatura = cabecera; el vídeo del portátil crece entero tras
+  la intro (`feature` en `cases.ts`).
+
+**Pendientes sueltos:**
+- `public/maqueta/swift/flow.mp4` (vídeo plano sobrante, sin versionar): Alberto decide si se borra.
+- Skill `motion-design` solo instalado en el MacBook: en el Mac mini, `npx skills add LottieFiles/motion-design-skill -g -a claude-code -y`.
+- Standby de contenidos (7News, Dovla, Interactius, WineUp; «Marca y web»; cifra de Asphalt Unite;
+  idioma) — ver la sección de la maqueta navegable más abajo.
+
 ## 2026-10-12 — PRUEBA DE MOTION: SKILL `motion-design` + VÍDEO DE SWIFT
 
 Instalado `LottieFiles/motion-design-skill` (`npx skills add … -g -a claude-code`, en
