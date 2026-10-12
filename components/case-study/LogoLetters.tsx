@@ -14,24 +14,38 @@ export const LETTERS = [
   { key: "o", d: "M393.706 95.0225C384.399 95.0225 376.351 93.0454 369.56 89.0911C362.81 85.0969 357.598 79.5449 353.923 72.4352C350.248 65.2856 348.411 56.9976 348.411 47.5712C348.411 38.0649 350.248 29.757 353.923 22.6472C357.598 15.4976 362.81 9.94561 369.56 5.99133C376.351 1.99711 384.399 0 393.706 0C403.012 0 411.04 1.99711 417.791 5.99133C424.581 9.94561 429.813 15.4976 433.488 22.6472C437.163 29.757 439 38.0649 439 47.5712C439 56.9976 437.163 65.2856 433.488 72.4352C429.813 79.5449 424.581 85.0969 417.791 89.0911C411.04 93.0454 403.012 95.0225 393.706 95.0225ZM393.825 75.2512C398.059 75.2512 401.594 74.0529 404.43 71.6564C407.266 69.2199 409.403 65.9047 410.841 61.7107C412.319 57.5168 413.058 52.7437 413.058 47.3914C413.058 42.0392 412.319 37.2661 410.841 33.0722C409.403 28.8782 407.266 25.563 404.43 23.1265C401.594 20.6901 398.059 19.4718 393.825 19.4718C389.552 19.4718 385.957 20.6901 383.041 23.1265C380.165 25.563 377.988 28.8782 376.51 33.0722C375.073 37.2661 374.354 42.0392 374.354 47.3914C374.354 52.7437 375.073 57.5168 376.51 61.7107C377.988 65.9047 380.165 69.2199 383.041 71.6564C385.957 74.0529 389.552 75.2512 393.825 75.2512Z" },
 ] as const;
 
+/** Alto de la máscara respecto al de las letras. En el menú la máscara es la línea de texto
+    (≈1,3 em) y las minúsculas ocupan ≈0,7 em: la máscara es ≈1,8 veces la letra y la copia entra a
+    esa distancia, con aire entre una y otra. Aquí se reproduce esa misma proporción. */
+const MASK = 1.8;
+const PAD = ((MASK - 1) / 2) * 100; // % del alto del logo que la máscara sobresale arriba y abajo
+
 export default function LogoLetters({ cycle, className = "" }: { cycle: number; className?: string }) {
-  // Cada letra es su propio <svg> (mismo lienzo, apilados) con su copia justo debajo, dentro de la
-  // máscara del logo. `key={cycle}` reinicia la animación CSS en cada giro.
+  // La caja del logo no cambia de tamaño; la máscara sobresale por arriba y por abajo. Dentro, cada
+  // letra (su propio <svg>, mismo lienzo) y su copia una máscara más abajo. `key={cycle}` reinicia
+  // la animación CSS en cada giro.
   return (
-    <span className={`relative inline-block aspect-[439/96] overflow-hidden ${className}`} aria-hidden>
-      {LETTERS.map((l, i) => (
-        <span
-          key={`${l.key}-${cycle}`}
-          className={`absolute inset-0 ${cycle > 0 ? "logo-roll" : ""}`}
-          style={{ ["--i" as string]: i }}
-        >
-          {[0, 100].map((y) => (
-            <svg key={y} viewBox="0 0 439 96" className="absolute inset-0 h-full w-full" style={{ transform: `translateY(${y}%)` }}>
-              <path d={l.d} fill="currentColor" />
-            </svg>
-          ))}
-        </span>
-      ))}
+    <span className={`relative inline-block aspect-[439/96] ${className}`} aria-hidden>
+      <span className="absolute inset-x-0 overflow-hidden" style={{ top: `-${PAD}%`, bottom: `-${PAD}%` }}>
+        {LETTERS.map((l, i) => (
+          <span
+            key={`${l.key}-${cycle}`}
+            className={`absolute inset-0 ${cycle > 0 ? "logo-roll" : ""}`}
+            style={{ ["--i" as string]: i }}
+          >
+            {[0, 100].map((y) => (
+              <svg
+                key={y}
+                viewBox="0 0 439 96"
+                className="absolute inset-x-0 w-full"
+                style={{ top: `${y + PAD / MASK}%`, height: `${100 / MASK}%` }}
+              >
+                <path d={l.d} fill="currentColor" />
+              </svg>
+            ))}
+          </span>
+        ))}
+      </span>
     </span>
   );
 }
