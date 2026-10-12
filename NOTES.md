@@ -2,6 +2,29 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-12 noche, MacBook)
+
+Rama `case-study-maqueta`, todo commiteado y pusheado. `npm run dev` → `localhost:3000/maqueta`.
+Vista previa en Vercel (no producción) desplegada al cerrar: el enlace está en el chat de la sesión.
+
+**Hecho en esta sesión** (detalle en las secciones de arriba): bloque A (sistema de movimiento,
+escala tipográfica `.t-*`, escala fluida); bloque B (barrido vertical entre páginas con logo que hace el
+rodillo del menú en bucle mientras carga; bloqueo de clics/scroll; menú propio en móvil; llegada al caso;
+«Siguiente caso» con ventana que se abre); portada partida en `/maqueta` (adonde lleva el logo);
+cabecera de las homes viva (pase de imágenes que se recoge a media pantalla; logo fijo arriba y menú al
+pie que sube y se pega); todo con máscara, sin desenfoques; Instrument Sans + Playfair cursiva;
+titulillos `.t-tag`; negro puro en oscuro; logo y menú con `mix-blend-difference`; arreglos de Safari.
+
+**Pendiente / próxima sesión:**
+- **Bloque C** de la revisión: hover de tarjetas, etiqueta «Ver caso», enlaces (hover = `RollText`).
+- **Énfasis en titulares**: queda Playfair cursiva «a ver si se acostumbra»; revisar más adelante.
+- **Standby**: A3 motivo de marca + A4 intro (propuestas en la sección del bloque A); palabras que
+  cambian (aparcado, regla: sola en su línea).
+- ¿Borrar `components/case-study/Inked.tsx` y `lib/maqueta/ink.ts`? (sin uso; pendiente de su OK).
+- ¿Texto en blanco/negro puros también (`#FFF`/`#000`) además del fondo? (preguntado, sin respuesta).
+- Frases de los casos: ¿centradas en columnas 3–10 como la intro de las homes? (ahora 3–9).
+- Contenidos: casos más cortos y con menos imágenes de más calidad (Gloop el primero).
+
 ## Lo primero: esta es la carpeta buena
 
 `~/Vibe_Projects/anico_portfolio2026/` es **el portfolio en producción** → proyecto Vercel
@@ -148,7 +171,7 @@ abajo).
 **Entrada decidida: la pantalla partida** es ahora `/maqueta` (adonde lleva el logo); la A queda en
 `/maqueta/entrada-a`. Falta: el botón «atrás» del navegador sigue cambiando de página en seco.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-12, MacBook)
+## Cierre anterior (2026-10-12 mediodía, MacBook)
 
 **Primera tarea de la próxima sesión:** abrir `docs/revision-calidad-2026-10-12.md` y decidir con
 Alberto por dónde atacar. Es la revisión exhaustiva de Yakushev, Metalab y Plastic contra nuestra
