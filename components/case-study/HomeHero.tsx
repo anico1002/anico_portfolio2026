@@ -35,9 +35,16 @@ function InlineMedia({ slides, open }: { slides: readonly string[]; open: boolea
   );
 }
 
-/** Palabras que cambian (opción «rota» del énfasis, a prueba): cada 2,4 s la palabra sale por arriba
-    de su máscara y entra la siguiente por abajo (el gesto del menú), y el hueco se ajusta al ancho
-    de cada una. Fuera de `?em=rota` se ve solo la primera, quieta. */
+/** Palabras que cambian en el titular (2026-10-12; quita estaticidad a la intro): cada 2,4 s la
+    palabra sale por arriba y entra la siguiente por abajo, letra a letra en ola, con el mismo gesto
+    que el hover del menú. El hueco se ajusta suave al ancho de cada palabra. */
+const ROT_STAGGER = 0.02; // s entre letras (el menú usa 15 ms; las palabras aquí son más largas)
+const letter = {
+  enter: { y: "110%" },
+  show: (i: number) => ({ y: "0%", transition: { duration: DUR.base, ease: EASE.inOut, delay: i * ROT_STAGGER } }),
+  leave: (i: number) => ({ y: "-110%", transition: { duration: DUR.base, ease: EASE.inOut, delay: i * ROT_STAGGER } }),
+};
+
 function Rotating({ words, run }: { words: string[]; run: boolean }) {
   const [k, setK] = useState(0);
   const [w, setW] = useState<number[]>([]);
@@ -49,28 +56,42 @@ function Rotating({ words, run }: { words: string[]; run: boolean }) {
     window.addEventListener("resize", m);
     return () => window.removeEventListener("resize", m);
   }, [words]);
+  // Ancho del hueco: mientras sale la palabra anterior, el mayor de los dos (para no cortarla);
+  // cuando ya ha salido, el de la nueva.
+  const [prev, setPrev] = useState<number | null>(null);
   useEffect(() => {
     if (!run) return;
-    const id = setInterval(() => setK((n) => (n + 1) % words.length), 2400);
-    return () => clearInterval(id);
-  }, [run, words.length]);
+    let t = 0;
+    const id = setInterval(() => {
+      setK((n) => {
+        const next = (n + 1) % words.length;
+        setPrev(n);
+        clearTimeout(t);
+        t = window.setTimeout(() => setPrev(null), (DUR.base + words[n].length * ROT_STAGGER) * 1000);
+        return next;
+      });
+    }, 2400);
+    return () => {
+      clearInterval(id);
+      clearTimeout(t);
+    };
+  }, [run, words]);
+  const width = w[k] ? Math.max(w[k], prev != null ? w[prev] ?? 0 : 0) : undefined;
   return (
-    <span className="rot" style={w[k] ? { width: w[k] } : undefined}>
+    <span className="rot" style={width ? { width } : undefined}>
+      <span className="sr-only">{words[k]}</span>
       <span ref={measure} aria-hidden className="rot-measure">
         {words.map((x) => (
           <span key={x}>{x}</span>
         ))}
       </span>
       <AnimatePresence initial={false}>
-        <motion.span
-          key={words[k]}
-          className="rot-word"
-          initial={{ y: "110%" }}
-          animate={{ y: "0%" }}
-          exit={{ y: "-110%" }}
-          transition={{ duration: DUR.base, ease: EASE.inOut }}
-        >
-          {words[k]}
+        <motion.span key={words[k]} aria-hidden className="rot-word" initial="enter" animate="show" exit="leave">
+          {[...words[k]].map((ch, i) => (
+            <motion.span key={i} className="inline-block" custom={i} variants={letter}>
+              {ch === " " ? "\u00a0" : ch}
+            </motion.span>
+          ))}
         </motion.span>
       </AnimatePresence>
     </span>
@@ -96,13 +117,10 @@ const withEm = (t: string, slides: readonly string[], open: boolean) =>
 
 export default function HomeHero({
   title,
-  rotating,
   slides,
   nav,
 }: {
   title: string;
-  /** Variante del titular con palabras que cambian (`{a|b|c}`), para la prueba `?em=rota`. */
-  rotating?: string;
   slides: readonly string[];
   /** La barra (logo + menú), montada en modo `docked`: aparece al pie y se pega arriba. */
   nav: React.ReactNode;
@@ -114,13 +132,6 @@ export default function HomeHero({
   const [i, setI] = useState(() => Math.max(0, curtain ? slides.indexOf(curtain.src) : 0));
   const [retracted, setRetracted] = useState(false);
   const first = useRef<HTMLImageElement>(null);
-  // Prueba de énfasis activa (`?em=`, la fija el layout en #case-root antes de pintar).
-  const [em, setEm] = useState<string | undefined>(undefined);
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setEm(document.getElementById("case-root")?.dataset.em));
-    return () => cancelAnimationFrame(id);
-  }, []);
-  const text = em === "rota" && rotating ? rotating : title;
 
   // Relevo con el telón: cuando la primera imagen está pintada, el telón se funde; la retirada
   // empieza cuando el fundido ya va por la mitad. Directo: la máscara de entrada y luego retirada.
@@ -192,10 +203,10 @@ export default function HomeHero({
             <h1 className="col-span-12 md:col-span-8">
               {retracted ? (
                 <MaskText delay={DUR.slow / 2}>
-                  <span className="block t-hero">{withEm(text, slides, true)}</span>
+                  <span className="block t-hero">{withEm(title, slides, true)}</span>
                 </MaskText>
               ) : (
-                <span className="block t-hero opacity-0">{withEm(text, slides, false)}</span>
+                <span className="block t-hero opacity-0">{withEm(title, slides, false)}</span>
               )}
             </h1>
           </div>

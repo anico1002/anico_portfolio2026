@@ -38,13 +38,20 @@ solo estilo `.t-tag`: Instrument Sans 500, MAYÚSCULAS, espaciado 0,1 em (se pro
 Instrument Serif; descartadas). Geist Mono ya no se carga. Display a peso 700 (Instrument Sans no llega a 800). Intro de las homes
 `.t-hero` a 64 px (empezó en 80). Las máscaras de texto llevan margen por abajo para no cortar g/j/p.
 
+## Titular de las homes: palabras que cambian (decidido 2026-10-12)
+
+`{a|b|c}` en el titular → una palabra cambia cada 2,4 s, letra a letra en ola con la máscara del menú
+(`Rotating` en `HomeHero.tsx`). Le gusta para la intro: da movimiento y **hay que huir de lo estático**
+(también con imágenes siempre en movimiento). Como recurso gráfico general se queda corto; se reusará
+donde haga falta. Listas de palabras provisionales.
+
 ## Énfasis en titulares (en prueba, 2026-10-12)
 
 Recurso sans + serif cursiva: le gusta pero lo ve **trillado**. Gris + palabras en color pleno:
-**descartado** (pierde potencia). **Degradado ácido en las palabras clave: le gusta mucho**, pero el color
-necesita un fundamento y más usos (no solo ahí); idea: **verde ácido para Games, violeta ácido para
-Product**. Pendiente decidir. Imagen dentro de la frase (`[m]`): muy vista; solo si tiene un juego (ampliarse al
-pasar o con el scroll), no puesta porque sí. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen|cursiva|ancho|rota`
+**descartado** (pierde potencia). Degradado ácido en las palabras clave: le gustó (idea: verde para Games, violeta para Product), pero
+**descartado**: en tema claro no funciona igual de bien. Se queda el titular con palabras que cambian;
+el énfasis se revisará más adelante. Imagen dentro de la frase (`[m]`): muy vista; solo si tiene un juego (ampliarse al
+pasar o con el scroll), no puesta porque sí. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen|cursiva|ancho` (por defecto, ninguno)
 (en `layout.tsx`). Anchura variable: no convence (y expandir exige otra fuente, p. ej. Mona Sans); descartada.
 
 ## Sin desenfoques: todo es máscara (2026-10-12)
