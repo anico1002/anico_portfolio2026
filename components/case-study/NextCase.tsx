@@ -2,14 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
+import BlurText from "@/components/case-study/BlurText";
 import { markLanded, startFlight } from "@/components/case-study/Flight";
 import { TLink } from "@/components/case-study/Portal";
-import { MaskReveal, Placeholder } from "@/components/case-study/primitives";
+import { FadeIn, MaskReveal, Placeholder } from "@/components/case-study/primitives";
 
-/* «Siguiente caso» como cierre del relato (B5, gesto de Metalab): un ticker gigante que avanza
-   sin parar y, encima, la portada del siguiente caso. Al pasar por encima, el ticker se apaga
-   a 0,2 y la imagen se asienta de 1,15 a 1. Al hacer clic, la portada crece a pantalla completa
-   y aterriza en la cabecera del caso siguiente, con la misma transición que desde la home. */
+/* «Siguiente caso» como cierre del relato (B5), con nuestro propio gesto (2026-10-12; el ticker
+   gigante de Metalab se descartó por demasiado copiado). La portada del siguiente caso espera
+   desenfocada y atenuada; al pasar por encima se enfoca, y el nombre hace la ola de desenfoque
+   del menú: el mismo desenfoque → foco con el que entran los textos. Composición asimétrica:
+   texto estrecho a la izquierda, imagen grande a la derecha. Al hacer clic, la portada crece a
+   pantalla completa y aterriza en la cabecera del caso siguiente (el vuelo de la home). En
+   táctil no hay «pasar por encima»: la imagen se ve ya enfocada (`.nc-img` en system.css). */
 
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
 
@@ -30,27 +34,25 @@ export default function NextCase({ name, href, thumb }: { name: string; href: st
     });
   };
 
-  const phrase = `Siguiente caso • ${name} • `;
   return (
-    <TLink href={href} onClick={open} className="group relative block py-10 md:py-16">
-      {/* Ticker detrás: 0,8 s por carácter (Metalab), dos copias para el bucle. */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 overflow-hidden">
-        <div className="ticker hov flex whitespace-nowrap t-d1 group-hover:opacity-20" style={{ ["--ticker-s" as string]: `${phrase.length * 0.8}s` }}>
-          <span className="pr-[0.25em]">{phrase}</span>
-          <span className="pr-[0.25em]">{phrase}</span>
-        </div>
-      </div>
-      <div className="relative mx-auto w-[min(76vw,34rem)]">
-        <div ref={frame}>
+    <TLink href={href} onClick={open} className="group block px-4 md:px-6">
+      <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-x-6">
+        <FadeIn className="order-2 col-span-12 md:order-1 md:col-span-4 md:self-end">
+          <p className={`t-label text-[var(--case-muted)] ${mono}`}>Siguiente caso</p>
+          <p className="mt-3 t-statement font-medium">
+            <BlurText text={name} />
+          </p>
+          <p className="mt-6 t-small text-[var(--case-muted)]">
+            Ver caso <span aria-hidden>→</span>
+          </p>
+        </FadeIn>
+        <div ref={frame} className="order-1 col-span-12 md:order-2 md:col-span-7 md:col-start-6">
           <MaskReveal from="bottom" speed={0}>
-            <div className="hov scale-[1.15] group-hover:scale-100">
+            <div className="nc-img">
               <Placeholder ratio="16/10" src={thumb} label={name} />
             </div>
           </MaskReveal>
         </div>
-        <p className={`mt-4 t-label text-[var(--case-muted)] ${mono}`}>
-          Siguiente caso · {name} <span aria-hidden>→</span>
-        </p>
       </div>
     </TLink>
   );

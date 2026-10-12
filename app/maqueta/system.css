@@ -101,14 +101,22 @@ html:has(#case-root) {
 /* Logo negro dentro de capas que no usan `difference` (menú de móvil): en oscuro, a blanco. */
 #case-root:not([data-case-theme="light"]) .dark-invert { filter: invert(1); }
 
-/* Ticker del «Siguiente caso» (Metalab): avance lineal y constante; la duración la fija el
-   componente según la longitud del texto. Dos copias seguidas → bucle sin costura. */
-@keyframes case-ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+/* «Siguiente caso»: la portada espera desenfocada y atenuada y se enfoca al pasar por encima
+   (entra en `base`, sale en `fast`). En táctil, sin hover, se ve ya enfocada. */
+.nc-img {
+  filter: blur(14px);
+  opacity: 0.55;
+  scale: 1.04;
+  transition: filter var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out), scale var(--dur-fast) var(--ease-out);
 }
-.ticker { animation: case-ticker var(--ticker-s, 20s) linear infinite; width: max-content; }
-@media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }
+.group:hover .nc-img,
+.group:focus-visible .nc-img {
+  filter: blur(0);
+  opacity: 1;
+  scale: 1;
+  transition-duration: var(--dur-base);
+}
+@media (hover: none) { .nc-img { filter: none; opacity: 1; scale: 1; } }
 
 /* Hover de desenfoque → foco (BlurText). Cada letra pasa por un desenfoque breve y vuelve a
    enfocar; la ola avanza 25 ms por letra. Entra en `base` (0,8 s) y sin salida: al quitar el

@@ -66,12 +66,15 @@ letra a letra en gigante que encoge hasta el logo del menú. Recomendada: 1, o 3
 Siguiente: bloque B.
 
 **Bloque B hecho (2026-10-12, sin validar aún por Alberto):** portal en todos los enlaces internos
-(`components/case-study/Portal.tsx`: `TLink` y `go()`; paneles del color del texto que cierran hacia el
-centro y reabren); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
+(`components/case-study/Portal.tsx`: `TLink` y `go()`; **barrido vertical** de abajo arriba del color del
+texto, como el telón; los paneles laterales de Metalab se descartaron por demasiado copiados); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
 cabecera: se probó la placa de cristal de Metalab y **se descartó** (prefiere el menú en su sitio
 invirtiéndose, como Yakushev); hover del menú = desenfoque → foco letra a letra (`BlurText`); menú propio en móvil; llegada al
-caso en 1,2 s con 0,2 s de espera; «Siguiente caso» con ticker y vuelo al caso siguiente
-(`NextCase.tsx`). Falta: el botón «atrás» del navegador sigue cambiando de página en seco.
+caso en 1,2 s con 0,2 s de espera; «Siguiente caso» propio (`NextCase.tsx`): portada desenfocada que se enfoca
+al pasar + ola de desenfoque en el nombre, texto estrecho a la izquierda; vuelo al caso siguiente. El ticker
+gigante de Metalab se descartó (copiado, y Alberto duda de los tipos gigantes en general).
+**Entrada decidida: la pantalla partida** es ahora `/maqueta` (adonde lleva el logo); la A queda en
+`/maqueta/entrada-a`. Falta: el botón «atrás» del navegador sigue cambiando de página en seco.
 
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-12, MacBook)
 

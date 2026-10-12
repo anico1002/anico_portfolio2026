@@ -7,9 +7,11 @@ import { useEffect, useSyncExternalStore } from "react";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
-/* Transición «portal» para TODOS los enlaces internos (B1 de la revisión; la de Metalab):
-   dos paneles del color invertido cierran desde los bordes hacia la línea central, se cambia
-   de página con la pantalla tapada y reabren desde el centro hacia fuera. Mientras dura, la
+/* Transición para TODOS los enlaces internos (B1 de la revisión): un barrido de máscara vertical
+   del color invertido sube desde abajo hasta tapar la pantalla, se cambia de página tapada y el
+   barrido sigue subiendo hasta descubrir la nueva. Es el mismo gesto del telón de la entrada
+   (de abajo arriba). Se probaron los paneles laterales de Metalab y se descartaron por
+   demasiado parecidos (2026-10-12). Mientras dura, la
    capa se come los clics y el scroll queda parado (B6). La miniatura → caso y la entrada B
    tienen su propia transición; esta es la de todo lo demás. */
 
@@ -56,7 +58,7 @@ export default function PortalLayer() {
   const router = useRouter();
   const path = usePathname();
 
-  // Sin movimiento: cambio directo, sin paneles.
+  // Sin movimiento: cambio directo, sin barrido.
   useEffect(() => {
     if (s.phase === "closing" && s.href && reduced()) {
       router.push(s.href);
@@ -82,16 +84,17 @@ export default function PortalLayer() {
 
   if (s.phase === "idle") return null;
   const shut = s.phase === "closing" || s.phase === "covered";
-  const panel = (side: "left" | "right") => {
-    const open = side === "left" ? "inset(0% 100% 0% 0%)" : "inset(0% 0% 0% 100%)";
-    return (
+  // Entra por abajo (cerrado = recortado por arriba) y sale por arriba: siempre hacia arriba.
+  const below = "inset(100% 0% 0% 0%)";
+  const above = "inset(0% 0% 100% 0%)";
+  return (
+    <div aria-hidden className="fixed inset-0 z-[90]">
       <motion.div
-        className={`absolute inset-y-0 ${side === "left" ? "left-0" : "right-0"} w-1/2 bg-[var(--case-fg)]`}
-        initial={{ clipPath: open }}
-        animate={{ clipPath: shut ? SHUT : open }}
+        className="absolute inset-0 bg-[var(--case-fg)]"
+        initial={{ clipPath: below }}
+        animate={{ clipPath: shut ? SHUT : above }}
         transition={shut ? { duration: DUR.base, ease: EASE.screen } : { duration: DUR.base, ease: EASE.inOut }}
         onAnimationComplete={() => {
-          if (side !== "left") return;
           if (state.phase === "closing" && state.href) {
             set({ ...state, phase: "covered" });
             router.push(state.href);
@@ -101,12 +104,6 @@ export default function PortalLayer() {
           }
         }}
       />
-    );
-  };
-  return (
-    <div aria-hidden className="fixed inset-0 z-[90]">
-      {panel("left")}
-      {panel("right")}
     </div>
   );
 }
