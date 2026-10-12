@@ -142,3 +142,6 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 /* Logo negro sobre un panel del color del texto (barrido entre páginas): en claro el panel es
    negro y el logo pasa a blanco; en oscuro el panel es blanco y el logo se queda negro. */
 #case-root[data-case-theme="light"] .light-invert { filter: invert(1); }
+
+/* Relleno del logo del barrido según avanza la carga: suave, nunca a saltos. */
+.logo-fill { transition: clip-path var(--dur-fast) var(--ease-out); }
