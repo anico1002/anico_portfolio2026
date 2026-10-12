@@ -185,7 +185,7 @@ export default function EntryB() {
                 // del hover también la transicionaba, las dos se pisaban y la atenuación iba a saltos.
                 style={{ transition: "color var(--dur-fast) var(--ease-out)" }}
                 initial={false}
-                animate={{ opacity: off ? 0.35 : 1 }}
+                animate={{ opacity: off ? 0.18 : 1 }} // la mitad no elegida casi se funde con el fondo
                 transition={{ duration: inOrOut(off), ease: EASE.inOut }}
               >
                 {/* Titulares juntos en el centro de la pantalla, cada uno pegado a la línea central
