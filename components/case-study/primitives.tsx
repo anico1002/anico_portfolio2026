@@ -174,7 +174,9 @@ export function MaskText({
   if (reduce) return <div className={className}>{children}</div>;
   return (
     <motion.div
-      className={className}
+      // Margen por abajo dentro de la máscara (y compensado fuera): sin él, el recorte se come
+      // los trazos que bajan de la línea (g, j, p) de la última línea.
+      className={`pb-[0.25em] -mb-[0.25em] ${className}`}
       initial={{ clipPath: CLOSED.bottom, y: 90 }}
       animate={{ clipPath: "inset(0% 0% 0% 0%)", y: 0 }}
       transition={{
@@ -379,7 +381,8 @@ export function FadeIn({
   return (
     <motion.div
       ref={ref}
-      className={className}
+      // Margen por abajo dentro de la máscara para no cortar g, j, p (ver MaskText).
+      className={`pb-[0.25em] -mb-[0.25em] ${className}`}
       initial={reduce ? false : hidden}
       animate={reduce || seen ? { clipPath: "inset(0% 0% 0% 0%)", y: 0 } : hidden}
       transition={{ clipPath: { duration: DUR.base, ease: EASE.inOut, delay }, y: { duration: DUR.base, ease: EASE.out, delay } }}

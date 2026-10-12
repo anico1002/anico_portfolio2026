@@ -18,6 +18,18 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
 
 const SLIDE_MS = 2600; // cada diapositiva del pase (fundido + zoom lento de salida)
 
+/** `*palabras*` del titular → serif cursiva (`.serif-em`). */
+const withEm = (t: string) =>
+  t.split(/(\*[^*]+\*)/).map((part, i) =>
+    part.startsWith("*") ? (
+      <em key={i} className="serif-em">
+        {part.slice(1, -1)}
+      </em>
+    ) : (
+      part
+    )
+  );
+
 export default function HomeHero({
   title,
   slides,
@@ -106,10 +118,10 @@ export default function HomeHero({
             <h1 className="col-span-12 md:col-span-10 lg:col-span-9">
               {retracted ? (
                 <MaskText delay={DUR.slow / 2}>
-                  <span className="block t-hero">{title}</span>
+                  <span className="block t-hero">{withEm(title)}</span>
                 </MaskText>
               ) : (
-                <span className="block t-hero opacity-0">{title}</span>
+                <span className="block t-hero opacity-0">{withEm(title)}</span>
               )}
             </h1>
           </div>

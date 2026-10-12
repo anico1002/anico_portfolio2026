@@ -30,6 +30,13 @@ icono de la app de la 'S' geométrica al **rayo** — y corregido el copy de
 Ojo: esas 3 imágenes se habían actualizado **en la carpeta vieja** por error. Si algún cambio de
 assets "no se ve", comprobar primero en cuál de las dos carpetas se tocó.
 
+## Tipografía (D3, 2026-10-12)
+
+Familia **Instrument**: Instrument Sans para todo e **Instrument Serif Italic** en palabras destacadas de
+los titulares (se marcan con `*asteriscos*` en el texto → `.serif-em`). Geist Mono se queda en etiquetas
+(Instrument no tiene mono). Display a peso 700 (Instrument Sans no llega a 800). Intro de las homes
+`.t-hero` a 64 px (empezó en 80). Las máscaras de texto llevan margen por abajo para no cortar g/j/p.
+
 ## Sin desenfoques: todo es máscara (2026-10-12)
 
 El desenfoque se quitó de toda la maqueta (Safari lo hacía mal y es caro de animar). Equivalencias:

@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
 import PortalLayer from "@/components/case-study/Portal";
 import "./system.css";
 
-// Maqueta de caso de estudio: Geist para todo (elegida frente a Inter y Bricolage,
-// 2026-10-11) y Geist Mono para antetítulos y etiquetas. Nada de esto toca el resto
-// del portfolio.
-const sans = Geist({ variable: "--font-case-sans", subsets: ["latin"] });
+// Tipografía de la maqueta (2026-10-12): familia Instrument. Instrument Sans para todo e Instrument
+// Serif en cursiva para palabras destacadas de los titulares (`*palabras*` → `.serif-em`). Antes era
+// Geist (elegida frente a Inter y Bricolage el 2026-10-11). Geist Mono se queda en antetítulos y
+// etiquetas: Instrument no tiene mono. Nada de esto toca el resto del portfolio.
+const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"] });
 
 const mono = Geist_Mono({
   variable: "--font-case-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
+
+const serif = Instrument_Serif({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });
 
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
@@ -45,7 +48,7 @@ const pick = `(function(){var r=document.getElementById('case-root');try{var t=l
 
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
+    <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
       <script dangerouslySetInnerHTML={{ __html: pick }} />
       {/* `overflow-x: hidden` global convierte html/body en contenedor de scroll y rompe
           `position: sticky`; `clip` recorta igual sin romperlo. Y `scroll-behavior: smooth`
