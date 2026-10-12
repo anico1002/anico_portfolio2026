@@ -10,7 +10,7 @@ import "./system.css";
 // Serif en cursiva para palabras destacadas de los titulares (`*palabras*` → `.kw`; cómo se destacan, a prueba con `?em=`). Antes era
 // Geist (elegida frente a Inter y Bricolage el 2026-10-11). Los titulillos también van en Instrument
 // Sans (`.t-tag`); Geist Mono se quitó. Nada de esto toca el resto del portfolio.
-const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"], style: ["normal", "italic"] });
+const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"], style: ["normal", "italic"], axes: ["wdth"] });
 
 
 const serif = Instrument_Serif({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });

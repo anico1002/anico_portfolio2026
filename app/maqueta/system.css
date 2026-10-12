@@ -176,7 +176,9 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
    mezcla · el titular en gris y las palabras clave con el degradado ácido
    serif · Instrument Serif cursiva (la anterior)
    imagen · ventana con imágenes de la sección dentro de la frase (`[m]` en el texto)
-   cursiva · la cursiva de la propia Instrument Sans, sin cambiar de familia. */
+   cursiva · la cursiva de la propia Instrument Sans, sin cambiar de familia
+   ancho · las palabras clave en Instrument Sans condensada (eje de anchura al 75 %); al entrar el
+           titular se comprimen desde la anchura normal. */
 .kw { font-style: normal; }
 #case-root[data-em="color"] .t-hero { color: var(--case-muted); }
 #case-root[data-em="color"] .kw { color: var(--case-fg); }
@@ -190,6 +192,9 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   background-image: linear-gradient(90deg, #22c55e 0%, #00b37e 40%, #0a84ff 100%);
 }
 #case-root[data-em="cursiva"] .kw { font-style: italic; }
+@keyframes kw-squeeze { from { font-stretch: 100%; } to { font-stretch: 75%; } }
+#case-root[data-em="ancho"] .kw { font-stretch: 75%; animation: kw-squeeze var(--dur-slow) var(--ease-in-out) 1.2s both; }
+@media (prefers-reduced-motion: reduce) { #case-root[data-em="ancho"] .kw { animation: none; } }
 #case-root[data-em="serif"] .kw { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: -0.01em; }
 
 /* Titulillos (antetítulos y datos: «Introducción», «Rol», «01 / 2026»…): un solo estilo para todos,
