@@ -94,6 +94,10 @@ function Num({ n, side }: { n: number; side: "left" | "right" }) {
   );
 }
 
+/** Salida de los textos al elegir una mitad: primero se desenfocan (rápido) y luego se desvanecen
+    (más lento), para que el desenfoque se llegue a ver antes de que desaparezcan. */
+const EXIT = { filter: { duration: DUR.fast, ease: EASE.out }, opacity: { duration: DUR.base, ease: EASE.inOut }, y: { duration: 0 } };
+
 // Sin ratón (móvil/tableta) no hay «pasar por encima»: ahí los dos pases van siempre.
 const noHover = () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches;
 
@@ -184,7 +188,7 @@ export default function EntryB() {
                     // Al elegir, los dos titulares se van al momento (desenfoque rápido): la mitad crece
                     // ya sin texto y el nombre no reaparece en el telón ni en la home.
                     animate={chosen ? { y: "0%", opacity: 0, filter: "blur(14px)" } : { y: "0%", opacity: 1, filter: "blur(0px)" }}
-                    transition={chosen ? { duration: DUR.fast, ease: EASE.out } : { duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER }}
+                    transition={chosen ? EXIT : { duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER }}
                   >
                     {/* Número pequeño pegado arriba del titular: delante de la P de «Product» y detrás de
                         la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
@@ -201,8 +205,8 @@ export default function EntryB() {
                   data-para
                   className={`absolute bottom-6 max-w-[30ch] md:bottom-8 ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
                   initial={false}
-                  animate={{ opacity: on && !chosen ? 1 : 0, y: on && !chosen ? 0 : 16 }}
-                  transition={{ duration: chosen ? DUR.fast : inOrOut(on), ease: EASE.out, delay: on && !chosen ? STAGGER : 0 }}
+                  animate={chosen ? { opacity: 0, y: 0, filter: "blur(14px)" } : { opacity: on ? 1 : 0, y: on ? 0 : 16, filter: "blur(0px)" }}
+                  transition={chosen ? EXIT : { duration: inOrOut(on), ease: EASE.out, delay: on ? STAGGER : 0 }}
                 >
                   <p
                     lang="es"
