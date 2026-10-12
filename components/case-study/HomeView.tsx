@@ -15,7 +15,7 @@ import {
   Parallax,
   Placeholder,
 } from "@/components/case-study/primitives";
-import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
+import { DUR, EASE } from "@/lib/maqueta/motion";
 
 /* Home de una línea de trabajo (Product o Games). Composición de la maqueta del
    2026-10-11: titular, primer proyecto con el párrafo abajo a la derecha, cifras gigantes
@@ -142,15 +142,22 @@ export default function HomeView({
       <SiteNav active={active} parts="logo" />
       <HomeHero title={title} slides={slides} nav={<SiteNav active={active} docked parts="menu" />} />
 
-      {/* El primer proyecto pegado al titular con el párrafo abajo a su derecha; después la
-          rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:
+      {/* Los proyectos: el primero y después la rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:
           copiaban mal el contador de Yakushev y ahí no tenían sentido.) */}
-      <section className={`mt-24 md:mt-40 ${wrap}`}>
+      {/* Intro de la sección como frase destacada, casi sola en pantalla (2026-10-12; antes iba pequeña y
+          en gris junto a la primera miniatura). Mismo tratamiento y posición en la rejilla que las frases
+          de los casos (p. ej. «Validar cada decisión…» en Gloop): t-statement, columnas 3–9. */}
+      <section className={`pt-36 md:pt-56 ${wrap}`}>
+        <div className={grid}>
+          <FadeIn className="col-span-12 md:col-span-7 md:col-start-3">
+            <p className="t-statement">{intro}</p>
+          </FadeIn>
+        </div>
+      </section>
+
+      <section className={`mt-36 md:mt-56 ${wrap}`}>
         <div className={`${grid} gap-y-20 md:gap-y-0`}>
           <Card p={items[0]} i={0} slot={0} offset="" onLeave={leave} />
-          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:self-end md:pb-14">
-            <p className="t-body text-[var(--case-muted)]">{intro}</p>
-          </FadeIn>
           {items[1] && <Card p={items[1]} i={1} slot={1} onLeave={leave} />}
           {items.slice(2).map((p, k) => (
             <Card key={p.name} p={p} i={k + 2} slot={k + 2} onLeave={leave} />
