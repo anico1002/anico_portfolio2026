@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { TLink } from "@/components/case-study/Portal";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
@@ -57,7 +57,7 @@ export default function Entry() {
           Alberto Nicolás · Diseñador · Elige por dónde entrar
         </motion.p>
         {ways.map((w, i) => (
-          <Link
+          <TLink
             key={w.key}
             href={w.href}
             onMouseEnter={() => setHover(w.key)}
@@ -77,7 +77,7 @@ export default function Entry() {
                 {w.line} <span aria-hidden>→</span>
               </span>
             </div>
-          </Link>
+          </TLink>
         ))}
       </div>
     </main>

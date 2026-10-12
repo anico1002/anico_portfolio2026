@@ -4,6 +4,7 @@ import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import { FLIGHT_KEY, FLIGHT_S } from "@/components/case-study/primitives";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import { scrollLock } from "@/components/case-study/SmoothScroll";
 
 /* Transición home → caso (HOMEPAGE_TO_CASE_STUDY de Metalab: 1,5 s, Power4.easeInOut).
 
@@ -34,6 +35,7 @@ export function startFlight(src: string, frame: HTMLElement, onLanded: () => voi
     time: media instanceof HTMLVideoElement ? media.currentTime : 0,
     onLanded,
   };
+  scrollLock.stop();
   emit();
 }
 
@@ -64,6 +66,7 @@ export async function endFlight(poster?: HTMLVideoElement | null) {
   await animate(overlay, { opacity: 0 }, { duration: DUR.fast, ease: EASE.inOut });
   flight = null;
   ending = false;
+  scrollLock.start();
   emit();
 }
 
@@ -127,7 +130,7 @@ export default function FlightLayer() {
     <motion.div
       ref={ref}
       aria-hidden
-      className="pointer-events-none fixed z-[100] overflow-hidden"
+      className="fixed z-[100] overflow-hidden"
       initial={f.frame}
       animate={FULL}
       transition={{ duration: FLIGHT_S - 0.2, ease: EASE.screen }}

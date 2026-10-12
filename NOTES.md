@@ -63,6 +63,13 @@ entrada B (si la línea acaba siendo el motivo); 2) contador de años tipo cuent
 letra a letra en gigante que encoge hasta el logo del menú. Recomendada: 1, o 3 si no hay línea.
 Siguiente: bloque B.
 
+**Bloque B hecho (2026-10-12, sin validar aún por Alberto):** portal en todos los enlaces internos
+(`components/case-study/Portal.tsx`: `TLink` y `go()`; paneles del color del texto que cierran hacia el
+centro y reabren); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
+cabecera que se recoge en placa de cristal entre 50 y 400 px de scroll; menú propio en móvil; llegada al
+caso en 1,2 s con 0,2 s de espera; «Siguiente caso» con ticker y vuelo al caso siguiente
+(`NextCase.tsx`). Falta: el botón «atrás» del navegador sigue cambiando de página en seco.
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-12, MacBook)
 
 **Primera tarea de la próxima sesión:** abrir `docs/revision-calidad-2026-10-12.md` y decidir con

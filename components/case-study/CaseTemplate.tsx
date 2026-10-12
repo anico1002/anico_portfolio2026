@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import NextCase from "@/components/case-study/NextCase";
+import { TLink } from "@/components/case-study/Portal";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
@@ -9,7 +10,6 @@ import {
   CaseHeroOverlay,
   Eyebrow,
   FadeIn,
-  MaskReveal,
   Parallax,
   Phone,
   Placeholder,
@@ -384,24 +384,12 @@ export default function CaseTemplate({
 
       {/* 6 · Siguiente caso + contacto */}
       <footer className="mt-36 overflow-hidden pb-10 md:mt-56">
-        <Link href={next.href} className="group block">
-          <div className={wrap}>
-            <MaskReveal from="bottom" className="mx-auto max-w-[560px]">
-              <Placeholder ratio="16/9" src={next.thumb} label={next.name} />
-            </MaskReveal>
-          </div>
-          <FadeIn>
-            <p className={`mt-8 text-center t-label text-[var(--case-muted)] ${mono}`}>Siguiente caso · {next.name}</p>
-            <p className="mt-2 whitespace-nowrap text-center text-[15vw] font-extrabold leading-none tracking-[-0.055em] hov group-hover:opacity-70">
-              {next.name.length > 12 ? "Siguiente" : next.name}
-            </p>
-          </FadeIn>
-        </Link>
+        <NextCase name={next.name} href={next.href} thumb={next.thumb} />
         <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
           <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · {new Date().getFullYear()}</p>
-          <Link href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
+          <TLink href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
             Hablemos →
-          </Link>
+          </TLink>
         </div>
       </footer>
     </main>

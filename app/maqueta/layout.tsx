@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
+import PortalLayer from "@/components/case-study/Portal";
 import "./system.css";
 
 // Maqueta de caso de estudio: Geist para todo (elegida frente a Inter y Bricolage,
@@ -56,6 +57,8 @@ export default function MaquetaLayout({ children }: { children: React.ReactNode 
       <FlightLayer />
       {/* Telón de la entrada → home de sección (barrido de abajo arriba al llegar). */}
       <CurtainLayer />
+      {/* Transición «portal» de todos los demás enlaces (B1). */}
+      <PortalLayer />
     </div>
   );
 }

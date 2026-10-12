@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import { Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
@@ -102,12 +102,12 @@ export default function About() {
       <footer className={`mt-40 pb-12 md:mt-64 ${wrap}`}>
         <FadeIn>
           <Eyebrow>Contacto</Eyebrow>
-          <Link
+          <TLink
             href="/maqueta/contacto"
             className="block t-d2 hov hover:opacity-70"
           >
             ¿Hablamos?
-          </Link>
+          </TLink>
         </FadeIn>
       </footer>
     </main>

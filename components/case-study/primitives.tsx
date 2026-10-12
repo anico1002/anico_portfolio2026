@@ -207,8 +207,10 @@ export function CaseHero({
   const BAND = 44; // % de pantalla que la imagen deja libre abajo para los textos
   const full = "inset(0% 0% 0% 0%)";
   const band = `inset(0% 0% ${BAND}% 0%)`;
-  const retractAt = flown ? 0.35 : 1.1;
-  const textDelay = retractAt + 0.45;
+  // B4 · Llegando desde la home (fase 2 de Metalab): espera 0,2 s y la imagen se recoge en 1,2 s
+  // descubriendo el titular, que entra a mitad de recorrido.
+  const retractAt = flown ? 0.2 : 1.1;
+  const textDelay = retractAt + (flown ? DUR.slow / 2 : 0.45);
   const posterFade = textDelay + 1.6;
 
   const clip = reduce
@@ -217,7 +219,7 @@ export function CaseHero({
       ? {
           initial: { clipPath: full },
           animate: { clipPath: band },
-          transition: { duration: DUR.base, ease: EASE.inOut, delay: retractAt },
+          transition: { duration: DUR.slow, ease: EASE.inOut, delay: retractAt },
         }
       : {
           initial: { clipPath: CLOSED.bottom },

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import { scrollLock } from "@/components/case-study/SmoothScroll";
 
 /* Telón de la entrada → home de sección (2026-10-12). La entrada hace crecer la mitad elegida
    hasta cubrir la pantalla con el titular en el centro; en ese momento este telón, idéntico
@@ -21,10 +22,12 @@ const subscribe = (f: () => void) => (subs.add(f), () => subs.delete(f));
 
 export function startCurtain(c: Curtain) {
   curtain = c;
+  scrollLock.stop();
   emit();
 }
 const clear = () => {
   curtain = null;
+  scrollLock.start();
   emit();
 };
 
@@ -50,7 +53,7 @@ export default function CurtainLayer() {
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-[100] overflow-hidden font-[family-name:var(--font-case-sans)] antialiased"
+      className="fixed inset-0 z-[100] overflow-hidden font-[family-name:var(--font-case-sans)] antialiased"
       initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
       animate={{ clipPath: up ? "inset(0% 0% 100% 0%)" : "inset(0% 0% 0% 0%)" }}
       transition={{ duration: DUR.base, ease: EASE.inOut }}

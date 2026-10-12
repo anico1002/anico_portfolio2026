@@ -32,7 +32,7 @@ html:has(#case-root) {
 /* Hover: entra en `base` y sale en `fast` (Metalab: 0,8 s / 0,3 s). La duración que manda es
    la del estado al que se va, por eso la larga va en :hover y la corta en el estado normal. */
 .hov {
-  transition-property: opacity, color, background-color, border-color;
+  transition-property: opacity, color, background-color, border-color, transform, scale;
   transition-duration: var(--dur-fast);
   transition-timing-function: var(--ease-out);
 }
@@ -97,3 +97,15 @@ html:has(#case-root) {
   .t-d2        { font-size: 10.5rem; }
   .t-d1        { font-size: 14.5rem; }
 }
+
+/* Logo negro dentro de capas que no usan `difference` (menú de móvil): en oscuro, a blanco. */
+#case-root:not([data-case-theme="light"]) .dark-invert { filter: invert(1); }
+
+/* Ticker del «Siguiente caso» (Metalab): avance lineal y constante; la duración la fija el
+   componente según la longitud del texto. Dos copias seguidas → bucle sin costura. */
+@keyframes case-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker { animation: case-ticker var(--ticker-s, 20s) linear infinite; width: max-content; }
+@media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }

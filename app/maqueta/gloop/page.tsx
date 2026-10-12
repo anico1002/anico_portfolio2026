@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import NextCase from "@/components/case-study/NextCase";
+import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import {
   Caption,
@@ -363,24 +364,12 @@ export default function GloopCase() {
       </section>
 
       <footer className="mt-36 overflow-hidden pb-10 md:mt-56">
-        <Link href="/maqueta/elreto-masterchef" className="group block">
-          <div className={wrap}>
-            <MaskReveal from="bottom" className="mx-auto max-w-[560px]">
-              <Placeholder ratio="16/9" src="/projects/elreto-masterchef/ElReto_thumb.png" label="El Reto MasterChef" />
-            </MaskReveal>
-          </div>
-          <FadeIn>
-            <p className={`mt-8 text-center t-label text-[var(--case-muted)] ${mono}`}>Siguiente caso · El Reto MasterChef</p>
-            <p className="-mt-1 whitespace-nowrap text-center text-[11.5vw] font-extrabold leading-none tracking-[-0.055em] hov group-hover:opacity-70">
-              Siguiente <em className={`${em}`}>caso</em>
-            </p>
-          </FadeIn>
-        </Link>
+        <NextCase name="El Reto MasterChef" href="/maqueta/elreto-masterchef" thumb="/projects/elreto-masterchef/ElReto_thumb.png" />
         <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
           <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · 2026</p>
-          <Link href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
+          <TLink href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
             Hablemos →
-          </Link>
+          </TLink>
         </div>
       </footer>
     </main>

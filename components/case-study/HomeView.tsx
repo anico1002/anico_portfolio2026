@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import { markLanded, startFlight } from "@/components/case-study/Flight";
 import { motion } from "framer-motion";
@@ -185,12 +186,12 @@ export default function HomeView({
       <footer className={`mt-40 pb-12 md:mt-64 ${wrap}`}>
         <FadeIn>
           <Eyebrow>Contacto</Eyebrow>
-          <Link
+          <TLink
             href="/maqueta/contacto"
             className="block t-d2 hov hover:opacity-70"
           >
             ¿Hablamos?
-          </Link>
+          </TLink>
         </FadeIn>
       </footer>
     </motion.main>
