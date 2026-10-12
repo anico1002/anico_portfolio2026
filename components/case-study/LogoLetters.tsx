@@ -22,11 +22,11 @@ export type Scatter = [number, number][];
 export function scatter(): Scatter {
   const r = (a: number, b: number) => a + Math.random() * (b - a);
   return [
-    [0, r(60, 105)], // a: abajo
-    [0, r(-110, -70)], // n: arriba
-    [0, r(-140, -95)], // ı: más arriba
-    [0, r(85, 130)], // c: abajo
-    [0, r(-45, -15)], // o: algo arriba
+    [0, r(100, 170)], // a: abajo
+    [0, r(-180, -115)], // n: arriba
+    [0, r(-230, -160)], // ı: más arriba
+    [0, r(140, 210)], // c: abajo
+    [0, r(-80, -30)], // o: algo arriba
   ];
 }
 
@@ -45,7 +45,7 @@ export default function LogoLetters({ progress, spread, className = "" }: { prog
             ["--i" as string]: i,
             transform: `translateY(${((spread[i][1] * k) / 96) * 100}%)`,
             filter: `blur(${(k * 5).toFixed(2)}px)`,
-            opacity: 0.5 + 0.5 * (1 - k),
+            opacity: (1 - k) ** 2, // de 0 a 1 mientras se enfocan, lenta al principio: el desenfoque no se ve parado
           }}
         >
           <path d={l.d} fill="currentColor" />
