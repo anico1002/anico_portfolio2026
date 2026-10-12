@@ -138,3 +138,7 @@ html:has(#case-root) {
 
 /* La barra de progreso de scroll de la web actual vive en el layout raíz: en la maqueta, fuera. */
 html:has(#case-root) [data-scroll-progress] { display: none; }
+
+/* Logo negro sobre un panel del color del texto (barrido entre páginas): en claro el panel es
+   negro y el logo pasa a blanco; en oscuro el panel es blanco y el logo se queda negro. */
+#case-root[data-case-theme="light"] .light-invert { filter: invert(1); }
