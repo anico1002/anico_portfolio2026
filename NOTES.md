@@ -66,7 +66,15 @@ barrido de abajo arriba; logo de carga = el rodillo del hover del menú, en bucl
 se abre; menú de móvil = capa sólida que baja; salida de titulares de la portada = máscara que sigue al
 borde entre mitades (lateral en escritorio, vertical en móvil), al ritmo de la imagen.
 
-## Contraste: tinta adaptativa, no `mix-blend-difference`
+## Contraste del logo y el menú: `mix-blend-difference` + degradado (2026-10-12)
+
+Logo y menú vuelven a la inversión por píxel de Yakushev. La tinta adaptativa (`Inked`, abajo) se
+quitó: cambiaba el logo entero con retraso y se notaba el salto. Los grises medios (donde la diferencia
+deja gris sobre gris) se evitan con un degradado del fondo bajo la barra en las cabeceras con imagen.
+Sobre imágenes de color la inversión da el complementario (como en Yakushev). `Inked`/`lib/maqueta/ink.ts`
+quedan sin uso (pendiente de que Alberto apruebe borrarlos).
+
+### Historia: tinta adaptativa (descartada)
 
 La inversión por diferencia deja gris sobre gris en fondos medios (gris 128 → contraste 1:1): el logo se
 perdía. Ahora el menú usa `Inked` (`components/case-study/Inked.tsx` +

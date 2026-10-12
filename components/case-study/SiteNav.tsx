@@ -4,14 +4,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ThemeToggle from "@/components/case-study/ThemeToggle";
 import RollText from "@/components/case-study/RollText";
-import Inked from "@/components/case-study/Inked";
+import { createPortal } from "react-dom";
 import { TLink, go } from "@/components/case-study/Portal";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 
-/** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna. Cada pieza lleva tinta
-    adaptativa (`Inked`): blanco o negro puro según lo que pase por detrás. Antes era
-    `mix-blend-difference`, que sobre grises medios dejaba el logo gris sobre gris (2026-10-12).
+/** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna, en blanco con
+    `mix-blend-difference` (la inversión por píxel de Yakushev). Se probó una tinta adaptativa que
+    medía el fondo y cambiaba el logo entero, pero saltaba con retraso (2026-10-12): los grises medios,
+    donde la diferencia deja gris sobre gris, se evitan con un degradado del fondo bajo la barra en
+    las cabeceras con imagen. Si va acoplada (`docked`), la mezcla la pone la capa que la envuelve.
 
     Sin placa de fondo (se probó la de Metalab y se descartó, 2026-10-12): se queda en su sitio
     cambiando de tinta según lo que pase por detrás.
@@ -45,6 +47,13 @@ export default function SiteNav({
   parts?: "all" | "logo" | "menu";
 }) {
   const [open, setOpen] = useState(false);
+  // El menú de móvil se monta en #case-root (fuera de la barra): la barra lleva mezcla por diferencia
+  // y, si el menú fuera dentro, se invertiría con ella.
+  const [root, setRoot] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setRoot(document.getElementById("case-root")));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   // Menú de móvil abierto: scroll parado; se cierra solo si la pantalla pasa a escritorio.
   useEffect(() => {
@@ -62,18 +71,16 @@ export default function SiteNav({
   return (
     <>
       <nav
-        className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts === "logo" ? "pointer-events-none" : ""}`}
+        className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50 mix-blend-difference"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts === "logo" ? "pointer-events-none" : ""}`}
       >
         {parts !== "menu" && (
           <TLink href="/maqueta" aria-label="anico · inicio" className="pointer-events-auto">
-            <Inked className="block">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/anico_logo.svg" alt="anico" className="ink-logo h-[1.125rem] w-auto md:h-[1.375rem]" />
-            </Inked>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
           </TLink>
         )}
         {parts !== "logo" && (
-          <div className="flex items-center gap-4 whitespace-nowrap t-nav md:gap-6">
+          <div className="flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6">
             {menu && items.map(([key, label, href]) => (
               <TLink
                 key={key}
@@ -82,21 +89,21 @@ export default function SiteNav({
                 className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
               >
                 {/* La sección en la que ya estás no reacciona al hover. */}
-                <Inked>{key === active ? label : <RollText text={label} />}</Inked>
+                {key === active ? label : <RollText text={label} />}
               </TLink>
             ))}
             {menu && (
               <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
-                <Inked>Menú</Inked>
+                Menú
               </button>
             )}
-            <Inked className="flex">
-              <ThemeToggle />
-            </Inked>
+            <ThemeToggle />
           </div>
         )}
       </nav>
 
+      {root &&
+        createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
@@ -137,7 +144,9 @@ export default function SiteNav({
             </ul>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+          root
+        )}
     </>
   );
 }
