@@ -34,7 +34,8 @@ type Key = (typeof items)[number][0];
     la elección y un menú encima sobraría). `docked`: la barra no va fija arriba sino en el flujo
     de la página; quien la monta la coloca (en las homes, al pie de la cabecera y `sticky`).
     `parts`: en las homes el logo y el menú van por separado (2026-10-12): el logo fijo arriba desde
-    el principio y el menú al pie de la cabecera, para leer en orden logo → titular → menú. */
+    el principio y el menú al pie de la cabecera, para leer en orden logo → titular → menú. Cada
+    barra deja pasar los clics salvo en su contenido: si no, el menú pegado arriba tapaba el logo. */
 export default function SiteNav({
   active = "product",
   menu = true,
@@ -71,7 +72,7 @@ export default function SiteNav({
   return (
     <>
       <nav
-        className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50 mix-blend-difference"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts === "logo" ? "pointer-events-none" : ""}`}
+        className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50 mix-blend-difference"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts !== "all" ? "pointer-events-none" : ""}`}
       >
         {parts !== "menu" && (
           <TLink href="/maqueta" aria-label="anico · inicio" className="pointer-events-auto">
@@ -80,7 +81,7 @@ export default function SiteNav({
           </TLink>
         )}
         {parts !== "logo" && (
-          <div className="flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6">
+          <div className="pointer-events-auto flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6">
             {menu && items.map(([key, label, href]) => (
               <TLink
                 key={key}

@@ -369,14 +369,17 @@ export function FadeIn({
   children,
   delay = 0,
   className = "",
+  margin = "-12% 0px",
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  /** Cuánto debe entrar en pantalla antes de aparecer (rootMargin). */
+  margin?: string;
 }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
-  const seen = useSeen(ref, "-12% 0px");
+  const seen = useSeen(ref, margin);
   const hidden = { clipPath: CLOSED.bottom, y: 40 };
   return (
     <motion.div

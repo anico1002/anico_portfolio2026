@@ -72,28 +72,44 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
       if (p.href) router.push(p.href, { scroll: true });
     });
   };
-  // Texto solo en un lado (izquierda, bajo la imagen): número/año, nombre y descripción.
+  // Texto dentro de la miniatura (2026-10-12): el año arriba a la izquierda y el nombre con su línea
+  // abajo a la izquierda. Sobre imagen va en blanco con un degradado oscuro suave arriba y abajo; sin
+  // imagen (fondo gris de pendiente), en el color del tema.
+  const onImage = !!p.thumb;
   const body = (
     <>
       {/* A sangre: la imagen se sale del margen hasta el borde (el texto sigue alineado). */}
       <div
         ref={frame}
-        className={l.bleed === "right" ? "-mr-4 md:-mr-6" : l.bleed === "left" ? "-ml-4 md:-ml-6" : ""}
+        className={`relative ${l.bleed === "right" ? "-mr-4 md:-mr-6" : l.bleed === "left" ? "-ml-4 md:-ml-6" : ""}`}
       >
         <MaskReveal from={i % 2 ? "right" : "left"} speed={0}>
-          <Placeholder
-            ratio={l.ratio}
-            src={p.thumb}
-            label={p.thumb ? p.name : `Miniatura de ${p.name} (pendiente)`}
-          />
+          {p.thumb ? (
+            <div className="relative">
+              <Placeholder ratio={l.ratio} src={p.thumb} label={p.name} />
+              {/* Degradado dentro de la máscara: se descubre a la vez que la imagen. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{ background: "linear-gradient(to bottom, rgba(0,0,0,.35), transparent 22%, transparent 62%, rgba(0,0,0,.5))" }}
+              />
+            </div>
+          ) : (
+            <div className="w-full bg-[var(--case-ph)]" style={{ aspectRatio: l.ratio }} />
+          )}
         </MaskReveal>
+        <div
+          className={`pointer-events-none absolute inset-0 flex flex-col justify-between p-4 md:p-6 ${onImage ? "text-white" : "text-[var(--case-fg)]"}`}
+        >
+          <FadeIn delay={0.3} margin="0px">
+            {p.year && <p className={`t-label ${mono} ${onImage ? "opacity-80" : "text-[var(--case-muted)]"}`}>{p.year}</p>}
+          </FadeIn>
+          <FadeIn delay={0.4} margin="0px">
+            <h3 className="t-lead font-medium">{p.name}</h3>
+            {p.line && <p className={`mt-1 t-small ${onImage ? "opacity-80" : "text-[var(--case-muted)]"}`}>{p.line}</p>}
+          </FadeIn>
+        </div>
       </div>
-      <p className={`mt-4 t-label text-[var(--case-muted)] ${mono}`}>
-        {String(i + 1).padStart(2, "0")}
-        {p.year && ` / ${p.year}`}
-      </p>
-      <h3 className="mt-1.5 t-lead font-medium">{p.name}</h3>
-      {p.line && <p className="mt-1 t-small text-[var(--case-muted)]">{p.line}</p>}
     </>
   );
   // La tarjeta entera (número, imagen y textos) se desplaza a su velocidad, como en

@@ -223,7 +223,7 @@ export default function HomeHero({
           scroll, sube con la página y se queda pegada arriba. Va fuera de la sección para que el
           `sticky` dure toda la página. */}
       <motion.div
-        className="sticky top-0 z-50 -mt-[3.5rem] mix-blend-difference"
+        className="pointer-events-none sticky top-0 z-50 -mt-[3.5rem] mix-blend-difference"
         initial={{ opacity: 0 }}
         animate={{ opacity: retracted ? 1 : 0 }}
         transition={{ duration: DUR.base, ease: EASE.out, delay: retracted ? DUR.slow / 2 : 0 }}
