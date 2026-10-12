@@ -192,6 +192,12 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   background-image: linear-gradient(90deg, #22c55e 0%, #00b37e 40%, #0a84ff 100%);
 }
 #case-root[data-em="cursiva"] .kw { font-style: italic; }
+/* barras · cursiva de Instrument Sans entre barras: /productos digitales/. Las barras van rectas y
+   un punto más finas de color, para que enmarquen sin pesar. */
+#case-root[data-em="barras"] .kw { font-style: italic; }
+#case-root[data-em="barras"] .kw::before, #case-root[data-em="barras"] .kw::after { content: "/"; font-style: normal; color: var(--case-muted); }
+#case-root[data-em="barras"] .kw::before { margin-right: 0.04em; }
+#case-root[data-em="barras"] .kw::after { margin-left: 0.06em; }
 @keyframes kw-squeeze { from { font-stretch: 100%; } to { font-stretch: 75%; } }
 #case-root[data-em="ancho"] .kw { font-stretch: 75%; animation: kw-squeeze var(--dur-slow) var(--ease-in-out) 1.2s both; }
 @media (prefers-reduced-motion: reduce) { #case-root[data-em="ancho"] .kw { animation: none; } }

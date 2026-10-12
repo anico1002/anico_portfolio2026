@@ -39,7 +39,7 @@ const themes = `
 `;
 
 // Antes de pintar: la elección guardada o, si no hay, la del sistema. Así no parpadea.
-const pick = `(function(){var r=document.getElementById('case-root');try{var q=new URLSearchParams(location.search).get('em');if(q)sessionStorage.setItem('case-em',q);r.dataset.em=sessionStorage.getItem('case-em')||'ninguno';}catch(e){}try{var t=localStorage.getItem('case-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.dataset.caseTheme=t}catch(e){}})();`;
+const pick = `(function(){var r=document.getElementById('case-root');try{var q=new URLSearchParams(location.search).get('em');if(q)sessionStorage.setItem('case-em',q);r.dataset.em=sessionStorage.getItem('case-em')||'barras';}catch(e){}try{var t=localStorage.getItem('case-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.dataset.caseTheme=t}catch(e){}})();`;
 
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   return (

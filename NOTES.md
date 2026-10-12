@@ -54,7 +54,7 @@ Recurso sans + serif cursiva: le gusta pero lo ve **trillado**. Gris + palabras 
 **descartado** (pierde potencia). Degradado ácido en las palabras clave: le gustó (idea: verde para Games, violeta para Product), pero
 **descartado**: en tema claro no funciona igual de bien. Se queda el titular con palabras que cambian;
 el énfasis se revisará más adelante. Imagen dentro de la frase (`[m]`): muy vista; solo si tiene un juego (ampliarse al
-pasar o con el scroll), no puesta porque sí. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen|cursiva|ancho` (por defecto, ninguno)
+pasar o con el scroll), no puesta porque sí. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen|cursiva|ancho|barras` (por defecto, barras: a prueba)
 (en `layout.tsx`). Anchura variable: no convence (y expandir exige otra fuente, p. ej. Mona Sans); descartada.
 
 ## Sin desenfoques: todo es máscara (2026-10-12)
