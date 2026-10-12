@@ -101,8 +101,26 @@ export default function FlightLayer() {
   }, [f]);
 
   if (!f) return null;
-  const ease = POWER4_INOUT;
-  const tr = { duration: FLIGHT_S, ease };
+  // Máscara e imagen a distinta velocidad (parallax interno, sutil): la máscara llega antes
+  // (1,3 s, Power4.easeInOut de Metalab) y la imagen, colocada en proporción a la máscara, se
+  // asienta más despacio (1,5 s, curva más suave). Siempre es igual o mayor que la máscara, así
+  // que nunca asoman bordes. El cambio de página espera a que termine la imagen.
+  const ZOOM = 1.06; // la imagen arranca un poco más ampliada que en la tarjeta
+  const kw = (f.media.width / f.frame.width) * ZOOM;
+  const kh = (f.media.height / f.frame.height) * ZOOM;
+  const ox = (f.media.left - f.frame.left) / f.frame.width - (kw - kw / ZOOM) / 2;
+  const oy = (f.media.top - f.frame.top) / f.frame.height - (kh - kh / ZOOM) / 2;
+  const pct = (n: number) => `${n * 100}%`;
+  const inner = {
+    className: "absolute max-w-none object-cover",
+    initial: { left: pct(ox), top: pct(oy), width: pct(kw), height: pct(kh) },
+    animate: { left: "0%", top: "0%", width: "100%", height: "100%" },
+    transition: { duration: FLIGHT_S, ease: POWER3_INOUT },
+    onAnimationComplete: () => {
+      if (ref.current) freeze(ref.current);
+      f.onLanded();
+    },
+  };
   return (
     <motion.div
       ref={ref}
@@ -110,23 +128,16 @@ export default function FlightLayer() {
       className="pointer-events-none fixed z-[100] overflow-hidden"
       initial={f.frame}
       animate={FULL}
-      transition={tr}
-      onAnimationComplete={() => {
-        if (ref.current) freeze(ref.current);
-        f.onLanded();
-      }}
+      transition={{ duration: FLIGHT_S - 0.2, ease: POWER4_INOUT }}
     >
       {isVideo(f.src) ? (
         <motion.video
+          {...inner}
           src={f.src}
           autoPlay
           muted
           loop
           playsInline
-          className="absolute max-w-none object-cover"
-          initial={{ left: f.media.left - f.frame.left, top: f.media.top - f.frame.top, width: f.media.width, height: f.media.height }}
-          animate={{ left: 0, top: 0, width: "100vw", height: "100svh" }}
-          transition={tr}
           onLoadedMetadata={(e) => {
             try {
               e.currentTarget.currentTime = f.time;
@@ -134,14 +145,7 @@ export default function FlightLayer() {
           }}
         />
       ) : (
-        <motion.img
-          src={f.src}
-          alt=""
-          className="absolute max-w-none object-cover"
-          initial={{ left: f.media.left - f.frame.left, top: f.media.top - f.frame.top, width: f.media.width, height: f.media.height }}
-          animate={{ left: 0, top: 0, width: "100vw", height: "100svh" }}
-          transition={tr}
-        />
+        <motion.img {...inner} src={f.src} alt="" />
       )}
     </motion.div>
   );
