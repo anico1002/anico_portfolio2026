@@ -7,10 +7,10 @@ import SiteNav from "@/components/case-study/SiteNav";
 import { POWER3_INOUT, POWER3_OUT } from "@/components/case-study/primitives";
 
 /* Entrada · alternativa B (2026-10-12): pantalla partida por la mitad, Product a la izquierda
-   y Games a la derecha, en espejo. Palabras gigantes abajo, cada una pegada a su borde
-   exterior; párrafos cortos justificados a media altura junto a la línea central (diagonal a
-   lo Yakushev). Al pasar por encima, esa mitad se ensancha un poco, pasa un pase de proyectos
-   de fondo y la otra se atenúa. La alternativa A sigue en /maqueta. */
+   y Games a la derecha. Titulares gigantes centrados en cada mitad; un párrafo corto
+   justificado abajo, en el lado exterior y en espejo, que solo aparece al pasar por encima.
+   Al pasar, esa mitad se ensancha un poco, pasa un pase de proyectos de fondo y la otra se
+   atenúa. En táctil todo se ve siempre. La alternativa A sigue en /maqueta. */
 
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
 
@@ -125,41 +125,40 @@ export default function EntryB() {
             <Link href={s.href} className="absolute inset-0 block" aria-label={s.label}>
               <Slides srcs={s.slides} active={on} />
               <motion.div
-                className={`relative flex h-full flex-col justify-between px-4 pb-6 pt-24 transition-colors duration-500 md:px-6 md:pb-8 ${on ? "text-white" : ""}`}
+                className={`relative h-full transition-colors duration-500 ${on ? "text-white" : ""}`}
                 initial={false}
                 animate={{ opacity: off ? 0.35 : 1 }}
                 transition={{ duration: 0.6, ease: POWER3_INOUT }}
               >
-                {/* Párrafo a media altura, pegado a la línea central y en espejo. */}
-                <div className={`flex flex-1 items-center md:items-start md:pt-[24svh] ${left ? "justify-end" : "justify-start"}`}>
-                  <motion.div
-                    className="max-w-[30ch]"
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: POWER3_OUT, delay: 0.5 + i * 0.1 }}
-                  >
-                    <p className={`mb-3 text-[12px] opacity-60 ${mono} ${left ? "text-right" : "text-left"}`}>
-                      0{i + 1} — {s.label}
-                    </p>
-                    <p
-                      lang="es"
-                      className={`hyphens-auto text-justify text-[clamp(16px,1.35vw,19px)] leading-[1.5] ${left ? "[text-align-last:right]" : "[text-align-last:left]"}`}
-                    >
-                      {s.text}
-                    </p>
-                  </motion.div>
-                </div>
-                {/* Palabra gigante abajo, pegada a su borde exterior. */}
-                <div className={`overflow-hidden ${left ? "text-left" : "text-right"}`}>
+                {/* Titular centrado en su mitad: lo importante. */}
+                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                   <motion.p
                     className="text-[clamp(64px,11.5vw,220px)] font-extrabold leading-[0.82] tracking-[-0.055em]"
-                    initial={{ y: "100%" }}
+                    initial={{ y: "110%" }}
                     animate={{ y: "0%" }}
                     transition={{ duration: 0.8, ease: POWER3_INOUT, delay: 0.15 + i * 0.1 }}
                   >
                     {s.label}
                   </motion.p>
                 </div>
+                {/* Párrafo desplazado abajo, en el lado exterior (en espejo); solo al pasar por
+                    encima (en táctil, siempre). */}
+                <motion.div
+                  className={`absolute bottom-6 max-w-[30ch] md:bottom-8 ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
+                  initial={false}
+                  animate={{ opacity: on ? 1 : 0, y: on ? 0 : 16 }}
+                  transition={{ duration: 0.6, ease: POWER3_OUT, delay: on ? 0.15 : 0 }}
+                >
+                  <p className={`mb-3 text-[12px] opacity-60 ${mono} ${left ? "text-left" : "text-right"}`}>
+                    0{i + 1} — {s.label}
+                  </p>
+                  <p
+                    lang="es"
+                    className={`hyphens-auto text-justify text-[clamp(16px,1.35vw,19px)] leading-[1.5] ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
+                  >
+                    {s.text}
+                  </p>
+                </motion.div>
               </motion.div>
             </Link>
           </motion.div>
