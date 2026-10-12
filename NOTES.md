@@ -48,6 +48,18 @@ Verificar que ha quedado arreglado contando en el log: `grep -c FATAL` a 0 y tan
 peticiones hayas hecho tú. Pasa sobre todo tras cambiar `public/projects/`, porque ahí se cachea
 el escaneo del filesystem.
 
+## 2026-10-12 — PRUEBA DE MOTION: SKILL `motion-design` + VÍDEO DE SWIFT
+
+Instalado `LottieFiles/motion-design-skill` (`npx skills add … -g -a claude-code`, en
+`~/.claude/skills/motion-design`; **solo en el MacBook**: en el Mac mini, repetir el comando).
+Ojo: **no lee webs ni genera vídeo**; son principios de motion (tiempos, curvas, coreografía,
+Disney). Lo que lee una web y hace vídeo es `website-to-hyperframes` (ya instalado). La prueba
+combina los dos: `motion/swift-hero/` → vídeo de 15 s, mudo y en bucle, de la landing de SwifT,
+dirigido en Premium (curva única, fundido + escala 0.98→1, sin rebote). Studio:
+`cd motion/swift-hero && npx hyperframes preview`. La captura (`capture/`) no se versiona:
+en otro Mac, `npx hyperframes capture https://swift-translator.vercel.app -o motion/swift-hero/capture`.
+Pendiente: que Alberto lo vea; si vale, render a MP4 y a la cabecera del caso SwifT.
+
 ## 2026-10-12 (MacBook, «tira millas») — MAQUETA NAVEGABLE ENTERA
 
 Entrada en **`localhost:3000/maqueta`** (elegir Product o Games). Rutas: `/maqueta/home` (Product +

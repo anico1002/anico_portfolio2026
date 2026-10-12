@@ -52,3 +52,10 @@ coverage/
 # Capturas nativas de Gloop sin publicar (repo público)
 /public/maqueta/gloop/screens/
 /public/maqueta/gloop/media/
+
+# Vídeos HyperFrames: se versiona la composición, no la captura ni los renders
+/motion/*/capture/
+/motion/*/snapshots/
+/motion/*/renders/
+/motion/*/.hyperframes/
+/motion/*/.thumbnails/
