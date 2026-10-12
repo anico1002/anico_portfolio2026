@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
+import LogoLetters, { scatter, type Scatter } from "@/components/case-study/LogoLetters";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
 /* Transición para TODOS los enlaces internos (B1 de la revisión): un barrido de máscara vertical
@@ -12,13 +13,13 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
    barrido sigue subiendo hasta descubrir la nueva. Es el mismo gesto del telón de la entrada
    (de abajo arriba). Se probaron los paneles laterales de Metalab y se descartaron por
    demasiado parecidos (2026-10-12). Con la pantalla tapada espera a que la página nueva esté lista
-   (ruta, fuentes, imágenes y vídeos de la primera pantalla; tope 6 s) y el logo del centro se
-   rellena con ese progreso. Mientras dura, la
+   (ruta, fuentes, imágenes y vídeos de la primera pantalla; tope 6 s) y las letras del logo del
+   centro vuelven a su sitio con ese progreso. Mientras dura, la
    capa se come los clics y el scroll queda parado (B6). La miniatura → caso y la entrada B
    tienen su propia transición; esta es la de todo lo demás. */
 
 type Phase = "idle" | "closing" | "covered" | "opening";
-let state: { phase: Phase; href: string | null } = { phase: "idle", href: null };
+let state: { phase: Phase; href: string | null; spread: Scatter } = { phase: "idle", href: null, spread: scatter() };
 const subs = new Set<() => void>();
 const set = (s: typeof state) => {
   state = s;
@@ -32,7 +33,7 @@ const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matc
 export function go(href: string) {
   if (state.phase !== "idle" || href === window.location.pathname) return;
   scrollLock.stop();
-  set({ phase: "closing", href });
+  set({ phase: "closing", href, spread: scatter() });
 }
 
 /** `Link` que pasa por el portal si el destino es de la maqueta. Cmd/Ctrl-clic y similares
@@ -74,7 +75,7 @@ export default function PortalLayer() {
     if (s.phase === "closing" && s.href && reduced()) {
       router.push(s.href);
       scrollLock.start();
-      set({ phase: "idle", href: null });
+      set({ ...state, phase: "idle", href: null });
     }
   }, [s, router]);
 
@@ -103,8 +104,7 @@ export default function PortalLayer() {
       await Promise.race([Promise.all(waits.map((w) => w.then(tick, tick))), sleep(6000)]);
       if (!alive) return;
       setProgress(1);
-      // Deja ver el logo completo un instante antes de destapar.
-      await sleep(DUR.fast * 1000 + 100);
+      await sleep(DUR.fast * 1000 + 4 * 40 + 60); // que la última letra (ola de 40 ms) llegue a su sitio
       if (alive) set({ ...state, phase: "opening" });
     })();
     return () => {
@@ -130,26 +130,16 @@ export default function PortalLayer() {
             router.push(state.href);
           } else if (state.phase === "opening") {
             setProgress(0);
-            set({ phase: "idle", href: null });
+            set({ ...state, phase: "idle", href: null });
             scrollLock.start();
           }
         }}
       >
         {/* Logo fijo en el centro: la máscara lo descubre y lo vuelve a tapar al pasar. Va en
             el color del fondo (el panel es del color del texto) y al mismo tamaño que en la cabecera. */}
-        {/* Carga: el logo apagado de fondo y, encima, el mismo logo que se rellena de izquierda
-            a derecha con el progreso. */}
-        <span className="relative block">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/anico_logo.svg" alt="" className="block h-[1.125rem] w-auto opacity-25 light-invert md:h-[1.375rem]" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/anico_logo.svg"
-            alt=""
-            className="logo-fill absolute inset-0 block h-full w-auto light-invert"
-            style={{ clipPath: `inset(0% ${(1 - progress) * 100}% 0% 0%)` }}
-          />
-        </span>
+        {/* Carga: las letras del logo, desordenadas y desenfocadas, vuelven a su sitio
+            enfocándose según avanza la carga. En el color del fondo (el panel es del texto). */}
+        <LogoLetters progress={progress} spread={s.spread} className="h-[1.125rem] w-auto text-[var(--case-bg)] md:h-[1.375rem]" />
       </motion.div>
     </div>
   );

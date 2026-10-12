@@ -84,7 +84,8 @@ Siguiente: bloque B.
 (`components/case-study/Portal.tsx`: `TLink` y `go()`; **barrido vertical** de abajo arriba del color del
 texto, como el telón; los paneles laterales de Metalab se descartaron por demasiado copiados;
 con la pantalla tapada espera a que la página nueva esté lista —ruta, fuentes, imágenes y vídeos de la
-primera pantalla, tope 6 s— y el logo del centro, al tamaño de la cabecera, se rellena con ese progreso); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
+primera pantalla, tope 6 s— y las letras del logo del centro, al tamaño de la cabecera, vuelven a su sitio enfocándose con ese
+progreso (`LogoLetters.tsx`; desorden distinto cada vez; el relleno de izquierda a derecha se descartó por típico)); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
 cabecera: se probó la placa de cristal de Metalab y **se descartó** (prefiere el menú en su sitio
 invirtiéndose, como Yakushev); hover del menú = desenfoque → foco letra a letra (`BlurText`); menú propio en móvil; llegada al
 caso en 1,2 s con 0,2 s de espera; «Siguiente caso» propio (`NextCase.tsx`): portada desenfocada que se enfoca

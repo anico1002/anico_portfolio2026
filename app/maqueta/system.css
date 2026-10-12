@@ -146,9 +146,6 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
    negro y el logo pasa a blanco; en oscuro el panel es blanco y el logo se queda negro. */
 #case-root[data-case-theme="light"] .light-invert { filter: invert(1); }
 
-/* Relleno del logo del barrido según avanza la carga: suave, nunca a saltos. */
-.logo-fill { transition: clip-path var(--dur-fast) var(--ease-out); }
-
 /* Tinta adaptativa (Inked / lib/maqueta/ink.ts): blanco o negro puro según el fondo real. */
 .ink { transition: color var(--dur-fast) var(--ease-out); }
 .ink[data-ink="light"] { color: #fff; }
@@ -156,3 +153,10 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 .ink-logo { transition: filter var(--dur-fast) var(--ease-out); }
 .ink[data-ink="light"] .ink-logo { filter: invert(1); }
 .ink[data-ink="dark"]  .ink-logo { filter: none; }
+
+/* Letras del logo de carga (LogoLetters): cada cambio de progreso se suaviza y llega en ola. */
+.logo-letter {
+  transform-box: fill-box;
+  transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+  transition-delay: calc(var(--i) * 40ms);
+}
