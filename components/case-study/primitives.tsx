@@ -316,7 +316,7 @@ export function Placeholder({
         <Media src={src} alt={label} />
       ) : (
         <>
-          <span className="absolute left-4 top-4 border border-[var(--case-line)] px-2.5 py-1 font-[family-name:var(--font-case-mono)] t-label uppercase tracking-[0.08em] text-[var(--case-muted)]">
+          <span className="absolute left-4 top-4 border border-[var(--case-line)] px-2.5 py-1 t-label t-tag text-[var(--case-muted)]">
             {kind === "vídeo" ? "▶ vídeo" : kind}
           </span>
           <p className="absolute inset-x-4 bottom-4 max-w-[46ch] t-small text-[var(--case-muted)]">
@@ -392,9 +392,9 @@ export function FadeIn({
   );
 }
 
-/** Antetítulo en mono (los «Introduction», «The vision»… de Metalab). */
+/** Antetítulo (los «Introduction», «The vision»… de Metalab), con el mismo estilo que los datos. */
 export function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <p className="mb-6 font-[family-name:var(--font-case-mono)] t-label text-[var(--case-muted)]">
+  return <p className="mb-6 t-label t-tag text-[var(--case-muted)]">
       {children}
     </p>;
 }
@@ -463,7 +463,7 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
             <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
               {facts.map(([k, v]) => (
                 <div key={k}>
-                  <dt className="font-[family-name:var(--font-case-mono)] t-label uppercase tracking-[0.08em] text-[var(--case-muted)]">
+                  <dt className="t-label t-tag text-[var(--case-muted)]">
                     {k}
                   </dt>
                   <dd className="mt-1 t-small">{v}</dd>

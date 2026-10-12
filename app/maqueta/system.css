@@ -171,3 +171,8 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 /* Serif cursiva en palabras destacadas de los titulares (Instrument Serif Italic, con Instrument
    Sans). Algo más grande para que su altura de x case con la sans. */
 .serif-em { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: -0.01em; }
+
+/* Titulillos (antetítulos y datos: «Introducción», «Rol», «01 / 2026»…): un solo estilo para todos,
+   en Instrument Sans (la misma familia que el resto), mayúsculas espaciadas y peso medio. Se probaron
+   Geist Mono e Instrument Serif (recta y cursiva) y se descartaron (2026-10-12). */
+.t-tag { font-family: var(--font-case-sans), sans-serif; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; }

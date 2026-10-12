@@ -5,7 +5,7 @@ import { STAGGER } from "@/lib/maqueta/motion";
 /* Contacto: email y LinkedIn de public/profile.txt; texto del bloque [contact]. */
 
 const wrap = "px-4 md:px-6";
-const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
+const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 
 const EMAIL = "anico.es@gmail.com";
 const LINKEDIN = "https://es.linkedin.com/in/anico";

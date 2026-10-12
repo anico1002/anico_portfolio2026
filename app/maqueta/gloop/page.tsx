@@ -24,7 +24,7 @@ import { STAGGER } from "@/lib/maqueta/motion";
 
 // Énfasis por contraste de peso dentro de la misma familia (sin serif cursiva).
 const em = "font-bold not-italic";
-const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
+const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 

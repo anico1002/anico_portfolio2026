@@ -16,7 +16,7 @@ import { SLIDES } from "@/lib/maqueta/sections";
    Al pasar, esa mitad se ensancha un poco, pasa un pase de proyectos de fondo y la otra se
    atenúa. En táctil todo se ve siempre. La alternativa A, descartada, sigue en /maqueta/entrada-a. */
 
-const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
+const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 
 type Side = {
   key: "product" | "games";

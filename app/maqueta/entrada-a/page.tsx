@@ -9,7 +9,7 @@ import { DUR, EASE, STAGGER, inOrOut } from "@/lib/maqueta/motion";
 /* Entrada: el visitante elige por dónde entrar (pendiente del 2026-09-09: dos públicos,
    dos recorridos). Al pasar por encima de cada opción, su imagen ocupa el fondo. */
 
-const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
+const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 
 const ways = [
   {

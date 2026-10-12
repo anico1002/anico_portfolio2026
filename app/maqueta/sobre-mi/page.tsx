@@ -8,7 +8,7 @@ import { STAGGER } from "@/lib/maqueta/motion";
 
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
-const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
+const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 const tBody = "t-body";
 
 const YEARS = new Date().getFullYear() - 1998; // career_start de profile.txt
