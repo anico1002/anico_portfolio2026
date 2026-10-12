@@ -30,6 +30,13 @@ icono de la app de la 'S' geométrica al **rayo** — y corregido el copy de
 Ojo: esas 3 imágenes se habían actualizado **en la carpeta vieja** por error. Si algún cambio de
 assets "no se ve", comprobar primero en cuál de las dos carpetas se tocó.
 
+## Contraste: tinta adaptativa, no `mix-blend-difference`
+
+La inversión por diferencia deja gris sobre gris en fondos medios (gris 128 → contraste 1:1): el logo se
+perdía. Ahora menú y textos de la entrada usan `Inked` (`components/case-study/Inked.tsx` +
+`lib/maqueta/ink.ts`): mide el brillo real de lo que hay detrás (imagen/vídeo con sus velos, o color de
+fondo) y pone blanco o negro puro, nunca menos de 5,3:1. Depurar: `__inkBehind(el)` en la consola (dev).
+
 ## Safari: no usar `whileInView` de framer-motion
 
 En Safari, al llegar a una página navegando (no recargando), el detector de `whileInView` no se

@@ -4,15 +4,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ThemeToggle from "@/components/case-study/ThemeToggle";
 import BlurText from "@/components/case-study/BlurText";
+import Inked from "@/components/case-study/Inked";
 import { TLink, go } from "@/components/case-study/Portal";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 
-/** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna. `mix-blend-difference`
-    para que se lea sobre cualquier fondo (también encima de imágenes y vídeos).
+/** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna. Cada pieza lleva tinta
+    adaptativa (`Inked`): blanco o negro puro según lo que pase por detrás. Antes era
+    `mix-blend-difference`, que sobre grises medios dejaba el logo gris sobre gris (2026-10-12).
 
     Sin placa de fondo (se probó la de Metalab y se descartó, 2026-10-12): se queda en su sitio
-    invirtiéndose según lo que pase por detrás, como Yakushev.
+    cambiando de tinta según lo que pase por detrás.
     Hover: las letras se desenfocan y vuelven a enfocar una tras otra (`BlurText`), el mismo
     lenguaje de desenfoque → foco con el que entran los textos.
     B3 · En móvil los cuatro enlaces no caben: «Menú» abre una capa propia con desenfoque y
@@ -47,12 +49,14 @@ export default function SiteNav({ active = "product", menu = true }: { active?: 
 
   return (
     <>
-      <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 mix-blend-difference md:px-6">
+      <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-4 py-4 md:px-6">
         <TLink href="/maqueta" aria-label="anico · inicio">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
+          <Inked className="block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/anico_logo.svg" alt="anico" className="ink-logo h-[1.125rem] w-auto md:h-[1.375rem]" />
+          </Inked>
         </TLink>
-        <div className="flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6">
+        <div className="flex items-center gap-4 whitespace-nowrap t-nav md:gap-6">
           {menu && items.map(([key, label, href]) => (
             <TLink
               key={key}
@@ -61,15 +65,17 @@ export default function SiteNav({ active = "product", menu = true }: { active?: 
               className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
             >
               {/* La sección en la que ya estás no reacciona al hover. */}
-              {key === active ? label : <BlurText text={label} />}
+              <Inked>{key === active ? label : <BlurText text={label} />}</Inked>
             </TLink>
           ))}
           {menu && (
             <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
-              Menú
+              <Inked>Menú</Inked>
             </button>
           )}
-          <ThemeToggle />
+          <Inked className="flex">
+            <ThemeToggle />
+          </Inked>
         </div>
       </nav>
 

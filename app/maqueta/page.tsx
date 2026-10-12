@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SiteNav from "@/components/case-study/SiteNav";
+import Inked from "@/components/case-study/Inked";
 import { DUR, EASE, STAGGER, inOrOut } from "@/lib/maqueta/motion";
 import { startCurtain } from "@/components/case-study/Curtain";
 import { SLIDES } from "@/lib/maqueta/sections";
@@ -165,7 +166,7 @@ export default function EntryB() {
             >
               <Slides srcs={s.slides} active={on} frozen={picked} />
               <motion.div
-                className={`relative h-full hov ${on ? "text-white" : ""}`}
+                className="relative h-full"
                 initial={false}
                 animate={{ opacity: off ? 0.35 : 1 }}
                 transition={{ duration: inOrOut(off), ease: EASE.inOut }}
@@ -186,9 +187,11 @@ export default function EntryB() {
                   >
                     {/* Número pequeño pegado arriba del titular: delante de la P de «Product» y detrás de
                         la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
-                    {left && <Num n={i + 1} side="left" />}
-                    {s.label}
-                    {!left && <Num n={i + 1} side="right" />}
+                    <Inked>
+                      {left && <Num n={i + 1} side="left" />}
+                      {s.label}
+                      {!left && <Num n={i + 1} side="right" />}
+                    </Inked>
                   </motion.p>
                 </div>
                 {/* Párrafo desplazado abajo, en el lado exterior (en espejo); solo al pasar por
@@ -204,7 +207,7 @@ export default function EntryB() {
                     lang="es"
                     className={`hyphens-auto text-justify t-body ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
                   >
-                    {s.text}
+                    <Inked>{s.text}</Inked>
                   </p>
                 </motion.div>
               </motion.div>

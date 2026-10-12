@@ -148,3 +148,11 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 
 /* Relleno del logo del barrido según avanza la carga: suave, nunca a saltos. */
 .logo-fill { transition: clip-path var(--dur-fast) var(--ease-out); }
+
+/* Tinta adaptativa (Inked / lib/maqueta/ink.ts): blanco o negro puro según el fondo real. */
+.ink { transition: color var(--dur-fast) var(--ease-out); }
+.ink[data-ink="light"] { color: #fff; }
+.ink[data-ink="dark"]  { color: #0a0a0b; }
+.ink-logo { transition: filter var(--dur-fast) var(--ease-out); }
+.ink[data-ink="light"] .ink-logo { filter: invert(1); }
+.ink[data-ink="dark"]  .ink-logo { filter: none; }
