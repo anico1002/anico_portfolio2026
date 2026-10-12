@@ -57,7 +57,9 @@ Todo sale ya de dos archivos; **no meter valores sueltos** en componentes:
   móvil, suelo 13 px en escritorio), escala tipográfica `.t-label … .t-d1` (tabla dentro, con mínimos de
   legibilidad en los pequeños), variables `--ease-*`/`--dur-*` y `.hov` (hover 0,8 entra / 0,3 sale).
 Excepciones a propósito: `FitTitle` (se mide) y el «Siguiente caso» en vw (se rehace en B5).
-**Standby (Alberto, 2026-10-12): A3 y A4 juntos, hasta tener motivo de marca.** Propuestas de intro
+**Standby (Alberto, 2026-10-12): A3 y A4 juntos, hasta tener motivo de marca.** Va con ellos la
+barra de Yakushev que aparece por debajo del hero y se queda fija arriba al hacer scroll (le gusta mucho;
+explorarla junto a la intro). Propuestas de intro
 (solo primera visita, ~2 s, scroll bloqueado): 1) la línea central que se dibuja y se abre en la
 entrada B (si la línea acaba siendo el motivo); 2) contador de años tipo cuentakilómetros; 3) «anico»
 letra a letra en gigante que encoge hasta el logo del menú. Recomendada: 1, o 3 si no hay línea.
@@ -66,7 +68,8 @@ Siguiente: bloque B.
 **Bloque B hecho (2026-10-12, sin validar aún por Alberto):** portal en todos los enlaces internos
 (`components/case-study/Portal.tsx`: `TLink` y `go()`; paneles del color del texto que cierran hacia el
 centro y reabren); bloqueo de clics y scroll en portal, vuelo y telón (`scrollLock` en `SmoothScroll.tsx`);
-cabecera que se recoge en placa de cristal entre 50 y 400 px de scroll; menú propio en móvil; llegada al
+cabecera: se probó la placa de cristal de Metalab y **se descartó** (prefiere el menú en su sitio
+invirtiéndose, como Yakushev); hover del menú = desenfoque → foco letra a letra (`BlurText`); menú propio en móvil; llegada al
 caso en 1,2 s con 0,2 s de espera; «Siguiente caso» con ticker y vuelo al caso siguiente
 (`NextCase.tsx`). Falta: el botón «atrás» del navegador sigue cambiando de página en seco.
 

@@ -109,3 +109,21 @@ html:has(#case-root) {
 }
 .ticker { animation: case-ticker var(--ticker-s, 20s) linear infinite; width: max-content; }
 @media (prefers-reduced-motion: reduce) { .ticker { animation: none; } }
+
+/* Hover de desenfoque → foco (BlurText). Cada letra pasa por un desenfoque breve y vuelve a
+   enfocar; la ola avanza 25 ms por letra. Entra en `base` (0,8 s) y sin salida: al quitar el
+   ratón no se repite, igual que los enlaces de Yakushev. */
+@keyframes blur-pass {
+  0%   { filter: blur(0); opacity: 1; }
+  35%  { filter: blur(4px); opacity: 0.5; }
+  100% { filter: blur(0); opacity: 1; }
+}
+.blur-text > span[aria-hidden] > span { display: inline-block; }
+:is(a, button):hover .blur-text > span[aria-hidden] > span,
+:is(a, button):focus-visible .blur-text > span[aria-hidden] > span {
+  animation: blur-pass var(--dur-base) var(--ease-out) both;
+  animation-delay: calc(var(--i) * 25ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(a, button):hover .blur-text > span[aria-hidden] > span { animation: none; }
+}
