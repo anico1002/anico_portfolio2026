@@ -105,11 +105,12 @@ export default function FlightLayer() {
   // (1,3 s, Power4.easeInOut de Metalab) y la imagen, colocada en proporción a la máscara, se
   // asienta más despacio (1,5 s, curva más suave). Siempre es igual o mayor que la máscara, así
   // que nunca asoman bordes. El cambio de página espera a que termine la imagen.
-  const ZOOM = 1.06; // la imagen arranca un poco más ampliada que en la tarjeta
-  const kw = (f.media.width / f.frame.width) * ZOOM;
-  const kh = (f.media.height / f.frame.height) * ZOOM;
-  const ox = (f.media.left - f.frame.left) / f.frame.width - (kw - kw / ZOOM) / 2;
-  const oy = (f.media.top - f.frame.top) / f.frame.height - (kh - kh / ZOOM) / 2;
+  // La imagen arranca EXACTAMENTE como se ve en la tarjeta (con el zoom que ya tiene allí):
+  // cualquier ampliación extra al inicio se ve como un salto en el primer fotograma.
+  const kw = f.media.width / f.frame.width;
+  const kh = f.media.height / f.frame.height;
+  const ox = (f.media.left - f.frame.left) / f.frame.width;
+  const oy = (f.media.top - f.frame.top) / f.frame.height;
   const pct = (n: number) => `${n * 100}%`;
   const inner = {
     className: "absolute max-w-none object-cover",
