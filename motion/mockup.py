@@ -23,15 +23,21 @@ SETUPS = {
         "photo": f"{ROOT}/public/projects/swift-project/SwifT_hero.png",
         "quad": [(544, -220), (2430, -184), (2200, 1113), (358, 828)],
         "crop_top": 0,  # se mapea la pantalla entera (la barra de menús queda fuera de cuadro)
-        "focus": (850, 320), "sharp": 260, "soft": 520, "max_sigma": 4.5,
+        "focus": (850, 320), "sharp": 340, "soft": 760, "max_sigma": 2.2,
         "shade_k": 61,
         # Lo que hay por delante de la pantalla: nada.
         "front": None,
     },
     "thumb": {
         "photo": f"{ROOT}/public/projects/swift-project/SwifT_thumb.png",
-        # Solo la zona de contenido (bajo la barra de menús oscura, que se conserva de la foto).
-        "quad": [(-360, 122), (913, 257), (931, 762), (-360, 683)],
+        # Perspectiva sacada de la propia foto: SIFT entre la landing real (en inglés, 1512 px) y
+        # la foto (210 puntos, error medio 0,25 px), refinada para que el borde superior caiga
+        # justo bajo la barra de menús. Pantalla centrada en el eje de la web (x = 756 px CSS),
+        # 1098 × 659 px CSS → estas esquinas. El canto derecho de la foto no es paralelo a la
+        # perspectiva del contenido (imperfección del montaje): se recorta con `clip`.
+        "quad": [(-300.2, 126.3), (916.6, 259.1), (1026.0, 943.4), (-247.0, 869.6)],
+        # Contorno real de la pantalla en la foto (bajo la barra de menús oscura, que se conserva).
+        "clip": [(-10, 158), (913, 255), (931, 762), (931, 1030), (-10, 1030)],
         "crop_top": 48,  # quita la barra de menús clara del vídeo
         "focus": (430, 480), "sharp": 210, "soft": 430, "max_sigma": 3.5,
         "shade_k": 161,
@@ -47,6 +53,10 @@ def mask_for(cfg, shape):
     m = np.zeros((h * 4, w * 4), np.uint8)
     q = (np.array(cfg["quad"], np.float32) * 4).astype(np.int32)
     cv2.fillPoly(m, [q], 255, lineType=cv2.LINE_AA)
+    if cfg.get("clip"):
+        c = np.zeros_like(m)
+        cv2.fillPoly(c, [(np.array(cfg["clip"], np.float32) * 4).astype(np.int32)], 255, lineType=cv2.LINE_AA)
+        m = cv2.min(m, c)
     if cfg["front"]:
         pts = [(x * 4, y * 4) for x, y in cfg["front"]] + [(w * 4, h * 4), (0, h * 4)]
         cv2.fillPoly(m, [np.array(pts, np.int32)], 0, lineType=cv2.LINE_AA)
