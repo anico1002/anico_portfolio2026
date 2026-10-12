@@ -164,9 +164,10 @@ export default function EntryB() {
                 transition={{ duration: inOrOut(off), ease: EASE.inOut }}
               >
                 {/* Titulares juntos en el centro de la pantalla, cada uno pegado a la línea central
-                    con un pequeño margen: «Product» a su izquierda y «Games» a su derecha. */}
+                    con un pequeño margen: «Product» a su izquierda y «Games» a su derecha. En móvil (mitades
+                    apiladas) van a su lado, alineados con su párrafo: Product a la izquierda, Games a la derecha. */}
                 <div
-                  className={`absolute inset-0 flex items-center overflow-hidden ${picked ? "justify-center" : left ? "justify-center md:justify-end md:pr-5" : "justify-center md:justify-start md:pl-5"}`}
+                  className={`absolute inset-0 flex items-center overflow-hidden ${picked ? "justify-center" : left ? "justify-start px-4 md:justify-end md:pl-0 md:pr-5" : "justify-end px-4 md:justify-start md:pl-5 md:pr-0"}`}
                 >
                   <motion.p
                     layout="position"
