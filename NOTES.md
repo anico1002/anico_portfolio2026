@@ -43,7 +43,9 @@ Instrument Serif; descartadas). Geist Mono ya no se carga. Display a peso 700 (I
 Recurso sans + serif cursiva: le gusta pero lo ve **trillado**. Gris + palabras en color pleno:
 **descartado** (pierde potencia). **Degradado ácido en las palabras clave: le gusta mucho**, pero el color
 necesita un fundamento y más usos (no solo ahí); idea: **verde ácido para Games, violeta ácido para
-Product**. Pendiente decidir. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen` (en `layout.tsx`).
+Product**. Pendiente decidir. Imagen dentro de la frase (`[m]`): muy vista; solo si tiene un juego (ampliarse al
+pasar o con el scroll), no puesta porque sí. Selector de pruebas: `?em=color|acido|mezcla|serif|imagen|cursiva`
+(en `layout.tsx`).
 
 ## Sin desenfoques: todo es máscara (2026-10-12)
 

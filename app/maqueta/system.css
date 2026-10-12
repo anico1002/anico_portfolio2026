@@ -175,7 +175,8 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
            verde → azul eléctrico más profundo, porque lima y cian no se leen sobre blanco)
    mezcla · el titular en gris y las palabras clave con el degradado ácido
    serif · Instrument Serif cursiva (la anterior)
-   imagen · ventana con imágenes de la sección dentro de la frase (`[m]` en el texto). */
+   imagen · ventana con imágenes de la sección dentro de la frase (`[m]` en el texto)
+   cursiva · la cursiva de la propia Instrument Sans, sin cambiar de familia. */
 .kw { font-style: normal; }
 #case-root[data-em="color"] .t-hero { color: var(--case-muted); }
 #case-root[data-em="color"] .kw { color: var(--case-fg); }
@@ -188,6 +189,7 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 #case-root[data-case-theme="light"]:is([data-em="acido"], [data-em="mezcla"]) .kw {
   background-image: linear-gradient(90deg, #22c55e 0%, #00b37e 40%, #0a84ff 100%);
 }
+#case-root[data-em="cursiva"] .kw { font-style: italic; }
 #case-root[data-em="serif"] .kw { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: -0.01em; }
 
 /* Titulillos (antetítulos y datos: «Introducción», «Rol», «01 / 2026»…): un solo estilo para todos,
