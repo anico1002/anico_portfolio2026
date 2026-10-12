@@ -104,39 +104,44 @@ html:has(#case-root) {
 /* Logo negro dentro de capas que no usan `difference` (menú de móvil): en oscuro, a blanco. */
 #case-root:not([data-case-theme="light"]) .dark-invert { filter: invert(1); }
 
-/* «Siguiente caso»: la portada espera desenfocada y atenuada y se enfoca al pasar por encima
-   (entra en `base`, sale en `fast`). En táctil, sin hover, se ve ya enfocada. */
+/* «Siguiente caso»: la portada espera en una ventana recortada y algo ampliada; al pasar por
+   encima la ventana se abre y la imagen se asienta (entra en `base`, sale en `fast`). En
+   táctil, sin hover, se ve ya abierta. */
 .nc-img {
-  filter: blur(14px);
-  opacity: 0.55;
-  scale: 1.04;
-  transition: filter var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out), scale var(--dur-fast) var(--ease-out);
+  clip-path: inset(8% 8% 8% 8%);
+  scale: 1.12;
+  transition: clip-path var(--dur-fast) var(--ease-in-out), scale var(--dur-fast) var(--ease-in-out);
 }
 .group:hover .nc-img,
 .group:focus-visible .nc-img {
-  filter: blur(0);
-  opacity: 1;
+  clip-path: inset(0% 0% 0% 0%);
   scale: 1;
   transition-duration: var(--dur-base);
 }
-@media (hover: none) { .nc-img { filter: none; opacity: 1; scale: 1; } }
+@media (hover: none) { .nc-img { clip-path: inset(0% 0% 0% 0%); scale: 1; } }
 
-/* Hover de desenfoque → foco (BlurText). Cada letra pasa por un desenfoque breve y vuelve a
-   enfocar; la ola avanza 25 ms por letra. Entra en `base` (0,8 s) y sin salida: al quitar el
-   ratón no se repite, igual que los enlaces de Yakushev. */
-@keyframes blur-pass {
-  0%   { filter: blur(0); opacity: 1; }
-  35%  { filter: blur(4px); opacity: 0.5; }
-  100% { filter: blur(0); opacity: 1; }
+/* Hover de máscara (RollText): cada letra sube y sale por arriba de su máscara mientras una
+   copia (sombra de texto del mismo color, una línea más abajo) entra por abajo. Ola de 15 ms
+   por letra. Entra en `base` y vuelve en `fast` (salidas más rápidas que entradas). */
+.roll-mask {
+  display: inline-block;
+  clip-path: inset(0 -0.15em);
+  --roll: 1.3em;
 }
-.blur-text > span[aria-hidden] > span { display: inline-block; }
-:is(a, button):hover .blur-text > span[aria-hidden] > span,
-:is(a, button):focus-visible .blur-text > span[aria-hidden] > span {
-  animation: blur-pass var(--dur-base) var(--ease-out) both;
-  animation-delay: calc(var(--i) * 25ms);
+.roll-mask > span {
+  display: inline-block;
+  text-shadow: 0 var(--roll) currentColor;
+  transition: transform var(--dur-fast) var(--ease-out);
+  transition-delay: calc(var(--i) * 8ms);
+}
+:is(a, button):hover .roll-mask > span,
+:is(a, button):focus-visible .roll-mask > span {
+  transform: translateY(calc(-1 * var(--roll)));
+  transition: transform var(--dur-base) var(--ease-in-out);
+  transition-delay: calc(var(--i) * 15ms);
 }
 @media (prefers-reduced-motion: reduce) {
-  :is(a, button):hover .blur-text > span[aria-hidden] > span { animation: none; }
+  :is(a, button):hover .roll-mask > span { transform: none; }
 }
 
 /* La barra de progreso de scroll de la web actual vive en el layout raíz: en la maqueta, fuera. */
@@ -154,8 +159,5 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 .ink[data-ink="light"] .ink-logo { filter: invert(1); }
 .ink[data-ink="dark"]  .ink-logo { filter: none; }
 
-/* Letras del logo de carga (LogoLetters): cada cambio de progreso se suaviza y llega en ola. */
-.logo-letter {
-  transition: transform var(--dur-fast) var(--ease-out), filter var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
-  transition-delay: calc(var(--i) * 40ms);
-}
+/* Letras del logo de carga (LogoLetters): cada cambio de progreso se suaviza. */
+.logo-letter { transition: transform var(--dur-fast) var(--ease-out); }

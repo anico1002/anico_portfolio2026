@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ThemeToggle from "@/components/case-study/ThemeToggle";
-import BlurText from "@/components/case-study/BlurText";
+import RollText from "@/components/case-study/RollText";
 import Inked from "@/components/case-study/Inked";
 import { TLink, go } from "@/components/case-study/Portal";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
@@ -15,9 +15,8 @@ import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 
     Sin placa de fondo (se probó la de Metalab y se descartó, 2026-10-12): se queda en su sitio
     cambiando de tinta según lo que pase por detrás.
-    Hover: las letras se desenfocan y vuelven a enfocar una tras otra (`BlurText`), el mismo
-    lenguaje de desenfoque → foco con el que entran los textos.
-    B3 · En móvil los cuatro enlaces no caben: «Menú» abre una capa propia con desenfoque y
+    Hover: las letras ruedan dentro de su máscara, una tras otra (`RollText`).
+    B3 · En móvil los cuatro enlaces no caben: «Menú» abre una capa propia que baja con máscara y
     palabras grandes que suben con máscara (Yakushev). */
 
 const items = [
@@ -74,7 +73,7 @@ export default function SiteNav({
               className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
             >
               {/* La sección en la que ya estás no reacciona al hover. */}
-              <Inked>{key === active ? label : <BlurText text={label} />}</Inked>
+              <Inked>{key === active ? label : <RollText text={label} />}</Inked>
             </TLink>
           ))}
           {menu && (
@@ -95,10 +94,10 @@ export default function SiteNav({
             role="dialog"
             aria-modal
             aria-label="Menú"
-            className="fixed inset-0 z-[70] flex flex-col bg-[color-mix(in_srgb,var(--case-bg)_72%,transparent)] px-4 pb-8 text-[var(--case-fg)] [backdrop-filter:blur(30px)] [-webkit-backdrop-filter:blur(30px)] md:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: DUR.base, ease: EASE.out } }}
-            exit={{ opacity: 0, transition: { duration: DUR.fast, ease: EASE.out } }}
+            className="fixed inset-0 z-[70] flex flex-col bg-[var(--case-bg)] px-4 pb-8 text-[var(--case-fg)] md:hidden"
+            initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
+            animate={{ clipPath: "inset(0% 0% 0% 0%)", transition: { duration: DUR.base, ease: EASE.inOut } }}
+            exit={{ clipPath: "inset(0% 0% 100% 0%)", transition: { duration: DUR.fast, ease: EASE.inOut } }}
           >
             <div className="flex items-center justify-between py-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}

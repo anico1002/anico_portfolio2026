@@ -30,6 +30,14 @@ icono de la app de la 'S' geométrica al **rayo** — y corregido el copy de
 Ojo: esas 3 imágenes se habían actualizado **en la carpeta vieja** por error. Si algún cambio de
 assets "no se ve", comprobar primero en cuál de las dos carpetas se tocó.
 
+## Sin desenfoques: todo es máscara (2026-10-12)
+
+El desenfoque se quitó de toda la maqueta (Safari lo hacía mal y es caro de animar). Equivalencias:
+hover de enlaces = letras que ruedan (`RollText`); entrada de textos (`FadeIn`, conserva el nombre) =
+barrido de abajo arriba; logo de carga = letras que suben por su máscara; «Siguiente caso» = ventana que
+se abre; menú de móvil = capa sólida que baja; salida de titulares de la portada = máscara que sigue al
+borde entre mitades (lateral en escritorio, vertical en móvil), al ritmo de la imagen.
+
 ## Contraste: tinta adaptativa, no `mix-blend-difference`
 
 La inversión por diferencia deja gris sobre gris en fondos medios (gris 128 → contraste 1:1): el logo se

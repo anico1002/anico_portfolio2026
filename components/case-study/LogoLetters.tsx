@@ -1,10 +1,10 @@
 "use client";
 
 /* Logo de anico con cada letra suelta (trazos de public/anico_logo.svg, de izquierda a derecha).
-   Lo usa el barrido entre páginas como indicador de carga (2026-10-12; sustituye al relleno de
-   izquierda a derecha, demasiado típico): las letras empiezan a otra altura (solo en vertical) y desenfocadas y,
-   según avanza la carga, vuelven a su sitio enfocándose, con el mismo desenfoque y la misma
-   ola escalonada que el hover del menú. Colorea con `currentColor`. */
+   Lo usa el barrido entre páginas como indicador de carga: cada letra sube desde abajo dentro de
+   la máscara del logo, en ola, según avanza la carga (2026-10-12; antes se desenfocaban y
+   enfocaban, pero el desenfoque daba problemas en Safari y ahora todo es máscara). Colorea con
+   `currentColor`. */
 
 export const LETTERS = [
   { key: "a", d: "M30.5558 94.9626C24.6843 94.9626 19.4519 93.9441 14.8585 91.9071C10.2652 89.8301 6.63041 86.7745 3.95428 82.7403C1.31809 78.6662 0 73.5936 0 67.5223C0 62.4097 0.938643 58.1159 2.81593 54.641C4.69321 51.166 7.24951 48.37 10.4848 46.2531C13.7202 44.1362 17.3948 42.5385 21.5089 41.46C25.6629 40.3816 30.0166 39.6227 34.57 39.1833C39.9223 38.6241 44.236 38.1049 47.5113 37.6256C50.7865 37.1063 53.1631 36.3474 54.641 35.3489C56.1188 34.3503 56.8578 32.8724 56.8578 30.9153V30.5558C56.8578 26.7613 55.6595 23.8255 53.263 21.7485C50.9064 19.6715 47.5512 18.633 43.1975 18.633C38.6042 18.633 34.9494 19.6516 32.2334 21.6886C29.5173 23.6857 27.7199 26.2021 26.8412 29.2377L3.23532 27.3205C4.43359 21.7286 6.79018 16.8956 10.3051 12.8215C13.82 8.7074 18.3535 5.55196 23.9054 3.35514C29.4973 1.11838 35.968 0 43.3173 0C48.4299 0 53.3229 0.599133 57.9961 1.7974C62.7093 2.99567 66.8833 4.85298 70.518 7.36933C74.1927 9.8857 77.0885 13.121 79.2054 17.0753C81.3224 20.9896 82.3808 25.6828 82.3808 31.1549V93.2251H58.1759V80.4636H57.4569C55.979 83.3395 54.0019 85.8758 51.5255 88.0726C49.049 90.2295 46.0734 91.927 42.5984 93.1652C39.1234 94.3635 35.1092 94.9626 30.5558 94.9626ZM37.8652 77.3481C41.6198 77.3481 44.935 76.6092 47.8108 75.1313C50.6867 73.6135 52.9434 71.5765 54.581 69.0202C56.2187 66.4639 57.0375 63.5681 57.0375 60.3327V50.5669C56.2387 51.0861 55.1402 51.5654 53.7423 52.0048C52.3842 52.4042 50.8465 52.7836 49.1289 53.1431C47.4114 53.4627 45.6939 53.7622 43.9764 54.0418C42.2589 54.2815 40.7011 54.5012 39.3031 54.7009C36.3075 55.1402 33.6913 55.8392 31.4545 56.7978C29.2177 57.7565 27.4803 59.0546 26.242 60.6922C25.0038 62.2899 24.3847 64.287 24.3847 66.6835C24.3847 70.1585 25.6429 72.8147 28.1593 74.652C30.7156 76.4494 33.9509 77.3481 37.8652 77.3481Z" },
@@ -14,43 +14,27 @@ export const LETTERS = [
   { key: "o", d: "M393.706 95.0225C384.399 95.0225 376.351 93.0454 369.56 89.0911C362.81 85.0969 357.598 79.5449 353.923 72.4352C350.248 65.2856 348.411 56.9976 348.411 47.5712C348.411 38.0649 350.248 29.757 353.923 22.6472C357.598 15.4976 362.81 9.94561 369.56 5.99133C376.351 1.99711 384.399 0 393.706 0C403.012 0 411.04 1.99711 417.791 5.99133C424.581 9.94561 429.813 15.4976 433.488 22.6472C437.163 29.757 439 38.0649 439 47.5712C439 56.9976 437.163 65.2856 433.488 72.4352C429.813 79.5449 424.581 85.0969 417.791 89.0911C411.04 93.0454 403.012 95.0225 393.706 95.0225ZM393.825 75.2512C398.059 75.2512 401.594 74.0529 404.43 71.6564C407.266 69.2199 409.403 65.9047 410.841 61.7107C412.319 57.5168 413.058 52.7437 413.058 47.3914C413.058 42.0392 412.319 37.2661 410.841 33.0722C409.403 28.8782 407.266 25.563 404.43 23.1265C401.594 20.6901 398.059 19.4718 393.825 19.4718C389.552 19.4718 385.957 20.6901 383.041 23.1265C380.165 25.563 377.988 28.8782 376.51 33.0722C375.073 37.2661 374.354 42.0392 374.354 47.3914C374.354 52.7437 375.073 57.5168 376.51 61.7107C377.988 65.9047 380.165 69.2199 383.041 71.6564C385.957 74.0529 389.552 75.2512 393.825 75.2512Z" },
 ] as const;
 
-/** Desorden de cada letra en unidades del dibujo (el logo mide 439×96): [x, y]. */
-export type Scatter = [number, number][];
-
-/** Desorden nuevo, solo vertical (cada letra en su columna, a otra altura): a abajo, n e ı
-    arriba, c abajo, o algo arriba. Distinto cada vez dentro de unos márgenes. */
-export function scatter(): Scatter {
-  const r = (a: number, b: number) => a + Math.random() * (b - a);
-  return [
-    [0, r(100, 170)], // a: abajo
-    [0, r(-180, -115)], // n: arriba
-    [0, r(-230, -160)], // ı: más arriba
-    [0, r(140, 210)], // c: abajo
-    [0, r(-80, -30)], // o: algo arriba
-  ];
-}
-
-export default function LogoLetters({ progress, spread, className = "" }: { progress: number; spread: Scatter; className?: string }) {
-  const k = 1 - Math.min(1, Math.max(0, progress));
-  // Cada letra es su propio <svg> (mismo lienzo, apilados): Safari no aplica `filter` CSS a los
-  // trazos de dentro de un SVG, solo al elemento entero. Desplazamiento en % del alto del logo.
+export default function LogoLetters({ progress, className = "" }: { progress: number; className?: string }) {
+  const p = Math.min(1, Math.max(0, progress));
+  const n = LETTERS.length;
+  // Cada letra es su propio <svg> (mismo lienzo, apilados) dentro de una máscara del tamaño del
+  // logo. El progreso se reparte en ola: la primera letra empieza antes que la última.
   return (
-    <span className={`relative inline-block aspect-[439/96] ${className}`} aria-hidden>
-      {LETTERS.map((l, i) => (
-        <svg
-          key={l.key}
-          viewBox="0 0 439 96"
-          className="logo-letter absolute inset-0 h-full w-full overflow-visible"
-          style={{
-            ["--i" as string]: i,
-            transform: `translateY(${((spread[i][1] * k) / 96) * 100}%)`,
-            filter: `blur(${(k * 5).toFixed(2)}px)`,
-            opacity: (1 - k) ** 2, // de 0 a 1 mientras se enfocan, lenta al principio: el desenfoque no se ve parado
-          }}
-        >
-          <path d={l.d} fill="currentColor" />
-        </svg>
-      ))}
+    <span className={`relative inline-block aspect-[439/96] overflow-hidden ${className}`} aria-hidden>
+      {LETTERS.map((l, i) => {
+        const start = (i / n) * 0.5; // la ola ocupa la primera mitad del recorrido
+        const k = Math.min(1, Math.max(0, (p - start) / (1 - start)));
+        return (
+          <svg
+            key={l.key}
+            viewBox="0 0 439 96"
+            className="logo-letter absolute inset-0 h-full w-full"
+            style={{ transform: `translateY(${(1 - k) * 105}%)` }}
+          >
+            <path d={l.d} fill="currentColor" />
+          </svg>
+        );
+      })}
     </span>
   );
 }

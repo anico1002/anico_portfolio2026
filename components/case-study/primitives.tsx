@@ -360,7 +360,9 @@ export function Phone({
   );
 }
 
-/** Aparición con desenfoque → foco (el gesto de los textos de Yakushev). */
+/** Entrada de bloques de texto con máscara (2026-10-12; antes desenfoque → foco, que en Safari
+    daba problemas): barrido de abajo arriba mientras el bloque sube un poco. Mismo gesto que el
+    resto de la maqueta. (Conserva el nombre `FadeIn` para no tocar todos los usos.) */
 export function FadeIn({
   children,
   delay = 0,
@@ -373,14 +375,14 @@ export function FadeIn({
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const seen = useSeen(ref, "-12% 0px");
-  const hidden = { opacity: 0, y: 32, filter: "blur(14px)" };
+  const hidden = { clipPath: CLOSED.bottom, y: 40 };
   return (
     <motion.div
       ref={ref}
       className={className}
       initial={reduce ? false : hidden}
-      animate={reduce || seen ? { opacity: 1, y: 0, filter: "blur(0px)" } : hidden}
-      transition={{ duration: DUR.slow, delay, ease: EASE.out }}
+      animate={reduce || seen ? { clipPath: "inset(0% 0% 0% 0%)", y: 0 } : hidden}
+      transition={{ clipPath: { duration: DUR.base, ease: EASE.inOut, delay }, y: { duration: DUR.base, ease: EASE.out, delay } }}
     >
       {children}
     </motion.div>

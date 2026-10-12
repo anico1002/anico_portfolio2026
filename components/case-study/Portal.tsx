@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
-import LogoLetters, { scatter, type Scatter } from "@/components/case-study/LogoLetters";
+import LogoLetters from "@/components/case-study/LogoLetters";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
 /* Transición para TODOS los enlaces internos (B1 de la revisión): un barrido de máscara vertical
@@ -14,12 +14,12 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
    (de abajo arriba). Se probaron los paneles laterales de Metalab y se descartaron por
    demasiado parecidos (2026-10-12). Con la pantalla tapada espera a que la página nueva esté lista
    (ruta, fuentes, imágenes y vídeos de la primera pantalla; tope 6 s) y las letras del logo del
-   centro vuelven a su sitio con ese progreso. Mientras dura, la
+   centro suben a su sitio dentro de su máscara con ese progreso. Mientras dura, la
    capa se come los clics y el scroll queda parado (B6). La miniatura → caso y la entrada B
    tienen su propia transición; esta es la de todo lo demás. */
 
 type Phase = "idle" | "closing" | "covered" | "opening";
-let state: { phase: Phase; href: string | null; spread: Scatter } = { phase: "idle", href: null, spread: scatter() };
+let state: { phase: Phase; href: string | null } = { phase: "idle", href: null };
 const subs = new Set<() => void>();
 const set = (s: typeof state) => {
   state = s;
@@ -33,7 +33,7 @@ const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matc
 export function go(href: string) {
   if (state.phase !== "idle" || href === window.location.pathname) return;
   scrollLock.stop();
-  set({ phase: "closing", href, spread: scatter() });
+  set({ phase: "closing", href });
 }
 
 /** `Link` que pasa por el portal si el destino es de la maqueta. Cmd/Ctrl-clic y similares
@@ -137,9 +137,9 @@ export default function PortalLayer() {
       >
         {/* Logo fijo en el centro: la máscara lo descubre y lo vuelve a tapar al pasar. Va en
             el color del fondo (el panel es del color del texto) y al mismo tamaño que en la cabecera. */}
-        {/* Carga: las letras del logo, desordenadas y desenfocadas, vuelven a su sitio
-            enfocándose según avanza la carga. En el color del fondo (el panel es del texto). */}
-        <LogoLetters progress={progress} spread={s.spread} className="h-[1.125rem] w-auto text-[var(--case-bg)] md:h-[1.375rem]" />
+        {/* Carga: las letras del logo suben a su sitio dentro de su máscara según avanza la carga.
+            En el color del fondo (el panel es del texto). */}
+        <LogoLetters progress={progress} className="h-[1.125rem] w-auto text-[var(--case-bg)] md:h-[1.375rem]" />
       </motion.div>
     </div>
   );

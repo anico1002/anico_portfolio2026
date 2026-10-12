@@ -2,18 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import BlurText from "@/components/case-study/BlurText";
+import RollText from "@/components/case-study/RollText";
 import { markLanded, startFlight } from "@/components/case-study/Flight";
 import { TLink } from "@/components/case-study/Portal";
 import { FadeIn, MaskReveal, Placeholder } from "@/components/case-study/primitives";
 
 /* «Siguiente caso» como cierre del relato (B5), con nuestro propio gesto (2026-10-12; el ticker
    gigante de Metalab se descartó por demasiado copiado). La portada del siguiente caso espera
-   desenfocada y atenuada; al pasar por encima se enfoca, y el nombre hace la ola de desenfoque
-   del menú: el mismo desenfoque → foco con el que entran los textos. Composición asimétrica:
+   en una ventana recortada; al pasar por encima la ventana se abre (máscara) y el nombre hace el
+   hover de letras que ruedan del menú. Composición asimétrica:
    texto estrecho a la izquierda, imagen grande a la derecha. Al hacer clic, la portada crece a
    pantalla completa y aterriza en la cabecera del caso siguiente (el vuelo de la home). En
-   táctil no hay «pasar por encima»: la imagen se ve ya enfocada (`.nc-img` en system.css). */
+   táctil no hay «pasar por encima»: la ventana se ve ya abierta (`.nc-img` en system.css). */
 
 const mono = "font-[family-name:var(--font-case-mono)] uppercase tracking-[0.08em]";
 
@@ -40,7 +40,7 @@ export default function NextCase({ name, href, thumb }: { name: string; href: st
         <FadeIn className="order-2 col-span-12 md:order-1 md:col-span-4 md:self-end">
           <p className={`t-label text-[var(--case-muted)] ${mono}`}>Siguiente caso</p>
           <p className="mt-3 t-statement font-medium">
-            <BlurText text={name} />
+            <RollText text={name} />
           </p>
           <p className="mt-6 t-small text-[var(--case-muted)]">
             Ver caso <span aria-hidden>→</span>

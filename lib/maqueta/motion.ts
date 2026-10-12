@@ -20,7 +20,7 @@ export const EASE = {
 export const DUR = {
   fast: 0.3, // salidas, relevos, retirar capas
   base: 0.8, // entradas, máscaras, hover
-  slow: 1.2, // movimientos grandes, desenfoque → foco, asentar imagen
+  slow: 1.2, // movimientos grandes, asentar imagen
   screen: 1.5, // home → caso (HOMEPAGE_TO_CASE_STUDY de Metalab)
   drift: 2.4, // movimiento ambiental (zoom lento de diapositivas); no es una transición
 } as const;

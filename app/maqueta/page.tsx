@@ -94,9 +94,16 @@ function Num({ n, side }: { n: number; side: "left" | "right" }) {
   );
 }
 
-/** Salida de los textos al elegir una mitad: primero se desenfocan (rápido) y luego se desvanecen
-    (más lento), para que el desenfoque se llegue a ver antes de que desaparezcan. */
-const EXIT = { filter: { duration: DUR.fast, ease: EASE.out }, opacity: { duration: DUR.base, ease: EASE.inOut }, y: { duration: 0 } };
+/** Salida de los textos al elegir una mitad (2026-10-12): máscara que avanza en la misma dirección
+    y al mismo ritmo que el borde entre las dos mitades, como se va la imagen de fondo. En escritorio
+    el borde se mueve en horizontal; en móvil (mitades apiladas), en vertical. */
+const EXIT = { duration: DUR.slow, ease: EASE.screen };
+const OPEN = "inset(0% 0% 0% 0%)";
+/** Recorte final según qué mitad se elige: el borde avanza hacia la otra y va tapando los textos. */
+const exitClip = (picked: Side["key"], stacked: boolean) =>
+  picked === "product"
+    ? stacked ? "inset(100% 0% 0% 0%)" : "inset(0% 0% 0% 100%)"
+    : stacked ? "inset(0% 0% 100% 0%)" : "inset(0% 100% 0% 0%)";
 
 // Sin ratón (móvil/tableta) no hay «pasar por encima»: ahí los dos pases van siempre.
 const noHover = () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches;
@@ -107,6 +114,8 @@ export default function EntryB() {
   // Al elegir una mitad: crece hasta cubrir la pantalla (los titulares se van al clicar) y, al terminar, el
   // telón del layout toma el relevo y se levanta con un barrido sobre la home de esa sección.
   const [chosen, setChosen] = useState<Side["key"] | null>(null);
+  // ¿Mitades apiladas (móvil)? Se mira al elegir, para que la máscara siga al borde.
+  const [stacked, setStacked] = useState(false);
   const handed = useRef(false);
   const router = useRouter();
   const handOff = (s: Side, half: HTMLElement) => {
@@ -165,7 +174,9 @@ export default function EntryB() {
               aria-label={s.label}
               onClick={(e) => {
                 e.preventDefault();
-                if (!chosen) setChosen(s.key);
+                if (chosen) return;
+                setStacked(!window.matchMedia("(min-width: 768px)").matches);
+                setChosen(s.key);
               }}
             >
               <Slides srcs={s.slides} active={on} frozen={picked} />
@@ -182,22 +193,25 @@ export default function EntryB() {
                 <div
                   className={`absolute inset-0 flex overflow-hidden ${`items-end pb-[calc(var(--ph,0px)+2.5rem)] md:items-center md:pb-0 ${left ? "justify-start px-4 md:justify-end md:pl-0 md:pr-5" : "justify-end px-4 md:justify-start md:pl-5 md:pr-0"}`}`}
                 >
-                  <motion.p
-                    className="whitespace-nowrap t-d3"
-                    initial={{ y: "110%" }}
-                    // Al elegir, los dos titulares se van al momento (desenfoque rápido): la mitad crece
-                    // ya sin texto y el nombre no reaparece en el telón ni en la home.
-                    animate={chosen ? { y: "0%", opacity: 0, filter: "blur(14px)" } : { y: "0%", opacity: 1, filter: "blur(0px)" }}
-                    transition={chosen ? EXIT : { duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER }}
-                  >
-                    {/* Número pequeño pegado arriba del titular: delante de la P de «Product» y detrás de
-                        la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
-                    <Inked>
-                      {left && <Num n={i + 1} side="left" />}
-                      {s.label}
-                      {!left && <Num n={i + 1} side="right" />}
-                    </Inked>
-                  </motion.p>
+                  {/* Máscara ajustada al titular: entra desde abajo y sale por arriba sin verse fuera. */}
+                  <div className="overflow-hidden pb-[0.06em]">
+                    <motion.p
+                      className="whitespace-nowrap t-d3"
+                      initial={{ y: "110%" }}
+                      // Al elegir, los dos titulares se van con la máscara del borde (como la imagen): la
+                      // mitad crece ya sin texto y el nombre no reaparece en el telón ni en la home.
+                      animate={chosen ? { y: "0%", clipPath: exitClip(chosen, stacked) } : { y: "0%", clipPath: OPEN }}
+                      transition={chosen ? EXIT : { duration: DUR.base, ease: EASE.inOut, delay: (1 + i) * STAGGER }}
+                    >
+                      {/* Número pequeño pegado arriba del titular: delante de la P de «Product» y detrás de
+                          la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
+                      <Inked>
+                        {left && <Num n={i + 1} side="left" />}
+                        {s.label}
+                        {!left && <Num n={i + 1} side="right" />}
+                      </Inked>
+                    </motion.p>
+                  </div>
                 </div>
                 {/* Párrafo desplazado abajo, en el lado exterior (en espejo); solo al pasar por
                     encima (en táctil, siempre). */}
@@ -205,7 +219,7 @@ export default function EntryB() {
                   data-para
                   className={`absolute bottom-6 max-w-[30ch] md:bottom-8 ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
                   initial={false}
-                  animate={chosen ? { opacity: 0, y: 0, filter: "blur(14px)" } : { opacity: on ? 1 : 0, y: on ? 0 : 16, filter: "blur(0px)" }}
+                  animate={chosen ? { clipPath: exitClip(chosen, stacked), opacity: 1, y: 0 } : { clipPath: OPEN, opacity: on ? 1 : 0, y: on ? 0 : 16 }}
                   transition={chosen ? EXIT : { duration: inOrOut(on), ease: EASE.out, delay: on ? STAGGER : 0 }}
                 >
                   <p
