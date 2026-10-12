@@ -42,7 +42,9 @@ fondo) y pone blanco o negro puro, nunca menos de 5,3:1. Depurar: `__inkBehind(e
 En Safari, al llegar a una página navegando (no recargando), el detector de `whileInView` no se
 disparaba nunca y los bloques con entrada se quedaban invisibles: páginas en blanco tras el barrido
 (2026-10-12; en Chrome no pasaba). Las entradas usan `useSeen()` de `components/case-study/primitives.tsx`,
-que va sobre el IntersectionObserver del navegador. Para comprobar en WebKit sin Safari:
+que va sobre el IntersectionObserver del navegador. Safari tampoco aplica `filter` CSS a trazos dentro de un SVG (solo al elemento entero): las letras del logo
+de carga son un `<svg>` cada una por eso.
+Para comprobar en WebKit sin Safari:
 `PLAYWRIGHT_BROWSERS_PATH=<scratchpad>/pw-browsers npx playwright-core install webkit`.
 
 ## Si el dev server se vuelve loco

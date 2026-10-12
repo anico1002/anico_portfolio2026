@@ -32,22 +32,25 @@ export function scatter(): Scatter {
 
 export default function LogoLetters({ progress, spread, className = "" }: { progress: number; spread: Scatter; className?: string }) {
   const k = 1 - Math.min(1, Math.max(0, progress));
+  // Cada letra es su propio <svg> (mismo lienzo, apilados): Safari no aplica `filter` CSS a los
+  // trazos de dentro de un SVG, solo al elemento entero. Desplazamiento en % del alto del logo.
   return (
-    <svg viewBox="0 0 439 96" className={`overflow-visible ${className}`} aria-hidden>
+    <span className={`relative inline-block aspect-[439/96] ${className}`} aria-hidden>
       {LETTERS.map((l, i) => (
-        <path
+        <svg
           key={l.key}
-          d={l.d}
-          fill="currentColor"
-          className="logo-letter"
+          viewBox="0 0 439 96"
+          className="logo-letter absolute inset-0 h-full w-full overflow-visible"
           style={{
             ["--i" as string]: i,
-            transform: `translate(${spread[i][0] * k}px, ${spread[i][1] * k}px)`,
-            filter: `blur(${(k * 20).toFixed(2)}px)`, // unidades del dibujo: 20 ≈ 4,5 px en pantalla, como el hover
-            opacity: 0.35 + 0.65 * (1 - k),
+            transform: `translateY(${((spread[i][1] * k) / 96) * 100}%)`,
+            filter: `blur(${(k * 5).toFixed(2)}px)`,
+            opacity: 0.5 + 0.5 * (1 - k),
           }}
-        />
+        >
+          <path d={l.d} fill="currentColor" />
+        </svg>
       ))}
-    </svg>
+    </span>
   );
 }
