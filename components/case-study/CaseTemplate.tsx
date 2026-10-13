@@ -214,7 +214,8 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
             )}
           </div>
           {body && (
-            <FadeIn className={`col-span-12 md:col-span-4 md:mt-10 ${flip ? "md:col-start-2" : "md:col-start-8"}`}>
+            // El texto, debajo y a la derecha del titular (nunca a su izquierda: se leería antes).
+            <FadeIn className={`col-span-12 md:col-span-4 md:mt-10 ${flip ? "md:col-start-9" : "md:col-start-8"}`}>
               <p className={`text-[var(--case-muted)] ${tBody}`}>{body}</p>
             </FadeIn>
           )}

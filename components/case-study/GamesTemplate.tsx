@@ -140,10 +140,11 @@ function Stack({ items, bleed, label }: { items: GameMedia[]; bleed?: boolean; l
     aburrido»), cuatro maneras que se van turnando, con las posiciones de rejilla del resto de la
     web y su asimetría:
     0 · titular a la izquierda (1–6) y la línea abajo a la derecha (8–11);
-    1 · titular a la derecha (7–12) y la línea debajo, a la izquierda (2–5);
+    1 · titular a la derecha (7–12) y la línea debajo, aún más a la derecha (9–12);
     2 · frase grande centrada (3–10) y la línea estrecha debajo, hacia la derecha (7–10);
     3 · titulillo suelto a la izquierda y el titular desplazado (5–11), con la línea debajo.
-    En móvil, todo en columna. */
+    Regla de lectura (2026-10-13): la línea va siempre debajo del titular y alineada con él o más a
+    la derecha, nunca a su izquierda (se leería antes que el titular). En móvil, todo en columna. */
 function BlockText({ n, b }: { n: number; b: ResolvedGameBlock }) {
   const v = (n - 1) % 4;
   const eyebrow = (
@@ -173,7 +174,7 @@ function BlockText({ n, b }: { n: number; b: ResolvedGameBlock }) {
           {eyebrow}
           {title("mt-3 t-title")}
         </div>
-        {body("col-span-12 md:col-span-4 md:col-start-2 md:row-start-2 md:mt-6")}
+        {body("col-span-12 md:col-span-4 md:col-start-9 md:mt-6")}
       </div>
     );
   if (v === 2)
