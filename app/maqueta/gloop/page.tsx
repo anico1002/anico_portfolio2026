@@ -1,7 +1,6 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
-import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import {
   Caption,
@@ -16,9 +15,8 @@ import {
   WindowReveal,
 } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
-import RollText from "@/components/case-study/RollText";
-import Arrow from "@/components/case-study/Arrow";
 import Lines from "@/components/case-study/Lines";
+import SiteFooter from "@/components/case-study/SiteFooter";
 
 /* Maqueta del caso de estudio de Gloop.
    Cajas y móviles grises = imágenes/vídeos que produce Alberto; el texto es borrador
@@ -395,15 +393,11 @@ export default function GloopCase() {
         </div>
       </section>
 
-      <footer className="mt-36 overflow-hidden pb-10 md:mt-56">
+      <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name="El Reto MasterChef" href="/maqueta/elreto-masterchef" thumb="/projects/elreto-masterchef/ElReto_thumb.png" />
-        <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
-          <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · 2026</p>
-          <TLink href="/maqueta/contacto" className="inline-flex items-center gap-3 t-title font-medium">
-            <RollText text="Hablemos" /> <Arrow />
-          </TLink>
-        </div>
-      </footer>
+      </section>
+      {/* Pie común (E2): «¿Hablamos?» + franja con email, LinkedIn y volver arriba. */}
+      <SiteFooter />
     </main>
   );
 }

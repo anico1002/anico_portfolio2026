@@ -1,9 +1,8 @@
-import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import { FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
-import RollText from "@/components/case-study/RollText";
 import Lines from "@/components/case-study/Lines";
+import SiteFooter from "@/components/case-study/SiteFooter";
 
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
    plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto.
@@ -99,16 +98,7 @@ export default function About() {
         </div>
       </section>
 
-      <footer className={`mt-40 pb-12 md:mt-64 ${wrap}`}>
-        <FadeIn>
-          <TLink
-            href="/maqueta/contacto"
-            className="block t-d2"
-          >
-            <RollText text="¿Hablamos?" />
-          </TLink>
-        </FadeIn>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

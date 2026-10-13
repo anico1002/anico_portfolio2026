@@ -1,7 +1,6 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
-import { TLink } from "@/components/case-study/Portal";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
@@ -19,10 +18,10 @@ import {
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import type { CaseCopy } from "@/lib/maqueta/cases";
 import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
-import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
 import { invText } from "@/components/case-study/invText";
 import Lines from "@/components/case-study/Lines";
+import SiteFooter from "@/components/case-study/SiteFooter";
 
 /* Plantilla de caso de la maqueta: el mismo lenguaje que Gloop (máscaras y curvas de
    Metalab, parallax de Yakushev) alimentado por lib/maqueta/cases.ts + los medios de
@@ -425,15 +424,11 @@ export default function CaseTemplate({
       </section>
 
       {/* 6 · Siguiente caso + contacto */}
-      <footer className="mt-36 overflow-hidden pb-10 md:mt-56">
+      <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name={next.name} href={next.href} thumb={next.thumb} />
-        <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
-          <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · {new Date().getFullYear()}</p>
-          <TLink href="/maqueta/contacto" className="inline-flex items-center gap-3 t-title font-medium">
-            <RollText text="Hablemos" /> <Arrow />
-          </TLink>
-        </div>
-      </footer>
+      </section>
+      {/* Pie común (E2): «¿Hablamos?» + franja con email, LinkedIn y volver arriba. */}
+      <SiteFooter />
     </main>
   );
 }

@@ -5,6 +5,8 @@ import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
 import { invText } from "@/components/case-study/invText";
 import Lines from "@/components/case-study/Lines";
+import { EMAIL, LINKEDIN } from "@/lib/maqueta/contact";
+import SiteFooter from "@/components/case-study/SiteFooter";
 
 /* Contacto: email y LinkedIn de public/profile.txt; texto del bloque [contact].
    Escala y rejilla de las homes (repaso del 2026-10-13): titular en `t-hero` como la intro de las
@@ -14,8 +16,6 @@ const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 
-const EMAIL = "anico.es@gmail.com";
-const LINKEDIN = "https://es.linkedin.com/in/anico";
 
 export default function Contact() {
   return (
@@ -39,7 +39,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className={`mt-24 pb-12 ${wrap}`}>
+      <section className={`mt-24 ${wrap}`}>
         <FadeIn delay={STAGGER}>
           <ul className="border-t border-[var(--case-line)]">
             {[
@@ -63,6 +63,7 @@ export default function Contact() {
           </ul>
         </FadeIn>
       </section>
+      <SiteFooter cta={false} />
     </main>
   );
 }

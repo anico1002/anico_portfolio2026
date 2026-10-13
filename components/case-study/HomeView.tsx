@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import HomeHero from "@/components/case-study/HomeHero";
 import RollText from "@/components/case-study/RollText";
@@ -19,6 +18,7 @@ import {
 } from "@/components/case-study/primitives";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
+import SiteFooter from "@/components/case-study/SiteFooter";
 
 /* Home de una línea de trabajo (Product o Games). Composición de la maqueta del
    2026-10-11: titular, primer proyecto con el párrafo abajo a la derecha, cifras gigantes
@@ -214,16 +214,7 @@ export default function HomeView({
         </section>
       )}
 
-      <footer className={`mt-40 pb-12 md:mt-64 ${wrap}`}>
-        <FadeIn>
-          <TLink
-            href="/maqueta/contacto"
-            className="block t-d2"
-          >
-            <RollText text="¿Hablamos?" />
-          </TLink>
-        </FadeIn>
-      </footer>
+      <SiteFooter />
     </motion.main>
   );
 }

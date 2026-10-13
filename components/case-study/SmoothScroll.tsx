@@ -26,6 +26,12 @@ export const scrollLock = {
   },
 };
 
+/** Volver arriba con el mismo scroll suavizado (o de golpe sin movimiento reducido). */
+export function scrollToTop() {
+  if (lenis) lenis.scrollTo(0, { duration: 1.5, easing: (t) => (t < 0.5 ? 8 * t ** 4 : 1 - (-2 * t + 2) ** 4 / 2) });
+  else window.scrollTo({ top: 0 });
+}
+
 export default function SmoothScroll() {
   const pathname = usePathname();
 

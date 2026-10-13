@@ -5,6 +5,7 @@ import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
 import PortalLayer from "@/components/case-study/Portal";
 import Boot from "@/components/case-study/Boot";
+import AnimatedFavicon from "@/components/case-study/AnimatedFavicon";
 import "./system.css";
 
 // Tipografía de la maqueta (2026-10-12): Instrument Sans para todo y Playfair
@@ -21,6 +22,8 @@ const serif = Playfair({ variable: "--font-case-serif", subsets: ["latin"], styl
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
   robots: { index: false, follow: false },
+  // La «a» fija; AnimatedFavicon la hace rodar por las letras del logo (E5).
+  icons: { icon: "/maqueta/favicon.svg" },
 };
 
 // Fondo negro/blanco puros con selector sol/luna en el menú (2026-10-12; antes cada caso
@@ -62,6 +65,7 @@ export default function MaquetaLayout({ children }: { children: React.ReactNode 
       <PortalLayer />
       {/* Primera carga: tapa la página hasta que llega la tipografía (D6). */}
       <Boot />
+      <AnimatedFavicon />
     </div>
   );
 }
