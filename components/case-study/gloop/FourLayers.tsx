@@ -2,19 +2,20 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
+import Lines from "@/components/case-study/Lines";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
 
-/* Las cuatro capas (Gloop, canon del 11-oct-2026): «native plumbing, branded surfaces, custom signature
-   moments». El usuario ya conoce la UX nativa y se lee profesional; todo a medida pierde eso, todo nativo
-   pierde la marca. Vista explosionada: cuatro planos separados en profundidad que, con el scroll, se juntan
+/* Por capas (Gloop): lo nativo donde se espera, la marca donde se luce. El usuario ya conoce los gestos
+   de su móvil y eso se lee profesional; todo a medida pierde eso, todo nativo pierde la marca. Copy
+   rehecho el 2026-10-13 (fuera «fontanería»); los cuatro pasos están en revisión con Alberto. Vista explosionada: cuatro planos separados en profundidad que, con el scroll, se juntan
    y giran hasta quedar de frente formando una sola pantalla. Todo recreado con los tokens reales. */
 
 const LAYERS = [
-  { n: "1", title: "Comportamiento", body: "Siempre nativo: navegación, gestos, hojas y scroll como los espera iOS." },
-  { n: "2", title: "Controles", body: "Nativos, vestidos solo con APIs públicas. El cristal, solo en los botones." },
-  { n: "3", title: "Superficies", body: "La marca: fondos, brillos y tarjetas planas que nunca parecen botones." },
-  { n: "4", title: "Momentos firma", body: "Lo propio, solo donde suma: juegos, el Revelado, el visor, la ruleta." },
+  { n: "1", title: "Se siente iPhone", body: "Gestos y navegación que ya sabes usar." },
+  { n: "2", title: "Viste de Gloop", body: "Los controles de siempre, con la ropa de la marca." },
+  { n: "3", title: "Brilla de noche", body: "Fondos, brillos y tarjetas con luz propia." },
+  { n: "4", title: "Se suelta", body: "Los juegos, donde la marca hace lo que quiere." },
 ];
 
 const W = 300;
@@ -134,8 +135,8 @@ export default function FourLayers() {
       <div className={`${reduce ? "" : "sticky top-0"} flex min-h-screen items-center overflow-hidden px-4 py-20 md:px-6`}>
         <div className="grid w-full grid-cols-12 items-center gap-x-4 gap-y-8 md:gap-x-6">
           <div className="col-span-12 md:col-span-4">
-            <p className="t-label t-tag text-[var(--case-muted)]">04 · Las cuatro capas</p>
-            <p className="mt-4 t-title">Fontanería nativa, superficies de marca y momentos propios.</p>
+            <p className="t-label t-tag text-[var(--case-muted)]">Por capas</p>
+            <Lines className="mt-4 t-title">Lo nativo, donde se espera. La marca, donde se luce.</Lines>
             {/* En móvil no cabe con la pila: solo el titular (cada plano lleva su etiqueta). */}
             <ol className="mt-8 hidden space-y-5 md:block">
               {LAYERS.map((l) => (

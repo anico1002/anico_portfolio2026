@@ -70,7 +70,7 @@ export default function NewsCase({ next: n }: { next: { name: string; href: stri
               El día se acaba.
             </Lines>
           </div>
-          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-16">
+          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
               Un lector de noticias para iPhone y Apple Watch, hecho para mí. Los lectores de feeds son infinitos: nunca
               sabes si lees algo de hoy o de hace tres meses, y acabas por no abrirlos. 7news decide cuándo has

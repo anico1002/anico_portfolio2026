@@ -2,12 +2,15 @@
 
 import { animate, motion, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Lines from "@/components/case-study/Lines";
+import { FadeIn } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
 
-/* Momentos firma (Gloop): la capa 4, el único sitio donde la marca hace lo que quiere. La ruleta de
-   la app decide el juego de la noche; aquí, una tira de portadas (las de la propia app) que gira,
-   frena y se para en un juego, una y otra vez mientras se ve. */
+/* Momentos firma (Gloop): los juegos, donde la marca se suelta. La ruleta de la app decide el juego de
+   la noche; aquí, una tira de portadas que gira, frena y se para en un juego, una y otra vez mientras
+   se ve. 2026-10-13: cada portada con su filtro de color. La forma de enseñarlo (otro lateral más tras
+   el proceso) está en revisión: coverflow, cartas verticales o ruleta a pantalla completa. */
 
 const GAMES = [
   { name: "Culpable", img: "/maqueta/gloop/media/photo-fingersup.jpg", color: G.accent },
@@ -73,14 +76,15 @@ export default function GameRoulette() {
   return (
     <div className={geist.variable}>
       <div className="grid grid-cols-12 gap-x-4 px-4 md:gap-x-6 md:px-6">
-        <div className="col-span-12 md:col-span-6 md:col-start-2">
-          <p className="t-label t-tag text-[var(--case-muted)]">08 · Momentos firma</p>
-          <p className="mt-4 t-statement">El único sitio donde la marca hace lo que quiere.</p>
+        <div className="col-span-12 md:col-span-7">
+          <p className="t-label t-tag text-[var(--case-muted)]">Momentos firma</p>
+          <Lines className="mt-4 t-statement">Cuando toca jugar, la marca se suelta.</Lines>
+          <FadeIn className="mt-8 max-w-[44ch]">
+            <p className="t-body text-[var(--case-muted)]">
+              La ruleta decide el juego de la noche. Cada uno, con su color y su propia personalidad.
+            </p>
+          </FadeIn>
         </div>
-        <p className="col-span-12 mt-6 t-body text-[var(--case-muted)] md:col-span-3 md:col-start-9 md:mt-16">
-          La ruleta elige el juego de la noche. Los juegos, el Revelado de las fotos y el visor son la cuarta capa:
-          ahí la interfaz deja de ser nativa a propósito.
-        </p>
       </div>
       <div ref={box} className="relative mt-16 overflow-hidden py-6 md:mt-24" style={{ background: G.base }}>
         <motion.div className="flex w-max gap-4" style={{ x }}>
@@ -94,7 +98,10 @@ export default function GameRoulette() {
                 style={{ borderRadius: "0 18px 18px 18px" }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={g.img} alt="" loading="lazy" className="h-full w-full object-cover" />
+                <img src={g.img} alt="" loading="lazy" className="h-full w-full object-cover" style={{ filter: "grayscale(1) contrast(1.1)" }} />
+                {/* Filtro de color del juego: la foto en grises teñida con su color. */}
+                <span aria-hidden className="absolute inset-0" style={{ background: g.color, mixBlendMode: "multiply" }} />
+                <span aria-hidden className="absolute inset-0" style={{ background: g.color, mixBlendMode: "soft-light", opacity: 0.6 }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
                 <figcaption
                   className="absolute bottom-4 left-5 text-[clamp(1.6rem,3vw,2.6rem)] font-extrabold leading-none text-white"

@@ -2,21 +2,22 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Lines from "@/components/case-study/Lines";
+import { FadeIn, Parallax } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
 
-/* El color significa algo (Gloop): en la app el color no decora, dice. Cuatro significados del
-   README nativo —«brand = en directo / la voz de GLOOP, lima = lo tuyo, acento = algo te espera,
-   danger = irreversible»— y una tarjeta de equipo recreada con los tokens reales. Cada chip enciende
-   la parte de la tarjeta que lleva ese color; el resto se apaga. Con el ratón se elige; si no, va
-   pasando solo mientras se ve. */
+/* El color habla (Gloop): en la app el color no decora, dice. Tres significados (en directo, lo tuyo,
+   algo te espera; el rojo de «irreversible» se quitó el 2026-10-13 por feedback) y una tarjeta de
+   equipo en cristal, recreada con los tokens reales, sobre una foto de fiesta desenfocada. Cada chip
+   enciende la parte de la tarjeta que lleva ese color; el resto se apaga. Con el ratón se elige; si
+   no, va pasando solo mientras se ve. */
 
 const MEANINGS = [
   { key: "live", label: "En directo", color: G.brand },
   { key: "yours", label: "Lo tuyo", color: G.lime },
   { key: "waiting", label: "Algo te espera", color: G.accent },
-  { key: "danger", label: "Irreversible", color: G.danger },
 ] as const;
 type Key = (typeof MEANINGS)[number]["key"];
 
@@ -25,7 +26,17 @@ const AV = ["/maqueta/gloop/media/photo-profile.jpg", "/maqueta/gloop/media/phot
 function TeamCard({ on }: { on: Key }) {
   const dim = (k: Key) => ({ opacity: on === k ? 1 : 0.28, transition: `opacity ${DUR.base}s cubic-bezier(${EASE.inOut.join(",")})` });
   return (
-    <div className="relative w-full max-w-[26rem] overflow-hidden p-5" style={{ background: G.fill6, borderRadius: "0 18px 18px 18px", fontFamily: "var(--font-gloop)" }}>
+    <div
+      className="relative w-full max-w-[26rem] overflow-hidden p-5"
+      style={{
+        background: "rgba(255,255,255,0.1)",
+        backdropFilter: "blur(24px) saturate(160%)",
+        WebkitBackdropFilter: "blur(24px) saturate(160%)",
+        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.22), 0 30px 60px -30px rgba(0,0,0,0.7)",
+        borderRadius: "0 18px 18px 18px",
+        fontFamily: "var(--font-gloop)",
+      }}
+    >
       {/* En directo: el brillo diagonal de la tarjeta cuando el equipo tiene la noche activa. */}
       <span
         aria-hidden
@@ -62,10 +73,6 @@ function TeamCard({ on }: { on: Key }) {
           Te deben 34,26 €
         </span>
       </div>
-      {/* Irreversible: la acción destructiva. */}
-      <p className="relative mt-5 text-center text-[15px] font-semibold" style={{ ...dim("danger"), color: "#FF5A57" }}>
-        Salir del equipo
-      </p>
     </div>
   );
 }
@@ -94,8 +101,8 @@ export default function ColorMeaning() {
   return (
     <div ref={ref} className={`grid grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6 ${geist.variable}`}>
       <div className="col-span-12 md:col-span-5">
-        <p className="t-label t-tag text-[var(--case-muted)]">03 · El color</p>
-        <p className="mt-4 t-statement">En Gloop el color no decora: dice algo.</p>
+        <p className="t-label t-tag text-[var(--case-muted)]">El color</p>
+        <Lines className="mt-4 t-statement">En Gloop, el color no decora: habla.</Lines>
         <div className="mt-10 flex flex-wrap gap-2" onMouseLeave={() => setHold(false)}>
           {MEANINGS.map((m) => (
             <button
@@ -112,22 +119,33 @@ export default function ColorMeaning() {
             </button>
           ))}
         </div>
-        <p className="mt-6 max-w-[38ch] t-body text-[var(--case-muted)]">
-          Violeta para lo que pasa ahora, lima para lo que es tuyo, fucsia para lo que te espera y rojo solo
-          para lo que no tiene vuelta atrás. El logo es fucsia, pero la interfaz habla en violeta.
-        </p>
+        <FadeIn className="mt-6 max-w-[38ch]">
+          <p className="t-body text-[var(--case-muted)]">
+            Cada color tiene un trabajo: el violeta enciende lo que pasa ahora, el lima señala lo que es tuyo y
+            el fucsia avisa de lo que te espera. La interfaz habla en violeta.
+          </p>
+        </FadeIn>
       </div>
-      <div className="col-span-12 md:col-span-6 md:col-start-7">
-        <div className="relative flex min-h-[28rem] items-center justify-center p-6 md:p-12" style={{ background: G.base }}>
+      <Parallax speed={90} className="m-bleed col-span-12 md:col-span-6 md:col-start-7">
+        <div className="relative flex min-h-[28rem] items-center justify-center overflow-hidden p-6 md:min-h-[34rem] md:p-12" style={{ background: G.base }}>
+          {/* Foto de fiesta desenfocada: el cristal de la tarjeta necesita algo detrás. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/maqueta/gloop/media/party-ev6.jpg"
+            alt=""
+            aria-hidden
+            className="gloop-drift absolute inset-0 h-full w-full object-cover"
+            style={{ filter: "blur(18px) brightness(0.55) saturate(1.2)" }}
+          />
           <motion.span
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-            animate={{ background: MEANINGS.find((m) => m.key === on)!.color, opacity: 0.35 }}
+            className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+            animate={{ background: MEANINGS.find((m) => m.key === on)!.color, opacity: 0.4 }}
             transition={{ duration: DUR.base, ease: EASE.inOut }}
           />
           <TeamCard on={on} />
         </div>
-      </div>
+      </Parallax>
     </div>
   );
 }

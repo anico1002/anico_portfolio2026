@@ -322,3 +322,12 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 @media (max-width: 767px) {
   .m-bleed { margin-inline: -1rem; }
 }
+
+/* Deriva lenta de las fotos de fiesta de Gloop (2026-10-13): un zoom muy suave de ida y vuelta para
+   que las fotos de ambiente parezcan vivas sin ser vídeo. Con movimiento reducido, quietas. */
+@keyframes gloop-drift {
+  from { transform: scale(1.14) translate(1.5%, -1%); }
+  to { transform: scale(1.02) translate(-1.5%, 1%); }
+}
+.gloop-drift { animation: gloop-drift 16s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .gloop-drift { animation: none; transform: scale(1.05); } }

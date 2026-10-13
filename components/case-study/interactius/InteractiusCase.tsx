@@ -83,7 +83,7 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
               Un manual de marca que no se lee: se usa.
             </Lines>
           </div>
-          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-32">
+          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
               Interactius, una consultora de estrategia, experiencias y transformación cultural, renovó su marca en
               2026. El manual se convirtió en una herramienta: una sola fuente de datos alimenta la web en tres

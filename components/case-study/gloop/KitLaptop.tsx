@@ -1,26 +1,47 @@
 "use client";
 
-import LazyVideo from "@/components/case-study/LazyVideo";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Lines from "@/components/case-study/Lines";
-import { FadeIn, Parallax } from "@/components/case-study/primitives";
-import { STAGGER } from "@/lib/maqueta/motion";
-import { G } from "./tokens";
+import { FadeIn } from "@/components/case-study/primitives";
+import { useReduce } from "@/lib/maqueta/reduce";
+import { DUR, EASE } from "@/lib/maqueta/motion";
+import { G, geist } from "./tokens";
 
-/* El UI kit de Gloop (2026-10-13: «una parte importante es el UI kit… hay demasiado móvil»). El kit
-   web real (gloop-app.vercel.app/UI-kit) recorrido fotograma a fotograma y montado en vídeo
-   (public/maqueta/gloop/media/kit.mp4, sin versionar), dentro de un portátil dibujado en CSS sobre
-   los brillos de la marca. */
+/* El design system de Gloop (rehecho el 2026-10-13 con el feedback de Alberto: «parte importante, que no
+   pase tan rápido»). Los textos llegan sobre negro; después, parada de scroll: el portátil se queda fijo
+   a la derecha, se enciende el brillo violeta y fucsia, y a la izquierda pasan Fundamentos, Componentes y
+   Handoff. Cada palabra salta a su tramo del recorrido del kit (kit.mp4, sin versionar: 0–14 s
+   fundamentos, 14–21 s componentes); para Handoff, sobre la pantalla sube un panel con código.
+   En móvil (o con movimiento reducido) no hay parada: los tres pasos van en lista bajo el portátil. */
+
+const STEPS = [
+  { title: "Fundamentos", body: "Color, tipografía, espaciado, formas, cristal y movimiento.", from: 0, to: 13.8 },
+  { title: "Componentes", body: "Botones, chips, tarjetas, campos y navegación para iOS y Android.", from: 14.2, to: 21.2 },
+  { title: "Handoff", body: "Tokens y código listos para copiar, y todo el sistema legible por IA.", from: 14.2, to: 21.2 },
+];
+
+const CODE = [
+  ["struct", " GloopButton: View {"],
+  ["  let", " title: String"],
+  ["  var", " style: Style = .primary"],
+  ["  var", " body: some View {"],
+  ["", "    Text(title)"],
+  ["", "      .font(.gloop(.nav))"],
+  ["", "      .frame(height: 64)"],
+  ["", "      .background(.white, in: .capsule)"],
+  ["", "  }"],
+  ["", "}"],
+];
 
 function Laptop({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-[64rem]">
-      {/* Pantalla con su marco */}
+    <div className="mx-auto w-full">
       <div className="rounded-t-[1.4rem] bg-[#0d0d0f] p-[1.6%] pb-[2.2%] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] ring-1 ring-white/10">
         <div className="relative overflow-hidden rounded-[0.4rem] bg-black" style={{ aspectRatio: "16 / 10" }}>
           {children}
         </div>
       </div>
-      {/* Base */}
       <div className="relative mx-[-6%] h-[1.1rem] rounded-b-[1.2rem] bg-gradient-to-b from-[#c9cbd0] to-[#8e9096] md:h-[1.5rem]">
         <span className="absolute left-1/2 top-0 h-[40%] w-[14%] -translate-x-1/2 rounded-b-[0.6rem] bg-[#a5a7ad]" />
       </div>
@@ -28,47 +49,140 @@ function Laptop({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function KitLaptop() {
+/** Vídeo del kit que se queda dentro del tramo del paso activo (salta al principio del tramo al cambiar). */
+function KitVideo({ step, play }: { step: number; play: boolean }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const s = STEPS[step];
+    if (v.currentTime < s.from || v.currentTime > s.to) v.currentTime = s.from;
+    const keep = () => {
+      if (v.currentTime > s.to || v.currentTime < s.from - 0.5) v.currentTime = s.from;
+    };
+    v.addEventListener("timeupdate", keep);
+    if (play) v.play().catch(() => {});
+    else v.pause();
+    return () => v.removeEventListener("timeupdate", keep);
+  }, [step, play]);
   return (
-    <section className="relative mt-36 overflow-hidden py-28 md:mt-56 md:py-40" style={{ background: G.base }}>
-      <span aria-hidden className="pointer-events-none absolute -left-40 top-10 h-[36rem] w-[36rem] rounded-full opacity-50 blur-[120px]" style={{ background: G.brandDeep }} />
-      <span aria-hidden className="pointer-events-none absolute -right-40 bottom-0 h-[30rem] w-[30rem] rounded-full opacity-30 blur-[120px]" style={{ background: G.accent }} />
-      <div className="relative grid grid-cols-12 gap-x-4 px-4 text-white md:gap-x-6 md:px-6">
-        <div className="col-span-12 md:col-span-6">
+    <video
+      ref={ref}
+      className="absolute inset-0 h-full w-full object-cover"
+      src="/maqueta/gloop/media/kit.mp4"
+      poster="/maqueta/gloop/media/kit-poster.jpg"
+      muted
+      playsInline
+      loop
+      preload="metadata"
+      aria-label="Recorrido por el design system de Gloop"
+    />
+  );
+}
+
+export default function KitLaptop() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReduce();
+  const [wide, setWide] = useState(false);
+  const [step, setStep] = useState(0);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const on = () => setWide(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  const pinned = wide && !reduce;
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  useMotionValueEvent(p, "change", (v) => {
+    setInView(v > 0 && v < 1);
+    setStep(v < 0.38 ? 0 : v < 0.68 ? 1 : 2);
+  });
+  // El brillo se enciende al llegar la parada y se apaga al soltarla.
+  const glow = useTransform(p, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
+  const laptopX = useTransform(p, [0, 0.12], ["6%", "0%"]);
+
+  return (
+    <section className={`mt-36 md:mt-56 ${geist.variable}`}>
+      {/* Los textos, sobre negro. */}
+      <div className="grid grid-cols-12 gap-x-4 px-4 md:gap-x-6 md:px-6">
+        <div className="col-span-12 md:col-span-8">
           <FadeIn>
-            <p className="t-label t-tag text-white/60">06 · El UI kit</p>
+            <p className="t-label t-tag text-[var(--case-muted)]">Design system</p>
           </FadeIn>
-          <Lines as="h2" className="mt-4 t-statement" delay={STAGGER}>
-            Un sistema que se lee, se copia y se pega en el código.
+          <Lines as="h2" className="mt-4 t-statement">
+            Un design system que diseño y desarrollo leen igual.
           </Lines>
-        </div>
-        <FadeIn delay={2 * STAGGER} className="col-span-12 mt-6 md:col-span-4 md:col-start-8 md:mt-24">
-          <p className="t-body text-white/70">
-            Fundamentos, componentes y patrones con su código en Swift y Kotlin, listo para copiar. Y el sistema
-            entero en un solo Markdown preparado para IA: se pega en Cursor o en Claude y basta con pedir
-            «rediseña esta pantalla con el sistema de Gloop».
-          </p>
-        </FadeIn>
-      </div>
-      <div className="relative mt-16 px-4 md:mt-24 md:px-16">
-        <Parallax speed={80}>
-          <Laptop>
-            <LazyVideo className="absolute inset-0 h-full w-full object-cover" src="/maqueta/gloop/media/kit.mp4" poster="/maqueta/gloop/media/kit-poster.jpg" aria-label="Recorrido por el UI kit de Gloop" />
-          </Laptop>
-        </Parallax>
-      </div>
-      <div className="relative mt-16 grid grid-cols-12 gap-x-4 px-4 text-white md:mt-24 md:gap-x-6 md:px-6">
-        {[
-          ["Fundamentos", "Logo, color, tipografía, espaciado, radios, imagen, cristal y movimiento."],
-          ["Componentes", "Botones, chips, campos, tarjetas, barra de pestañas iOS y Material 3, avatares…"],
-          ["Para el equipo", "Tokens en JSON, Swift y Kotlin, y el prototipo en vivo con su QR."],
-        ].map(([t, d], k) => (
-          <FadeIn key={t} delay={k * STAGGER} className={`col-span-12 mt-8 md:col-span-3 md:mt-0 ${k === 0 ? "md:col-start-2" : ""} ${k === 2 ? "md:col-start-9" : ""}`}>
-            <p className="t-label t-tag text-white/50">0{k + 1}</p>
-            <p className="mt-2 t-lead">{t}</p>
-            <p className="mt-2 t-small text-white/60">{d}</p>
+          <FadeIn className="mt-8 max-w-[46ch]">
+            <p className="t-body text-[var(--case-muted)]">
+              Todo el lenguaje de Gloop, ordenado y listo para producción. Una pantalla nueva ya nace con su ADN.
+            </p>
           </FadeIn>
-        ))}
+        </div>
+      </div>
+
+      {/* La parada. */}
+      <div ref={ref} className="relative" style={pinned ? { height: "340vh" } : undefined}>
+        <div className={pinned ? "sticky top-0 flex h-screen items-center overflow-hidden" : "relative overflow-hidden py-20"}>
+          <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ opacity: pinned ? glow : 1 }}>
+            <span className="absolute -left-40 top-[10%] h-[36rem] w-[36rem] rounded-full opacity-60 blur-[120px]" style={{ background: G.brandDeep }} />
+            <span className="absolute -right-32 bottom-[5%] h-[32rem] w-[32rem] rounded-full opacity-40 blur-[120px]" style={{ background: G.accent }} />
+          </motion.div>
+          <div className="relative grid w-full grid-cols-12 items-center gap-x-4 gap-y-12 px-4 md:gap-x-6 md:px-6">
+            {/* Los tres pasos: en escritorio, uno encendido cada vez. */}
+            <ol className="order-2 col-span-12 space-y-8 md:order-1 md:col-span-3 md:space-y-10">
+              {STEPS.map((s, k) => {
+                const on = !pinned || step === k;
+                return (
+                  <li key={s.title}>
+                    <motion.p
+                      className="t-title"
+                      animate={{ opacity: on ? 1 : 0.25 }}
+                      transition={{ duration: DUR.base, ease: EASE.out }}
+                    >
+                      {s.title}
+                    </motion.p>
+                    <motion.p
+                      className="mt-2 max-w-[30ch] t-small text-[var(--case-muted)]"
+                      animate={{ opacity: on ? 1 : 0, height: on ? "auto" : 0 }}
+                      transition={{ duration: DUR.base, ease: EASE.inOut }}
+                    >
+                      {s.body}
+                    </motion.p>
+                  </li>
+                );
+              })}
+            </ol>
+            <motion.div className="order-1 col-span-12 md:order-2 md:col-span-7 md:col-start-5 md:px-[4%]" style={pinned ? { x: laptopX } : undefined}>
+              <Laptop>
+                <KitVideo step={pinned ? step : 0} play={!pinned || inView} />
+                {/* Handoff: el código sube sobre la pantalla. */}
+                <motion.pre
+                  className="absolute bottom-[6%] right-[4%] w-[46%] overflow-hidden rounded-[10px] p-[2.2%] text-[clamp(8px,0.9vw,13px)] leading-relaxed shadow-2xl"
+                  style={{
+                    background: "rgba(11,6,19,0.82)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                    boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.14)",
+                    color: G.text70,
+                    fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+                  }}
+                  initial={false}
+                  animate={{ opacity: pinned && step === 2 ? 1 : 0, y: pinned && step === 2 ? 0 : 30 }}
+                  transition={{ duration: DUR.base, ease: EASE.out }}
+                >
+                  {CODE.map(([kw, rest], i) => (
+                    <span key={i} className="block whitespace-pre">
+                      <span style={{ color: G.brand }}>{kw}</span>
+                      {rest}
+                    </span>
+                  ))}
+                </motion.pre>
+              </Laptop>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

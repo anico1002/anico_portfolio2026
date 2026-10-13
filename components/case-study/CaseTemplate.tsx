@@ -338,7 +338,7 @@ export default function CaseTemplate({
                 {c.tagline}
               </Lines>
             </div>
-            <div className="col-span-12 md:col-span-4 md:col-start-9 md:mt-56">
+            <div className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
               <Lines as="h2" className={tTitle}>
                 {invText(c.question)}
               </Lines>

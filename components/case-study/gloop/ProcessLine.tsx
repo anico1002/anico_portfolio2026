@@ -3,38 +3,64 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import LazyVideo from "@/components/case-study/LazyVideo";
+import Lines from "@/components/case-study/Lines";
+import { Placeholder } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
 
-/* Del diseño al código (Gloop): la línea del proceso con sus fechas reales (git y NOTES del repo,
-   2026). En escritorio, la sección se queda fija y el scroll vertical la recorre en horizontal; en
-   móvil (o con movimiento reducido), es una lista vertical. */
+/* El proceso (Gloop; rehecho el 2026-10-13 con el feedback de Alberto: sin fechas, que envejecen mal y no
+   le importan a quien visita). Los pasos de creación, del benchmark a la app final. En escritorio, la
+   sección se queda fija y el scroll vertical la recorre en horizontal; en móvil (o con movimiento
+   reducido), es una lista vertical. Benchmark y wireframes esperan imagen de Alberto. */
 
-type Step = { date: string; title: string; body: string; media?: { src: string; video?: boolean }; code?: string[] };
+type Step = {
+  title: string;
+  body: string;
+  media?: { src: string; video?: boolean };
+  pending?: string;
+  mood?: boolean;
+  code?: string[];
+};
 
 const STEPS: Step[] = [
-  { date: "09 jun", title: "Arranca el rediseño", body: "De una app que ya existía en iOS y Android a un producto pensado desde cero." },
-  { date: "22 ago", title: "El test de campo", body: "Unas 500 descargas con un QR. Hallazgo: nadie sabía qué hacer al entrar.", media: { src: "/maqueta/gloop/media/photo-splash.jpg" } },
-  { date: "04 sep", title: "El giro", body: "Con el cliente: la app pasa a girar alrededor del equipo, no del evento." },
-  { date: "18 sep", title: "El kit, con el cliente", body: "El sistema completo, presentado al equipo de Gloop.", media: { src: "/maqueta/gloop/media/kit-poster.jpg" } },
-  { date: "21 sep", title: "La v3 en código", body: "Prototipo navegable con 10 escenarios sobre 15 pantallas de referencia.", media: { src: "/maqueta/gloop/media/prototipo.jpg" } },
-  { date: "04 oct", title: "Vídeos para el equipo", body: "Tres recorridos grabados del prototipo para alinear a todo el equipo.", media: { src: "/maqueta/gloop/media/flujo-dia.mp4", video: true } },
-  { date: "05 oct", title: "La app nativa", body: "La app entera en SwiftUI en un día, instalada en el iPhone.", media: { src: "/maqueta/gloop/media/nativa.mp4", video: true } },
+  { title: "Benchmark", body: "Qué hacen las apps de la noche, y qué se dejan por hacer.", pending: "Benchmark de apps de ocio nocturno" },
+  { title: "Wireframes", body: "Primero la estructura. El color, después.", pending: "Wireframes de los flujos principales" },
+  { title: "Dirección de arte", body: "Oscura, eléctrica y con ganas de fiesta.", mood: true },
+  { title: "Primeras pantallas", body: "La noche, convertida en interfaz.", media: { src: "/maqueta/gloop/media/prototipo.jpg" } },
+  { title: "Design system", body: "Todo el lenguaje, ordenado en un sistema.", media: { src: "/maqueta/gloop/media/kit-poster.jpg" } },
+  { title: "Prototipo", body: "Para sentirla antes de construirla.", media: { src: "/maqueta/gloop/media/flujo-dia.mp4", video: true } },
   {
-    date: "06 oct",
-    title: "Al repo de desarrollo",
-    body: "Primera entrega al repositorio del equipo: código, no maquetas.",
+    title: "Código",
+    body: "El diseño, traducido sin perder un píxel.",
     code: ["struct GloopButton: View {", "  let title: String", "  var style: Style = .primary", "  var body: some View {", "    Text(title)", "      .font(.gloop(.nav))", "      .frame(height: 64)", "      .background(.white, in: .capsule)", "  }", "}"],
   },
-  { date: "11 oct", title: "Segunda entrega", body: "Pulida al píxel sobre el simulador, con el canon de formas cerrado." },
+  { title: "App final", body: "Lista para salir de fiesta.", media: { src: "/maqueta/gloop/media/nativa.mp4", video: true } },
 ];
+
+/** Mini moodboard de la dirección de arte: tres fotos de noche y la paleta. */
+function Mood() {
+  const imgs = ["party-sonar", "party-ev3", "photo-xativometre"];
+  const sw = [G.brand, G.accent, G.lime, G.cyan];
+  return (
+    <div className="relative mt-6 grid aspect-[16/10] grid-cols-3 grid-rows-2 gap-1.5 overflow-hidden" style={{ background: G.base }}>
+      {imgs.map((n, k) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={n} src={`/maqueta/gloop/media/${n}.jpg`} alt="" loading="lazy" className={`h-full w-full object-cover ${k === 0 ? "col-span-2 row-span-2" : ""}`} />
+      ))}
+      <div className="absolute bottom-3 left-3 flex gap-1.5">
+        {sw.map((c) => (
+          <span key={c} className="h-6 w-6" style={{ background: c, borderRadius: "0 8px 8px 8px" }} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function StepCard({ s, i }: { s: Step; i: number }) {
   return (
     <article className="flex w-[78vw] shrink-0 flex-col md:w-[24rem]">
       <div className="flex items-baseline gap-3 border-t border-[var(--case-line)] pt-4">
         <span className="t-label t-tag text-[var(--case-muted)]">{String(i + 1).padStart(2, "0")}</span>
-        <span className="t-label t-tag">{s.date} · 2026</span>
       </div>
       <h3 className="mt-4 t-lead font-medium">{s.title}</h3>
       <p className="mt-2 t-small text-[var(--case-muted)]">{s.body}</p>
@@ -46,6 +72,12 @@ function StepCard({ s, i }: { s: Step; i: number }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={s.media.src} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           )}
+        </div>
+      )}
+      {s.mood && <Mood />}
+      {s.pending && (
+        <div className="mt-6">
+          <Placeholder ratio="16/10" label={s.pending} />
         </div>
       )}
       {s.code && (
@@ -88,8 +120,8 @@ export default function ProcessLine() {
     <div ref={ref} className={`relative ${geist.variable}`} style={pinned ? { height: `calc(100vh + ${dist}px)` } : undefined}>
       <div className={pinned ? "sticky top-0 flex h-screen flex-col justify-center overflow-hidden" : "py-10"}>
         <div className="px-4 md:px-6">
-          <p className="t-label t-tag text-[var(--case-muted)]">07 · Del diseño al código</p>
-          <p className="mt-4 max-w-[22ch] t-statement">Cuatro meses, de la idea al repo del equipo.</p>
+          <p className="t-label t-tag text-[var(--case-muted)]">El proceso</p>
+          <Lines className="mt-4 max-w-[22ch] t-statement">Del primer boceto a la app en tu mano.</Lines>
         </div>
         <motion.div
           ref={track}
@@ -97,7 +129,7 @@ export default function ProcessLine() {
           className={`mt-12 flex gap-8 px-4 md:mt-16 md:gap-12 md:px-6 ${pinned ? "w-max" : "flex-col"}`}
         >
           {STEPS.map((s, i) => (
-            <StepCard key={s.date} s={s} i={i} />
+            <StepCard key={s.title} s={s} i={i} />
           ))}
         </motion.div>
       </div>

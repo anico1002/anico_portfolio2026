@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Lines from "@/components/case-study/Lines";
+import { FadeIn, Parallax } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
@@ -9,13 +11,15 @@ import { G, geist } from "./tokens";
 /* El canon de formas (Gloop, 6-oct-2026). Todo sale del «imago», la esquina recta del isotipo: las
    tarjetas llevan radio 18 con la esquina de arriba a la izquierda recta, que rima con el logo; los
    avatares, el 30 % del lado; los botones, pastilla. Radios en múltiplos de 6. Una sola forma que se
-   transforma de una pieza a otra, con la curva del sistema. */
+   transforma de una pieza a otra, con la curva del sistema.
+   2026-10-13: radios todos en px (mezclar % y px hacía que la forma se deformara a medio camino) y
+   fuera el pie técnico bajo la imagen («muy dashboard»): aquí se enseña diseño, sin rótulos. */
 
 const SHAPES = [
-  { key: "imago", label: "Isotipo", note: "Un círculo con una esquina recta", w: 180, h: 180, r: "50% 50% 50% 0" },
-  { key: "card", label: "Tarjeta", note: "Radio 18 · arriba a la izquierda, recta", w: 260, h: 170, r: "0 18px 18px 18px" },
-  { key: "avatar", label: "Avatar", note: "Radio = 30 % del lado", w: 150, h: 150, r: "30%" },
-  { key: "cta", label: "Botón", note: "Pastilla · 64 de alto · uno blanco por pantalla", w: 280, h: 64, r: "999px" },
+  { key: "imago", w: 180, h: 180, r: "90px 90px 90px 0px" },
+  { key: "card", w: 260, h: 170, r: "0px 18px 18px 18px" },
+  { key: "avatar", w: 150, h: 150, r: "45px 45px 45px 45px" },
+  { key: "cta", w: 280, h: 64, r: "32px 32px 32px 32px" },
 ] as const;
 
 const RADII = [6, 12, 18, 24, 54];
@@ -41,7 +45,8 @@ export default function ImagoCanon() {
 
   return (
     <div ref={ref} className={`grid grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6 ${geist.variable}`}>
-      <div className="relative col-span-12 flex aspect-[4/3] items-center justify-center md:order-2 md:col-span-7 md:col-start-6" style={{ background: G.base }}>
+      <Parallax speed={90} className="m-bleed relative col-span-12 flex aspect-[4/3] items-center justify-center md:order-2 md:col-span-7 md:col-start-6" >
+      <div className="absolute inset-0 flex items-center justify-center" style={{ background: G.base }}>
         <motion.div
           className="relative overflow-hidden"
           animate={{ width: s.w, height: s.h, borderRadius: s.r }}
@@ -58,17 +63,17 @@ export default function ImagoCanon() {
             </span>
           )}
         </motion.div>
-        <p className="absolute bottom-5 left-5 text-[12px] uppercase tracking-[0.1em]" style={{ color: G.text50, fontFamily: "var(--font-gloop)" }}>
-          {s.label} · {s.note}
-        </p>
       </div>
+      </Parallax>
       <div className="col-span-12 md:order-1 md:col-span-4">
-        <p className="t-label t-tag text-[var(--case-muted)]">05 · La forma</p>
-        <p className="mt-4 t-title">Todas las formas salen de una esquina.</p>
-        <p className="mt-6 t-body text-[var(--case-muted)]">
-          La esquina recta del isotipo se repite en cada tarjeta. Los radios van en múltiplos de 6 y el espacio,
-          de 5 entre filas parecidas y de 10 entre bloques distintos.
-        </p>
+        <p className="t-label t-tag text-[var(--case-muted)]">La forma</p>
+        <Lines className="mt-4 t-title">Todo empieza en una esquina.</Lines>
+        <FadeIn className="mt-6">
+          <p className="t-body text-[var(--case-muted)]">
+            La esquina recta del logo se convierte en la firma de cada tarjeta, cada avatar y cada botón. Una
+            sola decisión, y todo parece Gloop.
+          </p>
+        </FadeIn>
         <div className="mt-8 flex items-end gap-3">
           {RADII.map((r) => (
             <div key={r} className="flex flex-col items-center gap-2">
