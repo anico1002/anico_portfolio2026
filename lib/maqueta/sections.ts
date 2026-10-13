@@ -13,7 +13,6 @@ export const SLIDES = {
   games: [
     "/projects/asphalt-unite/AU_hero.png",
     "/projects/cybertitans/CyberTitans_hero.png",
-    "/projects/two-dots/twodots_hero.png",
     "/projects/disney-karting/Disney_hero.png",
     "/projects/asphalt-9/A9_hero.png",
     "/projects/asphalt-xtreme/AXT_hero.png",

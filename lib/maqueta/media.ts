@@ -104,10 +104,9 @@ export function thumbOf(slug: string): string | undefined {
 export type GameMedia =
   | { type: "img"; src: string; w: number; h: number; cropTop?: number }
   | { type: "slides"; srcs: string[]; w: number; h: number }
-  | { type: "video"; src: string }
-  | { type: "phone"; src: string; bg: string };
+  | { type: "video"; src: string };
 
-export type ResolvedGameBlock = { eyebrow?: string; title?: string; body?: string; items: GameMedia[] };
+export type ResolvedGameBlock = { eyebrow?: string; title?: string; body?: string; bleed?: boolean; items: GameMedia[] };
 
 /** Los bloques de un juego con la URL y las medidas de cada lámina. Lo que no exista en disco se
     salta (y se avisa en el servidor) en lugar de romper la página. */
@@ -132,7 +131,6 @@ export function getGameBlocks(slug: string): ResolvedGameBlock[] | null {
         if (/\.(mp4|webm|mov)$/i.test(it)) return [{ type: "video", src: url(it) }];
         return [{ type: "img", src: url(it), ...dims(url(it)) }];
       }
-      if ("phone" in it) return exists(it.phone) && exists(it.bg) ? [{ type: "phone", src: url(it.phone), bg: url(it.bg) }] : [];
       return exists(it.src) ? [{ type: "img", src: url(it.src), ...dims(url(it.src)), cropTop: it.crop.top }] : [];
     }),
   }));

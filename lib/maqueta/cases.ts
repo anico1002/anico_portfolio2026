@@ -476,41 +476,6 @@ export const CASES: CaseCopy[] = [
     cta: { label: "Ver en Steam", href: "https://store.steampowered.com/app/2350590/CyberTitans/?l=latam" },
   },
   {
-    slug: "two-dots",
-    section: "games",
-    name: "Two Dots",
-    line: "Un clásico zen convertido en galería de arte",
-    year: "2024",
-    role: "Senior UI/UX Designer",
-    services: ["UX/UI", "Concepto de producto", "Prototipo"],
-    accent: "#EB101C",
-    light: true,
-    tagline: "Simplificar la interfaz y darle a los jugadores un motivo para volver.",
-    question: "¿Qué hace volver a un jugador cuando ya domina la mecánica?",
-    overview: [
-      "Two Dots es una obra maestra del minimalismo, pero su interfaz había quedado atrás de los estándares actuales.",
-      "Este rediseño propio se apoya en dos pilares: simplificación radical de la UI y la Artist Series, que convierte el fondo del juego en una galería curada de ilustradores de todo el mundo.",
-    ],
-    chapters: [
-      {
-        eyebrow: "El reto",
-        title: "Modernizar sin perder la calma.",
-        body: "Resolver el ruido visual del mapa original y unir sin costuras la selección de nivel y la partida. La interfaz debía ser lo bastante invisible para que brillara el artista invitado.",
-      },
-      {
-        eyebrow: "Artist Series",
-        title: "El arte pasa del mapa a la partida.",
-        body: "Un sistema de fondos dinámicos en el que la obra del ilustrador persiste del mapa al nivel. Lenguaje más actual y redondeado, y microinteracciones alineadas con la respuesta háptica: cada conexión de puntos se siente física.",
-      },
-    ],
-    outcomeTitle: "Ya no es solo un juego: es un ecosistema donde el arte retiene.",
-    outcome: "Una versión más premium y editorial de Two Dots. Cada artista comparte su obra con su comunidad y atrae tráfico de calidad; la nueva interfaz reduce la carga cognitiva y alarga las sesiones.",
-    cta: {
-      label: "Abrir el prototipo",
-      href: "https://cloud.protopie.io/p/0b09f246536c3e16169f4fba?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%231c1c1c&bgImage=undefined&playSpeed=1",
-    },
-  },
-  {
     slug: "disney-karting",
     section: "games",
     name: "Disney Karting",

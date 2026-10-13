@@ -11,14 +11,17 @@
 export type GameItem =
   | string
   | string[]
-  | { src: string; crop: { top: number } }
-  | { phone: string; bg: string };
+  | { src: string; crop: { top: number } };
 
 export type GameBlock = {
   /** Sin titulillo ni titular: lámina de portada (el logo del juego), justo después de la intro. */
   eyebrow?: string;
   title?: string;
   body?: string;
+  /** A sangre (de borde a borde de la pantalla) con un parallax sutil dentro de cada imagen: para
+      las láminas que lo aguantan (portadas, exploraciones de arte, marketing con fondo de color,
+      pases fotográficos, vídeos). La documentación de UI se queda con márgenes. */
+  bleed?: boolean;
   items: GameItem[];
 };
 
@@ -26,10 +29,11 @@ const seq = (base: string, letters: string, ext = "png") => [...letters].map((l)
 
 export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   "asphalt-unite": [
-    { items: ["01/AU_1.png"] },
+    { bleed: true, items: ["01/AU_1.png"] },
     {
       eyebrow: "Dirección de arte",
       title: "Explorar antes de decidir.",
+      bleed: true,
       body: "Auditoría de los grandes de consola —Forza Horizon, Gran Turismo, Need for Speed— y playtests internos para localizar la fricción heredada del móvil.",
       items: [
         seq("02_First-Art-Direction-Exploration/A92023_01", "abcdef"),
@@ -58,7 +62,7 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   ],
 
   cybertitans: [
-    { items: ["01_Game-UI/CT_1.png"] },
+    { bleed: true, items: ["01_Game-UI/CT_1.png"] },
     {
       eyebrow: "UI del juego",
       title: "Precisión quirúrgica para mucha información.",
@@ -74,21 +78,13 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     {
       eyebrow: "Prototipos",
       title: "El combate y la escalera competitiva, en movimiento.",
+      bleed: true,
       items: ["03_Crystal-Battle-Prototype/cybertitans_battle.mp4", "04_Ladder-Prototype/cybertitans_ladder.mp4"],
     },
   ],
 
-  "two-dots": [
-    {
-      eyebrow: "Artist Series",
-      title: "El arte pasa del mapa a la partida.",
-      body: "La obra del ilustrador invitado persiste del mapa al nivel; la interfaz se aparta para que brille.",
-      items: [{ phone: "twodots_phone.mp4", bg: "twodots_phone_bg.png" }],
-    },
-  ],
-
   "disney-karting": [
-    { items: ["01_Game-UI/dk_01.png"] },
+    { bleed: true, items: ["01_Game-UI/dk_01.png"] },
     {
       eyebrow: "UI del juego",
       title: "La calidez de Disney con estándares casi AAA.",
@@ -98,6 +94,7 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     {
       eyebrow: "Exploraciones gráficas",
       title: "Un tono maduro sin perder la magia.",
+      bleed: true,
       body: "Rondas de exploración sobre las pantallas clave: selección de personaje, previa de carrera, clasificaciones y personalización.",
       items: [
         seq("02_Graphic-Explorations/dk_05", "abcdef"),
@@ -116,12 +113,13 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     {
       eyebrow: "Marketing",
       title: "Un brief, una sola voz visual.",
+      bleed: true,
       items: ["03_Marketing-Exploration/dk_1.png", "03_Marketing-Exploration/dk_2.png", "03_Marketing-Exploration/dk_3.png"],
     },
   ],
 
   "asphalt-9": [
-    { items: ["01_Game-UI/A9_1.png"] },
+    { bleed: true, items: ["01_Game-UI/A9_1.png"] },
     {
       eyebrow: "UI del juego",
       title: "Velocidad, nitro y posición, sin tapar el espectáculo.",
@@ -131,6 +129,7 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     {
       eyebrow: "Exploraciones de marketing",
       title: "La misma ambición fuera del juego.",
+      bleed: true,
       items: [seq("02_Marketing-Exploration/A9_6", "abcdefg"), "02_Marketing-Exploration/A9_7.png"],
     },
     {
@@ -151,6 +150,7 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     {
       eyebrow: "Splash screens 3D",
       title: "Del boceto al render.",
+      bleed: true,
       body: "Cada pantalla de carga, paso a paso: escenario, modelo, materiales y luz.",
       items: [seq("02_3D-Splash-screens-process/AXT6", "abcd"), "02_3D-Splash-screens-process/AXT7.png"],
     },
