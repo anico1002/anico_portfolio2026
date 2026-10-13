@@ -464,11 +464,17 @@ function FitTitle({ text, delay }: { text: string; delay: number }) {
     return () => window.removeEventListener("resize", fit);
   }, [text]);
   return (
-    <div ref={box} className="w-full overflow-hidden">
+    // La máscara lleva 0,22 veces el cuerpo de aire arriba y abajo (compensado con margen negativo:
+    // no mueve nada). Con el interlineado de 0,88 las g, p, j y los acentos se salían de la caja y
+    // se cortaban (2026-10-13). El titular arranca un 140 % más abajo para no asomar en ese aire.
+    <div
+      ref={box}
+      className="-my-[calc(var(--fit,44px)*0.22)] w-full overflow-hidden py-[calc(var(--fit,44px)*0.22)]"
+    >
       <motion.h1
         ref={h}
         className="w-max max-w-none font-extrabold leading-[0.88] tracking-[-0.045em] [font-size:var(--fit,clamp(44px,9vw,200px))] [white-space:var(--fit-ws,nowrap)]"
-        initial={{ y: "100%" }}
+        initial={{ y: "140%" }}
         animate={{ y: "0%" }}
         transition={{ duration: DUR.base, ease: EASE.inOut, delay }}
       >
