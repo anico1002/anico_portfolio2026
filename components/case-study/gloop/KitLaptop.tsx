@@ -106,8 +106,8 @@ export default function KitLaptop() {
   return (
     <section className={`mt-36 md:mt-56 ${geist.variable}`}>
       {/* Los textos, sobre negro. */}
-      <div className="grid grid-cols-12 gap-x-4 px-4 md:gap-x-6 md:px-6">
-        <div className="col-span-12 md:col-span-8">
+      <div className="grid grid-cols-12 items-end gap-x-4 px-4 md:gap-x-6 md:px-6">
+        <div className="col-span-12 md:col-span-6">
           <FadeIn>
             <p className="t-label t-tag text-[var(--case-muted)]">Design system</p>
           </FadeIn>
@@ -115,8 +115,9 @@ export default function KitLaptop() {
             Un design system que diseño y desarrollo leen igual.
           </Lines>
         </div>
-        {/* El párrafo, a la derecha y una fila más abajo: contrapesa el titular (como en la intro). */}
-        <FadeIn className="col-span-12 mt-8 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-10">
+        {/* El párrafo, en línea con el titular (alineado con su última línea) y cerca de él: pegado al borde
+            derecho quedaba descolgado. */}
+        <FadeIn className="col-span-12 mt-8 md:col-span-4 md:col-start-8 md:mt-0">
           <p className="t-body text-[var(--case-muted)]">
             El lenguaje de Gloop, ordenado y listo para producción. Cada pantalla nueva nace con su ADN.
           </p>
