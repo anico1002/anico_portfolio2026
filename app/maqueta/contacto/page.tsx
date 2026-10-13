@@ -1,6 +1,8 @@
 import SiteNav from "@/components/case-study/SiteNav";
 import { Eyebrow, FadeIn } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
+import RollText from "@/components/case-study/RollText";
+import Arrow from "@/components/case-study/Arrow";
 
 /* Contacto: email y LinkedIn de public/profile.txt; texto del bloque [contact]. */
 
@@ -43,8 +45,8 @@ export default function Contact() {
                   className="group flex items-baseline justify-between py-6"
                 >
                   <span className={`t-label text-[var(--case-muted)] ${mono}`}>{k}</span>
-                  <span className="t-statement font-medium hov group-hover:opacity-70">
-                    {v} <span aria-hidden>↗</span>
+                  <span className="inline-flex items-center gap-3 t-statement font-medium">
+                    <RollText text={v} /> <Arrow />
                   </span>
                 </a>
               </li>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import HomeHero from "@/components/case-study/HomeHero";
+import RollText from "@/components/case-study/RollText";
+import CursorLabel from "@/components/case-study/CursorLabel";
 import { markLanded, startFlight } from "@/components/case-study/Flight";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -86,12 +88,21 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
         <MaskReveal from={i % 2 ? "right" : "left"} speed={0}>
           {p.thumb ? (
             <div className="relative">
-              <Placeholder ratio={l.ratio} src={p.thumb} label={p.name} />
+              {/* Hover (C1): la imagen se acerca despacio dentro del marco. */}
+              <div className="card-zoom">
+                <Placeholder ratio={l.ratio} src={p.thumb} label={p.name} />
+              </div>
               {/* Degradado dentro de la máscara: se descubre a la vez que la imagen. */}
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-0"
                 style={{ background: "linear-gradient(to bottom, rgba(0,0,0,.35), transparent 22%, transparent 62%, rgba(0,0,0,.5))" }}
+              />
+              {/* Y al pasar por encima el pie se oscurece un poco más, para que el texto respire. */}
+              <div
+                aria-hidden
+                className="card-shade pointer-events-none absolute inset-0"
+                style={{ background: "linear-gradient(to bottom, transparent 45%, rgba(0,0,0,.35))" }}
               />
             </div>
           ) : (
@@ -105,10 +116,12 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
             {p.year && <p className={`t-label ${mono} ${onImage ? "opacity-80" : "text-[var(--case-muted)]"}`}>{p.year}</p>}
           </FadeIn>
           <FadeIn delay={0.4} margin="0px">
-            <h3 className="t-lead font-medium">{p.name}</h3>
+            <h3 className="t-lead font-medium">{p.href ? <RollText text={p.name} /> : p.name}</h3>
             {p.line && <p className={`mt-1 t-small ${onImage ? "opacity-80" : "text-[var(--case-muted)]"}`}>{p.line}</p>}
           </FadeIn>
         </div>
+        {/* «Ver caso» que sigue al ratón (C2), solo en tarjetas con caso. */}
+        {p.href && <CursorLabel />}
       </div>
     </>
   );
@@ -203,9 +216,9 @@ export default function HomeView({
           <Eyebrow>Contacto</Eyebrow>
           <TLink
             href="/maqueta/contacto"
-            className="block t-d2 hov hover:opacity-70"
+            className="block t-d2"
           >
-            ¿Hablamos?
+            <RollText text="¿Hablamos?" />
           </TLink>
         </FadeIn>
       </footer>

@@ -19,6 +19,8 @@ import {
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import type { CaseCopy } from "@/lib/maqueta/cases";
 import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
+import RollText from "@/components/case-study/RollText";
+import Arrow from "@/components/case-study/Arrow";
 
 /* Plantilla de caso de la maqueta: el mismo lenguaje que Gloop (máscaras y curvas de
    Metalab, parallax de Yakushev) alimentado por lib/maqueta/cases.ts + los medios de
@@ -376,9 +378,9 @@ export default function CaseTemplate({
                 href={c.cta.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small hov hover:bg-[var(--case-fg)] hover:text-[var(--case-bg)]"
+                className="btn-fill mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small"
               >
-                {c.cta.label} <span aria-hidden>↗</span>
+                {c.cta.label} <Arrow />
               </a>
             )}
           </FadeIn>
@@ -390,8 +392,8 @@ export default function CaseTemplate({
         <NextCase name={next.name} href={next.href} thumb={next.thumb} />
         <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
           <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · {new Date().getFullYear()}</p>
-          <TLink href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
-            Hablemos →
+          <TLink href="/maqueta/contacto" className="inline-flex items-center gap-3 t-title font-medium">
+            <RollText text="Hablemos" /> <Arrow />
           </TLink>
         </div>
       </footer>

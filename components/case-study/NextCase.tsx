@@ -6,6 +6,7 @@ import RollText from "@/components/case-study/RollText";
 import { markLanded, startFlight } from "@/components/case-study/Flight";
 import { TLink } from "@/components/case-study/Portal";
 import { FadeIn, MaskReveal, Placeholder } from "@/components/case-study/primitives";
+import Arrow from "@/components/case-study/Arrow";
 
 /* «Siguiente caso» como cierre del relato (B5), con nuestro propio gesto (2026-10-12; el ticker
    gigante de Metalab se descartó por demasiado copiado). La portada del siguiente caso espera
@@ -43,7 +44,7 @@ export default function NextCase({ name, href, thumb }: { name: string; href: st
             <RollText text={name} />
           </p>
           <p className="mt-6 t-small text-[var(--case-muted)]">
-            Ver caso <span aria-hidden>→</span>
+            Ver caso <Arrow />
           </p>
         </FadeIn>
         <div ref={frame} className="order-1 col-span-12 md:order-2 md:col-span-7 md:col-start-6">

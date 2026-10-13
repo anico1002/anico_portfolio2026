@@ -16,6 +16,8 @@ import {
   WindowReveal,
 } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
+import RollText from "@/components/case-study/RollText";
+import Arrow from "@/components/case-study/Arrow";
 
 /* Maqueta del caso de estudio de Gloop.
    Cajas y móviles grises = imágenes/vídeos que produce Alberto; el texto es borrador
@@ -367,8 +369,8 @@ export default function GloopCase() {
         <NextCase name="El Reto MasterChef" href="/maqueta/elreto-masterchef" thumb="/projects/elreto-masterchef/ElReto_thumb.png" />
         <div className={`mt-24 flex items-end justify-between border-t border-[var(--case-line)] pt-6 ${wrap}`}>
           <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · 2026</p>
-          <TLink href="/maqueta/contacto" className="t-title font-medium hov hover:opacity-70">
-            Hablemos →
+          <TLink href="/maqueta/contacto" className="inline-flex items-center gap-3 t-title font-medium">
+            <RollText text="Hablemos" /> <Arrow />
           </TLink>
         </div>
       </footer>

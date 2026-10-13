@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
 import { DUR, EASE, STAGGER, inOrOut } from "@/lib/maqueta/motion";
+import Arrow from "@/components/case-study/Arrow";
 
 /* Entrada: el visitante elige por dónde entrar (pendiente del 2026-09-09: dos públicos,
    dos recorridos). Al pasar por encima de cada opción, su imagen ocupa el fondo. */
@@ -74,7 +75,7 @@ export default function Entry() {
                 {w.label}
               </motion.span>
               <span className="hidden pb-4 text-right t-small text-[var(--case-muted)] hov group-hover:text-[var(--case-fg)] md:block">
-                {w.line} <span aria-hidden>→</span>
+                {w.line} <Arrow />
               </span>
             </div>
           </TLink>

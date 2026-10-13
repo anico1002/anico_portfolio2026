@@ -30,3 +30,7 @@ export const STAGGER = 0.1;
 
 /** Entra con `base`, sale con `fast`: la regla de salidas más rápidas que entradas. */
 export const inOrOut = (on: boolean) => (on ? DUR.base : DUR.fast);
+
+/** Retraso intencionado (C5, Yakushev usa 1 s): lo que aparece al pasar el ratón espera un poco,
+    para que cruzar por encima de una tarjeta al ir a otro sitio no haga saltar nada. */
+export const HOVER_DELAY = 0.4;

@@ -2,6 +2,7 @@ import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
 import { Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
+import RollText from "@/components/case-study/RollText";
 
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
    plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto. */
@@ -104,9 +105,9 @@ export default function About() {
           <Eyebrow>Contacto</Eyebrow>
           <TLink
             href="/maqueta/contacto"
-            className="block t-d2 hov hover:opacity-70"
+            className="block t-d2"
           >
-            ¿Hablamos?
+            <RollText text="¿Hablamos?" />
           </TLink>
         </FadeIn>
       </footer>

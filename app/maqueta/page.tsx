@@ -87,7 +87,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
 /** «01» / «02» en tamaño de etiqueta, centrado en vertical con la palabra del titular. */
 function Num({ n, side }: { n: number; side: "left" | "right" }) {
   return (
-    <span className={`inline-block t-label opacity-70 ${mono} ${side === "left" ? "mr-2 md:mr-3" : "ml-2 md:ml-3"}`}>
+    <span className={`hidden t-label opacity-70 md:inline-block ${mono} ${side === "left" ? "mr-2 md:mr-3" : "ml-2 md:ml-3"}`}>
       0{n}
     </span>
   );
@@ -131,14 +131,6 @@ export default function EntryB() {
   useEffect(() => {
     const id = requestAnimationFrame(() => setTouch(noHover()));
     return () => cancelAnimationFrame(id);
-  }, []);
-  // En móvil el titular va pegado encima del párrafo: cada mitad guarda el alto de su párrafo.
-  useEffect(() => {
-    const ro = new ResizeObserver((es) =>
-      es.forEach((e) => (e.target.parentElement as HTMLElement)?.style.setProperty("--ph", `${e.target.getBoundingClientRect().height}px`))
-    );
-    document.querySelectorAll("[data-para]").forEach((el) => ro.observe(el));
-    return () => ro.disconnect();
   }, []);
   return (
     <main className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased md:flex-row">
@@ -193,7 +185,7 @@ export default function EntryB() {
                     apiladas) van a su lado y justo encima de su párrafo, formando un bloque con él (`--ph` = alto
                     del párrafo): Product a la izquierda, Games a la derecha. */}
                 <div
-                  className={`absolute inset-0 flex overflow-hidden ${`items-end pb-[calc(var(--ph,0px)+2.5rem)] md:items-center md:pb-0 ${left ? "justify-start px-4 md:justify-end md:pl-0 md:pr-5" : "justify-end px-4 md:justify-start md:pl-5 md:pr-0"}`}`}
+                  className={`absolute inset-0 flex justify-center overflow-hidden px-4 md:items-center md:px-0 ${left ? "items-end pb-5 md:justify-end md:pb-0 md:pr-5" : "items-start pt-5 md:justify-start md:pt-0 md:pl-5"}`}
                 >
                   {/* Máscara ajustada al titular: entra desde abajo y sale por arriba sin verse fuera. */}
                   <div className="overflow-hidden pb-[0.06em]">
@@ -217,7 +209,7 @@ export default function EntryB() {
                     encima (en táctil, siempre). */}
                 <motion.div
                   data-para
-                  className={`absolute bottom-6 max-w-[30ch] md:bottom-8 ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
+                  className={`absolute bottom-6 hidden max-w-[30ch] md:bottom-8 md:block ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
                   initial={false}
                   animate={chosen ? { clipPath: exitClip(chosen, stacked), opacity: 1, y: 0 } : { clipPath: OPEN, opacity: on ? 1 : 0, y: on ? 0 : 16 }}
                   transition={chosen ? EXIT : { duration: inOrOut(on), ease: EASE.out, delay: on ? STAGGER : 0 }}

@@ -191,3 +191,81 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 .rot-word { grid-area: 1 / 1; display: inline-block; }
 .rot-measure { position: absolute; visibility: hidden; pointer-events: none; white-space: nowrap; }
 .rot-measure > span { display: inline-block; }
+
+/* ── Bloque C · Interacciones (2026-10-13) ─────────────────────────────────────────────────── */
+
+/* Flecha diagonal de los enlaces (`Arrow`): sale por arriba a la derecha y su copia entra por
+   abajo a la izquierda, al ritmo de las letras de RollText (entra base, vuelve fast). */
+.arr {
+  position: relative;
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  overflow: hidden;
+  vertical-align: -0.02em;
+  flex: none;
+}
+.arr > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.arr > svg + svg { transform: translate(-110%, 110%); }
+:is(a, button):hover .arr > svg,
+:is(a, button):focus-visible .arr > svg {
+  transform: translate(110%, -110%);
+  transition: transform var(--dur-base) var(--ease-in-out);
+}
+:is(a, button):hover .arr > svg + svg,
+:is(a, button):focus-visible .arr > svg + svg {
+  transform: translate(0, 0);
+  transition-delay: 60ms;
+}
+
+/* Botón con relleno direccional (C4, como Plastic): el color entra desde abajo y, al salir el
+   ratón, se va por arriba. El truco es el punto de origen: en reposo está arriba y al pasar por
+   encima abajo, así que crece desde abajo y encoge hacia arriba. El texto cambia de color a la vez. */
+.btn-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.btn-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--case-fg);
+  transform: scaleY(0);
+  transform-origin: 50% 0%;
+  transition: transform var(--dur-fast) var(--ease-in-out);
+}
+.btn-fill:hover,
+.btn-fill:focus-visible { color: var(--case-bg); transition-duration: var(--dur-base); }
+.btn-fill:hover::before,
+.btn-fill:focus-visible::before {
+  transform: scaleY(1);
+  transform-origin: 50% 100%;
+  transition-duration: var(--dur-base);
+}
+
+/* Tarjeta de proyecto (C1): al pasar por encima la imagen se acerca despacio dentro de su
+   máscara (el marco no cambia) y el degradado de abajo se oscurece para que el texto respire.
+   Solo con ratón: en táctil no hay estado intermedio. */
+.card-zoom { transition: scale var(--dur-base) var(--ease-in-out); }
+.card-shade { opacity: 0; transition: opacity var(--dur-fast) var(--ease-out); }
+@media (hover: hover) {
+  .group:hover .card-zoom { scale: 1.06; transition-duration: var(--dur-slow); }
+  .group:hover .card-shade { opacity: 1; transition-duration: var(--dur-base); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arr > svg, .arr > svg + svg { transition: none; }
+  :is(a, button):hover .arr > svg { transform: none; }
+  :is(a, button):hover .arr > svg + svg { transform: translate(-110%, 110%); }
+  .group:hover .card-zoom { scale: 1; }
+}
