@@ -106,7 +106,7 @@ export default function KitLaptop() {
   return (
     <section className={`mt-36 md:mt-56 ${geist.variable}`}>
       {/* Los textos, sobre negro. */}
-      <div className="grid grid-cols-12 items-end gap-x-4 px-4 md:gap-x-6 md:px-6">
+      <div className="grid grid-cols-12 items-end gap-x-4 px-4 md:gap-x-6 md:px-6 md:[align-items:last_baseline]">
         <div className="col-span-12 md:col-span-6">
           <FadeIn>
             <p className="t-label t-tag text-[var(--case-muted)]">Design system</p>
@@ -128,8 +128,8 @@ export default function KitLaptop() {
       <div ref={ref} className="relative" style={pinned ? { height: "340vh" } : undefined}>
         <div className={pinned ? "sticky top-0 flex h-screen items-center overflow-hidden" : "relative overflow-hidden py-20"}>
           <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ opacity: pinned ? glow : 1 }}>
-            <span className="absolute -left-40 top-[10%] h-[36rem] w-[36rem] rounded-full opacity-60 blur-[120px]" style={{ background: G.brandDeep }} />
-            <span className="absolute -right-32 bottom-[5%] h-[32rem] w-[32rem] rounded-full opacity-40 blur-[120px]" style={{ background: G.accent }} />
+            <span className="absolute -left-40 top-[10%] h-[36rem] w-[36rem] rounded-full opacity-35 blur-[140px]" style={{ background: G.brandDeep }} />
+            <span className="absolute -right-32 bottom-[5%] h-[32rem] w-[32rem] rounded-full opacity-20 blur-[140px]" style={{ background: G.accent }} />
           </motion.div>
           <div className="relative grid w-full grid-cols-12 items-center gap-x-4 gap-y-12 px-4 md:gap-x-6 md:px-6">
             {/* Los tres pasos: en escritorio, uno encendido cada vez. */}
