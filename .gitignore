@@ -59,3 +59,6 @@ coverage/
 /motion/*/renders/
 /motion/*/.hyperframes/
 /motion/*/.thumbnails/
+
+# Fotos del universo de marca de Interactius (posible licencia de terceros): solo en local.
+/public/maqueta/interactius/media/

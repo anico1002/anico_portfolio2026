@@ -150,6 +150,25 @@ export const CASES: CaseCopy[] = [
     cta: { label: "Descargar gratis", href: "https://swift-translator.vercel.app" },
   },
   {
+    // Caso a medida (app/maqueta/interactius): estos campos solo alimentan la tarjeta y el «siguiente caso».
+    slug: "interactius",
+    section: "product",
+    thumb: "/maqueta/interactius/cover.jpg",
+    name: "Interactius",
+    line: "Un manual de marca que se usa, no se lee",
+    year: "2026",
+    client: "Interactius",
+    role: "Diseño de producto y de sistema",
+    services: ["Manual de marca", "Generador de presentaciones", "API de marca"],
+    accent: "#99335F",
+    tagline: "Un manual de marca que no se lee: se usa.",
+    question: "¿Y si la marca fuera una herramienta en lugar de un PDF?",
+    overview: ["Una sola fuente de datos alimenta el manual, una API de marca, un validador de tono y un generador de presentaciones."],
+    chapters: [],
+    outcomeTitle: "La marca deja de ser un PDF que nadie abre.",
+    outcome: "",
+  },
+  {
     slug: "netflix-app",
     section: "product",
     name: "Netflix App",
@@ -598,7 +617,6 @@ export const CASES: CaseCopy[] = [
 export const PENDING = [
   { name: "7News", type: "App", year: "2026" },
   { name: "Dovla", type: "App", year: "2026" },
-  { name: "Interactius", type: "Producto", year: "2026" },
   { name: "WineUp", type: "App", year: "" },
 ];
 

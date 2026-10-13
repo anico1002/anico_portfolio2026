@@ -20,11 +20,16 @@ const card = (c: CaseCopy): P => ({
 });
 
 export default function ProductHome() {
-  const [elreto, swift, ...concepts] = casesIn("product").map(card);
+  const [elreto, swift, ...rest] = casesIn("product").map(card);
+  // Los casos a medida de proyectos hechos juntos van delante de los pendientes y de los conceptos.
+  const OWN = ["/maqueta/interactius", "/maqueta/7news", "/maqueta/dovla"];
+  const own = OWN.map((h) => rest.find((c) => c.href === h)).filter((c): c is P => !!c);
+  const concepts = rest.filter((c) => !OWN.includes(c.href ?? ""));
   const items: P[] = [
     { name: "Gloop", line: "App social para grupos de amigos", type: "iOS nativo", year: "2026", thumb: "/maqueta/gloop/cover.jpg", href: "/maqueta/gloop" },
     elreto,
     swift,
+    ...own,
     ...PENDING.map((p) => ({ ...p, line: "" })),
     ...concepts,
   ];
