@@ -187,10 +187,13 @@ export default function EntryB() {
                 <div
                   className={`absolute inset-0 flex justify-center overflow-hidden px-4 md:items-center md:px-0 ${left ? "items-end pb-5 md:justify-end md:pb-0 md:pr-5" : "items-start pt-5 md:justify-start md:pt-0 md:pl-5"}`}
                 >
-                  {/* Máscara ajustada al titular: entra desde abajo y sale por arriba sin verse fuera. */}
-                  <div className="overflow-hidden pb-[0.06em]">
+                  {/* Máscara ajustada al titular: entra desde abajo y sale por arriba sin verse fuera. Con el
+                      tracking tan cerrado, la última letra se sale de su caja (la «s» de Games se cortaba): el
+                      titular lleva 0,1 em de aire a cada lado y la máscara lo compensa con margen negativo, así
+                      que la posición no cambia. */}
+                  <div className="-mx-[0.1em] overflow-hidden pb-[0.06em] t-d3">
                     <motion.p
-                      className="flex items-center whitespace-nowrap t-d3"
+                      className="flex items-center whitespace-nowrap px-[0.1em] t-d3"
                       initial={{ y: "110%" }}
                       // Al elegir, los dos titulares se van con la máscara del borde (como la imagen): la
                       // mitad crece ya sin texto y el nombre no reaparece en el telón ni en la home.
