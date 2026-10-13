@@ -187,6 +187,24 @@ export const CASES: CaseCopy[] = [
     outcome: "",
   },
   {
+    // Caso a medida (app/maqueta/dovla): estos campos solo alimentan la tarjeta y el «siguiente caso».
+    slug: "dovla",
+    section: "product",
+    thumb: "/maqueta/dovla/cover.jpg",
+    name: "Dovla",
+    line: "El banco que no grita",
+    year: "2026",
+    role: "UI/UX",
+    services: ["App iOS nativa", "Design system", "Accesibilidad"],
+    accent: "#42283E",
+    tagline: "El banco que no grita.",
+    question: "¿Cómo se diseña un banco fácil de usar sin heredar lo que no funciona?",
+    overview: ["UI/UX de la app nativa para iOS de un neobanco, lista para conectarle el backend."],
+    chapters: [],
+    outcomeTitle: "Una app nativa lista para conectarle el backend.",
+    outcome: "",
+  },
+  {
     slug: "netflix-app",
     section: "product",
     name: "Netflix App",
@@ -633,7 +651,6 @@ export const CASES: CaseCopy[] = [
 
 /** Proyectos de la home de Product que aún no tienen caso (sin enlace). */
 export const PENDING = [
-  { name: "Dovla", type: "App", year: "2026" },
   { name: "WineUp", type: "App", year: "" },
 ];
 
