@@ -115,14 +115,14 @@ export default function OneThing() {
           <div className="col-span-12 md:col-span-5">
             <p className="t-label t-tag text-[var(--case-muted)]">El insight</p>
             <Lines className="mt-4 t-statement">
-              Salimos para pasarlo bien, sin más plan. Nadie había diseñado una app para esa noche.
+              Casi todas las noches empiezan igual: un grupo, ningún plan y ganas de pasarlo bien.
             </Lines>
             <motion.p
               style={reduce ? undefined : { opacity: principle, y: principleY }}
               className="mt-10 max-w-[34ch] t-lead"
             >
-              Gloop nace para eso: juntar al grupo, encender la noche y que lo vivido no se pierda. Sin menús ni
-              dudas: <strong className="font-semibold">un solo gesto</strong>.
+              Gloop nace para esas noches. Junta al grupo, propone qué hacer y guarda lo que pasa. Solo hay que{" "}
+              <strong className="font-semibold">encender la noche</strong>.
             </motion.p>
           </div>
           {/* El panel: todo a la vez sobre la noche; al final, un solo botón en el centro. */}

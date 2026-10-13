@@ -23,7 +23,7 @@ type Step = {
 };
 
 const STEPS: Step[] = [
-  { title: "Benchmark", body: "Qué hacen las apps de la noche, y qué se dejan por hacer.", pending: "Benchmark de apps de ocio nocturno" },
+  { title: "Benchmark", body: "Qué hacen las apps de noche y qué les falta.", pending: "Benchmark de apps de ocio nocturno" },
   { title: "Wireframes", body: "Primero la estructura. El color, después.", pending: "Wireframes de los flujos principales" },
   { title: "Dirección de arte", body: "Oscura, eléctrica y con ganas de fiesta.", mood: true },
   { title: "Primeras pantallas", body: "La noche, convertida en interfaz.", media: { src: "/maqueta/gloop/media/prototipo.jpg" } },
@@ -63,7 +63,7 @@ function StepCard({ s, i }: { s: Step; i: number }) {
         <span className="t-label t-tag text-[var(--case-muted)]">{String(i + 1).padStart(2, "0")}</span>
       </div>
       <h3 className="mt-4 t-lead font-medium">{s.title}</h3>
-      <p className="mt-2 t-small text-[var(--case-muted)]">{s.body}</p>
+      <p className="mt-2 t-small text-[var(--case-muted)] md:whitespace-nowrap">{s.body}</p>
       {s.media && (
         <div className="relative mt-6 aspect-[16/10] overflow-hidden bg-[var(--case-ph)]">
           {s.media.video ? (
@@ -121,7 +121,7 @@ export default function ProcessLine() {
       <div className={pinned ? "sticky top-0 flex h-screen flex-col justify-center overflow-hidden" : "py-10"}>
         <div className="px-4 md:px-6">
           <p className="t-label t-tag text-[var(--case-muted)]">El proceso</p>
-          <Lines className="mt-4 max-w-[22ch] t-statement">Del primer boceto a la app en tu mano.</Lines>
+          <Lines className="mt-4 max-w-[24ch] t-statement text-balance">Del primer boceto a la app en tu mano.</Lines>
         </div>
         <motion.div
           ref={track}

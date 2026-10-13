@@ -121,8 +121,8 @@ export default function ColorMeaning() {
         </div>
         <FadeIn className="mt-6 max-w-[38ch]">
           <p className="t-body text-[var(--case-muted)]">
-            Cada color tiene un trabajo: el violeta enciende lo que pasa ahora, el lima señala lo que es tuyo y
-            el fucsia avisa de lo que te espera. La interfaz habla en violeta.
+            Cada color tiene un cometido: el violeta enciende, el lima señala lo que es tuyo y el fucsia lo que te
+            espera. La interfaz habla en violeta.
           </p>
         </FadeIn>
       </div>
@@ -137,10 +137,12 @@ export default function ColorMeaning() {
             className="gloop-drift absolute inset-0 h-full w-full object-cover"
             style={{ filter: "blur(18px) brightness(0.55) saturate(1.2)" }}
           />
+          {/* Tinte del color activo sobre toda la foto (antes un brillo bajo la tarjeta, que tapaba la lectura). */}
           <motion.span
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-            animate={{ background: MEANINGS.find((m) => m.key === on)!.color, opacity: 0.4 }}
+            className="pointer-events-none absolute inset-0"
+            style={{ mixBlendMode: "color" }}
+            animate={{ background: MEANINGS.find((m) => m.key === on)!.color, opacity: 0.55 }}
             transition={{ duration: DUR.base, ease: EASE.inOut }}
           />
           <TeamCard on={on} />

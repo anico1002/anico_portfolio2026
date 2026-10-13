@@ -18,7 +18,7 @@ import { G, geist } from "./tokens";
 const STEPS = [
   { title: "Fundamentos", body: "Color, tipografía, espaciado, formas, cristal y movimiento.", from: 0, to: 13.8 },
   { title: "Componentes", body: "Botones, chips, tarjetas, campos y navegación para iOS y Android.", from: 14.2, to: 21.2 },
-  { title: "Handoff", body: "Tokens y código listos para copiar, y todo el sistema legible por IA.", from: 14.2, to: 21.2 },
+  { title: "Handoff", body: "Tokens y código listos para copiar. Y el sistema entero, legible por IA.", from: 14.2, to: 21.2 },
 ];
 
 const CODE = [
@@ -111,12 +111,12 @@ export default function KitLaptop() {
           <FadeIn>
             <p className="t-label t-tag text-[var(--case-muted)]">Design system</p>
           </FadeIn>
-          <Lines as="h2" className="mt-4 t-statement">
+          <Lines as="h2" className="mt-4 t-statement text-balance">
             Un design system que diseño y desarrollo leen igual.
           </Lines>
           <FadeIn className="mt-8 max-w-[46ch]">
             <p className="t-body text-[var(--case-muted)]">
-              Todo el lenguaje de Gloop, ordenado y listo para producción. Una pantalla nueva ya nace con su ADN.
+              El lenguaje de Gloop, ordenado y listo para producción. Cada pantalla nueva nace con su ADN.
             </p>
           </FadeIn>
         </div>

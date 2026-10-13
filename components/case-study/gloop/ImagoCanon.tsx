@@ -70,8 +70,8 @@ export default function ImagoCanon() {
         <Lines className="mt-4 t-title">Todo empieza en una esquina.</Lines>
         <FadeIn className="mt-6">
           <p className="t-body text-[var(--case-muted)]">
-            La esquina recta del logo se convierte en la firma de cada tarjeta, cada avatar y cada botón. Una
-            sola decisión, y todo parece Gloop.
+            La esquina recta del logo firma cada pieza de la interfaz, de la tarjeta más grande al avatar más
+            pequeño. Por eso todo parece Gloop.
           </p>
         </FadeIn>
         <div className="mt-8 flex items-end gap-3">

@@ -47,7 +47,7 @@ export default function NativeApp() {
               <p className="t-label t-tag text-white/60">La app</p>
             </FadeIn>
             <Lines as="h2" className="mt-4 t-statement">
-              No es un prototipo. Es una app nativa, lista para las stores.
+              Se instala, se abre y se usa. Una app nativa lista para las stores.
             </Lines>
           </div>
         </div>

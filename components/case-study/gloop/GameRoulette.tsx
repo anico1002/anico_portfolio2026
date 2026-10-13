@@ -81,7 +81,7 @@ export default function GameRoulette() {
           <Lines className="mt-4 t-statement">Cuando toca jugar, la marca se suelta.</Lines>
           <FadeIn className="mt-8 max-w-[44ch]">
             <p className="t-body text-[var(--case-muted)]">
-              La ruleta decide el juego de la noche. Cada uno, con su color y su propia personalidad.
+              La ruleta elige el juego de la noche, y cada juego llega con su color y su carácter.
             </p>
           </FadeIn>
         </div>

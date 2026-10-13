@@ -77,9 +77,8 @@ export default function GloopCase() {
           </div>
           <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              Gloop tenía una gran idea y un diseño que no estaba a su altura. Mi trabajo fue darle una dirección de
-              arte desde cero: nocturna, eléctrica y con ganas de salir. De ahí nacieron su lenguaje visual, su
-              design system y la app.
+              Me encargué de la dirección de arte desde la base: el lenguaje visual, el design system y el diseño
+              UX/UI de la app. El encargo era uno: que toda la diversión de una noche cupiera en una app.
             </p>
           </FadeIn>
         </div>
@@ -127,7 +126,7 @@ export default function GloopCase() {
               <PhoneFrame src="/maqueta/gloop/media/scr-noche.mp4" label="La noche en marcha" className="mx-auto max-w-[260px]" />
             </FadeIn>
             <FadeIn delay={STAGGER}>
-              <p className="mx-auto mt-6 max-w-[260px] t-small text-[var(--case-muted)]">La noche arranca. El móvil, también.</p>
+              <p className="mx-auto mt-6 max-w-[260px] t-small text-[var(--case-muted)]">La noche arranca y el móvil se apunta.</p>
             </FadeIn>
           </Parallax>
 
@@ -163,7 +162,7 @@ export default function GloopCase() {
             <FadeIn>
               <Eyebrow>El método</Eyebrow>
             </FadeIn>
-            <Lines as="h2" className="t-statement" delay={STAGGER}>
+            <Lines as="h2" className="t-statement text-balance" delay={STAGGER}>
               La IA acelera. El criterio sigue siendo de diseño.
             </Lines>
             <FadeIn delay={2 * STAGGER} className="mt-8 max-w-[46ch]">
