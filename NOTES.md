@@ -60,6 +60,8 @@ Hoy flojas: ACT, Asphalt Xtreme, El Reto, Asphalt Unite (menú) y Two Dots (logo
   portfolio gráfico). Hoy: 176 imágenes, 286 MB, 97 PNG de más de 1 MB (la mayor, 7,6 MB). En el audit,
   repasar también accesibilidad (foco, movimiento reducido, contraste) y rendimiento.
 - **Énfasis en titulares**: queda Playfair cursiva «a ver si se acostumbra»; revisar más adelante.
+- **Idea aparcada (Alberto, 2026-10-13):** Product en oscuro y Games en claro, sin selector sol/luna (le
+  parece anticuado); en el negro de Product, los ácidos como distintivo. No es encargo: rescatar si toca.
 - **Standby**: A3 motivo de marca + A4 intro (propuestas en la sección del bloque A); palabras que
   cambian (aparcado, regla: sola en su línea).
 - Contenidos: casos más cortos y con menos imágenes de más calidad (Gloop el primero).
