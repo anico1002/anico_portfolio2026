@@ -181,13 +181,8 @@ export default function HomeHero({
               transition={{ opacity: { duration: DUR.base, ease: EASE.inOut }, scale: { duration: DUR.drift, ease: EASE.out } }}
             />
           </AnimatePresence>
-          {/* Degradado del color de fondo arriba, bajo el logo: así nunca pasa por debajo un gris medio
-              (donde la mezcla por diferencia dejaría el logo gris sobre gris). Como en los casos. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[18%]"
-            style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--case-bg) 55%, transparent), transparent)" }}
-          />
+          {/* Sin degradado bajo el logo (quitado el 2026-10-13, como en los casos): la mezcla por
+              diferencia basta. Riesgo conocido: un gris medio justo debajo dejaría el logo gris. */}
           {/* Velo: el del telón (para que el relevo sea exacto) y se aclara al recogerse. */}
           <motion.div
             aria-hidden

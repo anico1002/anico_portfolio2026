@@ -289,12 +289,8 @@ export function CaseHero({
         </motion.div>
       </motion.div>
 
-      {/* Degradado arriba para que la nav se lea sobre la imagen. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[18%]"
-        style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--case-bg) 55%, transparent), transparent)" }}
-      />
+      {/* Sin degradado arriba (quitado el 2026-10-13: en claro era una bruma blanca sobre la foto). El
+          logo y el menú se leen solos con la mezcla por diferencia. */}
       <div className="absolute inset-x-0 bottom-0" style={{ height: `${BAND}%` }}>
         {overlay(textDelay)}
       </div>
