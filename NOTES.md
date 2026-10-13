@@ -41,6 +41,11 @@ producción): de momento solo «DESIGN SYSTEM» de Asphalt Unite. Orden natural 
 bloque es una capa del color de fondo que se retira (con clip-path en las láminas, Chrome no cargaba las
 diferidas). Two Dots: móvil sobre su fondo (en móvil, fondo encuadrado en vertical).
 
+**Cabeceras sin degradado (2026-10-13):** se quitó el degradado del color de fondo bajo la barra (en claro
+era una bruma blanca). Criterio para las **cabeceras nuevas** (la mayoría se van a cambiar): la franja de arriba
+bien contrastada, sin grises ni tonos medios, para que el logo y el menú (mezcla por diferencia) se lean.
+Hoy flojas: ACT, Asphalt Xtreme, El Reto, Asphalt Unite (menú) y Two Dots (logo).
+
 **Pendiente / próxima sesión:**
 - **ÚLTIMO PASO ANTES DE PRODUCCIÓN (pedido por Alberto, 2026-10-13): audit técnico final + optimización
   de imágenes y vídeos (F1).** Las imágenes y vídeos aún no son finales, por eso no se optimizan ahora.
