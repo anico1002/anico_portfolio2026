@@ -125,8 +125,15 @@ html:has(#case-root) {
    por letra. Entra en `base` y vuelve en `fast` (salidas más rápidas que entradas). */
 .roll-mask {
   display: inline-block;
+  /* Aire de 0,25 em arriba y abajo (compensado con margen negativo: no mueve nada) para que no se
+     corten lo que baja de la línea («¿», g, p) ni los acentos de las mayúsculas, que con el
+     interlineado cerrado de los titulares se salían de la máscara. Va en em, no en px: vale
+     para cualquier tipografía y tamaño. El recorrido (--roll) es mayor que línea + aire, para que
+     la copia de abajo no asome dentro de ese margen en reposo. */
+  padding: 0.25em 0;
+  margin: -0.25em 0;
   clip-path: inset(0 -0.15em);
-  --roll: 1.3em;
+  --roll: 1.7em;
 }
 .roll-mask > span {
   display: inline-block;

@@ -380,14 +380,18 @@ export function FadeIn({
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const seen = useSeen(ref, margin);
-  const hidden = { clipPath: CLOSED.bottom, y: 40 };
+  // La máscara abierta deja aire alrededor del bloque, en % de su alto (2026-10-13): antes iba a ras
+  // y con un margen de 0,25 em del cuerpo, que con letra gigante se quedaba corto y cortaba el «¿» de
+  // «¿Hablamos?». En % vale para cualquier tipografía y tamaño. Cerrada va a ras (si no, lo que cuelga
+  // por debajo de la línea asomaría antes de tiempo).
+  const hidden = { clipPath: "inset(100% -5% 0% -5%)", y: 40 };
   return (
     <motion.div
       ref={ref}
       // Margen por abajo dentro de la máscara para no cortar g, j, p (ver MaskText).
       className={`pb-[0.25em] -mb-[0.25em] ${className}`}
       initial={reduce ? false : hidden}
-      animate={reduce || seen ? { clipPath: "inset(0% 0% 0% 0%)", y: 0 } : hidden}
+      animate={reduce || seen ? { clipPath: "inset(-30% -5% -30% -5%)", y: 0 } : hidden}
       transition={{ clipPath: { duration: DUR.base, ease: EASE.inOut, delay }, y: { duration: DUR.base, ease: EASE.out, delay } }}
     >
       {children}

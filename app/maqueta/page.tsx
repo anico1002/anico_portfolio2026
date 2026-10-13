@@ -190,10 +190,12 @@ export default function EntryB() {
                   {/* Máscara ajustada al titular: entra desde abajo y sale por arriba sin verse fuera. Con el
                       tracking tan cerrado, la última letra se sale de su caja (la «s» de Games se cortaba): el
                       titular lleva 0,1 em de aire a cada lado y la máscara lo compensa con margen negativo, así
-                      que la posición no cambia. */}
+                      que la posición no cambia. Por la derecha lleva además 0,055 em, lo que el tracking negativo de
+                      `.t-d3` le quita a la última letra: sin eso la caja queda más estrecha que la tinta y, al
+                      centrarla, la palabra se ve corrida a la derecha (medido: 1,75 px a 390). */}
                   <div className="-mx-[0.1em] overflow-hidden pb-[0.06em] t-d3">
                     <motion.p
-                      className="flex items-center whitespace-nowrap px-[0.1em] t-d3"
+                      className="flex items-center whitespace-nowrap pl-[0.1em] pr-[0.155em] t-d3"
                       initial={{ y: "110%" }}
                       // Al elegir, los dos titulares se van con la máscara del borde (como la imagen): la
                       // mitad crece ya sin texto y el nombre no reaparece en el telón ni en la home.

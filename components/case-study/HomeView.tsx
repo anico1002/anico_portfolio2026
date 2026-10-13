@@ -213,7 +213,6 @@ export default function HomeView({
 
       <footer className={`mt-40 pb-12 md:mt-64 ${wrap}`}>
         <FadeIn>
-          <Eyebrow>Contacto</Eyebrow>
           <TLink
             href="/maqueta/contacto"
             className="block t-d2"
