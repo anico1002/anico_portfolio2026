@@ -113,52 +113,31 @@ export default function GloopCase() {
       {/* 8 · La app: no es un prototipo. */}
       <NativeApp />
 
-      {/* 9 · La app en la mano, alternada con la noche (tres pantallas y dos fotos de concepto, en parallax). */}
+      {/* 9 · La app en la mano, sobre la noche (feedback 2026-10-13): las fotos de concepto van detrás, lentas,
+          y los móviles las pisan y pasan por encima a otra velocidad. El método se intercala entre las dos
+          fotos para separarlo del proceso. */}
       <section className={`pt-28 md:pt-40 ${wrap}`}>
-        <div className={`${grid} items-start gap-y-16`}>
-          <Parallax speed={40} className="col-span-12 md:col-span-7">
+        <div className={`${grid} items-start`}>
+          <Parallax speed={40} className="col-span-12 md:col-span-8 md:col-start-1 md:row-start-1">
             <FadeIn>
-              <Mood src="/maqueta/gloop/media/party-ev3.jpg" />
+              <Mood src="/maqueta/gloop/media/party-ev3.jpg" ratio="16/10" />
             </FadeIn>
           </Parallax>
-          <Parallax speed={180} className="col-span-12 md:col-span-3 md:col-start-9 md:mt-40">
+          <Parallax speed={260} className="relative z-10 col-span-8 col-start-3 -mt-24 md:col-span-3 md:col-start-8 md:row-start-1 md:mt-[22%]">
             <FadeIn>
-              <PhoneFrame src="/maqueta/gloop/media/scr-noche.mp4" label="La noche en marcha" className="mx-auto max-w-[260px]" />
+              <PhoneFrame src="/maqueta/gloop/media/scr-noche.mp4" label="La noche en marcha" className="mx-auto max-w-[280px]" />
             </FadeIn>
             <FadeIn delay={STAGGER}>
-              <p className="mx-auto mt-6 max-w-[260px] t-small text-[var(--case-muted)]">La noche arranca y el móvil se apunta.</p>
-            </FadeIn>
-          </Parallax>
-
-          <Parallax speed={140} className="col-span-12 md:col-span-3 md:col-start-2 md:mt-24">
-            <FadeIn>
-              <PhoneFrame src="/maqueta/gloop/media/scr-momentos.mp4" label="Momentos" className="mx-auto max-w-[260px]" />
-            </FadeIn>
-            <FadeIn delay={STAGGER}>
-              <p className="mx-auto mt-6 max-w-[260px] t-small text-[var(--case-muted)]">Las fotos de anoche, reveladas por la mañana.</p>
-            </FadeIn>
-          </Parallax>
-          <Parallax speed={40} className="col-span-12 md:col-span-6 md:col-start-6 md:mt-56">
-            <FadeIn>
-              <Mood src="/maqueta/gloop/media/party-ev6.jpg" ratio="16/10" />
-            </FadeIn>
-          </Parallax>
-
-          <Parallax speed={120} className="col-span-12 md:col-span-3 md:col-start-5 md:mt-16">
-            <FadeIn>
-              <PhoneFrame src="/maqueta/gloop/media/scr-cuenta.mp4" label="La Cuenta" className="mx-auto max-w-[260px]" />
-            </FadeIn>
-            <FadeIn delay={STAGGER}>
-              <p className="mx-auto mt-6 max-w-[260px] t-small text-[var(--case-muted)]">Las cuentas claras y la amistad intacta.</p>
+              <p className="mx-auto mt-6 max-w-[280px] t-small text-[var(--case-muted)]">La noche arranca y el móvil se apunta.</p>
             </FadeIn>
           </Parallax>
         </div>
       </section>
 
-      {/* 10 · El método: la IA acelera, el criterio es de diseño. */}
-      <section className={section}>
+      {/* 10 · El método, entre las dos fotos. */}
+      <section className={`pt-28 md:pt-16 ${wrap}`}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-8 md:col-start-3">
+          <div className="col-span-12 md:col-span-6 md:col-start-2">
             <FadeIn>
               <Eyebrow>El método</Eyebrow>
             </FadeIn>
@@ -175,8 +154,34 @@ export default function GloopCase() {
         </div>
       </section>
 
+      <section className={`pt-28 md:pt-40 ${wrap}`}>
+        <div className={`${grid} items-start`}>
+          <Parallax speed={40} className="col-span-12 md:col-span-8 md:col-start-5 md:row-start-1">
+            <FadeIn>
+              <Mood src="/maqueta/gloop/media/party-ev6.jpg" ratio="16/10" />
+            </FadeIn>
+          </Parallax>
+          <Parallax speed={260} className="relative z-10 col-span-8 col-start-1 -mt-24 md:col-span-3 md:col-start-3 md:row-start-1 md:mt-[18%]">
+            <FadeIn>
+              <PhoneFrame src="/maqueta/gloop/media/scr-momentos.mp4" label="Momentos" className="mx-auto max-w-[280px]" />
+            </FadeIn>
+            <FadeIn delay={STAGGER}>
+              <p className="mx-auto mt-6 max-w-[280px] t-small text-[var(--case-muted)]">Las fotos de anoche, reveladas por la mañana.</p>
+            </FadeIn>
+          </Parallax>
+          <Parallax speed={340} className="relative z-10 col-span-8 col-start-5 mt-16 md:col-span-3 md:col-start-10 md:row-start-1 md:mt-[34%]">
+            <FadeIn>
+              <PhoneFrame src="/maqueta/gloop/media/scr-cuenta.mp4" label="La Cuenta" className="mx-auto max-w-[280px]" />
+            </FadeIn>
+            <FadeIn delay={STAGGER}>
+              <p className="mx-auto mt-6 max-w-[280px] t-small text-[var(--case-muted)]">Las cuentas claras y la amistad intacta.</p>
+            </FadeIn>
+          </Parallax>
+        </div>
+      </section>
+
       {/* 11 · El proceso, en horizontal. */}
-      <div className="mt-16 md:mt-24">
+      <div className="mt-28 md:mt-40">
         <ProcessLine />
       </div>
 

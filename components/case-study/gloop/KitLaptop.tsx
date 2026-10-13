@@ -114,12 +114,13 @@ export default function KitLaptop() {
           <Lines as="h2" className="mt-4 t-statement text-balance">
             Un design system que diseño y desarrollo leen igual.
           </Lines>
-          <FadeIn className="mt-8 max-w-[46ch]">
-            <p className="t-body text-[var(--case-muted)]">
-              El lenguaje de Gloop, ordenado y listo para producción. Cada pantalla nueva nace con su ADN.
-            </p>
-          </FadeIn>
         </div>
+        {/* El párrafo, a la derecha y una fila más abajo: contrapesa el titular (como en la intro). */}
+        <FadeIn className="col-span-12 mt-8 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-10">
+          <p className="t-body text-[var(--case-muted)]">
+            El lenguaje de Gloop, ordenado y listo para producción. Cada pantalla nueva nace con su ADN.
+          </p>
+        </FadeIn>
       </div>
 
       {/* La parada. */}
