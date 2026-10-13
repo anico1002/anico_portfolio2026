@@ -3,8 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { endCurtain, useCurtain } from "@/components/case-study/Curtain";
-import { MaskText } from "@/components/case-study/primitives";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import Lines from "@/components/case-study/Lines";
 
 /* Cabecera de la home de una sección (2026-10-12; antes era un titular estático y se sentía
    muy quieta). Continúa la entrada partida sin corte: pase de imágenes a pantalla completa
@@ -209,9 +209,9 @@ export default function HomeHero({
           <div className="grid grid-cols-12 gap-x-4 md:gap-x-6">
             <h1 className="col-span-12 md:col-span-8">
               {retracted ? (
-                <MaskText delay={DUR.slow / 2}>
-                  <span className="block t-hero">{withEm(title, slides, true)}</span>
-                </MaskText>
+                <Lines as="span" className="block t-hero" delay={DUR.slow / 2}>
+                  {withEm(title, slides, true)}
+                </Lines>
               ) : (
                 <span className="block t-hero opacity-0">{withEm(title, slides, false)}</span>
               )}

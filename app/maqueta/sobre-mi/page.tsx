@@ -3,6 +3,7 @@ import SiteNav from "@/components/case-study/SiteNav";
 import { Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import RollText from "@/components/case-study/RollText";
+import Lines from "@/components/case-study/Lines";
 
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
    plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto. */
@@ -35,12 +36,14 @@ export default function About() {
 
       <header className={`pt-32 md:pt-44 ${wrap}`}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-11">
-            <Eyebrow>Sobre mí</Eyebrow>
-            <h1 className="t-h1">
+          <div className="col-span-12 md:col-span-11">
+            <FadeIn>
+              <Eyebrow>Sobre mí</Eyebrow>
+            </FadeIn>
+            <Lines as="h1" className="t-h1" delay={STAGGER}>
               {YEARS} años diseñando interfaces que la gente usa de verdad.
-            </h1>
-          </FadeIn>
+            </Lines>
+          </div>
         </div>
       </header>
 
@@ -53,12 +56,10 @@ export default function About() {
 
       <section className={`pt-24 md:pt-40 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
-          <FadeIn className="col-span-12 md:col-span-5">
-            <p className="t-statement">
-              Diseñador sénior especializado en diseño interactivo, UI/UX de videojuegos, dirección de arte de
-              marca y tecnologías inmersivas.
-            </p>
-          </FadeIn>
+          <Lines className="col-span-12 t-statement md:col-span-5">
+            Diseñador sénior especializado en diseño interactivo, UI/UX de videojuegos, dirección de arte de
+            marca y tecnologías inmersivas.
+          </Lines>
           <FadeIn delay={STAGGER} className="col-span-12 space-y-5 md:col-span-5 md:col-start-8 md:pt-3">
             <p className={`text-[var(--case-muted)] ${tBody}`}>
               Me apasionan la tecnología, el arte, la ilustración y el diseño. Durante más de una década me he

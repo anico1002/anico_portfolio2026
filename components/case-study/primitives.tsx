@@ -4,6 +4,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { endFlight } from "@/components/case-study/Flight";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
+import { useBooted } from "@/lib/maqueta/boot";
 
 /* Piezas de la maqueta de caso de estudio.
    Los colores salen de variables CSS que fija cada caso (--case-bg, --case-fg…),
@@ -28,9 +29,11 @@ const CLOSED: Record<From, string> = {
     directamente, que sí funciona. `margin` como el rootMargin de CSS. */
 export function useSeen<T extends Element>(ref: React.RefObject<T | null>, margin = "0px") {
   const [seen, setSeen] = useState(false);
+  // En la primera carga no se vigila hasta que la tipografía está lista (Boot, D6).
+  const booted = useBooted();
   useEffect(() => {
     const el = ref.current;
-    if (!el || seen) return;
+    if (!el || seen || !booted) return;
     const io = new IntersectionObserver(
       (es) => {
         if (es.some((e) => e.isIntersecting)) {
@@ -42,7 +45,7 @@ export function useSeen<T extends Element>(ref: React.RefObject<T | null>, margi
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [ref, margin, seen]);
+  }, [ref, margin, seen, booted]);
   return seen;
 }
 

@@ -17,7 +17,8 @@ import {
   Parallax,
   Placeholder,
 } from "@/components/case-study/primitives";
-import { DUR, EASE } from "@/lib/maqueta/motion";
+import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
+import Lines from "@/components/case-study/Lines";
 
 /* Home de una línea de trabajo (Product o Games). Composición de la maqueta del
    2026-10-11: titular, primer proyecto con el párrafo abajo a la derecha, cifras gigantes
@@ -179,9 +180,7 @@ export default function HomeView({
           en pantalla (2 columnas libres a cada lado). */}
       <section className={`pt-36 md:pt-56 ${wrap}`}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-8 md:col-start-3">
-            <p className="t-statement">{intro}</p>
-          </FadeIn>
+          <Lines className="col-span-12 t-statement md:col-span-8 md:col-start-3">{intro}</Lines>
         </div>
       </section>
 
@@ -198,10 +197,14 @@ export default function HomeView({
       {more && (
         <section className={`mt-40 md:mt-64 ${wrap}`}>
           <div className={grid}>
-            <FadeIn className="col-span-12 md:col-span-8">
-              <Eyebrow>{more.eyebrow}</Eyebrow>
-              <h2 className="t-h2">{more.title}</h2>
-            </FadeIn>
+            <div className="col-span-12 md:col-span-8">
+              <FadeIn>
+                <Eyebrow>{more.eyebrow}</Eyebrow>
+              </FadeIn>
+              <Lines as="h2" className="t-h2" delay={STAGGER}>
+                {more.title}
+              </Lines>
+            </div>
           </div>
           <div className={`${grid} gap-y-20 md:gap-y-0`}>
             {more.items.map((p, k) => (

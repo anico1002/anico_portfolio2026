@@ -22,6 +22,7 @@ import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
 import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
 import { invText } from "@/components/case-study/invText";
+import Lines from "@/components/case-study/Lines";
 
 /* Plantilla de caso de la maqueta: el mismo lenguaje que Gloop (máscaras y curvas de
    Metalab, parallax de Yakushev) alimentado por lib/maqueta/cases.ts + los medios de
@@ -174,13 +175,24 @@ function scatter(items: MediaItem[]) {
 function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: string; title?: string; body?: string; items: MediaItem[] }) {
   const flip = n % 2 === 1;
   const [lead, ...rest] = items;
+  // Titulillo y cuerpo con su fundido; el titular, por líneas (D1).
   const text = (
     <>
-      <p className={`t-label text-[var(--case-muted)] ${mono}`}>
-        {String(n + 1).padStart(2, "0")} · {eyebrow}
-      </p>
-      {title && <h3 className={`mt-3 ${tTitle}`}>{title}</h3>}
-      {body && <p className={`mt-4 text-[var(--case-muted)] ${tBody}`}>{body}</p>}
+      <FadeIn>
+        <p className={`t-label text-[var(--case-muted)] ${mono}`}>
+          {String(n + 1).padStart(2, "0")} · {eyebrow}
+        </p>
+      </FadeIn>
+      {title && (
+        <Lines as="h3" className={`mt-3 ${tTitle}`} delay={STAGGER}>
+          {title}
+        </Lines>
+      )}
+      {body && (
+        <FadeIn delay={2 * STAGGER}>
+          <p className={`mt-4 text-[var(--case-muted)] ${tBody}`}>{body}</p>
+        </FadeIn>
+      )}
     </>
   );
 
@@ -188,12 +200,18 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
     return (
       <section className={section}>
         <div className={`${grid} gap-y-8`}>
-          <FadeIn className={`col-span-12 md:col-span-7 ${flip ? "md:col-start-5" : "md:col-start-2"}`}>
-            <p className={`mb-4 t-label text-[var(--case-muted)] ${mono}`}>
-              {String(n + 1).padStart(2, "0")} · {eyebrow}
-            </p>
-            {title && <h3 className={tStatement}>{title}</h3>}
-          </FadeIn>
+          <div className={`col-span-12 md:col-span-7 ${flip ? "md:col-start-5" : "md:col-start-2"}`}>
+            <FadeIn>
+              <p className={`mb-4 t-label text-[var(--case-muted)] ${mono}`}>
+                {String(n + 1).padStart(2, "0")} · {eyebrow}
+              </p>
+            </FadeIn>
+            {title && (
+              <Lines as="h3" className={tStatement} delay={STAGGER}>
+                {title}
+              </Lines>
+            )}
+          </div>
           {body && (
             <FadeIn className={`col-span-12 md:col-span-4 md:mt-10 ${flip ? "md:col-start-2" : "md:col-start-8"}`}>
               <p className={`text-[var(--case-muted)] ${tBody}`}>{body}</p>
@@ -213,11 +231,11 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
             <MediaView item={lead} alt={eyebrow} />
           </Reveal>
         </div>
-        <FadeIn
+        <div
           className={`col-span-12 md:col-span-4 ${flip ? `md:order-1 ${tall ? "md:col-start-2" : "md:col-start-1"}` : tall ? "md:col-start-8" : "md:col-start-9"}`}
         >
           {text}
-        </FadeIn>
+        </div>
       </div>
       {rest.length > 0 && (
         <div className={`${grid} mt-20 gap-y-10 md:mt-32 md:gap-y-24`}>
@@ -282,18 +300,24 @@ export default function CaseTemplate({
       {media.phone ? (
         <section className={`pt-24 md:pt-36 ${wrap}`}>
           <div className={`${grid} items-start gap-y-14`}>
-            <FadeIn className="col-span-12 md:sticky md:top-28 md:col-span-5">
-              <Eyebrow>Introducción</Eyebrow>
-              <p className={tStatement}>{c.tagline}</p>
-              <h2 className={`mt-10 ${tTitle}`}>{invText(c.question)}</h2>
-              <div className="mt-6 space-y-5">
+            <div className="col-span-12 md:sticky md:top-28 md:col-span-5">
+              <FadeIn>
+                <Eyebrow>Introducción</Eyebrow>
+              </FadeIn>
+              <Lines className={tStatement} delay={STAGGER}>
+                {c.tagline}
+              </Lines>
+              <Lines as="h2" className={`mt-10 ${tTitle}`} delay={2 * STAGGER}>
+                {invText(c.question)}
+              </Lines>
+              <FadeIn delay={3 * STAGGER} className="mt-6 space-y-5">
                 {c.overview.map((p) => (
                   <p key={p.slice(0, 24)} className={`text-[var(--case-muted)] ${tBody}`}>
                     {p}
                   </p>
                 ))}
-              </div>
-            </FadeIn>
+              </FadeIn>
+            </div>
             <Parallax speed={90} className="col-span-12 md:col-span-4 md:col-start-8">
               <FadeIn>
                 <Phone label={c.name} src={media.phone.src} ratio={media.phone.ratio} className="mx-auto max-w-[360px]" />
@@ -304,20 +328,26 @@ export default function CaseTemplate({
       ) : (
         <section className={`pt-24 md:pt-36 ${wrap}`}>
           <div className={`${grid} gap-y-12`}>
-            <FadeIn className="col-span-12 md:col-span-8">
-              <Eyebrow>Introducción</Eyebrow>
-              <p className={tIntro}>{c.tagline}</p>
-            </FadeIn>
-            <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-56">
-              <h2 className={tTitle}>{invText(c.question)}</h2>
-              <div className="mt-6 space-y-5">
+            <div className="col-span-12 md:col-span-8">
+              <FadeIn>
+                <Eyebrow>Introducción</Eyebrow>
+              </FadeIn>
+              <Lines className={tIntro} delay={STAGGER}>
+                {c.tagline}
+              </Lines>
+            </div>
+            <div className="col-span-12 md:col-span-4 md:col-start-9 md:mt-56">
+              <Lines as="h2" className={tTitle}>
+                {invText(c.question)}
+              </Lines>
+              <FadeIn delay={STAGGER} className="mt-6 space-y-5">
                 {c.overview.map((p) => (
                   <p key={p.slice(0, 24)} className={`text-[var(--case-muted)] ${tBody}`}>
                     {p}
                   </p>
                 ))}
-              </div>
-            </FadeIn>
+              </FadeIn>
+            </div>
           </div>
         </section>
       )}
@@ -370,21 +400,27 @@ export default function CaseTemplate({
       {/* 5 · Resultado + enlace */}
       <section className={section}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-7 md:col-start-3">
-            <Eyebrow>Resultado</Eyebrow>
-            <h2 className={tStatement}>{invText(c.outcomeTitle)}</h2>
-            <p className={`mt-6 max-w-[56ch] text-[var(--case-muted)] ${tBody}`}>{c.outcome}</p>
-            {c.cta && (
-              <a
-                href={c.cta.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-fill mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small"
-              >
-                {c.cta.label} <Arrow />
-              </a>
-            )}
-          </FadeIn>
+          <div className="col-span-12 md:col-span-7 md:col-start-3">
+            <FadeIn>
+              <Eyebrow>Resultado</Eyebrow>
+            </FadeIn>
+            <Lines as="h2" className={tStatement} delay={STAGGER}>
+              {invText(c.outcomeTitle)}
+            </Lines>
+            <FadeIn delay={2 * STAGGER}>
+              <p className={`mt-6 max-w-[56ch] text-[var(--case-muted)] ${tBody}`}>{c.outcome}</p>
+              {c.cta && (
+                <a
+                  href={c.cta.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-fill mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small"
+                >
+                  {c.cta.label} <Arrow />
+                </a>
+              )}
+            </FadeIn>
+          </div>
         </div>
       </section>
 

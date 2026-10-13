@@ -276,3 +276,28 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   :is(a, button):hover .arr > svg + svg { transform: translate(-110%, 110%); }
   .group:hover .card-zoom { scale: 1; }
 }
+
+/* ── Bloque D · Titulares por líneas (Lines, D1) ───────────────────────────────────────────
+   Cada palabra en su máscara (con 0,25 em de aire arriba y abajo y 0,12 em a los lados,
+   compensados con margen negativo: no mueve nada y no corta descendentes ni acentos). Dentro,
+   la palabra espera una línea y pico más abajo (100 % + 0,6 em: fuera de la máscara aunque
+   el interlineado sea muy cerrado) y sube con `slow` y la curva de entrada. Todas las palabras de
+   una línea comparten `--l`, así que la línea sube entera; cada línea, STAGGER después. */
+.ln-w {
+  display: inline-block;
+  padding: 0.25em 0.12em;
+  margin: -0.25em -0.12em;
+  clip-path: inset(0);
+}
+.ln-i {
+  display: inline-block;
+  transform: translateY(calc(100% + 0.6em));
+}
+.ln[data-on] .ln-i {
+  transform: none;
+  transition: transform var(--dur-slow) var(--ease-out);
+  transition-delay: calc(var(--d, 0s) + var(--l, 0) * 0.1s);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ln-i { transform: none; }
+}

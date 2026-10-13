@@ -18,6 +18,7 @@ import {
 import { STAGGER } from "@/lib/maqueta/motion";
 import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
+import Lines from "@/components/case-study/Lines";
 
 /* Maqueta del caso de estudio de Gloop.
    Cajas y móviles grises = imágenes/vídeos que produce Alberto; el texto es borrador
@@ -85,15 +86,17 @@ export default function GloopCase() {
       {/* 1 · Intro (al hacer scroll) a la izquierda + un móvil con el vídeo-resumen a la derecha */}
       <section className={`pt-24 md:pt-36 ${wrap}`}>
         <div className={`${grid} items-start gap-y-14`}>
-          <FadeIn className="col-span-12 md:col-span-5 md:sticky md:top-28">
-            <Eyebrow>Introducción</Eyebrow>
-            <p className="t-title">
+          <div className="col-span-12 md:col-span-5 md:sticky md:top-28">
+            <FadeIn>
+              <Eyebrow>Introducción</Eyebrow>
+            </FadeIn>
+            <Lines className="t-title" delay={STAGGER}>
               La vida de un grupo de amigos está repartida entre chats, planes y fotos que nadie
               vuelve a mirar. Gloop la reúne en un solo lugar y la convierte en juego. Diseñé el
               producto de principio a fin, de la estrategia a una{" "}
               <em className={em}>app nativa lista para desarrollo</em>.
-            </p>
-          </FadeIn>
+            </Lines>
+          </div>
           {/* Un solo móvil: vídeo-resumen del flujo completo de la app, de principio a fin.
               Patrón común a todos los casos: primero la visión de conjunto, luego el detalle. */}
           <Parallax speed={90} className="col-span-12 md:col-span-4 md:col-start-8">
@@ -111,12 +114,14 @@ export default function GloopCase() {
       {/* 3 · Prototipo vivo: antetítulo + frase, medio grande con pie lateral */}
       <section className={section}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-7 md:col-start-3">
-            <Eyebrow>Prototipar para decidir</Eyebrow>
-            <h2 className={tStatement}>
+          <div className="col-span-12 md:col-span-7 md:col-start-3">
+            <FadeIn>
+              <Eyebrow>Prototipar para decidir</Eyebrow>
+            </FadeIn>
+            <Lines as="h2" className={tStatement} delay={STAGGER}>
               Validar cada decisión sobre producto real, no sobre maquetas.
-            </h2>
-          </FadeIn>
+            </Lines>
+          </div>
         </div>
         <div className={`${grid} mt-16 items-end gap-y-6 md:mt-24`}>
           <FadeIn className="order-2 col-span-12 md:order-1 md:col-span-2">
@@ -140,10 +145,14 @@ export default function GloopCase() {
       {/* 4 · Decisiones: tres filas alternas */}
       <section className={section}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-7 md:col-start-3">
-            <Eyebrow>Las decisiones</Eyebrow>
-            <h2 className={tStatement}>Menos fricción en cada paso. Más razones para volver.</h2>
-          </FadeIn>
+          <div className="col-span-12 md:col-span-7 md:col-start-3">
+            <FadeIn>
+              <Eyebrow>Las decisiones</Eyebrow>
+            </FadeIn>
+            <Lines as="h2" className={tStatement} delay={STAGGER}>
+              Menos fricción en cada paso. Más razones para volver.
+            </Lines>
+          </div>
         </div>
 
         {[
@@ -172,13 +181,17 @@ export default function GloopCase() {
                 <Placeholder kind={i === 2 ? "vídeo" : "imagen"} ratio="4/5" src={r.src} label={r.ph} />
               </MaskReveal>
             </div>
-            <FadeIn
-              className={`col-span-12 md:col-span-4 ${i % 2 ? "md:col-start-2 md:order-1" : "md:col-start-8"}`}
-            >
-              <p className={`${mono} t-label text-[var(--case-muted)]`}>0{i + 1}</p>
-              <h3 className={`mt-3 ${tTitle}`}>{r.t}</h3>
-              <p className={`mt-4 text-[var(--case-muted)] ${tBody}`}>{r.d}</p>
-            </FadeIn>
+            <div className={`col-span-12 md:col-span-4 ${i % 2 ? "md:col-start-2 md:order-1" : "md:col-start-8"}`}>
+              <FadeIn>
+                <p className={`${mono} t-label text-[var(--case-muted)]`}>0{i + 1}</p>
+              </FadeIn>
+              <Lines as="h3" className={`mt-3 ${tTitle}`} delay={STAGGER}>
+                {r.t}
+              </Lines>
+              <FadeIn delay={2 * STAGGER}>
+                <p className={`mt-4 text-[var(--case-muted)] ${tBody}`}>{r.d}</p>
+              </FadeIn>
+            </div>
           </div>
         ))}
       </section>
@@ -206,12 +219,14 @@ export default function GloopCase() {
       {/* 6 · La app por dentro: grupos por funcionalidad + vídeo */}
       <section className={section}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-7 md:col-start-3">
-            <Eyebrow>La experiencia</Eyebrow>
-            <h2 className={tStatement}>
+          <div className="col-span-12 md:col-span-7 md:col-start-3">
+            <FadeIn>
+              <Eyebrow>La experiencia</Eyebrow>
+            </FadeIn>
+            <Lines as="h2" className={tStatement} delay={STAGGER}>
               Cuatro espacios alrededor de un mismo equipo: el grupo, la noche, los recuerdos y la cuenta.
-            </h2>
-          </FadeIn>
+            </Lines>
+          </div>
         </div>
         <div className={`${grid} mt-16 gap-y-6 md:mt-24`}>
           <div className="col-span-12 md:col-span-7">
@@ -253,13 +268,19 @@ export default function GloopCase() {
       {/* 7 · Experiencias y sus juegos */}
       <section className={section}>
         <div className={`${grid} items-end gap-y-6`}>
-          <FadeIn className="col-span-12 md:col-span-4">
-            <Eyebrow>Experiencias</Eyebrow>
-            <h2 className={tStatement}>Dinámicas de fiesta llevadas a producto.</h2>
-            <Caption className="mt-5">
-              Formatos cortos para jugar en grupo y en persona, pensados para entenderse en segundos.
-            </Caption>
-          </FadeIn>
+          <div className="col-span-12 md:col-span-4">
+            <FadeIn>
+              <Eyebrow>Experiencias</Eyebrow>
+            </FadeIn>
+            <Lines as="h2" className={tStatement} delay={STAGGER}>
+              Dinámicas de fiesta llevadas a producto.
+            </Lines>
+            <FadeIn delay={2 * STAGGER}>
+              <Caption className="mt-5">
+                Formatos cortos para jugar en grupo y en persona, pensados para entenderse en segundos.
+              </Caption>
+            </FadeIn>
+          </div>
           {["Podium", "Culpable", "De 0 a 100", "Clones"].map((g, i) => (
             <Parallax key={g} speed={[60, 150, 90, 180][i]} className="col-span-6 md:col-span-2">
               <FadeIn delay={i * STAGGER}>
@@ -273,13 +294,15 @@ export default function GloopCase() {
       {/* 8 · ⭐ Del diseño al código nativo */}
       <section className={section}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-10">
-            <Eyebrow>Del diseño al código</Eyebrow>
-            <p className={tIntro}>
+          <div className="col-span-12 md:col-span-10">
+            <FadeIn>
+              <Eyebrow>Del diseño al código</Eyebrow>
+            </FadeIn>
+            <Lines className={tIntro} delay={STAGGER}>
               El handoff es una <em className={`${em}`}>app nativa en SwiftUI</em>: funciona
               en dispositivo y vive en el repositorio del equipo de desarrollo.
-            </p>
-          </FadeIn>
+            </Lines>
+          </div>
         </div>
       </section>
 
@@ -320,14 +343,20 @@ export default function GloopCase() {
       {/* 9 · Cómo trabajo con IA: flujo + cifras gigantes (gesto Yakushev) */}
       <section className={section}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-7 md:col-start-3">
-            <Eyebrow>Diseño con IA</Eyebrow>
-            <h2 className={tStatement}>La IA acelera la construcción. El criterio sigue siendo de diseño.</h2>
-            <p className={`mt-6 max-w-[52ch] text-[var(--case-muted)] ${tBody}`}>
-              Claude Code interviene en el prototipado, en los vídeos de recorrido y en el desarrollo
-              en SwiftUI. Ninguna pantalla avanza sin pasar antes por revisión de diseño.
-            </p>
-          </FadeIn>
+          <div className="col-span-12 md:col-span-7 md:col-start-3">
+            <FadeIn>
+              <Eyebrow>Diseño con IA</Eyebrow>
+            </FadeIn>
+            <Lines as="h2" className={tStatement} delay={STAGGER}>
+              La IA acelera la construcción. El criterio sigue siendo de diseño.
+            </Lines>
+            <FadeIn delay={2 * STAGGER}>
+              <p className={`mt-6 max-w-[52ch] text-[var(--case-muted)] ${tBody}`}>
+                Claude Code interviene en el prototipado, en los vídeos de recorrido y en el desarrollo
+                en SwiftUI. Ninguna pantalla avanza sin pasar antes por revisión de diseño.
+              </p>
+            </FadeIn>
+          </div>
         </div>
         <div className="mt-16 md:mt-24">
           <MaskReveal from="bottom">
@@ -355,13 +384,14 @@ export default function GloopCase() {
       {/* 10 · Estado + siguiente caso */}
       <section className={section}>
         <div className={grid}>
-          <FadeIn className="col-span-12 md:col-span-6 md:col-start-3">
-            <Eyebrow>Próximos pasos</Eyebrow>
-            <p className={tStatement}>
-              Gloop está en desarrollo. La base nativa y el sistema ya están con el equipo; la siguiente
-              fase lleva las experiencias completas a la app.
-            </p>
-          </FadeIn>
+          <div className="col-span-12 md:col-span-6 md:col-start-3">
+            <FadeIn>
+              <Eyebrow>Próximos pasos</Eyebrow>
+            </FadeIn>
+            <Lines className={tStatement} delay={STAGGER}>
+              Gloop está en desarrollo. La base nativa y el sistema ya están con el equipo; la siguiente fase lleva las experiencias completas a la app.
+            </Lines>
+          </div>
         </div>
       </section>
 

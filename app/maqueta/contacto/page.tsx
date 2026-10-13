@@ -4,6 +4,7 @@ import { STAGGER } from "@/lib/maqueta/motion";
 import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
 import { invText } from "@/components/case-study/invText";
+import Lines from "@/components/case-study/Lines";
 
 /* Contacto: email y LinkedIn de public/profile.txt; texto del bloque [contact]. */
 
@@ -21,8 +22,10 @@ export default function Contact() {
       <SiteNav active="contact" />
 
       <section className={`pt-32 md:pt-44 ${wrap}`}>
-        <FadeIn>
-          <h1 className="t-d2">{invText("¿Hablamos?")}</h1>
+        <Lines as="h1" className="t-d2">
+          {invText("¿Hablamos?")}
+        </Lines>
+        <FadeIn delay={2 * STAGGER}>
           <p className="mt-8 max-w-[38ch] t-lead text-[var(--case-muted)]">
             {invText(
               "¿Tienes un proyecto en mente? Siempre estoy abierto a proyectos interesantes. Cuéntame en qué puedo ayudarte."

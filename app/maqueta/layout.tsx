@@ -4,6 +4,7 @@ import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
 import PortalLayer from "@/components/case-study/Portal";
+import Boot from "@/components/case-study/Boot";
 import "./system.css";
 
 // Tipografía de la maqueta (2026-10-12): Instrument Sans para todo y Playfair
@@ -59,6 +60,8 @@ export default function MaquetaLayout({ children }: { children: React.ReactNode 
       <CurtainLayer />
       {/* Transición «portal» de todos los demás enlaces (B1). */}
       <PortalLayer />
+      {/* Primera carga: tapa la página hasta que llega la tipografía (D6). */}
+      <Boot />
     </div>
   );
 }
