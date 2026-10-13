@@ -3,6 +3,7 @@ import { Eyebrow, FadeIn } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
+import { invText } from "@/components/case-study/invText";
 
 /* Contacto: email y LinkedIn de public/profile.txt; texto del bloque [contact]. */
 
@@ -22,10 +23,11 @@ export default function Contact() {
       <section className={`pt-32 md:pt-44 ${wrap}`}>
         <FadeIn>
           <Eyebrow>Contacto</Eyebrow>
-          <h1 className="t-d2">¿Hablamos?</h1>
+          <h1 className="t-d2">{invText("¿Hablamos?")}</h1>
           <p className="mt-8 max-w-[38ch] t-lead text-[var(--case-muted)]">
-            ¿Tienes un proyecto en mente? Siempre estoy abierto a proyectos interesantes. Cuéntame en qué puedo
-            ayudarte.
+            {invText(
+              "¿Tienes un proyecto en mente? Siempre estoy abierto a proyectos interesantes. Cuéntame en qué puedo ayudarte."
+            )}
           </p>
         </FadeIn>
       </section>

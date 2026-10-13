@@ -21,6 +21,7 @@ import type { CaseCopy } from "@/lib/maqueta/cases";
 import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
 import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
+import { invText } from "@/components/case-study/invText";
 
 /* Plantilla de caso de la maqueta: el mismo lenguaje que Gloop (máscaras y curvas de
    Metalab, parallax de Yakushev) alimentado por lib/maqueta/cases.ts + los medios de
@@ -284,7 +285,7 @@ export default function CaseTemplate({
             <FadeIn className="col-span-12 md:sticky md:top-28 md:col-span-5">
               <Eyebrow>Introducción</Eyebrow>
               <p className={tStatement}>{c.tagline}</p>
-              <h2 className={`mt-10 ${tTitle}`}>{c.question}</h2>
+              <h2 className={`mt-10 ${tTitle}`}>{invText(c.question)}</h2>
               <div className="mt-6 space-y-5">
                 {c.overview.map((p) => (
                   <p key={p.slice(0, 24)} className={`text-[var(--case-muted)] ${tBody}`}>
@@ -308,7 +309,7 @@ export default function CaseTemplate({
               <p className={tIntro}>{c.tagline}</p>
             </FadeIn>
             <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-56">
-              <h2 className={tTitle}>{c.question}</h2>
+              <h2 className={tTitle}>{invText(c.question)}</h2>
               <div className="mt-6 space-y-5">
                 {c.overview.map((p) => (
                   <p key={p.slice(0, 24)} className={`text-[var(--case-muted)] ${tBody}`}>
@@ -371,7 +372,7 @@ export default function CaseTemplate({
         <div className={grid}>
           <FadeIn className="col-span-12 md:col-span-7 md:col-start-3">
             <Eyebrow>Resultado</Eyebrow>
-            <h2 className={tStatement}>{c.outcomeTitle}</h2>
+            <h2 className={tStatement}>{invText(c.outcomeTitle)}</h2>
             <p className={`mt-6 max-w-[56ch] text-[var(--case-muted)] ${tBody}`}>{c.outcome}</p>
             {c.cta && (
               <a
