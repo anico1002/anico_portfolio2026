@@ -1,5 +1,5 @@
 import SiteNav from "@/components/case-study/SiteNav";
-import { Eyebrow, FadeIn } from "@/components/case-study/primitives";
+import { FadeIn } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import RollText from "@/components/case-study/RollText";
 import Arrow from "@/components/case-study/Arrow";
@@ -22,7 +22,6 @@ export default function Contact() {
 
       <section className={`pt-32 md:pt-44 ${wrap}`}>
         <FadeIn>
-          <Eyebrow>Contacto</Eyebrow>
           <h1 className="t-d2">{invText("¿Hablamos?")}</h1>
           <p className="mt-8 max-w-[38ch] t-lead text-[var(--case-muted)]">
             {invText(
