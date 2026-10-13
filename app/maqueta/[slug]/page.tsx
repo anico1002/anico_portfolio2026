@@ -7,8 +7,11 @@ import { getCaseMedia, getGameBlocks, thumbOf } from "@/lib/maqueta/media";
 /* Casos de la maqueta salvo Gloop (que tiene página propia en /maqueta/gloop). Product y Marca:
    caso de éxito (CaseTemplate). Games: escaparate gráfico (GamesTemplate, lib/maqueta/games.ts). */
 
+// Casos con página propia (ruta fija, que manda sobre esta): no se generan aquí para no duplicar rutas.
+const BESPOKE = new Set(["swift-project", "interactius", "7news", "dovla", "elreto-masterchef"]);
+
 export function generateStaticParams() {
-  return CASES.map((c) => ({ slug: c.slug }));
+  return CASES.filter((c) => !BESPOKE.has(c.slug)).map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {

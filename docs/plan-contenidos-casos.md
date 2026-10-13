@@ -7,6 +7,8 @@
 > demás. Los textos de aquí son borradores de enfoque, no copy final (habrá revisión de copywriter).
 >
 > Orden de montaje: **Gloop** (caso estrella) → SwifT → Interactius → 7news → Dovla → El Reto.
+> **Estado (2026-10-13): los seis montados** en la maqueta con piezas recreadas. Lo que sigue son las dudas
+> abiertas de cada caso, para resolver con Alberto antes de dar los textos por buenos.
 > WineUp queda fuera (no es un proyecto hecho juntos).
 
 ---

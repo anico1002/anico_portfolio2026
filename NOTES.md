@@ -39,6 +39,16 @@ redibujadas del producto real, no con las láminas viejas. Plan de los 6 en `doc
   la Geist reales. Medios nuevos en `public/maqueta/gloop/media/` (**sin versionar, solo en el MacBook**):
   `kit.mp4` + `kit-poster.jpg` (recorrido del UI kit desplegado, grabado fotograma a fotograma con
   Playwright) y `photo-*.jpg` (fotos de la app). Dudas para Alberto en el plan (feria, autoría, publicación).
+- **Los otros cinco, hechos el mismo día** (cada uno su página fija + `components/case-study/<caso>/`, que
+  mandan sobre `/maqueta/[slug]`): **SwifT** (demo del atajo ⌥⌘T, 4 funciones en horizontal con
+  `HorizontalPin`, frases trampa 15/11/10, cascada de motores, banderas imposibles, icono), **Interactius**
+  (fuente única, Markdown → slide, Gantt tecleado, FitText, validador de tono; Plex Mono/Serif reales; fotos
+  del universo sin versionar), **7news** (logo como carga, 678 → 32, crear un tema, frente a un lector
+  cualquiera, iPhone → Watch), **Dovla** (patrón dovela, saldo que viaja en el tiempo, extracto → escaparate
+  arrastrable, «un dato, no un piropo», color accesible, texto al 200 %) y **El Reto** (brillos, energía y
+  reglas reales, sigue al chef, embudo, dos superficies, IA). Portadas compuestas para Interactius, 7news y
+  Dovla (`public/maqueta/<caso>/cover.jpg`). La home de Product pone estos casos delante de los pendientes;
+  solo WineUp sigue en pendiente. Revisado en 390 y 1440: sin errores ni scroll horizontal.
 
 **Games = escaparate gráfico (2026-10-13, «tira millas»):** decisión de Alberto: Product son casos de éxito
 largos (estilo Metalab); Games, no. Plantilla propia `GamesTemplate.tsx` + plan de bloques en
