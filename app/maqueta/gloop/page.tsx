@@ -2,7 +2,7 @@
 
 import NextCase from "@/components/case-study/NextCase";
 import SiteNav from "@/components/case-study/SiteNav";
-import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Parallax, Placeholder } from "@/components/case-study/primitives";
+import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Parallax, Placeholder } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
 import SiteFooter from "@/components/case-study/SiteFooter";
@@ -29,11 +29,14 @@ const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 
-/** Foto de ambiente a sangre de su columna, con parallax interno (las fotos de concepto de la noche). */
-function Mood({ src, ratio = "4/3", className = "" }: { src: string; ratio?: string; className?: string }) {
+/** Foto de ambiente (las de concepto de la noche): entra como en la home, con la máscara que se abre desde
+    un lado y la imagen asentándose, y luego hace su parallax interno sutil (Yakushev). */
+function Mood({ src, ratio = "4/3", from = "left", className = "" }: { src: string; ratio?: string; from?: "left" | "right"; className?: string }) {
   return (
     <div className={`m-bleed ${className}`}>
-      <Placeholder ratio={ratio} src={src} label="Noche con amigos" />
+      <MaskReveal from={from} speed={0}>
+        <Placeholder ratio={ratio} src={src} label="Noche con amigos" />
+      </MaskReveal>
     </div>
   );
 }
@@ -119,9 +122,7 @@ export default function GloopCase() {
       <section className={`pt-28 md:pt-40 ${wrap}`}>
         <div className={`${grid} items-start`}>
           <Parallax speed={40} className="col-span-12 md:col-span-8 md:col-start-1 md:row-start-1">
-            <FadeIn>
-              <Mood src="/maqueta/gloop/media/party-ev3.jpg" ratio="16/10" />
-            </FadeIn>
+            <Mood src="/maqueta/gloop/media/party-ev3.jpg" ratio="16/10" />
           </Parallax>
           <Parallax speed={260} className="relative z-10 col-span-8 col-start-3 -mt-24 md:col-span-3 md:col-start-8 md:row-start-1 md:mt-[22%]">
             <FadeIn>
@@ -154,16 +155,14 @@ export default function GloopCase() {
       <section className={`pt-28 md:pt-40 ${wrap}`}>
         <div className={`${grid} items-start`}>
           <Parallax speed={40} className="col-span-12 md:col-span-8 md:col-start-5 md:row-start-1">
-            <FadeIn>
-              <Mood src="/maqueta/gloop/media/party-ev6.jpg" ratio="16/10" />
-            </FadeIn>
+            <Mood src="/maqueta/gloop/media/party-ev6.jpg" ratio="16/10" from="right" />
           </Parallax>
           <Parallax speed={260} className="relative z-10 col-span-8 col-start-1 -mt-24 md:col-span-3 md:col-start-3 md:row-start-1 md:mt-[18%]">
             <FadeIn>
               <PhoneFrame src="/maqueta/gloop/media/scr-momentos.mp4" label="Momentos" className="mx-auto max-w-[280px]" />
             </FadeIn>
           </Parallax>
-          <Parallax speed={340} className="relative z-10 col-span-8 col-start-5 mt-16 md:col-span-3 md:col-start-10 md:row-start-1 md:mt-[34%]">
+          <Parallax speed={340} className="relative z-10 col-span-8 col-start-5 mt-40 md:col-span-3 md:col-start-10 md:row-start-1 md:mt-[64%]">
             <FadeIn>
               <PhoneFrame src="/maqueta/gloop/media/scr-cuenta.mp4" label="La Cuenta" className="mx-auto max-w-[280px]" />
             </FadeIn>

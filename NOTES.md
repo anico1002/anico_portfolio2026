@@ -2,6 +2,21 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ PENDIENTE PARA LA PRÓXIMA SESIÓN (Gloop, apuntado por Alberto el 2026-10-13 noche)
+
+Primera vuelta al feedback de Gloop hecha (copy publicitario sin cocina interna, cristal iOS, parada del
+design system, móviles sobre fotos, entradas con máscara…). Detalle de copy en `docs/copy-gloop-propuestas.md`.
+**Recordarle a Alberto al empezar:**
+1. **El logo de Gloop casi no aparece en todo el caso** (hablamos de la marca y no sale). Sacarlo en la
+   sección de **La forma** (el imago, la esquina recta): el logo y el isotipo de `public/maqueta/gloop/brand/`.
+   No hacerlo antes de hablarlo.
+2. **Vídeo del flujo de la app dentro de un mockup de móvil**, como en el caso de SwifT. Ya lo había pedido en
+   su feedback y no se hizo. **Él dirá en qué sitio va**: preguntárselo.
+3. Abiertos de antes: los cuatro pasos de **Por capas** (+ capas PNG reales y vídeo de un móvil en una mano),
+   el formato de **Momentos firma** (coverflow, cartas o ruleta a pantalla completa; yo recomiendo la ruleta),
+   el **zoom** del portátil a la app, imágenes de **Benchmark y Wireframes**, la **frase grande de la intro**
+   (no le gustó ninguna propuesta), «encender» o «activar la noche» y el ejemplo del acordeón en cristal.
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-13, MacBook)
 
 Rama `case-study-maqueta`, todo commiteado y pusheado; demo en https://anico-maqueta.vercel.app.

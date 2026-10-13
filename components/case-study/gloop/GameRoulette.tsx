@@ -3,7 +3,7 @@
 import { animate, motion, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Lines from "@/components/case-study/Lines";
-import { FadeIn } from "@/components/case-study/primitives";
+import { FadeIn, GraphicReveal } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
 
@@ -86,7 +86,8 @@ export default function GameRoulette() {
           </FadeIn>
         </div>
       </div>
-      <div ref={box} className="relative mt-16 overflow-hidden py-6 md:mt-24" style={{ background: G.base }}>
+      <GraphicReveal from="bottom" className="mt-16 md:mt-24">
+      <div ref={box} className="relative overflow-hidden py-6" style={{ background: G.base }}>
         <motion.div className="flex w-max gap-4" style={{ x }}>
           {strip.map((g, k) => {
             const isPick = landed && k % GAMES.length === pick;
@@ -122,6 +123,7 @@ export default function GameRoulette() {
         <span aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-3 w-[2px] -translate-x-1/2 bg-white" />
         <span aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 h-3 w-[2px] -translate-x-1/2 bg-white" />
       </div>
+      </GraphicReveal>
     </div>
   );
 }

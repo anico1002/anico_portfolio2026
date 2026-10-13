@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Lines from "@/components/case-study/Lines";
+import { GraphicReveal } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
 
@@ -122,7 +123,7 @@ export default function OneThing() {
             </motion.p>
           </div>
           {/* El panel: todo a la vez sobre la noche; al final, un solo botón en el centro. */}
-          <div className="col-span-12 md:col-span-7">
+          <GraphicReveal from="right" className="col-span-12 md:col-span-7">
             <div
               ref={panel}
               className="relative min-h-[22rem] overflow-hidden md:min-h-[32rem]"
@@ -146,7 +147,7 @@ export default function OneThing() {
                 ))}
               </div>
             </div>
-          </div>
+          </GraphicReveal>
         </div>
       </div>
     </div>

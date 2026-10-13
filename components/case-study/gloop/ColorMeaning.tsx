@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Lines from "@/components/case-study/Lines";
-import { FadeIn, Parallax } from "@/components/case-study/primitives";
+import { FadeIn, GraphicReveal, Parallax } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
@@ -120,6 +120,7 @@ export default function ColorMeaning() {
         </FadeIn>
       </div>
       <Parallax speed={90} className="m-bleed col-span-12 md:col-span-6 md:col-start-7">
+        <GraphicReveal from="right">
         <div className="relative flex min-h-[28rem] items-center justify-center overflow-hidden p-6 md:min-h-[34rem] md:p-12" style={{ background: G.base }}>
           {/* Foto de fiesta desenfocada: el cristal de la tarjeta necesita algo detrás. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -140,6 +141,7 @@ export default function ColorMeaning() {
           />
           <TeamCard on={on} />
         </div>
+        </GraphicReveal>
       </Parallax>
     </div>
   );

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Lines from "@/components/case-study/Lines";
-import { FadeIn, Parallax } from "@/components/case-study/primitives";
+import { FadeIn, GraphicReveal, Parallax } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
@@ -46,6 +46,7 @@ export default function ImagoCanon() {
   return (
     <div ref={ref} className={`grid grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6 ${geist.variable}`}>
       <Parallax speed={90} className="m-bleed relative col-span-12 flex aspect-[4/3] items-center justify-center md:order-2 md:col-span-7 md:col-start-6" >
+      <GraphicReveal from="right" className="absolute inset-0">
       <div className="absolute inset-0 flex items-center justify-center" style={{ background: G.base }}>
         <motion.div
           className="relative overflow-hidden"
@@ -64,6 +65,7 @@ export default function ImagoCanon() {
           )}
         </motion.div>
       </div>
+      </GraphicReveal>
       </Parallax>
       <div className="col-span-12 md:order-1 md:col-span-4">
         <p className="t-label t-tag text-[var(--case-muted)]">La forma</p>

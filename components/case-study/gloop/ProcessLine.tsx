@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import Lines from "@/components/case-study/Lines";
-import { Placeholder } from "@/components/case-study/primitives";
+import { GraphicReveal, Placeholder } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
 
@@ -64,6 +64,8 @@ function StepCard({ s, i }: { s: Step; i: number }) {
       </div>
       <h3 className="mt-4 t-lead font-medium">{s.title}</h3>
       <p className="mt-2 t-small text-[var(--case-muted)] md:whitespace-nowrap">{s.body}</p>
+      {/* Las piezas entran con máscara al llegar a la vista (también al pasar en horizontal). */}
+      <GraphicReveal from="right">
       {s.media && (
         <div className="relative mt-6 aspect-[16/10] overflow-hidden bg-[var(--case-ph)]">
           {s.media.video ? (
@@ -89,6 +91,7 @@ function StepCard({ s, i }: { s: Step; i: number }) {
           ))}
         </pre>
       )}
+      </GraphicReveal>
     </article>
   );
 }

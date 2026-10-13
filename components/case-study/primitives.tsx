@@ -134,6 +134,46 @@ export function MaskReveal({
   );
 }
 
+/** Entrada de gráficos (2026-10-13, Gloop): el mismo gesto que `MaskReveal` (máscara que se abre en una
+    dirección mientras el contenido baja de escala), pero sin el parallax interno ni la escala que se queda:
+    en una pieza de interfaz recreada, esa escala recortaría los bordes. Para cajas planas (sin sombra
+    por fuera, que la máscara cortaría). */
+export function GraphicReveal({
+  children,
+  from = "bottom",
+  className = "",
+}: {
+  children: React.ReactNode;
+  from?: From;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReduce();
+  const seen = useSeen(ref, "-10% 0px");
+  if (reduce) return <div ref={ref} className={className}>{children}</div>;
+  // Se vigila el contenedor, no la capa recortada: Chrome da por no visible un elemento recortado del
+  // todo con clip-path y la entrada no se disparaba nunca.
+  return (
+    <div ref={ref} className={className}>
+      <motion.div
+        className="h-full"
+        initial={{ clipPath: CLOSED[from] }}
+        animate={{ clipPath: seen ? "inset(0% 0% 0% 0%)" : CLOSED[from] }}
+        transition={{ duration: DUR.slow, ease: EASE.inOut }}
+      >
+        <motion.div
+          className="h-full"
+          initial={{ scale: 1.12 }}
+          animate={{ scale: seen ? 1 : 1.12 }}
+          transition={{ duration: DUR.slow, ease: EASE.inOut }}
+        >
+          {children}
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
 /** Momento grande: una ventana recortada en el centro que se abre con el scroll
     hasta quedar a sangre, con el contenido desescalándose y en parallax. */
 export function WindowReveal({ children }: { children: React.ReactNode }) {

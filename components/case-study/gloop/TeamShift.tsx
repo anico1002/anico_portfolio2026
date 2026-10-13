@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef } from "react";
-import { FadeIn } from "@/components/case-study/primitives";
+import { FadeIn, GraphicReveal } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
 
@@ -94,7 +94,7 @@ export default function TeamShift() {
     <div ref={ref} className={`relative ${reduce ? "" : "h-[320vh]"} ${geist.variable}`}>
       <div className={`${reduce ? "" : "sticky top-0"} flex min-h-screen items-center px-4 py-24 md:px-6`}>
         <div className="grid w-full grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6">
-          <div className="relative col-span-12 md:col-span-7">
+          <GraphicReveal from="left" className="relative col-span-12 md:col-span-7">
             <div className="relative aspect-square w-full overflow-hidden bg-[var(--case-bg)] md:aspect-[4/3]">
               {QUADS.map((q) => (
                 <Quad key={q.src} q={q} p={p} />
@@ -109,7 +109,7 @@ export default function TeamShift() {
                 ))}
               </motion.div>
             </div>
-          </div>
+          </GraphicReveal>
           {/* Texto centrado en el hueco que queda entre la imagen y el borde derecho. */}
           <div className="col-span-12 md:col-span-5 md:col-start-8">
             <div className="md:mx-auto md:w-[80%]">
