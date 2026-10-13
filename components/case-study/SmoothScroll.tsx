@@ -13,6 +13,11 @@ import { useEffect } from "react";
 let lenis: Lenis | null = null;
 let locks = 0;
 
+/* Posición de cada página (2026-10-13): al volver con atrás/adelante se recupera donde estabas
+   (p. ej. la home a la altura de la tarjeta del caso que abriste); con un enlace normal, arriba. */
+const saved = new Map<string, number>();
+let popped = false;
+
 /** Bloqueo de scroll mientras dura una transición o un menú (B6). Con contador: cada `stop`
     necesita su `start`, así dos capas a la vez no se desbloquean la una a la otra. */
 export const scrollLock = {
@@ -46,8 +51,25 @@ export default function SmoothScroll() {
   }, []);
 
   useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true, force: true });
-    window.scrollTo(0, 0);
+    // La restauración la hacemos nosotros (el navegador la haría antes de que la página nueva exista).
+    window.history.scrollRestoration = "manual";
+    const onPop = () => (popped = true);
+    // Entre el «atrás» y la restauración, el navegador recorta el scroll al cambiar el contenido y
+    // eso pisaría la posición guardada de la página a la que se vuelve: ahí no se guarda.
+    const onScroll = () => !popped && saved.set(window.location.pathname, window.scrollY);
+    window.addEventListener("popstate", onPop);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const y = popped ? (saved.get(pathname) ?? 0) : 0;
+    popped = false;
+    lenis?.scrollTo(y, { immediate: true, force: true });
+    window.scrollTo(0, y);
   }, [pathname]);
 
   return null;

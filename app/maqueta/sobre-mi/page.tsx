@@ -2,6 +2,7 @@ import SiteNav from "@/components/case-study/SiteNav";
 import { FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
+import { yearsOfExperience } from "@/lib/maqueta/years";
 import SiteFooter from "@/components/case-study/SiteFooter";
 
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
@@ -15,7 +16,8 @@ const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 const tBody = "t-body";
 
-const YEARS = new Date().getFullYear() - 1998; // career_start de profile.txt
+// Se regenera a diario: los años de experiencia suben solos (lib/maqueta/years.ts).
+export const revalidate = 86400;
 
 const disciplines = [
   "Diseño de producto",
@@ -39,7 +41,7 @@ export default function About() {
       <header className={`pt-32 md:pt-44 ${wrap}`}>
         <div className={grid}>
           <Lines as="h1" className="col-span-12 t-hero md:col-span-8">
-            {YEARS} años diseñando interfaces que la gente usa de verdad.
+            {yearsOfExperience()} años diseñando interfaces que la gente usa de verdad.
           </Lines>
         </div>
       </header>

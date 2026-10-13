@@ -19,7 +19,9 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
    tienen su propia transición; esta es la de todo lo demás. */
 
 type Phase = "idle" | "closing" | "covered" | "opening";
-let state: { phase: Phase; href: string | null } = { phase: "idle", href: null };
+// `instant`: el panel aparece ya cerrado, sin subir (atrás/adelante del navegador: la página ya ha
+// cambiado y solo queda taparla y destaparla).
+let state: { phase: Phase; href: string | null; instant?: boolean } = { phase: "idle", href: null };
 const subs = new Set<() => void>();
 const set = (s: typeof state) => {
   state = s;
@@ -90,6 +92,20 @@ export default function PortalLayer() {
     pathRef.current = path;
   }, [path]);
 
+  // Atrás / adelante del navegador (2026-10-13): antes cambiaba de página en seco. El navegador
+  // cambia la página al instante y eso no se puede retener, así que el panel la tapa en ese mismo
+  // momento, espera a que esté lista (como en cualquier enlace) y la destapa con la segunda mitad
+  // del barrido. Mismo gesto que el resto de la web.
+  useEffect(() => {
+    const onPop = () => {
+      if (state.phase !== "idle" || reduced() || window.location.pathname === pathRef.current) return;
+      scrollLock.stop();
+      set({ phase: "covered", href: window.location.pathname, instant: true });
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
   const active = s.phase === "closing" || s.phase === "covered";
   useEffect(() => {
     if (!active || reduced()) return;
@@ -131,7 +147,7 @@ export default function PortalLayer() {
     <div aria-hidden className="fixed inset-0 z-[90]">
       <motion.div
         className="absolute inset-0 flex items-center justify-center bg-[var(--case-fg)]"
-        initial={{ clipPath: below }}
+        initial={{ clipPath: s.instant ? SHUT : below }}
         animate={{ clipPath: shut ? SHUT : above }}
         transition={shut ? { duration: DUR.base, ease: EASE.screen } : { duration: DUR.base, ease: EASE.inOut }}
         onAnimationComplete={() => {

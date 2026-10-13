@@ -112,7 +112,7 @@ export default function GloopCase() {
       {/* 3 · Prototipo vivo: antetítulo + frase, medio grande con pie lateral */}
       <section className={section}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-7 md:col-start-3">
+          <div className="col-span-12 md:col-span-8 md:col-start-3">
             <FadeIn>
               <Eyebrow>Prototipar para decidir</Eyebrow>
             </FadeIn>
@@ -143,7 +143,7 @@ export default function GloopCase() {
       {/* 4 · Decisiones: tres filas alternas */}
       <section className={section}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-7 md:col-start-3">
+          <div className="col-span-12 md:col-span-8 md:col-start-3">
             <FadeIn>
               <Eyebrow>Las decisiones</Eyebrow>
             </FadeIn>
@@ -217,7 +217,7 @@ export default function GloopCase() {
       {/* 6 · La app por dentro: grupos por funcionalidad + vídeo */}
       <section className={section}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-7 md:col-start-3">
+          <div className="col-span-12 md:col-span-8 md:col-start-3">
             <FadeIn>
               <Eyebrow>La experiencia</Eyebrow>
             </FadeIn>
@@ -341,7 +341,7 @@ export default function GloopCase() {
       {/* 9 · Cómo trabajo con IA: flujo + cifras gigantes (gesto Yakushev) */}
       <section className={section}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-7 md:col-start-3">
+          <div className="col-span-12 md:col-span-8 md:col-start-3">
             <FadeIn>
               <Eyebrow>Diseño con IA</Eyebrow>
             </FadeIn>
@@ -382,7 +382,7 @@ export default function GloopCase() {
       {/* 10 · Estado + siguiente caso */}
       <section className={section}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-6 md:col-start-3">
+          <div className="col-span-12 md:col-span-8 md:col-start-3">
             <FadeIn>
               <Eyebrow>Próximos pasos</Eyebrow>
             </FadeIn>

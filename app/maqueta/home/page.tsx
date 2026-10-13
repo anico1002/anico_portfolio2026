@@ -2,6 +2,10 @@ import { SLIDES } from "@/lib/maqueta/sections";
 import HomeView, { type P } from "@/components/case-study/HomeView";
 import { casesIn, PENDING, type CaseCopy } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
+import { yearsOfExperience } from "@/lib/maqueta/years";
+
+// Se regenera a diario: los años de experiencia suben solos (lib/maqueta/years.ts).
+export const revalidate = 86400;
 
 /* Home de Product: apps y producto digital. Debajo, «Marca y web» (identidades y webs),
    separado para no mezclar públicos. Los casos aún sin contenido van sin enlace. */
@@ -29,7 +33,7 @@ export default function ProductHome() {
       active="product"
       slides={SLIDES.product}
       title="Diseño *productos digitales* de la idea al código nativo."
-      intro="Más de 25 años diseñando interfaces, ahora con la IA como herramienta de construcción. Estrategia, UX/UI, sistemas y prototipos que se pueden tocar."
+      intro={`${yearsOfExperience()} años diseñando interfaces, ahora con la IA como herramienta de construcción. Estrategia, UX/UI, sistemas y prototipos que se pueden tocar.`}
       items={items}
       more={{
         eyebrow: "Marca y web",

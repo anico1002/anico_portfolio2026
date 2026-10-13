@@ -19,6 +19,18 @@ cabecera de las homes viva (pase de imágenes que se recoge a media pantalla; lo
 pie que sube y se pega); todo con máscara, sin desenfoques; Instrument Sans + Playfair cursiva;
 titulillos `.t-tag`; negro puro en oscuro; logo y menú con `mix-blend-difference`; arreglos de Safari.
 
+**Hecho el 2026-10-13 (revisión de calidad completa, bloques C–F):** hover de tarjetas + «Ver caso» que
+sigue al ratón (0,4 s de retraso), flecha diagonal en SVG (`Arrow`), botón con relleno, rodillo en todos los
+enlaces; titulares por líneas (`Lines`); arranque que espera a la tipografía con el logo (`Boot`); recuento en
+el menú; pie común (`SiteFooter`); favicon que rueda por «anico» (`AnimatedFavicon`); vídeos que cargan al
+acercarse (`LazyVideo`); movimiento reducido completo (`useReduce`: con el de framer la página salía en blanco);
+foco con teclado; atrás/adelante con barrido y posición recuperada; «¿»/«¡» alineados (`Inv`); años de
+experiencia automáticos (`lib/maqueta/years.ts`, revalidate diario); Sobre mí y Contacto con la escala de las
+homes; frases de los casos en columnas 3–10; texto casi puro (decidido: no #FFF/#000); borrados `Inked`, `ink.ts`
+y `flow.mp4`. Descartados: E1 reloj, D2 contadores (y las cifras grandes, a decidir si se quitan). Standby: E4
+fondo por sección (para un pie a pantalla completa futuro), D5 microtipografía (repaso de diseño de Alberto).
+Alberto revisará todo y dará feedback.
+
 **Pendiente / próxima sesión:**
 - **ÚLTIMO PASO ANTES DE PRODUCCIÓN (pedido por Alberto, 2026-10-13): audit técnico final + optimización
   de imágenes y vídeos (F1).** Las imágenes y vídeos aún no son finales, por eso no se optimizan ahora.
@@ -26,13 +38,9 @@ titulillos `.t-tag`; negro puro en oscuro; logo y menú con `mix-blend-differenc
   recomprimidos. Regla: **pesar lo menos posible sin que ninguna imagen pierda calidad visible** (es un
   portfolio gráfico). Hoy: 176 imágenes, 286 MB, 97 PNG de más de 1 MB (la mayor, 7,6 MB). En el audit,
   repasar también accesibilidad (foco, movimiento reducido, contraste) y rendimiento.
-- **Bloque C** de la revisión: hover de tarjetas, etiqueta «Ver caso», enlaces (hover = `RollText`).
 - **Énfasis en titulares**: queda Playfair cursiva «a ver si se acostumbra»; revisar más adelante.
 - **Standby**: A3 motivo de marca + A4 intro (propuestas en la sección del bloque A); palabras que
   cambian (aparcado, regla: sola en su línea).
-- ¿Borrar `components/case-study/Inked.tsx` y `lib/maqueta/ink.ts`? (sin uso; pendiente de su OK).
-- ¿Texto en blanco/negro puros también (`#FFF`/`#000`) además del fondo? (preguntado, sin respuesta).
-- Frases de los casos: ¿centradas en columnas 3–10 como la intro de las homes? (ahora 3–9).
 - Contenidos: casos más cortos y con menos imágenes de más calidad (Gloop el primero).
 
 ## Lo primero: esta es la carpeta buena

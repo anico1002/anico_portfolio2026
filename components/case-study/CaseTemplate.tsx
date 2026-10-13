@@ -401,7 +401,7 @@ export default function CaseTemplate({
       {/* 5 · Resultado + enlace */}
       <section className={section}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-7 md:col-start-3">
+          <div className="col-span-12 md:col-span-8 md:col-start-3">
             <FadeIn>
               <Eyebrow>Resultado</Eyebrow>
             </FadeIn>
