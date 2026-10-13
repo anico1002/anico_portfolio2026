@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import RollText from "@/components/case-study/RollText";
 import { markLanded, startFlight } from "@/components/case-study/Flight";
-import { TLink } from "@/components/case-study/Portal";
+import { TLink, go } from "@/components/case-study/Portal";
+import { reducedMotion } from "@/lib/maqueta/motion";
 import { FadeIn, MaskReveal, Placeholder } from "@/components/case-study/primitives";
 import Arrow from "@/components/case-study/Arrow";
 
@@ -29,6 +30,8 @@ export default function NextCase({ name, href, thumb }: { name: string; href: st
   const open = (e: React.MouseEvent) => {
     if (!thumb || !frame.current || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
+    // Movimiento reducido (F3): sin vuelo, cambio directo de página.
+    if (reducedMotion()) return go(href);
     startFlight(thumb, frame.current, () => {
       markLanded();
       router.push(href, { scroll: true });

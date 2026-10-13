@@ -1,10 +1,11 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { endCurtain, useCurtain } from "@/components/case-study/Curtain";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
+import { useReduce } from "@/lib/maqueta/reduce";
 
 /* Cabecera de la home de una sección (2026-10-12; antes era un titular estático y se sentía
    muy quieta). Continúa la entrada partida sin corte: pase de imágenes a pantalla completa
@@ -125,7 +126,7 @@ export default function HomeHero({
   /** La barra (logo + menú), montada en modo `docked`: aparece al pie y se pega arriba. */
   nav: React.ReactNode;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const curtain = useCurtain();
   // Se decide en el primer render: si hay telón, arrancar igual que él (su imagen).
   const [arrived] = useState(() => !!curtain);

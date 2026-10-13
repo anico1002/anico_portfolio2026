@@ -1,10 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { endFlight } from "@/components/case-study/Flight";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { useBooted } from "@/lib/maqueta/boot";
+import LazyVideo from "@/components/case-study/LazyVideo";
+import { useReduce } from "@/lib/maqueta/reduce";
 
 /* Piezas de la maqueta de caso de estudio.
    Los colores salen de variables CSS que fija cada caso (--case-bg, --case-fg…),
@@ -77,10 +79,10 @@ export function Parallax({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [speed / 2, -speed / 2]);
-  if (reduce) return <div className={className}>{children}</div>;
+  if (reduce) return <div ref={ref} className={className}>{children}</div>;
   return (
     <motion.div ref={ref} className={className} style={{ y }}>
       {children}
@@ -104,12 +106,12 @@ export function MaskReveal({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const innerY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
   const seen = useSeen(ref, "-10% 0px");
 
-  if (reduce) return <div className={className}>{children}</div>;
+  if (reduce) return <div ref={ref} className={className}>{children}</div>;
   return (
     <Parallax speed={speed} className={className}>
       <motion.div
@@ -136,7 +138,7 @@ export function MaskReveal({
     hasta quedar a sangre, con el contenido desescalándose y en parallax. */
 export function WindowReveal({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const inset = useTransform(scrollYProgress, [0.05, 0.5], [18, 0]);
   const side = useTransform(scrollYProgress, [0.05, 0.5], [26, 0]);
@@ -147,7 +149,7 @@ export function WindowReveal({ children }: { children: React.ReactNode }) {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1.3, 1]);
   const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
 
-  if (reduce) return <div className="h-[100svh] w-full">{children}</div>;
+  if (reduce) return <div ref={ref} className="h-[100svh] w-full">{children}</div>;
 
   return (
     <div ref={ref} className="relative h-[120svh] w-full">
@@ -188,7 +190,7 @@ export function MaskText({
   delay?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   if (reduce) return <div className={className}>{children}</div>;
   return (
     <motion.div
@@ -225,7 +227,7 @@ export function CaseHero({
   videoReady?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   // Se lee en el primer render: así la cabecera sabe si debe aparecer ya montada.
   const [flown] = useState(readFlight);
   useEffect(() => {
@@ -305,7 +307,7 @@ export function CaseHero({
 function Media({ src, alt }: { src: string; alt: string }) {
   const cls = "absolute inset-0 h-full w-full object-cover";
   if (/\.(mp4|webm|mov)$/i.test(src))
-    return <video className={cls} src={src} autoPlay muted loop playsInline aria-label={alt} />;
+    return <LazyVideo className={cls} src={src} aria-label={alt} />;
   // eslint-disable-next-line @next/next/no-img-element
   return <img className={cls} src={src} alt={alt} />;
 }
@@ -395,7 +397,7 @@ export function FadeIn({
   /** Cuánto debe entrar en pantalla antes de aparecer (rootMargin). */
   margin?: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const ref = useRef<HTMLDivElement>(null);
   const seen = useSeen(ref, margin);
   // La máscara abierta deja aire alrededor del bloque, en % de su alto (2026-10-13): antes iba a ras

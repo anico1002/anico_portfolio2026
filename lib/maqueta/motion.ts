@@ -34,3 +34,9 @@ export const inOrOut = (on: boolean) => (on ? DUR.base : DUR.fast);
 /** Retraso intencionado (C5, Yakushev usa 1 s): lo que aparece al pasar el ratón espera un poco,
     para que cruzar por encima de una tarjeta al ir a otro sitio no haga saltar nada. */
 export const HOVER_DELAY = 0.4;
+
+/** ¿Pide el sistema reducir el movimiento? (F3). Solo en cliente. Con él, los gestos grandes
+    (vuelo de la tarjeta, mitad que crece, telón) se saltan y se cambia de página directamente;
+    para todos los demás la web no cambia en nada. */
+export const reducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;

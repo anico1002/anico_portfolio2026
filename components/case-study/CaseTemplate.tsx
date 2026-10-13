@@ -1,7 +1,7 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
 import {
@@ -22,6 +22,8 @@ import Arrow from "@/components/case-study/Arrow";
 import { invText } from "@/components/case-study/invText";
 import Lines from "@/components/case-study/Lines";
 import SiteFooter from "@/components/case-study/SiteFooter";
+import LazyVideo from "@/components/case-study/LazyVideo";
+import { useReduce } from "@/lib/maqueta/reduce";
 
 /* Plantilla de caso de la maqueta: el mismo lenguaje que Gloop (máscaras y curvas de
    Metalab, parallax de Yakushev) alimentado por lib/maqueta/cases.ts + los medios de
@@ -40,7 +42,7 @@ const section = `pt-32 md:pt-48 ${wrap}`;
 
 /** Lámina a su proporción natural: se abre con la máscara de Metalab, sin recortar. */
 function Reveal({ children, from = "bottom", speed = 60 }: { children: React.ReactNode; from?: "top" | "bottom" | "left" | "right"; speed?: number }) {
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const closed = {
     top: "inset(0% 0% 100% 0%)",
     bottom: "inset(100% 0% 0% 0%)",
@@ -49,7 +51,7 @@ function Reveal({ children, from = "bottom", speed = 60 }: { children: React.Rea
   }[from];
   const ref = useRef<HTMLDivElement>(null);
   const seen = useSeen(ref, "-8% 0px");
-  if (reduce) return <div>{children}</div>;
+  if (reduce) return <div ref={ref}>{children}</div>;
   return (
     <Parallax speed={speed}>
       <motion.div
@@ -68,13 +70,13 @@ function Reveal({ children, from = "bottom", speed = 60 }: { children: React.Rea
     ventana se abre con el scroll y termina mostrando el vídeo entero, sin recorte. */
 function FeatureReveal({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
   const inset = useTransform(scrollYProgress, [0.1, 1], [16, 0]);
   const side = useTransform(scrollYProgress, [0.1, 1], [24, 0]);
   const clipPath = useTransform([inset, side], ([i, sd]) => `inset(${i}% ${sd}% ${i}% ${sd}%)`);
   const scale = useTransform(scrollYProgress, [0, 1], [1.18, 1]);
-  if (reduce) return <div className="aspect-video w-full">{children}</div>;
+  if (reduce) return <div ref={ref} className="aspect-video w-full">{children}</div>;
   return (
     <div ref={ref} className="relative aspect-video w-full">
       <motion.div className="absolute inset-0 overflow-hidden" style={{ clipPath }}>
@@ -117,7 +119,7 @@ function Slides({ srcs, w, h, alt }: { srcs: string[]; w: number; h: number; alt
 
 function MediaView({ item, alt }: { item: MediaItem; alt: string }) {
   if (item.type === "video")
-    return <video className="block h-auto w-full" src={item.src} autoPlay muted loop playsInline aria-label={alt} />;
+    return <LazyVideo className="block h-auto w-full" src={item.src} aria-label={alt} />;
   if (item.type === "slides") return <Slides srcs={item.srcs} w={item.w} h={item.h} alt={alt} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -286,7 +288,7 @@ export default function CaseTemplate({
         {media.hero &&
           media.hero.src !== media.thumb &&
           (media.hero.video ? (
-            <video className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} autoPlay muted loop playsInline />
+            <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} alt="" />
@@ -356,7 +358,7 @@ export default function CaseTemplate({
         <div className="mt-28 md:mt-40">
           <FeatureReveal>
             {/\.(mp4|webm|mov)$/i.test(c.feature) ? (
-              <video className="h-full w-full object-cover" src={c.feature} autoPlay muted loop playsInline aria-label={c.name} />
+              <LazyVideo className="h-full w-full object-cover" src={c.feature} aria-label={c.name} />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={c.feature} alt={c.name} className="h-full w-full object-cover" />

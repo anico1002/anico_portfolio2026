@@ -20,6 +20,12 @@ pie que sube y se pega); todo con máscara, sin desenfoques; Instrument Sans + P
 titulillos `.t-tag`; negro puro en oscuro; logo y menú con `mix-blend-difference`; arreglos de Safari.
 
 **Pendiente / próxima sesión:**
+- **ÚLTIMO PASO ANTES DE PRODUCCIÓN (pedido por Alberto, 2026-10-13): audit técnico final + optimización
+  de imágenes y vídeos (F1).** Las imágenes y vídeos aún no son finales, por eso no se optimizan ahora.
+  Al cerrar la web: AVIF/WebP a varios anchos con `srcset`, placeholder de color y fundido; vídeos
+  recomprimidos. Regla: **pesar lo menos posible sin que ninguna imagen pierda calidad visible** (es un
+  portfolio gráfico). Hoy: 176 imágenes, 286 MB, 97 PNG de más de 1 MB (la mayor, 7,6 MB). En el audit,
+  repasar también accesibilidad (foco, movimiento reducido, contraste) y rendimiento.
 - **Bloque C** de la revisión: hover de tarjetas, etiqueta «Ver caso», enlaces (hover = `RollText`).
 - **Énfasis en titulares**: queda Playfair cursiva «a ver si se acostumbra»; revisar más adelante.
 - **Standby**: A3 motivo de marca + A4 intro (propuestas en la sección del bloque A); palabras que

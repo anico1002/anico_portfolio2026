@@ -16,7 +16,8 @@ import {
   Parallax,
   Placeholder,
 } from "@/components/case-study/primitives";
-import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
+import { DUR, EASE, STAGGER, reducedMotion } from "@/lib/maqueta/motion";
+import { go } from "@/components/case-study/Portal";
 import Lines from "@/components/case-study/Lines";
 import SiteFooter from "@/components/case-study/SiteFooter";
 
@@ -69,6 +70,8 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
   const open = (e: React.MouseEvent) => {
     if (!p.href || !p.thumb || !frame.current) return;
     e.preventDefault();
+    // Movimiento reducido (F3): sin vuelo, cambio directo de página.
+    if (reducedMotion()) return go(p.href);
     onLeave?.();
     startFlight(p.thumb, frame.current, () => {
       markLanded();

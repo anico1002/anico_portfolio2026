@@ -314,3 +314,12 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   opacity: 0.6;
   letter-spacing: 0;
 }
+
+/* Foco con teclado (F4, 2026-10-13): un contorno fino del color del texto, solo al navegar con
+   el teclado (`:focus-visible`), nunca con ratón ni al tocar. No cambia nada del diseño para
+   quien no usa el teclado. El hover ya responde también al foco (rodillo, flecha, botón). */
+#case-root :focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+#case-root :focus:not(:focus-visible) { outline: none; }

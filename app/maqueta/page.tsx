@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import SiteNav from "@/components/case-study/SiteNav";
-import { DUR, EASE, STAGGER, inOrOut } from "@/lib/maqueta/motion";
+import { DUR, EASE, STAGGER, inOrOut, reducedMotion } from "@/lib/maqueta/motion";
 import { startCurtain } from "@/components/case-study/Curtain";
 import { SLIDES } from "@/lib/maqueta/sections";
 
@@ -166,6 +166,8 @@ export default function EntryB() {
               onClick={(e) => {
                 e.preventDefault();
                 if (chosen) return;
+                // Movimiento reducido (F3): sin mitad que crece ni telón, cambio directo de página.
+                if (reducedMotion()) return router.push(s.href);
                 setStacked(!window.matchMedia("(min-width: 768px)").matches);
                 setChosen(s.key);
               }}
