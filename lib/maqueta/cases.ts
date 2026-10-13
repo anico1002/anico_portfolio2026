@@ -169,6 +169,24 @@ export const CASES: CaseCopy[] = [
     outcome: "",
   },
   {
+    // Caso a medida (app/maqueta/7news): estos campos solo alimentan la tarjeta y el «siguiente caso».
+    slug: "7news",
+    section: "product",
+    thumb: "/maqueta/7news/cover.jpg",
+    name: "7news",
+    line: "Un lector de noticias que se termina",
+    year: "2026",
+    role: "Diseño y desarrollo",
+    services: ["App iOS", "Apple Watch", "Logo"],
+    accent: "#0A0A0B",
+    tagline: "El día se acaba.",
+    question: "¿Y si un lector de noticias supiera cuándo has terminado?",
+    overview: ["Un lector de feeds nativo para iPhone y Apple Watch, sin IA ni servidor."],
+    chapters: [],
+    outcomeTitle: "Un lector que se termina.",
+    outcome: "",
+  },
+  {
     slug: "netflix-app",
     section: "product",
     name: "Netflix App",
@@ -615,7 +633,6 @@ export const CASES: CaseCopy[] = [
 
 /** Proyectos de la home de Product que aún no tienen caso (sin enlace). */
 export const PENDING = [
-  { name: "7News", type: "App", year: "2026" },
   { name: "Dovla", type: "App", year: "2026" },
   { name: "WineUp", type: "App", year: "" },
 ];
