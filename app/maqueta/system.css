@@ -301,3 +301,16 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .ln-i { transform: none; }
 }
+
+/* Recuento del menú (D5): «Product⁽¹²⁾». Pequeño, en cifras de ancho fijo, pegado arriba a la
+   palabra y un poco más tenue; no altera la altura de la línea. */
+.nav-count {
+  font-size: 0.62em;
+  font-variant-numeric: tabular-nums;
+  vertical-align: 0;
+  position: relative;
+  top: -0.7em;
+  margin-left: 0.15em;
+  opacity: 0.6;
+  letter-spacing: 0;
+}

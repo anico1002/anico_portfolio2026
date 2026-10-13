@@ -44,7 +44,22 @@ export function useSeen<T extends Element>(ref: React.RefObject<T | null>, margi
       { rootMargin: margin }
     );
     io.observe(el);
-    return () => io.disconnect();
+    // Lo último de una página puede quedar a menos de ese margen del borde de abajo, y entonces no
+    // llegaría a entrar nunca (el pie de «Sobre mí» en móvil, 2026-10-13): si ya no se puede bajar
+    // más y el bloque está en pantalla, entra.
+    const atEnd = () => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        setSeen(true);
+        io.disconnect();
+      }
+    };
+    atEnd();
+    window.addEventListener("scroll", atEnd, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", atEnd);
+    };
   }, [ref, margin, seen, booted]);
   return seen;
 }

@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import { TLink, go } from "@/components/case-study/Portal";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
+import { SECTION_COUNT } from "@/lib/maqueta/cases";
 
 /** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna, en blanco con
     `mix-blend-difference` (la inversión por píxel de Yakushev). Se probó una tinta adaptativa que
@@ -29,6 +30,20 @@ const items = [
 ] as const;
 
 type Key = (typeof items)[number][0];
+
+/** Recuento de proyectos en superíndice junto a Product y Games (D5): informa de cuánto hay en cada
+    sección antes de entrar. Fuera del rodillo del hover, y con su propio texto para lectores de
+    pantalla («12 proyectos»). */
+function Count({ k }: { k: Key }) {
+  const n = k === "product" || k === "games" ? SECTION_COUNT[k] : null;
+  if (n == null) return null;
+  return (
+    <sup className="nav-count">
+      <span aria-hidden>({n})</span>
+      <span className="sr-only">, {n} proyectos</span>
+    </sup>
+  );
+}
 
 /** `menu={false}`: solo logo y sol/luna (en la entrada partida, donde las dos mitades ya son
     la elección y un menú encima sobraría). `docked`: la barra no va fija arriba sino en el flujo
@@ -91,6 +106,7 @@ export default function SiteNav({
               >
                 {/* La sección en la que ya estás no reacciona al hover. */}
                 {key === active ? label : <RollText text={label} />}
+                <Count k={key} />
               </TLink>
             ))}
             {menu && (
@@ -139,6 +155,7 @@ export default function SiteNav({
                     }}
                   >
                     {label}
+                    <Count k={key} />
                   </motion.button>
                 </li>
               ))}

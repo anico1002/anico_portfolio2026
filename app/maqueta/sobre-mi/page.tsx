@@ -1,12 +1,15 @@
 import { TLink } from "@/components/case-study/Portal";
 import SiteNav from "@/components/case-study/SiteNav";
-import { Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives";
+import { FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import RollText from "@/components/case-study/RollText";
 import Lines from "@/components/case-study/Lines";
 
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
-   plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto. */
+   plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto.
+   Escala y rejilla de las homes y los casos (repaso del 2026-10-13): titular en `t-hero` como la
+   intro de las homes y sin antetítulo; frase destacada en `t-statement` centrada en las columnas
+   3–10; bio y listas estrechas, en `t-body`, al otro lado (asimetría de los casos). */
 
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
@@ -36,14 +39,9 @@ export default function About() {
 
       <header className={`pt-32 md:pt-44 ${wrap}`}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-11">
-            <FadeIn>
-              <Eyebrow>Sobre mí</Eyebrow>
-            </FadeIn>
-            <Lines as="h1" className="t-h1" delay={STAGGER}>
-              {YEARS} años diseñando interfaces que la gente usa de verdad.
-            </Lines>
-          </div>
+          <Lines as="h1" className="col-span-12 t-hero md:col-span-8">
+            {YEARS} años diseñando interfaces que la gente usa de verdad.
+          </Lines>
         </div>
       </header>
 
@@ -54,13 +52,13 @@ export default function About() {
         </MaskReveal>
       </div>
 
-      <section className={`pt-24 md:pt-40 ${wrap}`}>
+      <section className={`pt-36 md:pt-56 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
-          <Lines className="col-span-12 t-statement md:col-span-5">
+          <Lines className="col-span-12 t-statement md:col-span-8 md:col-start-3">
             Diseñador sénior especializado en diseño interactivo, UI/UX de videojuegos, dirección de arte de
             marca y tecnologías inmersivas.
           </Lines>
-          <FadeIn delay={STAGGER} className="col-span-12 space-y-5 md:col-span-5 md:col-start-8 md:pt-3">
+          <FadeIn delay={STAGGER} className="col-span-12 space-y-5 md:col-span-4 md:col-start-8 md:mt-16">
             <p className={`text-[var(--case-muted)] ${tBody}`}>
               Me apasionan la tecnología, el arte, la ilustración y el diseño. Durante más de una década me he
               centrado en la UI/UX de videojuegos, con estudios como Gameloft Barcelona, en títulos descargados
@@ -76,23 +74,23 @@ export default function About() {
         </div>
       </section>
 
-      <section className={`pt-24 md:pt-40 ${wrap}`}>
+      <section className={`pt-36 md:pt-56 ${wrap}`}>
         <div className={`${grid} gap-y-12`}>
-          <FadeIn className="col-span-12 md:col-span-5">
+          <FadeIn className="col-span-12 md:col-span-4 md:col-start-3">
             <p className={`mb-6 t-label text-[var(--case-muted)] ${mono}`}>Qué hago</p>
             <ul className="border-t border-[var(--case-line)]">
               {disciplines.map((d) => (
-                <li key={d} className="border-b border-[var(--case-line)] py-3 t-lead">
+                <li key={d} className="border-b border-[var(--case-line)] py-3 t-body">
                   {d}
                 </li>
               ))}
             </ul>
           </FadeIn>
-          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-5 md:col-start-8">
+          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-8">
             <p className={`mb-6 t-label text-[var(--case-muted)] ${mono}`}>Con quién he trabajado</p>
             <ul className="border-t border-[var(--case-line)]">
               {clients.map((d) => (
-                <li key={d} className="border-b border-[var(--case-line)] py-3 t-lead">
+                <li key={d} className="border-b border-[var(--case-line)] py-3 t-body">
                   {d}
                 </li>
               ))}

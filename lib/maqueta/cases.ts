@@ -640,6 +640,13 @@ export const PENDING = [
 export const caseBySlug = (slug: string) => CASES.find((c) => c.slug === slug);
 export const casesIn = (s: CaseSection) => CASES.filter((c) => c.section === s);
 
+/** Proyectos que se ven en cada home, para el recuento del menú (D5, 2026-10-13): en Product,
+    Gloop (página propia, fuera de CASES) + producto + pendientes + «Marca y web». */
+export const SECTION_COUNT = {
+  product: 1 + casesIn("product").length + PENDING.length + casesIn("brand").length,
+  games: casesIn("games").length,
+} as const;
+
 /** Orden de lectura por sección (Gloop abre Product). Para «Siguiente caso». */
 export function nextCase(slug: string): { name: string; href: string; slug: string } {
   const section = caseBySlug(slug)?.section ?? "product";
