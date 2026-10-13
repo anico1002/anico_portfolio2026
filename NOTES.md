@@ -31,6 +31,15 @@ y `flow.mp4`. Descartados: E1 reloj, D2 contadores (y las cifras grandes, a deci
 fondo por sección (para un pie a pantalla completa futuro), D5 microtipografía (repaso de diseño de Alberto).
 Alberto revisará todo y dará feedback.
 
+**Casos de Product a medida (2026-10-13, «tira millas»):** Alberto pide componer cada caso con piezas
+redibujadas del producto real, no con las láminas viejas. Plan de los 6 en `docs/plan-contenidos-casos.md`
+(Gloop → SwifT → Interactius → 7news → Dovla → El Reto; WineUp fuera). **Gloop es el caso estrella.**
+- **Gloop hecho:** `app/maqueta/gloop/page.tsx` + `components/case-study/gloop/` (OneThing, TeamShift,
+  ColorMeaning, FourLayers 3D, ImagoCanon, KitLaptop, ProcessLine horizontal, GameRoulette), con los tokens y
+  la Geist reales. Medios nuevos en `public/maqueta/gloop/media/` (**sin versionar, solo en el MacBook**):
+  `kit.mp4` + `kit-poster.jpg` (recorrido del UI kit desplegado, grabado fotograma a fotograma con
+  Playwright) y `photo-*.jpg` (fotos de la app). Dudas para Alberto en el plan (feria, autoría, publicación).
+
 **Games = escaparate gráfico (2026-10-13, «tira millas»):** decisión de Alberto: Product son casos de éxito
 largos (estilo Metalab); Games, no. Plantilla propia `GamesTemplate.tsx` + plan de bloques en
 `lib/maqueta/games.ts`: cabecera común, intro corta, lámina de portada (logo) y bloques numerados con texto
