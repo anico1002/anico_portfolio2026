@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { getScannedProject } from "@/lib/scan-project";
 import { caseBySlug, type CaseCopy } from "./cases";
+import { GAME_BLOCKS } from "./games";
 
 /* Medios de un caso de la maqueta a partir de public/projects/<slug>/ (los de la web
    actual), repartidos por capítulos y con sus medidas: las láminas llevan texto pegado al
@@ -96,4 +97,43 @@ export function getCaseMedia(copy: CaseCopy): CaseMedia | null {
 export function thumbOf(slug: string): string | undefined {
   if (slug === "gloop") return "/maqueta/gloop/cover.jpg";
   return caseBySlug(slug)?.thumb ?? (getScannedProject(slug)?.thumbnail || undefined);
+}
+
+/* ── Games: escaparate gráfico (lib/maqueta/games.ts) ─────────────────────────────────────── */
+
+export type GameMedia =
+  | { type: "img"; src: string; w: number; h: number; cropTop?: number }
+  | { type: "slides"; srcs: string[]; w: number; h: number }
+  | { type: "video"; src: string }
+  | { type: "phone"; src: string; bg: string };
+
+export type ResolvedGameBlock = { eyebrow?: string; title?: string; body?: string; items: GameMedia[] };
+
+/** Los bloques de un juego con la URL y las medidas de cada lámina. Lo que no exista en disco se
+    salta (y se avisa en el servidor) en lugar de romper la página. */
+export function getGameBlocks(slug: string): ResolvedGameBlock[] | null {
+  const plan = GAME_BLOCKS[slug];
+  if (!plan) return null;
+  const url = (p: string) => encodeURI(`/projects/${slug}/${p}`);
+  const exists = (p: string) => {
+    const ok = fs.existsSync(path.join(process.cwd(), "public", "projects", slug, p));
+    if (!ok) console.warn(`[games] falta ${slug}/${p}`);
+    return ok;
+  };
+  return plan.map((b) => ({
+    ...b,
+    items: b.items.flatMap((it): GameMedia[] => {
+      if (Array.isArray(it)) {
+        const srcs = it.filter(exists).map(url);
+        return srcs.length ? [{ type: "slides", srcs, ...dims(srcs[0]) }] : [];
+      }
+      if (typeof it === "string") {
+        if (!exists(it)) return [];
+        if (/\.(mp4|webm|mov)$/i.test(it)) return [{ type: "video", src: url(it) }];
+        return [{ type: "img", src: url(it), ...dims(url(it)) }];
+      }
+      if ("phone" in it) return exists(it.phone) && exists(it.bg) ? [{ type: "phone", src: url(it.phone), bg: url(it.bg) }] : [];
+      return exists(it.src) ? [{ type: "img", src: url(it.src), ...dims(url(it.src)), cropTop: it.crop.top }] : [];
+    }),
+  }));
 }

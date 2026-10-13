@@ -31,6 +31,16 @@ y `flow.mp4`. Descartados: E1 reloj, D2 contadores (y las cifras grandes, a deci
 fondo por sección (para un pie a pantalla completa futuro), D5 microtipografía (repaso de diseño de Alberto).
 Alberto revisará todo y dará feedback.
 
+**Games = escaparate gráfico (2026-10-13, «tira millas»):** decisión de Alberto: Product son casos de éxito
+largos (estilo Metalab); Games, no. Plantilla propia `GamesTemplate.tsx` + plan de bloques en
+`lib/maqueta/games.ts`: cabecera común, intro corta, lámina de portada (logo) y bloques numerados con texto
+breve; dentro, láminas apiladas a todo el ancho y sin hueco (como la web actual), series a/b/c en pase de
+diapositivas (3,2 s, solo a la vista), vídeos con `LazyVideo`. Cierre: solo frase de resultado + enlace (sin
+cifras). Recortes de títulos dibujados con CSS (`crop.top`), sin tocar `public/projects/` (es de la web en
+producción): de momento solo «DESIGN SYSTEM» de Asphalt Unite. Orden natural (A9_8, 9, 10). La entrada del
+bloque es una capa del color de fondo que se retira (con clip-path en las láminas, Chrome no cargaba las
+diferidas). Two Dots: móvil sobre su fondo (en móvil, fondo encuadrado en vertical).
+
 **Pendiente / próxima sesión:**
 - **ÚLTIMO PASO ANTES DE PRODUCCIÓN (pedido por Alberto, 2026-10-13): audit técnico final + optimización
   de imágenes y vídeos (F1).** Las imágenes y vídeos aún no son finales, por eso no se optimizan ahora.

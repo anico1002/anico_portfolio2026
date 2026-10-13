@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import CaseTemplate from "@/components/case-study/CaseTemplate";
+import GamesTemplate from "@/components/case-study/GamesTemplate";
 import { CASES, caseBySlug, nextCase } from "@/lib/maqueta/cases";
-import { getCaseMedia, thumbOf } from "@/lib/maqueta/media";
+import { getCaseMedia, getGameBlocks, thumbOf } from "@/lib/maqueta/media";
 
-/* Casos de la maqueta salvo Gloop (que tiene página propia en /maqueta/gloop). */
+/* Casos de la maqueta salvo Gloop (que tiene página propia en /maqueta/gloop). Product y Marca:
+   caso de éxito (CaseTemplate). Games: escaparate gráfico (GamesTemplate, lib/maqueta/games.ts). */
 
 export function generateStaticParams() {
   return CASES.map((c) => ({ slug: c.slug }));
@@ -20,5 +22,8 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
   const media = copy && getCaseMedia(copy);
   if (!copy || !media) notFound();
   const n = nextCase(slug);
-  return <CaseTemplate copy={copy} media={media} next={{ ...n, thumb: thumbOf(n.slug) }} />;
+  const nextCard = { ...n, thumb: thumbOf(n.slug) };
+  const blocks = copy.section === "games" ? getGameBlocks(slug) : null;
+  if (blocks) return <GamesTemplate copy={copy} media={media} blocks={blocks} next={nextCard} />;
+  return <CaseTemplate copy={copy} media={media} next={nextCard} />;
 }
