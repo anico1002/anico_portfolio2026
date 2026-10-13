@@ -2,7 +2,23 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-12 noche, MacBook)
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-13, MacBook)
+
+Rama `case-study-maqueta`, todo commiteado y pusheado; demo en https://anico-maqueta.vercel.app.
+**Hoy:** revisión de calidad completa (bloques C–F), Games como escaparate gráfico, móvil a sangre, y **los seis
+casos de Product rehechos a medida** con piezas recreadas de cada repo (Gloop el principal). Alberto: «has
+superado mis expectativas»; ahora toca **pulir**, partiendo de esta base.
+**Próxima sesión:**
+1. Feedback de Alberto tras revisarlo con calma (todo: casos, Games, Sobre mí, contacto, pie, favicon).
+2. Resolver las dudas de cada caso (lista en `docs/plan-contenidos-casos.md`: feria y autoría en Gloop, crédito en
+   Interactius, NDA y agencia en Dovla, el «7» de 7news, año y cifras de El Reto, nombre de SwifT).
+3. Después: decidir con Alberto qué cuenta cada proyecto → revisión de copy (senior copywriter) → imágenes.
+4. Pendientes ya anotados: motivo de marca e intro (A3/A4), pie a pantalla completa (+ E4), cabeceras nuevas con
+   franja superior contrastada, idea aparcada de tema por sección, audit técnico + optimización de imágenes al final.
+**Ojo, medios solo en el MacBook** (no en git): `public/maqueta/gloop/media/` (incl. `kit.mp4`, `photo-*.jpg`) e
+`public/maqueta/interactius/media/`. El deploy de la demo, desde este Mac.
+
+## Cierre anterior (2026-10-12 noche, MacBook)
 
 Rama `case-study-maqueta`, todo commiteado y pusheado. `npm run dev` → `localhost:3000/maqueta`.
 **Demo pública de la maqueta: https://anico-maqueta.vercel.app** (proyecto de Vercel aparte, `anico-maqueta`,
