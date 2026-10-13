@@ -1,0 +1,22 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20232b"/><stop offset="1" stop-color="#08090c"/>
+    </linearGradient>
+    <radialGradient id="sheen" cx="0.5" cy="0.2" r="0.8">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="warmG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a4a"/><stop offset="1" stop-color="#ff5a53"/>
+    </linearGradient>
+    <linearGradient id="coolG" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2ee6c6"/><stop offset="1" stop-color="#22a8f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="230" fill="url(#tile)"/>
+  <rect width="1024" height="1024" rx="230" fill="url(#sheen)"/>
+  <rect x="6" y="6" width="1012" height="1012" rx="226" fill="none" stroke="#fff" stroke-opacity="0.06" stroke-width="2"/>
+  <polygon points="512,168 566,512 512,856 458,512" fill="url(#warmG)"/>
+  <polygon points="168,512 512,566 856,512 512,458" fill="url(#coolG)"/>
+  <circle cx="512" cy="512" r="34" fill="#fff"/>
+</svg>

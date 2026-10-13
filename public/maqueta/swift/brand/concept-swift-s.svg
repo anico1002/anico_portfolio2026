@@ -1,0 +1,21 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20232b"/><stop offset="1" stop-color="#08090c"/>
+    </linearGradient>
+    <radialGradient id="sheen" cx="0.5" cy="0.2" r="0.8">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sfill" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#ff8a4a"/><stop offset="0.5" stop-color="#ff5a53"/>
+      <stop offset="1" stop-color="#22c8d8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="230" fill="url(#tile)"/>
+  <rect width="1024" height="1024" rx="230" fill="url(#sheen)"/>
+  <rect x="6" y="6" width="1012" height="1012" rx="226" fill="none" stroke="#fff" stroke-opacity="0.06" stroke-width="2"/>
+  <!-- NOTE: uses a system font for the "S". For the final asset, convert to a vector path. -->
+  <text x="512" y="522" font-family="'SF Pro Display','Helvetica Neue',Arial,sans-serif"
+        font-weight="800" font-style="italic" font-size="620" fill="url(#sfill)"
+        text-anchor="middle" dominant-baseline="central">S</text>
+</svg>
