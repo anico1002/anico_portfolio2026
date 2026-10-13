@@ -94,8 +94,9 @@ assets "no se ve", comprobar primero en cuál de las dos carpetas se tocó.
 
 ## Tipografía (D3, 2026-10-12)
 
-**Instrument Sans** para todo y **Playfair Italic** en palabras destacadas de los titulares (se marcan con
-`*asteriscos*` → `.kw`; 116 % del cuerpo de la sans y sin partirse entre líneas). Probadas y descartadas:
+**Instrument Sans** para todo y **DM Serif Display Italic** en palabras destacadas de los titulares (se marcan
+con `*asteriscos*` → `.kw`; 103 % del cuerpo para igualar la altura de x, sin partirse entre líneas). Cambiada
+el 2026-10-13 desde Playfair, que en claro quedaba demasiado fina al lado de la sans. Probadas y descartadas:
 Instrument Serif (estrecha), DM Sans + DM Serif Display, gris, ácido, imagen en la frase, cursiva de la
 sans, anchura variable, barras. Selector `?em=` retirado. Titulillos (antetítulos y datos) en un
 solo estilo `.t-tag`: Instrument Sans 500, MAYÚSCULAS, espaciado 0,1 em (se probaron Geist Mono e

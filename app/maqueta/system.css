@@ -168,10 +168,10 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 .logo-roll { animation: logo-roll var(--dur-base) var(--ease-in-out) both; animation-delay: calc(var(--i) * 80ms); }
 @media (prefers-reduced-motion: reduce) { .logo-roll { animation: none; } }
 
-/* Palabras clave de los titulares (`*palabras*` → `.kw`): Playfair cursiva (2026-10-12). Un 16 % más
-   grande para que su altura de x case con Instrument Sans, sin alterar el interlineado, y sin partirse
-   entre líneas. */
-.kw { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.16em; letter-spacing: -0.02em; line-height: 0; white-space: nowrap; }
+/* Palabras clave de los titulares (`*palabras*` → `.kw`): DM Serif Display cursiva (2026-10-13; antes Playfair,
+   demasiado fina en claro). Un 3 % más grande para que su altura de x case con la de Instrument Sans
+   (medido: 49,6 frente a 51 por cada 100 px), sin alterar el interlineado y sin partirse entre líneas. */
+.kw { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.03em; letter-spacing: -0.01em; line-height: 0; white-space: nowrap; }
 
 /* Titulillos (antetítulos y datos: «Introducción», «Rol», «01 / 2026»…): un solo estilo para todos,
    en Instrument Sans (la misma familia que el resto), mayúsculas espaciadas y peso medio. Se probaron

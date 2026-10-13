@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Playfair } from "next/font/google";
+import { DM_Serif_Display, Instrument_Sans } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
@@ -8,16 +8,17 @@ import Boot from "@/components/case-study/Boot";
 import AnimatedFavicon from "@/components/case-study/AnimatedFavicon";
 import "./system.css";
 
-// Tipografía de la maqueta (2026-10-12): Instrument Sans para todo y Playfair
-// en cursiva para palabras destacadas de los titulares (`*palabras*` → `.kw`, en Playfair cursiva). Antes era
+// Tipografía de la maqueta (2026-10-12): Instrument Sans para todo y una serif en cursiva para palabras
+// destacadas de los titulares (`*palabras*` → `.kw`; desde el 2026-10-13, DM Serif Display). Antes era
 // Geist (elegida frente a Inter y Bricolage el 2026-10-11). Los titulillos también van en Instrument
 // Sans (`.t-tag`); Geist Mono se quitó. Nada de esto toca el resto del portfolio.
 const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"] });
 
 
-// Cursiva de las palabras destacadas: Playfair (variable, con tamaño óptico). Elegida el 2026-10-12
-// tras probar Instrument Serif (estrecha), DM Serif Display, ácido, gris, barras, anchura y otras.
-const serif = Playfair({ variable: "--font-case-serif", subsets: ["latin"], style: "italic", axes: ["opsz"] });
+// Cursiva de las palabras destacadas: DM Serif Display Italic (2026-10-13, elegida por Alberto entre las
+// pruebas del 12). Sustituye a Playfair, que al lado de la sans quedaba demasiado fina, sobre todo en claro.
+// Antes se probaron Instrument Serif (estrecha), Playfair, ácido, gris, barras, anchura y otras.
+const serif = DM_Serif_Display({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });
 
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
