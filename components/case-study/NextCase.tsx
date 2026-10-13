@@ -50,7 +50,7 @@ export default function NextCase({ name, href, thumb }: { name: string; href: st
             Ver caso <Arrow />
           </p>
         </FadeIn>
-        <div ref={frame} className="order-1 col-span-12 md:order-2 md:col-span-7 md:col-start-6">
+        <div ref={frame} className="m-bleed order-1 col-span-12 md:order-2 md:col-span-7 md:col-start-6">
           <MaskReveal from="bottom" speed={0}>
             <div className="nc-img">
               <Placeholder ratio="16/10" src={thumb} label={name} />

@@ -128,7 +128,7 @@ export default function GloopCase() {
               principio a fin. Cada iteración se revisa en el dispositivo.
             </Caption>
           </FadeIn>
-          <div className="order-1 col-span-12 md:order-2 md:col-span-10">
+          <div className="m-bleed order-1 col-span-12 md:order-2 md:col-span-10">
             <MaskReveal from="top">
               <Placeholder
                 kind="vídeo"
@@ -227,7 +227,7 @@ export default function GloopCase() {
           </div>
         </div>
         <div className={`${grid} mt-16 gap-y-6 md:mt-24`}>
-          <div className="col-span-12 md:col-span-7">
+          <div className="m-bleed col-span-12 md:col-span-7">
             <MaskReveal from="top" speed={50}>
               <Placeholder ratio="4/3" src="/maqueta/gloop/media/exp-equipos.jpg" label="Equipos · composición con 2–3 pantallas del equipo y su foto como héroe." />
             </MaskReveal>
@@ -242,7 +242,7 @@ export default function GloopCase() {
               <Placeholder ratio="3/4" src="/maqueta/gloop/media/exp-momentos.mp4" label="Momentos · visor tipo Stories / revelado a las 24 h." />
             </MaskReveal>
           </div>
-          <div className="col-span-12 md:col-span-7 md:mt-28">
+          <div className="m-bleed col-span-12 md:col-span-7 md:mt-28">
             <MaskReveal from="bottom" speed={60}>
               <Placeholder ratio="4/3" src="/maqueta/gloop/media/exp-cuenta.mp4" label="La Cuenta · gastos, deudas calculadas, marcar pagado." />
             </MaskReveal>
@@ -253,7 +253,7 @@ export default function GloopCase() {
       {/* Vídeo de flujo: entrada normal (máscara). La única ventana que crece con el scroll
           se reserva para el momento fuerte, la app nativa. */}
       <div className={`mt-24 md:mt-32 ${wrap}`}>
-        <MaskReveal from="bottom" speed={50}>
+        <MaskReveal from="bottom" speed={50} className="m-bleed">
           <Placeholder
             kind="vídeo"
             ratio="21/9"
@@ -318,7 +318,7 @@ export default function GloopCase() {
 
       <section className={`pt-24 md:pt-32 ${wrap}`}>
         <div className={`${grid} items-start gap-y-6`}>
-          <div className="col-span-12 md:col-span-8">
+          <div className="m-bleed col-span-12 md:col-span-8">
             <MaskReveal from="left" speed={50}>
               <Placeholder ratio="16/10" label="UI kit en el navegador: una regla con captura del simulador + código Swift con botón de copiar." />
             </MaskReveal>
@@ -356,7 +356,7 @@ export default function GloopCase() {
             </FadeIn>
           </div>
         </div>
-        <div className="mt-16 md:mt-24">
+        <div className="m-bleed mt-16 md:mt-24">
           <MaskReveal from="bottom">
             <Placeholder kind="diagrama" ratio="21/9" label="Flujo: idea → prototipo en código → vídeos automáticos → app nativa → repo del dev. Con iconos/capturas de cada paso." />
           </MaskReveal>

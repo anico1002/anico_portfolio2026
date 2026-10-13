@@ -47,7 +47,7 @@ export default function About() {
       </header>
 
       <div className={`mt-16 md:mt-24 ${wrap}`}>
-        <MaskReveal from="bottom" speed={40}>
+        <MaskReveal from="bottom" speed={40} className="m-bleed">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/about.webp" alt="Alberto Nicolás" className="block h-auto w-full" style={{ aspectRatio: "1296/630" }} />
         </MaskReveal>

@@ -41,6 +41,12 @@ producción): de momento solo «DESIGN SYSTEM» de Asphalt Unite. Orden natural 
 bloque es una capa del color de fondo que se retira (con clip-path en las láminas, Chrome no cargaba las
 diferidas). Two Dots: móvil sobre su fondo (en móvil, fondo encuadrado en vertical).
 
+**Games, segunda vuelta (2026-10-13):** fuera Two Dots (poca chicha). Bloques `bleed` a sangre en escritorio
+con parallax muy sutil dentro de cada imagen (portadas, dirección de arte, marketing de color, pases
+fotográficos, vídeos); la documentación de UI, con márgenes. Textos de bloque con 4 composiciones asimétricas
+que se turnan (`BlockText`). **Móvil, en toda la web:** imágenes horizontales de borde a borde (`.m-bleed`;
+las verticales conservan el margen).
+
 **Cabeceras sin degradado (2026-10-13):** se quitó el degradado del color de fondo bajo la barra (en claro
 era una bruma blanca). Criterio para las **cabeceras nuevas** (la mayoría se van a cambiar): la franja de arriba
 bien contrastada, sin grises ni tonos medios, para que el logo y el menú (mezcla por diferencia) se lean.

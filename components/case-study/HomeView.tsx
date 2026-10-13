@@ -82,12 +82,15 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
   // abajo a la izquierda. Sobre imagen va en blanco con un degradado oscuro suave arriba y abajo; sin
   // imagen (fondo gris de pendiente), en el color del tema.
   const onImage = !!p.thumb;
+  const [rw, rh] = l.ratio.split("/").map(Number);
+  const horizontal = rw > rh;
   const body = (
     <>
       {/* A sangre: la imagen se sale del margen hasta el borde (el texto sigue alineado). */}
       <div
         ref={frame}
-        className={`relative ${l.bleed === "right" ? "-mr-4 md:-mr-6" : l.bleed === "left" ? "-ml-4 md:-ml-6" : ""}`}
+        // En móvil, las horizontales de borde a borde (`m-bleed`); en escritorio, el sangrado del hueco.
+        className={`relative ${horizontal ? "m-bleed" : ""} ${l.bleed === "right" ? "md:-mr-6" : l.bleed === "left" ? "md:-ml-6" : ""}`}
       >
         <MaskReveal from={i % 2 ? "right" : "left"} speed={0}>
           {p.thumb ? (

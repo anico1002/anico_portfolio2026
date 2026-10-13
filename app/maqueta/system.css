@@ -315,3 +315,10 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   outline-offset: 4px;
 }
 #case-root :focus:not(:focus-visible) { outline: none; }
+
+/* A sangre en móvil (2026-10-13): las imágenes horizontales ocupan todo el ancho de la pantalla
+   (de borde a borde, saltándose el margen de 1rem de `px-4`). Al ser una web tan modular, separa
+   mejor los contenidos. Las verticales conservan el margen. En escritorio no cambia nada. */
+@media (max-width: 767px) {
+  .m-bleed { margin-inline: -1rem; }
+}

@@ -227,7 +227,7 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
   return (
     <section className={section}>
       <div className={`${grid} items-center gap-y-8`}>
-        <div className={`col-span-12 ${media} ${flip ? `${tall ? "md:col-start-8" : "md:col-start-6"} md:order-2` : "md:col-start-1"}`}>
+        <div className={`col-span-12 ${media} ${tall ? "" : "m-bleed"} ${flip ? `${tall ? "md:col-start-8" : "md:col-start-6"} md:order-2` : "md:col-start-1"}`}>
           <Reveal from={flip ? "right" : "left"} speed={flip ? 150 : 90}>
             <MediaView item={lead} alt={eyebrow} />
           </Reveal>
@@ -241,7 +241,7 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
       {rest.length > 0 && (
         <div className={`${grid} mt-20 gap-y-10 md:mt-32 md:gap-y-24`}>
           {scatter(rest).map(({ m, cls, from }, k) => (
-            <div key={k} className={`col-span-12 ${cls}`}>
+            <div key={k} className={`col-span-12 ${isTall(m) ? "" : "m-bleed"} ${cls}`}>
               <Reveal from={from} speed={SPEEDS[k % SPEEDS.length]}>
                 <MediaView item={m} alt={`${eyebrow} ${k + 2}`} />
               </Reveal>
