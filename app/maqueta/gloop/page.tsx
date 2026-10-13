@@ -127,9 +127,6 @@ export default function GloopCase() {
             <FadeIn>
               <PhoneFrame src="/maqueta/gloop/media/scr-noche.mp4" label="La noche en marcha" className="mx-auto max-w-[280px]" />
             </FadeIn>
-            <FadeIn delay={STAGGER}>
-              <p className="mx-auto mt-6 max-w-[280px] t-small text-[var(--case-muted)]">La noche arranca y el móvil se apunta.</p>
-            </FadeIn>
           </Parallax>
         </div>
       </section>
@@ -165,16 +162,10 @@ export default function GloopCase() {
             <FadeIn>
               <PhoneFrame src="/maqueta/gloop/media/scr-momentos.mp4" label="Momentos" className="mx-auto max-w-[280px]" />
             </FadeIn>
-            <FadeIn delay={STAGGER}>
-              <p className="mx-auto mt-6 max-w-[280px] t-small text-[var(--case-muted)]">Las fotos de anoche, reveladas por la mañana.</p>
-            </FadeIn>
           </Parallax>
           <Parallax speed={340} className="relative z-10 col-span-8 col-start-5 mt-16 md:col-span-3 md:col-start-10 md:row-start-1 md:mt-[34%]">
             <FadeIn>
               <PhoneFrame src="/maqueta/gloop/media/scr-cuenta.mp4" label="La Cuenta" className="mx-auto max-w-[280px]" />
-            </FadeIn>
-            <FadeIn delay={STAGGER}>
-              <p className="mx-auto mt-6 max-w-[280px] t-small text-[var(--case-muted)]">Las cuentas claras y la amistad intacta.</p>
             </FadeIn>
           </Parallax>
         </div>

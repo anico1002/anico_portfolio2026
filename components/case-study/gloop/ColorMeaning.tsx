@@ -27,15 +27,8 @@ function TeamCard({ on }: { on: Key }) {
   const dim = (k: Key) => ({ opacity: on === k ? 1 : 0.28, transition: `opacity ${DUR.base}s cubic-bezier(${EASE.inOut.join(",")})` });
   return (
     <div
-      className="relative w-full max-w-[26rem] overflow-hidden p-5"
-      style={{
-        background: "rgba(255,255,255,0.1)",
-        backdropFilter: "blur(24px) saturate(160%)",
-        WebkitBackdropFilter: "blur(24px) saturate(160%)",
-        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.22), 0 30px 60px -30px rgba(0,0,0,0.7)",
-        borderRadius: "0 18px 18px 18px",
-        fontFamily: "var(--font-gloop)",
-      }}
+      className="glass-ios w-full max-w-[26rem] overflow-hidden p-5"
+      style={{ borderRadius: "0 18px 18px 18px", fontFamily: "var(--font-gloop)" }}
     >
       {/* En directo: el brillo diagonal de la tarjeta cuando el equipo tiene la noche activa. */}
       <span

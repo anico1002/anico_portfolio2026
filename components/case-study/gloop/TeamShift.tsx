@@ -50,16 +50,8 @@ function TeamCard({ t, k, idx }: { t: (typeof TEAMS)[number]; k: number; idx: Mo
   const body = useTransform(open, [0.4, 1], [0, 1]);
   return (
     <motion.div
-      className="relative overflow-hidden px-4"
-      style={{
-        height,
-        borderRadius: "0 18px 18px 18px",
-        background: "rgba(255,255,255,0.1)",
-        backdropFilter: "blur(22px) saturate(160%)",
-        WebkitBackdropFilter: "blur(22px) saturate(160%)",
-        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.2), 0 20px 40px -20px rgba(0,0,0,0.6)",
-        ...font,
-      }}
+      className="glass-ios overflow-hidden px-4"
+      style={{ height, borderRadius: "0 18px 18px 18px", ...font }}
     >
       <div className="flex h-[52px] items-center justify-between">
         <p className="text-[16px] font-semibold text-white">{t.name}</p>

@@ -331,3 +331,34 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 }
 .gloop-drift { animation: gloop-drift 16s ease-in-out infinite alternate; }
 @media (prefers-reduced-motion: reduce) { .gloop-drift { animation: none; transform: scale(1.05); } }
+
+/* Cristal tipo iOS (Gloop, 2026-10-13): fondo translúcido con desenfoque y el canto de luz en
+   diagonal, como el Liquid Glass de iOS: brilla en la esquina de arriba a la izquierda, rebota más
+   suave abajo a la derecha y casi desaparece en las otras dos (antes era un trazo igual en todo el
+   contorno). El trazo es un borde de 1 px pintado con degradado y recortado con máscara, así respeta
+   cualquier radio (también la esquina recta de Gloop). */
+.glass-ios {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06) 45%, rgba(255, 255, 255, 0.09));
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+}
+.glass-ios::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.18) 22%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.16) 80%,
+    rgba(255, 255, 255, 0.42) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}

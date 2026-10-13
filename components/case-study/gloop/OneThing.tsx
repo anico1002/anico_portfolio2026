@@ -64,8 +64,8 @@ function PieceView({ p, i, progress }: { p: Piece; i: number; progress: MotionVa
   if (p.kind === "card")
     return (
       <motion.div
-        style={{ opacity, background: "rgba(255,255,255,0.1)", borderRadius: "0 18px 18px 18px" }}
-        className="min-w-[9.5rem] whitespace-nowrap px-4 py-3.5 backdrop-blur-md"
+        style={{ opacity, borderRadius: "0 18px 18px 18px" }}
+        className="glass-ios min-w-[9.5rem] whitespace-nowrap px-4 py-3.5"
         data-i={i}
       >
         <p className="text-[15px] font-semibold text-white" style={{ fontFamily: "var(--font-gloop)" }}>
@@ -78,8 +78,8 @@ function PieceView({ p, i, progress }: { p: Piece; i: number; progress: MotionVa
     );
   return (
     <motion.span
-      style={{ opacity, background: "rgba(255,255,255,0.12)", fontFamily: "var(--font-gloop)" }}
-      className="block whitespace-nowrap rounded-full px-5 py-2.5 backdrop-blur-md text-[15px] font-semibold text-white"
+      style={{ opacity, fontFamily: "var(--font-gloop)" }}
+      className="glass-ios block whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-semibold text-white"
     >
       {p.label}
     </motion.span>
@@ -96,10 +96,6 @@ export default function OneThing() {
   const principleY = useTransform(scrollYProgress, [0.74, 0.86], [24, 0]);
   // La foto de fondo se acerca muy despacio mientras dura la sección (movimiento, no salto).
   const bgScale = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
-  const counter = useTransform(scrollYProgress, (v) => {
-    const off = PIECES.filter((p) => p.kind !== "cta").filter((_, k) => v > 0.12 + k * 0.055 + 0.06).length;
-    return `${PIECES.length - off} ${PIECES.length - off === 1 ? "cosa" : "cosas"} que hacer`;
-  });
   useEffect(() => {
     const el = panel.current;
     if (!el) return;
@@ -149,12 +145,6 @@ export default function OneThing() {
                   <Placed key={p.label} p={p} i={i} progress={scrollYProgress} />
                 ))}
               </div>
-              <motion.p
-                className="absolute bottom-4 left-5 text-[12px] uppercase tracking-[0.1em]"
-                style={{ color: G.text70, fontFamily: "var(--font-gloop)" }}
-              >
-                <motion.span>{counter}</motion.span>
-              </motion.p>
             </div>
           </div>
         </div>
