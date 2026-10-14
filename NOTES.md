@@ -11,6 +11,10 @@ reutilizable en **`scripts/mockups/README.md`** (para Dovla, Interactius, El Ret
   con la última línea del titular) aplicado a todos los casos.
 - **7News**: recorrido entero con contenido real (pared de hormigón con suelo negro), cabecera y el aviso que llega
   del iPhone al Apple Watch.
+**Vercel (mismo día):** aviso al 75 % de almacenamiento. Limpieza hecha (`scripts/vercel-limpieza.sh`: 133
+despliegues viejos borrados, retención automática en todos los proyectos), la rama de la maqueta ya no genera
+previews (`vercel.json`) y `.vercelignore` deja fuera PSD y grabaciones al desplegar. Permiso fijo para
+`vercel deploy` en la config compartida (el filtro del modo automático lo bloqueaba). Demo desplegada.
 **Próxima sesión:** feedback de Alberto sobre el recorrido nuevo de 7News; Dovla (cuando retoque el prototipo);
 Interactius (la web en un portátil, decidir qué web); imagen para el interior de Gloop; El Reto.
 
