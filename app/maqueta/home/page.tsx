@@ -26,7 +26,7 @@ export default function ProductHome() {
   const own = OWN.map((h) => rest.find((c) => c.href === h)).filter((c): c is P => !!c);
   const concepts = rest.filter((c) => !OWN.includes(c.href ?? ""));
   const items: P[] = [
-    { name: "Gloop", line: "App social para grupos de amigos", type: "iOS nativo", year: "2026", thumb: "/maqueta/gloop/cover.jpg", href: "/maqueta/gloop" },
+    { name: "Gloop", line: "App social para grupos de amigos", type: "iOS nativo", year: "2026", thumb: "/maqueta/gloop/media/hero-mock.mp4", href: "/maqueta/gloop" },
     elreto,
     swift,
     ...own,

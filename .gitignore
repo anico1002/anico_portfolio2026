@@ -62,3 +62,9 @@ coverage/
 
 # Fotos del universo de marca de Interactius (posible licencia de terceros): solo en local.
 /public/maqueta/interactius/media/
+
+# Plantillas de mockups (PSD pesados, licencia de terceros): solo en local
+/mockups-src/
+/public/maqueta/7news/screens/
+/public/maqueta/7news/media/
+scripts/mockups/photoshop/run.jsx

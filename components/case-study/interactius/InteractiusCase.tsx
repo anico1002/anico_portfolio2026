@@ -20,21 +20,21 @@ const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 
-function Head({ n, eyebrow, title, body }: { n: string; eyebrow: string; title: string; body?: string }) {
+/* Cabecera de capítulo con el feedback general de Gloop (2026-10-14): titulillo sin número, titular
+   equilibrado y el párrafo cerca de él, alineado con su última línea (no colgado arriba ni pegado al borde). */
+function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {
   return (
-    <div className={`${grid} mb-14 gap-y-6 md:mb-20`}>
-      <div className="col-span-12 md:col-span-7">
+    <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
+      <div className="col-span-12 md:col-span-6">
         <FadeIn>
-          <p className="t-label t-tag text-[var(--case-muted)]">
-            {n} · {eyebrow}
-          </p>
+          <p className="t-label t-tag text-[var(--case-muted)]">{eyebrow}</p>
         </FadeIn>
-        <Lines as="h2" className="mt-4 t-statement" delay={STAGGER}>
+        <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
           {title}
         </Lines>
       </div>
       {body && (
-        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-20">
+        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8">
           <p className="t-body text-[var(--case-muted)]">{body}</p>
         </FadeIn>
       )}
@@ -133,13 +133,12 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
       </div>
 
       <section className={section}>
-        <Head n="01" eyebrow="Una sola fuente" title="Se cambia en un sitio y cambia en todos." body="Los colores, la tipografía y las reglas viven en un único archivo. De ahí salen el manual, la API de marca, los kits y cada diapositiva." />
+        <Head eyebrow="Una sola fuente" title="Se cambia en un sitio y cambia en todos." body="Los colores, la tipografía y las reglas viven en un único archivo. De ahí salen el manual, la API de marca, los kits y cada diapositiva." />
         <TokenSync />
       </section>
 
       <section className={section}>
         <Head
-          n="02"
           eyebrow="Presentaciones"
           title="Se escribe en Markdown. La diapositiva se monta sola."
           body="Sin editor libre: arrastrar cajas rompe la retícula y la marca. Se escribe el contenido y el generador elige entre 17 composiciones basadas en el máster oficial de 51 diapositivas."
@@ -148,13 +147,12 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
       </section>
 
       <section className={section}>
-        <Head n="03" eyebrow="Roadmaps" title="Un calendario que se teclea." body="Semanas, rangos, medias semanas e hitos. Las barras alternan los colores de los tres servicios." />
+        <Head eyebrow="Roadmaps" title="Un calendario que se teclea." body="Semanas, rangos, medias semanas e hitos. Las barras alternan los colores de los tres servicios." />
         <GanttTyped />
       </section>
 
       <section className={section}>
         <Head
-          n="04"
           eyebrow="Diseño líquido"
           title="Ningún texto se sale de la retícula."
           body="Si un párrafo no cabe, el cuerpo baja lo justo para que siga dentro de su banda. El lienzo es fijo, así que el resultado es siempre el mismo."
@@ -163,7 +161,7 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
       </section>
 
       <section className={section}>
-        <Head n="05" eyebrow="El tono" title="La marca también suena de una manera." body="Frases de 15 a 22 palabras y una lista de palabras prohibidas que el validador marca antes de que nada salga de la oficina." />
+        <Head eyebrow="El tono" title="La marca también suena de una manera." body="Frases de 15 a 22 palabras y una lista de palabras prohibidas que el validador marca antes de que nada salga de la oficina." />
         <ToneCheck />
       </section>
 

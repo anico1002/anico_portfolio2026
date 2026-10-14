@@ -3,7 +3,7 @@
 
 export const SLIDES = {
   product: [
-    "/maqueta/gloop/cover.jpg",
+    "/maqueta/gloop/media/mock-alt-C.jpg",
     "/projects/elreto-masterchef/ElReto_hero.png",
     "/projects/swift-project/SwifT_hero.png",
     "/projects/obliq/01/obliq_1.png",

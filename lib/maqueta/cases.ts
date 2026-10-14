@@ -172,7 +172,7 @@ export const CASES: CaseCopy[] = [
     // Caso a medida (app/maqueta/7news): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "7news",
     section: "product",
-    thumb: "/maqueta/7news/cover.jpg",
+    thumb: "/maqueta/7news/media/hero.mp4",
     name: "7news",
     line: "Un lector de noticias que se termina",
     year: "2026",

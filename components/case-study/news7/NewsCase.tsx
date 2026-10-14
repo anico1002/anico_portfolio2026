@@ -4,32 +4,33 @@ import NextCase from "@/components/case-study/NextCase";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
-import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Placeholder } from "@/components/case-study/primitives";
+import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Placeholder } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
-import { DayEnds, LogoLoader, TopicBuilder, VersusTable, WristNotice } from "./NewsPieces";
+import LazyVideo from "@/components/case-study/LazyVideo";
+import { DayEnds, LogoLoader, TopicBuilder, VersusTable } from "./NewsPieces";
 
-/* Caso de 7news, a medida (2026-10-13). Hechos del repo 7News (README, DECISIONES, código). Sin capturas:
-   piezas recreadas. Pendiente de Alberto: por qué «7» (y antes «8»). */
+/* Caso de 7news, a medida (2026-10-13). Hechos del repo 7News (README, DECISIONES, código). Piezas recreadas
+   y, desde el 2026-10-14, la app de verdad en mockups (cabecera y recorrido). Pendiente de Alberto: por qué «7». */
 
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 
-function Head({ n, eyebrow, title, body }: { n: string; eyebrow: string; title: string; body?: string }) {
+/* Cabecera de capítulo con el feedback general de Gloop (2026-10-14): titulillo sin número, titular
+   equilibrado y el párrafo cerca de él, alineado con su última línea (no colgado arriba ni pegado al borde). */
+function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {
   return (
-    <div className={`${grid} mb-14 gap-y-6 md:mb-20`}>
-      <div className="col-span-12 md:col-span-7">
+    <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
+      <div className="col-span-12 md:col-span-6">
         <FadeIn>
-          <p className="t-label t-tag text-[var(--case-muted)]">
-            {n} · {eyebrow}
-          </p>
+          <p className="t-label t-tag text-[var(--case-muted)]">{eyebrow}</p>
         </FadeIn>
-        <Lines as="h2" className="mt-4 t-statement" delay={STAGGER}>
+        <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
           {title}
         </Lines>
       </div>
       {body && (
-        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-20">
+        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8">
           <p className="t-body text-[var(--case-muted)]">{body}</p>
         </FadeIn>
       )}
@@ -43,7 +44,7 @@ export default function NewsCase({ next: n }: { next: { name: string; href: stri
       <SiteNav active="product" />
 
       <CaseHero
-        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/7news/cover.jpg" label="7news" />}
+        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/7news/media/hero.mp4" label="7news" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="7news"
@@ -80,6 +81,20 @@ export default function NewsCase({ next: n }: { next: { name: string; href: stri
         </div>
       </section>
 
+      {/* La app entera, con contenido real (las fuentes del iPhone de Alberto, en el simulador): leer, filtrar la
+          portada, crear un tema, borrar un grupo y los ajustes. Mockup en la pared de hormigón (2026-10-14):
+          scripts/case-media/news.sh → clip_prep.py → mockup_video.py (receta scripts/mockups/recetas/7news-recorrido.json). */}
+      <section className="pt-24 md:pt-36">
+        {/* A pantalla completa: el móvil queda centrado y se recortan los lados. Sin FadeIn: un bloque más alto
+            que la pantalla nunca llegaba a disparar su entrada. */}
+        <LazyVideo
+          src="/maqueta/7news/media/recorrido.mp4"
+          poster="/maqueta/7news/media/recorrido-poster.jpg"
+          aria-label="Recorrido por 7news: leer una noticia, elegir qué sale en portada, crear el tema Videojuegos, borrar un grupo y los ajustes"
+          className="h-[100svh] w-full object-cover"
+        />
+      </section>
+
       {/* La marca: el logo es la barra de carga */}
       <section className={`pt-24 md:pt-36 ${wrap}`}>
         <div className="m-bleed">
@@ -98,7 +113,6 @@ export default function NewsCase({ next: n }: { next: { name: string; href: stri
 
       <section className={section}>
         <Head
-          n="02"
           eyebrow="Crear un tema"
           title="Se escribe un tema y las fuentes se buscan solas."
           body="Un índice de feeds y un buscador web traen candidatos; cuatro filtros —relevancia, idioma, actividad real y que se pueda leer dentro— dejan solo los buenos."
@@ -107,13 +121,21 @@ export default function NewsCase({ next: n }: { next: { name: string; href: stri
       </section>
 
       <section className={section}>
-        <Head n="03" eyebrow="La diferencia" title="Lo que cambia frente a un lector cualquiera." />
+        <Head eyebrow="La diferencia" title="Lo que cambia frente a un lector cualquiera." />
         <VersusTable />
       </section>
 
       <section className={section}>
-        <Head n="04" eyebrow="Avisos" title="Del iPhone a la muñeca." body="Tres titulares al día como notificación local, reflejados en el Apple Watch. Sin servidor y sin coste." />
-        <WristNotice />
+        <Head eyebrow="Avisos" title="Del iPhone a la muñeca." body="Tres titulares al día como notificación local, reflejados en el Apple Watch. Sin servidor y sin coste." />
+        {/* El aviso (2026-10-14): notificación real del simulador (titulares del día) en el iPhone, en la pared
+            con el suelo pasado a negro, y un Apple Watch flotando a su derecha, tocándolo solo por un canto, que
+            recibe el aviso en cristal medio segundo después. La entrada se anima a partir de las capturas (con la
+            pantalla bloqueada recordVideo no la recoge): notice_anim.py → mockup_video.py → float_watch.py. */}
+        <div className="m-bleed">
+          <MaskReveal from="right" speed={0}>
+            <Placeholder ratio="3/2" src="/maqueta/7news/media/reloj.mp4" label="El aviso de 7news llega al iPhone y, al momento, al Apple Watch" />
+          </MaskReveal>
+        </div>
       </section>
 
       <section className={section}>

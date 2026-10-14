@@ -17,21 +17,21 @@ const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 
-function Head({ n, eyebrow, title, body }: { n: string; eyebrow: string; title: string; body?: string }) {
+/* Cabecera de capítulo con el feedback general de Gloop (2026-10-14): titulillo sin número, titular
+   equilibrado y el párrafo cerca de él, alineado con su última línea (no colgado arriba ni pegado al borde). */
+function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {
   return (
-    <div className={`${grid} mb-14 gap-y-6 md:mb-20`}>
-      <div className="col-span-12 md:col-span-7">
+    <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
+      <div className="col-span-12 md:col-span-6">
         <FadeIn>
-          <p className="t-label t-tag text-[var(--case-muted)]">
-            {n} · {eyebrow}
-          </p>
+          <p className="t-label t-tag text-[var(--case-muted)]">{eyebrow}</p>
         </FadeIn>
-        <Lines as="h2" className="mt-4 t-statement" delay={STAGGER}>
+        <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
           {title}
         </Lines>
       </div>
       {body && (
-        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-20">
+        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8">
           <p className="t-body text-[var(--case-muted)]">{body}</p>
         </FadeIn>
       )}
@@ -113,7 +113,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: { na
       </div>
 
       <section className={section}>
-        <Head n="01" eyebrow="La energía" title="Cada gesto suma, y se ve al momento." body="La energía es la moneda del concurso: sube con los retos, los vídeos y los likes, y cada 500 puntos se sube de nivel." />
+        <Head eyebrow="La energía" title="Cada gesto suma, y se ve al momento." body="La energía es la moneda del concurso: sube con los retos, los vídeos y los likes, y cada 500 puntos se sube de nivel." />
         <div className={`${grid} items-center gap-y-12`}>
           <div className="col-span-12 md:col-span-5">
             <EnergyCard />
@@ -131,7 +131,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: { na
       </section>
 
       <section className={section}>
-        <Head n="02" eyebrow="Sigue al chef" title="Cocinar en directo, paso a paso y contra el reloj." body="Un chef cocina en directo y cada participante le sigue en casa: pasos con su tiempo, foto obligatoria al terminar cada uno y una nota final por fidelidad, tiempo, presentación y completitud." />
+        <Head eyebrow="Sigue al chef" title="Cocinar en directo, paso a paso y contra el reloj." body="Un chef cocina en directo y cada participante le sigue en casa: pasos con su tiempo, foto obligatoria al terminar cada uno y una nota final por fidelidad, tiempo, presentación y completitud." />
         <ChefLive />
       </section>
 
@@ -140,12 +140,12 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: { na
       </div>
 
       <section className={section}>
-        <Head n="04" eyebrow="Dos superficies" title="Una base de código, dos maneras de entrar." body="La web, en escritorio, para descubrir e inscribirse. La app, en el móvil, para todo lo demás: el casting solo se puede grabar allí, porque necesita cámara y micrófono." />
+        <Head eyebrow="Dos superficies" title="Una base de código, dos maneras de entrar." body="La web, en escritorio, para descubrir e inscribirse. La app, en el móvil, para todo lo demás: el casting solo se puede grabar allí, porque necesita cámara y micrófono." />
         <DualSurface />
       </section>
 
       <section className={section}>
-        <Head n="05" eyebrow="IA en el bucle" title="La IA hace el trabajo que no escala." />
+        <Head eyebrow="IA en el bucle" title="La IA hace el trabajo que no escala." />
         <div className={`${grid} gap-y-8`}>
           {[
             ["Vídeos", "Transcripción automática de los vídeos de los participantes."],

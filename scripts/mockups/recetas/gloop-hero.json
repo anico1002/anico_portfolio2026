@@ -1,0 +1,8 @@
+{ "canvas": [2560, 1440], "out": [1920, 1080], "bg": "mockups-src/bg-ev5.jpg",
+  "black": 0.07, "vignette": 0.55, "top": 0.7, "xfade": 0.5, "crf": 20,
+  "poster": "public/maqueta/gloop/media/hero-poster.jpg",
+  "layers": [
+    { "scene": "mockups-src/im-transparent", "view": "view-3", "video": "scripts/case-media/clips/back-cut.mp4",
+      "place": "0.85,0.45,center", "rot": -30 },
+    { "scene": "mockups-src/im-silver", "view": "view-1", "video": "scripts/case-media/clips/front-cut.mp4",
+      "place": "0.95,0.66,center", "rot": -19 } ] }

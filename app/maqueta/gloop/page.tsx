@@ -48,8 +48,7 @@ export default function GloopCase() {
 
       {/* 0 · Cabecera: la miniatura de la home crece hasta aquí y funde al vídeo de la app. */}
       <CaseHero
-        videoReady
-        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/gloop/cover.jpg" label="Gloop" />}
+        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/gloop/media/hero-mock.mp4" label="Gloop" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="Gloop"

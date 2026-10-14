@@ -1,0 +1,5 @@
+{ "canvas": [2000, 1333], "out": [2000, 1332], "bg": "mockups-src/bg-ev5.jpg",
+  "black": 0, "vignette": 0, "top": 0, "xfade": 0, "crf": 12,
+  "layers": [
+    { "scene": "mockups-src/im-wall-black", "view": "view-1", "video": "scripts/case-media/clips/aviso-movil.mp4",
+      "place": "1,0.5,center", "tint": 0, "body": 1, "wrap": 0, "refl": 0.5 } ] }

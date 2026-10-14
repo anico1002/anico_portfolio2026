@@ -233,7 +233,7 @@ export function Funnel() {
       <div className={`${reduce ? "" : "sticky top-0"} flex min-h-screen items-center px-4 py-20 md:px-6`}>
         <div className="grid w-full grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6">
           <div className="col-span-12 md:col-span-4">
-            <p className="t-label t-tag text-[var(--case-muted)]">03 · El concurso</p>
+            <p className="t-label t-tag text-[var(--case-muted)]">El concurso</p>
             <p className="mt-4 t-statement">De miles de inscritos a quince aspirantes.</p>
             <p className="mt-6 t-body text-[var(--case-muted)]">
               Cuatro fases y un ranking en tiempo real. Si lo logras, llegas al último casting televisado, donde solo 15

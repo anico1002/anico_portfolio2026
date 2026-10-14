@@ -1,0 +1,6 @@
+{ "canvas": [2560, 1440], "out": [1920, 1080], "bg": "mockups-src/bg-ev5.jpg",
+  "black": 0.07, "vignette": 0.45, "top": 0.6, "xfade": 0.5, "crf": 21,
+  "poster": "public/maqueta/gloop/media/app-mano-poster.jpg",
+  "layers": [
+    { "scene": "mockups-src/im-hand-male", "view": "view-1", "video": "scripts/case-media/clips/revelado-cut.mp4",
+      "place": "0.85,0.6,bottom", "tint": 0.7, "body": 0.55 } ] }

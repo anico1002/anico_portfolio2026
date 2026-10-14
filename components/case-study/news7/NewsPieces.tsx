@@ -97,7 +97,7 @@ export function DayEnds() {
       <div className={`${reduce ? "" : "sticky top-0"} flex min-h-screen items-center px-4 py-20 md:px-6`}>
         <div className="grid w-full grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6">
           <div className="col-span-12 md:col-span-4">
-            <p className="t-label t-tag text-[var(--case-muted)]">01 · El día se acaba</p>
+            <p className="t-label t-tag text-[var(--case-muted)]">El día se acaba</p>
             <p className="mt-4 t-d3 tabular-nums">{n}</p>
             <p className="mt-2 t-small text-[var(--case-muted)]">noticias hoy</p>
             <ol className="mt-10 space-y-3">

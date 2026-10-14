@@ -31,21 +31,21 @@ const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 
 /** Cabecera de capítulo: titulillo numerado, titular y, si hay, una línea en diagonal. */
-function Head({ n, eyebrow, title, body }: { n: string; eyebrow: string; title: string; body?: string }) {
+/* Cabecera de capítulo con el feedback general de Gloop (2026-10-14): titulillo sin número, titular
+   equilibrado y el párrafo cerca de él, alineado con su última línea (no colgado arriba ni pegado al borde). */
+function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {
   return (
-    <div className={`${grid} mb-14 gap-y-6 md:mb-20`}>
-      <div className="col-span-12 md:col-span-7">
+    <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
+      <div className="col-span-12 md:col-span-6">
         <FadeIn>
-          <p className="t-label t-tag text-[var(--case-muted)]">
-            {n} · {eyebrow}
-          </p>
+          <p className="t-label t-tag text-[var(--case-muted)]">{eyebrow}</p>
         </FadeIn>
-        <Lines as="h2" className="mt-4 t-statement" delay={STAGGER}>
+        <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
           {title}
         </Lines>
       </div>
       {body && (
-        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:mt-20">
+        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8">
           <p className="t-body text-[var(--case-muted)]">{body}</p>
         </FadeIn>
       )}
@@ -98,23 +98,22 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
         </div>
       </section>
 
-      {/* 01 · El gesto */}
+      {/* El gesto */}
       <section className={section}>
-        <Head n="01" eyebrow="El gesto" title="Seleccionar, pulsar ⌥⌘T, listo." body="Funciona en cualquier app, aunque SwifT no esté en primer plano. El panel no le roba el foco a lo que estás haciendo." />
+        <Head eyebrow="El gesto" title="Seleccionar, pulsar ⌥⌘T, listo." body="Funciona en cualquier app, aunque SwifT no esté en primer plano. El panel no le roba el foco a lo que estás haciendo." />
         <FadeIn>
           <ShortcutDemo />
         </FadeIn>
       </section>
 
-      {/* 02 · Cuatro funciones, en horizontal */}
+      {/* Cuatro funciones, en horizontal */}
       <div className="mt-28 md:mt-44">
         <FeatureCards />
       </div>
 
-      {/* 03 · Frases trampa */}
+      {/* Frases trampa */}
       <section className={section}>
         <Head
-          n="03"
           eyebrow="Frases trampa"
           title="El motor se eligió con un banco de pruebas, no por impresiones."
           body="21 frases que esconden una trampa: modismos, preguntas que hay que traducir y no contestar, cifras, ironía, alfabetos de derecha a izquierda."
@@ -122,16 +121,15 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
         <TrapBench />
       </section>
 
-      {/* 04 · Tres motores */}
+      {/* Tres motores */}
       <section className={section}>
-        <Head n="04" eyebrow="Por dentro" title="Tres motores. Cero configuración." body="SwifT elige el mejor para cada texto y, si falla, salta solo al siguiente." />
+        <Head eyebrow="Por dentro" title="Tres motores. Cero configuración." body="SwifT elige el mejor para cada texto y, si falla, salta solo al siguiente." />
         <EngineCascade />
       </section>
 
-      {/* 05 · Banderas imposibles */}
+      {/* Banderas imposibles */}
       <section className={section}>
         <Head
-          n="05"
           eyebrow="Detalles"
           title="Las banderas que Unicode no dibuja."
           body="La senyera, la gallega y la ikurriña no tienen emoji en Apple. SwifT las pinta con la silueta y la onda de las demás, para que el selector de idiomas no tenga huecos."
@@ -139,15 +137,15 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
         <ImpossibleFlags />
       </section>
 
-      {/* 06 · El icono */}
+      {/* El icono */}
       <section className={section}>
-        <Head n="06" eyebrow="El icono" title="De lo literal a un rayo." body="Se descartó lo evidente —el bocadillo, la A y el 文— por una marca abstracta que se lee igual a 16 px en la barra que a 512 en la tienda." />
+        <Head eyebrow="El icono" title="De lo literal a un rayo." body="Se descartó lo evidente —el bocadillo, la A y el 文— por una marca abstracta que se lee igual a 16 px en la barra que a 512 en la tienda." />
         <IconStory />
       </section>
 
-      {/* 07 · La landing */}
+      {/* La landing */}
       <section className={section}>
-        <Head n="07" eyebrow="Landing" title="Un producto que cabe en una frase merece una página que también." />
+        <Head eyebrow="Landing" title="Un producto que cabe en una frase merece una página que también." />
       </section>
       <div className="mt-4">
         <WindowReveal>

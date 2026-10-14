@@ -95,7 +95,7 @@ export function getCaseMedia(copy: CaseCopy): CaseMedia | null {
 
 /** Miniatura de un caso cualquiera (Gloop incluido) para «Siguiente caso». */
 export function thumbOf(slug: string): string | undefined {
-  if (slug === "gloop") return "/maqueta/gloop/cover.jpg";
+  if (slug === "gloop") return "/maqueta/gloop/media/hero-mock.mp4";
   return caseBySlug(slug)?.thumb ?? (getScannedProject(slug)?.thumbnail || undefined);
 }
 

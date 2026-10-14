@@ -5,13 +5,14 @@ import { useRef } from "react";
 import Lines from "@/components/case-study/Lines";
 import { FadeIn } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
-import PhoneFrame from "./PhoneFrame";
+import LazyVideo from "@/components/case-study/LazyVideo";
 
 /* La app (Gloop, 2026-10-13, feedback de Alberto): «el prototipo no es un simple prototipo, es una app
-   lista para las stores». Momento a sangre sobre una foto de fiesta (no los brillos, que ya salen con el
-   portátil): la ventana se abre con el scroll, el móvil se queda a un lado con la app en marcha y el
-   texto aparece al otro y se mantiene un rato, para que se vean las pantallas en movimiento.
-   Pendiente de hablar: que se llegue aquí con un zoom desde la pantalla del portátil del design system. */
+   lista para las stores». Momento a sangre: la ventana se abre con el scroll y se mantiene un rato.
+   2026-10-14: en vez de un móvil dibujado encima de una foto, el mockup del móvil en mano en la fiesta
+   con la app en marcha (el visor de Momentos): `app-mano.mp4`, de scripts/mockups/mockup_video.py con la
+   receta `scripts/mockups/recetas/gloop-app.json`. El texto, en el hueco oscuro de la izquierda.
+   Pendiente: que se llegue aquí con un zoom desde el portátil del kit. */
 
 export default function NativeApp() {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,8 +21,7 @@ export default function NativeApp() {
   const inset = useTransform(p, [0, 0.35], [14, 0]);
   const side = useTransform(p, [0, 0.35], [22, 0]);
   const clipPath = useTransform([inset, side], ([i, s]) => `inset(${i}% ${s}% ${i}% ${s}%)`);
-  const bgScale = useTransform(p, [0, 1], [1.25, 1.05]);
-  const phoneY = useTransform(p, [0, 0.45], [140, 0]);
+  const bgScale = useTransform(p, [0, 1], [1.12, 1]);
 
   return (
     <div ref={ref} className={`relative mt-36 md:mt-56 ${reduce ? "" : "h-[240vh]"}`}>
@@ -30,19 +30,17 @@ export default function NativeApp() {
         style={reduce ? undefined : { clipPath }}
       >
         { }
-        <motion.img
-          src="/maqueta/gloop/media/party-ev2.jpg"
-          alt=""
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ scale: reduce ? 1.05 : bgScale, filter: "brightness(0.45) saturate(1.1)" }}
-        />
-        <span aria-hidden className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/10 to-black/50" />
-        <div className="relative grid h-full grid-cols-12 items-center gap-x-4 px-4 text-white md:gap-x-6 md:px-6">
-          <motion.div className="col-span-7 col-start-3 md:col-span-3 md:col-start-3" style={reduce ? undefined : { y: phoneY }}>
-            <PhoneFrame src="/maqueta/gloop/media/scr-nativa.mp4" label="La app de Gloop en marcha" className="mx-auto max-w-[190px] md:max-w-[300px]" />
-          </motion.div>
-          <div className="col-span-12 mt-8 md:col-span-4 md:col-start-8 md:mt-0">
+        <motion.div className="absolute inset-0" style={{ scale: reduce ? 1 : bgScale, transformOrigin: "60% 100%" }}>
+          <LazyVideo
+            src="/maqueta/gloop/media/app-mano.mp4"
+            poster="/maqueta/gloop/media/app-mano-poster.jpg"
+            aria-label="La app de Gloop en un móvil, en la mano, en mitad de un concierto: pasan las fotos de la noche"
+            className="h-full w-full object-cover object-[60%_100%]"
+          />
+        </motion.div>
+        <span aria-hidden className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent" />
+        <div className="relative grid h-full grid-cols-12 items-end gap-x-4 px-4 pb-12 text-white md:items-center md:gap-x-6 md:px-6 md:pb-0">
+          <div className="col-span-12 md:col-span-4 md:col-start-2">
             <FadeIn>
               <p className="t-label t-tag text-white/60">La app</p>
             </FadeIn>

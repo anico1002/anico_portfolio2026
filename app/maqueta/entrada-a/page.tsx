@@ -18,7 +18,7 @@ const ways = [
     label: "Product",
     line: "Apps, producto digital, marca y web",
     href: "/maqueta/home",
-    img: "/maqueta/gloop/cover.jpg",
+    img: "/maqueta/gloop/media/mock-alt-C.jpg",
   },
   {
     key: "games",

@@ -2,6 +2,60 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-14, MacBook)
+
+Sesión de **mockups de dispositivo**: la app real dentro de escenas premium, en imagen y vídeo. Método completo y
+reutilizable en **`scripts/mockups/README.md`** (para Dovla, Interactius, El Reto…). Hecho:
+- **Gloop** (en inglés): cabecera + miniatura con dos móviles en marcha sobre un escenario desenfocado; sección
+  «La app» con el móvil en mano y el visor de Moments. Feedback general (titulillos sin número, párrafo alineado
+  con la última línea del titular) aplicado a todos los casos.
+- **7News**: recorrido entero con contenido real (pared de hormigón con suelo negro), cabecera y el aviso que llega
+  del iPhone al Apple Watch.
+**Próxima sesión:** feedback de Alberto sobre el recorrido nuevo de 7News; Dovla (cuando retoque el prototipo);
+Interactius (la web en un portátil, decidir qué web); imagen para el interior de Gloop; El Reto.
+
+## ▶ MOCKUPS DE DISPOSITIVO (2026-10-14, MacBook)
+
+Estilo decidido con Alberto: escenas premium (estudio oscuro / noche), plantillas gratuitas de uso comercial
+(iphone-mockups.com: capa PNG + JSON con las esquinas de la pantalla; LS Graphics y MockupsVault en PSD) y
+la app real encajada en perspectiva. Nada de modelar en 3D. Fondos de fiesta: fotos de Unsplash con
+desenfoque de lente (`scripts/mockups/bokeh.py`).
+- **Imagen fija:** `scripts/mockups/im_compose.py` (una escena + captura + fondo; giro, lienzo, tinte, light wrap,
+  franja superior oscura para el menú). PSD: Photoshop por script (`place2.jsx` en el scratchpad de la sesión).
+- **Vídeo:** grabar con toques reales (`scripts/case-media/hero.sh`, AXe en `scripts/case-media/axe/`), limpiar con
+  `scripts/mockups/clip_prep.py` (arranque, pausas, misma duración) y componer con
+  `scripts/mockups/mockup_video.py <receta.json>` (recetas en `scripts/mockups/recetas/`).
+- **Gloop hecho:** cabecera + miniatura = dos móviles en marcha sobre el escenario (`media/hero-mock.mp4`;
+  detrás la ruleta, delante Home → El Piso → La Cuenta). Sección «La app» = móvil en mano con el visor de
+  Momentos (`media/app-mano.mp4`), texto centrado en el hueco de la izquierda.
+- Sin versionar (solo en este Mac): `mockups-src/` (plantillas, fondos, recetas), `public/maqueta/gloop/{media,screens}/`
+  y `scripts/case-media/{axe,clips}/`.
+- **7News hecho (mismo día):** contenido real sin tocar el iPhone (`~/Vibe_Projects/7News/Scripts/fuentes-del-movil.sh
+  --simulador` solo lee del móvil). Recorrido de una toma con toques reales (`scripts/case-media/news.sh`: leer,
+  quitar Chollos de portada, crear «Videojuegos», borrar un grupo, ajustes en claro/oscuro); la búsqueda de
+  fuentes se acelera ×8 en `clip_prep.py --speed`. Mockup: pared de hormigón con luz dura (iphone-mockups.com).
+  Cabecera + miniatura `7news/media/hero.mp4`, recorrido a pantalla completa tras la intro (`recorrido.mp4`,
+  10,7 MB: recomprimir en el pase final). Al grabar, el simulador queda tocado: se restaura con el mismo script
+  de fuentes + Chollos en portada + máximo 3 por fuente. Feedback general de Gloop aplicado a 7News (titulillos
+  sin número, párrafo alineado con la última línea del titular, titular equilibrado). El acero oscuro (P7, PSD)
+  queda para piezas de detalle. **Reloj hecho (2.ª versión, feedback de Alberto):** el reloj
+  apoyado en el suelo quedaba falso. Ahora flota a la derecha del iPhone, tocándolo por un canto, casi frontal y
+  mirando hacia él (`float_watch.py`), y el aviso entra en el iPhone con muelle de iOS y medio segundo después en
+  el reloj (`notice_anim.py`, a partir de las capturas sin/con aviso: con la pantalla bloqueada recordVideo no
+  graba la animación). Suelo de la pared pasado a **negro liso** (`floor_black.py` → `mockups-src/im-wall-black/`;
+  iphone-mockups.com no da PSD). Pantalla del reloj: `watch_notice.py` (SF Compact). Vídeo: `7news/media/reloj.mp4`.
+- **Idioma (2026-10-14):** Gloop se graba **en inglés** (`hero.sh` lanza con `-AppleLanguages (en)`; los nombres de
+  equipo siguen en castellano, decisión de Alberto). 7News se queda en castellano: no se traduce la app.
+  Barra de estado sin rayo de carga: `simctl status_bar clear` y luego `override --batteryState discharging`.
+- **7News regrabado con el feedback (2026-10-14):** splash → portada → filtro (fuera Chollos, Fun, Pelis) y recarga
+  visible → Tech → Apple → Apple Watch Series 12 (fotos de producto) → deslizar a la siguiente → «Guardar para
+  después» → crear «Videojuegos» → Guardadas. `scripts/case-media/news.sh` toca las noticias por título y
+  `news-reset.sh` deja el simulador limpio (fuentes del iPhone, interruptores leídos por accesibilidad, borra
+  grupos «Videojuegos» y guardadas, vacía la pila de cada pestaña). Ojo: traer las fuentes resucita los grupos
+  creados, por eso el reset borra después de importar. La portada depende de las noticias del día.
+- **Siguiente:** Dovla (cuando Alberto retoque el prototipo),
+  Interactius (la web en un portátil). Imagen para el interior de Gloop pendiente.
+
 ## ▶ PENDIENTE PARA LA PRÓXIMA SESIÓN (Gloop, apuntado por Alberto el 2026-10-13 noche)
 
 Primera vuelta al feedback de Gloop hecha (copy publicitario sin cocina interna, cristal iOS, parada del

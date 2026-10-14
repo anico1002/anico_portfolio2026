@@ -97,7 +97,7 @@ export function BalanceTimeTravel() {
       <div className={`${reduce ? "" : "sticky top-0"} flex min-h-screen items-center px-4 py-20 md:px-6`}>
         <div className="grid w-full grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6">
           <div className="col-span-12 md:col-span-4">
-            <p className="t-label t-tag text-[var(--case-muted)]">01 · El saldo</p>
+            <p className="t-label t-tag text-[var(--case-muted)]">El saldo</p>
             <p className="mt-4 t-statement">El saldo viaja en el tiempo.</p>
             <p className="mt-6 t-body text-[var(--case-muted)]">
               Al bajar por los movimientos, la cifra de arriba enseña lo que había en cada momento. Solo cambian los
