@@ -2,7 +2,37 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-14, MacBook)
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-14 noche, MacBook)
+
+Sesión larga de feedback de Alberto sobre **Gloop** y **7News**. Detalle con casillas en
+`docs/feedback-gloop-2026-10-14.md` y `docs/feedback-7news-2026-10-14.md`.
+- **Carrusel de Product** (cabecera de la home y entrada partida): ahora son las **miniaturas en vídeo** de Gloop,
+  SwifT y 7News (`lib/maqueta/sections.ts`; vídeo + póster `x-poster.jpg`, `components/case-study/SlideMedia.tsx`). El
+  telón sigue el vídeo por el mismo segundo. Cada miniatura nueva se añade ahí.
+- **7News: DADO POR ACABADO.** Miniatura rehecha (splash con carga del logo, portada, noticia, Temas y borrado;
+  `scripts/case-media/news-thumb.sh` + `scripts/mockups/logo_fill.py`). Apertura con la app a un lado, «El día se
+  acaba» con muro de noticias reales que se apagan → móvil plano que crece y pasa a la búsqueda real de
+  «Videojuegos». Aviso: escena fija con cifras sobre la piedra, Apple Watch Series 10 del PSD de Alberto (recortado,
+  volteado, 30 % más pequeño; `scripts/mockups/place_watch.py`) y burbuja nativa (`notice_anim.py`). Pared con suelo
+  negro de Alberto (`mockups-src/im-wall-black/`, las de antes en `view-*-v1.png`).
+- **Gloop:** Paradigma sin parada (esquina recta hacia el centro, avatares reales, «Enter now»), insight y cards de
+  color redondeados, La forma con logo letra a letra → imago → cinco colores → metamorfosis en bucle, design system
+  con **MacBook frontal oscuro** (PNG de Alberto, `kit-macbook.png`) y vídeo del kit dentro, móvil negro girado 30°
+  junto a «El método», proceso animado (benchmark isométrico con sus capturas: `scripts/mockups/iso_grid.py`;
+  wireframes vectoriales; código que se escribe; app final sobre foto desenfocada), **ruleta de juegos a pantalla
+  completa** (le encanta) y **Por capas con la pantalla real** (home Sónar 2027 partida en 4 capas:
+  `scripts/mockups/split_layers.py`) que acaba dentro de un marco real de iPhone 18 Pro con fundido.
+- `RealPhone.tsx`: marco de móvil real reutilizable (plantilla de iphone-mockups.com) con vídeo o capas dentro.
+
+**Pendiente Gloop (próxima sesión):**
+1. **La app entera dentro de un móvil al abrir el caso** (norma para todos los casos de app; Gloop aún no lo tiene).
+2. Imagen de **Primeras pantallas** (la pasa Alberto; se parece a la de prototipo).
+3. **iPhone Duo**: buscarle sitio o descartarlo (falta la ruta del PSD).
+4. Repaso general **en inglés**: titular de Paradigma («vives.» sola), frase grande de la intro, copy de las capas.
+5. Revisión en **móvil** de todo lo nuevo (ruleta, La forma, MacBook, capas, aviso con el reloj).
+Plantillas guardadas para otros casos: **M9** (MacBook en pedestal claro) para SwifT e Interactius.
+
+## Cierre anterior (2026-10-14 mediodía, MacBook)
 
 Sesión de **mockups de dispositivo**: la app real dentro de escenas premium, en imagen y vídeo. Método completo y
 reutilizable en **`scripts/mockups/README.md`** (para Dovla, Interactius, El Reto…). Hecho:

@@ -21,6 +21,15 @@ const STEPS = [
   { title: "Handoff", body: "Tokens y código listos para copiar. Y el sistema entero, legible por IA.", from: 14.2, to: 21.2 },
 ];
 
+/* MacBook real (2026-10-14). Tras probar el M7 (Mockupnest) y el M11 (Pixeden; descartado: «azulejos de lavabo»),
+   Alberto pasó el «MacBook Pro Mockup 2» de mockups-design.com: frontal. De su PSD se usa la capa de luces, que es
+   el mismo portátil con luz baja, llevada a negro (`kit-macbook.jpg`, scratchpad/md). Al ser frontal, la pantalla
+   es un rectángulo: el vídeo del kit va encima en CSS, vivo, y salta a cada paso como antes. `kit-m7.jpg` y
+   `kit-m11.jpg` se conservan por si se vuelve atrás. */
+const MOCK = "/maqueta/gloop/media/kit-macbook.png"; // PNG recortado que pasó Alberto, con la pantalla hecha transparente
+/** Pantalla dentro de la imagen, en % (izquierda, arriba, ancho, alto). */
+const SCREEN = { l: 8.615, t: 3.596, w: 82.769, h: 78.708 };
+
 const CODE = [
   ["struct", " GloopButton: View {"],
   ["  let", " title: String"],
@@ -68,7 +77,7 @@ function KitVideo({ step, play }: { step: number; play: boolean }) {
   return (
     <video
       ref={ref}
-      className="absolute inset-0 h-full w-full object-cover"
+      className="absolute inset-0 h-full w-full object-cover object-left-top"
       src="/maqueta/gloop/media/kit.mp4"
       poster="/maqueta/gloop/media/kit-poster.jpg"
       muted
@@ -101,7 +110,6 @@ export default function KitLaptop() {
   });
   // El brillo se enciende al llegar la parada y se apaga al soltarla.
   const glow = useTransform(p, [0, 0.12, 0.88, 1], [0, 1, 1, 0]);
-  const laptopX = useTransform(p, [0, 0.12], ["6%", "0%"]);
 
   return (
     <section className={`mt-36 md:mt-56 ${geist.variable}`}>
@@ -115,34 +123,43 @@ export default function KitLaptop() {
             Un design system que diseño y desarrollo leen igual.
           </Lines>
         </div>
-        {/* El párrafo, en línea con el titular (alineado con su última línea) y cerca de él: pegado al borde
-            derecho quedaba descolgado. */}
-        <FadeIn className="col-span-12 mt-8 md:col-span-4 md:col-start-8 md:mt-0">
-          <p className="t-body text-[var(--case-muted)]">
-            El lenguaje de Gloop, ordenado y listo para producción. Cada pantalla nueva nace con su ADN.
-          </p>
-        </FadeIn>
       </div>
 
       {/* La parada. */}
       <div ref={ref} className="relative" style={pinned ? { height: "340vh" } : undefined}>
         <div className={pinned ? "sticky top-0 flex h-screen items-center overflow-hidden" : "relative overflow-hidden py-20"}>
-          <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ opacity: pinned ? glow : 1 }}>
+          {/* Con el fondo dentro de la capa: así el «superponer» de la textura solo asoma donde hay brillo. */}
+          <motion.div aria-hidden className="pointer-events-none absolute inset-0 isolate bg-[var(--case-bg)]" style={{ opacity: pinned ? glow : 1 }}>
             <span className="absolute -left-40 top-[10%] h-[36rem] w-[36rem] rounded-full opacity-35 blur-[140px]" style={{ background: G.brandDeep }} />
             <span className="absolute -right-32 bottom-[5%] h-[32rem] w-[32rem] rounded-full opacity-20 blur-[140px]" style={{ background: G.accent }} />
+            {/* Sin textura de foto encima (2026-10-14): a 1.100 px se veía blanda y Alberto prefirió quitarla. */}
           </motion.div>
           <div className="relative grid w-full grid-cols-12 items-center gap-x-4 gap-y-12 px-4 md:gap-x-6 md:px-6">
             {/* Los tres pasos: en escritorio, uno encendido cada vez. */}
-            <ol className="order-2 col-span-12 space-y-8 md:order-1 md:col-span-3 md:space-y-10">
+            {/* Centrados en el hueco entre el margen y el portátil (feedback 2026-10-14: pegados al margen quedaban raros). */}
+            <div className="order-2 col-span-12 md:col-span-4 md:col-start-9 md:flex md:justify-center">
+            <div>
+            {/* El párrafo de la sección, encima de los pasos (feedback 2026-10-14: arriba, junto al titular,
+                quedaba muy despegado del portátil y de los pasos). */}
+            <FadeIn className="mb-10 max-w-[30ch] md:mb-14">
+              <p className="t-body text-[var(--case-muted)]">
+                El lenguaje de Gloop, ordenado y listo para producción. Cada pantalla nueva nace con su ADN.
+              </p>
+            </FadeIn>
+            <ol className="space-y-8 md:space-y-10">
               {STEPS.map((s, k) => {
                 const on = !pinned || step === k;
                 return (
-                  <li key={s.title}>
+                  <li key={s.title} className="relative">
+                    {/* «01/Fundamentos»: el número cuelga por fuera y el texto se alinea con la palabra. */}
                     <motion.p
                       className="t-title"
                       animate={{ opacity: on ? 1 : 0.25 }}
                       transition={{ duration: DUR.base, ease: EASE.out }}
                     >
+                      <span className="absolute right-full top-0 mr-2 whitespace-nowrap t-label t-tag leading-[inherit] text-[var(--case-muted)]" style={{ lineHeight: "inherit" }}>
+                        0{k + 1}/
+                      </span>
                       {s.title}
                     </motion.p>
                     <motion.p
@@ -156,12 +173,24 @@ export default function KitLaptop() {
                 );
               })}
             </ol>
-            <motion.div className="order-1 col-span-12 md:order-2 md:col-span-7 md:col-start-5 md:px-[4%]" style={pinned ? { x: laptopX } : undefined}>
-              <Laptop>
-                <KitVideo step={pinned ? step : 0} play={!pinned || inView} />
+            </div>
+            </div>
+            {/* Grande y a la izquierda: sale por el borde de la pantalla sin miedo, mientras se vea la pantalla. */}
+            <motion.div className="order-1 col-span-12 md:col-span-8 md:col-start-1 md:row-start-1 md:ml-[30px]">
+              <div className="relative">
+                {/* La pantalla debajo (el vídeo del kit, vivo) y el MacBook recortado encima: el PNG trae la pantalla
+                    transparente, así el marco y la muesca son los de la plantilla. Sin movimiento de entrada. */}
+                <div
+                  className="absolute overflow-hidden bg-black"
+                  style={{ left: `${SCREEN.l}%`, top: `${SCREEN.t}%`, width: `${SCREEN.w}%`, height: `${SCREEN.h}%` }}
+                >
+                  <KitVideo step={pinned ? step : 0} play={!pinned || inView} />
+                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={MOCK} alt="El design system de Gloop en un MacBook" className="relative block w-full" />
                 {/* Handoff: el código sube sobre la pantalla. */}
                 <motion.pre
-                  className="absolute bottom-[6%] right-[4%] w-[46%] overflow-hidden rounded-[10px] p-[2.2%] text-[clamp(8px,0.9vw,13px)] leading-relaxed shadow-2xl"
+                  className="absolute bottom-[26%] right-[14%] w-[36%] overflow-hidden rounded-[10px] p-[2.2%] text-[clamp(8px,0.9vw,13px)] leading-relaxed shadow-2xl"
                   style={{
                     background: "rgba(11,6,19,0.82)",
                     backdropFilter: "blur(16px)",
@@ -181,7 +210,7 @@ export default function KitLaptop() {
                     </span>
                   ))}
                 </motion.pre>
-              </Laptop>
+              </div>
             </motion.div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import SiteNav from "@/components/case-study/SiteNav";
 import { DUR, EASE, STAGGER, inOrOut, reducedMotion } from "@/lib/maqueta/motion";
 import { startCurtain } from "@/components/case-study/Curtain";
 import { SLIDES } from "@/lib/maqueta/sections";
+import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/SlideMedia";
 
 /* Entrada de la maqueta (elegida 2026-10-12; adonde lleva el logo): pantalla partida por la mitad, Product a la izquierda
    y Games a la derecha. Titulares juntos en el centro, pegados a la línea central; un párrafo corto
@@ -42,14 +43,10 @@ const sides: Side[] = [
   },
 ];
 
-/** Pase de fondo: fundido con un ligero zoom de salida (1,08 → 1) en cada diapositiva. */
+/** Pase de fondo: fundido con un ligero zoom de salida (1,08 → 1) en cada diapositiva. Imágenes en
+    corte rápido; los vídeos (miniaturas en movimiento) se dejan un poco más. */
 function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: boolean; frozen?: boolean }) {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    if (!active || frozen) return;
-    const t = setInterval(() => setI((n) => (n + 1) % srcs.length), 1600);
-    return () => clearInterval(t);
-  }, [active, frozen, srcs.length]);
+  const { i } = useSlideshow(srcs, active && !frozen, 1600, 3200);
   return (
     <motion.div
       aria-hidden
@@ -60,16 +57,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
       transition={{ duration: inOrOut(active), ease: EASE.inOut }}
     >
       <AnimatePresence initial={false}>
-        <motion.img
-          key={srcs[i]}
-          src={srcs[i]}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ opacity: { duration: DUR.base, ease: EASE.inOut }, scale: { duration: DUR.drift, ease: EASE.out } }}
-        />
+        <SlideMedia key={srcs[i]} src={srcs[i]} playing={active} />
       </AnimatePresence>
       {/* Velo para que el texto blanco se lea sobre cualquier imagen. */}
       <div className="absolute inset-0 bg-black/45" />
@@ -77,7 +65,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
       <div className="hidden">
         {srcs.map((s) => (
           // eslint-disable-next-line @next/next/no-img-element
-          <img key={s} src={s} alt="" />
+          <img key={s} src={posterOf(s)} alt="" />
         ))}
       </div>
     </motion.div>
@@ -121,11 +109,12 @@ export default function EntryB() {
     if (handed.current) return;
     handed.current = true;
     // La diapositiva visible ahora mismo (la de más opacidad) y su escala exacta.
-    const imgs = [...half.querySelectorAll<HTMLImageElement>("[data-slides] img")];
-    const img = imgs.sort((a, b) => +getComputedStyle(b).opacity - +getComputedStyle(a).opacity)[0];
-    const m = img && getComputedStyle(img).transform;
+    const els = [...half.querySelectorAll<HTMLElement>("[data-slides] [data-slide]")];
+    const el = els.sort((a, b) => +getComputedStyle(b).opacity - +getComputedStyle(a).opacity)[0];
+    const m = el && getComputedStyle(el).transform;
     const scale = m && m !== "none" ? new DOMMatrixReadOnly(m).a : 1;
-    startCurtain({ src: img?.getAttribute("src") ?? s.slides[0], scale, from: "/maqueta" });
+    const time = el instanceof HTMLVideoElement ? el.currentTime : undefined;
+    startCurtain({ src: el?.dataset.slide ?? s.slides[0], scale, from: "/maqueta", time, at: performance.now() });
     router.push(s.href);
   };
   useEffect(() => {

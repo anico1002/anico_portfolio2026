@@ -12,7 +12,10 @@ import { G, geist } from "./tokens";
    algo te espera; el rojo de «irreversible» se quitó el 2026-10-13 por feedback) y una tarjeta de
    equipo en cristal, recreada con los tokens reales, sobre una foto de fiesta desenfocada. Cada chip
    enciende la parte de la tarjeta que lleva ese color; el resto se apaga. Con el ratón se elige; si
-   no, va pasando solo mientras se ve. */
+   no, va pasando solo mientras se ve.
+   2026-10-14 (feedback): todas las esquinas redondeadas y textos legibles. Sobre el tinte del color activo
+   los textos de color se perdían (el mismo tono que el fondo): ahora el color va en píldoras sólidas con el
+   texto en blanco o negro, y los avatares son los de la app. */
 
 const MEANINGS = [
   { key: "live", label: "En directo", color: G.brand },
@@ -21,14 +24,13 @@ const MEANINGS = [
 ] as const;
 type Key = (typeof MEANINGS)[number]["key"];
 
-const AV = ["/maqueta/gloop/media/photo-profile.jpg", "/maqueta/gloop/media/photo-splash.jpg", "/maqueta/gloop/media/photo-xativometre.jpg"];
 
 function TeamCard({ on }: { on: Key }) {
-  const dim = (k: Key) => ({ opacity: on === k ? 1 : 0.28, transition: `opacity ${DUR.base}s cubic-bezier(${EASE.inOut.join(",")})` });
+  const dim = (k: Key) => ({ opacity: on === k ? 1 : 0.35, transition: `opacity ${DUR.base}s cubic-bezier(${EASE.inOut.join(",")})` });
   return (
     <div
       className="glass-ios w-full max-w-[26rem] overflow-hidden p-5"
-      style={{ borderRadius: "0 18px 18px 18px", fontFamily: "var(--font-gloop)" }}
+      style={{ borderRadius: 18, fontFamily: "var(--font-gloop)" }}
     >
       {/* En directo: el brillo diagonal de la tarjeta cuando el equipo tiene la noche activa. */}
       <span
@@ -39,30 +41,30 @@ function TeamCard({ on }: { on: Key }) {
       <div className="relative flex items-center justify-between">
         <p className="text-[20px] font-semibold text-white">El Piso</p>
         {/* Algo te espera: el punto de aviso. */}
-        <span className="flex items-center gap-2 text-[13px]" style={{ ...dim("waiting"), color: G.accent }}>
-          <span className="h-2.5 w-2.5 rounded-full" style={{ background: G.accent }} />2 Momentos sin ver
+        <span className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[13px] font-semibold text-white" style={{ ...dim("waiting"), background: G.accent }}>
+          <span className="h-2 w-2 rounded-full bg-white" />2 Momentos sin ver
         </span>
       </div>
-      <div className="relative mt-1 flex items-center gap-2 text-[13px]" style={{ color: G.text50 }}>
-        <span style={{ ...dim("live"), color: G.brand }}>● Noche en marcha</span>
-        <span>· 6 miembros</span>
+      <div className="relative mt-2 flex items-center gap-2 text-[13px] text-white/80">
+        <span className="rounded-full px-3 py-1 font-semibold text-white" style={{ ...dim("live"), background: G.brand }}>
+          ● Noche en marcha
+        </span>
+        <span>6 miembros</span>
       </div>
-      <div className="relative mt-5 flex items-center">
-        {AV.map((src) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img key={src} src={src} alt="" className="-ml-2 h-11 w-11 object-cover first:ml-0" style={{ borderRadius: "30%", boxShadow: `0 0 0 3px ${G.surface}` }} />
-        ))}
-        {/* Lo tuyo: tu avatar, con el aro lima. */}
+      <div className="relative mt-5 flex items-center gap-2">
+        {/* El grupo de avatares de la app (forma imago) y, al lado, tú, con el lima. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/maqueta/gloop/media/av-piso.png" alt="" className="h-[38px] w-auto" style={{ borderRadius: "0 10px 10px 10px" }} />
         <span
-          className="-ml-2 flex h-11 w-11 items-center justify-center text-[13px] font-bold text-black"
-          style={{ ...dim("yours"), borderRadius: "30%", background: G.lime, boxShadow: `0 0 0 3px ${G.surface}` }}
+          className="flex h-[38px] w-[38px] items-center justify-center text-[13px] font-bold text-black"
+          style={{ ...dim("yours"), borderRadius: "0 10px 10px 10px", background: G.lime }}
         >
           Tú
         </span>
       </div>
       <div className="relative mt-5 flex items-center justify-between rounded-[12px] px-4 py-3" style={{ background: G.fill8 }}>
         <span className="text-[15px] text-white">La Cuenta</span>
-        <span className="text-[15px] font-semibold" style={{ ...dim("yours"), color: G.lime }}>
+        <span className="rounded-full px-3 py-1 text-[14px] font-semibold text-black" style={{ ...dim("yours"), background: G.lime }}>
           Te deben 34,26 €
         </span>
       </div>
@@ -93,7 +95,9 @@ export default function ColorMeaning() {
 
   return (
     <div ref={ref} className={`grid grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6 ${geist.variable}`}>
-      <div className="col-span-12 md:col-span-5">
+      {/* Centrado en el hueco entre el margen y la imagen (feedback 2026-10-14). */}
+      <div className="col-span-12 md:col-span-6 md:flex md:justify-center">
+        <div className="md:max-w-[26rem]">
         <p className="t-label t-tag text-[var(--case-muted)]">El color</p>
         <Lines className="mt-4 t-statement">En Gloop, el color no decora: habla.</Lines>
         <div className="mt-10 flex flex-wrap gap-2" onMouseLeave={() => setHold(false)}>
@@ -118,6 +122,7 @@ export default function ColorMeaning() {
             espera. La interfaz habla en violeta.
           </p>
         </FadeIn>
+        </div>
       </div>
       <Parallax speed={90} className="m-bleed col-span-12 md:col-span-6 md:col-start-7">
         <GraphicReveal from="right">

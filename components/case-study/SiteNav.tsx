@@ -34,11 +34,11 @@ type Key = (typeof items)[number][0];
 /** Recuento de proyectos en superíndice junto a Product y Games (D5): informa de cuánto hay en cada
     sección antes de entrar. Fuera del rodillo del hover, y con su propio texto para lectores de
     pantalla («12 proyectos»). */
-function Count({ k }: { k: Key }) {
+function Count({ k, big = false }: { k: Key; big?: boolean }) {
   const n = k === "product" || k === "games" ? SECTION_COUNT[k] : null;
   if (n == null) return null;
   return (
-    <sup className="nav-count">
+    <sup className={big ? "nav-count nav-count-big" : "nav-count"}>
       <span aria-hidden>({n})</span>
       <span className="sr-only">, {n} proyectos</span>
     </sup>
@@ -155,7 +155,7 @@ export default function SiteNav({
                     }}
                   >
                     {label}
-                    <Count k={key} />
+                    <Count k={key} big />
                   </motion.button>
                 </li>
               ))}

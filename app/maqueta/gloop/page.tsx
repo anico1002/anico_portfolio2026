@@ -13,7 +13,7 @@ import FourLayers from "@/components/case-study/gloop/FourLayers";
 import ImagoCanon from "@/components/case-study/gloop/ImagoCanon";
 import KitLaptop from "@/components/case-study/gloop/KitLaptop";
 import NativeApp from "@/components/case-study/gloop/NativeApp";
-import PhoneFrame from "@/components/case-study/gloop/PhoneFrame";
+import RealPhone from "@/components/case-study/RealPhone";
 import ProcessLine from "@/components/case-study/gloop/ProcessLine";
 import GameRoulette from "@/components/case-study/gloop/GameRoulette";
 
@@ -120,13 +120,20 @@ export default function GloopCase() {
           fotos para separarlo del proceso. */}
       <section className={`pt-28 md:pt-40 ${wrap}`}>
         <div className={`${grid} items-start`}>
-          <Parallax speed={40} className="col-span-12 md:col-span-8 md:col-start-1 md:row-start-1">
-            <Mood src="/maqueta/gloop/media/party-ev3.jpg" ratio="16/10" />
+          {/* A sangre por la izquierda: sin el margen de la página (feedback 2026-10-14). */}
+          <Parallax speed={40} className="-ml-4 col-span-12 md:-ml-6 md:col-span-8 md:col-start-1 md:row-start-1">
+            <Mood src="/maqueta/gloop/media/party-ev3.jpg" ratio="16/10" className="!mx-0" />
           </Parallax>
-          <Parallax speed={260} className="relative z-10 col-span-8 col-start-3 -mt-24 md:col-span-3 md:col-start-8 md:row-start-1 md:mt-[22%]">
-            <FadeIn>
-              <PhoneFrame src="/maqueta/gloop/media/scr-noche.mp4" label="La noche en marcha" className="mx-auto max-w-[280px]" />
-            </FadeIn>
+          {/* Empieza más abajo, tapando el negro bajo la foto, y con un parallax largo sube por encima de ella
+              (feedback 2026-10-14). */}
+          <Parallax speed={220} className="relative z-10 col-span-8 col-start-3 -mt-12 md:col-span-4 md:col-start-8 md:row-start-1 md:mt-[106%] md:-mb-[70%]">
+            {/* Oscuro y girado unos 30° (feedback 2026-10-14). El giro va por fuera de la máscara de entrada:
+                dentro, la máscara (5 % de aire a los lados) cortaba las esquinas del móvil girado. */}
+            <div className="mx-auto max-w-[360px] rotate-[30deg]">
+              <FadeIn>
+                <RealPhone src="/maqueta/gloop/media/scr-noche.mp4" label="La noche en marcha" frame="/maqueta/7news/media/iphone-frame-black.png" />
+              </FadeIn>
+            </div>
           </Parallax>
         </div>
       </section>
@@ -151,20 +158,12 @@ export default function GloopCase() {
         </div>
       </section>
 
+      {/* Debajo del método, una sola foto, oscura (2026-10-14: fuera los dos móviles; la foto anterior no gustaba). */}
       <section className={`pt-28 md:pt-40 ${wrap}`}>
-        <div className={`${grid} items-start`}>
-          <Parallax speed={40} className="col-span-12 md:col-span-8 md:col-start-5 md:row-start-1">
-            <Mood src="/maqueta/gloop/media/party-ev6.jpg" ratio="16/10" from="right" />
-          </Parallax>
-          <Parallax speed={260} className="relative z-10 col-span-8 col-start-1 -mt-24 md:col-span-3 md:col-start-3 md:row-start-1 md:mt-[18%]">
-            <FadeIn>
-              <PhoneFrame src="/maqueta/gloop/media/scr-momentos.mp4" label="Momentos" className="mx-auto max-w-[280px]" />
-            </FadeIn>
-          </Parallax>
-          <Parallax speed={340} className="relative z-10 col-span-8 col-start-5 mt-40 md:col-span-3 md:col-start-10 md:row-start-1 md:mt-[64%]">
-            <FadeIn>
-              <PhoneFrame src="/maqueta/gloop/media/scr-cuenta.mp4" label="La Cuenta" className="mx-auto max-w-[280px]" />
-            </FadeIn>
+        <div className={grid}>
+          {/* A sangre por la derecha. */}
+          <Parallax speed={40} className="-mr-4 col-span-12 md:-mr-6 md:col-span-8 md:col-start-5">
+            <Mood src="/maqueta/gloop/media/party-ev5.jpg" ratio="16/10" from="right" className="!mx-0" />
           </Parallax>
         </div>
       </section>
@@ -174,7 +173,7 @@ export default function GloopCase() {
         <ProcessLine />
       </div>
 
-      {/* 12 · Momentos firma: los juegos. */}
+      {/* 12 · Momentos Gloop (antes «Momentos firma»): los juegos. */}
       <section className="pt-36 md:pt-56">
         <GameRoulette />
       </section>

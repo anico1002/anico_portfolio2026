@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
+import SlideMedia from "@/components/case-study/SlideMedia";
 
 /* Telón de la entrada → home de sección. La entrada hace crecer la mitad elegida hasta cubrir
    la pantalla (ya sin titulares); en ese momento este telón, idéntico (misma imagen y
@@ -12,7 +13,9 @@ import { scrollLock } from "@/components/case-study/SmoothScroll";
    exactamente lo mismo y, cuando lo tiene listo, llama a `endCurtain()`; el telón se funde y la
    cabecera sigue sola (pase de imágenes y máscara hasta la franja del texto). */
 
-type Curtain = { src: string; scale: number; from: string };
+/** `time`/`at`: si la diapositiva es un vídeo, por qué segundo iba y cuándo (performance.now()),
+    para que telón y cabecera lo sigan sin saltar al principio. */
+type Curtain = { src: string; scale: number; from: string; time?: number; at: number };
 
 let curtain: Curtain | null = null;
 let ending = false;
@@ -79,14 +82,7 @@ export default function CurtainLayer() {
         }
       }}
     >
-      <motion.img
-        src={c.src}
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover"
-        initial={{ scale: c.scale }}
-        animate={{ scale: 1 }}
-        transition={{ duration: DUR.slow, ease: EASE.inOut }}
-      />
+      <SlideMedia src={c.src} enter={false} fromScale={c.scale} startAt={c.time ?? 0} />
       <div className="absolute inset-0 bg-black/45" />
     </motion.div>
   );

@@ -1,30 +1,33 @@
 "use client";
 
-import { animate, motion, useMotionValue } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Lines from "@/components/case-study/Lines";
-import { FadeIn, GraphicReveal } from "@/components/case-study/primitives";
+import { FadeIn, WindowReveal } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
+import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
 
-/* Momentos firma (Gloop): los juegos, donde la marca se suelta. La ruleta de la app decide el juego de
-   la noche; aquí, una tira de portadas que gira, frena y se para en un juego, una y otra vez mientras
-   se ve. 2026-10-13: cada portada con su filtro de color. La forma de enseñarlo (otro lateral más tras
-   el proceso) está en revisión: coverflow, cartas verticales o ruleta a pantalla completa. */
+/* Momentos Gloop (antes «Momentos firma»): los juegos, donde la marca se suelta.
+   2026-10-14 (feedback de Alberto): la ruleta de la app a pantalla completa, para dar un golpe de color entre
+   tanto negro. Una ventana se abre con el scroll hasta quedar a sangre (WindowReveal) y dentro gira la ruleta
+   como en la app (decision-ruleta.mp4): cada juego a pantalla entera, su foto en grises teñida de su color y el
+   nombre en el centro; corta rápido, frena y se para en uno con «Te ha tocado». Y vuelta a girar mientras se ve. */
 
 const GAMES = [
-  { name: "Culpable", img: "/maqueta/gloop/media/photo-fingersup.jpg", color: G.accent },
+  { name: "Culpable", img: "/maqueta/gloop/media/photo-fingersup.jpg", color: G.cyan },
   { name: "Podium", img: "/maqueta/gloop/media/photo-tierlist.jpg", color: G.lime },
-  { name: "De 0 a 100", img: "/maqueta/gloop/media/photo-radiotrivia.jpg", color: G.cyan },
-  { name: "Fiestómetro", img: "/maqueta/gloop/media/photo-xativometre.jpg", color: G.magenta },
+  { name: "De 0 a 100", img: "/maqueta/gloop/media/photo-radiotrivia.jpg", color: G.magenta },
+  { name: "Fiestómetro", img: "/maqueta/gloop/media/photo-xativometre.jpg", color: G.accent },
   { name: "Clones", img: "/maqueta/gloop/media/photo-clones.jpg", color: G.brand },
 ];
-const LOOPS = 6; // la tira se repite para poder girar varias vueltas
+/* Pausas entre cortes: rápido al principio y cada vez más lento, como la ruleta de la app. */
+const TICKS = [70, 70, 75, 80, 90, 100, 115, 135, 160, 195, 240, 300, 380, 480];
+const HOLD_MS = 2600;
 
 export default function GameRoulette() {
   const box = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const [pick, setPick] = useState(0);
+  const [i, setI] = useState(1);
   const [landed, setLanded] = useState(true);
   const [on, setOn] = useState(false);
   const reduce = useReduce();
@@ -32,7 +35,7 @@ export default function GameRoulette() {
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    const io = new IntersectionObserver((es) => setOn(es.some((e) => e.isIntersecting)), { rootMargin: "-20% 0px" });
+    const io = new IntersectionObserver((es) => setOn(es.some((e) => e.isIntersecting)), { rootMargin: "-25% 0px" });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -40,44 +43,35 @@ export default function GameRoulette() {
   useEffect(() => {
     if (!on || reduce) return;
     let alive = true;
-    let stop: (() => void) | undefined;
-    let current = 0;
-    const spin = async () => {
+    const t: number[] = [];
+    const wait = (ms: number) => new Promise((r) => t.push(window.setTimeout(r, ms)));
+    (async () => {
+      let k = 0;
       while (alive) {
-        const el = box.current;
-        if (!el) return;
-        const card = el.querySelector<HTMLElement>("[data-card]");
-        const w = card ? card.offsetWidth + 16 : 300;
-        const next = (current + 7 + Math.floor(Math.random() * GAMES.length)) % GAMES.length;
-        // Varias vueltas y frenada sobre `next`, centrado en la ventana.
-        const index = GAMES.length * (LOOPS - 2) + next;
-        const target = -(index * w) + el.offsetWidth / 2 - w / 2 + 8;
         setLanded(false);
-        x.set(-(current * w) + el.offsetWidth / 2 - w / 2 + 8);
-        const a = animate(x, target, { duration: 2.6, ease: [0.12, 0.8, 0.2, 1] });
-        stop = () => a.stop();
-        await a;
+        for (const ms of TICKS) {
+          if (!alive) return;
+          k = (k + 1) % GAMES.length;
+          setI(k);
+          await wait(ms);
+        }
         if (!alive) return;
-        current = next;
-        setPick(next);
         setLanded(true);
-        await new Promise((r) => setTimeout(r, 2400));
+        await wait(HOLD_MS);
       }
-    };
-    spin();
+    })();
     return () => {
       alive = false;
-      stop?.();
+      t.forEach(clearTimeout);
     };
-  }, [on, reduce, x]);
+  }, [on, reduce]);
 
-  const strip = Array.from({ length: LOOPS }, () => GAMES).flat();
-
+  const g = GAMES[i];
   return (
     <div className={geist.variable}>
       <div className="grid grid-cols-12 gap-x-4 px-4 md:gap-x-6 md:px-6">
         <div className="col-span-12 md:col-span-7">
-          <p className="t-label t-tag text-[var(--case-muted)]">Momentos firma</p>
+          <p className="t-label t-tag text-[var(--case-muted)]">Momentos Gloop</p>
           <Lines className="mt-4 t-statement">Cuando toca jugar, la marca se suelta.</Lines>
           <FadeIn className="mt-8 max-w-[44ch]">
             <p className="t-body text-[var(--case-muted)]">
@@ -86,44 +80,41 @@ export default function GameRoulette() {
           </FadeIn>
         </div>
       </div>
-      <GraphicReveal from="bottom" className="mt-16 md:mt-24">
-      <div ref={box} className="relative overflow-hidden py-6" style={{ background: G.base }}>
-        <motion.div className="flex w-max gap-4" style={{ x }}>
-          {strip.map((g, k) => {
-            const isPick = landed && k % GAMES.length === pick;
-            return (
-              <figure
-                key={k}
-                data-card
-                className="relative aspect-[16/10] w-[70vw] shrink-0 overflow-hidden md:w-[28rem]"
-                style={{ borderRadius: "0 18px 18px 18px" }}
+      <div ref={box} className="mt-16 md:mt-24">
+        <WindowReveal>
+          <div className="relative h-full w-full overflow-hidden" style={{ background: g.color }}>
+            {/* La foto del juego en grises, teñida con su color (corte seco entre juegos, como en la app). */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {/* El color manda (como en la app): la foto en grises solo le da textura, en «superponer». */}
+            <img src={g.img} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ filter: "grayscale(1) contrast(1.2) brightness(1.15)", mixBlendMode: "overlay" }} />
+            <span aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/35" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white" style={{ fontFamily: "var(--font-gloop)" }}>
+              <AnimatePresence>
+                {landed && (
+                  <motion.p
+                    key="won"
+                    className="mb-4 text-[clamp(0.8rem,1.2vw,1.1rem)] font-semibold uppercase tracking-[0.2em]"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: DUR.base, ease: EASE.out }}
+                  >
+                    Te ha tocado
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              <motion.p
+                className="text-center font-extrabold uppercase leading-none tracking-[-0.02em]"
+                initial={false}
+                animate={{ fontSize: landed ? "clamp(4rem, 13vw, 13rem)" : "clamp(2.6rem, 8vw, 8rem)" }}
+                transition={{ duration: DUR.base, ease: EASE.out }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={g.img} alt="" loading="lazy" className="h-full w-full object-cover" style={{ filter: "grayscale(1) contrast(1.1)" }} />
-                {/* Filtro de color del juego: la foto en grises teñida con su color. */}
-                <span aria-hidden className="absolute inset-0" style={{ background: g.color, mixBlendMode: "multiply" }} />
-                <span aria-hidden className="absolute inset-0" style={{ background: g.color, mixBlendMode: "soft-light", opacity: 0.6 }} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-                <figcaption
-                  className="absolute bottom-4 left-5 text-[clamp(1.6rem,3vw,2.6rem)] font-extrabold leading-none text-white"
-                  style={{ fontFamily: "var(--font-gloop)" }}
-                >
-                  {g.name}
-                </figcaption>
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 transition-opacity duration-500"
-                  style={{ boxShadow: `inset 0 0 0 3px ${g.color}`, borderRadius: "0 18px 18px 18px", opacity: isPick ? 1 : 0 }}
-                />
-              </figure>
-            );
-          })}
-        </motion.div>
-        {/* Marca central de la ruleta */}
-        <span aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-3 w-[2px] -translate-x-1/2 bg-white" />
-        <span aria-hidden className="pointer-events-none absolute bottom-0 left-1/2 h-3 w-[2px] -translate-x-1/2 bg-white" />
+                {g.name}
+              </motion.p>
+            </div>
+          </div>
+        </WindowReveal>
       </div>
-      </GraphicReveal>
     </div>
   );
 }

@@ -26,102 +26,198 @@ function useInView<T extends Element>(margin = "-15% 0px") {
   return { ref, on };
 }
 
-/** El logo como barra de carga (SplashView.swift): al 20 % de opacidad y relleno de izquierda a derecha
-    con el progreso real, en corte limpio. Aquí, en bucle mientras se ve. */
-export function LogoLoader() {
-  const { ref, on } = useInView<HTMLDivElement>();
-  const reduce = useReduce();
+const RULES = [
+  { at: 0.12, label: "Solo las últimas 48 horas" },
+  { at: 0.22, label: "Como mucho 3 por fuente" },
+  { at: 0.32, label: "La misma noticia en varios medios, una vez" },
+  { at: 0.42, label: "Fuera las palabras silenciadas" },
+];
+
+/* Noticias reales del día (Tech, IA, Design y Apple), recortadas tal cual de las listas de la app en el
+   simulador: imagen a la izquierda y texto a la derecha (`media/rows/nNN.jpg`, 580×182). */
+const ROWS = Array.from({ length: 15 }, (_, k) => `/maqueta/7news/media/rows/n${String(k).padStart(2, "0")}.jpg`);
+const ORDER = [9, 2, 13, 5, 0, 11, 7, 3, 14, 1, 8, 12, 4, 10, 6]; // en qué orden se apaga cada una (aleatorio fijo)
+
+/** Una mini card del muro: se apaga en su momento del recorrido. */
+function NewsRow({ src, k, p }: { src: string; k: number; p: MotionValue<number> }) {
+  const at = 0.08 + (ORDER.indexOf(k) / ROWS.length) * 0.4;
+  const opacity = useTransform(p, [at, at + 0.03], [1, 0]);
+  const scale = useTransform(p, [at, at + 0.03], [1, 0.94]);
   return (
-    <div ref={ref} className="relative flex aspect-[16/9] items-center justify-center overflow-hidden" style={{ background: INK }}>
-      <div className="relative w-[46%]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/maqueta/7news/brand/7news-logo.svg" alt="7news" className="w-full opacity-20" />
-        <motion.div
-          className="absolute inset-0"
-          initial={{ clipPath: "inset(0 100% 0 0)" }}
-          animate={on && !reduce ? { clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)", "inset(0 0% 0 0)"] } : { clipPath: "inset(0 0% 0 0)" }}
-          transition={{ duration: 3.2, times: [0, 0.75, 1], repeat: Infinity, ease: "easeInOut", repeatDelay: 0.4 }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/maqueta/7news/brand/7news-logo.svg" alt="" className="w-full" />
-        </motion.div>
+     
+    <motion.img src={src} alt="" className="w-full rounded-[12px] ring-1 ring-white/10" style={{ opacity, scale }} />
+  );
+}
+
+/** iPhone plano y de frente (feedback 2026-10-14: «siempre frontal»), marco negro en CSS con la isla. */
+function FlatPhone({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div
+      className={`relative w-full bg-[#0b0b0c] p-[2.8%] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.9),inset_0_0_0_1.5px_rgba(255,255,255,0.08)] ring-1 ring-white/30 ${className}`}
+      style={{ aspectRatio: "1206 / 2622", borderRadius: "15% / 7%" }}
+    >
+      <div className="relative h-full w-full overflow-hidden bg-black" style={{ borderRadius: "12.5% / 5.8%" }}>
+        {children}
+        <span className="absolute left-1/2 top-[1.6%] h-[3.5%] w-[30%] -translate-x-1/2 rounded-full bg-black" />
       </div>
-      <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[13px] text-white/50">Actualizando noticias</p>
     </div>
   );
 }
 
-const HEAD = ["Lo que cambia", "Cinco claves", "Así será", "Por qué importa", "El nuevo estándar", "Qué hay detrás", "Lo último", "Todo sobre", "La guía", "Un año después"];
-const TOPIC = ["la interfaz", "el diseño", "la tipografía", "los móviles", "la web", "la IA", "el producto", "las marcas", "el color", "los iconos"];
-
-const RULES = [
-  { at: 0.18, label: "Solo las últimas 48 horas" },
-  { at: 0.36, label: "Como mucho 3 por fuente" },
-  { at: 0.54, label: "La misma noticia en varios medios, una vez" },
-  { at: 0.7, label: "Fuera las palabras silenciadas" },
-];
-
-/** Un titular del muro: se apaga en su tramo del scroll salvo las pocas noticias que sobreviven. */
-function Headline({ t, k, p, keep }: { t: string; k: number; p: MotionValue<number>; keep: boolean }) {
-  const opacity = useTransform(p, [0.12 + (k % 13) * 0.045, 0.16 + (k % 13) * 0.045], [0.85, keep ? 0.85 : 0.04]);
+/** «Ya estás al día», como lo pinta la app al final de una lista. */
+function AllRead({ className = "" }: { className?: string }) {
   return (
-    <motion.p className="mb-3 break-inside-avoid text-[15px] leading-snug" style={{ ...SERIF, opacity }}>
-      {t}
-    </motion.p>
+    <div className={`flex flex-col items-center gap-2 text-center ${className}`}>
+      <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#0a84ff] text-[18px] text-[#0a84ff]">✓</span>
+      <p className="text-[22px] font-semibold text-white">Ya estás al día</p>
+      <p className="text-[15px] text-[#0a84ff]">Ver todas</p>
+    </div>
   );
 }
 
-/** De 678 a 32: el muro infinito se va vaciando regla a regla con el scroll hasta «Ya estás al día». Las
-    cifras de los extremos son las medidas en el repo; los titulares, de relleno. */
+/** El día se acaba (rehecho el 2026-10-14 con el feedback de Alberto). A la izquierda, centrado en su hueco, el
+    contador de 678 a 32 y las reglas; a la derecha, un muro de noticias reales que se van apagando al azar
+    hasta «Ya estás al día». Detrás aparece un iPhone de verdad (marco negro) con esa pantalla; se va al
+    centro y con él entra «Crear un tema»: la búsqueda real de «Videojuegos» grabada en el simulador
+    (`media/buscar-tema.mp4`), en vez de una simulación en HTML. Con movimiento reducido o en móvil, en lista. */
 export function DayEnds() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReduce();
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const on = () => setWide(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  const pinned = wide && !reduce;
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const [n, setN] = useState(678);
   const [done, setDone] = useState(0);
+  const [search, setSearch] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
   useEffect(
     () =>
       p.on("change", (v) => {
-        const t = Math.min(1, Math.max(0, (v - 0.12) / 0.66));
+        const t = Math.min(1, Math.max(0, (v - 0.08) / 0.42));
         setN(Math.round(678 - (678 - 32) * (1 - Math.pow(1 - t, 2))));
         setDone(RULES.filter((r) => v >= r.at).length);
+        setSearch(v >= 0.7);
       }),
     [p]
   );
-  const end = useTransform(p, [0.8, 0.9], [0, 1]);
-  const items = Array.from({ length: 60 }, (_, k) => `${HEAD[k % HEAD.length]} de ${TOPIC[(k * 7) % TOPIC.length]}`);
-  const keep = (k: number) => k % 19 === 0; // las pocas que sobreviven
+  // La búsqueda empieza desde el principio cada vez que llega su momento.
+  useEffect(() => {
+    const v = video.current;
+    if (!v) return;
+    if (search) {
+      v.currentTime = 0;
+      v.play().catch(() => {});
+    } else v.pause();
+  }, [search]);
+
+  // El móvil (plano, siempre de frente): entra con «Ya estás al día» en su pantalla; luego va al centro y crece,
+  // fundido a negro por abajo, subiendo un poco para que el foco quede donde se escribe «Videojuegos».
+  const phoneIn = useTransform(p, [0.5, 0.58], [0, 1]);
+  const phoneRise = useTransform(p, [0.5, 0.58], [60, 0]);
+  const phoneLeft = useTransform(p, [0.64, 0.8], ["71%", "30%"]); // centrado en el hueco que deja el texto (60 % de ancho)
+  const phoneScale = useTransform(p, [0.64, 0.8], [1, 2.1]);
+  const phoneUp = useTransform(p, [0.64, 0.8, 1], ["0vh", "-4vh", "-12vh"]);
+  const fadeStart = useTransform(p, [0.64, 0.8], [100, 26]);
+  const mask = useTransform(fadeStart, (f) => `linear-gradient(to bottom, #000 ${f}%, transparent ${Math.min(100, f + 22)}%)`);
+  const leftOut = useTransform(p, [0.58, 0.64], [1, 0]);
+  const createIn = useTransform(p, [0.8, 0.86], [0, 1]);
+  const createY = useTransform(p, [0.8, 0.86], [24, 0]);
+  const searchIn = useTransform(p, [0.7, 0.76], [0, 1]);
+
+  const counter = (
+    <>
+      <p className="t-label t-tag text-[var(--case-muted)]">El día se acaba</p>
+      <p className="mt-4 t-d3 tabular-nums">{n}</p>
+      <p className="mt-2 t-small text-[var(--case-muted)]">noticias hoy</p>
+      <ol className="mt-10 space-y-3">
+        {RULES.map((r, k) => (
+          <li key={r.label} className="flex items-center gap-3 t-small transition-opacity duration-500" style={{ opacity: !pinned || done > k ? 1 : 0.3 }}>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-current text-[11px]">{!pinned || done > k ? "✓" : k + 1}</span>
+            {r.label}
+          </li>
+        ))}
+      </ol>
+    </>
+  );
+  const create = (
+    <>
+      <p className="t-label t-tag text-[var(--case-muted)]">Crear un tema</p>
+      <p className="mt-4 t-statement text-balance">Se escribe un tema y las fuentes se buscan solas.</p>
+      <p className="mt-6 t-body text-[var(--case-muted)]">
+        Un índice de feeds y un buscador web traen candidatos; cuatro filtros —relevancia, idioma, actividad real y que
+        se pueda leer dentro— dejan solo los buenos.
+      </p>
+    </>
+  );
+
+  // El ref del scroll va en los dos casos: framer exige que el objetivo esté montado.
+  if (!pinned)
+    return (
+      <div ref={ref} className="space-y-16 px-4 md:px-6">
+        <div>{counter}</div>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {ROWS.slice(0, 6).map((src) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={src} src={src} alt="" className="w-full rounded-[12px]" />
+          ))}
+        </div>
+        <AllRead />
+        <div>{create}</div>
+        <FlatPhone className="mx-auto max-w-[300px]">
+          <video src="/maqueta/7news/media/buscar-tema.mp4" muted playsInline autoPlay loop className="absolute inset-0 h-full w-full object-cover" aria-label="Crear el tema Videojuegos" />
+        </FlatPhone>
+      </div>
+    );
 
   return (
-    <div ref={ref} className={`relative ${reduce ? "" : "h-[280vh]"}`}>
-      <div className={`${reduce ? "" : "sticky top-0"} flex min-h-screen items-center px-4 py-20 md:px-6`}>
-        <div className="grid w-full grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6">
-          <div className="col-span-12 md:col-span-4">
-            <p className="t-label t-tag text-[var(--case-muted)]">El día se acaba</p>
-            <p className="mt-4 t-d3 tabular-nums">{n}</p>
-            <p className="mt-2 t-small text-[var(--case-muted)]">noticias hoy</p>
-            <ol className="mt-10 space-y-3">
-              {RULES.map((r, k) => (
-                <li key={r.label} className="flex items-center gap-3 t-small transition-opacity duration-500" style={{ opacity: done > k ? 1 : 0.3 }}>
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full border border-current text-[11px]">{done > k ? "✓" : k + 1}</span>
-                  {r.label}
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="relative col-span-12 h-[60vh] overflow-hidden md:col-span-7 md:col-start-6" style={{ background: INK, color: "#fff" }}>
-            <div className="columns-2 gap-6 p-6 md:columns-3 md:p-8">
-              {items.map((t, k) => (
-                <Headline key={k} t={t} k={k} p={p} keep={keep(k)} />
-              ))}
-            </div>
-            <motion.div className="absolute inset-0 flex flex-col items-center justify-center gap-4" style={{ opacity: end, background: INK }}>
-              <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white text-2xl">✓</span>
-              <p className="text-[28px] font-semibold">Ya estás al día</p>
-              <p className="text-[15px] text-white/60">No queda nada nuevo en Diseño.</p>
-            </motion.div>
+    <div ref={ref} className="relative h-[460vh]">
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Izquierda: el contador y las reglas, centrados en su hueco. */}
+        <motion.div className="absolute inset-y-0 left-0 flex w-[42%] items-center justify-center px-6" style={{ opacity: leftOut }}>
+          <div className="w-full max-w-[24rem]">{counter}</div>
+        </motion.div>
+        {/* Derecha: el muro de noticias reales. */}
+        <div className="absolute inset-y-0 right-0 flex w-[56%] items-center pr-6">
+          <div className="grid w-full grid-cols-3 gap-2.5">
+            {ROWS.map((src, k) => (
+              <NewsRow key={src} src={src} k={k} p={p} />
+            ))}
           </div>
         </div>
+        {/* El iPhone, plano y de frente: «Ya estás al día» en su pantalla; va al centro, crece y pasa a la búsqueda. */}
+        <motion.div
+          className="absolute top-[15vh] w-[32vh] origin-top"
+          style={{ left: phoneLeft, x: "-50%", y: phoneUp, scale: phoneScale, maskImage: mask, WebkitMaskImage: mask }}
+        >
+          <motion.div style={{ opacity: phoneIn, y: phoneRise }}>
+            <FlatPhone>
+              <div className="absolute inset-0 flex items-center justify-center bg-black">
+                <AllRead className="scale-[0.8]" />
+              </div>
+              <motion.video
+                ref={video}
+                src="/maqueta/7news/media/buscar-tema.mp4"
+                muted
+                playsInline
+                preload="auto"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ opacity: searchIn }}
+                aria-label="Crear el tema Videojuegos: se escribe, se buscan las fuentes y salen sus noticias"
+              />
+            </FlatPhone>
+          </motion.div>
+        </motion.div>
+        {/* Crear un tema, a la derecha del móvil y en grande. */}
+        <motion.div className="absolute inset-y-0 right-0 flex w-[40%] items-center justify-center px-6" style={{ opacity: createIn, y: createY }}>
+          <div className="w-full max-w-[30rem]">{create}</div>
+        </motion.div>
       </div>
     </div>
   );
@@ -226,8 +322,11 @@ export function VersusTable() {
     <div className="border-t border-[var(--case-line)]">
       <div className="grid grid-cols-12 gap-x-4 py-3 t-label t-tag text-[var(--case-muted)] md:gap-x-6">
         <span className="col-span-4" />
-        <span className="col-span-4">Un lector cualquiera</span>
-        <span className="col-span-4">7news</span>
+        <span className="col-span-4">Otro reader</span>
+        <span className="col-span-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/maqueta/7news/brand/7news-logo.svg" alt="7news" className="light-invert h-[1.1em] w-auto" />
+        </span>
       </div>
       {VS.map(([k, a, b], i) => (
         // FadeIn y no `whileInView`: en Safari este no se dispara al llegar navegando (ver NOTES).
@@ -309,6 +408,70 @@ export function WristNotice() {
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+const FACTS = [
+  ["48 horas", "La ventana del día. Lo anterior ya no es noticia."],
+  ["3 por fuente", "Quien publica mucho deja de enterrar al resto."],
+  ["0 €", "Sin servidor ni suscripciones: todo ocurre en el teléfono."],
+];
+
+/** Fila de cifra: entra en su tramo del scroll y se queda. */
+function Fact({ t, d, k, p }: { t: string; d: string; k: number; p: MotionValue<number> }) {
+  const a = 0.18 + k * 0.2;
+  const opacity = useTransform(p, [a, a + 0.1], [0, 1]);
+  const y = useTransform(p, [a, a + 0.1], [20, 0]);
+  return (
+    <motion.div style={{ opacity, y }} className="border-t border-white/25 pt-4">
+      <p className="t-title text-white">{t}</p>
+      <p className="mt-2 t-small text-white/70">{d}</p>
+    </motion.div>
+  );
+}
+
+/** El aviso (feedback 2026-10-14): la escena del iPhone y el Watch se queda fija un rato y, a la izquierda, sobre la
+    piedra, entran las cifras una a una con el scroll. En móvil o con movimiento reducido, la escena y las cifras debajo. */
+export function WatchStage() {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReduce();
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const video = (
+    <video
+      src="/maqueta/7news/media/reloj.mp4"
+      poster="/maqueta/7news/media/reloj-poster.jpg"
+      muted
+      playsInline
+      autoPlay
+      loop
+      className="absolute inset-0 h-full w-full object-cover"
+      aria-label="El aviso de 7news llega al iPhone y, al momento, al Apple Watch"
+    />
+  );
+  return (
+    <div ref={ref} className={reduce ? "" : "relative md:h-[260vh]"}>
+      <div className={reduce ? "" : "md:sticky md:top-0 md:h-screen md:overflow-hidden"}>
+        <div className="relative aspect-[3/2] w-full md:aspect-auto md:h-full">
+          {video}
+          <span aria-hidden className="absolute inset-y-0 left-0 hidden w-[40%] bg-gradient-to-r from-black/55 to-transparent md:block" />
+          <div className="absolute inset-y-0 left-0 hidden w-[34%] items-center justify-center px-6 md:flex">
+            <div className="w-full max-w-[20rem] space-y-8">
+              {FACTS.map(([t, d], k) => (
+                <Fact key={t} t={t} d={d} k={k} p={p} />
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="mt-10 space-y-6 px-4 md:hidden">
+          {FACTS.map(([t, d]) => (
+            <div key={t} className="border-t border-[var(--case-line)] pt-4">
+              <p className="t-title">{t}</p>
+              <p className="mt-2 t-small text-[var(--case-muted)]">{d}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

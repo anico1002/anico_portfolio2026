@@ -12,13 +12,15 @@ import { G, geist } from "./tokens";
    vez, sobre una foto de fiesta oscurecida; con el scroll se va apagando pieza a pieza hasta que solo
    queda el CTA blanco, que está en el centro desde el principio para quedarse solo en el medio.
    Piezas recreadas con los tokens reales, sin capturas. Se maqueta en un lienzo fijo de 760×460 que
-   se escala al ancho del panel (en móvil no cabría de otra forma). */
+   se escala al ancho del panel (en móvil no cabría de otra forma).
+   2026-10-14: todas las piezas rectangulares con las cuatro esquinas redondeadas, piezas más grandes y la
+   luna en «Activa la noche». */
 
 type Piece = { label: string; kind: "chip" | "card" | "cta"; meta?: string; at: [number, number] };
 
 const CANVAS = { w: 760, h: 460 };
 const PIECES: Piece[] = [
-  { label: "Crew del día", kind: "card", meta: "1 pregunta · 4 de 6", at: [150, 95] },
+  { label: "Crew del día", kind: "card", meta: "1 pregunta · 4 de 6", at: [140, 90] },
   { label: "Experiencias", kind: "chip", at: [385, 72] },
   { label: "Momentos", kind: "card", meta: "12 fotos", at: [615, 100] },
   { label: "Chat", kind: "chip", at: [105, 235] },
@@ -55,9 +57,13 @@ function PieceView({ p, i, progress }: { p: Piece; i: number; progress: MotionVa
           style={{ background: G.brand, opacity: ctaGlow }}
         />
         <span
-          className="relative flex h-16 items-center justify-center whitespace-nowrap rounded-full bg-white px-10 text-[17px] font-semibold text-black"
+          className="relative flex h-[72px] items-center justify-center gap-2.5 whitespace-nowrap rounded-full bg-white px-11 text-[19px] font-semibold text-black"
           style={{ fontFamily: "var(--font-gloop)" }}
         >
+          {/* La luna, como en el botón de la app. */}
+          <svg viewBox="0 0 24 24" className="h-[22px] w-[22px]" fill="currentColor" aria-hidden>
+            <path d="M20.6 14.2A8.6 8.6 0 0 1 9.8 3.4a.8.8 0 0 0-1-.98A9.9 9.9 0 1 0 21.58 15.2a.8.8 0 0 0-.98-1Z" />
+          </svg>
           {p.label}
         </span>
       </motion.div>
@@ -65,14 +71,14 @@ function PieceView({ p, i, progress }: { p: Piece; i: number; progress: MotionVa
   if (p.kind === "card")
     return (
       <motion.div
-        style={{ opacity, borderRadius: "0 18px 18px 18px" }}
-        className="glass-ios min-w-[9.5rem] whitespace-nowrap px-4 py-3.5"
+        style={{ opacity, borderRadius: 18 }}
+        className="glass-ios min-w-[11rem] whitespace-nowrap px-5 py-4"
         data-i={i}
       >
-        <p className="text-[15px] font-semibold text-white" style={{ fontFamily: "var(--font-gloop)" }}>
+        <p className="text-[18px] font-semibold text-white" style={{ fontFamily: "var(--font-gloop)" }}>
           {p.label}
         </p>
-        <p className="mt-0.5 text-[13px]" style={{ color: G.text50, fontFamily: "var(--font-gloop)" }}>
+        <p className="mt-0.5 text-[15px]" style={{ color: G.text50, fontFamily: "var(--font-gloop)" }}>
           {p.meta}
         </p>
       </motion.div>
@@ -80,7 +86,7 @@ function PieceView({ p, i, progress }: { p: Piece; i: number; progress: MotionVa
   return (
     <motion.span
       style={{ opacity, fontFamily: "var(--font-gloop)" }}
-      className="glass-ios block whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-semibold text-white"
+      className="glass-ios block whitespace-nowrap rounded-full px-6 py-3.5 text-[18px] font-semibold text-white"
     >
       {p.label}
     </motion.span>

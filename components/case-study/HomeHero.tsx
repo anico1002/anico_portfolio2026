@@ -6,6 +6,7 @@ import { endCurtain, useCurtain } from "@/components/case-study/Curtain";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
 import { useReduce } from "@/lib/maqueta/reduce";
+import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/SlideMedia";
 
 /* Cabecera de la home de una sección (2026-10-12; antes era un titular estático y se sentía
    muy quieta). Continúa la entrada partida sin corte: pase de imágenes a pantalla completa
@@ -17,7 +18,8 @@ import { useReduce } from "@/lib/maqueta/reduce";
    que se funda (`endCurtain`). Entrando directo, la imagen aparece con la máscara de siempre
    y hace la misma retirada. */
 
-const SLIDE_MS = 2600; // cada diapositiva del pase (fundido + zoom lento de salida)
+const SLIDE_MS = 2600; // cada imagen del pase (fundido + zoom lento de salida)
+const VIDEO_MS = 6000; // cada vídeo: lo bastante para ver la app en marcha, sin esperar a que acabe
 
 /** Ventana pequeña dentro de la frase (opción «imagen» del énfasis, a prueba): pasa las imágenes de
     la sección en corte rápido, como un montaje. Solo se ve con `?em=imagen` (CSS `.inline-media`). */
@@ -31,7 +33,7 @@ function InlineMedia({ slides, open }: { slides: readonly string[]; open: boolea
   return (
     <span className={`inline-media ${open ? "is-open" : ""}`} aria-hidden>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={slides[k]} alt="" />
+      <img src={posterOf(slides[k])} alt="" />
     </span>
   );
 }
@@ -130,9 +132,12 @@ export default function HomeHero({
   const curtain = useCurtain();
   // Se decide en el primer render: si hay telón, arrancar igual que él (su imagen).
   const [arrived] = useState(() => !!curtain);
-  const [i, setI] = useState(() => Math.max(0, curtain ? slides.indexOf(curtain.src) : 0));
+  const [start] = useState(() => Math.max(0, curtain ? slides.indexOf(curtain.src) : 0));
+  // Si el telón traía un vídeo, el primero sigue por el mismo segundo (los dos van en tiempo real).
+  const [startAt] = useState(() => (curtain?.time != null ? curtain.time + (performance.now() - curtain.at) / 1000 : 0));
   const [retracted, setRetracted] = useState(false);
-  const first = useRef<HTMLImageElement>(null);
+  const first = useRef<HTMLImageElement | HTMLVideoElement>(null);
+  const [ready, setReady] = useState(false);
 
   // Relevo con el telón: cuando la primera imagen está pintada, el telón se funde; la retirada
   // empieza cuando el fundido ya va por la mitad. Directo: la máscara de entrada y luego retirada.
@@ -142,18 +147,22 @@ export default function HomeHero({
       if (arrived) endCurtain();
       t = window.setTimeout(() => setRetracted(true), (arrived ? DUR.slow + DUR.fast : DUR.base + DUR.fast) * 1000);
     };
-    const img = first.current;
-    if (img && !(img.complete && img.naturalWidth)) img.decode().then(go, go);
+    const el = first.current;
+    if (el instanceof HTMLVideoElement) {
+      // Vídeo: esperar a su primer fotograma (lo avisa `onReady`), con tope por si no carga.
+      if (!ready && el.readyState < 2) {
+        t = window.setTimeout(go, 1500);
+        return () => clearTimeout(t);
+      }
+      go();
+    } else if (el && !(el.complete && el.naturalWidth)) el.decode().then(go, go);
     else go();
     return () => clearTimeout(t);
-  }, [arrived]);
+  }, [arrived, ready]);
 
-  // Pase de imágenes (siempre en marcha: también en la franja).
-  useEffect(() => {
-    if (reduce) return;
-    const id = setInterval(() => setI((n) => (n + 1) % slides.length), SLIDE_MS);
-    return () => clearInterval(id);
-  }, [reduce, slides.length]);
+  // Pase (siempre en marcha: también en la franja). Primer vídeo arrancado desde el telón: no se
+  // reinicia, así que el índice inicial lo fija el telón y el resto del pase sigue desde ahí.
+  const { i, step } = useSlideshow(slides, !reduce, SLIDE_MS, VIDEO_MS, start);
 
   const full = "inset(0% 0% 0% 0%)";
   const clipped = "inset(0% 0% 50% 0%)"; // la imagen se queda en la mitad de arriba
@@ -169,16 +178,13 @@ export default function HomeHero({
           transition={retracted ? { duration: DUR.slow, ease: EASE.inOut } : { duration: DUR.base, ease: EASE.inOut }}
         >
           <AnimatePresence initial={false}>
-            <motion.img
+            <SlideMedia
               key={slides[i]}
               ref={first}
               src={slides[i]}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover"
-              initial={{ opacity: 0, scale: 1.08 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ opacity: { duration: DUR.base, ease: EASE.inOut }, scale: { duration: DUR.drift, ease: EASE.out } }}
+              playing={!reduce}
+              startAt={step === 0 ? startAt : 0} // al dar la vuelta, desde el principio
+              onReady={() => setReady(true)}
             />
           </AnimatePresence>
           {/* Sin degradado bajo el logo (quitado el 2026-10-13, como en los casos): la mezcla por
@@ -195,7 +201,7 @@ export default function HomeHero({
           <div className="hidden">
             {slides.map((s) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={s} src={s} alt="" />
+              <img key={s} src={posterOf(s)} alt="" />
             ))}
           </div>
         </motion.div>

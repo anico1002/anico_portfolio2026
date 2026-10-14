@@ -5,7 +5,10 @@ Uso: python3 scripts/mockups/notice_anim.py <sin.png> <con.png> <salida.mp4> --r
 
 recordVideo no recoge la animación con la pantalla bloqueada (apenas emite fotogramas), así que se recrea:
 la tarjeta del aviso (recortada de la captura «con», dentro de --rect con esquinas redondeadas) entra desde
-abajo con muelle (escala 0,94 → 1 y fundido), se queda y sale con un fundido hacia arriba. Si no se da --rect,
+abajo con muelle, se queda y sale con un fundido hacia arriba.
+2026-10-14 (feedback: «la aparición de la burbuja no parece nativa»): como en iOS, recorrido corto (≈ 40 % del
+alto de la tarjeta, antes 90 %, que arrastraba el fondo del cristal y se notaba pegada), muelle sin rebote
+(amortiguamiento crítico, ~0,5 s), escala 0,92 → 1, fundido rápido y un leve desenfoque los primeros fotogramas. Si no se da --rect,
 la tarjeta se saca de la diferencia entre las dos capturas (sirve para la esfera del reloj, que no tiene ruido).
 """
 import argparse, subprocess, math
@@ -37,10 +40,11 @@ card = np.dstack([B, m])                           # la tarjeta con su alfa
 center = np.float32([(x0 + x1) / 2, (y0 + y1) / 2]); ch = y1 - y0
 
 
-def spring(t):  # 0→1 con un leve rebote, ~0,55 s
+def spring(t):  # 0→1 con amortiguamiento crítico (sin rebote), como los muelles de iOS
     if t <= 0: return 0.0
     if t >= 1: return 1.0
-    return 1 - math.exp(-6.5 * t) * math.cos(7.5 * t)
+    w = 9.0
+    return 1 - math.exp(-w * t) * (1 + w * t)
 
 
 fps = 30; N = int(a.dur * fps)
@@ -51,9 +55,9 @@ for i in range(N):
     if t < a.enter:
         k, op, dy, sc = 0, 0, 0, 1
     elif t < a.leave:
-        k = spring((t - a.enter) / 0.55)
-        op = min(1, (t - a.enter) / 0.22)
-        dy = (1 - k) * ch * 0.9; sc = 0.94 + 0.06 * k
+        k = spring((t - a.enter) / 0.6)
+        op = min(1, (t - a.enter) / 0.16)
+        dy = (1 - k) * ch * 0.4; sc = 0.92 + 0.08 * k
     else:
         u = min(1, (t - a.leave) / 0.4)
         op = 1 - u; dy = -u * ch * 0.25; sc = 1 - 0.03 * u
@@ -61,6 +65,8 @@ for i in range(N):
     if op > 0:
         M = np.float32([[sc, 0, (1 - sc) * center[0]], [0, sc, (1 - sc) * center[1] + dy]])
         c = cv2.warpAffine(card, M, (W, H), flags=cv2.INTER_LINEAR)
+        blur = max(0.0, 1 - (t - a.enter) / 0.18) * 7 if t >= a.enter and t < a.leave else 0
+        if blur > 0.5: c = cv2.GaussianBlur(c, (0, 0), blur)
         al = c[:, :, 3:] * op
         frame = frame * (1 - al) + c[:, :, :3] * al
     p.stdin.write((np.clip(frame, 0, 1) * 255).astype(np.uint8).tobytes())

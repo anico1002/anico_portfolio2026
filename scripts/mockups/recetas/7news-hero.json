@@ -2,5 +2,5 @@
   "black": 0, "vignette": 0, "top": 0, "xfade": 0.6, "crf": 23,
   "poster": "public/maqueta/7news/media/hero-poster.jpg",
   "layers": [
-    { "scene": "mockups-src/im-wall-black", "view": "view-2", "video": "scripts/case-media/clips/news-hero.mp4",
+    { "scene": "mockups-src/im-wall-black", "view": "view-2", "video": "scripts/case-media/clips/news-thumb-cut.mp4",
       "place": "1,0.5,center", "tint": 0, "body": 1, "wrap": 0, "refl": 0.5 } ] }

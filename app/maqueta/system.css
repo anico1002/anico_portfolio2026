@@ -103,6 +103,8 @@ html:has(#case-root) {
 
 /* Logo negro dentro de capas que no usan `difference` (menú de móvil): en oscuro, a blanco. */
 #case-root:not([data-case-theme="light"]) .dark-invert { filter: invert(1); }
+/* Y al revés: logos blancos (7news) que en claro pasan a negro. */
+#case-root[data-case-theme="light"] .light-invert { filter: invert(1); }
 
 /* «Siguiente caso»: la portada espera en una ventana recortada y algo ampliada; al pasar por
    encima la ventana se abre y la imagen se asienta (entra en `base`, sale en `fast`). En
@@ -306,6 +308,13 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   opacity: 0.6;
   letter-spacing: 0;
 }
+/* En el menú de móvil (titulares de 40 px) la proporción de escritorio daba un número enorme: aquí va a
+   tamaño de etiqueta, pequeño y fino como en la barra, subido hasta la altura de las mayúsculas (2026-10-14). */
+.nav-count-big {
+  font-size: 12px;
+  top: -1.9em;
+  margin-left: 0.35em;
+}
 
 /* Foco con teclado (F4, 2026-10-13): un contorno fino del color del texto, solo al navegar con
    el teclado (`:focus-visible`), nunca con ratón ni al tocar. No cambia nada del diseño para
@@ -330,6 +339,10 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   to { transform: scale(1.02) translate(-1.5%, 1%); }
 }
 .gloop-drift { animation: gloop-drift 16s ease-in-out infinite alternate; }
+/* Wireframes del proceso de Gloop: el documento se desplaza muy despacio de un lado a otro. */
+@keyframes wf-pan { from { transform: translateX(0); } to { transform: translateX(-22%); } }
+.wf-pan { animation: wf-pan 18s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .wf-pan { animation: none; } }
 @media (prefers-reduced-motion: reduce) { .gloop-drift { animation: none; transform: scale(1.05); } }
 
 /* Cristal tipo iOS (Gloop, 2026-10-13): fondo translúcido con desenfoque y el canto de luz en

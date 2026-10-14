@@ -2,13 +2,12 @@
    cabecera de su home (la misma imagen continúa tras el telón). */
 
 export const SLIDES = {
+  // Product: las miniaturas en movimiento de cada caso (2026-10-14). Cada vídeo nuevo de
+  // miniatura entra aquí; necesita su póster al lado (`x.mp4` → `x-poster.jpg`, SlideMedia.tsx).
   product: [
-    "/maqueta/gloop/media/mock-alt-C.jpg",
-    "/projects/elreto-masterchef/ElReto_hero.png",
-    "/projects/swift-project/SwifT_hero.png",
-    "/projects/obliq/01/obliq_1.png",
-    "/projects/act/ACT_hero.png",
-    "/projects/metacampus/Metacampus_hero.png",
+    "/maqueta/gloop/media/hero-mock.mp4",
+    "/maqueta/swift/thumb.mp4",
+    "/maqueta/7news/media/hero.mp4",
   ],
   games: [
     "/projects/asphalt-unite/AU_hero.png",
