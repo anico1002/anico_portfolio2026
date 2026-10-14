@@ -1,0 +1,7 @@
+# Lo que no debe subir al desplegar con la CLI (que sube desde el disco, incluidos los medios fuera de git).
+# Plantillas de mockups (PSD de cientos de MB), grabaciones en bruto y la herramienta de toques.
+/mockups-src
+/scripts/case-media/clips
+/scripts/case-media/axe
+/refs
+/.next
