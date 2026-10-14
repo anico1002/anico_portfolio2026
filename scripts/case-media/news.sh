@@ -34,8 +34,8 @@ for n in (d if isinstance(d,list) else [d]): walk(n)" "$txt")
 
 SIM=$SIM $S/news-reset.sh >/dev/null 2>&1
 xcrun simctl terminate $SIM com.anico.news 2>/dev/null; sleep 0.5
-# Ojo: no volver a traer las fuentes aquí. Al importarlas reaparecen los grupos creados en tomas anteriores
-# (Videojuegos); news-reset.sh ya las trae y luego los borra. La splash sale igual al abrir (refresca siempre).
+# Ojo: no volver a traer las fuentes aquí. Al importarlas vuelve el grupo «Videojuegos», que existe en el
+# iPhone de Alberto; news-reset.sh ya las trae y luego los borra. La splash sale igual al abrir (refresca siempre).
 xcrun simctl io $SIM recordVideo --codec=h264 --force "$OUT" >/dev/null 2>&1 & P=$!; sleep 1
 xcrun simctl launch $SIM com.anico.news >/dev/null; sleep 3
 # La splash dura lo que tarde la red: se espera a la portada.

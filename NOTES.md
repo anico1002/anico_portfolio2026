@@ -51,8 +51,9 @@ desenfoque de lente (`scripts/mockups/bokeh.py`).
   visible → Tech → Apple → Apple Watch Series 12 (fotos de producto) → deslizar a la siguiente → «Guardar para
   después» → crear «Videojuegos» → Guardadas. `scripts/case-media/news.sh` toca las noticias por título y
   `news-reset.sh` deja el simulador limpio (fuentes del iPhone, interruptores leídos por accesibilidad, borra
-  grupos «Videojuegos» y guardadas, vacía la pila de cada pestaña). Ojo: traer las fuentes resucita los grupos
-  creados, por eso el reset borra después de importar. La portada depende de las noticias del día.
+  grupos «Videojuegos» y guardadas, vacía la pila de cada pestaña). Ojo: el grupo «Videojuegos» existe de verdad
+  en el iPhone de Alberto (lo creó él grabando su vídeo), así que vuelve con cada importación: el reset lo borra
+  después de importar, solo en el simulador. La portada depende de las noticias del día.
 - **Siguiente:** Dovla (cuando Alberto retoque el prototipo),
   Interactius (la web en un portátil). Imagen para el interior de Gloop pendiente.
 
