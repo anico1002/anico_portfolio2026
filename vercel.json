@@ -1,0 +1,7 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "case-study-maqueta": false
+    }
+  }
+}
