@@ -247,8 +247,10 @@ export default function GamesTemplate({
       <section className={`pt-32 md:pt-48 ${wrap}`}>
         <div className={grid}>
           <div className="col-span-12 text-center md:col-span-8 md:col-start-3">
-            <Lines as="h2" className="t-statement" delay={STAGGER}>
-              {invText(c.outcomeTitle)}
+            {/* Caja de 42rem (2026-10-15): «Un estudio posicionado para / proyectos de más nivel.». Las
+                dos últimas palabras van juntas (espacio duro) para que no quede una sola abajo. */}
+            <Lines as="h2" className="t-statement mx-auto max-w-[42rem] [text-wrap:pretty]" delay={STAGGER}>
+              {invText(c.outcomeTitle.replace(/ (\S+)$/, "\u00a0$1"))}
             </Lines>
             {c.cta && (
               <FadeIn delay={2 * STAGGER}>

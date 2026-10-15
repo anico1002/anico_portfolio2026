@@ -21,11 +21,12 @@ function words(node: React.ReactNode): React.ReactNode[][] {
   const walk = (n: React.ReactNode) => {
     Children.forEach(n, (c) => {
       if (typeof c === "string" || typeof c === "number") {
+        // Por los espacios normales: el espacio duro (\u00a0) deja las palabras juntas en una línea.
         String(c)
-          .split(/(\s+)/)
+          .split(/([ \t\n]+)/)
           .forEach((part) => {
             if (!part) return;
-            if (/^\s+$/.test(part)) out.push([]);
+            if (/^[ \t\n]+$/.test(part)) out.push([]);
             else out[out.length - 1].push(part);
           });
       } else if (isValidElement(c) && c.type === Fragment) {
