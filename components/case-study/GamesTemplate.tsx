@@ -26,7 +26,8 @@ import type { CaseMedia, GameMedia, ResolvedGameBlock } from "@/lib/maqueta/medi
    la imagen. Las láminas se diseñaron para ir una debajo de otra con continuidad, así que se apilan
    a todo el ancho y sin hueco, como en la web actual, y nunca se recortan salvo la franja de título
    que el texto del bloque ya dice (`cropTop`). Entre bloque y bloque, un texto breve con el estilo
-   de toda la web. Misma cabecera, «Siguiente caso» y pie que Product. Bloques en lib/maqueta/games.ts. */
+   de toda la web. Misma cabecera, «Siguiente caso» y pie que Product. Bloques en lib/maqueta/games.ts.
+   Desde 2026-10-15 también la usan los casos de «Marca y web» (dentro de Product en el menú). */
 
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
@@ -49,20 +50,27 @@ function Drift({ on, children }: { on: boolean; children: React.ReactNode }) {
   );
 }
 
-/** Lámina a su proporción natural. Con `cropTop`, la caja toma la proporción ya recortada y la
-    imagen sube lo que mide la franja (el margen en % se calcula sobre el ancho). */
+/** Lámina a su proporción natural. Con `cropTop`/`cropLeft`, la caja toma la proporción ya
+    recortada y la imagen, más ancha que la caja en lo que mide la franja izquierda, sube y se corre
+    lo que miden las franjas (los márgenes en % se calculan sobre el ancho de la caja). */
 function Sheet({ m }: { m: Extract<GameMedia, { type: "img" }> }) {
   const top = m.cropTop ?? 0;
+  const left = m.cropLeft ?? 0;
+  const pct = (px: number) => `-${((px / (m.w - left)) * 100).toFixed(4)}%`;
   return (
-    <div className="relative overflow-hidden bg-[var(--case-ph)]" style={{ aspectRatio: `${m.w} / ${m.h - top}` }}>
+    <div className="relative overflow-hidden bg-[var(--case-ph)]" style={{ aspectRatio: `${m.w - left} / ${m.h - top}` }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={m.src}
         alt=""
         loading="lazy"
         decoding="async"
-        className="block h-auto w-full"
-        style={top ? { marginTop: `-${((top / m.w) * 100).toFixed(4)}%` } : undefined}
+        className="block h-auto max-w-none"
+        style={{
+          width: left ? `${((m.w / (m.w - left)) * 100).toFixed(4)}%` : "100%",
+          marginTop: top ? pct(top) : undefined,
+          marginLeft: left ? pct(left) : undefined,
+        }}
       />
     </div>
   );
@@ -229,7 +237,7 @@ export default function GamesTemplate({
 
   return (
     <main className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased">
-      <SiteNav active="games" />
+      <SiteNav active={c.section === "games" ? "games" : "product"} />
 
       {/* Cabecera: la misma que en Product (la miniatura de la home funde a la portada). */}
       <CaseHero

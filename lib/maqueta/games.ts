@@ -6,12 +6,17 @@
 
    Rutas relativas a public/projects/<slug>/ (los originales no se tocan). Un array = pase de
    diapositivas (series a, b, c…). `crop` recorta en pantalla, sin generar archivos, la franja de
-   arriba de una lámina cuando lleva dibujado un título que ya dice el texto del bloque. */
+   arriba de una lámina cuando lleva dibujado un título que ya dice el texto del bloque (`left`, la
+   franja de la izquierda, para el título que va al lado del contenido y no encima).
+
+   Desde 2026-10-15 los casos de «Marca y web» (Obliq, ACT, GM World!, Metacampus) se tratan igual:
+   sus láminas también se diseñaron para enlazar unas con otras. Mismo criterio de cortes; donde la
+   lámina abre con el titular numerado del manual («02/ ISOTYPE»…), se recorta y lo dice el texto. */
 
 export type GameItem =
   | string
   | string[]
-  | { src: string; crop: { top: number } };
+  | { src: string; crop: { top?: number; left?: number } };
 
 export type GameBlock = {
   /** Sin titulillo ni titular: lámina de portada (el logo del juego), justo después de la intro. */
@@ -159,6 +164,147 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       title: "Listo para las tiendas.",
       body: "Key art, piezas promocionales y capturas para App Store y Google Play.",
       items: ["03_Marketing-Exploration/AXT8.png"],
+    },
+  ],
+
+  /* ───────────── MARCA Y WEB (2026-10-15) ───────────── */
+
+  // Cortes: home (1–4, una sola página) · estudio (5–9, otra página) · vídeo · manual. Sin lámina
+  // de portada: el logo animado (GIF, casi todo negro) se perdía sobre el fondo oscuro; cierra el
+  // manual, detrás de las aplicaciones.
+  obliq: [
+    {
+      eyebrow: "La web",
+      title: "Una sala de cine para su portfolio.",
+      body: "Fondo negro, navegación mínima y el vídeo a pantalla completa. La marca pone el marco y el trabajo pone todo lo demás.",
+      items: ["01/obliq_1.png", "01/obliq_2.png", "01/obliq_3.png", "01/obliq_4.png"],
+    },
+    {
+      eyebrow: "El estudio",
+      title: "Con la luz encendida.",
+      body: "La página del estudio pasa al blanco para presentar al equipo, su manifiesto y los directores con los que trabaja.",
+      items: ["01/obliq_5.png", "01/obliq_6.png", "01/obliq_7.png", "01/obliq_8.png", "01/obliq_9.png"],
+    },
+    {
+      eyebrow: "En movimiento",
+      title: "Vídeo pesado, carga ligera.",
+      body: "Reels en alta calidad que entran sin mover una línea de la maqueta.",
+      items: ["01/obliq_10.mp4"],
+    },
+    {
+      eyebrow: "Logo y manual",
+      title: "Todo parte de una línea oblicua.",
+      bleed: true,
+      body: "La «I» inclinada del logotipo marca el ángulo de todo el sistema, del isotipo a los patrones gráficos.",
+      items: [
+        seq("02_Logo-&-Brandbook/obliq_11", "abcdef"),
+        "02_Logo-&-Brandbook/obliq_12.png",
+        "02_Logo-&-Brandbook/obliq_13.gif",
+      ],
+    },
+  ],
+
+  // ACT_1–5 son la home de arriba abajo (la rejilla de fondo pasa de una a otra): no se parte.
+  act: [
+    { bleed: true, items: ["ACT_10.png"] },
+    {
+      eyebrow: "Logo",
+      title: "Tres letras en un solo trazo.",
+      body: "Las letras de ACT encajan una dentro de otra hasta formar un único símbolo.",
+      items: ["ACT_9.png"],
+    },
+    {
+      eyebrow: "La home",
+      title: "Todo empieza con una pregunta.",
+      body: "¿Empresa o talento de élite? La portada se lo pregunta a cada visitante y le abre su propio camino.",
+      items: ["ACT_1.png", "ACT_2.png", "ACT_3.png", "ACT_4.png", "ACT_5.png"],
+    },
+    {
+      eyebrow: "Interacción",
+      title: "Elegir lado con el cursor.",
+      body: "Al pasar por encima, cada mitad se tiñe del azul de la marca.",
+      items: [seq("ACT_6", "abc")],
+    },
+    {
+      eyebrow: "El recorrido",
+      title: "Una segunda carrera, paso a paso.",
+      body: "Las páginas interiores ordenan mucha información para que quien contrata detecte el talento de un vistazo.",
+      items: ["ACT_8.png", "ACT_11.png"],
+    },
+    {
+      eyebrow: "Comunidad",
+      title: "La misma energía, fuera de la web.",
+      bleed: true,
+      body: "Piezas para redes y un punto de encuentro en Discord.",
+      items: ["ACT_7.png"],
+    },
+  ],
+
+  // Las láminas son el manual, con sus titulares numerados («02/ ISOTYPE»…) dibujados arriba: cada
+  // corte va donde empieza un apartado y el recorte quita ese titular, que pasa al texto. GM4 y GM5
+  // comparten unos arcos de fondo casi blancos; se parten igual porque GM5 abre apartado (05).
+  "gm-world": [
+    { bleed: true, items: [{ src: "GM1.png", crop: { top: 180 } }] },
+    {
+      eyebrow: "Isotipo",
+      title: "Cada ciudad, una inicial que se expande.",
+      body: "W de World, E de Eindhoven, V de Valencia, B de Barcelona. La expansión habla de una tecnología que hace crecer todo lo que toca.",
+      items: [{ src: "GM2.png", crop: { top: 400 } }],
+    },
+    {
+      eyebrow: "Color",
+      title: "Un degradado de base y un acento por sede.",
+      bleed: true,
+      body: "Eindhoven suma el naranja holandés; Valencia, el azul mediterráneo; Barcelona, el fucsia catalán.",
+      items: [{ src: "GM3.png", crop: { top: 470 } }],
+    },
+    {
+      eyebrow: "Recursos",
+      title: "El símbolo, convertido en patrón.",
+      body: "Sus curvas decoran las piezas, enmascaran imágenes y dan pie a la animación.",
+      items: [{ src: "GM4.png", crop: { top: 370 } }],
+    },
+    {
+      eyebrow: "Otros usos",
+      title: "Un logotipo que se adapta al soporte.",
+      items: [{ src: "GM5.png", crop: { top: 240 } }],
+    },
+    {
+      eyebrow: "Aplicaciones",
+      title: "Del escenario a la tarjeta del ponente.",
+      bleed: true,
+      body: "Acreditaciones, entradas, pulseras y pantallas para la edición de Eindhoven.",
+      items: [{ src: "GM6.png", crop: { top: 245 } }],
+    },
+    {
+      eyebrow: "La web",
+      title: "Preparada para las próximas ediciones.",
+      body: "Ponentes, programa y patrocinadores, con la cuenta atrás hasta el evento. También en el móvil.",
+      // GM7–9 son una sola página. En la del móvil, «08/ MOBILE WEB VERSION» va al lado del iPhone.
+      items: [
+        { src: "GM7.png", crop: { top: 190 } },
+        "GM8.png",
+        "GM9.png",
+        { src: "GM_mobile.png", crop: { left: 340 } },
+      ],
+    },
+  ],
+
+  // MC_2–5 comparten fondo gris; el corte va donde el manual pasa de los cimientos (01) a los
+  // componentes (02). Sus rótulos van al lado del contenido y no se pueden recortar.
+  metacampus: [
+    { bleed: true, items: ["MC_1.png"] },
+    {
+      eyebrow: "Design system",
+      title: "Cuatro pilares, cuatro formas, un sistema.",
+      body: "Web3, IA, metaverso y comunidad. Cada pilar tiene su forma y su color, y juntos construyen todo el lenguaje, del logotipo a los botones.",
+      items: ["MC_2.png", "MC_3.png", "MC_4.png"],
+    },
+    {
+      eyebrow: "Componentes",
+      title: "Flexible sin perder la coherencia.",
+      body: "Navegación, buscador y acceso, prototipados en Figma y listos para desarrollo.",
+      items: ["MC_5.png"],
     },
   ],
 };

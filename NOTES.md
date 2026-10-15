@@ -2,6 +2,15 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ MARCA Y WEB COMO GAMES (2026-10-15)
+
+Obliq, ACT, GM World! y Metacampus pasan a la plantilla de Games (`GamesTemplate`, bloques en
+`lib/maqueta/games.ts`): láminas en vertical, cortes solo donde no se parte nada enlazado y un texto
+breve en cada corte. Los titulares numerados del manual de GM World («02/ ISOTYPE»…) se recortan en
+pantalla y pasan al texto; nuevo `crop.left` para el «08/ MOBILE» que va al lado del iPhone.
+`RollText` va ahora con una máscara por palabra (los nombres largos se partían a mitad de palabra).
+**Pendiente:** repaso de Alberto (cortes, recortes y copy nuevo de los cuatro).
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-14 noche, MacBook)
 
 Sesión larga de feedback de Alberto sobre **Gloop** y **7News**. Detalle con casillas en

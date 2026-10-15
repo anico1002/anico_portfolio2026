@@ -4,8 +4,8 @@ import GamesTemplate from "@/components/case-study/GamesTemplate";
 import { CASES, caseBySlug, nextCase } from "@/lib/maqueta/cases";
 import { getCaseMedia, getGameBlocks, thumbOf } from "@/lib/maqueta/media";
 
-/* Casos de la maqueta salvo Gloop (que tiene página propia en /maqueta/gloop). Product y Marca:
-   caso de éxito (CaseTemplate). Games: escaparate gráfico (GamesTemplate, lib/maqueta/games.ts). */
+/* Casos de la maqueta salvo Gloop (que tiene página propia en /maqueta/gloop). Product:
+   caso de éxito (CaseTemplate). Games y Marca y web: escaparate gráfico (GamesTemplate, lib/maqueta/games.ts). */
 
 // Casos con página propia (ruta fija, que manda sobre esta): no se generan aquí para no duplicar rutas.
 const BESPOKE = new Set(["swift-project", "interactius", "7news", "dovla", "elreto-masterchef"]);
@@ -26,7 +26,8 @@ export default async function CasePage({ params }: { params: Promise<{ slug: str
   if (!copy || !media) notFound();
   const n = nextCase(slug);
   const nextCard = { ...n, thumb: thumbOf(n.slug) };
-  const blocks = copy.section === "games" ? getGameBlocks(slug) : null;
+  // Games y «Marca y web» (2026-10-15): escaparate vertical si el caso tiene bloques en games.ts.
+  const blocks = getGameBlocks(slug);
   if (blocks) return <GamesTemplate copy={copy} media={media} blocks={blocks} next={nextCard} />;
   return <CaseTemplate copy={copy} media={media} next={nextCard} />;
 }
