@@ -144,74 +144,38 @@ function Stack({ items, bleed, label }: { items: GameMedia[]; bleed?: boolean; l
   );
 }
 
-/** Texto de un bloque. Para no repetir siempre la misma composición (2026-10-13: «todo igual,
-    aburrido»), cuatro maneras que se van turnando, con las posiciones de rejilla del resto de la
-    web y su asimetría:
-    0 · titular a la izquierda (1–6) y la línea abajo a la derecha (8–11);
-    1 · titular a la derecha (7–12) y la línea debajo, aún más a la derecha (9–12);
-    2 · frase grande centrada (3–10) y la línea estrecha debajo, hacia la derecha (7–10);
-    3 · titulillo suelto a la izquierda y el titular desplazado (5–11), con la línea debajo.
-    Regla de lectura (2026-10-13): la línea va siempre debajo del titular y alineada con él o más a
-    la derecha, nunca a su izquierda (se leería antes que el titular). En móvil, todo en columna. */
-function BlockText({ n, b }: { n: number; b: ResolvedGameBlock }) {
-  const v = (n - 1) % 4;
-  const eyebrow = (
-    <FadeIn>
-      <p className={`t-label text-[var(--case-muted)] ${mono}`}>
-        {b.eyebrow}
-      </p>
-    </FadeIn>
-  );
-  const title = (cls: string) =>
-    b.title && (
-      <Lines as="h2" className={cls} delay={STAGGER}>
-        {b.title}
-      </Lines>
-    );
-  const body = (cls: string) =>
-    b.body && (
-      <FadeIn delay={2 * STAGGER} className={cls}>
-        <p className="t-body text-[var(--case-muted)]">{b.body}</p>
-      </FadeIn>
-    );
+/** Texto de un bloque: titulillo, titular y línea, siempre juntos en una misma columna y alineados
+    por la izquierda (2026-10-15, Alberto: separar el texto del titular en un diseño tan vertical
+    creaba un desorden raro). La asimetría la da la posición del grupo, que se va turnando para no
+    repetir siempre la misma (2026-10-13: «todo igual, aburrido»):
+    0 · a la izquierda (1–6) · 1 · a la derecha (7–12) · 2 · frase grande centrada (3–10) ·
+    3 · desplazado (5–11). En móvil, todo en columna. */
+const SPOTS = [
+  { col: "md:col-span-6", title: "t-title", mb: "mb-12 md:mb-16" },
+  { col: "md:col-span-6 md:col-start-7", title: "t-title", mb: "mb-12 md:mb-20" },
+  { col: "md:col-span-8 md:col-start-3", title: "t-statement", mb: "mb-14 md:mb-24" },
+  { col: "md:col-span-7 md:col-start-5", title: "t-title", mb: "mb-12 md:mb-20" },
+];
 
-  if (v === 1)
-    return (
-      <div className={`${grid} mb-12 gap-y-6 md:mb-20`}>
-        <div className="col-span-12 md:col-span-6 md:col-start-7">
-          {eyebrow}
-          {title("mt-3 t-title")}
-        </div>
-        {body("col-span-12 md:col-span-4 md:col-start-9 md:mt-6")}
-      </div>
-    );
-  if (v === 2)
-    return (
-      <div className={`${grid} mb-14 gap-y-6 md:mb-24`}>
-        <div className="col-span-12 md:col-span-8 md:col-start-3">
-          {eyebrow}
-          {title("mt-4 t-statement")}
-        </div>
-        {body("col-span-12 md:col-span-4 md:col-start-7 md:mt-4")}
-      </div>
-    );
-  if (v === 3)
-    return (
-      <div className={`${grid} mb-12 gap-y-6 md:mb-20`}>
-        <div className="col-span-12 md:col-span-3 md:pt-2">{eyebrow}</div>
-        <div className="col-span-12 md:col-span-7 md:col-start-5">
-          {title("t-title")}
-          {body("mt-6 md:max-w-[34ch]")}
-        </div>
-      </div>
-    );
+function BlockText({ n, b }: { n: number; b: ResolvedGameBlock }) {
+  const spot = SPOTS[(n - 1) % SPOTS.length];
   return (
-    <div className={`${grid} mb-12 gap-y-6 md:mb-16`}>
-      <div className="col-span-12 md:col-span-6">
-        {eyebrow}
-        {title("mt-3 t-title")}
+    <div className={`${grid} ${spot.mb}`}>
+      <div className={`col-span-12 ${spot.col}`}>
+        <FadeIn>
+          <p className={`t-label text-[var(--case-muted)] ${mono}`}>{b.eyebrow}</p>
+        </FadeIn>
+        {b.title && (
+          <Lines as="h2" className={`mt-3 ${spot.title}`} delay={STAGGER}>
+            {b.title}
+          </Lines>
+        )}
+        {b.body && (
+          <FadeIn delay={2 * STAGGER} className="mt-6 max-w-[38ch]">
+            <p className="t-body text-[var(--case-muted)]">{b.body}</p>
+          </FadeIn>
+        )}
       </div>
-      {body("col-span-12 md:col-span-4 md:col-start-8 md:self-end")}
     </div>
   );
 }
@@ -255,11 +219,11 @@ export default function GamesTemplate({
           ))}
       </CaseHero>
 
-      {/* Intro corta: qué es, en una frase, y un párrafo. Aquí habla la imagen. */}
+      {/* Intro corta: qué es, en una frase, y un párrafo alineado con ella por la izquierda. */}
       <section className={`pt-28 md:pt-44 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
           <Lines className="col-span-12 t-statement md:col-span-8 md:col-start-3">{c.tagline}</Lines>
-          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-7">
+          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-3">
             <p className="t-body text-[var(--case-muted)]">{c.overview[0]}</p>
           </FadeIn>
         </div>
