@@ -16,7 +16,7 @@
 export type GameItem =
   | string
   | string[]
-  | { src: string; crop: { top?: number; left?: number } };
+  | { src: string; crop?: { top?: number; left?: number }; bg?: string };
 
 export type GameBlock = {
   /** Sin titulillo ni titular: lámina de portada (el logo del juego), justo después de la intro. */
@@ -199,7 +199,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       items: [
         seq("02_Logo-&-Brandbook/obliq_11", "abcdef"),
         "02_Logo-&-Brandbook/obliq_12.png",
-        "02_Logo-&-Brandbook/obliq_13.gif",
+        // GIF con fondo transparente y logo negro: fondo blanco propio para que se vea en claro y en oscuro.
+        { src: "02_Logo-&-Brandbook/obliq_13.gif", bg: "#fff" },
       ],
     },
   ],

@@ -102,7 +102,7 @@ export function thumbOf(slug: string): string | undefined {
 /* ── Games: escaparate gráfico (lib/maqueta/games.ts) ─────────────────────────────────────── */
 
 export type GameMedia =
-  | { type: "img"; src: string; w: number; h: number; cropTop?: number; cropLeft?: number }
+  | { type: "img"; src: string; w: number; h: number; cropTop?: number; cropLeft?: number; bg?: string }
   | { type: "slides"; srcs: string[]; w: number; h: number }
   | { type: "video"; src: string };
 
@@ -131,7 +131,7 @@ export function getGameBlocks(slug: string): ResolvedGameBlock[] | null {
         if (/\.(mp4|webm|mov)$/i.test(it)) return [{ type: "video", src: url(it) }];
         return [{ type: "img", src: url(it), ...dims(url(it)) }];
       }
-      return exists(it.src) ? [{ type: "img", src: url(it.src), ...dims(url(it.src)), cropTop: it.crop.top, cropLeft: it.crop.left }] : [];
+      return exists(it.src) ? [{ type: "img", src: url(it.src), ...dims(url(it.src)), cropTop: it.crop?.top, cropLeft: it.crop?.left, bg: it.bg }] : [];
     }),
   }));
 }

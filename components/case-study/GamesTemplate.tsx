@@ -58,7 +58,10 @@ function Sheet({ m }: { m: Extract<GameMedia, { type: "img" }> }) {
   const left = m.cropLeft ?? 0;
   const pct = (px: number) => `-${((px / (m.w - left)) * 100).toFixed(4)}%`;
   return (
-    <div className="relative overflow-hidden bg-[var(--case-ph)]" style={{ aspectRatio: `${m.w - left} / ${m.h - top}` }}>
+    <div
+      className="relative overflow-hidden bg-[var(--case-ph)]"
+      style={{ aspectRatio: `${m.w - left} / ${m.h - top}`, background: m.bg }}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={m.src}
