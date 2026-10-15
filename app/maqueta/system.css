@@ -218,10 +218,23 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
 .logo-roll { animation: logo-roll var(--dur-base) var(--ease-in-out) both; animation-delay: calc(var(--i) * 80ms); }
 @media (prefers-reduced-motion: reduce) { .logo-roll { animation: none; } }
 
-/* Palabras clave de los titulares (`*palabras*` → `.kw`): DM Serif Display cursiva (2026-10-13; antes Playfair,
-   demasiado fina en claro). Un 3 % más grande para que su altura de x case con la de Instrument Sans
-   (medido: 49,6 frente a 51 por cada 100 px), sin alterar el interlineado y sin partirse entre líneas. */
-.kw { font-family: var(--font-case-serif), serif; font-style: italic; font-weight: 400; font-size: 1.03em; letter-spacing: -0.01em; line-height: 0; white-space: nowrap; }
+/* Palabras clave de los titulares (`*palabras*` → `.kw`): ácido (2026-10-15, en prueba). La misma sans
+   del titular, rellena con un degradado naranja → fucsia → morado → azul que fluye despacio (10 s por
+   vuelta, sin saltos: el degradado empieza y acaba en el mismo naranja y se desplaza un ancho entero).
+   Antes iba en DM Serif Display cursiva (2026-10-13); volver atrás = recuperar esa regla del historial. */
+.kw {
+  font-style: normal;
+  white-space: nowrap;
+  line-height: 0;
+  background-image: linear-gradient(90deg, #ff7a1a, #ff2e88, #a23cff, #3d6bff, #a23cff, #ff2e88, #ff7a1a);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: kw-flow 10s linear infinite;
+}
+@keyframes kw-flow { from { background-position: 0% 50%; } to { background-position: 200% 50%; } }
+@media (prefers-reduced-motion: reduce) { .kw { animation: none; } }
 
 /* Titulillos (antetítulos y datos: «Introducción», «Rol», «01 / 2026»…): un solo estilo para todos,
    en Instrument Sans (la misma familia que el resto), mayúsculas espaciadas y peso medio. Se probaron
