@@ -11,7 +11,6 @@ import { invText } from "@/components/case-study/invText";
 import {
   CaseHero,
   CaseHeroOverlay,
-  Eyebrow,
   FadeIn,
   Placeholder,
   useSeen,
@@ -240,13 +239,11 @@ export default function GamesTemplate({
         </section>
       ))}
 
-      {/* Cierre breve: la frase de resultado y el enlace, sin cifras ni párrafos. */}
+      {/* Cierre breve: la frase de resultado, centrada y sin titulillo (como 7News, 2026-10-15), y el
+          enlace si lo hay. Sin cifras ni párrafos. */}
       <section className={`pt-32 md:pt-48 ${wrap}`}>
         <div className={grid}>
-          <div className="col-span-12 md:col-span-8 md:col-start-3">
-            <FadeIn>
-              <Eyebrow>Resultado</Eyebrow>
-            </FadeIn>
+          <div className="col-span-12 text-center md:col-span-8 md:col-start-3">
             <Lines as="h2" className="t-statement" delay={STAGGER}>
               {invText(c.outcomeTitle)}
             </Lines>

@@ -331,7 +331,7 @@ export const CASES: CaseCopy[] = [
     ],
     outcomeTitle: "Un estudio posicionado para proyectos de más nivel.",
     outcome: "Un kit de marca completo y una web en producción que se mantiene premium en un móvil o en un monitor de estudio. Desde el lanzamiento, la productora apunta a encargos comerciales y narrativos de mayor nivel.",
-    cta: { label: "Visitar la web", href: "https://obliqproductions.com/" },
+    // Sin enlace a la web (2026-10-15): la han cambiado y ya no es el diseño de Alberto.
   },
   {
     slug: "act",
