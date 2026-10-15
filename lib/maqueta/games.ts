@@ -5,7 +5,8 @@
    titular + como mucho una línea) con el estilo del resto de la web.
 
    Rutas relativas a public/projects/<slug>/ (los originales no se tocan). Un array = pase de
-   diapositivas (series a, b, c…). `crop` recorta en pantalla, sin generar archivos, la franja de
+   diapositivas (series a, b, c…). Una ruta que empieza por «/» es de public/ (medios propios de la
+   maqueta). `crop` recorta en pantalla, sin generar archivos, la franja de
    arriba de una lámina cuando lleva dibujado un título que ya dice el texto del bloque (`left`, la
    franja de la izquierda, para el título que va al lado del contenido y no encima).
 
@@ -173,12 +174,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   // de portada: el logo animado (GIF, casi todo negro) se perdía sobre el fondo oscuro; cierra el
   // manual, detrás de las aplicaciones.
   obliq: [
-    {
-      eyebrow: "La web",
-      title: "Una sala de cine para su portfolio.",
-      body: "Fondo negro, navegación mínima y el vídeo a pantalla completa. La marca pone el marco y el trabajo pone todo lo demás.",
-      items: ["01/obliq_1.png", "01/obliq_2.png", "01/obliq_3.png", "01/obliq_4.png"],
-    },
+    // La home abre sin texto, justo después de la intro (2026-10-15, Alberto).
+    { items: ["01/obliq_1.png", "01/obliq_2.png", "01/obliq_3.png", "01/obliq_4.png"] },
     {
       eyebrow: "El estudio",
       title: "Con la luz encendida.",
@@ -199,8 +196,10 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       items: [
         seq("02_Logo-&-Brandbook/obliq_11", "abcdef"),
         "02_Logo-&-Brandbook/obliq_12.png",
-        // GIF con fondo transparente y logo negro: fondo blanco propio para que se vea en claro y en oscuro.
-        { src: "02_Logo-&-Brandbook/obliq_13.gif", bg: "#fff" },
+        // El logo animado: el GIF original (transparente, 256 colores con borde tramado, 832 KB) pasado
+        // a MP4 sobre blanco, con el borde limpio y a 1920 (228 KB). Fuera de public/projects para que
+        // la web actual no lo cuente como lámina.
+        "/maqueta/obliq/logo-anim.mp4",
       ],
     },
   ],

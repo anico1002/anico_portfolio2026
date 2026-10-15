@@ -113,9 +113,11 @@ export type ResolvedGameBlock = { eyebrow?: string; title?: string; body?: strin
 export function getGameBlocks(slug: string): ResolvedGameBlock[] | null {
   const plan = GAME_BLOCKS[slug];
   if (!plan) return null;
-  const url = (p: string) => encodeURI(`/projects/${slug}/${p}`);
+  // Rutas relativas a public/projects/<slug>/, o absolutas desde public/ si empiezan por «/».
+  const rel = (p: string) => (p.startsWith("/") ? p : `/projects/${slug}/${p}`);
+  const url = (p: string) => encodeURI(rel(p));
   const exists = (p: string) => {
-    const ok = fs.existsSync(path.join(process.cwd(), "public", "projects", slug, p));
+    const ok = fs.existsSync(path.join(process.cwd(), "public", rel(p)));
     if (!ok) console.warn(`[games] falta ${slug}/${p}`);
     return ok;
   };
