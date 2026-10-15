@@ -224,13 +224,16 @@ export default function GamesTemplate({
           ))}
       </CaseHero>
 
-      {/* Intro corta: qué es, en una frase, y un párrafo alineado con ella por la izquierda. */}
+      {/* Intro corta: qué es, en una frase, y un párrafo. Los dos en la misma caja estrecha (2026-10-15,
+          como los bloques): la frase ya no se abre mucho más que el párrafo y forman un grupo. */}
       <section className={`pt-28 md:pt-44 ${wrap}`}>
-        <div className={`${grid} gap-y-10`}>
-          <Lines className="col-span-12 t-statement md:col-span-8 md:col-start-3">{c.tagline}</Lines>
-          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-3">
-            <p className="t-body text-[var(--case-muted)]">{c.overview[0]}</p>
-          </FadeIn>
+        <div className={grid}>
+          <div className="col-span-12 flex flex-col gap-10 md:col-span-8 md:col-start-3 md:max-w-[34rem]">
+            <Lines className="t-statement">{c.tagline}</Lines>
+            <FadeIn delay={STAGGER}>
+              <p className="t-body text-[var(--case-muted)]">{c.overview[0]}</p>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
