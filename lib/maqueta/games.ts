@@ -205,38 +205,22 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   ],
 
   // ACT_1–5 son la home de arriba abajo (la rejilla de fondo pasa de una a otra): no se parte.
+  // Feedback de Alberto (2026-10-15): abre con la progresión del logo encima de todo, como en la web
+  // actual; fuera los textos de «Logo», «Interacción» y «Comunidad» (sus láminas suben al bloque de
+  // arriba). Pendiente: movimiento en el portátil (ACT_11) a partir de un prototipo de Figma suyo.
   act: [
-    { bleed: true, items: ["ACT_10.png"] },
-    {
-      eyebrow: "Logo",
-      title: "Tres letras en un solo trazo.",
-      body: "Las letras de ACT encajan una dentro de otra hasta formar un único símbolo.",
-      items: ["ACT_9.png"],
-    },
+    { bleed: true, items: ["ACT_9.png", "ACT_10.png"] },
     {
       eyebrow: "La home",
       title: "Todo empieza con una pregunta.",
       body: "¿Empresa o talento de élite? La portada se lo pregunta a cada visitante y le abre su propio camino.",
-      items: ["ACT_1.png", "ACT_2.png", "ACT_3.png", "ACT_4.png", "ACT_5.png"],
-    },
-    {
-      eyebrow: "Interacción",
-      title: "Elegir lado con el cursor.",
-      body: "Al pasar por encima, cada mitad se tiñe del azul de la marca.",
-      items: [seq("ACT_6", "abc")],
+      items: ["ACT_1.png", "ACT_2.png", "ACT_3.png", "ACT_4.png", "ACT_5.png", seq("ACT_6", "abc")],
     },
     {
       eyebrow: "El recorrido",
       title: "Una segunda carrera, paso a paso.",
       body: "Las páginas interiores ordenan mucha información para que quien contrata detecte el talento de un vistazo.",
-      items: ["ACT_8.png", "ACT_11.png"],
-    },
-    {
-      eyebrow: "Comunidad",
-      title: "La misma energía, fuera de la web.",
-      bleed: true,
-      body: "Piezas para redes y un punto de encuentro en Discord.",
-      items: ["ACT_7.png"],
+      items: ["ACT_8.png", "ACT_11.png", "ACT_7.png"],
     },
   ],
 

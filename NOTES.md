@@ -13,6 +13,7 @@
 - Comparador privado de 14 sans de autor: https://claude.ai/artifact/PmHETffoTSWVQ3U9kuwvDZ (fuentes de prueba en
   `fuentes-prueba/`, fuera de git y de Vercel). Efecto de Games elegido para seguir probando: mosaico suave.
 - **Siguiente:** feedback de Alberto sobre los casos de Marca y web (y Games) tras revisarlos.
+- **Pendiente ACT:** movimiento en el portátil (ACT_11). Alberto tiene un prototipo en Figma y lo pasará.
 
 ## ▶ MARCA Y WEB COMO GAMES (2026-10-15)
 
