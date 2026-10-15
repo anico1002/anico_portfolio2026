@@ -146,41 +146,38 @@ function Stack({ items, bleed, label }: { items: GameMedia[]; bleed?: boolean; l
   );
 }
 
-/** Texto de un bloque: titulillo, titular y línea, siempre juntos en una misma columna y alineados
-    por la izquierda (2026-10-15, Alberto: separar el texto del titular en un diseño tan vertical
-    creaba un desorden raro). La asimetría la da la posición del grupo, que se va turnando para no
-    repetir siempre la misma (2026-10-13: «todo igual, aburrido»):
-    0 · a la izquierda (1–6) · 1 · a la derecha (7–12) · 2 · frase grande centrada (3–10) ·
-    3 · desplazado (5–11). En móvil, todo en columna. */
+/** Texto de un bloque: titulillo, titular y línea, siempre empezando en la misma columna y alineados por
+    la izquierda (2026-10-15, Alberto: separar el texto del titular en un diseño tan vertical creaba un
+    desorden raro). Todo por columnas de la rejilla, nunca anchos fijos: el titular ocupa una columna más
+    que el párrafo (al ser más grande, si no, acabaría más corto que él). La asimetría la da la columna
+    de arranque del grupo, que se va turnando (2026-10-13: «todo igual, aburrido»):
+    0 · desde la 1 · 1 · desde la 7 · 2 · frase grande desde la 3 · 3 · desde la 5. En móvil, a todo el ancho. */
 const SPOTS = [
-  { col: "md:col-span-6", title: "t-title", box: "md:max-w-[28rem]", mb: "mb-12 md:mb-16" },
-  { col: "md:col-span-6 md:col-start-7", title: "t-title", box: "md:max-w-[28rem]", mb: "mb-12 md:mb-20" },
-  { col: "md:col-span-8 md:col-start-3", title: "t-statement", box: "md:max-w-[32rem]", mb: "mb-14 md:mb-24" },
-  { col: "md:col-span-7 md:col-start-5", title: "t-title", box: "md:max-w-[28rem]", mb: "mb-12 md:mb-20" },
+  { title: "md:col-span-5 md:col-start-1", body: "md:col-span-4 md:col-start-1", size: "t-title", mb: "mb-12 md:mb-16" },
+  { title: "md:col-span-5 md:col-start-7", body: "md:col-span-4 md:col-start-7", size: "t-title", mb: "mb-12 md:mb-20" },
+  { title: "md:col-span-6 md:col-start-3", body: "md:col-span-5 md:col-start-3", size: "t-statement", mb: "mb-14 md:mb-24" },
+  { title: "md:col-span-5 md:col-start-5", body: "md:col-span-4 md:col-start-5", size: "t-title", mb: "mb-12 md:mb-20" },
 ];
 
 function BlockText({ n, b }: { n: number; b: ResolvedGameBlock }) {
   const spot = SPOTS[(n - 1) % SPOTS.length];
   return (
     <div className={`${grid} ${spot.mb}`}>
-      {/* Titular y párrafo en la misma caja (2026-10-15): el titular ya no se abre más que el texto. */}
-      <div className={`col-span-12 ${spot.col}`}>
-        <div className={spot.box}>
-          <FadeIn>
-            <p className={`t-label text-[var(--case-muted)] ${mono}`}>{b.eyebrow}</p>
-          </FadeIn>
-          {b.title && (
-            <Lines as="h2" className={`mt-3 ${spot.title}`} delay={STAGGER}>
-              {b.title}
-            </Lines>
-          )}
-          {b.body && (
-            <FadeIn delay={2 * STAGGER} className="mt-6">
-              <p className="t-body text-[var(--case-muted)]">{b.body}</p>
-            </FadeIn>
-          )}
-        </div>
+      <div className={`col-span-12 ${spot.title}`}>
+        <FadeIn>
+          <p className={`t-label text-[var(--case-muted)] ${mono}`}>{b.eyebrow}</p>
+        </FadeIn>
+        {b.title && (
+          <Lines as="h2" className={`mt-3 ${spot.size}`} delay={STAGGER}>
+            {b.title}
+          </Lines>
+        )}
       </div>
+      {b.body && (
+        <FadeIn delay={2 * STAGGER} className={`col-span-12 mt-6 ${spot.body}`}>
+          <p className="t-body text-[var(--case-muted)]">{b.body}</p>
+        </FadeIn>
+      )}
     </div>
   );
 }
@@ -224,16 +221,14 @@ export default function GamesTemplate({
           ))}
       </CaseHero>
 
-      {/* Intro corta: qué es, en una frase, y un párrafo. Los dos en la misma caja estrecha (2026-10-15,
-          como los bloques): la frase ya no se abre mucho más que el párrafo y forman un grupo. */}
+      {/* Intro corta: qué es, en una frase, y un párrafo. Por columnas, como los bloques (2026-10-15): los
+          dos desde la 3, la frase en 6 y el párrafo en 5, para que formen grupo. */}
       <section className={`pt-28 md:pt-44 ${wrap}`}>
-        <div className={grid}>
-          <div className="col-span-12 flex flex-col gap-10 md:col-span-8 md:col-start-3 md:max-w-[34rem]">
-            <Lines className="t-statement">{c.tagline}</Lines>
-            <FadeIn delay={STAGGER}>
-              <p className="t-body text-[var(--case-muted)]">{c.overview[0]}</p>
-            </FadeIn>
-          </div>
+        <div className={`${grid} gap-y-10`}>
+          <Lines className="col-span-12 t-statement md:col-span-6 md:col-start-3">{c.tagline}</Lines>
+          <FadeIn delay={STAGGER} className="col-span-12 md:col-span-5 md:col-start-3">
+            <p className="t-body text-[var(--case-muted)]">{c.overview[0]}</p>
+          </FadeIn>
         </div>
       </section>
 
@@ -249,10 +244,10 @@ export default function GamesTemplate({
           enlace si lo hay. Sin cifras ni párrafos. */}
       <section className={`pt-32 md:pt-48 ${wrap}`}>
         <div className={grid}>
-          <div className="col-span-12 text-center md:col-span-8 md:col-start-3">
-            {/* Caja de 42rem (2026-10-15): «Un estudio posicionado para / proyectos de más nivel.». Las
-                dos últimas palabras van juntas (espacio duro) para que no quede una sola abajo. */}
-            <Lines as="h2" className="t-statement mx-auto max-w-[42rem] [text-wrap:pretty]" delay={STAGGER}>
+          <div className="col-span-12 text-center md:col-span-6 md:col-start-4">
+            {/* Seis columnas centradas (4–9). Las dos últimas palabras van juntas (espacio duro) para que
+                no quede una sola abajo. */}
+            <Lines as="h2" className="t-statement [text-wrap:pretty]" delay={STAGGER}>
               {invText(c.outcomeTitle.replace(/ (\S+)$/, "\u00a0$1"))}
             </Lines>
             {c.cta && (
