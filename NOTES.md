@@ -14,6 +14,9 @@
   `fuentes-prueba/`, fuera de git y de Vercel). Efecto de Games elegido para seguir probando: mosaico suave.
 - **Siguiente:** feedback de Alberto sobre los casos de Marca y web (y Games) tras revisarlos.
 - **Pendiente ACT:** movimiento en el portátil (ACT_11). Alberto tiene un prototipo en Figma y lo pasará.
+- **Marca y web, revisados (2026-10-15):** GM World! perfecto; Metacampus ok. **Por decidir (Alberto):** mantener
+  estos proyectos o quitarlos y enseñar solo casos de éxito actuales. Si se mantienen, rediseñar miniaturas y
+  cabeceras (thumbs y headers).
 
 ## ▶ MARCA Y WEB COMO GAMES (2026-10-15)
 
