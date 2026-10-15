@@ -192,19 +192,15 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       title: "Brillos de fondo y texturas de comida.",
       bleed: true,
       body: "Los brillos dan el aire premium de un videojuego y las texturas distinguen cada categoría de reto.",
-      items: ["02_Brand-Identity/ElReto_9.png", "02_Brand-Identity/ElReto_10.png"],
-    },
-    {
-      eyebrow: "Piezas",
-      title: "Fuerza sin ruido.",
-      body: "Carteles del concurso, iconos de línea y tarjetas que comparten un mismo lenguaje con la app.",
-      items: ["02_Brand-Identity/ElReto_11.png", "02_Brand-Identity/ElReto_12.png"],
-    },
-    {
-      eyebrow: "La app",
-      title: "Del registro al ranking.",
-      body: "Calendario de fases, retos con foto y vídeo, galería y clasificación en tiempo real.",
-      items: [{ src: "02_Brand-Identity/ElReto_13.png", crop: { top: 240 } }, "03_App-Design/ElReto_14.png"],
+      // Feedback de Alberto (2026-10-15): fuera los textos de «Piezas» y «La app»; sus láminas van aquí.
+      items: [
+        "02_Brand-Identity/ElReto_9.png",
+        "02_Brand-Identity/ElReto_10.png",
+        "02_Brand-Identity/ElReto_11.png",
+        "02_Brand-Identity/ElReto_12.png",
+        { src: "02_Brand-Identity/ElReto_13.png", crop: { top: 240 } },
+        "03_App-Design/ElReto_14.png",
+      ],
     },
   ],
 

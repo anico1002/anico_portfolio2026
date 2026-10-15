@@ -97,10 +97,7 @@ export const CASES: CaseCopy[] = [
     ],
     outcomeTitle: "Una marca y un producto listos para la temporada 2026.",
     outcome: "El Reto se lanzó con una identidad coherente y una app donde el contenido de los usuarios y el juego conviven de forma natural. Un estándar para gamificar formatos de televisión: la pantalla grande y el móvil, conectados.",
-    cta: {
-      label: "Abrir el prototipo",
-      href: "https://cloud.protopie.io/p/bc6dc1340ee379915a5c03f6?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%23141414&bgImage=undefined&playSpeed=1",
-    },
+    // Sin botón al prototipo (2026-10-15, Alberto: no queda profesional).
   },
   {
     slug: "swift-project",
