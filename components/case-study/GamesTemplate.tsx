@@ -153,30 +153,33 @@ function Stack({ items, bleed, label }: { items: GameMedia[]; bleed?: boolean; l
     0 · a la izquierda (1–6) · 1 · a la derecha (7–12) · 2 · frase grande centrada (3–10) ·
     3 · desplazado (5–11). En móvil, todo en columna. */
 const SPOTS = [
-  { col: "md:col-span-6", title: "t-title", mb: "mb-12 md:mb-16" },
-  { col: "md:col-span-6 md:col-start-7", title: "t-title", mb: "mb-12 md:mb-20" },
-  { col: "md:col-span-8 md:col-start-3", title: "t-statement", mb: "mb-14 md:mb-24" },
-  { col: "md:col-span-7 md:col-start-5", title: "t-title", mb: "mb-12 md:mb-20" },
+  { col: "md:col-span-6", title: "t-title", box: "md:max-w-[28rem]", mb: "mb-12 md:mb-16" },
+  { col: "md:col-span-6 md:col-start-7", title: "t-title", box: "md:max-w-[28rem]", mb: "mb-12 md:mb-20" },
+  { col: "md:col-span-8 md:col-start-3", title: "t-statement", box: "md:max-w-[32rem]", mb: "mb-14 md:mb-24" },
+  { col: "md:col-span-7 md:col-start-5", title: "t-title", box: "md:max-w-[28rem]", mb: "mb-12 md:mb-20" },
 ];
 
 function BlockText({ n, b }: { n: number; b: ResolvedGameBlock }) {
   const spot = SPOTS[(n - 1) % SPOTS.length];
   return (
     <div className={`${grid} ${spot.mb}`}>
+      {/* Titular y párrafo en la misma caja (2026-10-15): el titular ya no se abre más que el texto. */}
       <div className={`col-span-12 ${spot.col}`}>
-        <FadeIn>
-          <p className={`t-label text-[var(--case-muted)] ${mono}`}>{b.eyebrow}</p>
-        </FadeIn>
-        {b.title && (
-          <Lines as="h2" className={`mt-3 ${spot.title}`} delay={STAGGER}>
-            {b.title}
-          </Lines>
-        )}
-        {b.body && (
-          <FadeIn delay={2 * STAGGER} className="mt-6 max-w-[38ch]">
-            <p className="t-body text-[var(--case-muted)]">{b.body}</p>
+        <div className={spot.box}>
+          <FadeIn>
+            <p className={`t-label text-[var(--case-muted)] ${mono}`}>{b.eyebrow}</p>
           </FadeIn>
-        )}
+          {b.title && (
+            <Lines as="h2" className={`mt-3 ${spot.title}`} delay={STAGGER}>
+              {b.title}
+            </Lines>
+          )}
+          {b.body && (
+            <FadeIn delay={2 * STAGGER} className="mt-6">
+              <p className="t-body text-[var(--case-muted)]">{b.body}</p>
+            </FadeIn>
+          )}
+        </div>
       </div>
     </div>
   );
