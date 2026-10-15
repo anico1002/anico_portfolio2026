@@ -1,6 +1,6 @@
-{ "canvas": [2000, 1333], "out": [1920, 1280], "bg": "mockups-src/bg-ev5.jpg",
-  "black": 0, "vignette": 0, "top": 0, "xfade": 0.6, "crf": 24,
+{ "canvas": [2000, 1333], "out": [1920, 1280], "bg": "mockups-src/bg-pizarra-caquis-blur.jpg",
+  "black": 0.05, "vignette": 0.4, "top": 0, "xfade": 0.6, "crf": 24,
   "poster": "public/maqueta/elreto/media/flow-poster.jpg",
   "layers": [
-    { "scene": "mockups-src/im-wall-black", "view": "view-1", "video": "scripts/case-media/clips/elreto-flow.mp4",
-      "place": "1,0.5,center", "tint": 0, "body": 1, "wrap": 0, "refl": 0.5 } ] }
+    { "scene": "mockups-src/im-hand", "view": "view-1", "video": "scripts/case-media/clips/elreto-flow.mp4",
+      "place": "0.95,0.5,bottom", "tint": 0.35, "body": 0.8, "wrap": 0.6, "refl": 0.4 } ] }

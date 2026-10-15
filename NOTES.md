@@ -13,6 +13,11 @@
 - Comparador privado de 14 sans de autor: https://claude.ai/artifact/PmHETffoTSWVQ3U9kuwvDZ (fuentes de prueba en
   `fuentes-prueba/`, fuera de git y de Vercel). Efecto de Games elegido para seguir probando: mosaico suave.
 - **Siguiente:** feedback de Alberto sobre los casos de Marca y web (y Games) tras revisarlos.
+- **El Reto vertical (2026-10-15):** cabecera y miniatura = prototipo de la 2.ª edición (ProtoPie
+  8bc2585f…, grabado en alta con CDP screencast desde Chrome con ventana) en `im-darkrock`; apertura = recorrido
+  completo (`elreto_phone.mp4` de la web actual) en `im-hand` (iPhone naranja) sobre pizarra con caquis de
+  Unsplash (`mockups-src/bg-pizarra-caquis.jpg`, photo-1604872833696-8d393d32653d). Recetas `elreto-*.json`.
+  La pared negra es de 7News: no repetir escenas entre casos.
 - **Pendiente ACT:** movimiento en el portátil (ACT_11). Alberto tiene un prototipo en Figma y lo pasará.
 - **Marca y web, revisados (2026-10-15):** GM World! perfecto; Metacampus ok. **Por decidir (Alberto):** mantener
   estos proyectos o quitarlos y enseñar solo casos de éxito actuales. Si se mantienen, rediseñar miniaturas y
