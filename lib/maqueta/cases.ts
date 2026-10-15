@@ -54,6 +54,10 @@ export const CASES: CaseCopy[] = [
   {
     slug: "elreto-masterchef",
     section: "product",
+    // Miniatura y cabecera: el prototipo real en un móvil entre rocas negras (bucle corto,
+    // scripts/mockups/recetas/elreto-hero.json). La apertura con el recorrido completo va en games.ts.
+    thumb: "/maqueta/elreto/media/hero.mp4",
+    hero: "/maqueta/elreto/media/hero.mp4",
     name: "El Reto MasterChef",
     line: "La experiencia MasterChef llevada al móvil",
     year: "2025",

@@ -190,7 +190,7 @@ export default function GloopCase() {
       </section>
 
       <section className="mt-36 overflow-hidden md:mt-56">
-        <NextCase name="El Reto MasterChef" href="/maqueta/elreto-masterchef" thumb="/projects/elreto-masterchef/ElReto_thumb.png" />
+        <NextCase name="El Reto MasterChef" href="/maqueta/elreto-masterchef" thumb="/maqueta/elreto/media/hero.mp4" />
       </section>
       <SiteFooter />
     </main>

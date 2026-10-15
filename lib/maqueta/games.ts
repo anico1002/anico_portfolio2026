@@ -168,6 +168,46 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     },
   ],
 
+  /* ───────────── EL RETO (2026-10-15, de caso a medida a proyecto vertical) ─────────────
+     Abre con el recorrido completo del prototipo en un móvil apoyado en la pared de pizarra
+     (recetas/elreto-flow.json) y, pegado, el logo. Cortes donde cambia el apartado del manual; los
+     titulares que lleva la lámina («El Reto Brand Guidelines», «Brand Identity El Reto 2025»,
+     «App proposal») se recortan y los dice el texto. 9–10 y 11–12 van enlazadas: no se parten. */
+  "elreto-masterchef": [
+    { bleed: true, items: ["/maqueta/elreto/media/flow.mp4", "01/ElReto_1.png"] },
+    {
+      eyebrow: "Guía de marca",
+      title: "Una marca que convive con MasterChef.",
+      body: "Logos para la app y para la pantalla de televisión, colores y tipografías, listos para cualquier soporte.",
+      items: [{ src: "01/ElReto_2.png", crop: { top: 336 } }, "01/ElReto_3.png", "01/ElReto_4.png", "01/ElReto_5.png"],
+    },
+    {
+      eyebrow: "Identidad",
+      title: "Gamificación con control.",
+      body: "Un sistema competitivo y aspiracional, pensado para producirse rápido en la app y en las redes.",
+      items: [{ src: "02_Brand-Identity/ElReto_8.png", crop: { top: 400 } }],
+    },
+    {
+      eyebrow: "Atmósfera",
+      title: "Brillos de fondo y texturas de comida.",
+      bleed: true,
+      body: "Los brillos dan el aire premium de un videojuego y las texturas distinguen cada categoría de reto.",
+      items: ["02_Brand-Identity/ElReto_9.png", "02_Brand-Identity/ElReto_10.png"],
+    },
+    {
+      eyebrow: "Piezas",
+      title: "Fuerza sin ruido.",
+      body: "Carteles del concurso, iconos de línea y tarjetas que comparten un mismo lenguaje con la app.",
+      items: ["02_Brand-Identity/ElReto_11.png", "02_Brand-Identity/ElReto_12.png"],
+    },
+    {
+      eyebrow: "La app",
+      title: "Del registro al ranking.",
+      body: "Calendario de fases, retos con foto y vídeo, galería y clasificación en tiempo real.",
+      items: [{ src: "02_Brand-Identity/ElReto_13.png", crop: { top: 240 } }, "03_App-Design/ElReto_14.png"],
+    },
+  ],
+
   /* ───────────── MARCA Y WEB (2026-10-15) ───────────── */
 
   // Cortes: home (1–4, una sola página) · estudio (5–9, otra página) · vídeo · manual. Sin lámina

@@ -8,7 +8,9 @@ import { getCaseMedia, getGameBlocks, thumbOf } from "@/lib/maqueta/media";
    caso de éxito (CaseTemplate). Games y Marca y web: escaparate gráfico (GamesTemplate, lib/maqueta/games.ts). */
 
 // Casos con página propia (ruta fija, que manda sobre esta): no se generan aquí para no duplicar rutas.
-const BESPOKE = new Set(["swift-project", "interactius", "7news", "dovla", "elreto-masterchef"]);
+// El Reto pasó a proyecto vertical el 2026-10-15 (su página a medida queda en app/maqueta/_elreto-a-medida,
+// carpeta privada que Next no publica).
+const BESPOKE = new Set(["swift-project", "interactius", "7news", "dovla"]);
 
 export function generateStaticParams() {
   return CASES.filter((c) => !BESPOKE.has(c.slug)).map((c) => ({ slug: c.slug }));
