@@ -2,6 +2,32 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-15, MacBook)
+
+**Hecho hoy:**
+- **Proyectos verticales** (así los llama Alberto: Games + Marca y web, plantilla `GamesTemplate`): Obliq, ACT,
+  GM World! y Metacampus pasaron a láminas en vertical con texto solo en los cortes; titulares recortados de
+  las láminas cuando el texto ya los dice; textos alineados en grupo por **columnas de la rejilla** (titular
+  una columna más que el párrafo), sin números en los titulillos; cierre centrado sin titulillo.
+- **El Reto** pasó de caso a medida a proyecto vertical (la página a medida queda en `app/maqueta/_elreto-a-medida`).
+  Cabecera/miniatura = prototipo 2.ª edición en rocas negras; apertura = recorrido completo en mano (iPhone
+  naranja) sobre pizarra con caquis.
+- **Estudio de tipografía** y comparador privado: `docs/estudio-tipografia-2026-10-15.md`. **PP Neue Montreal
+  y el ácido, en prueba en toda la maqueta.**
+
+**Pendiente (próxima sesión):**
+1. Seguir el feedback de Alberto proyecto a proyecto (ha revisado Obliq, ACT, GM World!, Metacampus y El Reto).
+2. **El Reto:** decidir si cabecera y apertura usan el mismo prototipo o los dos distintos de ahora; opción de
+   regrabar el recorrido completo en alta desde ProtoPie (bc6dc134…).
+3. **ACT:** movimiento en el portátil con un prototipo de Figma que pasará Alberto.
+4. **Marca y web:** decidir si se quedan o se quitan; si se quedan, rediseñar miniaturas y cabeceras.
+5. **Tipografía:** decidir la sans (Neue Montreal en prueba; Haffer, Messina, Nohemi, Satoshi en la recámara)
+   y comprar licencia; decidir si el ácido se queda (y el peso a saltos con él).
+6. Repaso en inglés de cortes de línea y cajas de texto (al traducir).
+
+**Solo en el MacBook (fuera de git):** `public/fonts-licencia/` (Neue Montreal de prueba), `fuentes-prueba/`
+(zips y comparador local), `mockups-src/` (escenas y fondos) y `scripts/case-media/clips/`.
+
 ## ▶ TIPOGRAFÍA Y ÁCIDO EN PRUEBA (2026-10-15)
 
 - **PP Neue Montreal** en toda la maqueta, en prueba (Instrument Sans de respaldo). Versión oficial gratuita
