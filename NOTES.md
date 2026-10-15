@@ -2,6 +2,18 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ TIPOGRAFÍA Y ÁCIDO EN PRUEBA (2026-10-15)
+
+- **PP Neue Montreal** en toda la maqueta, en prueba (Instrument Sans de respaldo). Versión oficial gratuita
+  para uso personal de Pangram (OTF, sin Medium ni Bold): 300–400 → Regular, 500–700 → Semibold, 800+ →
+  Extrabold, medido para igualar el grosor de Instrument. Archivos en `public/fonts-licencia/` **fuera de git**
+  (el repo es público): en el otro Mac hay que copiarlos o se verá Instrument. Si se compra: Regular + Medium
+  + Bold (40 USD/estilo).
+- **Ácido** en las palabras clave de los titulares (`.kw`): degradado naranja → fucsia → morado → azul que fluye.
+- Comparador privado de 14 sans de autor: https://claude.ai/artifact/PmHETffoTSWVQ3U9kuwvDZ (fuentes de prueba en
+  `fuentes-prueba/`, fuera de git y de Vercel). Efecto de Games elegido para seguir probando: mosaico suave.
+- **Siguiente:** feedback de Alberto sobre los casos de Marca y web (y Games) tras revisarlos.
+
 ## ▶ MARCA Y WEB COMO GAMES (2026-10-15)
 
 Obliq, ACT, GM World! y Metacampus pasan a la plantilla de Games (`GamesTemplate`, bloques en
