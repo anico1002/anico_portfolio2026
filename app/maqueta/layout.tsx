@@ -12,7 +12,12 @@ import "./system.css";
 // destacadas de los titulares (`*palabras*` → `.kw`; desde el 2026-10-13, DM Serif Display). Antes era
 // Geist (elegida frente a Inter y Bricolage el 2026-10-11). Los titulillos también van en Instrument
 // Sans (`.t-tag`); Geist Mono se quitó. Nada de esto toca el resto del portfolio.
-const sans = Instrument_Sans({ variable: "--font-case-sans", subsets: ["latin"] });
+const sans = Instrument_Sans({ variable: "--font-instrument", subsets: ["latin"] });
+
+// Prueba de PP Neue Montreal (Pangram Pangram, 2026-10-15): pasa a ser la sans de toda la maqueta e
+// Instrument Sans queda de respaldo. El archivo vive en public/fonts-licencia/ (fuera de git: el repo
+// es público y la fuente no se puede redistribuir); si falta, la web sigue en Instrument Sans.
+// @font-face en system.css. Volver atrás = quitar "PP Neue Montreal" de --font-case-sans.
 
 
 // Cursiva de las palabras destacadas: DM Serif Display Italic (2026-10-13, elegida por Alberto entre las
@@ -30,6 +35,7 @@ export const metadata: Metadata = {
 // Fondo negro/blanco puros con selector sol/luna en el menú (2026-10-12; antes cada caso
 // tenía su color, y el negro era #0A0A0B). Los colores salen de estas variables; las páginas no fijan ninguno.
 const themes = `
+  #case-root { --font-case-sans: "PP Neue Montreal", var(--font-instrument), sans-serif; }
   #case-root, #case-root[data-case-theme="dark"] {
     --case-bg: #000000; --case-fg: #F4F4F5;
     --case-muted: rgba(244,244,245,0.56); --case-line: rgba(244,244,245,0.16); --case-ph: rgba(244,244,245,0.07);

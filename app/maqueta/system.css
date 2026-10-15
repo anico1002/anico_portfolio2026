@@ -1,3 +1,13 @@
+/* PP Neue Montreal en prueba (2026-10-15). Variable, peso 200–800. Archivo fuera de git
+   (public/fonts-licencia/); ver app/maqueta/layout.tsx. */
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: url("/fonts-licencia/PPNeueMontreal-Variable.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Sistema de la maqueta (bloque A de docs/revision-calidad-2026-10-12.md): escala fluida,
    escala tipográfica y tokens de movimiento en CSS. Solo afecta a páginas con #case-root:
    la web en producción no lo ve.

@@ -71,3 +71,6 @@ scripts/mockups/photoshop/run.jsx
 
 # Fuentes de prueba de fundiciones (licencia de evaluación: nunca al repo ni a la web)
 /fuentes-prueba/
+
+# Fuentes con licencia (o de prueba) para la web: el repo es público, nunca a git
+/public/fonts-licencia/
