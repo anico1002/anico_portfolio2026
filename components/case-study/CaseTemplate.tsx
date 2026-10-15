@@ -181,7 +181,7 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
     <>
       <FadeIn>
         <p className={`t-label text-[var(--case-muted)] ${mono}`}>
-          {String(n + 1).padStart(2, "0")} · {eyebrow}
+          {eyebrow}
         </p>
       </FadeIn>
       {title && (
@@ -204,7 +204,7 @@ function Chapter({ n, eyebrow, title, body, items }: { n: number; eyebrow: strin
           <div className={`col-span-12 md:col-span-7 ${flip ? "md:col-start-5" : "md:col-start-2"}`}>
             <FadeIn>
               <p className={`mb-4 t-label text-[var(--case-muted)] ${mono}`}>
-                {String(n + 1).padStart(2, "0")} · {eyebrow}
+                {eyebrow}
               </p>
             </FadeIn>
             {title && (

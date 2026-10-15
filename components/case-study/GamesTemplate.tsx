@@ -158,7 +158,7 @@ function BlockText({ n, b }: { n: number; b: ResolvedGameBlock }) {
   const eyebrow = (
     <FadeIn>
       <p className={`t-label text-[var(--case-muted)] ${mono}`}>
-        {String(n).padStart(2, "0")} · {b.eyebrow}
+        {b.eyebrow}
       </p>
     </FadeIn>
   );
