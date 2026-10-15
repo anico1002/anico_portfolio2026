@@ -68,3 +68,6 @@ coverage/
 /public/maqueta/7news/screens/
 /public/maqueta/7news/media/
 scripts/mockups/photoshop/run.jsx
+
+# Fuentes de prueba de fundiciones (licencia de evaluación: nunca al repo ni a la web)
+/fuentes-prueba/
