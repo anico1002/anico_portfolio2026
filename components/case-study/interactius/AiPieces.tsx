@@ -253,7 +253,7 @@ export function ManualPhone() {
         <p className="t-body text-[var(--case-muted)]">Y en el móvil, el mismo sistema: la retícula se recompone y la letra mantiene su escala.</p>
       </FadeIn>
       <Parallax speed={320} className="col-span-5 -mt-24 md:col-span-3 md:col-start-9 md:-mt-[22rem]">
-        <div className="mx-auto w-full max-w-[300px] rotate-[-12deg] drop-shadow-[0_40px_50px_rgba(28,26,23,0.35)]">
+        <div className="mx-auto w-full max-w-[300px] rotate-[14deg] drop-shadow-[0_40px_50px_rgba(28,26,23,0.35)]">
           <RealPhone src="/maqueta/interactius/media/manual-movil-screen.mp4" label="El manual de marca en el móvil" />
         </div>
       </Parallax>

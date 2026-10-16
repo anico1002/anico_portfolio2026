@@ -16,7 +16,9 @@
 - [x] Fuera los tres conceptos de icono (los SVG `concept-*.svg` quedan sin usar).
 - [x] Icono: fondo de escena en cristal oscuro (luces cálida y fría, placas con forma de esquirla) y la loseta del
       icono redibujada en cristal oscuro translúcido con el rayo encima (no es el icono final; luce más).
-- [x] Landing (2.ª vuelta): misma apertura de máscara, pero dentro un MacBook minimal en CSS con la web en
+- [x] Landing (3.ª vuelta): MacBook real — foto de Unsplash (photo-1625766763788, MacBook Air en la mano sobre gris)
+      en monocromo frío, con la web encajada por homografía (matrix3d de las 4 esquinas medidas). Datos a todo el ancho.
+- [x] Landing (2.ª vuelta, sustituida): misma apertura de máscara, pero dentro un MacBook minimal en CSS con la web en
       vídeo bajando y subiendo en bucle (`swift/LandingMac.tsx`, `landing/scroll.mp4`, 2 MB). El scroll del caso
       ya no se para. Los datos (14 idiomas, telemetría, 2,49 GB) van justo debajo. `WebScroll.tsx` queda sin usar.
 - [ ] **Quizá de Alberto:** alguna imagen más técnica del diseño del logo (iría antes del icono).
@@ -31,6 +33,7 @@
       monocromo cálido de la marca para que solo la pantalla tenga color, con el recorrido del manual encima en
       CSS (`scene-mac.jpg`). Debajo, la versión móvil: el manual grabado a 393 px en el iPhone recortado de
       `im-transparent` (view-1) sobre el cálido de la marca (receta `ix-movil.json`, fondo `mockups-src/bg-ix-warm.jpg`).
+- [x] Móvil del manual volcado a la derecha (14°), como en Gloop.
 - [x] «Para máquinas»: los seis títulos en mono y pequeños (Interactius no usa la mono en grande).
 - [x] Capítulo «Preparada para IA»: prompt técnico de imagen con sus dos variantes y el clic de copiar junto a
       las fotos de referencia (no se presentan como generadas), el tono como prompt + validador, la capa para

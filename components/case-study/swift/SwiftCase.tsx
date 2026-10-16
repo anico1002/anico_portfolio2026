@@ -149,7 +149,7 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
             ["Cero telemetría", "Ni cuenta, ni claves, ni un solo dato enviado. Comprobado sobre el binario."],
             ["2,49 GB", "La IA se instala con un toque y se borra con un clic, devolviendo el espacio."],
           ].map(([t, d], k) => (
-            <FadeIn key={t} delay={k * STAGGER} className={`col-span-12 border-t border-[var(--case-line)] pt-5 md:col-span-3 ${k === 0 ? "md:col-start-2" : ""} ${k === 1 ? "md:col-start-6" : ""} ${k === 2 ? "md:col-start-10" : ""}`}>
+            <FadeIn key={t} delay={k * STAGGER} className="col-span-12 border-t border-[var(--case-line)] pt-5 md:col-span-4">
               <p className="t-title">{t}</p>
               <p className="mt-3 t-small text-[var(--case-muted)]">{d}</p>
             </FadeIn>
