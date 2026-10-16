@@ -7,11 +7,11 @@ import SiteNav from "@/components/case-study/SiteNav";
 import Lines from "@/components/case-study/Lines";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import {
+  BandMedia,
   CaseHero,
   CaseHeroOverlay,
   Eyebrow,
   FadeIn,
-  Placeholder,
 } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import ShortcutDemo from "./ShortcutDemo";
@@ -45,7 +45,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
 
       <CaseHero
         videoReady
-        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/swift/thumb.mp4" label="SwifT Translator" />}
+        poster={<BandMedia desktop="/maqueta/swift/duo-band.mp4" mobile="/maqueta/swift/duo-thumb.mp4" label="SwifT Translator" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="SwifT Translator"
@@ -59,7 +59,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
           />
         )}
       >
-        <Placeholder ratio="auto" className="h-full" src="/maqueta/swift/thumb.mp4" label="SwifT Translator" />
+        <BandMedia desktop="/maqueta/swift/duo-band.mp4" mobile="/maqueta/swift/duo-thumb.mp4" label="SwifT Translator" />
       </CaseHero>
 
       {/* Intro */}

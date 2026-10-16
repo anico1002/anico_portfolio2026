@@ -6,7 +6,7 @@ export const SLIDES = {
   // miniatura entra aquí; necesita su póster al lado (`x.mp4` → `x-poster.jpg`, SlideMedia.tsx).
   product: [
     "/maqueta/gloop/media/hero-mock.mp4",
-    "/maqueta/swift/thumb.mp4",
+    "/maqueta/swift/duo-thumb.mp4",
     "/maqueta/7news/media/hero.mp4",
   ],
   games: [

@@ -38,14 +38,15 @@ export type P = { name: string; line: string; type: string; year: string; thumb?
 // Ritmo de Yakushev (2026-10-12): mucho aire entre proyectos, casi uno por pantalla.
 // Solo a veces coinciden dos, y entonces uno es pequeño y se mueve mucho más rápido con
 // el scroll (slots 2 + 3 comparten fila). Se repite cada 6 proyectos.
+// Todo lo que toca un lado de la rejilla llega al borde de la pantalla (2026-10-17); solo los centrados quedan dentro.
 const layout: { col: string; ratio: string; offset: string; speed: number; bleed?: "left" | "right" }[] = [
-  { col: "md:col-start-1 md:col-span-8", ratio: "4/3", offset: "md:mt-[40vh]", speed: 60 },
+  { col: "md:col-start-1 md:col-span-8", ratio: "4/3", offset: "md:mt-[40vh]", speed: 60, bleed: "left" },
   // A sangre por la derecha: la imagen llega al borde de la pantalla.
   { col: "md:col-start-5 md:col-span-8", ratio: "16/10", offset: "md:mt-[40vh]", speed: 80, bleed: "right" },
   // Pareja: la pequeña y rápida a la izquierda…
-  { col: "md:col-start-1 md:col-span-3", ratio: "3/4", offset: "md:mt-[55vh]", speed: 300 },
+  { col: "md:col-start-1 md:col-span-3", ratio: "3/4", offset: "md:mt-[55vh]", speed: 300, bleed: "left" },
   // …y la grande y lenta a la derecha, en la misma fila.
-  { col: "md:col-start-6 md:col-span-7", ratio: "1/1", offset: "md:mt-[30vh]", speed: 60 },
+  { col: "md:col-start-6 md:col-span-7", ratio: "1/1", offset: "md:mt-[30vh]", speed: 60, bleed: "right" },
   { col: "md:col-start-3 md:col-span-8", ratio: "16/10", offset: "md:mt-[40vh]", speed: 50 },
   // A sangre por la izquierda.
   { col: "md:col-start-1 md:col-span-7", ratio: "4/3", offset: "md:mt-[40vh]", speed: 90, bleed: "left" },

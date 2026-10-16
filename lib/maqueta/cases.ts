@@ -106,10 +106,10 @@ const ALL_CASES: CaseCopy[] = [
     slug: "swift-project",
     section: "product",
     // Mockups en movimiento (motion/swift-hero → motion/mockup.py sobre las fotos de concepto).
-    thumb: "/maqueta/swift/thumb.mp4",
+    thumb: "/maqueta/swift/duo-thumb.mp4", // 2026-10-17: el iPhone Duo (la anterior, en thumb.mp4)
     // Cabecera = la misma miniatura que crece desde la home (sin cambio de plano); el vídeo
     // horizontal del portátil se ve entero en el momento grande tras la intro.
-    hero: "/maqueta/swift/thumb.mp4",
+    hero: "/maqueta/swift/duo-thumb.mp4",
     feature: "/maqueta/swift/hero.mp4",
     name: "SwifT Translator",
     line: "Instant translation from the macOS menu bar",

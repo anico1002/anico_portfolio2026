@@ -11,7 +11,7 @@ import { STAGGER } from "@/lib/maqueta/motion";
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 
-const DOING = ["Product design", "Game UI/UX", "Brand art direction", "Interactive prototyping", "AI-native apps", "Web3 & VR", "Illustration"];
+const DOING = ["Product design", "Game UI/UX", "Brand art direction", "Interactive prototyping", "AI-native apps", "Web3 & VR"];
 
 export default function AboutBlock({ years }: { years: number }) {
   return (
