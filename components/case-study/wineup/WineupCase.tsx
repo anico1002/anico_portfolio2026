@@ -6,8 +6,10 @@ import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import Lines from "@/components/case-study/Lines";
 import LazyVideo from "@/components/case-study/LazyVideo";
-import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Parallax } from "@/components/case-study/primitives";
-import { STAGGER } from "@/lib/maqueta/motion";
+import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Parallax } from "@/components/case-study/primitives";
+import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useRef, useState } from "react";
 
 /* Caso de WineUp, a medida (2026-10-16). Contexto de Alberto: una app para amantes del vino, una red social donde se
    unen, conectan y comparten; dos perfiles desde el principio (WineLover y WineExpert), cada uno con su onboarding (el
@@ -24,26 +26,6 @@ const M = "/maqueta/wineup/media";
 /** Colores de la app (del prototipo): el ácido de la marca, el violeta del experto y un fondo de bodega. */
 const W = { lime: "#CDE84F", violet: "#6A1FD0", cellar: "#160C10" };
 
-function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {
-  return (
-    <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
-      <div className="col-span-12 md:col-span-6">
-        <FadeIn>
-          <p className="t-label t-tag text-[var(--case-muted)]">{eyebrow}</p>
-        </FadeIn>
-        <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
-          {title}
-        </Lines>
-      </div>
-      {body && (
-        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8">
-          <p className="t-body text-[var(--case-muted)]">{body}</p>
-        </FadeIn>
-      )}
-    </div>
-  );
-}
-
 /** iPhone frontal real (marco del PSD de iPhone 18 Pro, el mismo de Gloop) con un vídeo del prototipo dentro. La
     pantalla ocupa el 91,74 % × 96,66 % del marco, desde el 4,10 % / 1,69 %. */
 function Phone({ src, label, className = "" }: { src: string; label: string; className?: string }) {
@@ -58,35 +40,97 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
   );
 }
 
-/** Banda a sangre con uno, dos o tres móviles frontales; el del medio (o el segundo) sube con parallax. */
-function Stage({ phones, bg = W.cellar }: { phones: { src: string; label: string }[]; bg?: string }) {
-  const n = phones.length;
-  return (
-    <div className="m-bleed overflow-hidden px-6 py-16 md:px-12 md:py-28" style={{ background: bg }}>
-      <div className={`mx-auto flex items-center justify-center gap-5 md:gap-14 ${n === 1 ? "max-w-[15rem] md:max-w-[22rem]" : n === 2 ? "max-w-[44rem]" : "max-w-[64rem]"}`}>
-        {phones.map((p, k) => (
-          <Parallax key={p.src} speed={n > 1 && k % 2 === 1 ? 140 : 40} className="w-full max-w-[20rem] flex-1">
-            <FadeIn delay={k * STAGGER}>
-              <Phone src={p.src} label={p.label} />
-            </FadeIn>
-          </Parallax>
-        ))}
+/** Apartado en dos mitades que se alternan (feedback 2026-10-17): a un lado, un solo móvil con el clip de lo que se
+    cuenta, sobre un fondo a sangre hasta el borde (color de la app o foto); al otro, titulillo, titular y párrafo
+    juntos a la izquierda, metidos una columna hacia dentro para que no vayan pegados al borde. En móvil, el texto
+    primero y la imagen debajo, a todo el ancho. */
+function Feature({
+  side,
+  eyebrow,
+  title,
+  body,
+  clip,
+  label,
+  bg,
+  photo,
+  steps,
+}: {
+  side: "left" | "right";
+  eyebrow: string;
+  title: string;
+  body: string;
+  clip: string;
+  label: string;
+  bg?: string;
+  photo?: string;
+  /** Puntos que aparecen uno a uno bajo el párrafo mientras el apartado se queda fijo con el scroll. */
+  steps?: [string, string][];
+}) {
+  const right = side === "right";
+  const pin = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: pin, offset: ["start start", "end end"] });
+  const [shown, setShown] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => steps && setShown(Math.min(steps.length, Math.floor(v * (steps.length + 0.6)))));
+  const content = (
+      <div className={`${grid} items-center gap-y-12 ${steps ? "md:h-full" : ""}`}>
+        <div className={`col-span-12 md:col-span-4 md:row-start-1 ${right ? "md:col-start-2" : "md:col-start-8"}`}>
+          <FadeIn>
+            <Eyebrow>{eyebrow}</Eyebrow>
+          </FadeIn>
+          <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
+            {title}
+          </Lines>
+          <FadeIn delay={2 * STAGGER} className="mt-6">
+            <p className="t-body text-[var(--case-muted)]">{body}</p>
+          </FadeIn>
+          {steps && (
+            <div className="mt-10 space-y-6 md:mt-12">
+              {steps.map(([t, d], k) => (
+                <motion.div
+                  key={t}
+                  className="border-t border-[var(--case-line)] pt-4"
+                  initial={false}
+                  animate={k < shown ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+                  transition={{ duration: DUR.base, ease: EASE.out }}
+                >
+                  <p className="t-title">{t}</p>
+                  <p className="mt-2 t-small text-[var(--case-muted)]">{d}</p>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className={`col-span-12 -mx-4 md:row-start-1 md:col-span-6 md:mx-0 ${right ? "md:col-start-7 md:-mr-6" : "md:col-start-1 md:-ml-6"}`}>
+          {/* Tres capas a distinta velocidad (feedback 2026-10-17): el fondo, más bajo que el móvil, entra con la máscara y
+              va lento; la foto se mueve dentro de él (parallax interno de MaskReveal); el móvil, por encima y sin
+              máscara, sobresale arriba y abajo y va más rápido. */}
+          <div className="relative flex aspect-[4/5] items-center justify-center md:aspect-auto md:h-[min(92vh,60rem)]">
+            <MaskReveal from={right ? "right" : "left"} speed={50} className="absolute inset-x-0 top-[12%]">
+              <div className="relative aspect-[100/95] w-full md:aspect-auto md:h-[min(70vh,45.6rem)]" style={{ background: bg ?? W.cellar }}>
+                {photo && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                )}
+              </div>
+            </MaskReveal>
+            <Parallax speed={220} className="relative z-10 aspect-[805/1661] h-[90%]">
+              <FadeIn delay={STAGGER} className="h-full w-full">
+                <Phone src={clip} label={label} />
+              </FadeIn>
+            </Parallax>
+          </div>
+        </div>
       </div>
-    </div>
   );
-}
-
-/** Notas de diseño en pequeño, a lo ancho, debajo de una banda. */
-function Notes({ items }: { items: [string, string][] }) {
+  // Con pasos, el apartado mide tres pantallas y su contenido se queda fijo (sticky) mientras aparecen los puntos; en
+  // móvil no se fija y los puntos salen según se baja. Sin pasos, el mismo contenedor sin alto extra (el ref de
+  // useScroll tiene que existir siempre).
   return (
-    <div className={`${grid} mt-12 gap-y-8 md:mt-16`}>
-      {items.map(([t, d], k) => (
-        <FadeIn key={t} delay={k * STAGGER} className={`col-span-12 border-t border-[var(--case-line)] pt-5 ${items.length === 3 ? "md:col-span-4" : "md:col-span-3"}`}>
-          <p className="t-title">{t}</p>
-          <p className="mt-3 t-small text-[var(--case-muted)]">{d}</p>
-        </FadeIn>
-      ))}
-    </div>
+    <section className={section}>
+      <div ref={pin} className={steps ? "md:h-[300vh]" : ""}>
+        <div className={steps ? "md:sticky md:top-0 md:flex md:h-[100svh] md:items-center" : ""}>{content}</div>
+      </div>
+    </section>
   );
 }
 
@@ -135,88 +179,55 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           </div>
         </section>
 
-        {/* Dos perfiles */}
-        <section className={section}>
-          <Head
-            eyebrow="Dos perfiles"
-            title="Quien disfruta del vino y quien sabe de vino."
-            body="La app empieza preguntando quién eres. WineLover y WineExpert tienen cada uno su onboarding, y el experto se reconoce en toda la app por su cabecera violeta."
-          />
-          <Stage
-            phones={[
-              { src: "splash", label: "Splash de WineUp" },
-              { src: "onboarding", label: "Onboarding de WineLover" },
-            ]}
-          />
-        </section>
-
-        {/* La home */}
-        <section className={section}>
-          <Head
-            eyebrow="La home"
-            title="Todo lo importante, en un solo vistazo."
-            body="La pantalla que más vueltas tuvo. Arriba, lo que más se usa; debajo, lo último que has probado; al final, las dos puertas a la comunidad."
-          />
-          <Stage phones={[{ src: "home", label: "Home de WineUp" }]} bg={W.lime} />
-          <Notes
-            items={[
-              ["Escáner", "La etiqueta como puerta de entrada: se escanea y la botella cuenta todo lo que sabe."],
-              ["Scans recientes", "Lo último que has probado, con tu nota y la de la comunidad, a un dedo."],
-              ["Eventos y catas", "Quedar con otros cerca de ti o catar desde casa: la comunidad, a la vista."],
-            ]}
-          />
-        </section>
-
-        {/* Explorar */}
-        <section className={section}>
-          <Head
-            eyebrow="Explorar"
-            title="Vinos, bodegas y gente que sabe."
-            body="Expertos y amantes a los que seguir, el feed de lo que comparte la comunidad y un mapa con las bodegas y los eventos que tienes cerca."
-          />
-          <Stage
-            phones={[
-              { src: "explore", label: "Explorar: descubre y feed" },
-              { src: "mapa", label: "Explorar: el mapa" },
-            ]}
-          />
-        </section>
-
-        {/* La ficha del vino */}
-        <section className={section}>
-          <Head
-            eyebrow="Catas virtuales"
-            title="La botella gira y empieza la cata."
-            body="Cada vino tiene su ficha: región, uva, crianza, valoraciones y reseñas de la comunidad. Y una botella que gira al abrirla, el detalle que la hace sentir como sacarla de la estantería."
-          />
-          <Stage phones={[{ src: "vino", label: "Ficha del vino con la botella girando" }]} bg="#3A0F1E" />
-        </section>
-
-        {/* Perfil y experto */}
-        <section className={section}>
-          <Head
-            eyebrow="Perfil"
-            title="Tu cava, tus logros y tu gente."
-            body="Lo que has probado, lo que quieres probar y tus listas. En estadísticas, el nivel, las rachas y los logros. El perfil del experto suma su feed de contenidos, en violeta."
-          />
-          <Stage
-            phones={[
-              { src: "perfil", label: "Perfil de WineLover" },
-              { src: "expert", label: "Perfil de WineExpert con su feed" },
-            ]}
-            bg={W.violet}
-          />
-        </section>
-
-        {/* Aprender jugando */}
-        <section className={section}>
-          <Head
-            eyebrow="Aprender jugando"
-            title="Saber más de vino, sin que parezca una clase."
-            body="Retos y trivias por temas, de la introducción a las denominaciones de origen, con su progreso. Lo que aprendes suma en tu perfil."
-          />
-          <Stage phones={[{ src: "trivias", label: "Trivias" }]} />
-        </section>
+        <Feature
+          side="right"
+          eyebrow="Dos perfiles"
+          title="Quien disfruta del vino y quien sabe de vino."
+          body="La app empieza preguntando quién eres. WineLover y WineExpert tienen cada uno su onboarding, y el experto se reconoce en toda la app por su cabecera violeta."
+          clip="perfiles"
+          label="Splash, elección de perfil y onboarding de WineLover"
+          photo={`${M}/bg-vinas.jpg`}
+        />
+        <Feature
+          side="left"
+          eyebrow="La home"
+          title="Todo lo importante, en un solo vistazo."
+          body="La pantalla que más vueltas tuvo. Arriba, lo que más se usa; debajo, lo último que has probado; al final, las dos puertas a la comunidad."
+          clip="home"
+          label="Home de WineUp"
+          bg={W.lime}
+          steps={[
+            ["Escáner", "La etiqueta como puerta de entrada: se escanea y la botella cuenta todo lo que sabe."],
+            ["Scans recientes", "Lo último que has probado, con tu nota y la de la comunidad, a un dedo."],
+            ["Eventos y catas", "Quedar con otros cerca de ti o catar desde casa: la comunidad, a la vista."],
+          ]}
+        />
+        <Feature
+          side="right"
+          eyebrow="Explorar"
+          title="Vinos, bodegas y gente que sabe."
+          body="Expertos y amantes a los que seguir, el feed de lo que comparte la comunidad y un mapa con las bodegas y los eventos que tienes cerca."
+          clip="explorar"
+          label="Explorar: descubre, feed y mapa"
+          photo={`${M}/bg-bar.jpg`}
+        />
+        <Feature
+          side="left"
+          eyebrow="Perfil"
+          title="Tu cava, tus logros y tu gente."
+          body="Lo que has probado, lo que quieres probar y tus listas. En estadísticas, el nivel, las rachas y los logros. El perfil del experto suma su feed de contenidos, en violeta."
+          clip="cava"
+          label="Perfil de WineLover y de WineExpert"
+          bg={W.violet}
+        />
+        <Feature
+          side="right"
+          eyebrow="Aprender jugando"
+          title="Saber más de vino, sin que parezca una clase."
+          body="Retos y trivias por temas, de la introducción a las denominaciones de origen, con su progreso. Lo que aprendes suma en tu perfil."
+          clip="trivias"
+          label="Trivias"
+        />
 
         <CaseClosing className={section} title="Una app para descubrir el vino con los que más saben y con los tuyos." />
       </CaseLayer>
