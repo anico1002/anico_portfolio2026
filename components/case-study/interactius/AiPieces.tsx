@@ -314,8 +314,8 @@ export function DeckWindow({ children }: { children: React.ReactNode }) {
         </div>
       </div>
       <div className="p-3 md:p-6">{children}</div>
-      {/* Texto nuestro, no de la herramienta: con la tipografía de la web, no con la mono de la ventana. */}
-      <p className="px-4 pb-4 font-[family-name:var(--font-case-sans)] t-label t-tag md:px-6 md:pb-6" style={{ color: IX.ash }}>
+      {/* Pie nuestro, no de la herramienta: estilo de pie de la web (t-small, como Caption), no la mono de la ventana. */}
+      <p className="px-4 pb-4 font-[family-name:var(--font-case-sans)] t-small md:px-6 md:pb-6" style={{ color: IX.ash }}>
         17 composiciones · tono auditado en vivo · exporta a PDF o a una URL
       </p>
     </div>
