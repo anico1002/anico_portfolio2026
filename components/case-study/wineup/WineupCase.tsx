@@ -104,7 +104,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
               delay={t}
               facts={[
                 ["Para", "WineUp"],
-                ["Rol", "UX/UI"],
+                ["Rol", "UX/UI Designer"],
                 ["Qué hice", "Arquitectura · UX/UI · Prototipo"],
                 ["Año", "2025"],
               ]}
@@ -129,7 +129,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
               <p className="t-body text-[var(--case-muted)]">
                 WineUp quiere ser el sitio donde se encuentran los amantes del vino: para descubrir botellas, conocer a
                 otros y compartir lo que beben. Con la marca ya definida, el trabajo fue la experiencia y la interfaz de
-                la app, y sobre todo cómo se ordena la home.
+                la app.
               </p>
             </FadeIn>
           </div>

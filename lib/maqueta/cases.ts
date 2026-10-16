@@ -197,7 +197,7 @@ export const CASES: CaseCopy[] = [
     name: "WineUp",
     line: "La comunidad de los amantes del vino",
     year: "2025",
-    role: "UX/UI",
+    role: "UX/UI Designer",
     services: ["App", "UX/UI", "Prototipo"],
     accent: "#CDE84F",
     tagline: "La comunidad de los amantes del vino.",
