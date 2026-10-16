@@ -545,3 +545,23 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
     </div>
   );
 }
+
+/** Medio de cabecera pensado para la franja (2026-10-16). Tras la apertura, CaseHero solo deja ver el 56 % de
+    arriba: en escritorio va un vídeo compuesto con el dispositivo entero en esa franja (scripts/mockups/hero_band.py);
+    en móvil, la miniatura 16:10 ocupando solo la franja, donde el dispositivo cabe a lo ancho. */
+export function BandMedia({ desktop, mobile, label, zoom = 1.3 }: { desktop: string; mobile: string; label: string; zoom?: number }) {
+  return (
+    <div className="relative h-full w-full bg-[var(--case-ph)]">
+      <div className="hidden h-full md:block">
+        <Placeholder ratio="auto" className="h-full" src={desktop} label={label} />
+      </div>
+      {/* En móvil la miniatura no se recorta a lo alto: se escala para que el dispositivo quepa a lo ancho
+          (`zoom` = ancho del vídeo / ancho de pantalla) y se centra en la franja. */}
+      <div className="absolute inset-x-0 top-0 h-[56%] overflow-hidden md:hidden">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: `${zoom * 100}%` }}>
+          <Placeholder ratio="16/10" src={mobile} label={label} />
+        </div>
+      </div>
+    </div>
+  );
+}

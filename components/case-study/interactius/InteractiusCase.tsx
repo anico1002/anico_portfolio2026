@@ -5,7 +5,7 @@ import type { MoreCases } from "@/lib/maqueta/media";
 import SiteNav from "@/components/case-study/SiteNav";
 import Lines from "@/components/case-study/Lines";
 import CaseClosing from "@/components/case-study/CaseClosing";
-import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Placeholder } from "@/components/case-study/primitives";
+import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import { MarkdownToSlide } from "./DeckDemos";
 import { TokenSync, ToneCheck } from "./BrandDemos";
@@ -56,7 +56,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
 
       <CaseHero
         videoReady
-        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/interactius/thumb.mp4" label="Interactius" />}
+        poster={<BandMedia desktop="/maqueta/interactius/hero-band.mp4" mobile="/maqueta/interactius/thumb.mp4" label="Interactius" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="Interactius"
@@ -70,7 +70,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
           />
         )}
       >
-        <Placeholder ratio="auto" className="h-full" src="/maqueta/interactius/thumb.mp4" label="Interactius" />
+        <BandMedia desktop="/maqueta/interactius/hero-band.mp4" mobile="/maqueta/interactius/thumb.mp4" label="Interactius" />
       </CaseHero>
 
       {/* Intro */}

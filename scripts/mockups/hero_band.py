@@ -24,12 +24,14 @@ wx0 = (x0 + x1) / 2 - W / 2; wy0 = y0 - A.top * H
 OW, OH = 1600, 1000; k = OW / W
 # Escena llevada al lienzo de salida + máscara de dónde hay foto (para fundir el borde con el color de fondo).
 M = np.float32([[k, 0, -wx0 * k], [0, k, -wy0 * k]])
-scene = cv2.warpAffine(S, M, (OW, OH), flags=cv2.INTER_AREA, borderMode=cv2.BORDER_CONSTANT, borderValue=bg.tolist())
+# Fuera de la foto: la foto prolongada (bordes estirados) y muy desenfocada, para que no se note el corte.
+scene = cv2.warpAffine(S, M, (OW, OH), flags=cv2.INTER_AREA, borderMode=cv2.BORDER_REPLICATE)
+ext = cv2.GaussianBlur(scene, (0, 0), 30)
 inside = cv2.warpAffine(np.ones((SH, SW), np.float32), M, (OW, OH), borderValue=0)
 f = max(1, int(A.feather * k)); inside = cv2.blur(cv2.erode(inside, np.ones((f, f))), (2 * f + 1, 2 * f + 1))[..., None]
-base = scene * inside + bg * (1 - inside)
+base = scene * inside + ext * (1 - inside)
 src = np.float32([[0, 0], [1440, 0], [1440, 900], [0, 900]])
-Hm = cv2.getPerspectiveTransform(src, (q - [wx0, wy0]) * k)
+Hm = cv2.getPerspectiveTransform(src, ((q - [wx0, wy0]) * k).astype(np.float32))
 scr = cv2.warpPerspective(np.ones((900, 1440), np.float32), Hm, (OW, OH))[..., None]
 p = subprocess.Popen([FF, "-loglevel", "error", "-i", A.video, "-vf", "scale=1440:900", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"], stdout=subprocess.PIPE)
 o = subprocess.Popen([FF, "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{OW}x{OH}", "-r", "30", "-i", "-",

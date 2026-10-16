@@ -12,6 +12,12 @@ descubre debajo, pegado abajo (sticky), un carrusel lateral con todos los proyec
 siguiente y «Ver todos» (`CaseEnd.tsx`, lista en `moreCases()` de `lib/maqueta/media.ts`); después «¿Hablamos?» y pie.
 Sustituye a `NextCase` en los 8 casos. Gloop pasa a `components/case-study/gloop/GloopCase.tsx`.
 Miniatura y cabecera de Interactius = el manual en el MacBook real (`interactius/thumb.mp4`).
+**Más del 2026-10-16:** final de casos en UNA pantalla (carrusel arrastrable + «¿Hablamos?» + pie; el «¿Hablamos?» se
+anima cada vez). Home de Product por fecha (`productInOrder()` en cases.ts, también para el carrusel). SwifT: MacBook
+frontal sobre mármol (opción B) + landing en el iPhone plegable de Pixeden (PSD en `mockups-src/iphone-duo`, Photoshop
+por script `scripts/mockups/photoshop/duo*.jsx`, vídeo `scripts/mockups/duo_video.py`); miniatura = la del portátil
+sobre piedra (Alberto la prefiere). Interactius: logotipo ampliado (macrón animado + versiones) y cabecera en franja
+(`BandMedia`, `scripts/mockups/hero_band.py`: el dispositivo entero en el 56 % de arriba que deja ver CaseHero).
 `WebScroll.tsx` (web a toda página fija dentro de la máscara) queda sin usar, por si sirve en otra landing.
 
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-15, MacBook)
