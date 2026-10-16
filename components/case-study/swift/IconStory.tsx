@@ -1,6 +1,6 @@
 "use client";
 
-import { FadeIn, Parallax } from "@/components/case-study/primitives";
+import { Parallax } from "@/components/case-study/primitives";
 
 /* El icono de SwifT sobre un fondo de cristal oscuro, para que se lea su acabado (Icon Composer). Feedback
    2026-10-16: fuera los tres conceptos descartados, y el fondo lo dibujamos nosotros en glass oscuro. Detrás,
@@ -23,6 +23,49 @@ function Shard({ id, className }: { id: keyof typeof SHARDS; className: string }
         background: "linear-gradient(150deg, rgba(255,255,255,0.16), rgba(255,255,255,0.03) 60%)",
       }}
     />
+  );
+}
+
+/** El icono como app icon de cristal oscuro, dibujado (2026-10-16, Alberto: «un simulado de glass oscuro y
+    encima el imago de los rayos»; no es exactamente el icono final, pero luce más). Loseta tipo squircle con
+    desenfoque de lo que hay detrás, borde de luz en degradado, brillo arriba y las dos esquirlas en cristal claro. */
+function GlassIcon() {
+  return (
+    <div className="relative aspect-square w-[15rem] md:w-[22rem]">
+      {/* Loseta */}
+      <div
+        className="glass-ios h-full w-full overflow-hidden rounded-[22.5%] backdrop-blur-[28px]"
+        style={{
+          background: "linear-gradient(160deg, rgba(70,62,92,0.42) 0%, rgba(24,21,34,0.58) 55%, rgba(10,9,14,0.72) 100%)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.25), inset 0 -18px 40px rgba(0,0,0,0.45), 0 30px 60px -20px rgba(0,0,0,0.7)",
+        }}
+      >
+        {/* Brillo superior, como el reflejo de una luz de estudio */}
+        <div className="absolute inset-x-[-10%] top-[-35%] h-[70%] rounded-[50%] bg-gradient-to-b from-white/18 to-transparent" />
+        {/* Las dos esquirlas, en cristal claro con canto de luz */}
+        <svg viewBox="-60 -60 349 349" className="absolute inset-[14%] h-[72%] w-[72%]" aria-hidden>
+          <defs>
+            <linearGradient id="swift-ico-a" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="1" stopColor="#c9c4d6" />
+            </linearGradient>
+            <linearGradient id="swift-ico-b" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#f3f1f8" />
+              <stop offset="1" stopColor="#9d97ae" />
+            </linearGradient>
+            <filter id="swift-ico-glow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="10" />
+            </filter>
+          </defs>
+          <g opacity="0.6" filter="url(#swift-ico-glow)">
+            <path d={SHARDS.a} fill="#ff9a7a" />
+            <path d={SHARDS.b} fill="#8f6bff" />
+          </g>
+          <path d={SHARDS.a} fill="url(#swift-ico-a)" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" />
+          <path d={SHARDS.b} fill="url(#swift-ico-b)" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" />
+        </svg>
+      </div>
+    </div>
   );
 }
 
@@ -56,10 +99,7 @@ export default function IconStory({ bg }: { bg?: string }) {
         </>
       )}
       <Parallax speed={90} className="relative">
-        <FadeIn>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/maqueta/swift/brand/app-icon-glass@2x.png" alt="Icono de SwifT" className="w-[15rem] md:w-[24rem]" />
-        </FadeIn>
+        <GlassIcon />
       </Parallax>
     </div>
   );
