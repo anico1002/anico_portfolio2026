@@ -93,7 +93,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
             <p className="t-body text-[var(--case-muted)]">
               Traducir en el Mac obligaba a cambiar de app, abrir pestañas y copiar y pegar. SwifT vive en la barra de
               menús: seleccionas, pulsas un atajo y la traducción aparece encima, sin cuenta, sin claves y sin
-              configurar nada. Diseño, desarrollo, icono y landing.
+              configurar nada.
             </p>
           </FadeIn>
         </div>
