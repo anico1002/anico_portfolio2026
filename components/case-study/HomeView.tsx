@@ -109,6 +109,14 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
                 className="pointer-events-none absolute inset-0"
                 style={{ background: "linear-gradient(to bottom, rgba(0,0,0,.35), transparent 22%, transparent 62%, rgba(0,0,0,.5))" }}
               />
+              {/* Esquina de abajo a la izquierda, donde va el nombre (2026-10-17): en las miniaturas claras (SwifT, en
+                  blanco) el texto blanco no se leía. En todas, para no tener que marcar cuáles son claras: en las
+                  oscuras apenas se nota. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{ background: "radial-gradient(ellipse 75% 60% at 0% 100%, rgba(0,0,0,.6), rgba(0,0,0,.25) 50%, transparent 80%)" }}
+              />
               {/* Y al pasar por encima el pie se oscurece un poco más, para que el texto respire. */}
               <div
                 aria-hidden
@@ -121,7 +129,7 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
           )}
         </MaskReveal>
         <div
-          className={`pointer-events-none absolute inset-0 flex flex-col justify-between p-4 md:p-6 ${onImage ? "text-white" : "text-[var(--case-fg)]"}`}
+          className={`pointer-events-none absolute inset-0 flex flex-col justify-between p-4 md:p-6 ${onImage ? "text-white [text-shadow:0_1px_14px_rgba(0,0,0,.45)]" : "text-[var(--case-fg)]"}`}
         >
           <FadeIn delay={0.3} margin="0px">
             {p.year && <p className={`t-label ${mono} ${onImage ? "opacity-80" : "text-[var(--case-muted)]"}`}>{p.year}</p>}

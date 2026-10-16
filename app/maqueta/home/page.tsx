@@ -36,7 +36,9 @@ export default function ProductHome() {
     <HomeView
       active="product"
       slides={SLIDES.product}
-      title="I design *digital products* from first idea to native code."
+      // «from first idea to native code» va unido con espacios duros: en móvil partía «from first idea / to native
+      // code.» (feedback 2026-10-17); así queda «I design digital products / from first idea to native code.»
+      title={"I design *digital products* from\u00a0first\u00a0idea\u00a0to\u00a0native\u00a0code."}
       intro={`${yearsOfExperience()}+ years designing interfaces, now with AI as a building tool. Strategy, UX/UI, design systems and prototypes you can touch.`}
       items={items}
       years={yearsOfExperience()}
