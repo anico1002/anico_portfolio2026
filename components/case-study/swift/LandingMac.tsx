@@ -53,12 +53,14 @@ export default function LandingMac() {
       // Escritorio: la foto cubre el marco. Móvil (marco alto y estrecho): los dos dispositivos a lo ancho y el
       // blanco del mármol arriba y abajo.
       const narrow = cw < 768;
-      const k = narrow ? (cw / STAGE.w) * 1.9 : Math.max(cw / STAGE.w, ch / STAGE.h);
+      // En escritorio, un 20 % menos que «cubrir» (feedback 2026-10-17: el portátil quedaba justo y la punta derecha de
+      // la base se perdía en el borde); los bordes de la foto se funden con el fondo del marco, del mismo blanco.
+      const k = narrow ? (cw / STAGE.w) * 1.9 : Math.max(cw / STAGE.w, ch / STAGE.h) * 0.8;
       const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
       setT({
         k,
-        x: clamp(cw / 2 - FOCUS.x * STAGE.w * k, cw - STAGE.w * k, 0),
-        y: narrow ? ch / 2 - FOCUS.y * STAGE.h * k : clamp(ch / 2 - FOCUS.y * STAGE.h * k, ch - STAGE.h * k, 0),
+        x: narrow ? clamp(cw / 2 - FOCUS.x * STAGE.w * k, cw - STAGE.w * k, 0) : cw / 2 - FOCUS.x * STAGE.w * k,
+        y: ch / 2 - FOCUS.y * STAGE.h * k,
       });
     };
     fit();
@@ -70,9 +72,9 @@ export default function LandingMac() {
   return (
     <div ref={box}>
       <WindowReveal>
-        <div ref={frame} className="relative h-full w-full overflow-hidden bg-[#f4f4f3]">
+        <div ref={frame} className="relative h-full w-full overflow-hidden bg-[#fbfbfb]">
           <div
-            className="absolute left-0 top-0 origin-top-left [mask-image:linear-gradient(transparent,#000_10%,#000_90%,transparent)] md:[mask-image:none]"
+            className="absolute left-0 top-0 origin-top-left [mask-image:linear-gradient(transparent,#000_10%,#000_90%,transparent)] md:[mask-image:radial-gradient(ellipse_65%_70%_at_56%_50%,#000_70%,transparent_100%)]"
             style={{ width: STAGE.w, height: STAGE.h, transform: `translate(${t.x}px, ${t.y}px) scale(${t.k})` }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
