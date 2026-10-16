@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import NextCase from "@/components/case-study/NextCase";
+import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
 import LazyVideo from "@/components/case-study/LazyVideo";
-import Arrow from "@/components/case-study/Arrow";
-import { invText } from "@/components/case-study/invText";
 import {
   CaseHero,
   CaseHeroOverlay,
@@ -240,31 +239,8 @@ export default function GamesTemplate({
         </section>
       ))}
 
-      {/* Cierre breve: la frase de resultado, centrada y sin titulillo (como 7News, 2026-10-15), y el
-          enlace si lo hay. Sin cifras ni párrafos. */}
-      <section className={`pt-32 md:pt-48 ${wrap}`}>
-        <div className={grid}>
-          <div className="col-span-12 text-center md:col-span-6 md:col-start-4">
-            {/* Seis columnas centradas (4–9). Las dos últimas palabras van juntas (espacio duro) para que
-                no quede una sola abajo. */}
-            <Lines as="h2" className="t-statement [text-wrap:pretty]" delay={STAGGER}>
-              {invText(c.outcomeTitle.replace(/ (\S+)$/, "\u00a0$1"))}
-            </Lines>
-            {c.cta && (
-              <FadeIn delay={2 * STAGGER}>
-                <a
-                  href={c.cta.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-fill mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small"
-                >
-                  {c.cta.label} <Arrow />
-                </a>
-              </FadeIn>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* Cierre común (CaseClosing). */}
+      <CaseClosing title={c.outcomeTitle} cta={c.cta} />
 
       <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name={next.name} href={next.href} thumb={next.thumb} />

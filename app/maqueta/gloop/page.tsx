@@ -1,6 +1,7 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
+import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Parallax, Placeholder } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
@@ -178,16 +179,8 @@ export default function GloopCase() {
         <GameRoulette />
       </section>
 
-      {/* 13 · Cierre, centrado. */}
-      <section className={section}>
-        <div className={grid}>
-          <div className="col-span-12 text-center md:col-span-8 md:col-start-3">
-            <Lines className="t-statement" delay={STAGGER}>
-              Las noches pasan. Lo que vives con los tuyos se queda en Gloop.
-            </Lines>
-          </div>
-        </div>
-      </section>
+      {/* 13 · Cierre común (CaseClosing). */}
+      <CaseClosing className={section} title="Las noches pasan. Lo que vives con los tuyos se queda en Gloop." />
 
       <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name="El Reto MasterChef" href="/maqueta/elreto-masterchef" thumb="/maqueta/elreto/media/hero.mp4" />

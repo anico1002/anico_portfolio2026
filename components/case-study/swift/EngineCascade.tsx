@@ -51,16 +51,18 @@ export default function EngineCascade() {
           const hit = c.lane === n;
           return (
             <div key={l.name} className="flex flex-col">
-              <div className="relative h-36 md:h-44">
+              {/* Recorta por abajo, en la barra: la etiqueta nace de ella y crece hacia arriba (feedback 2026-10-16;
+                  antes caía desde arriba). Mismo tempo. */}
+              <div className="relative h-36 overflow-hidden md:h-44">
                 <AnimatePresence>
                   {hit && (
                     <motion.div
                       key={k}
                       className="absolute inset-x-0 bottom-3 mx-auto w-[95%] rounded-[12px] px-3 py-3 text-white md:w-[85%] md:px-4"
                       style={{ background: V }}
-                      initial={{ y: -110, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ opacity: 0, transition: { duration: DUR.fast } }}
+                      initial={{ y: "120%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "120%", transition: { duration: DUR.fast, ease: EASE.inOut } }}
                       transition={{ duration: DUR.base, ease: EASE.inOut }}
                     >
                       <p className="t-small font-medium">{c.text}</p>

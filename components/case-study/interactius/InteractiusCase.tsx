@@ -4,14 +4,18 @@ import NextCase from "@/components/case-study/NextCase";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
-import Arrow from "@/components/case-study/Arrow";
-import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Parallax, Placeholder } from "@/components/case-study/primitives";
+import CaseClosing from "@/components/case-study/CaseClosing";
+import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Placeholder } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
-import { GanttTyped, MarkdownToSlide } from "./DeckDemos";
-import { FitTextDemo, TokenSync, ToneCheck } from "./BrandDemos";
+import { MarkdownToSlide } from "./DeckDemos";
+import { TokenSync, ToneCheck } from "./BrandDemos";
+import { AiLayer, DeckWindow, ImagePrompt, ManualLaptop } from "./AiPieces";
+import TypePair from "./TypePair";
 import { IX, ixFonts, mono } from "./tokens";
 
-/* Caso de Interactius, a medida (2026-10-13): el manual de marca vivo y su generador de presentaciones,
+/* Caso de Interactius, a medida (2026-10-13; rehecho el 2026-10-16 con el feedback de Alberto: fuera las
+   formas geométricas, el Gantt y el texto líquido; dentro el logo en técnico, las dos tipografías, la web en
+   un portátil y un capítulo central sobre la marca preparada para IA). El manual de marca vivo y su generador de presentaciones,
    contados con piezas recreadas con su retícula y sus tokens reales (components/case-study/interactius/).
    Hechos del repo interactius-brandguidelines. Pendiente de Alberto: cómo repartir el crédito con el resto
    del equipo (ver docs/plan-contenidos-casos.md). Las fotos del universo de marca no se versionan. */
@@ -42,11 +46,6 @@ function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?:
   );
 }
 
-const SHAPES = [
-  { src: "/maqueta/interactius/brand/shape-polygon.svg", name: "Pensamiento estratégico", color: IX.opal },
-  { src: "/maqueta/interactius/brand/shape-ellipse.svg", name: "Diseño de experiencias", color: IX.bordeaux },
-  { src: "/maqueta/interactius/brand/shape-wave.svg", name: "Transformación cultural", color: IX.emerald },
-];
 
 export default function InteractiusCase({ next: n }: { next: { name: string; href: string; thumb?: string } }) {
   return (
@@ -80,90 +79,93 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
               <Eyebrow>Introducción</Eyebrow>
             </FadeIn>
             <Lines className="t-intro" delay={STAGGER}>
-              Un manual de marca que no se lee: se usa.
+              Un rediseño de marca pensado también para la IA.
             </Lines>
           </div>
           <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              Interactius, una consultora de estrategia, experiencias y transformación cultural, renovó su marca en
-              2026. El manual se convirtió en una herramienta: una sola fuente de datos alimenta la web en tres
-              idiomas, una API de marca, un validador de tono y un generador de presentaciones.
+              Interactius, consultora de estrategia, experiencias y transformación cultural, renovó su marca en 2026
+              para dos lectores: su equipo y los modelos de IA con los que ya trabaja. Cada decisión del manual tiene
+              su versión para personas y su versión para máquinas.
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* La marca: tres servicios, tres formas */}
+      {/* El logotipo, en técnico (PROPUESTA: Alberto quiere repasarlo juntos). Lámina de construcción del
+          repo (public/concepto/interactius-logo-tecnic.svg): retícula, medidas y los cortes marcados. */}
       <section className={section}>
-        <div className={`${grid} items-end gap-y-12`}>
-          <div className="col-span-12 md:col-span-5">
-            <FadeIn>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/maqueta/interactius/brand/interactius-positivo.svg" alt="interactīus" className="dark-invert h-auto w-full max-w-[26rem]" />
-            </FadeIn>
-            <FadeIn delay={STAGGER}>
-              <p className="mt-8 t-body text-[var(--case-muted)]">
-                El macrón sobre la ī corrige la pronunciación y se convierte en recurso gráfico. Lema de la nueva
-                marca: «Actitud liminal».
-              </p>
-            </FadeIn>
+        <Head
+          eyebrow="El logotipo"
+          title="Un macrón que corrige cómo se dice."
+          body="El acento cae en la última i, y quien lee tiende a llevarlo al centro. El macrón lo fija. Su trazo vertical marca además cómo entra y sale cada elemento en pantalla."
+        />
+        <FadeIn>
+          <div className="m-bleed overflow-hidden px-4 py-14 md:px-16 md:py-28" style={{ background: IX.warmLight }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construcción del logotipo de interactīus" className="mx-auto w-full max-w-[64rem]" />
           </div>
-          <div className="col-span-12 grid grid-cols-3 gap-3 md:col-span-6 md:col-start-7 md:gap-6">
-            {SHAPES.map((s, k) => (
-              <Parallax key={s.name} speed={40 + k * 60}>
-                <FadeIn delay={k * STAGGER}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={s.src} alt="" className="w-full" />
-                  <p className="mt-4 t-label t-tag" style={{ color: s.color === IX.opal ? undefined : s.color }}>
-                    {s.name}
-                  </p>
-                </FadeIn>
-              </Parallax>
-            ))}
-          </div>
-        </div>
+        </FadeIn>
       </section>
 
-      {/* Universo fotográfico: un respiro entre tanta interfaz */}
-      <div className="m-bleed mt-28 grid grid-cols-2 gap-1 md:mt-40 md:grid-cols-4">
-        {[1, 2, 3, 4].map((k) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img key={k} src={`/maqueta/interactius/media/universo-0${k}.jpg`} alt="" loading="lazy" className="aspect-[3/4] w-full object-cover" />
-        ))}
-      </div>
+      {/* Tipografía: las dos de la marca y por qué */}
+      <section className={section}>
+        <Head
+          eyebrow="Tipografía"
+          title="Una letra que mide y otra que habla."
+          body="IBM Plex Mono da el rigor técnico y construye el logotipo; IBM Plex Serif pone la voz humana en los titulares. Juntas cuentan la actitud liminal de la marca. Las dos son de código abierto, así que cualquier herramienta o IA puede usarlas sin licencias."
+        />
+        <TypePair />
+      </section>
+
+      {/* La web del manual, dentro de un portátil (marco provisional: la imagen se decide con Alberto) */}
+      <section className={section}>
+        <Head
+          eyebrow="La web"
+          title="El manual vive en la web, en tres idiomas."
+          body="Quince secciones en castellano, inglés y catalán, con cada logo, color y tipografía listos para descargar."
+        />
+        <ManualLaptop />
+      </section>
+
+      {/* Preparada para IA: el capítulo central */}
+      <section className={section}>
+        <Head
+          eyebrow="Preparada para IA"
+          title="La dirección de arte, convertida en instrucciones."
+          body="El universo visual se describe en un prompt técnico que se copia con un clic. Hay dos versiones, porque los generadores meten personas aunque nadie las pida. La estándar las excluye una a una."
+        />
+        <ImagePrompt />
+      </section>
 
       <section className={section}>
-        <Head eyebrow="Una sola fuente" title="Se cambia en un sitio y cambia en todos." body="Los colores, la tipografía y las reglas viven en un único archivo. De ahí salen el manual, la API de marca, los kits y cada diapositiva." />
+        <Head eyebrow="El tono" title="La voz de la marca, en un prompt." body="Frases de 15 a 22 palabras, sin exclamaciones y con 48 conceptos de consultora vetados. Se copia con un clic, y el validador avisa antes de que nada salga de la oficina." />
+        <ToneCheck />
+      </section>
+
+      <section className={section}>
+        <Head eyebrow="Para máquinas" title="Todo el manual, en un formato que una IA sabe leer." />
+        <AiLayer />
+      </section>
+
+      <section className={section}>
+        <Head eyebrow="Un solo origen" title="Se cambia en un sitio y cambia en todos." body="Colores, tipografía y reglas viven en un único archivo. De ahí salen la web, los prompts, la API de marca y cada diapositiva." />
         <TokenSync />
       </section>
 
+      {/* DeckMakr, a todo el ancho (PROVISIONAL: recreado; falta grabar la herramienta de verdad) */}
       <section className={section}>
         <Head
-          eyebrow="Presentaciones"
+          eyebrow="DeckMakr"
           title="Se escribe en Markdown. La diapositiva se monta sola."
-          body="Sin editor libre: arrastrar cajas rompe la retícula y la marca. Se escribe el contenido y el generador elige entre 17 composiciones basadas en el máster oficial de 51 diapositivas."
+          body="Sin editor libre: arrastrar cajas rompe la retícula y la marca. Se escribe el contenido y el generador elige entre 17 composiciones basadas en el máster oficial."
         />
-        <MarkdownToSlide />
       </section>
-
-      <section className={section}>
-        <Head eyebrow="Roadmaps" title="Un calendario que se teclea." body="Semanas, rangos, medias semanas e hitos. Las barras alternan los colores de los tres servicios." />
-        <GanttTyped />
-      </section>
-
-      <section className={section}>
-        <Head
-          eyebrow="Diseño líquido"
-          title="Ningún texto se sale de la retícula."
-          body="Si un párrafo no cabe, el cuerpo baja lo justo para que siga dentro de su banda. El lienzo es fijo, así que el resultado es siempre el mismo."
-        />
-        <FitTextDemo />
-      </section>
-
-      <section className={section}>
-        <Head eyebrow="El tono" title="La marca también suena de una manera." body="Frases de 15 a 22 palabras y una lista de palabras prohibidas que el validador marca antes de que nada salga de la oficina." />
-        <ToneCheck />
-      </section>
+      <div className="mt-4 md:px-6">
+        <DeckWindow>
+          <MarkdownToSlide />
+        </DeckWindow>
+      </div>
 
       {/* Datos, en pequeño */}
       <section className={section}>
@@ -172,7 +174,7 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
             ["15", "secciones del manual"],
             ["3", "idiomas: castellano, inglés y catalán"],
             ["17", "composiciones de diapositiva"],
-            ["235", "tests que vigilan el sistema"],
+            ["48", "conceptos vetados en el tono"],
           ].map(([t, d], k) => (
             <FadeIn key={d} delay={k * STAGGER} className={`col-span-6 border-t border-[var(--case-line)] pt-5 md:col-span-2 ${k === 0 ? "md:col-start-2" : ""}`}>
               <p className="t-title">{t}</p>
@@ -182,23 +184,11 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
         </div>
       </section>
 
-      <section className={section}>
-        <div className={grid}>
-          <div className="col-span-12 md:col-span-8 md:col-start-3">
-            <FadeIn>
-              <Eyebrow>Resultado</Eyebrow>
-            </FadeIn>
-            <Lines as="h2" className="t-statement" delay={STAGGER}>
-              La marca deja de ser un PDF que nadie abre y pasa a ser la herramienta con la que se trabaja.
-            </Lines>
-            <FadeIn delay={2 * STAGGER}>
-              <a href="https://brand.interactius.com" target="_blank" rel="noopener noreferrer" className="btn-fill mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small">
-                Ver el manual <Arrow />
-              </a>
-            </FadeIn>
-          </div>
-        </div>
-      </section>
+      <CaseClosing
+        className={section}
+        title="La marca deja de ser un PDF que nadie abre y pasa a ser la herramienta con la que se trabaja."
+        cta={{ label: "Ver el manual", href: "https://brand.interactius.com" }}
+      />
 
       <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name={n.name} href={n.href} thumb={n.thumb} />

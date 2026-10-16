@@ -1,6 +1,7 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
+import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
@@ -115,16 +116,7 @@ export default function NewsCase({ next: n }: { next: { name: string; href: stri
           cifras entran sobre la piedra (WatchStage). */}
       <WatchStage />
 
-      <section className={section}>
-        <div className={grid}>
-          {/* Cierre centrado y sin titulillo (feedback 2026-10-14). */}
-          <div className="col-span-12 text-center md:col-span-8 md:col-start-3">
-            <Lines as="h2" className="t-statement" delay={STAGGER}>
-              Un lector que se termina. Y por eso apetece volver a abrirlo.
-            </Lines>
-          </div>
-        </div>
-      </section>
+      <CaseClosing className={section} title="Un lector que se termina. Y por eso apetece volver a abrirlo." />
 
       <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name={n.name} href={n.href} thumb={n.thumb} />

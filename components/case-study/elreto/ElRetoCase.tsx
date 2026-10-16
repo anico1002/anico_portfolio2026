@@ -1,6 +1,7 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
+import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
@@ -160,18 +161,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: { na
         </div>
       </section>
 
-      <section className={section}>
-        <div className={grid}>
-          <div className="col-span-12 md:col-span-8 md:col-start-3">
-            <FadeIn>
-              <Eyebrow>Resultado</Eyebrow>
-            </FadeIn>
-            <Lines as="h2" className="t-statement" delay={STAGGER}>
-              {outcomeTitle}
-            </Lines>
-          </div>
-        </div>
-      </section>
+      <CaseClosing className={section} title={outcomeTitle} />
 
       <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name={n.name} href={n.href} thumb={n.thumb} />

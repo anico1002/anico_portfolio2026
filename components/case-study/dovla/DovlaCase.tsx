@@ -1,6 +1,7 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
+import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
@@ -153,18 +154,7 @@ export default function DovlaCase({ next: n }: { next: { name: string; href: str
         </div>
       </section>
 
-      <section className={section}>
-        <div className={grid}>
-          <div className="col-span-12 md:col-span-8 md:col-start-3">
-            <FadeIn>
-              <Eyebrow>Resultado</Eyebrow>
-            </FadeIn>
-            <Lines as="h2" className="t-statement" delay={STAGGER}>
-              Una app nativa con su sistema y sus datos de prueba, lista para conectarle el backend.
-            </Lines>
-          </div>
-        </div>
-      </section>
+      <CaseClosing className={section} title="Una app nativa con su sistema y sus datos de prueba, lista para conectarle el backend." />
 
       <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name={n.name} href={n.href} thumb={n.thumb} />

@@ -4,21 +4,20 @@ import NextCase from "@/components/case-study/NextCase";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
-import Arrow from "@/components/case-study/Arrow";
+import CaseClosing from "@/components/case-study/CaseClosing";
+import WebScroll from "@/components/case-study/WebScroll";
 import {
   CaseHero,
   CaseHeroOverlay,
   Eyebrow,
   FadeIn,
   Placeholder,
-  WindowReveal,
 } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import ShortcutDemo from "./ShortcutDemo";
 import FeatureCards from "./FeatureCards";
 import TrapBench from "./TrapBench";
 import EngineCascade from "./EngineCascade";
-import ImpossibleFlags from "./ImpossibleFlags";
 import IconStory from "./IconStory";
 
 /* Caso de SwifT, a medida (2026-10-13). Sustituye a la plantilla común: en lugar de las láminas de la web
@@ -127,19 +126,9 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
         <EngineCascade />
       </section>
 
-      {/* Banderas imposibles */}
-      <section className={section}>
-        <Head
-          eyebrow="Detalles"
-          title="Las banderas que Unicode no dibuja."
-          body="La senyera, la gallega y la ikurriña no tienen emoji en Apple. SwifT las pinta con la silueta y la onda de las demás, para que el selector de idiomas no tenga huecos."
-        />
-        <ImpossibleFlags />
-      </section>
-
       {/* El icono */}
       <section className={section}>
-        <Head eyebrow="El icono" title="De lo literal a un rayo." body="Se descartó lo evidente —el bocadillo, la A y el 文— por una marca abstracta que se lee igual a 16 px en la barra que a 512 en la tienda." />
+        <Head eyebrow="El icono" title="Dos idiomas que se cruzan en un rayo." body="Una esquirla cálida y otra fría, espejadas, por los dos idiomas y la rapidez del atajo. Con acabado de cristal, se lee igual a 16 px en la barra que a 512 en el Dock." />
         <IconStory />
       </section>
 
@@ -147,10 +136,10 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
       <section className={section}>
         <Head eyebrow="Landing" title="Un producto que cabe en una frase merece una página que también." />
       </section>
+      {/* La landing en inglés, entera: la máscara se abre a pantalla completa y se queda fija mientras la
+          página hace scroll (captura a toda página de swift-translator.vercel.app, 2026-10-16). */}
       <div className="mt-4">
-        <WindowReveal>
-          <Placeholder ratio="auto" className="h-full" src="/maqueta/swift/hero.mp4" label="La landing de SwifT" />
-        </WindowReveal>
+        <WebScroll page="/maqueta/swift/landing/page.webp" nav="/maqueta/swift/landing/nav.webp" ratio={7050 / 2160} navRatio={90 / 2160} label="La landing de SwifT" />
       </div>
 
       {/* Datos, en pequeño (sin cifras gigantes) */}
@@ -169,29 +158,11 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
         </div>
       </section>
 
-      {/* Resultado */}
-      <section className={section}>
-        <div className={grid}>
-          <div className="col-span-12 md:col-span-8 md:col-start-3">
-            <FadeIn>
-              <Eyebrow>Resultado</Eyebrow>
-            </FadeIn>
-            <Lines as="h2" className="t-statement" delay={STAGGER}>
-              La mejor herramienta de traducción es la que no se ve.
-            </Lines>
-            <FadeIn delay={2 * STAGGER}>
-              <a
-                href="https://swift-translator.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-fill mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small"
-              >
-                Descargar SwifT <Arrow />
-              </a>
-            </FadeIn>
-          </div>
-        </div>
-      </section>
+      <CaseClosing
+        className={section}
+        title="La mejor herramienta de traducción es la que no se ve."
+        cta={{ label: "Descargar SwifT", href: "https://swift-translator.vercel.app" }}
+      />
 
       <section className="mt-36 overflow-hidden md:mt-56">
         <NextCase name={n.name} href={n.href} thumb={n.thumb} />

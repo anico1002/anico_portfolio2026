@@ -1,6 +1,7 @@
 "use client";
 
 import NextCase from "@/components/case-study/NextCase";
+import CaseClosing from "@/components/case-study/CaseClosing";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import SiteNav from "@/components/case-study/SiteNav";
@@ -18,7 +19,6 @@ import {
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import type { CaseCopy } from "@/lib/maqueta/cases";
 import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
-import Arrow from "@/components/case-study/Arrow";
 import { invText } from "@/components/case-study/invText";
 import Lines from "@/components/case-study/Lines";
 import SiteFooter from "@/components/case-study/SiteFooter";
@@ -399,32 +399,8 @@ export default function CaseTemplate({
         </section>
       )}
 
-      {/* 5 · Resultado + enlace */}
-      <section className={section}>
-        <div className={grid}>
-          <div className="col-span-12 md:col-span-8 md:col-start-3">
-            <FadeIn>
-              <Eyebrow>Resultado</Eyebrow>
-            </FadeIn>
-            <Lines as="h2" className={tStatement} delay={STAGGER}>
-              {invText(c.outcomeTitle)}
-            </Lines>
-            <FadeIn delay={2 * STAGGER}>
-              <p className={`mt-6 max-w-[56ch] text-[var(--case-muted)] ${tBody}`}>{c.outcome}</p>
-              {c.cta && (
-                <a
-                  href={c.cta.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-fill mt-10 inline-flex items-center gap-3 border border-[var(--case-fg)] px-6 py-4 t-small"
-                >
-                  {c.cta.label} <Arrow />
-                </a>
-              )}
-            </FadeIn>
-          </div>
-        </div>
-      </section>
+      {/* 5 · Cierre común (CaseClosing): sin titulillo ni párrafo, centrado. */}
+      <CaseClosing title={c.outcomeTitle} cta={c.cta} className={section} />
 
       {/* 6 · Siguiente caso + contacto */}
       <section className="mt-36 overflow-hidden md:mt-56">
