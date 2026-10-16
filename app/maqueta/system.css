@@ -483,3 +483,7 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   mask-composite: exclude;
   pointer-events: none;
 }
+
+/* Sombra del telón de los casos (CaseLayer). */
+.case-curtain { box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.25); }
+#case-root:not([data-case-theme="light"]) .case-curtain { box-shadow: 0 50px 90px -10px rgba(0, 0, 0, 0.95); }

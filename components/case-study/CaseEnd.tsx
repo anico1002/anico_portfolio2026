@@ -20,8 +20,10 @@ import type { MoreItem } from "@/lib/maqueta/media";
 
 /** La capa del caso: todo lo que va antes del final, por encima. El testigo del final marca el avance del telón. */
 export function CaseLayer({ children }: { children: React.ReactNode }) {
+  // La sombra del telón sobre el final (.case-curtain, system.css): en blanco basta una suave; en negro, más larga y
+  // densa, para que se note al pasar por encima de las miniaturas (2026-10-17).
   return (
-    <div className="relative z-10 bg-[var(--case-bg)] pb-32 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.25)] md:pb-48">
+    <div className="case-curtain relative z-10 bg-[var(--case-bg)] pb-32 md:pb-48">
       {children}
       <span data-case-layer-end className="absolute inset-x-0 bottom-0 h-px" aria-hidden />
     </div>
