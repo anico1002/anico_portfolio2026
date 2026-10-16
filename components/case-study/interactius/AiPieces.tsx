@@ -178,7 +178,7 @@ export function AiLayer() {
     <div className="grid grid-cols-12 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14">
       {LAYER.map(([t, d], k) => (
         <FadeIn key={t} delay={(k % 3) * STAGGER} className="col-span-12 border-t border-[var(--case-line)] pt-5 sm:col-span-6 md:col-span-4">
-          <p className="text-[15px] font-medium" style={mono}>
+          <p className="text-[15px] font-medium">
             {t}
           </p>
           <p className="mt-3 t-small text-[var(--case-muted)] md:max-w-[32ch]">{d}</p>

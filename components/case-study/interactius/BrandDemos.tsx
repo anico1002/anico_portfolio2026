@@ -153,7 +153,7 @@ export function ToneCheck() {
           )}
         </AnimatePresence>
       </div>
-      <p className="mt-8 text-[12px] leading-relaxed" style={{ ...mono, color: IX.ash }}>
+      <p className="mt-8 font-[family-name:var(--font-case-sans)] t-small" style={{ color: IX.ash }}>
         48 conceptos prohibidos con todas sus formas, en castellano e inglés. Entre ellos, «caso de éxito».
       </p>
     </div>

@@ -12,7 +12,7 @@ import { TokenSync, ToneCheck } from "./BrandDemos";
 import { AiLayer, DeckWindow, ImagePrompt, ManualWindow, WebLaptop, WebPhone } from "./AiPieces";
 import TypePair from "./TypePair";
 import LogoStory from "./LogoStory";
-import { IX, ixFonts, mono } from "./tokens";
+import { IX, ixFonts } from "./tokens";
 
 /* Caso de Interactius, a medida (2026-10-13; rehecho el 2026-10-16 con el feedback de Alberto: fuera las
    formas geométricas, el Gantt y el texto líquido; dentro el logo en técnico, las dos tipografías, la web en
@@ -185,7 +185,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
 
       {/* Datos, en pequeño: repartidos a todo el ancho y pegados a la ventana de DeckMakr */}
       <section className={`pt-12 md:pt-16 ${wrap}`}>
-        <div className={`${grid} gap-y-10`} style={mono}>
+        <div className={`${grid} gap-y-10`}>
           {[
             ["15", "secciones del manual"],
             ["3", "idiomas: castellano, inglés y catalán"],
