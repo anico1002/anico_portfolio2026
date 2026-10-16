@@ -96,7 +96,7 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
         // En móvil, las horizontales de borde a borde (`m-bleed`); en escritorio, el sangrado del hueco.
         className={`relative ${horizontal ? "m-bleed" : ""} ${l.bleed === "right" ? "md:-mr-6" : l.bleed === "left" ? "md:-ml-6" : ""}`}
       >
-        <MaskReveal from={i % 2 ? "right" : "left"} speed={0}>
+        <MaskReveal from={l.bleed ?? (i % 2 ? "right" : "left")} speed={0}>{/* nace del borde al que está pegada */}
           {p.thumb ? (
             <div className="relative">
               {/* Hover (C1): la imagen se acerca despacio dentro del marco. */}
