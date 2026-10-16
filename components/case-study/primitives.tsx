@@ -516,7 +516,7 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
       >
         {text}
         {/* El año, en pequeño al lado del nombre, como el recuento de «Product (14)» del menú (prueba 2026-10-17). */}
-        {sup && <sup className="ml-[0.12em] align-top t-small font-normal tracking-normal [line-height:1] relative top-[0.35em]">({sup})</sup>}
+        {sup && <sup className="ml-[0.12em] align-top t-small font-normal tracking-normal text-[var(--case-muted)] [line-height:1] relative top-[0.35em]">({sup})</sup>}
       </motion.h1>
     </div>
   );
@@ -525,25 +525,27 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
 /** Cabecera común a todos los casos (2026-10-12): titular arriba a la izquierda a todo el
     ancho y en una línea; ficha debajo, a la derecha. */
 export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [string, string][]; delay: number }) {
-  // Prueba (2026-10-17): el año sale de la ficha y va junto al nombre; los otros tres datos, en una fila.
-  const year = facts.find(([k]) => k === "Año")?.[1].split(" · ")[0];
-  const rest = facts.filter(([k]) => k !== "Año");
+  // Ficha resumida (2026-10-17): el año junto al nombre; debajo, a la derecha, lo que se hizo y el rol. «Para» se
+  // quita (el nombre ya está en grande) y «Qué hice» va sin rótulo.
+  const get = (...keys: string[]) => facts.find(([k]) => keys.includes(k))?.[1];
+  const year = get("Año")?.split(" · ")[0];
+  const did = get("Qué hice", "Entregables");
+  const role = get("Rol");
   return (
     <div className="flex h-full flex-col justify-between gap-6 px-4 pb-6 pt-4 md:px-6 md:pb-7 md:pt-3">
       <FitTitle text={name} delay={delay} sup={year} />
       <div className="grid grid-cols-12 gap-x-4 md:gap-x-6">
-        <div className="col-span-12 md:col-span-7 md:col-start-6 lg:col-span-6 lg:col-start-7">
+        <div className="col-span-12 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
           <MaskText delay={delay + 2 * STAGGER}>
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-4 md:grid-cols-3 md:gap-x-6">
-              {rest.map(([k, v], i) => (
-                <div key={k} className={i === rest.length - 1 ? "col-span-2 md:col-span-1" : ""}>
-                  <dt className="t-label t-tag text-[var(--case-muted)]">
-                    {k}
-                  </dt>
-                  <dd className="mt-1 t-small">{v}</dd>
-                </div>
-              ))}
-            </dl>
+            <div className="t-small">
+              {did && <p>{did}</p>}
+              {role && (
+                <p className="mt-1">
+                  <span className="text-[var(--case-muted)]">Rol: </span>
+                  {role}
+                </p>
+              )}
+            </div>
           </MaskText>
         </div>
       </div>
