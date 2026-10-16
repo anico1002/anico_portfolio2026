@@ -40,7 +40,7 @@ function Hablamos({ show }: { show?: boolean }) {
   return (
     <div ref={ref} className={`hablamos overflow-hidden pb-[0.08em] ${on ? "is-in" : ""}`}>
       <TLink href="/maqueta/contacto" className="block t-d2">
-        <RollText text="¿Hablamos?" />
+        <RollText text="Let’s talk" />
       </TLink>
     </div>
   );
@@ -62,7 +62,7 @@ export default function SiteFooter({ cta = true, show, flush = false }: { cta?: 
             <RollText text="LinkedIn" /> <Arrow />
           </a>
           <button type="button" onClick={scrollToTop} className="inline-flex items-center gap-1.5">
-            <RollText text="Volver arriba" /> <Arrow className="-rotate-45" />
+            <RollText text="Back to top" /> <Arrow className="-rotate-45" />
           </button>
         </div>
       </div>

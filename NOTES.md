@@ -11,6 +11,13 @@ del fallo: «La app empieza preguntando quién eres… el experto se reconoce po
 dos experiencias. Para quien disfruta del vino y para quien lo conoce a fondo». Se hace en inglés, que es como sale
 la web. No se publica sin este repaso.
 
+## ▶ PASO AL INGLÉS (decidido 2026-10-17)
+
+La web sale solo en inglés: el castellano se sustituye, no se mantienen dos versiones. Lo común ya está (menú,
+pie «Let’s talk», «More projects / All projects», «Role:», entrada Product/Games, etiquetas accesibles). Cada caso
+se pasa cuando Alberto lo da por revisado, con el repaso de copy publicitario a la vez (el ⛔ de abajo) y mirando
+cortes de línea y cajas. Pendientes de pasar: todos los casos, homes de sección, Sobre mí y Contacto.
+
 ## ▶ WINEUP REHECHO (2026-10-17, MacBook)
 
 - **Composición:** apartados en mitades alternas (`Feature` en `WineupCase.tsx`): un solo móvil sobre un fondo más bajo

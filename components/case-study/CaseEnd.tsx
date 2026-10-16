@@ -141,7 +141,7 @@ export default function CaseEnd({ items, all }: { items: MoreItem[]; all: { labe
     <section ref={ref} className="sticky bottom-0 z-0 flex min-h-[100svh] flex-col justify-between overflow-hidden pt-20 md:pt-24">
       <div>
         <div className="flex items-end justify-between gap-6 px-4 md:px-6">
-          <p className="t-label t-tag text-[var(--case-muted)]">Más proyectos</p>
+          <p className="t-label t-tag text-[var(--case-muted)]">More projects</p>
           <TLink href={all.href} className="t-small">
             <RollText text={all.label} /> <Arrow />
           </TLink>

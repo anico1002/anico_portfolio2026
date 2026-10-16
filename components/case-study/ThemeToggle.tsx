@@ -34,7 +34,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label={toDark ? "Cambiar a tema oscuro" : "Cambiar a tema claro"}
+      aria-label={toDark ? "Switch to dark theme" : "Switch to light theme"}
       className="-m-1.5 flex h-7 w-7 items-center justify-center opacity-70 hov hover:opacity-100"
       style={{ visibility: theme ? "visible" : "hidden" }}
     >

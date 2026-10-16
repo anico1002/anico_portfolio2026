@@ -11,7 +11,7 @@ import { DUR, EASE, HOVER_DELAY } from "@/lib/maqueta/motion";
    se monta. Se coloca dentro de un contenedor `relative` (el marco de la tarjeta) y escucha el
    puntero en ese contenedor. */
 
-export default function CursorLabel({ label = "Ver caso" }: { label?: string }) {
+export default function CursorLabel({ label = "View case" }: { label?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [mouse, setMouse] = useState(false);
   const [on, setOn] = useState(false);
@@ -89,8 +89,9 @@ export default function CursorLabel({ label = "Ver caso" }: { label?: string }) 
           transition: `clip-path ${on ? DUR.base : DUR.fast}s cubic-bezier(${EASE.inOut.join(",")})`,
         }}
       >
-        <span className="flex items-center gap-2 whitespace-nowrap bg-white px-4 py-2.5 t-label t-tag text-black">
-          {label} <Arrow />
+        {/* Solo un cuadrado con la flecha (feedback de Alberto, 2026-10-17: fuera el texto «Ver caso»). */}
+        <span className="grid h-11 w-11 place-items-center bg-white text-black" title={label}>
+          <Arrow />
         </span>
       </span>
     </span>

@@ -154,6 +154,6 @@ export function moreCases(slug: string): { items: MoreItem[]; all: { label: stri
   ).map((c) => ({ name: c.name, href: `/maqueta/${c.slug}`, thumb: thumbOf(c.slug), year: c.year }));
   const i = list.findIndex((x) => x.href === `/maqueta/${slug}`);
   const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];
-  return { items, all: games ? { label: "Ver todos los juegos", href: "/maqueta/games" } : { label: "Ver todos los proyectos", href: "/maqueta/home" } };
+  return { items, all: games ? { label: "All games", href: "/maqueta/games" } : { label: "All projects", href: "/maqueta/home" } };
 }
 export type MoreCases = ReturnType<typeof moreCases>;

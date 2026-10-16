@@ -30,14 +30,14 @@ const sides: Side[] = [
   {
     key: "product",
     label: "Product",
-    text: "Apps, producto digital, marca y web. Diseño de la idea al código nativo, con prototipos que se pueden tocar.",
+    text: "Apps, digital products, brand and web. From the first idea to native code, with prototypes you can actually touch.",
     href: "/maqueta/home",
     slides: [...SLIDES.product],
   },
   {
     key: "games",
     label: "Games",
-    text: "UI/UX de videojuegos: menús, HUD y sistemas visuales para títulos jugados por cientos de millones de personas.",
+    text: "Game UI/UX: menus, HUDs and visual systems for titles played by hundreds of millions of people.",
     href: "/maqueta/games",
     slides: [...SLIDES.games],
   },

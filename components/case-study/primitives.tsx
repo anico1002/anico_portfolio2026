@@ -581,7 +581,7 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
               {did && <p className="text-balance">{did}</p>}
               {role && (
                 <p className="mt-1">
-                  <span className="text-[var(--case-muted)]">Rol: </span>
+                  <span className="text-[var(--case-muted)]">Role: </span>
                   {role}
                 </p>
               )}

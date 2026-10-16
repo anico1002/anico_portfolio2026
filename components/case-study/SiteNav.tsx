@@ -25,8 +25,8 @@ import { SECTION_COUNT } from "@/lib/maqueta/cases";
 const items = [
   ["product", "Product", "/maqueta/home"],
   ["games", "Games", "/maqueta/games"],
-  ["about", "Sobre mí", "/maqueta/sobre-mi"],
-  ["contact", "Contacto", "/maqueta/contacto"],
+  ["about", "About", "/maqueta/sobre-mi"],
+  ["contact", "Contact", "/maqueta/contacto"],
 ] as const;
 
 type Key = (typeof items)[number][0];
@@ -40,7 +40,7 @@ function Count({ k, big = false }: { k: Key; big?: boolean }) {
   return (
     <sup className={big ? "nav-count nav-count-big" : "nav-count"}>
       <span aria-hidden>({n})</span>
-      <span className="sr-only">, {n} proyectos</span>
+      <span className="sr-only">, {n} projects</span>
     </sup>
   );
 }
@@ -90,7 +90,7 @@ export default function SiteNav({
         className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50 mix-blend-difference"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts !== "all" ? "pointer-events-none" : ""}`}
       >
         {parts !== "menu" && (
-          <TLink href="/maqueta" aria-label="anico · inicio" className="pointer-events-auto">
+          <TLink href="/maqueta" aria-label="anico · home" className="pointer-events-auto">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
           </TLink>
@@ -127,7 +127,7 @@ export default function SiteNav({
             key="menu"
             role="dialog"
             aria-modal
-            aria-label="Menú"
+            aria-label="Menu"
             className="fixed inset-0 z-[70] flex flex-col bg-[var(--case-bg)] px-4 pb-8 text-[var(--case-fg)] md:hidden"
             initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
             animate={{ clipPath: "inset(0% 0% 0% 0%)", transition: { duration: DUR.base, ease: EASE.inOut } }}
