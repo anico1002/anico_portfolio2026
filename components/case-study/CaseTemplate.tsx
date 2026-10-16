@@ -1,6 +1,7 @@
 "use client";
 
-import NextCase from "@/components/case-study/NextCase";
+import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
+import type { MoreCases } from "@/lib/maqueta/media";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -261,7 +262,7 @@ export default function CaseTemplate({
 }: {
   copy: CaseCopy;
   media: CaseMedia;
-  next: { name: string; href: string; thumb?: string };
+  next: MoreCases;
 }) {
   const facts: [string, string][] = [
     ["Para", c.client ?? "Proyecto propio"],
@@ -279,6 +280,7 @@ export default function CaseTemplate({
       className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
       <SiteNav active={c.section === "games" ? "games" : "product"} />
+      <CaseLayer>
 
       {/* 0 · Cabecera: la miniatura (la misma que creció en la home) funde a la portada. */}
       <CaseHero
@@ -403,9 +405,8 @@ export default function CaseTemplate({
       <CaseClosing title={c.outcomeTitle} cta={c.cta} className={section} />
 
       {/* 6 · Siguiente caso + contacto */}
-      <section className="mt-36 overflow-hidden md:mt-56">
-        <NextCase name={next.name} href={next.href} thumb={next.thumb} />
-      </section>
+      </CaseLayer>
+      <CaseEnd items={next.items} all={next.all} />
       {/* Pie común (E2): «¿Hablamos?» + franja con email, LinkedIn y volver arriba. */}
       <SiteFooter />
     </main>

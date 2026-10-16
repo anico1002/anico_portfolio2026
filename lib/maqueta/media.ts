@@ -2,7 +2,7 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 import { getScannedProject } from "@/lib/scan-project";
-import { caseBySlug, type CaseCopy } from "./cases";
+import { caseBySlug, casesIn, type CaseCopy } from "./cases";
 import { GAME_BLOCKS } from "./games";
 
 /* Medios de un caso de la maqueta a partir de public/projects/<slug>/ (los de la web
@@ -137,3 +137,23 @@ export function getGameBlocks(slug: string): ResolvedGameBlock[] | null {
     }),
   }));
 }
+
+/* ── Final de los casos: carrusel de proyectos (CaseEnd, 2026-10-16) ──────────────────────────── */
+
+export type MoreItem = { name: string; href: string; thumb?: string; tag: string };
+
+/** Los proyectos de la misma sección que el caso (Product + Marca y web, o Games), empezando por el
+    siguiente y sin el propio caso. Solo los que tienen página. */
+export function moreCases(slug: string): { items: MoreItem[]; all: { label: string; href: string } } {
+  const section = caseBySlug(slug)?.section ?? "product";
+  const games = section === "games";
+  const list: MoreItem[] = (
+    games
+      ? casesIn("games")
+      : [{ name: "Gloop", slug: "gloop", services: ["iOS nativo"] } as Pick<CaseCopy, "name" | "slug" | "services">, ...casesIn("product"), ...casesIn("brand")]
+  ).map((c) => ({ name: c.name, href: `/maqueta/${c.slug}`, thumb: thumbOf(c.slug), tag: c.services[0] ?? "" }));
+  const i = list.findIndex((x) => x.href === `/maqueta/${slug}`);
+  const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];
+  return { items, all: games ? { label: "Ver todos los juegos", href: "/maqueta/games" } : { label: "Ver todos los proyectos", href: "/maqueta/home" } };
+}
+export type MoreCases = ReturnType<typeof moreCases>;

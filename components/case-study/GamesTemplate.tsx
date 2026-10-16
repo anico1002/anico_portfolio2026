@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import NextCase from "@/components/case-study/NextCase";
+import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
+import type { MoreCases } from "@/lib/maqueta/media";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
@@ -190,7 +191,7 @@ export default function GamesTemplate({
   copy: CaseCopy;
   media: CaseMedia;
   blocks: ResolvedGameBlock[];
-  next: { name: string; href: string; thumb?: string };
+  next: MoreCases;
 }) {
   const facts: [string, string][] = [
     ["Para", c.client ?? "Proyecto propio"],
@@ -203,6 +204,7 @@ export default function GamesTemplate({
   return (
     <main className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased">
       <SiteNav active={c.section === "games" ? "games" : "product"} />
+      <CaseLayer>
 
       {/* Cabecera: la misma que en Product (la miniatura de la home funde a la portada). */}
       <CaseHero
@@ -242,9 +244,9 @@ export default function GamesTemplate({
       {/* Cierre común (CaseClosing). */}
       <CaseClosing title={c.outcomeTitle} cta={c.cta} />
 
-      <section className="mt-36 overflow-hidden md:mt-56">
-        <NextCase name={next.name} href={next.href} thumb={next.thumb} />
-      </section>
+      </CaseLayer>
+
+      <CaseEnd items={next.items} all={next.all} />
       <SiteFooter />
     </main>
   );

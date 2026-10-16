@@ -1,6 +1,7 @@
 "use client";
 
-import NextCase from "@/components/case-study/NextCase";
+import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
+import type { MoreCases } from "@/lib/maqueta/media";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
@@ -51,10 +52,11 @@ const RULES = [
   ["SuperLike recibido", "+50"],
 ];
 
-export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: { name: string; href: string; thumb?: string }; hero: string; outcomeTitle: string }) {
+export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: MoreCases; hero: string; outcomeTitle: string }) {
   return (
     <main className={`relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased ${retoFonts}`}>
       <SiteNav active="product" />
+      <CaseLayer>
 
       <CaseHero
         poster={<Placeholder ratio="auto" className="h-full" src={hero} label="El Reto MasterChef" />}
@@ -163,9 +165,9 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: { na
 
       <CaseClosing className={section} title={outcomeTitle} />
 
-      <section className="mt-36 overflow-hidden md:mt-56">
-        <NextCase name={n.name} href={n.href} thumb={n.thumb} />
-      </section>
+      </CaseLayer>
+
+      <CaseEnd items={n.items} all={n.all} />
       <SiteFooter />
     </main>
   );

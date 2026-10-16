@@ -1,6 +1,7 @@
 "use client";
 
-import NextCase from "@/components/case-study/NextCase";
+import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
+import type { MoreCases } from "@/lib/maqueta/media";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
@@ -39,10 +40,11 @@ function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?:
   );
 }
 
-export default function NewsCase({ next: n }: { next: { name: string; href: string; thumb?: string } }) {
+export default function NewsCase({ next: n }: { next: MoreCases }) {
   return (
     <main className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased">
       <SiteNav active="product" />
+      <CaseLayer>
 
       <CaseHero
         poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/7news/media/hero.mp4" label="7news" />}
@@ -118,9 +120,9 @@ export default function NewsCase({ next: n }: { next: { name: string; href: stri
 
       <CaseClosing className={section} title="Un lector que se termina. Y por eso apetece volver a abrirlo." />
 
-      <section className="mt-36 overflow-hidden md:mt-56">
-        <NextCase name={n.name} href={n.href} thumb={n.thumb} />
-      </section>
+      </CaseLayer>
+
+      <CaseEnd items={n.items} all={n.all} />
       <SiteFooter />
     </main>
   );

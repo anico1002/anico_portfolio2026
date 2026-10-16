@@ -1,6 +1,7 @@
 "use client";
 
-import NextCase from "@/components/case-study/NextCase";
+import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
+import type { MoreCases } from "@/lib/maqueta/media";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
@@ -52,10 +53,11 @@ function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?:
   );
 }
 
-export default function SwiftCase({ next: n }: { next: { name: string; href: string; thumb?: string } }) {
+export default function SwiftCase({ next: n }: { next: MoreCases }) {
   return (
     <main className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased">
       <SiteNav active="product" />
+      <CaseLayer>
 
       <CaseHero
         videoReady
@@ -163,9 +165,9 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
         cta={{ label: "Descargar SwifT", href: "https://swift-translator.vercel.app" }}
       />
 
-      <section className="mt-36 overflow-hidden md:mt-56">
-        <NextCase name={n.name} href={n.href} thumb={n.thumb} />
-      </section>
+      </CaseLayer>
+
+      <CaseEnd items={n.items} all={n.all} />
       <SiteFooter />
     </main>
   );

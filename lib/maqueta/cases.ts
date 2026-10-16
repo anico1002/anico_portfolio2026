@@ -154,7 +154,8 @@ export const CASES: CaseCopy[] = [
     // Caso a medida (app/maqueta/interactius): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "interactius",
     section: "product",
-    thumb: "/maqueta/interactius/cover.jpg",
+    // Miniatura y cabecera (2026-10-16): el manual en el MacBook real (scene-mac.jpg + manual-web.mp4).
+    thumb: "/maqueta/interactius/thumb.mp4",
     name: "Interactius",
     line: "Un manual de marca que se usa, no se lee",
     year: "2026",

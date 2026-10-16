@@ -7,6 +7,11 @@
 Feedback de **SwifT e Interactius** aplicado; detalle con casillas en `docs/feedback-swift-interactius-2026-10-16.md`.
 Cierre común en todos los casos (`CaseClosing`). SwifT con 2.ª vuelta (etiquetas desde el trazo, icono sobre cristal oscuro, landing en MacBook en bucle).
 **Standby (Alberto):** quizá una lámina técnica del logo de SwifT; imagen del portátil de Interactius; repasar juntos el logo técnico; grabación real de DeckMakr.
+**Final de los casos (idea de madebyaran.com):** el caso va en una capa (`CaseLayer`) que sube como un telón y
+descubre debajo, pegado abajo (sticky), un carrusel lateral con todos los proyectos de la sección empezando por el
+siguiente y «Ver todos» (`CaseEnd.tsx`, lista en `moreCases()` de `lib/maqueta/media.ts`); después «¿Hablamos?» y pie.
+Sustituye a `NextCase` en los 8 casos. Gloop pasa a `components/case-study/gloop/GloopCase.tsx`.
+Miniatura y cabecera de Interactius = el manual en el MacBook real (`interactius/thumb.mp4`).
 `WebScroll.tsx` (web a toda página fija dentro de la máscara) queda sin usar, por si sirve en otra landing.
 
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-15, MacBook)

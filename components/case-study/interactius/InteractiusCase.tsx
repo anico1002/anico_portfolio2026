@@ -1,6 +1,7 @@
 "use client";
 
-import NextCase from "@/components/case-study/NextCase";
+import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
+import type { MoreCases } from "@/lib/maqueta/media";
 import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
@@ -47,14 +48,15 @@ function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?:
 }
 
 
-export default function InteractiusCase({ next: n }: { next: { name: string; href: string; thumb?: string } }) {
+export default function InteractiusCase({ next: n }: { next: MoreCases }) {
   return (
     <main className={`relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased ${ixFonts}`}>
       <SiteNav active="product" />
+      <CaseLayer>
 
       <CaseHero
-        videoReady={false}
-        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/interactius/cover.jpg" label="Interactius" />}
+        videoReady
+        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/interactius/thumb.mp4" label="Interactius" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="Interactius"
@@ -68,7 +70,7 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
           />
         )}
       >
-        {null}
+        <Placeholder ratio="auto" className="h-full" src="/maqueta/interactius/thumb.mp4" label="Interactius" />
       </CaseHero>
 
       {/* Intro */}
@@ -191,9 +193,9 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
         cta={{ label: "Ver el manual", href: "https://brand.interactius.com" }}
       />
 
-      <section className="mt-36 overflow-hidden md:mt-56">
-        <NextCase name={n.name} href={n.href} thumb={n.thumb} />
-      </section>
+      </CaseLayer>
+
+      <CaseEnd items={n.items} all={n.all} />
       <SiteFooter />
     </main>
   );
