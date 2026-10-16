@@ -203,8 +203,8 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
         <Feature
           side="right"
           eyebrow="Dos perfiles"
-          title="Quien disfruta del vino y quien sabe de vino."
-          body="La app empieza preguntando quién eres. WineLover y WineExpert tienen cada uno su onboarding, y el experto se reconoce en toda la app por su cabecera violeta."
+          title="Dos perfiles, dos experiencias."
+          body="Para quien disfruta del vino y para quien lo conoce a fondo. Un mundo por descubrir, sea cual sea tu perfil."
           clip="perfiles"
           label="Splash, elección de perfil y onboarding de WineLover"
           photo={`${M}/bg-copa.jpg`}
@@ -226,7 +226,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           side="right"
           eyebrow="Explorar"
           title="Vinos, bodegas y gente que sabe."
-          body="Expertos y amantes a los que seguir, el feed de lo que comparte la comunidad y un mapa con las bodegas y los eventos que tienes cerca."
+          body="Descubre a quién seguir, qué se está bebiendo y dónde se brinda cerca de ti."
           clip="explorar"
           label="Explorar: descubre, feed y mapa"
           photo={`${M}/bg-brindis.jpg`}
@@ -235,7 +235,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           side="left"
           eyebrow="Catas virtuales"
           title="La botella gira y empieza la cata."
-          body="Cada vino tiene su ficha: región, uva, crianza, valoraciones y reseñas de la comunidad. Y una botella que gira al abrirla, el detalle que la hace sentir como sacarla de la estantería."
+          body="Cada vino se abre como si lo sacaras de la estantería. Y con él, todo lo que la comunidad sabe de esa botella."
           clip="vino"
           label="Ficha del vino con la botella girando"
           photo={`${M}/bg-cava.jpg`}
@@ -244,7 +244,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           side="right"
           eyebrow="Perfil"
           title="Tu cava, tus logros y tu gente."
-          body="Lo que has probado, lo que quieres probar y tus listas. En estadísticas, el nivel, las rachas y los logros. El perfil del experto suma su feed de contenidos, en violeta."
+          body="Lo que has probado, lo que te queda por probar y todo lo que has aprendido por el camino."
           clip="cava"
           label="Perfil de WineLover y de WineExpert"
           bg={EXPERT}
@@ -253,7 +253,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           side="left"
           eyebrow="Aprender jugando"
           title="Saber más de vino, jugando y en buena compañía."
-          body="Retos y trivias por temas, de la introducción a las denominaciones de origen, con su progreso. Lo que aprendes suma en tu perfil."
+          body="Retos y trivias para pasar de curioso a entendido, a tu ritmo."
           clip="trivias"
           label="Trivias"
           photo={`${M}/bg-hojas.jpg`}

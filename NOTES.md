@@ -2,6 +2,15 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ⛔ ANTES DE PUBLICAR: repaso de copy de TODA la web (pedido por Alberto, 2026-10-17)
+
+Pasar cada texto de cada página (home, casos, verticales, Sobre mí, contacto, pies, fichas, notas de los apartados)
+por la skill `copywriting`/`copy-editing` con el criterio de la memoria `copy-publicitario-sin-cocina`: publicitario,
+que venda el perfil de Alberto y la idea del producto, NADA descriptivo de cómo funciona la app ni técnico. Ejemplo
+del fallo: «La app empieza preguntando quién eres… el experto se reconoce por su cabecera violeta» → «Dos perfiles,
+dos experiencias. Para quien disfruta del vino y para quien lo conoce a fondo». Se hace en inglés, que es como sale
+la web. No se publica sin este repaso.
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-16, MacBook)
 
 **Pendiente (próxima sesión):**
