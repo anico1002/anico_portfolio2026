@@ -220,7 +220,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Expertos y amantes a los que seguir, el feed de lo que comparte la comunidad y un mapa con las bodegas y los eventos que tienes cerca."
           clip="explorar"
           label="Explorar: descubre, feed y mapa"
-          photo={`${M}/bg-bar.jpg`}
+          photo={`${M}/bg-brindis.jpg`}
         />
         <Feature
           side="left"
@@ -229,7 +229,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Cada vino tiene su ficha: región, uva, crianza, valoraciones y reseñas de la comunidad. Y una botella que gira al abrirla, el detalle que la hace sentir como sacarla de la estantería."
           clip="vino"
           label="Ficha del vino con la botella girando"
-          bg="#3A0F1E"
+          photo={`${M}/bg-cava.jpg`}
         />
         <Feature
           side="right"
