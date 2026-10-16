@@ -103,12 +103,12 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
           body="Un logotipo construido sobre IBM Plex Mono con una sola intervención: el macrón sobre la última i. De ella sale todo el sistema."
         />
         <FadeIn>
-          <div className="m-bleed overflow-hidden px-4 py-14 md:px-16 md:py-28" style={{ background: IX.warmLight }}>
+          <div className="m-bleed overflow-hidden px-4 py-14 md:px-16 md:py-28" style={{ background: IX.light }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construcción del logotipo de interactīus" className="mx-auto w-full max-w-[64rem]" />
           </div>
         </FadeIn>
-        <div className="mt-24 md:mt-36">
+        <div className="mt-2">
           <LogoStory />
         </div>
       </section>
@@ -118,7 +118,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <Head
           eyebrow="Tipografía"
           title="Una letra que mide y otra que habla."
-          body="IBM Plex Mono da el rigor técnico y construye el logotipo; IBM Plex Serif pone la voz humana en los titulares. Juntas cuentan la actitud liminal de la marca. Las dos son de código abierto, así que cualquier herramienta o IA puede usarlas sin licencias."
+          body="IBM Plex Mono construye el logotipo y IBM Plex Serif pone la voz en los titulares. Las dos son libres: cualquier herramienta o IA puede usarlas."
         />
         <TypePair />
       </section>
@@ -149,7 +149,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <Head
           eyebrow="Preparada para IA"
           title="La dirección de arte, convertida en instrucciones."
-          body="El universo visual se describe en un prompt técnico que se copia con un clic. Hay dos versiones, porque los generadores meten personas aunque nadie las pida. La estándar las excluye una a una."
+          body="El universo visual se describe en un prompt técnico que se copia con un clic, para que cualquier imagen generada encaje con la marca desde el primer intento."
         />
         <ImagePrompt />
       </section>
@@ -172,9 +172,9 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       {/* DeckMakr, a todo el ancho (PROVISIONAL: recreado; falta grabar la herramienta de verdad) */}
       <section className={section}>
         <Head
-          eyebrow="DeckMakr"
-          title="Se escribe en Markdown. La diapositiva se monta sola."
-          body="Sin editor libre: arrastrar cajas rompe la retícula y la marca. Se escribe el contenido y el generador elige entre 17 composiciones basadas en el máster oficial."
+          eyebrow="DeckMak_r"
+          title="Una propuesta comercial, lista en minutos."
+          body="Montar cada presentación comercial le costaba días al equipo. Diseñé una herramienta que automatiza el proceso con IA: el equipo escribe la idea y recibe una propuesta con la marca impecable."
         />
       </section>
       <div className="mt-4 md:px-6">
@@ -202,8 +202,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
 
       <CaseClosing
         className={section}
-        title="La marca deja de ser un PDF que nadie abre y pasa a ser la herramienta con la que se trabaja."
-        cta={{ label: "Ver la web", href: "https://www.interactius.com" }}
+        title="Actitud liminal para una marca de su tiempo. Un rebranding IA-ready de principio a fin."
       />
 
       </CaseLayer>

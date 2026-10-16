@@ -100,7 +100,7 @@ export function ImagePrompt() {
       </div>
 
       {/* El prompt, como lo copia el manual */}
-      <div className="relative col-span-12 flex flex-col justify-between p-6 md:col-span-5 md:p-9" style={{ background: IX.dark, color: IX.warmLight, ...mono }}>
+      <div className="relative col-span-12 flex flex-col justify-between p-6 md:col-span-5 md:p-9" style={{ background: IX.dark, color: IX.light, ...mono }}>
         <div>
           <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>
             [Directiva de imagen corporativa]
@@ -109,7 +109,7 @@ export function ImagePrompt() {
             {BODY.map(([k, d]) => (
               <div key={k} className="grid grid-cols-[6.5rem_1fr] gap-3">
                 <dt style={{ color: IX.ash }}>{k}</dt>
-                <dd style={{ color: "rgba(245,242,237,0.82)" }}>{d}</dd>
+                <dd style={{ color: "rgba(255,255,255,0.82)" }}>{d}</dd>
               </div>
             ))}
             <div className="grid grid-cols-[6.5rem_1fr] gap-3">
@@ -118,7 +118,7 @@ export function ImagePrompt() {
                 <AnimatePresence mode="wait">
                   <motion.div key={v} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.45, ease: IX_EXPO }}>
                     {s.lines.map((l, i) => (
-                      <p key={l} style={{ color: i ? "#e3a5bf" : "rgba(245,242,237,0.82)" }} className={i ? "mt-2" : ""}>
+                      <p key={l} style={{ color: i ? "#e3a5bf" : "rgba(255,255,255,0.82)" }} className={i ? "mt-2" : ""}>
                         {l}
                       </p>
                     ))}
@@ -134,9 +134,9 @@ export function ImagePrompt() {
               key={k}
               className="border px-3 py-2 text-[11px] uppercase tracking-[0.08em] transition-colors duration-200"
               style={{
-                borderColor: k === v ? IX.warmLight : "rgba(245,242,237,0.2)",
-                background: k === v && press ? IX.warmLight : "transparent",
-                color: k === v && press ? IX.dark : k === v ? IX.warmLight : IX.ash,
+                borderColor: k === v ? IX.light : "rgba(255,255,255,0.2)",
+                background: k === v && press ? IX.light : "transparent",
+                color: k === v && press ? IX.dark : k === v ? IX.light : IX.ash,
               }}
             >
               ↗ Copiar prompt · {SUBJECT[k].label}
@@ -147,7 +147,7 @@ export function ImagePrompt() {
           {toast && (
             <motion.p
               className="absolute right-6 top-6 px-4 py-2.5 text-[12px] md:right-9 md:top-9"
-              style={{ background: IX.warmLight, color: IX.dark }}
+              style={{ background: IX.light, color: IX.dark }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 6 }}
@@ -236,7 +236,7 @@ export function WebLaptop() {
         target="_blank"
         rel="noopener noreferrer"
         className="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-3 whitespace-nowrap px-6 py-4 t-small transition-opacity hover:opacity-85 md:bottom-8"
-        style={{ background: IX.dark, color: IX.warmLight }}
+        style={{ background: IX.dark, color: IX.light }}
       >
         Ver la web <Arrow />
       </a>
@@ -253,7 +253,7 @@ export function WebPhone() {
         <p className="t-body text-[var(--case-muted)]">Y en el móvil, la misma marca: la retícula se recompone y la letra mantiene su escala.</p>
       </FadeIn>
       <Parallax speed={320} className="col-span-5 -mt-24 md:col-span-3 md:col-start-9 md:-mt-[22rem]">
-        <div className="mx-auto w-full max-w-[300px] rotate-[14deg] drop-shadow-[0_40px_50px_rgba(28,26,23,0.35)]">
+        <div className="mx-auto w-full max-w-[300px] rotate-[14deg] drop-shadow-[0_40px_50px_rgba(10,10,10,0.35)]">
           <RealPhone src="/maqueta/interactius/media/web-movil.mp4" label="La web de Interactius en el móvil" />
         </div>
       </Parallax>
@@ -265,10 +265,10 @@ export function WebPhone() {
    y sin enlace ni dirección, porque Interactius no lo ha hecho público. ─────────────────────────────────────── */
 export function ManualWindow() {
   return (
-    <div className="m-bleed px-4 py-14 md:px-16 md:py-24" style={{ background: IX.warmDark }}>
+    <div className="m-bleed px-4 py-14 md:px-16 md:py-24" style={{ background: IX.mid }}>
       <FadeIn>
-        <div className="mx-auto max-w-[68rem] overflow-hidden rounded-[10px] shadow-[0_40px_90px_-40px_rgba(28,26,23,0.55)] ring-1 ring-black/10">
-          <div className="flex items-center gap-2 px-4 py-3" style={{ background: IX.warmLight }}>
+        <div className="mx-auto max-w-[68rem] overflow-hidden rounded-[10px] shadow-[0_40px_90px_-40px_rgba(10,10,10,0.55)] ring-1 ring-black/10">
+          <div className="flex items-center gap-2 px-4 py-3" style={{ background: IX.light }}>
             <span className="h-2.5 w-2.5 rounded-full bg-black/15" />
             <span className="h-2.5 w-2.5 rounded-full bg-black/15" />
             <span className="h-2.5 w-2.5 rounded-full bg-black/15" />
@@ -287,8 +287,8 @@ export function ManualWindow() {
 
 export function DeckWindow({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-hidden" style={{ background: "#0e0d0b", ...mono }}>
-      <div className="flex items-center justify-between gap-4 border-b px-4 py-3 text-[12px] md:px-6" style={{ borderColor: "rgba(245,242,237,0.1)", color: IX.warmLight }}>
+    <div className="overflow-hidden" style={{ background: "#000000", ...mono }}>
+      <div className="flex items-center justify-between gap-4 border-b px-4 py-3 text-[12px] md:px-6" style={{ borderColor: "rgba(255,255,255,0.1)", color: IX.light }}>
         <div className="flex items-center gap-4">
           <span style={{ color: IX.ash }}>←</span>
           <span className="text-[14px] font-medium">
@@ -299,16 +299,16 @@ export function DeckWindow({ children }: { children: React.ReactNode }) {
           </span>
         </div>
         <div className="flex items-center gap-2" style={{ color: IX.ash }}>
-          <span className="hidden border px-2.5 py-1 md:inline" style={{ borderColor: "rgba(245,242,237,0.15)" }}>
+          <span className="hidden border px-2.5 py-1 md:inline" style={{ borderColor: "rgba(255,255,255,0.15)" }}>
             Traducir
           </span>
-          <span className="hidden border px-2.5 py-1 md:inline" style={{ borderColor: "rgba(245,242,237,0.15)" }}>
+          <span className="hidden border px-2.5 py-1 md:inline" style={{ borderColor: "rgba(255,255,255,0.15)" }}>
             PDF
           </span>
-          <span className="border px-2.5 py-1" style={{ borderColor: "rgba(245,242,237,0.15)" }}>
+          <span className="border px-2.5 py-1" style={{ borderColor: "rgba(255,255,255,0.15)" }}>
             Copiar URL
           </span>
-          <span className="px-2.5 py-1" style={{ background: IX.warmLight, color: IX.dark }}>
+          <span className="px-2.5 py-1" style={{ background: IX.light, color: IX.dark }}>
             Guardar
           </span>
         </div>

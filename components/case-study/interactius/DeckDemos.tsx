@@ -11,7 +11,7 @@ import { IX, IX_EXPO, ixFonts, mono, serif } from "./tokens";
    baja de 48 a 24. El texto de los ejemplos es inventado (el de verdad son propuestas de clientes). */
 
 /** Lienzo de diapositiva: 1280×720 escalado al ancho del contenedor (como el lienzo fijo del deck). */
-export function Slide({ children, bg = IX.warmLight }: { children: React.ReactNode; bg?: string }) {
+export function Slide({ children, bg = IX.light }: { children: React.ReactNode; bg?: string }) {
   const box = useRef<HTMLDivElement>(null);
   const [k, setK] = useState(0.5);
   useEffect(() => {
@@ -33,9 +33,9 @@ export function Slide({ children, bg = IX.warmLight }: { children: React.ReactNo
 /** Editor de Markdown: líneas que van apareciendo, con el cursor al final. */
 function Editor({ lines, shown }: { lines: string[]; shown: number }) {
   return (
-    <div className="h-full min-h-[18rem] p-5 text-[13px] leading-[1.9] md:p-6" style={{ background: IX.dark, color: IX.warmLight, ...mono }}>
+    <div className="h-full min-h-[18rem] p-5 text-[13px] leading-[1.9] md:p-6" style={{ background: IX.dark, color: IX.light, ...mono }}>
       {lines.slice(0, shown).map((l, i) => (
-        <div key={i} className="whitespace-pre" style={{ color: l.startsWith("#") || l.startsWith("```") ? IX.warmLight : "rgba(245,242,237,0.6)" }}>
+        <div key={i} className="whitespace-pre" style={{ color: l.startsWith("#") || l.startsWith("```") ? IX.light : "rgba(255,255,255,0.6)" }}>
           {l || " "}
           {i === shown - 1 && <span className="ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[3px] animate-pulse" style={{ background: IX.bordeaux }} />}
         </div>
@@ -195,8 +195,8 @@ export function GanttTyped() {
               ))}
             </div>
             {rows.map((r, i) => (
-              <div key={r.name} className="flex h-[58px] items-center border-t border-dashed" style={{ borderColor: "rgba(28,26,23,0.28)" }}>
-                <span className="mr-[10px] w-[120px] py-[18px] pl-[10px] text-[13px]" style={{ background: "rgba(28,26,23,0.04)", color: IX.ashDark }}>
+              <div key={r.name} className="flex h-[58px] items-center border-t border-dashed" style={{ borderColor: "rgba(10,10,10,0.28)" }}>
+                <span className="mr-[10px] w-[120px] py-[18px] pl-[10px] text-[13px]" style={{ background: "rgba(10,10,10,0.04)", color: IX.ashDark }}>
                   {r.name}
                 </span>
                 <div className="relative h-full flex-1">
@@ -211,7 +211,7 @@ export function GanttTyped() {
               </div>
             ))}
             {hitos.length > 0 && (
-              <div className="flex h-[52px] items-center border-t border-dashed" style={{ borderColor: "rgba(28,26,23,0.28)" }}>
+              <div className="flex h-[52px] items-center border-t border-dashed" style={{ borderColor: "rgba(10,10,10,0.28)" }}>
                 <span className="w-[130px] pl-[10px] text-[13px]" style={{ color: IX.ashDark }}>
                   Hitos
                 </span>

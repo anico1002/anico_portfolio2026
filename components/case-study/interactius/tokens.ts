@@ -1,16 +1,17 @@
 import { IBM_Plex_Mono, IBM_Plex_Serif } from "next/font/google";
 
-/* Tokens reales de Interactius (lib/tokens.ts del repo interactius-brandguidelines) para recrear sus piezas
-   dentro del caso. Cada acento va ligado a un servicio. */
+/* Tokens de Interactius (lib/tokens.ts del repo interactius-brandguidelines) para recrear sus piezas dentro del
+   caso, pero en neutro: la página juega con blanco y negro, así que el beige y los grises cálidos de la marca
+   pasan a grises puros (feedback de Alberto, 2026-10-17). Los acentos siguen ligados a cada servicio. */
 
 export const IX = {
-  dark: "#1C1A17",
+  dark: "#0A0A0A",
   white: "#FFFFFF",
-  grey: "#E8E6E3",
-  warmLight: "#F5F2ED",
-  warmDark: "#E0DAD2",
-  ash: "#75706B",
-  ashDark: "#46433F",
+  grey: "#EBEBEB",
+  light: "#F3F3F3",
+  mid: "#E0E0E0",
+  ash: "#737373",
+  ashDark: "#404040",
   opal: "#B0B5B0", // pensamiento estratégico
   bordeaux: "#99335F", // diseño de experiencias (y alerta)
   emerald: "#5999A6", // transformación cultural

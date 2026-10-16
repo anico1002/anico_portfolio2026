@@ -46,7 +46,7 @@ export function TokenSync() {
   return (
     <div ref={ref} className={`grid grid-cols-12 gap-x-4 gap-y-6 md:gap-x-6 ${ixFonts}`}>
       {/* La fuente: lib/tokens.ts */}
-      <div className="col-span-12 p-6 text-[13px] leading-[1.9] md:col-span-5" style={{ background: IX.dark, color: "rgba(245,242,237,0.6)", ...mono }}>
+      <div className="col-span-12 p-6 text-[13px] leading-[1.9] md:col-span-5" style={{ background: IX.dark, color: "rgba(255,255,255,0.6)", ...mono }}>
         <p className="mb-3 text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>
           lib/tokens.ts · la única fuente
         </p>
@@ -59,7 +59,7 @@ export function TokenSync() {
             onMouseLeave={() => setHold(false)}
             onClick={() => (setI(k), setHold(true))}
             className="block w-full pl-5 text-left transition-colors"
-            style={{ color: k === i ? IX.warmLight : undefined, background: k === i ? "rgba(245,242,237,0.06)" : undefined }}
+            style={{ color: k === i ? IX.light : undefined, background: k === i ? "rgba(255,255,255,0.06)" : undefined }}
           >
             {x.token}: <span style={{ color: x.color }}>&apos;{x.color}&apos;</span>, <span style={{ color: IX.ash }}>{"// "}{x.name.toLowerCase()}</span>
           </button>
@@ -68,12 +68,12 @@ export function TokenSync() {
       </div>
       {/* Las salidas */}
       <div className="col-span-12 grid grid-cols-2 gap-3 md:col-span-7 md:gap-4" style={mono}>
-        <div className="flex flex-col justify-between p-5" style={{ background: IX.warmLight, color: IX.dark }}>
+        <div className="flex flex-col justify-between p-5" style={{ background: IX.light, color: IX.dark }}>
           <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>Manual · color</p>
           <motion.div key={s.key + "sw"} {...flash} className="mt-4 h-20 w-full" style={{ background: s.color }} />
           <p className="mt-3 text-[13px]">{s.name}</p>
         </div>
-        <div className="flex flex-col p-5 text-[12px] leading-[1.8]" style={{ background: IX.dark, color: "rgba(245,242,237,0.7)" }}>
+        <div className="flex flex-col p-5 text-[12px] leading-[1.8]" style={{ background: IX.dark, color: "rgba(255,255,255,0.7)" }}>
           <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>/api/brand.json</p>
           <p className="mt-4">{"{"}</p>
           <p className="pl-4">&quot;service&quot;: &quot;{s.key}&quot;,</p>
@@ -84,11 +84,11 @@ export function TokenSync() {
         </div>
         <div className="p-5" style={{ background: IX.white, color: IX.dark }}>
           <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>Deck · Gantt</p>
-          <div className="mt-6 h-3 w-full" style={{ background: "rgba(28,26,23,0.06)" }}>
+          <div className="mt-6 h-3 w-full" style={{ background: "rgba(10,10,10,0.06)" }}>
             <motion.div className="h-full" animate={{ background: s.color, width: ["20%", "68%"] }} transition={{ duration: 0.9, ease: IX_EXPO }} key={s.key + "g"} />
           </div>
         </div>
-        <div className="p-5" style={{ background: IX.warmDark, color: IX.dark }}>
+        <div className="p-5" style={{ background: IX.mid, color: IX.dark }}>
           <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>Deck · portada</p>
           <motion.p key={s.key + "ey"} {...flash} className="mt-5 text-[11px] font-medium uppercase tracking-[0.08em]" style={{ color: s.color === IX.opal ? IX.ashDark : s.color }}>
             {s.name}
@@ -127,7 +127,7 @@ export function ToneCheck() {
     return () => clearInterval(id);
   }, [on, reduce]);
   return (
-    <div ref={ref} className={`p-6 md:p-12 ${ixFonts}`} style={{ background: IX.warmLight, color: IX.dark }}>
+    <div ref={ref} className={`p-6 md:p-12 ${ixFonts}`} style={{ background: IX.light, color: IX.dark }}>
       <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.08em]" style={{ ...mono, color: IX.ash }}>
         <span>Validador de tono</span>
         <span style={{ color: fixed ? IX.emerald : IX.bordeaux }}>{fixed ? "Pasa" : "4 términos prohibidos"}</span>
