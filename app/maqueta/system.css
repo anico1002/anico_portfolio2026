@@ -4,18 +4,47 @@
    Light, así que antes también se veía Regular), 500–700 → Semibold, 800–900 → Extrabold. Archivos
    fuera de git (public/fonts-licencia/); ver app/maqueta/layout.tsx. */
 /* Satoshi (Fontshare, ITF Free Font License: gratis también para uso comercial y web autoalojada), prueba
-   2026-10-17 como sans de toda la maqueta. Variable (300–900), fuera de git como Neue Montreal. */
+   2026-10-17 como sans de toda la maqueta. Un peso más en todos los estilos (Alberto: sobre blanco se veía fina):
+   lo que pide 400 sale en Medium, 500 en Bold y 700 en Black. Fuera de git como Neue Montreal. */
 @font-face {
   font-family: "Satoshi";
-  src: url("/fonts-licencia/Satoshi-Variable.woff2") format("woff2");
-  font-weight: 300 900;
+  src: url("/fonts-licencia/Satoshi-Medium.woff2") format("woff2");
+  font-weight: 100 449;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Satoshi";
-  src: url("/fonts-licencia/Satoshi-VariableItalic.woff2") format("woff2");
-  font-weight: 300 900;
+  src: url("/fonts-licencia/Satoshi-MediumItalic.woff2") format("woff2");
+  font-weight: 100 449;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts-licencia/Satoshi-Bold.woff2") format("woff2");
+  font-weight: 450 649;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts-licencia/Satoshi-BoldItalic.woff2") format("woff2");
+  font-weight: 450 649;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts-licencia/Satoshi-Black.woff2") format("woff2");
+  font-weight: 650 1000;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts-licencia/Satoshi-BlackItalic.woff2") format("woff2");
+  font-weight: 650 1000;
   font-style: italic;
   font-display: swap;
 }
@@ -118,7 +147,7 @@ html:has(#case-root) {
 
    Texto
    .t-label      12 → 13   antetítulos, etiquetas en mono, datos de ficha
-   .t-nav        13 → 15   menú
+   .t-nav        15 → 17   menú (subido el 2026-10-17: en portátil se perdía)
    .t-small      14 → 15   pies de foto, botones, líneas secundarias
    .t-body       16 → 18   párrafos
    .t-lead       18 → 24   párrafo destacado, listas, títulos de tarjeta
@@ -134,7 +163,7 @@ html:has(#case-root) {
    .t-d2         60 → 168  «¿Hablamos?», contacto
    .t-d1         88 → 232  cifras gigantes, entrada A */
 .t-label     { font-size: 0.75rem;   line-height: 1.3; }
-.t-nav       { font-size: 0.8125rem; line-height: 1.3; }
+.t-nav       { font-size: 0.9375rem; line-height: 1.3; }
 .t-small     { font-size: 0.875rem;  line-height: 1.45; }
 .t-body      { font-size: 1rem;      line-height: 1.55; }
 .t-lead      { font-size: 1.125rem;  line-height: 1.35; letter-spacing: -0.01em; }
@@ -150,7 +179,7 @@ html:has(#case-root) {
 
 @media (min-width: 768px) {
   .t-label     { font-size: max(12px, 0.8125rem); }
-  .t-nav       { font-size: max(13.5px, 0.9375rem); }
+  .t-nav       { font-size: max(15px, 1.0625rem); }
   .t-small     { font-size: max(13.5px, 0.9375rem); }
   .t-body      { font-size: max(15.5px, 1.125rem); }
   .t-lead      { font-size: 1.5rem; }

@@ -8,6 +8,7 @@ import SiteNav from "@/components/case-study/SiteNav";
 import { DUR, EASE, STAGGER, inOrOut, reducedMotion } from "@/lib/maqueta/motion";
 import { startCurtain } from "@/components/case-study/Curtain";
 import { SLIDES } from "@/lib/maqueta/sections";
+import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/SlideMedia";
 
 /* Entrada de la maqueta (elegida 2026-10-12; adonde lleva el logo): pantalla partida por la mitad, Product a la izquierda
@@ -16,7 +17,6 @@ import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/Slid
    Al pasar, esa mitad se ensancha un poco, pasa un pase de proyectos de fondo y la otra se
    atenúa. En táctil todo se ve siempre. La alternativa A, descartada, sigue en /maqueta/entrada-a. */
 
-const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 
 type Side = {
   key: "product" | "games";
@@ -72,12 +72,14 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
   );
 }
 
-/** «01» / «02» en tamaño de etiqueta, centrado en vertical con la palabra del titular. */
-function Num({ n, side }: { n: number; side: "left" | "right" }) {
+/** Número de proyectos de la sección junto al titular, como el recuento del menú: «Product (7)» (2026-10-17;
+    antes «01»/«02»). Mismo tratamiento: entre paréntesis, en gris y alineado a la altura de la mayúscula. */
+function Count({ k }: { k: Side["key"] }) {
   return (
-    <span className={`hidden t-label opacity-70 md:inline-block ${mono} ${side === "left" ? "mr-2 md:mr-3" : "ml-2 md:ml-3"}`}>
-      0{n}
-    </span>
+    <sup className="cap-sup ml-[0.12em] t-small font-normal tracking-normal opacity-60">
+      <span aria-hidden>({SECTION_COUNT[k]})</span>
+      <span className="sr-only">, {SECTION_COUNT[k]} projects</span>
+    </sup>
   );
 }
 
@@ -133,7 +135,8 @@ export default function EntryB() {
         return (
           <motion.div
             key={s.key}
-            className={`relative overflow-hidden ${other ? "min-h-0" : "min-h-[50svh] md:min-h-[100svh]"} ${left || chosen ? "" : "md:border-l md:border-[var(--case-line)]"}`}
+            // Cada mitad en el color de su sección (2026-10-17): Product en negro y Games en blanco, sin línea en medio.
+            className={`relative overflow-hidden ${other ? "min-h-0" : "min-h-[50svh] md:min-h-[100svh]"} ${left ? "bg-black text-white" : "bg-white text-black"}`}
             initial={false}
             animate={{ flexGrow: chosen ? (picked ? 1 : 0) : on && !touch ? 1.25 : 1 }}
             style={{ flexBasis: 0 }}
@@ -195,9 +198,11 @@ export default function EntryB() {
                     >
                       {/* Número pequeño centrado con el titular: delante de la P de «Product» y detrás de
                           la s de «Games» (antes iba repetido abajo como «01 — Product»). */}
-                      {left && <Num n={i + 1} side="left" />}
-                      {s.label}
-                      {!left && <Num n={i + 1} side="right" />}
+                      {/* En un span: dentro del flex, el número se alinea con la línea base de la palabra. */}
+                      <span>
+                        {s.label}
+                        <Count k={s.key} />
+                      </span>
                     </motion.p>
                   </div>
                 </div>
@@ -211,7 +216,7 @@ export default function EntryB() {
                   transition={chosen ? EXIT : { duration: inOrOut(on), ease: EASE.out, delay: on ? STAGGER : 0 }}
                 >
                   <p
-                    lang="es"
+                    lang="en"
                     className={`hyphens-auto text-justify t-body ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
                   >
                     {s.text}

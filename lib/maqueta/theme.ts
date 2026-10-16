@@ -19,10 +19,10 @@ export const THEMES: Record<string, Theme> = {
   "/maqueta/interactius": "light",
   "/maqueta/elreto-masterchef": "dark",
   "/maqueta/wineup": "dark",
-  // Games
-  "/maqueta/asphalt-unite": "dark",
-  "/maqueta/cybertitans": "dark",
-  "/maqueta/disney-karting": "dark",
+  // Games: todos en blanco (2026-10-17; se diseñaron para la web anterior, que era blanca)
+  "/maqueta/asphalt-unite": "light",
+  "/maqueta/cybertitans": "light",
+  "/maqueta/disney-karting": "light",
   "/maqueta/asphalt-9": "light",
   "/maqueta/asphalt-xtreme": "light",
 };

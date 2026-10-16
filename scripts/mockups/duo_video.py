@@ -4,15 +4,18 @@ Entradas (mockups-src/iphone-duo/, salidas de Photoshop por script, scripts/mock
   duo-black.png / duo-magenta.png   para la máscara exacta de la pantalla (esquinas redondas)
   duo-markers.png marcas de color en las esquinas del objeto inteligente → homografía
 Contenido: captura a toda página de la web (2x) + barra de navegación, en bucle baja-sube.
-python3 duo_video.py <full.png> <nav.png> <salida.mp4> <poster.jpg>
+python3 duo_video.py <full.png> <nav.png> <salida.mp4> <poster.jpg> [--crop=x0,y0,x1,y1]
+  miniatura 16:10 de SwifT: --crop=672,849,6058,4215
 """
 import sys, subprocess, numpy as np, cv2
 from PIL import Image
 Image.MAX_IMAGE_PIXELS = None
 full, navp, out, poster = sys.argv[1:5]
+# Encuadre opcional (2026-10-17, miniatura de SwifT): --crop x0,y0,x1,y1 sobre el PSD de 6500x5000.
+_crop = next((a.split("=")[1] for a in sys.argv[5:] if a.startswith("--crop=")), None)
 D = "mockups-src/iphone-duo/"
 FF = subprocess.check_output(["npm", "root", "-g"], text=True).strip() + "/ffmpeg-static/ffmpeg"
-CROP = (700, 650, 5900, 4250)  # x0, y0, x1, y1 sobre 6500x5000
+CROP = tuple(int(v) for v in _crop.split(",")) if _crop else (700, 650, 5900, 4250)  # x0, y0, x1, y1 sobre 6500x5000
 OW = 1600; k = OW / (CROP[2] - CROP[0]); OH = round((CROP[3] - CROP[1]) * k) // 2 * 2
 def load(n):
     im = cv2.imread(D + n).astype(np.float32)[CROP[1]:CROP[3], CROP[0]:CROP[2]]

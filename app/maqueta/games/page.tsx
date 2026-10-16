@@ -10,7 +10,10 @@ export const revalidate = 86400;
 /* Home de Games: UI/UX de videojuegos, del más reciente al más antiguo. */
 
 export default function GamesHome() {
-  const items = casesIn("games").map((c) => ({
+  // Disney Karting en el hueco grande y Asphalt 9 en el pequeño (2026-10-17: que se vea más Disney).
+  const ORDER = ["asphalt-unite", "cybertitans", "asphalt-9", "disney-karting", "asphalt-xtreme"];
+  const games = [...casesIn("games")].sort((a, b) => ORDER.indexOf(a.slug) - ORDER.indexOf(b.slug));
+  const items = games.map((c) => ({
     name: c.name,
     line: c.line,
     type: c.services[0],

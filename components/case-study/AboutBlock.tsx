@@ -12,7 +12,6 @@ const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 
 const DOING = ["Product design", "Game UI/UX", "Brand art direction", "Interactive prototyping", "AI-native apps", "Web3 & VR", "Illustration"];
-const CLIENTS = ["Gameloft Barcelona", "MasterChef World", "LitLab Games", "Interactius", "Metacampus"];
 
 export default function AboutBlock({ years }: { years: number }) {
   return (
@@ -29,7 +28,8 @@ export default function AboutBlock({ years }: { years: number }) {
       </div>
 
       <div className="mt-16 md:mt-24">
-        <MaskReveal from="bottom" speed={40} className="m-bleed">
+        {/* Foto a todo el ancho (2026-10-17). */}
+        <MaskReveal from="bottom" speed={40} className="m-bleed md:-mx-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/about.webp" alt="Alberto Nicolás" className="block h-auto w-full" style={{ aspectRatio: "1296/630" }} />
         </MaskReveal>
@@ -41,24 +41,16 @@ export default function AboutBlock({ years }: { years: number }) {
             Senior designer across digital product, game UI/UX, brand art direction and immersive tech.
           </p>
           <p className="t-body text-[var(--case-muted)]">
-            For over a decade I shaped game interfaces with studios like Gameloft Barcelona, on titles downloaded
-            hundreds of millions of times. Today I work with agencies, studios and brands on products, identities and
-            the web, using AI to take an idea from first sketch to a prototype you can touch and code ready to ship.
+            I work with agencies, studios and brands on products, games, identities and the web, using AI to take an
+            idea from first sketch to a prototype you can touch and code ready to ship.
           </p>
           <p className="t-body text-[var(--case-muted)]">Based in Barcelona. Open to new projects.</p>
         </FadeIn>
-        <FadeIn delay={STAGGER} className="col-span-6 md:col-span-2 md:col-start-8">
+        {/* «What I do» separado del texto, al otro lado (2026-10-17: fuera «Worked with» y Gameloft). */}
+        <FadeIn delay={STAGGER} className="col-span-12 md:col-span-2 md:col-start-10">
           <p className="mb-6 t-label t-tag text-[var(--case-muted)]">What I do</p>
           <ul className="space-y-2 t-small">
             {DOING.map((d) => (
-              <li key={d}>{d}</li>
-            ))}
-          </ul>
-        </FadeIn>
-        <FadeIn delay={2 * STAGGER} className="col-span-6 md:col-span-2 md:col-start-10">
-          <p className="mb-6 t-label t-tag text-[var(--case-muted)]">Worked with</p>
-          <ul className="space-y-2 t-small">
-            {CLIENTS.map((d) => (
               <li key={d}>{d}</li>
             ))}
           </ul>

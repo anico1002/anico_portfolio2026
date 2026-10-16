@@ -9,6 +9,8 @@
 2. **Detalles de transición:** revisar en Safari y en móvil el paso miniatura → cabecera (Alberto vio «un salto
    raro» en Gloop que en Chrome no se reproduce).
 3. **Copy:** el repaso de abajo.
+4. **Consistencia de tipografía y estilos:** recorrer todas las páginas buscando estilos sueltos (tamaños, pesos o
+   familias que no salgan de las clases `t-*`), para que no quede nada fuera del sistema.
 
 ## ⛔ ANTES DE PUBLICAR: repaso de copy de TODA la web (pedido por Alberto, 2026-10-17)
 
