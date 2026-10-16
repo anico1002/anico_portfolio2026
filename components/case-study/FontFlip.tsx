@@ -5,7 +5,7 @@ import { useReduce } from "@/lib/maqueta/reduce";
 
 /* Palabras clave que cambian de tipografía (prueba 2026-10-17, sustituye al degradado ácido, que rompía el blanco y
    negro de la web). Al arrancar, la palabra entera pasa muy rápido por tres tipografías de peso parecido y ancho
-   normal —serif, mono y una sans con carácter— y se queda en la del titular. Toda a la vez, no letra a letra (eso
+   normal —serif, slab y una sans con carácter (PT Serif, Bitter, Familjen Grotesk)— y se queda en la del titular. Toda a la vez, no letra a letra (eso
    quedaba caótico, Alberto 2026-10-17). La palabra en la tipografía del titular queda invisible debajo y guarda el
    hueco, así que el titular no se mueve mientras cambia. Reutilizable en Product y Games: `run` lo dispara. */
 

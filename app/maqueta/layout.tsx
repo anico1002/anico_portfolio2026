@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, DM_Serif_Display, Fraunces, Instrument_Sans, Space_Mono } from "next/font/google";
+import { Bitter, DM_Serif_Display, Familjen_Grotesk, Instrument_Sans, PT_Serif } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
@@ -25,11 +25,13 @@ const sans = Instrument_Sans({ variable: "--font-instrument", subsets: ["latin"]
 // Antes se probaron Instrument Serif (estrecha), Playfair, ácido, gris, barras, anchura y otras.
 const serif = DM_Serif_Display({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });
 
-// Tipografías del cambio letra a letra de las palabras clave (FontFlip, prueba 2026-10-17): peso parecido al del
-// titular y ancho normal, sin condensadas, extendidas, finas ni script.
-const flipSerif = Fraunces({ variable: "--font-flip-serif", subsets: ["latin"], weight: "400" });
-const flipMono = Space_Mono({ variable: "--font-flip-mono", subsets: ["latin"], weight: "400" });
-const flipGrot = Bricolage_Grotesque({ variable: "--font-flip-grot", subsets: ["latin"], weight: "400" });
+// Tipografías del cambio de las palabras clave (FontFlip, prueba 2026-10-17). Elegidas midiendo contra PP Neue
+// Montreal el ancho de «digital products» y la altura de las minúsculas (ancho / altura x): PT Serif 1,06 / 0,98,
+// Bitter 1,04 / 1,00 y Familjen Grotesk 1,00 / 0,98. Así no hay saltos ni cambia el peso. Las monos se descartaron:
+// todas un 45–50 % más anchas.
+const flipSerif = PT_Serif({ variable: "--font-flip-serif", subsets: ["latin"], weight: "400" });
+const flipMono = Bitter({ variable: "--font-flip-mono", subsets: ["latin"], weight: "400" });
+const flipGrot = Familjen_Grotesk({ variable: "--font-flip-grot", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
