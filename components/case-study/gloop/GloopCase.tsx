@@ -152,8 +152,8 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
             </Lines>
             <FadeIn delay={2 * STAGGER} className="mt-8 max-w-[46ch]">
               <p className="t-body text-[var(--case-muted)]">
-                Ninguna pantalla sale sin pasar por el ojo del diseño, y cada detalle se valida donde importa: en el
-                móvil de verdad.
+                Ninguna pantalla se publica sin pasar por el ojo del diseño, y cada detalle se valida donde importa: en
+                el móvil.
               </p>
             </FadeIn>
           </div>
