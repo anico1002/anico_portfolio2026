@@ -10,7 +10,10 @@ export const revalidate = 86400;
 /* Home de Product: apps y producto digital. Debajo, «Marca y web» (identidades y webs),
    separado para no mezclar públicos. Los casos aún sin contenido van sin enlace. */
 
+// WineUp a la derecha (2026-10-17): en el hueco grande a sangre por la derecha.
+const SLOT: Record<string, number> = { wineup: 1 };
 const card = (c: CaseCopy): P => ({
+  slot: SLOT[c.slug],
   name: c.name,
   line: c.line,
   type: c.services[0],

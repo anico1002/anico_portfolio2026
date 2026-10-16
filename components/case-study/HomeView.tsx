@@ -33,7 +33,7 @@ const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
 
-export type P = { name: string; line: string; type: string; year: string; thumb?: string; href?: string }; // type: para filtros futuros
+export type P = { name: string; line: string; type: string; year: string; thumb?: string; href?: string; slot?: number }; // type: para filtros futuros; slot: forzar un hueco de la composición
 
 // Ritmo de Yakushev (2026-10-12): mucho aire entre proyectos, casi uno por pantalla.
 // Solo a veces coinciden dos, y entonces uno es pequeño y se mueve mucho más rápido con
@@ -54,7 +54,7 @@ const layout: { col: string; ratio: string; offset: string; speed: number; bleed
 
 function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; offset?: string; onLeave?: () => void }) {
   // `i` numera el proyecto; `slot` es su hueco en la composición.
-  const l = layout[slot % layout.length];
+  const l = layout[(p.slot ?? slot) % layout.length];
   const router = useRouter();
   const frame = useRef<HTMLDivElement>(null);
 
