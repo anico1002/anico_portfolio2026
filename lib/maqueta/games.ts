@@ -54,12 +54,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       // La primera lámina abre con «DESIGN SYSTEM» en grande: lo dice ya el titular del bloque.
       items: [{ src: "03_Game-UI/AU_1.png", crop: { top: 340 } }, "03_Game-UI/AU_2.png", "03_Game-UI/AU_3.png"],
     },
-    {
-      eyebrow: "Cards",
-      title: "Clases de vehículo que se leen desde el sofá.",
-      body: "Renders a gran formato, tipografía contundente y un sistema de niveles por color que se lee al instante en una televisión.",
-      items: ["03_Game-UI/AU_4.png"],
-    },
+    // Las cards, sin texto (Alberto, 2026-10-17): la imagen sube y sigue al design system.
+    { items: ["03_Game-UI/AU_4.png"] },
     {
       eyebrow: "Pantallas de consola",
       title: "Un menú que transmite escala antes de la primera carrera.",

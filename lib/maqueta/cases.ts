@@ -476,17 +476,18 @@ const ALL_CASES: CaseCopy[] = [
     slug: "asphalt-unite",
     section: "games",
     name: "Asphalt Unite",
-    line: "An iconic franchise, redesigned for esports",
+    line: "An iconic racing franchise, rebuilt for console",
     year: "2023",
     client: "Gameloft Barcelona",
     role: "Lead UI/UX Designer",
     services: ["Art direction", "UX/UI", "Console"],
     accent: "#C800FF",
     accent2: "#3B1BD6",
-    tagline: "De la herencia móvil a la consola, con estética de retransmisión.",
+    tagline: "Born on mobile. Rebuilt for console. Ready to race crossplatform.",
     question: "¿Cómo se lleva un juego nacido en el móvil al salón y al mando?",
     overview: [
-      "Asphalt Unite es un nuevo capítulo de la franquicia de carreras de Gameloft, construido desde cero para consola y pensado para competir en esports.",
+      // Sin «pensado para competir en esports» (Alberto, 2026-10-17: no es cierto; de esports solo era la estética).
+      "Asphalt Unite is the new chapter of Gameloft’s racing franchise, built from scratch for console and PC and playable crossplatform with mobile. As Lead UI/UX, I rethought the whole interface for the gamepad and the TV: vehicle classes, main menu, garage and HUD.",
       "Como lead de UI/UX, el encargo era replantear toda la interfaz: presentación de clases de vehículo, menú principal, garaje y HUD.",
     ],
     chapters: [

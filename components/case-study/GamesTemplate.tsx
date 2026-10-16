@@ -232,9 +232,10 @@ export default function GamesTemplate({
         </div>
       </section>
 
-      {/* Bloques: un texto breve y sus láminas apiladas. El primero, sin texto, es la portada. */}
+      {/* Bloques: un texto breve y sus láminas apiladas. El primero, sin texto, es la portada; los demás sin texto
+          siguen pegados a las láminas del anterior, como una más (las cards de Unite, 2026-10-17). */}
       {blocks.map((b, i) => (
-        <section key={i} className={`${i === 0 ? "pt-24 md:pt-36" : "pt-28 md:pt-48"} ${wrap}`}>
+        <section key={i} className={`${i === 0 ? "pt-24 md:pt-36" : b.eyebrow ? "pt-28 md:pt-48" : ""} ${wrap}`}>
           {b.eyebrow && <BlockText n={++n} b={b} />}
           <Stack items={b.items} bleed={b.bleed} label={c.name} />
         </section>
