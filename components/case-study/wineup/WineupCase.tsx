@@ -229,7 +229,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Descubre a quién seguir, qué se está bebiendo y dónde se brinda cerca de ti."
           clip="explorar"
           label="Explorar: descubre, feed y mapa"
-          photo={`${M}/bg-vinas.jpg`}
+          photo={`${M}/bg-copa-noche.jpg`}
         />
         <Feature
           side="left"
