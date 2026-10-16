@@ -2,7 +2,6 @@
 
 import { motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import Arrow from "@/components/case-study/Arrow";
 import RollText from "@/components/case-study/RollText";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import { TLink } from "@/components/case-study/Portal";
@@ -71,7 +70,8 @@ function Strip({ items }: { items: MoreItem[] }) {
   const loop = [...items, ...items];
   return (
     <motion.div
-      className="cursor-grab select-none overflow-hidden active:cursor-grabbing"
+      // Aire abajo (compensado): con overflow-hidden, la g, la p o la y de los nombres se cortaban.
+      className="-mb-6 cursor-grab select-none overflow-hidden pb-6 active:cursor-grabbing"
       style={{ touchAction: "pan-y" }}
       onHoverStart={() => setHover(true)}
       onHoverEnd={() => setHover(false)}
@@ -121,7 +121,7 @@ function Strip({ items }: { items: MoreItem[] }) {
   );
 }
 
-export default function CaseEnd({ items, all }: { items: MoreItem[]; all: { label: string; href: string } }) {
+export default function CaseEnd({ items }: { items: MoreItem[]; all?: { label: string; href: string } }) {
   const ref = useRef<HTMLElement>(null);
   const end = useRef<HTMLElement | null>(null);
   useEffect(() => {
@@ -140,13 +140,8 @@ export default function CaseEnd({ items, all }: { items: MoreItem[]; all: { labe
   return (
     <section ref={ref} className="sticky bottom-0 z-0 flex min-h-[100svh] flex-col justify-between overflow-hidden pt-20 md:pt-24">
       <div>
-        <div className="flex items-end justify-between gap-6 px-4 md:px-6">
-          <p className="t-label t-tag text-[var(--case-muted)]">More projects</p>
-          <TLink href={all.href} className="t-small">
-            <RollText text={all.label} /> <Arrow />
-          </TLink>
-        </div>
-        <div className="mt-6 md:mt-8">
+        {/* Sin «More projects» ni «All projects» (2026-10-17): el menú ya lleva a cada sección. */}
+        <div>
           <Strip items={items} />
         </div>
       </div>

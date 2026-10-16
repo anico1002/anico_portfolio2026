@@ -35,9 +35,9 @@ function Hablamos({ show }: { show?: boolean }) {
   }, [show]);
   const on = reduce || (show ?? inView);
   // La máscara es el propio borde: el contenedor recorta justo encima de la línea del pie y las letras suben desde
-  // ella en ola (las mismas letras del rodillo del hover; la animación vive en system.css, `.hablamos`).
+  // ella en ola. Aire bajo las letras igual al margen lateral de la página (16 / 24 px), 2026-10-17 (las mismas letras del rodillo del hover; la animación vive en system.css, `.hablamos`).
   return (
-    <div ref={ref} className={`hablamos overflow-hidden pb-[0.08em] ${on ? "is-in" : ""}`}>
+    <div ref={ref} className={`hablamos overflow-hidden pb-4 md:pb-6 ${on ? "is-in" : ""}`}>
       <TLink href="/maqueta/contacto" className="block t-d2">
         <RollText text="Let’s talk" />
       </TLink>
