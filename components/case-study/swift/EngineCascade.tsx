@@ -14,15 +14,15 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
 const V = "#7c3aed";
 
 const LANES = [
-  { name: "TranslateGemma 4B", tag: "En el Mac · sin internet" },
-  { name: "Apple Translation", tag: "En el Mac · al instante" },
-  { name: "Google Translate", tag: "Red de seguridad" },
+  { name: "TranslateGemma 4B", tag: "On the Mac · offline" },
+  { name: "Apple Translation", tag: "On the Mac · instant" },
+  { name: "Google Translate", tag: "Safety net" },
 ];
 
 const CASES = [
-  { text: "«¿Lo dejamos para el lunes?»", meta: "Mensaje corto · ES → EN", lane: 0, why: "Lo que la app traduce casi siempre: va al más preciso, en menos de medio segundo." },
-  { text: "Un párrafo de 330 caracteres", meta: "Texto largo · EN → ES", lane: 1, why: "El modelo tardaría 2,77 s en escribirlo entero. A partir de 180 caracteres, Apple." },
-  { text: "«See you on Monday?»", meta: "Hacia el catalán · EN → CA", lane: 2, why: "En catalán el modelo invertía el sentido, y Apple no lo soporta. Directo a Google." },
+  { text: "“¿Lo dejamos para el lunes?”", meta: "Short message · ES → EN", lane: 0, why: "What the app translates most: it goes to the most accurate engine, in under half a second." },
+  { text: "A 330-character paragraph", meta: "Long text · EN → ES", lane: 1, why: "The model would take 2.77 s to write it all. From 180 characters up, Apple." },
+  { text: "“See you on Monday?”", meta: "Into Catalan · EN → CA", lane: 2, why: "In Catalan the model flipped the meaning, and Apple doesn’t support it. Straight to Google." },
 ];
 
 export default function EngineCascade() {
@@ -98,7 +98,7 @@ export default function EngineCascade() {
             {c.why}
           </motion.p>
         </AnimatePresence>
-        <p className="mt-6 t-small text-[var(--case-muted)]">Y si todo falla, MyMemory, oculto, como último recurso.</p>
+        <p className="mt-6 t-small text-[var(--case-muted)]">And if everything fails, MyMemory, hidden, as a last resort.</p>
       </div>
     </div>
   );

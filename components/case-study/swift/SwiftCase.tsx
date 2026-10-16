@@ -51,9 +51,9 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
             name="SwifT Translator"
             delay={t}
             facts={[
-              ["Para", "Proyecto propio"],
+              ["Para", "Personal project"],
               ["Rol", "Lead Product Designer"],
-              ["Qué hice", "Producto · App macOS · Logo · Landing"],
+              ["Qué hice", "Product · macOS app · Logo · Landing page"],
               ["Año", "2026 · v2.1"],
             ]}
           />
@@ -67,17 +67,17 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
         <div className={`${grid} gap-y-10`}>
           <div className="col-span-12 md:col-span-8">
             <FadeIn>
-              <Eyebrow>Introducción</Eyebrow>
+              <Eyebrow>Introduction</Eyebrow>
             </FadeIn>
             <Lines className="t-intro" delay={STAGGER}>
-              Traducir cualquier texto sin cambiar de aplicación.
+              Translate any text without switching apps.
             </Lines>
           </div>
           <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              Traducir en el Mac obligaba a cambiar de app, abrir pestañas y copiar y pegar. SwifT vive en la barra de
-              menús: seleccionas, pulsas un atajo y la traducción aparece encima, sin cuenta, sin claves y sin
-              configurar nada.
+              Translating on a Mac meant switching apps, opening tabs and copying and pasting. SwifT lives in the menu
+              bar: select, hit a shortcut and the translation appears right there, with no account, no keys and
+              nothing to set up.
             </p>
           </FadeIn>
         </div>
@@ -85,7 +85,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
 
       {/* El gesto */}
       <section className={section}>
-        <Head eyebrow="El gesto" title={<>Seleccionar, pulsar <Keys keys={["⌥", "⌘", "T"]} />, listo.</>} body="Funciona en cualquier app, aunque SwifT no esté en primer plano. El panel no le roba el foco a lo que estás haciendo." />
+        <Head eyebrow="The gesture" title={<>Select, press <Keys keys={["⌥", "⌘", "T"]} />, done.</>} body="It works in any app, even when SwifT isn’t in front. The panel never steals focus from what you’re doing." />
         <FadeIn>
           <ShortcutDemo />
         </FadeIn>
@@ -99,28 +99,28 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
       {/* Frases trampa */}
       <section className={section}>
         <Head
-          eyebrow="Casos límite"
-          title="El motor se eligió con un banco de pruebas, no por impresiones."
-          body="21 frases que ponen a prueba a cualquier traductor: modismos, preguntas que hay que traducir y no contestar, cifras, ironía, alfabetos de derecha a izquierda."
+          eyebrow="Edge cases"
+          title="The engine was chosen by testing, not by gut feeling."
+          body="21 sentences that trip up any translator: idioms, questions to translate rather than answer, numbers, irony, right-to-left scripts."
         />
         <TrapBench />
       </section>
 
       {/* Tres motores */}
       <section className={section}>
-        <Head eyebrow="Por dentro" title="Tres motores. Cero configuración." body="SwifT elige el mejor para cada texto y, si falla, salta solo al siguiente." />
+        <Head eyebrow="Under the hood" title="Three engines. Zero setup." body="SwifT picks the best one for each text and, if it fails, moves to the next on its own." />
         <EngineCascade />
       </section>
 
       {/* El icono */}
       <section className={section}>
-        <Head eyebrow="El icono" title="Dos idiomas que se cruzan en un rayo." body="Una esquirla cálida y otra fría, espejadas, por los dos idiomas y la rapidez del atajo. Con acabado de cristal, se lee igual a 16 px en la barra que a 512 en el Dock." />
+        <Head eyebrow="The icon" title="Two languages crossing in a bolt." body="A warm shard and a cool one, mirrored, for the two languages and the speed of the shortcut. With a glass finish, it reads just as well at 16 px in the menu bar as at 512 in the Dock." />
         <IconStory />
       </section>
 
       {/* La landing */}
       <section className={section}>
-        <Head eyebrow="Landing" title="Un producto que cabe en una frase merece una página que también." />
+        <Head eyebrow="Landing page" title="A product that fits in one sentence deserves a page that does too." />
       </section>
       {/* La landing en inglés dentro de un MacBook, con la misma apertura de máscara; la web baja y sube en bucle. */}
       <div className="mt-4">
@@ -134,9 +134,9 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
       <section className={`pt-12 md:pt-16 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
           {[
-            ["14 idiomas", "Del catalán al árabe, con nombres en el idioma del sistema."],
-            ["Cero telemetría", "Ni cuenta, ni claves, ni un solo dato enviado. Comprobado sobre el binario."],
-            ["2,49 GB", "La IA se instala con un toque y se borra con un clic, devolviendo el espacio."],
+            ["14 languages", "From Catalan to Arabic, with names in the system language."],
+            ["Zero telemetry", "No account, no keys, not a single byte sent. Verified on the binary."],
+            ["2.49 GB", "The AI installs with one tap and deletes with one click, giving the space back."],
           ].map(([t, d], k) => (
             <FadeIn key={t} delay={k * STAGGER} className="col-span-12 border-t border-[var(--case-line)] pt-5 md:col-span-4">
               <p className="t-title">{t}</p>
@@ -148,8 +148,8 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
 
       <CaseClosing
         className={section}
-        title="La mejor herramienta de traducción es la que no se ve."
-        cta={{ label: "Descargar SwifT", href: "https://swift-translator.vercel.app" }}
+        title="The best translation tool is the one you never notice."
+        cta={{ label: "Download SwifT", href: "https://swift-translator.vercel.app" }}
       />
 
       </CaseLayer>

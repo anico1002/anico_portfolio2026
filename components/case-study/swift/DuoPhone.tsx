@@ -22,7 +22,7 @@ export default function DuoPhone() {
   return (
     <div className="grid grid-cols-12 items-end gap-x-4 gap-y-6 px-4 md:gap-x-6 md:px-6">
       <FadeIn className="col-span-12 md:col-span-3 md:pb-10">
-        <p className="t-body text-[var(--case-muted)]">Y en el móvil, la misma página: se recompone sola y se lee igual de bien.</p>
+        <p className="t-body text-[var(--case-muted)]">And on mobile, the same page: it rearranges itself and reads just as well.</p>
       </FadeIn>
       <div ref={ref} className="m-bleed col-span-12 overflow-hidden md:col-span-8 md:col-start-5" style={{ aspectRatio: "1600 / 1108" }}>
         <video

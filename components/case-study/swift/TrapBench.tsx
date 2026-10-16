@@ -12,16 +12,16 @@ import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 const V = "#7c3aed";
 
 const TRAPS = [
-  { kind: "Modismo", from: "EN → ES", src: "It's raining cats and dogs.", trap: "Traducirlo palabra por palabra: «gatos y perros».", gold: "Está lloviendo a cántaros." },
-  { kind: "Pregunta", from: "EN → ES", src: "I'm swamped this week, can we push it to Monday?", trap: "Contestar en vez de traducir: «Entiendo, puedo moverlo…».", gold: "Estoy hasta arriba esta semana, ¿lo podemos dejar para el lunes?" },
-  { kind: "Cifras", from: "EN → ES", src: "The budget is €1,500.50.", trap: "Cambiar la cantidad al darle la vuelta al formato.", gold: "El presupuesto es de 1.500,50 €." },
-  { kind: "Ironía", from: "EN → ES", src: "Oh great, another meeting. Just what I needed.", trap: "Quitarle el sarcasmo.", gold: "Ah, genial, otra reunión. Justo lo que necesitaba." },
+  { kind: "Idiom", from: "EN → ES", src: "It's raining cats and dogs.", trap: "Translating it word for word: “gatos y perros”.", gold: "Está lloviendo a cántaros." },
+  { kind: "Question", from: "EN → ES", src: "I'm swamped this week, can we push it to Monday?", trap: "Answering instead of translating: “Entiendo, puedo moverlo…”.", gold: "Estoy hasta arriba esta semana, ¿lo podemos dejar para el lunes?" },
+  { kind: "Numbers", from: "EN → ES", src: "The budget is €1,500.50.", trap: "Changing the amount when flipping the format.", gold: "El presupuesto es de 1.500,50 €." },
+  { kind: "Irony", from: "EN → ES", src: "Oh great, another meeting. Just what I needed.", trap: "Stripping out the sarcasm.", gold: "Ah, genial, otra reunión. Justo lo que necesitaba." },
 ];
 
 const SCORES = [
-  { name: "TranslateGemma 4B", n: 15, note: "en el Mac, sin internet" },
-  { name: "Apple Translation", n: 11, note: "en el Mac" },
-  { name: "Google Translate", n: 10, note: "en la nube" },
+  { name: "TranslateGemma 4B", n: 15, note: "on the Mac, offline" },
+  { name: "Apple Translation", n: 11, note: "on the Mac" },
+  { name: "Google Translate", n: 10, note: "in the cloud" },
 ];
 
 function Bars() {
@@ -65,7 +65,7 @@ export default function TrapBench() {
               <p className="t-label t-tag text-[var(--case-muted)]">
                 {t.kind} · {t.from}
               </p>
-              <p className="mt-4 t-lead">«{t.src}»</p>
+              <p className="mt-4 t-lead">“{t.src}”</p>
               <p className="mt-4 t-small text-[var(--case-muted)]">
                 <span className="mr-2 inline-block text-[#e5484d]">✕</span>
                 {t.trap}
@@ -80,7 +80,7 @@ export default function TrapBench() {
       </div>
       <div className="mt-24 grid grid-cols-12 gap-x-4 md:mt-32 md:gap-x-6">
         <div className="col-span-12 md:col-span-6 md:col-start-4">
-          <p className="mb-8 t-label t-tag text-[var(--case-muted)]">21 casos límite · aciertos</p>
+          <p className="mb-8 t-label t-tag text-[var(--case-muted)]">21 edge cases · correct</p>
           <Bars />
         </div>
       </div>

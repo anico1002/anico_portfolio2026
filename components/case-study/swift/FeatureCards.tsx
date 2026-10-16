@@ -145,7 +145,7 @@ function Flip() {
     <div ref={ref} className="flex w-full flex-col gap-5" style={SF}>
       <div className="relative rounded-[0.9rem] bg-[var(--case-bg)] px-5 pb-5 pt-4">
         <div className="flex items-center justify-between text-[12px] text-[var(--case-muted)]">
-          <span>Para: Ana</span>
+          <span>To: Ana</span>
           <AnimatePresence mode="wait">
             <motion.span
               key={`${i}-${phase === "done"}`}
@@ -440,10 +440,10 @@ function MacCorner() {
 }
 
 const CARDS = [
-  { name: "Select & translate", body: <>Seleccionas un texto en cualquier app —Xcode, Safari, Slack, un PDF—, pulsas <Keys keys={["⌥", "⌘", "T"]} className="text-[0.85em]" /> y listo. En todo el sistema.</>, art: <Apps /> },
-  { name: "Auto-flip", body: "¿Escribes en castellano y lo necesitas en inglés? Detecta la dirección y da la vuelta sola cuando hace falta.", art: <Flip /> },
-  { name: "En tu Mac", body: "Traduce con su propia IA, dentro del Mac y sin internet. Se instala desde el menú y se quita desde el mismo sitio.", art: <OnDevice /> },
-  { name: "Stays out of your way", body: "Vive en la barra de menús. Sin icono en el Dock, sin pantallas de bienvenida, sin suscripción. La traducción instantánea que vive en tu Mac.", art: <MacCorner /> },
+  { name: "Select & translate", body: <>Select text in any app (Xcode, Safari, Slack, a PDF), press <Keys keys={["⌥", "⌘", "T"]} className="text-[0.85em]" /> and you’re done. System-wide.</>, art: <Apps /> },
+  { name: "Auto-flip", body: "Writing in Spanish but need it in English? It detects the direction and flips it on its own when needed.", art: <Flip /> },
+  { name: "On your Mac", body: "Translates with its own AI, on your Mac and offline. Install it from the menu and remove it from the same place.", art: <OnDevice /> },
+  { name: "Stays out of your way", body: "It lives in the menu bar. No Dock icon, no welcome screens, no subscription. Instant translation that lives on your Mac.", art: <MacCorner /> },
 ];
 
 export default function FeatureCards() {
@@ -456,7 +456,7 @@ export default function FeatureCards() {
             <p className="mt-4 t-h2">Everything you need. Nothing you don&rsquo;t.</p>
           </div>
           <p className="col-span-12 mt-6 t-body text-[var(--case-muted)] md:col-span-3 md:col-start-10 md:mt-24">
-            El titular de la landing resume el producto: cada decisión fue una resta.
+            The landing page headline sums up the product: every decision was a subtraction.
           </p>
         </div>
       }
