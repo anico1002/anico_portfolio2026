@@ -41,7 +41,9 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
 }
 
 /** Fondo de color con un degradado suave hacia un tono algo más oscuro del mismo color, para que no quede plano. */
-const shade = (c: string) => `linear-gradient(160deg, ${c} 0%, color-mix(in srgb, ${c} 72%, #000) 100%)`;
+const shade = (c: string) => (c.startsWith("linear-gradient") ? c : `linear-gradient(160deg, ${c} 0%, color-mix(in srgb, ${c} 72%, #000) 100%)`);
+/** El degradado de la cabecera del experto en la app (medido del prototipo): de #861AD6 arriba a #571697. */
+const EXPERT = "linear-gradient(180deg, #861AD6 0%, #571697 100%)";
 
 /** Apartado en dos mitades que se alternan (feedback 2026-10-17): a un lado, un solo móvil con el clip de lo que se
     cuenta, sobre un fondo a sangre hasta el borde (color de la app o foto); al otro, titulillo, titular y párrafo
@@ -221,7 +223,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Lo que has probado, lo que quieres probar y tus listas. En estadísticas, el nivel, las rachas y los logros. El perfil del experto suma su feed de contenidos, en violeta."
           clip="cava"
           label="Perfil de WineLover y de WineExpert"
-          bg={W.violet}
+          bg={EXPERT}
         />
         <Feature
           side="right"
