@@ -138,8 +138,8 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       <section className={section}>
         <Head
           eyebrow="El manual"
-          title="Un manual que se consulta en la web, en tres idiomas."
-          body="Quince secciones en castellano, inglés y catalán, con cada logo, color y tipografía listos para descargar."
+          title="Un manual de marca IA-ready."
+          body="Un branding pensado desde el principio para trabajar con IA. El manual no solo guarda la marca: la enseña, a las personas que la usan y a las herramientas que ya forman parte del equipo."
         />
         <ManualWindow />
       </section>
