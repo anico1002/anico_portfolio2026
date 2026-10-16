@@ -58,7 +58,7 @@ function GlassIcon() {
 export default function IconStory({ bg }: { bg?: string }) {
   return (
     <div
-      className="m-bleed relative flex aspect-[4/5] items-center justify-center overflow-hidden md:aspect-[16/9]"
+      className="m-bleed relative flex aspect-[4/5] items-center justify-center overflow-hidden md:-mx-6 md:aspect-[16/9]"
       style={bg ? { backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundPosition: "center" } : { background: "#0a0910" }}
     >
       {!bg && (
