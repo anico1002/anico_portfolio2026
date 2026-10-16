@@ -47,7 +47,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
             facts={[
               ["Para", "Interactius"],
               ["Rol", "Brand Designer"],
-              ["Qué hice", "Rebranding · Web · Manual de marca · Herramientas IA"],
+              ["Qué hice", "Rebranding · Web · Brand guidelines · AI tools"],
               ["Año", "2026"],
             ]}
           />
@@ -61,17 +61,17 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <div className={`${grid} gap-y-10`}>
           <div className="col-span-12 md:col-span-8">
             <FadeIn>
-              <Eyebrow>Introducción</Eyebrow>
+              <Eyebrow>Introduction</Eyebrow>
             </FadeIn>
             <Lines className="t-intro" delay={STAGGER}>
-              Una marca nueva, una web y un manual pensado también para la IA.
+              A new brand, a new website and guidelines built for AI too.
             </Lines>
           </div>
           <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              Interactius, partner estratégico en experiencias y transformación cultural, renovó su marca en 2026: el
-              rebranding, la web y un manual escrito para dos lectores, su equipo y los modelos de IA con los que ya
-              trabaja. Cada decisión tiene su versión para personas y su versión para máquinas.
+              Interactius, a strategic partner in experience design and cultural transformation, renewed its brand in
+              2026: the rebrand, the website and guidelines written for two readers, its team and the AI models it
+              already works with. Every decision has a version for people and a version for machines.
             </p>
           </FadeIn>
         </div>
@@ -81,14 +81,14 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
           repo (public/concepto/interactius-logo-tecnic.svg): retícula, medidas y los cortes marcados. */}
       <section className={section}>
         <Head
-          eyebrow="El logotipo"
-          title="Un macrón que corrige cómo se dice."
-          body="Un logotipo construido sobre IBM Plex Mono con una sola intervención: el macrón sobre la última i. De ella sale todo el sistema."
+          eyebrow="The logo"
+          title="A macron that fixes how it’s said."
+          body="A logotype built on IBM Plex Mono with a single intervention: the macron over the last i. The whole system grows from it."
         />
         <FadeIn>
           <div className="m-bleed overflow-hidden px-4 py-14 md:px-16 md:py-28" style={{ background: IX.light }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construcción del logotipo de interactīus" className="mx-auto w-full max-w-[64rem]" />
+            <img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construction of the interactīus logotype" className="mx-auto w-full max-w-[64rem]" />
           </div>
         </FadeIn>
         <div className="mt-2">
@@ -99,9 +99,9 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       {/* Tipografía: las dos de la marca y por qué */}
       <section className={section}>
         <Head
-          eyebrow="Tipografía"
-          title="Una letra que mide y otra que habla."
-          body="IBM Plex Mono construye el logotipo y IBM Plex Serif pone la voz en los titulares. Las dos son libres: cualquier herramienta o IA puede usarlas."
+          eyebrow="Typography"
+          title="One typeface that measures, one that speaks."
+          body="IBM Plex Mono builds the logotype and IBM Plex Serif gives the headlines their voice. Both are open, so any tool or AI can use them."
         />
         <TypePair />
       </section>
@@ -109,9 +109,9 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       {/* La web corporativa (gran parte del trabajo, junto al rebranding): MacBook real y la versión móvil */}
       <section className={section}>
         <Head
-          eyebrow="La web"
-          title="La nueva marca, en su primera casa."
-          body="La web pone la marca a trabajar: el logotipo en vertical en el margen, las dos letras, la fotografía liminal y los servicios y casos contados con la voz nueva."
+          eyebrow="The website"
+          title="The new brand, in its first home."
+          body="The website puts the brand to work: the vertical logo in the margin, both typefaces, liminal photography, and services and cases told in the new voice."
         />
         <WebLaptop />
         <WebPhone />
@@ -120,9 +120,9 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       {/* El manual: ventana de navegador, sin enlace */}
       <section className={section}>
         <Head
-          eyebrow="El manual"
-          title="Un manual de marca IA-ready."
-          body="Un branding pensado desde el principio para trabajar con IA. El manual no solo guarda la marca: la enseña, a las personas que la usan y a las herramientas que ya forman parte del equipo."
+          eyebrow="The guidelines"
+          title="AI-ready brand guidelines."
+          body="A brand designed from day one to work with AI. The guidelines don’t just store the brand: they teach it, to the people who use it and to the tools already on the team."
         />
         <ManualWindow />
       </section>
@@ -130,25 +130,25 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       {/* Preparada para IA: el capítulo central */}
       <section className={section}>
         <Head
-          eyebrow="Preparada para IA"
-          title="La dirección de arte, convertida en instrucciones."
-          body="El universo visual se describe en un prompt técnico que se copia con un clic, para que cualquier imagen generada encaje con la marca desde el primer intento."
+          eyebrow="Built for AI"
+          title="Art direction, turned into instructions."
+          body="The visual world lives in a technical prompt you copy in one click, so every generated image fits the brand on the first try."
         />
         <ImagePrompt />
       </section>
 
       <section className={section}>
-        <Head eyebrow="El tono" title="La voz de la marca, en un prompt." body="Una voz propia, reconocible en cada frase y convertida en una herramienta: la IA escribe con ella y las personas la reconocen, sin perder el tono corporativo de la marca." />
+        <Head eyebrow="Tone of voice" title="The brand’s voice, in a prompt." body="A voice of its own, recognizable in every sentence and turned into a tool: AI writes with it and people recognize it, without losing the brand’s corporate tone." />
         <ToneCheck />
       </section>
 
       <section className={section}>
-        <Head eyebrow="Para máquinas" title="Todo el manual, en un formato que una IA sabe leer." />
+        <Head eyebrow="For machines" title="The whole guidelines, in a format AI can read." />
         <AiLayer />
       </section>
 
       <section className={section}>
-        <Head eyebrow="Un solo origen" title="Se cambia en un sitio y cambia en todos." body="Colores, tipografía y reglas viven en un único archivo. De ahí salen la web, los prompts, la API de marca y cada diapositiva." />
+        <Head eyebrow="One source" title="Change it once, it changes everywhere." body="Colors, type and rules live in a single file. The website, the prompts, the brand API and every slide all come from it." />
         <TokenSync />
       </section>
 
@@ -156,8 +156,8 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       <section className={section}>
         <Head
           eyebrow="DeckMak_r"
-          title="Una propuesta comercial, lista en minutos."
-          body="Preparar presentaciones comerciales se llevaba un tiempo valioso del equipo. Diseñé una herramienta que lo automatiza con IA: el equipo escribe la idea y recibe una propuesta con la voz y el tono corporativos de la marca."
+          title="A sales proposal, ready in minutes."
+          body="Building sales decks was eating up the team’s valuable time. I designed a tool that automates it with AI: the team writes the idea and gets a proposal in the brand’s corporate voice and tone."
         />
       </section>
       <div className="mt-4 md:px-6">
@@ -170,10 +170,10 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       <section className={`pt-12 md:pt-16 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
           {[
-            ["15", "secciones del manual"],
-            ["3", "idiomas: castellano, inglés y catalán"],
-            ["17", "composiciones de diapositiva"],
-            ["48", "conceptos vetados en el tono"],
+            ["15", "guideline sections"],
+            ["3", "languages: Spanish, English and Catalan"],
+            ["17", "slide layouts"],
+            ["48", "banned concepts in the tone"],
           ].map(([t, d], k) => (
             <FadeIn key={d} delay={k * STAGGER} className="col-span-6 border-t border-[var(--case-line)] pt-5 md:col-span-3">
               <p className="t-title">{t}</p>
@@ -185,7 +185,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
 
       <CaseClosing
         className={section}
-        title="Actitud liminal para una marca de su tiempo. Un rebranding IA-ready de principio a fin."
+        title="A liminal attitude for a brand of its time. An AI-ready rebrand from start to finish."
       />
 
       </CaseLayer>

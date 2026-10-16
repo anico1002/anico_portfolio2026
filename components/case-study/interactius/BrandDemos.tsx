@@ -24,9 +24,9 @@ function useInView<T extends Element>(margin = "-15% 0px") {
 }
 
 const SERVICES = [
-  { key: "estrategico", name: "Pensamiento estratégico", color: IX.opal, token: "opal" },
-  { key: "experiencias", name: "Diseño de experiencias", color: IX.bordeaux, token: "bordeaux" },
-  { key: "cultural", name: "Transformación cultural", color: IX.emerald, token: "emerald" },
+  { key: "estrategico", name: "Strategic thinking", color: IX.opal, token: "opal" },
+  { key: "experiencias", name: "Experience design", color: IX.bordeaux, token: "bordeaux" },
+  { key: "cultural", name: "Cultural transformation", color: IX.emerald, token: "emerald" },
 ] as const;
 
 /** Una sola fuente: el color del servicio elegido llega a la vez a todas las salidas. */
@@ -48,7 +48,7 @@ export function TokenSync() {
       {/* La fuente: lib/tokens.ts */}
       <div className="col-span-12 p-6 text-[13px] leading-[1.9] md:col-span-5" style={{ background: IX.dark, color: "rgba(255,255,255,0.6)", ...mono }}>
         <p className="mb-3 text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>
-          lib/tokens.ts · la única fuente
+          lib/tokens.ts · the single source
         </p>
         <p>export const accent = {"{"}</p>
         {SERVICES.map((x, k) => (
@@ -69,7 +69,7 @@ export function TokenSync() {
       {/* Las salidas */}
       <div className="col-span-12 grid grid-cols-2 gap-3 md:col-span-7 md:gap-4" style={mono}>
         <div className="flex flex-col justify-between p-5" style={{ background: IX.light, color: IX.dark }}>
-          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>Manual · color</p>
+          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>Guidelines · color</p>
           <motion.div key={s.key + "sw"} {...flash} className="mt-4 h-20 w-full" style={{ background: s.color }} />
           <p className="mt-3 text-[13px]">{s.name}</p>
         </div>
@@ -89,12 +89,12 @@ export function TokenSync() {
           </div>
         </div>
         <div className="p-5" style={{ background: IX.mid, color: IX.dark }}>
-          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>Deck · portada</p>
+          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>Deck · cover</p>
           <motion.p key={s.key + "ey"} {...flash} className="mt-5 text-[11px] font-medium uppercase tracking-[0.08em]" style={{ color: s.color === IX.opal ? IX.ashDark : s.color }}>
             {s.name}
           </motion.p>
           <p className="mt-1 text-[20px] font-light leading-tight" style={serif}>
-            Propuesta de colaboración
+            Collaboration proposal
           </p>
         </div>
       </div>
@@ -105,17 +105,17 @@ export function TokenSync() {
 /* Vocabulario prohibido real (lib/tokens.ts, forbiddenVocabularyDetailed): 48 conceptos. «Caso de éxito»
    también está en la lista. */
 const SENTENCE = [
-  { t: "Ofrecemos " },
-  { t: "soluciones", bad: true },
+  { t: "We offer " },
+  { t: "innovative", bad: true },
   { t: " " },
-  { t: "innovadoras", bad: true },
-  { t: " con una visión " },
-  { t: "360", bad: true },
-  { t: " para " },
-  { t: "empoderar", bad: true },
-  { t: " a tu equipo." },
+  { t: "solutions", bad: true },
+  { t: " with a " },
+  { t: "360°", bad: true },
+  { t: " vision to " },
+  { t: "empower", bad: true },
+  { t: " your team." },
 ];
-const REWRITE = "Revisamos cómo decide hoy tu equipo y proponemos dos cambios que se pueden medir en tres meses.";
+const REWRITE = "We look at how your team makes decisions today and propose two changes you can measure in three months.";
 
 export function ToneCheck() {
   const [fixed, setFixed] = useState(false);
@@ -129,8 +129,8 @@ export function ToneCheck() {
   return (
     <div ref={ref} className={`p-6 md:p-12 ${ixFonts}`} style={{ background: IX.light, color: IX.dark }}>
       <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.08em]" style={{ ...mono, color: IX.ash }}>
-        <span>Validador de tono</span>
-        <span style={{ color: fixed ? IX.emerald : IX.bordeaux }}>{fixed ? "Pasa" : "4 términos prohibidos"}</span>
+        <span>Tone checker</span>
+        <span style={{ color: fixed ? IX.emerald : IX.bordeaux }}>{fixed ? "Pass" : "4 banned terms"}</span>
       </div>
       <div className="mt-8 min-h-[8rem] md:min-h-[9rem]">
         <AnimatePresence mode="wait">
@@ -154,14 +154,14 @@ export function ToneCheck() {
         </AnimatePresence>
       </div>
       <p className="mt-8 font-[family-name:var(--font-case-sans)] t-small" style={{ color: IX.ash }}>
-        48 conceptos prohibidos con todas sus formas, en castellano e inglés. Entre ellos, «caso de éxito».
+        48 banned concepts in all their forms, in Spanish and English. “Success story” is one of them.
       </p>
     </div>
   );
 }
 
 const WORDS =
-  "La propuesta parte de una pregunta sencilla: qué decide hoy el equipo y con qué información. A partir de ahí, tres semanas de escucha, un prototipo que se prueba con quien usa el servicio y una medida acordada desde el principio para saber si el cambio ha funcionado de verdad.".split(" ");
+  "The proposal starts from a simple question: what does the team decide today, and with what information. From there, three weeks of listening, a prototype tested with the people who use the service, and a measure agreed from the start to know whether the change really worked.".split(" ");
 
 /** FitText: el párrafo crece y el cuerpo baja lo justo para no salirse nunca de la banda 64–656. */
 export function FitTextDemo() {

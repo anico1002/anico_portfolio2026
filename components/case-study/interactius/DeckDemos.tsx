@@ -81,15 +81,15 @@ function useTyping(total: number, ms = 650, pause = 2600) {
 
 const COLS_MD = [
   "[ly: columnas]",
-  "## Cómo lo haremos",
-  "### Diagnóstico",
-  "Leer cómo se decide hoy.",
-  "### Escucha",
-  "Hablar con quien usa el servicio.",
-  "### Prototipo",
-  "Probar antes de construir.",
-  "### Medida",
-  "Saber si ha funcionado.",
+  "## How we’ll do it",
+  "### Diagnosis",
+  "Read how decisions are made today.",
+  "### Listening",
+  "Talk to the people who use the service.",
+  "### Prototype",
+  "Test before you build.",
+  "### Measure",
+  "Know whether it worked.",
 ];
 
 export function MarkdownToSlide() {
@@ -158,7 +158,7 @@ export function MarkdownToSlide() {
   );
 }
 
-const GANTT_MD = ["```gantt", "semanas: 8", "Diagnóstico: 1", "Escucha: 2-3.5", "Prototipo: 4-6", "Medida: 7-8", "hitos: 1, 3, 6, 8", "```"];
+const GANTT_MD = ["```gantt", "weeks: 8", "Diagnosis: 1", "Listening: 2-3.5", "Prototype: 4-6", "Measure: 7-8", "milestones: 1, 3, 6, 8", "```"];
 const BARS = [IX.opal, IX.bordeaux, IX.emerald, IX.opal];
 
 export function GanttTyped() {
@@ -166,9 +166,9 @@ export function GanttTyped() {
   const md = GANTT_MD.slice(0, shown);
   const rows = md
     .map((l) => l.match(/^([^:]+):\s*([\d.]+)(?:-([\d.]+))?$/))
-    .filter((m): m is RegExpMatchArray => !!m && m[1] !== "semanas")
+    .filter((m): m is RegExpMatchArray => !!m && m[1] !== "weeks")
     .map((m) => ({ name: m[1], from: Number(m[2]), to: Number(m[3] ?? m[2]) }));
-  const hitos = md.find((l) => l.startsWith("hitos:"))?.slice(6).split(",").map((x) => Number(x)) ?? [];
+  const hitos = md.find((l) => l.startsWith("milestones:"))?.slice(11).split(",").map((x) => Number(x)) ?? [];
   const weeks = 8;
   const W = 1280 - 108 - 108 - 130;
 
@@ -183,7 +183,7 @@ export function GanttTyped() {
             Roadmap
           </p>
           <p className="absolute left-[110px] top-[136px] text-[13px]" style={{ color: IX.ash }}>
-            8 semanas
+            8 weeks
           </p>
           <div className="absolute left-[108px] right-[108px] top-[220px]">
             <div className="flex pb-3 text-[13px] font-semibold">

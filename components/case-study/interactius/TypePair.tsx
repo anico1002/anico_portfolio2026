@@ -19,8 +19,8 @@ const FACES = [
       ["Regular", 400],
       ["Semibold", 600],
     ] as const,
-    sample: "Pensamiento estratégico",
-    why: "Precisión y carácter técnico. Es la letra del logotipo y la que da a la marca su rigor de método.",
+    sample: "Strategic thinking",
+    why: "Precision and technical character. It’s the logotype’s typeface and gives the brand its methodical rigor.",
   },
   {
     role: "Contraste",
@@ -30,8 +30,8 @@ const FACES = [
       ["Light", 300],
       ["Regular", 400],
     ] as const,
-    sample: "Actitud liminal",
-    why: "Una dimensión humanista y sofisticada para titulares y destacados.",
+    sample: "Liminal attitude",
+    why: "A humanist, sophisticated dimension for headlines and highlights.",
   },
 ];
 

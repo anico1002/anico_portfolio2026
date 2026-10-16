@@ -39,7 +39,7 @@ function Macron() {
   }, [on, reduce]);
   const r = reduce || long ? BAR : DOT;
   return (
-    <svg ref={ref} viewBox="-2 -2 142 72" className="w-full" aria-label="El macrón sobre la ī: el punto de la i alargado">
+    <svg ref={ref} viewBox="-2 -2 142 72" className="w-full" aria-label="The macron over the ī: the dot of the i, stretched">
       {IUS.map((d, k) => (
         <path key={k} d={d} fill={IX.dark} opacity={0.1} />
       ))}
@@ -57,9 +57,9 @@ function Version({ tone }: { tone: "positivo" | "negativo" }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={`/maqueta/interactius/brand/isotipo-${tone}.svg`} alt={`Isotipo ${tone}`} className="w-7 md:w-9" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/maqueta/interactius/brand/interactius-${tone}.svg`} alt={`interactīus, versión ${pos ? "positiva" : "negativa"}`} className="w-[78%]" />
+        <img src={`/maqueta/interactius/brand/interactius-${tone}.svg`} alt={`interactīus, ${pos ? "positive" : "negative"} version`} className="w-[78%]" />
         <figcaption className="t-label t-tag" style={{ color: pos ? IX.ash : "rgba(255,255,255,0.6)" }}>
-          Versión {pos ? "positiva" : "negativa"}
+          {pos ? "Positive" : "Negative"} version
         </figcaption>
       </figure>
     </FadeIn>
@@ -76,20 +76,20 @@ export default function LogoStory() {
           <div className="p-8 md:p-16" style={{ background: IX.light }}>
             <Macron />
             <p className="mt-8 max-w-[38ch] text-[12px] leading-[1.7]" style={{ ...mono, color: IX.ash }}>
-              /ˈmakron/ Marca escrita o impresa (¯) que indica una vocal larga en algunos idiomas, o una vocal
-              acentuada en verso.
+              /ˈmakrɒn/ A written or printed mark (¯) that indicates a long vowel in some languages, or a stressed vowel
+              in verse.
             </p>
           </div>
         </FadeIn>
         <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 mb-10 md:mb-0 md:self-center">
-          <p className="t-label t-tag text-[var(--case-muted)]">Función fonética</p>
+          <p className="t-label t-tag text-[var(--case-muted)]">Phonetic function</p>
           <p className="mt-3 t-body text-[var(--case-muted)]">
-            Interactíus se acentúa en la última i, y quien lee tiende a llevar el peso al centro de la palabra. El
-            macrón fija la cadencia correcta: no adorna, regula cómo suena.
+            Interactius is stressed on the last i, but readers tend to put the weight in the middle of the word. The
+            macron sets the right cadence: it isn’t decoration, it controls how the name sounds.
           </p>
           <p className="mt-4 t-body text-[var(--case-muted)]">
-            El punto de la i se alarga hasta romper la línea superior de la letra. Ese estiramiento marca la zona de
-            transición, el espacio entre, y es el vector que rige cómo se mueve todo en pantalla.
+            The dot of the i stretches until it breaks the letter’s top line. That stretch marks the zone of
+            transition, the space in between, and it’s the vector that drives how everything moves on screen.
           </p>
         </FadeIn>
       </div>

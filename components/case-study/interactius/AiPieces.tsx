@@ -33,22 +33,22 @@ function useInView<T extends Element>() {
 /* ── Prompt de imagen: la dirección fotográfica, traducida a instrucciones que se copian ───────────── */
 
 const BODY = [
-  ["Película", "35 mm analógica, grano fino, color sutil de Kodak Portra 400."],
-  ["Óptica", "Fija de 35 o 50 mm, profundidad de campo muy baja."],
-  ["Luz", "Natural, lateral o difusa. Nada de estudio."],
-  ["Obturación", "Lenta, de 1/15 a 1/60 s: un barrido, una estela de luz."],
+  ["Film", "35 mm analog, fine grain, the subtle color of Kodak Portra 400."],
+  ["Lens", "35 or 50 mm prime, very shallow depth of field."],
+  ["Light", "Natural, side or diffused. No studio light."],
+  ["Shutter", "Slow, 1/15 to 1/60 s: a sweep, a trail of light."],
 ] as const;
 
 const SUBJECT = {
   standard: {
-    label: "Estándar",
-    lines: ["Espacios y objetos sin presencia humana: umbrales, pasillos, materiales y la luz que los atraviesa.", "Ninguna figura humana. Ni manos, ni siluetas, ni reflejos, ni sombras."],
-    toast: "Prompt estándar copiado",
+    label: "Standard",
+    lines: ["Spaces and objects with no human presence: thresholds, corridors, materials and the light that crosses them.", "No human figures. No hands, silhouettes, reflections or shadows."],
+    toast: "Standard prompt copied",
   },
   people: {
-    label: "Personas",
-    lines: ["Personas reales en entornos profesionales.", "Nunca posando, nunca mirando a cámara, nunca sonriendo de forma corporativa."],
-    toast: "Prompt con personas copiado",
+    label: "People",
+    lines: ["Real people in professional settings.", "Never posing, never looking at the camera, never smiling corporately."],
+    toast: "People prompt copied",
   },
 } as const;
 
@@ -103,7 +103,7 @@ export function ImagePrompt() {
       <div className="relative col-span-12 flex flex-col justify-between p-6 md:col-span-5 md:p-9" style={{ background: IX.dark, color: IX.light, ...mono }}>
         <div>
           <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>
-            [Directiva de imagen corporativa]
+            [Corporate image directive]
           </p>
           <dl className="mt-7 space-y-4 text-[13px] leading-[1.7]">
             {BODY.map(([k, d]) => (
@@ -113,7 +113,7 @@ export function ImagePrompt() {
               </div>
             ))}
             <div className="grid grid-cols-[6.5rem_1fr] gap-3">
-              <dt style={{ color: IX.ash }}>Sujeto</dt>
+              <dt style={{ color: IX.ash }}>Subject</dt>
               <dd className="min-h-[7.5em]">
                 <AnimatePresence mode="wait">
                   <motion.div key={v} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: 0.45, ease: IX_EXPO }}>
@@ -139,7 +139,7 @@ export function ImagePrompt() {
                 color: k === v && press ? IX.dark : k === v ? IX.light : IX.ash,
               }}
             >
-              ↗ Copiar prompt · {SUBJECT[k].label}
+              ↗ Copy prompt · {SUBJECT[k].label}
             </span>
           ))}
         </div>
@@ -165,12 +165,12 @@ export function ImagePrompt() {
 /* ── La capa para IA, entera: cada pieza con su versión para máquinas ──────────────────────────────── */
 
 const LAYER = [
-  ["Prompt maestro", "Se pega como instrucciones en un proyecto de IA y la marca queda cargada para todo lo que venga después."],
-  ["llms.txt", "El manual completo en texto plano, listo para que lo lea cualquier modelo."],
-  ["brand.json", "Colores, tipografía, voz y ejemplos en datos, para las herramientas propias."],
-  ["Validador de tono", "Puntúa un texto de 0 a 100 y señala qué palabra o qué frase rompe la voz."],
-  ["ReWritr", "Reescribe cualquier texto con la voz de la marca."],
-  ["IMGr", "Un banco de imágenes que comprueba, criterio a criterio, si una foto encaja con la guía."],
+  ["Master prompt", "Paste it as instructions in an AI project and the brand is loaded for everything that follows."],
+  ["llms.txt", "The full guidelines in plain text, ready for any model to read."],
+  ["brand.json", "Colors, type, voice and examples as data, for in-house tools."],
+  ["Tone checker", "Scores any text from 0 to 100 and flags the word or sentence that breaks the voice."],
+  ["ReWritr", "Rewrites any text in the brand’s voice."],
+  ["IMGr", "An image bank that checks, rule by rule, whether a photo fits the guidelines."],
 ] as const;
 
 export function AiLayer() {
@@ -238,7 +238,7 @@ export function WebLaptop() {
         className="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-3 whitespace-nowrap px-6 py-4 t-small transition-opacity hover:opacity-85 md:bottom-8"
         style={{ background: IX.dark, color: IX.light }}
       >
-        Ver la web <Arrow />
+        View the website <Arrow />
       </a>
     </div>
   );
@@ -250,11 +250,11 @@ export function WebPhone() {
   return (
     <div className="relative z-10 grid grid-cols-12 gap-x-4 md:gap-x-6">
       <FadeIn className="col-span-7 mt-8 md:col-span-3 md:col-start-2 md:mt-12">
-        <p className="t-body text-[var(--case-muted)]">Y en el móvil, la misma marca: la retícula se recompone y la letra mantiene su escala.</p>
+        <p className="t-body text-[var(--case-muted)]">And on mobile, the same brand: the grid rearranges and the type keeps its scale.</p>
       </FadeIn>
       <Parallax speed={320} className="col-span-5 -mt-24 md:col-span-3 md:col-start-9 md:-mt-[22rem]">
         <div className="mx-auto w-full max-w-[300px] rotate-[14deg] drop-shadow-[0_40px_50px_rgba(10,10,10,0.35)]">
-          <RealPhone src="/maqueta/interactius/media/web-movil.mp4" label="La web de Interactius en el móvil" />
+          <RealPhone src="/maqueta/interactius/media/web-movil.mp4" label="The Interactius website on mobile" />
         </div>
       </Parallax>
     </div>
@@ -295,7 +295,7 @@ export function DeckWindow({ children }: { children: React.ReactNode }) {
             DeckMak<span style={{ color: IX.bordeaux }}>_</span>r
           </span>
           <span className="hidden md:inline" style={{ color: IX.ash }}>
-            Propuesta · Cómo lo haremos
+            Proposal · How we’ll do it
           </span>
         </div>
         <div className="flex items-center gap-2" style={{ color: IX.ash }}>
@@ -316,7 +316,7 @@ export function DeckWindow({ children }: { children: React.ReactNode }) {
       <div className="p-3 md:p-6">{children}</div>
       {/* Pie nuestro, no de la herramienta: estilo de pie de la web (t-small, como Caption), no la mono de la ventana. */}
       <p className="px-4 pb-4 font-[family-name:var(--font-case-sans)] t-small md:px-6 md:pb-6" style={{ color: IX.ash }}>
-        17 composiciones · tono auditado en vivo · exporta a PDF o a una URL
+        17 layouts · live tone check · export to PDF or a URL
       </p>
     </div>
   );
