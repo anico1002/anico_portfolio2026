@@ -138,7 +138,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       </section>
 
       <section className={section}>
-        <Head eyebrow="El tono" title="La voz de la marca, en un prompt." body="Frases de 15 a 22 palabras, sin exclamaciones y con 48 conceptos vetados. Se copia con un clic, y el validador avisa antes de que nada salga de la oficina." />
+        <Head eyebrow="El tono" title="La voz de la marca, en un prompt." body="Una voz propia, reconocible en cada frase y convertida en una herramienta: la IA escribe con ella y las personas la reconocen, sin perder el tono corporativo de la marca." />
         <ToneCheck />
       </section>
 
@@ -157,7 +157,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <Head
           eyebrow="DeckMak_r"
           title="Una propuesta comercial, lista en minutos."
-          body="Montar cada presentación comercial le costaba días al equipo. Diseñé una herramienta que automatiza el proceso con IA: el equipo escribe la idea y recibe una propuesta con la marca impecable."
+          body="Preparar presentaciones comerciales se llevaba un tiempo valioso del equipo. Diseñé una herramienta que lo automatiza con IA: el equipo escribe la idea y recibe una propuesta con la marca impecable."
         />
       </section>
       <div className="mt-4 md:px-6">
