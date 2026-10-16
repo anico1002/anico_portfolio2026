@@ -115,7 +115,7 @@ export const CASES: CaseCopy[] = [
     line: "Instant translation from the macOS menu bar",
     year: "2026",
     role: "Lead Product Designer",
-    services: ["Product", "macOS app", "Icon", "Landing page"],
+    services: ["Product", "macOS app", "Logo", "Landing page"],
     accent: "#8A8A8A",
     light: true,
     tagline: "Traducir cualquier texto sin salir de lo que estás haciendo.",

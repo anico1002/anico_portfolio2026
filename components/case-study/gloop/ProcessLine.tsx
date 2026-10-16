@@ -30,18 +30,18 @@ type Step = {
 
 const STEPS: Step[] = [
   // Benchmark: rejilla isométrica con capturas de apps de eventos (scripts/mockups/iso_grid.py).
-  { title: "Benchmark", body: "Qué hacen las apps de noche y qué les falta.", media: { src: "/maqueta/gloop/media/benchmark.jpg" } },
-  { title: "Wireframes", body: "Primero la estructura. El color, después.", wire: true },
-  { title: "Dirección de arte", body: "Oscura, eléctrica y con ganas de fiesta.", mood: true },
-  { title: "Primeras pantallas", body: "La noche, convertida en interfaz.", media: { src: "/maqueta/gloop/media/prototipo.jpg" } },
-  { title: "Design system", body: "Todo el lenguaje, ordenado en un sistema.", media: { src: "/maqueta/gloop/media/kit-poster.jpg" } },
-  { title: "Prototipo", body: "Para sentirla antes de construirla.", media: { src: "/maqueta/gloop/media/flujo-dia.mp4", video: true } },
+  { title: "Benchmark", body: "What nightlife apps do, and what they’re missing.", media: { src: "/maqueta/gloop/media/benchmark.jpg" } },
+  { title: "Wireframes", body: "Structure first. Color later.", wire: true },
+  { title: "Art direction", body: "Dark, electric and ready to party.", mood: true },
+  { title: "First screens", body: "The night, turned into interface.", media: { src: "/maqueta/gloop/media/prototipo.jpg" } },
+  { title: "Design system", body: "The whole language, organized into a system.", media: { src: "/maqueta/gloop/media/kit-poster.jpg" } },
+  { title: "Prototype", body: "To feel it before building it.", media: { src: "/maqueta/gloop/media/flujo-dia.mp4", video: true } },
   {
-    title: "Código",
-    body: "El diseño, traducido sin perder un píxel.",
+    title: "Code",
+    body: "The design, translated without losing a pixel.",
     code: ["struct GloopButton: View {", "  let title: String", "  var style: Style = .primary", "  var body: some View {", "    Text(title)", "      .font(.gloop(.nav))", "      .frame(height: 64)", "      .background(.white, in: .capsule)", "  }", "}"],
   },
-  { title: "App final", body: "Lista para salir de fiesta.", app: "/maqueta/gloop/media/scr-nativa.mp4" },
+  { title: "Final app", body: "Ready for a night out.", app: "/maqueta/gloop/media/scr-nativa.mp4" },
 ];
 
 /** Mini moodboard de la dirección de arte: tres fotos de noche y la paleta. */
@@ -149,7 +149,7 @@ function Wireframes() {
         {i % 2 === 1 && <rect x={12} y={H - 52} width={W - 24} height={22} rx={11} fill="none" stroke={line} />}
         <rect x={20} y={H - 22} width={W - 40} height={12} rx={6} fill={g2} />
         <text x={0} y={H + 22} fill="#6b6b72" fontSize={9} fontFamily="ui-sans-serif, system-ui">
-          {["Inicio", "Equipo", "La noche", "Momentos", "La Cuenta", "Perfil"][i]}
+          {["Home", "Team", "Tonight", "Moments", "The Tab", "Profile"][i]}
         </text>
         {i < screens - 1 && <path d={`M${W + 6} ${H / 2} h${gap - 12}`} stroke={line} strokeWidth={1} markerEnd="url(#wf-arrow)" />}
       </g>
@@ -209,7 +209,7 @@ function StepCard({ s, i }: { s: Step; i: number }) {
             className="absolute left-1/2 top-[5%] h-[96%] -translate-x-1/2 overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.8)]"
             style={{ aspectRatio: "480 / 1042", borderRadius: "11% / 5.1%" }}
           >
-            <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={s.app} aria-label="La app final" />
+            <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={s.app} aria-label="The final app" />
           </div>
         </div>
       )}
@@ -245,8 +245,8 @@ export default function ProcessLine() {
     <div ref={ref} className={`relative ${geist.variable}`} style={pinned ? { height: `calc(100vh + ${dist}px)` } : undefined}>
       <div className={pinned ? "sticky top-0 flex h-screen flex-col justify-center overflow-hidden" : "py-10"}>
         <div className="px-4 md:px-6">
-          <p className="t-label t-tag text-[var(--case-muted)]">El proceso</p>
-          <Lines className="mt-4 max-w-[24ch] t-statement text-balance">Del primer boceto a la app en tu mano.</Lines>
+          <p className="t-label t-tag text-[var(--case-muted)]">The process</p>
+          <Lines className="mt-4 max-w-[24ch] t-statement text-balance">From first sketch to the app in your hand.</Lines>
         </div>
         <motion.div
           ref={track}

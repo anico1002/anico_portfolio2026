@@ -111,7 +111,7 @@ export default function SiteNav({
             ))}
             {menu && (
               <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
-                Menú
+                Menu
               </button>
             )}
             <ThemeToggle />

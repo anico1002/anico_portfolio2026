@@ -12,10 +12,10 @@ import { geist } from "./tokens";
    y giran hasta quedar de frente formando una sola pantalla. Todo recreado con los tokens reales. */
 
 const LAYERS = [
-  { n: "1", title: "Se siente iPhone", body: "Gestos y navegación que ya sabes usar." },
-  { n: "2", title: "Viste de Gloop", body: "Los controles de siempre, con la ropa de la marca." },
-  { n: "3", title: "Brilla de noche", body: "Fondos, brillos y tarjetas con luz propia." },
-  { n: "4", title: "Cada equipo, su color", body: "Cada grupo con su tono, para reconocerlo de un vistazo." },
+  { n: "1", title: "Feels like iPhone", body: "Gestures and navigation you already know." },
+  { n: "2", title: "Dressed in Gloop", body: "Familiar controls, wearing the brand." },
+  { n: "3", title: "Glows at night", body: "Backgrounds, glows and cards with their own light." },
+  { n: "4", title: "Every team, its color", body: "Each group gets its own tone, recognizable at a glance." },
 ];
 
 const W = 300;
@@ -75,8 +75,8 @@ export default function FourLayers() {
           {/* Centrado en el hueco entre el margen y la pila (feedback 2026-10-14: pegado al margen quedaba raro). */}
           <div className="col-span-12 md:col-span-5 md:flex md:justify-center">
             <div className="md:max-w-[24rem]">
-            <p className="t-label t-tag text-[var(--case-muted)]">Por capas</p>
-            <Lines className="mt-4 t-title">Lo nativo, donde se espera. La marca, donde se luce.</Lines>
+            <p className="t-label t-tag text-[var(--case-muted)]">In layers</p>
+            <Lines className="mt-4 t-title">Native where you expect it. Brand where it shines.</Lines>
             {/* En móvil no cabe con la pila: solo el titular (cada plano lleva su etiqueta). */}
             {/* Cada número, en la línea base de su título (antes quedaba más arriba). */}
             <ol className="mt-8 hidden space-y-5 md:block">

@@ -173,7 +173,7 @@ export default function ImagoCanon() {
               )}
               {shapeKey === "cta" && (
                 <span className="flex h-full items-center justify-center text-[17px] font-semibold text-black" style={{ fontFamily: "var(--font-gloop)" }}>
-                  Crear equipo
+                  Create a team
                 </span>
               )}
             </motion.div>
@@ -183,12 +183,12 @@ export default function ImagoCanon() {
       {/* Centrado en el hueco entre el margen y la imagen (feedback 2026-10-14). */}
       <div className="col-span-12 md:order-1 md:col-span-5 md:flex md:justify-center">
         <div className="md:max-w-[24rem]">
-          <p className="t-label t-tag text-[var(--case-muted)]">La forma</p>
-          <Lines className="mt-4 t-title">Todo empieza en una esquina.</Lines>
+          <p className="t-label t-tag text-[var(--case-muted)]">The shape</p>
+          <Lines className="mt-4 t-title">It all starts with a corner.</Lines>
           <FadeIn className="mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              La esquina recta del logo firma cada pieza de la interfaz, de la tarjeta más grande al avatar más
-              pequeño. Por eso todo respira marca.
+              The logo’s square corner signs every piece of the interface, from the biggest card to the smallest
+              avatar. That’s why everything breathes the brand.
             </p>
           </FadeIn>
           <div className="mt-8 flex items-end gap-3">

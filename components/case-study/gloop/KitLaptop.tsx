@@ -16,9 +16,9 @@ import { G, geist } from "./tokens";
    En móvil (o con movimiento reducido) no hay parada: los tres pasos van en lista bajo el portátil. */
 
 const STEPS = [
-  { title: "Fundamentos", body: "Color, tipografía, espaciado, formas, cristal y movimiento.", from: 0, to: 13.8 },
-  { title: "Componentes", body: "Botones, chips, tarjetas, campos y navegación para iOS y Android.", from: 14.2, to: 21.2 },
-  { title: "Handoff", body: "Tokens y código listos para copiar. Y el sistema entero, legible por IA.", from: 14.2, to: 21.2 },
+  { title: "Foundations", body: "Color, type, spacing, shape, glass and motion.", from: 0, to: 13.8 },
+  { title: "Components", body: "Buttons, chips, cards, fields and navigation for iOS and Android.", from: 14.2, to: 21.2 },
+  { title: "Handoff", body: "Tokens and code ready to copy. And the whole system, readable by AI.", from: 14.2, to: 21.2 },
 ];
 
 /* MacBook real (2026-10-14). Tras probar el M7 (Mockupnest) y el M11 (Pixeden; descartado: «azulejos de lavabo»),
@@ -84,7 +84,7 @@ function KitVideo({ step, play }: { step: number; play: boolean }) {
       playsInline
       loop
       preload="metadata"
-      aria-label="Recorrido por el design system de Gloop"
+      aria-label="A tour of the Gloop design system"
     />
   );
 }
@@ -120,7 +120,7 @@ export default function KitLaptop() {
             <p className="t-label t-tag text-[var(--case-muted)]">Design system</p>
           </FadeIn>
           <Lines as="h2" className="mt-4 t-statement text-balance">
-            Un design system que diseño y desarrollo leen igual.
+            One design system that design and engineering read the same way.
           </Lines>
         </div>
       </div>
@@ -143,7 +143,7 @@ export default function KitLaptop() {
                 quedaba muy despegado del portátil y de los pasos). */}
             <FadeIn className="mb-10 max-w-[30ch] md:mb-14">
               <p className="t-body text-[var(--case-muted)]">
-                El lenguaje de Gloop, ordenado y listo para producción. Cada pantalla nueva nace con su ADN.
+                Gloop’s language, organized and production-ready. Every new screen is born with its DNA.
               </p>
             </FadeIn>
             <ol className="space-y-8 md:space-y-10">
@@ -187,7 +187,7 @@ export default function KitLaptop() {
                   <KitVideo step={pinned ? step : 0} play={!pinned || inView} />
                 </div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={MOCK} alt="El design system de Gloop en un MacBook" className="relative block w-full" />
+                <img src={MOCK} alt="The Gloop design system on a MacBook" className="relative block w-full" />
                 {/* Handoff: el código sube sobre la pantalla. */}
                 <motion.pre
                   className="absolute bottom-[26%] right-[14%] w-[36%] overflow-hidden rounded-[10px] p-[2.2%] text-[clamp(8px,0.9vw,13px)] leading-relaxed shadow-2xl"

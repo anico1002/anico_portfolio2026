@@ -34,7 +34,7 @@ export default function NativeApp() {
           <LazyVideo
             src="/maqueta/gloop/media/app-mano.mp4"
             poster="/maqueta/gloop/media/app-mano-poster.jpg"
-            aria-label="La app de Gloop en un móvil, en la mano, en mitad de un concierto: pasan las fotos de la noche"
+            aria-label="The Gloop app on a phone, in hand, in the middle of a concert: the night’s photos go by"
             className="h-full w-full object-cover object-[60%_100%]"
           />
         </motion.div>
@@ -42,10 +42,10 @@ export default function NativeApp() {
         <div className="relative grid h-full grid-cols-12 items-end gap-x-4 px-4 pb-12 text-white md:items-center md:gap-x-6 md:px-6 md:pb-0">
           <div className="col-span-12 md:col-span-4 md:col-start-2">
             <FadeIn>
-              <p className="t-label t-tag text-white/60">La app</p>
+              <p className="t-label t-tag text-white/60">The app</p>
             </FadeIn>
             <Lines as="h2" className="mt-4 t-statement">
-              Instala, abre y disfruta. Una app nativa lista para las stores.
+              Install it, open it, enjoy it. A native app ready for the stores.
             </Lines>
           </div>
         </div>

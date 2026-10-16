@@ -71,11 +71,11 @@ export default function GameRoulette() {
     <div className={geist.variable}>
       <div className="grid grid-cols-12 gap-x-4 px-4 md:gap-x-6 md:px-6">
         <div className="col-span-12 md:col-span-7">
-          <p className="t-label t-tag text-[var(--case-muted)]">Momentos Gloop</p>
-          <Lines className="mt-4 t-statement">Cuando toca jugar, la marca se suelta.</Lines>
+          <p className="t-label t-tag text-[var(--case-muted)]">Gloop Moments</p>
+          <Lines className="mt-4 t-statement">When it’s time to play, the brand lets loose.</Lines>
           <FadeIn className="mt-8 max-w-[44ch]">
             <p className="t-body text-[var(--case-muted)]">
-              La ruleta elige el juego de la noche, y cada juego llega con su color y su carácter.
+              The wheel picks the game of the night, and each game arrives with its own color and character.
             </p>
           </FadeIn>
         </div>

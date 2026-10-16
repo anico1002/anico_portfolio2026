@@ -69,7 +69,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
             facts={[
               ["Para", "Proyecto propio"],
               ["Rol", "Lead Product Designer"],
-              ["Qué hice", "Producto · App macOS · Icono · Landing"],
+              ["Qué hice", "Producto · App macOS · Logo · Landing"],
               ["Año", "2026 · v2.1"],
             ]}
           />

@@ -20,16 +20,16 @@ type Piece = { label: string; kind: "chip" | "card" | "cta"; meta?: string; at: 
 
 const CANVAS = { w: 760, h: 460 };
 const PIECES: Piece[] = [
-  { label: "Crew del día", kind: "card", meta: "1 pregunta · 4 de 6", at: [140, 90] },
-  { label: "Experiencias", kind: "chip", at: [385, 72] },
-  { label: "Momentos", kind: "card", meta: "12 fotos", at: [615, 100] },
+  { label: "Crew of the day", kind: "card", meta: "1 question · 4 of 6", at: [140, 90] },
+  { label: "Experiences", kind: "chip", at: [385, 72] },
+  { label: "Moments", kind: "card", meta: "12 photos", at: [615, 100] },
   { label: "Chat", kind: "chip", at: [105, 235] },
-  { label: "Activa la noche", kind: "cta", at: [380, 230] },
-  { label: "La Cuenta", kind: "card", meta: "Te deben 34,26 €", at: [655, 235] },
-  { label: "Juegos", kind: "chip", at: [125, 375] },
-  { label: "Invitar", kind: "chip", at: [300, 392] },
-  { label: "Ranking", kind: "card", meta: "#3 en tu equipo", at: [495, 378] },
-  { label: "Mapa", kind: "chip", at: [672, 392] },
+  { label: "Activate the night", kind: "cta", at: [380, 230] },
+  { label: "The Tab", kind: "card", meta: "You’re owed €34.26", at: [655, 235] },
+  { label: "Games", kind: "chip", at: [125, 375] },
+  { label: "Invite", kind: "chip", at: [300, 392] },
+  { label: "Ranking", kind: "card", meta: "#3 in your team", at: [495, 378] },
+  { label: "Map", kind: "chip", at: [672, 392] },
 ];
 
 /** Cada pieza se apaga en su tramo del scroll; el CTA, en cambio, crece y se queda. */
@@ -116,16 +116,16 @@ export default function OneThing() {
       <div className={`${reduce ? "" : "sticky top-0"} flex min-h-screen items-center px-4 py-24 md:px-6`}>
         <div className="grid w-full grid-cols-12 items-center gap-x-4 gap-y-10 md:gap-x-6">
           <div className="col-span-12 md:col-span-5">
-            <p className="t-label t-tag text-[var(--case-muted)]">El insight</p>
+            <p className="t-label t-tag text-[var(--case-muted)]">The insight</p>
             <Lines className="mt-4 t-statement">
-              Casi todas las noches empiezan igual: un grupo, ningún plan y ganas de pasarlo bien.
+              The best nights start the same way: a group, no plan and every intention of having fun.
             </Lines>
             <motion.p
               style={reduce ? undefined : { opacity: principle, y: principleY }}
               className="mt-10 max-w-[34ch] t-lead"
             >
-              Gloop nace para esas noches. Junta al grupo, propone qué hacer y guarda lo que pasa. Solo hay que{" "}
-              <strong className="font-semibold">encender la noche</strong>.
+              Gloop is made for those nights. It brings the group together, suggests what to do and keeps what happens. All you have to do is{" "}
+              <strong className="font-semibold">light up the night</strong>.
             </motion.p>
           </div>
           {/* El panel: todo a la vez sobre la noche; al final, un solo botón en el centro. */}

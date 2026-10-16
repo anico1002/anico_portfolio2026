@@ -36,7 +36,7 @@ function Mood({ src, ratio = "4/3", from = "left", className = "" }: { src: stri
   return (
     <div className={`m-bleed ${className}`}>
       <MaskReveal from={from} speed={0}>
-        <Placeholder ratio={ratio} src={src} label="Noche con amigos" />
+        <Placeholder ratio={ratio} src={src} label="A night out with friends" />
       </MaskReveal>
     </div>
   );
@@ -56,9 +56,9 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
             name="Gloop"
             delay={t}
             facts={[
-              ["Proyecto", "App para salir con amigos"],
+              ["Proyecto", "App for nights out with friends"],
               ["Rol", "Lead Product Designer"],
-              ["Entregables", "Dirección de arte · UX/UI · Design system · App iOS"],
+              ["Entregables", "Art direction · UX/UI · Design system · iOS app"],
               ["Año", "2026"],
             ]}
           />
@@ -72,17 +72,17 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
         <div className={`${grid} gap-y-10`}>
           <div className="col-span-12 md:col-span-8">
             <FadeIn>
-              <Eyebrow>Introducción</Eyebrow>
+              <Eyebrow>Introduction</Eyebrow>
             </FadeIn>
             <Lines className="t-intro" delay={STAGGER}>
-              Tus amigos, tus noches y todo lo que pasa en ellas. En una sola app, y con el aspecto de la fiesta que
-              promete.
+              Your friends, your nights and everything that happens in them. One app that looks like the party it
+              promises.
             </Lines>
           </div>
           <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              Me encargué de la dirección de arte desde la base: el lenguaje visual, el design system y el diseño
-              UX/UI de la app. El encargo era uno: que toda la diversión de una noche cupiera en una app.
+              I led the art direction from the ground up: the visual language, the design system and the app’s
+              UX/UI. The brief was simple: fit all the fun of a night out into one app.
             </p>
           </FadeIn>
         </div>
@@ -133,7 +133,7 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
                 dentro, la máscara (5 % de aire a los lados) cortaba las esquinas del móvil girado. */}
             <div className="mx-auto max-w-[360px] rotate-[30deg]">
               <FadeIn>
-                <RealPhone src="/maqueta/gloop/media/scr-noche.mp4" label="La noche en marcha" frame="/maqueta/7news/media/iphone-frame-black.png" />
+                <RealPhone src="/maqueta/gloop/media/scr-noche.mp4" label="The night in full swing" frame="/maqueta/7news/media/iphone-frame-black.png" />
               </FadeIn>
             </div>
           </Parallax>
@@ -145,15 +145,15 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
         <div className={grid}>
           <div className="col-span-12 md:col-span-6 md:col-start-2">
             <FadeIn>
-              <Eyebrow>El método</Eyebrow>
+              <Eyebrow>The method</Eyebrow>
             </FadeIn>
             <Lines as="h2" className="t-statement text-balance" delay={STAGGER}>
-              La IA acelera. El criterio sigue siendo de diseño.
+              AI speeds things up. Design still makes the calls.
             </Lines>
             <FadeIn delay={2 * STAGGER} className="mt-8 max-w-[46ch]">
               <p className="t-body text-[var(--case-muted)]">
-                Ninguna pantalla se publica sin pasar por el ojo del diseño, y cada detalle se valida donde importa: en
-                el móvil.
+                No screen ships without a designer’s eye on it, and every detail is checked where it matters: on the
+                phone.
               </p>
             </FadeIn>
           </div>
@@ -181,7 +181,7 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
       </section>
 
       {/* 13 · Cierre común (CaseClosing). */}
-      <CaseClosing className={section} title="Las noches pasan. Lo que vives con los tuyos se queda en Gloop." />
+      <CaseClosing className={section} title="Nights end. What you live with your people stays in Gloop." />
 
       </CaseLayer>
 

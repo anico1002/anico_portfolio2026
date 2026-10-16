@@ -25,10 +25,10 @@ const QUADS: { src: string; video?: string; x: number; y: number }[] = [
 ];
 
 const TEAMS = [
-  { name: "Los de siempre", meta: "6 miembros", night: "Noche en marcha", color: G.brand, av: "cracks" },
-  { name: "El Piso", meta: "6 miembros", night: "Viernes, 23:10", color: G.lime, av: "piso" },
-  { name: "Cumple de Marta", meta: "5 miembros", night: "Sábado", color: G.accent, av: "oficina" },
-  { name: "Fiesta mayor", meta: "8 miembros", night: "Este verano", color: G.cyan, av: "insti" },
+  { name: "The usual crew", meta: "6 members", night: "Night on", color: G.brand, av: "cracks" },
+  { name: "El Piso", meta: "6 members", night: "Friday, 23:10", color: G.lime, av: "piso" },
+  { name: "Marta’s birthday", meta: "5 members", night: "Saturday", color: G.accent, av: "oficina" },
+  { name: "Town festival", meta: "8 members", night: "This summer", color: G.cyan, av: "insti" },
 ];
 const font = { fontFamily: "var(--font-gloop)" };
 const STEP_MS = 2200; // cada equipo abierto en el acordeón
@@ -143,7 +143,7 @@ export default function TeamShift() {
           {/* Texto centrado en el hueco que queda entre la imagen y el borde derecho. */}
           <div className="col-span-12 md:col-span-5 md:col-start-8">
             <div className="md:mx-auto md:w-[80%]">
-              <p className="t-label t-tag text-[var(--case-muted)]">Cambio de paradigma</p>
+              <p className="t-label t-tag text-[var(--case-muted)]">The shift</p>
               <div className="relative mt-4">
                 <motion.p initial={false} animate={{ opacity: phase >= 2 ? 0 : 1, y: phase >= 2 ? -18 : 0 }} transition={swap} className="t-statement">
                   Before, the night was about the plan.
@@ -159,8 +159,8 @@ export default function TeamShift() {
               </div>
               <FadeIn className="mt-8">
                 <p className="t-body text-[var(--case-muted)]">
-                  Monta tu equipo con los de siempre, súmale a quien quieras y convierte cada salida en una
-                  historia compartida.
+                  Build your team with the usual crew, add anyone you like and turn every night out into a shared
+                  story.
                 </p>
               </FadeIn>
             </div>

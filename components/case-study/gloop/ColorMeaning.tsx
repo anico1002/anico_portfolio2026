@@ -18,9 +18,9 @@ import { G, geist } from "./tokens";
    texto en blanco o negro, y los avatares son los de la app. */
 
 const MEANINGS = [
-  { key: "live", label: "En directo", color: G.brand },
-  { key: "yours", label: "Lo tuyo", color: G.lime },
-  { key: "waiting", label: "Algo te espera", color: G.accent },
+  { key: "live", label: "Live", color: G.brand },
+  { key: "yours", label: "Yours", color: G.lime },
+  { key: "waiting", label: "Something’s waiting", color: G.accent },
 ] as const;
 type Key = (typeof MEANINGS)[number]["key"];
 
@@ -42,14 +42,14 @@ function TeamCard({ on }: { on: Key }) {
         <p className="text-[20px] font-semibold text-white">El Piso</p>
         {/* Algo te espera: el punto de aviso. */}
         <span className="flex items-center gap-1.5 rounded-full px-3 py-1 text-[13px] font-semibold text-white" style={{ ...dim("waiting"), background: G.accent }}>
-          <span className="h-2 w-2 rounded-full bg-white" />2 Momentos sin ver
+          <span className="h-2 w-2 rounded-full bg-white" />2 unseen Moments
         </span>
       </div>
       <div className="relative mt-2 flex items-center gap-2 text-[13px] text-white/80">
         <span className="rounded-full px-3 py-1 font-semibold text-white" style={{ ...dim("live"), background: G.brand }}>
-          ● Noche en marcha
+          ● Night on
         </span>
-        <span>6 miembros</span>
+        <span>6 members</span>
       </div>
       <div className="relative mt-5 flex items-center gap-2">
         {/* El grupo de avatares de la app (forma imago) y, al lado, tú, con el lima. */}
@@ -59,11 +59,11 @@ function TeamCard({ on }: { on: Key }) {
           className="flex h-[38px] w-[38px] items-center justify-center text-[13px] font-bold text-black"
           style={{ ...dim("yours"), borderRadius: "0 10px 10px 10px", background: G.lime }}
         >
-          Tú
+          You
         </span>
       </div>
       <div className="relative mt-5 flex items-center justify-between rounded-[12px] px-4 py-3" style={{ background: G.fill8 }}>
-        <span className="text-[15px] text-white">La Cuenta</span>
+        <span className="text-[15px] text-white">The Tab</span>
         <span className="rounded-full px-3 py-1 text-[14px] font-semibold text-black" style={{ ...dim("yours"), background: G.lime }}>
           Te deben 34,26 €
         </span>
@@ -98,8 +98,8 @@ export default function ColorMeaning() {
       {/* Centrado en el hueco entre el margen y la imagen (feedback 2026-10-14). */}
       <div className="col-span-12 md:col-span-6 md:flex md:justify-center">
         <div className="md:max-w-[26rem]">
-        <p className="t-label t-tag text-[var(--case-muted)]">El color</p>
-        <Lines className="mt-4 t-statement">En Gloop, el color no decora: habla.</Lines>
+        <p className="t-label t-tag text-[var(--case-muted)]">Color</p>
+        <Lines className="mt-4 t-statement">In Gloop, color does the talking.</Lines>
         <div className="mt-10 flex flex-wrap gap-2" onMouseLeave={() => setHold(false)}>
           {MEANINGS.map((m) => (
             <button
@@ -118,8 +118,8 @@ export default function ColorMeaning() {
         </div>
         <FadeIn className="mt-6 max-w-[38ch]">
           <p className="t-body text-[var(--case-muted)]">
-            Cada color tiene un cometido: el violeta enciende, el lima señala lo que es tuyo y el fucsia lo que te
-            espera. La interfaz habla en violeta.
+            Every color has a job: violet switches things on, lime marks what’s yours and fuchsia what’s waiting
+            for you. The interface speaks violet.
           </p>
         </FadeIn>
         </div>
