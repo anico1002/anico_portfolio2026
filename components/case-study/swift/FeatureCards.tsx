@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import HorizontalPin from "@/components/case-study/HorizontalPin";
+import Keys, { KeyCap } from "@/components/case-study/Keys";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
@@ -85,18 +86,10 @@ const FLIPS = [
 ];
 
 function Key({ k, lit }: { k: string; lit: boolean }) {
+  // La misma tecla que en titulares y textos (components/case-study/Keys.tsx), a tamaño de demo.
   return (
-    <span
-      className="flex h-11 min-w-11 items-center justify-center rounded-[0.6rem] px-2 text-[17px] font-medium transition-colors duration-150"
-      style={{
-        ...SF,
-        background: lit ? V : "var(--case-bg)",
-        color: lit ? "#fff" : "var(--case-fg)",
-        boxShadow: "0 2px 0 rgba(0,0,0,0.18), inset 0 0 0 1px rgba(0,0,0,0.06)",
-        transform: lit ? "translateY(1px)" : undefined,
-      }}
-    >
-      {k}
+    <span className="text-[22px] font-medium text-[var(--case-fg)]">
+      <KeyCap k={k} lit={lit} />
     </span>
   );
 }
@@ -447,10 +440,10 @@ function MacCorner() {
 }
 
 const CARDS = [
-  { name: "Select & translate", body: "Seleccionas un texto en cualquier app —Xcode, Safari, Slack, un PDF—, pulsas ⌥⌘T y listo. En todo el sistema.", art: <Apps /> },
+  { name: "Select & translate", body: <>Seleccionas un texto en cualquier app —Xcode, Safari, Slack, un PDF—, pulsas <Keys keys={["⌥", "⌘", "T"]} className="text-[0.85em]" /> y listo. En todo el sistema.</>, art: <Apps /> },
   { name: "Auto-flip", body: "¿Escribes en castellano y lo necesitas en inglés? Detecta la dirección y da la vuelta sola cuando hace falta.", art: <Flip /> },
   { name: "En tu Mac", body: "Traduce con su propia IA, dentro del Mac y sin internet. Se instala desde el menú y se quita desde el mismo sitio.", art: <OnDevice /> },
-  { name: "Stays out of your way", body: "Vive en la barra de menús. Sin icono en el Dock, sin pantallas de bienvenida, sin suscripción.", art: <MacCorner /> },
+  { name: "Stays out of your way", body: "Vive en la barra de menús. Sin icono en el Dock, sin pantallas de bienvenida, sin suscripción. La traducción instantánea que vive en tu Mac.", art: <MacCorner /> },
 ];
 
 export default function FeatureCards() {

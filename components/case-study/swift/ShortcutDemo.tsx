@@ -1,5 +1,6 @@
 "use client";
 
+import { KeyCap } from "@/components/case-study/Keys";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
@@ -121,16 +122,9 @@ export default function ShortcutDemo() {
         {/* Atajo */}
         <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-2">
           {["⌥", "⌘", "T"].map((k, n) => (
-            <span
-              key={k}
-              className="flex h-10 w-10 items-center justify-center rounded-[0.6rem] text-[16px] font-medium transition-colors duration-200"
-              style={{
-                background: step !== "idle" && step !== "select" && key >= n ? "#7c3aed" : "rgba(255,255,255,0.9)",
-                color: step !== "idle" && step !== "select" && key >= n ? "#fff" : "#1d1d1f",
-                boxShadow: "0 1px 0 rgba(0,0,0,0.12), inset 0 0 0 1px rgba(0,0,0,0.08)",
-              }}
-            >
-              {k}
+            // La misma tecla de toda la web (components/case-study/Keys.tsx), a tamaño de demo.
+            <span key={k} className="text-[22px] font-medium text-[#1d1d1f]">
+              <KeyCap k={k} lit={step !== "idle" && step !== "select" && key >= n} />
             </span>
           ))}
         </div>

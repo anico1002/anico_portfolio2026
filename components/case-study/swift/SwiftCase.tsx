@@ -18,6 +18,7 @@ import FeatureCards from "./FeatureCards";
 import TrapBench from "./TrapBench";
 import EngineCascade from "./EngineCascade";
 import IconStory from "./IconStory";
+import Keys from "@/components/case-study/Keys";
 import LandingMac from "./LandingMac";
 import DuoPhone from "./DuoPhone";
 
@@ -33,25 +34,6 @@ const section = `pt-36 md:pt-56 ${wrap}`;
 /** Cabecera de capítulo: titulillo numerado, titular y, si hay, una línea en diagonal. */
 /* Cabecera de capítulo con el feedback general de Gloop (2026-10-14): titulillo sin número, titular
    equilibrado y el párrafo cerca de él, alineado con su última línea (no colgado arriba ni pegado al borde). */
-/** Teclas dibujadas dentro de un titular (feedback 2026-10-17): en vez de «⌥⌘T» escrito, tres teclas con borde. En em,
-    para que escalen con el cuerpo del texto. */
-function Keys({ keys }: { keys: string[] }) {
-  return (
-    <span className="inline-flex translate-y-[-0.08em] gap-[0.14em] align-middle" aria-label={keys.join(" ")}>
-      {keys.map((k) => (
-        <span
-          key={k}
-          aria-hidden
-          className="inline-grid h-[1.12em] min-w-[1.12em] place-items-center rounded-[0.2em] border border-current/25 bg-current/[0.06] px-[0.18em] text-[0.62em] leading-none"
-          style={{ boxShadow: "inset 0 -0.08em 0 color-mix(in srgb, currentColor 18%, transparent)" }}
-        >
-          {k}
-        </span>
-      ))}
-    </span>
-  );
-}
-
 function Head({ eyebrow, title, body }: { eyebrow: string; title: React.ReactNode; body?: string }) {
   return (
     <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
