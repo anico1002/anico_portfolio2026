@@ -13,7 +13,7 @@ export const SLIDES = {
     "/projects/asphalt-unite/AU_hero.png",
     "/projects/cybertitans/CyberTitans_hero.png",
     "/projects/disney-karting/Disney_hero.png",
-    "/projects/asphalt-9/A9_hero.png",
+    // Fuera el Ferrari de Asphalt 9 (2026-10-17): su degradado a blanco por abajo quedaba raro en móvil.
     "/projects/asphalt-xtreme/AXT_hero.png",
   ],
 } as const;
