@@ -2,7 +2,17 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (2026-10-16, MacBook)
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-16, MacBook)
+
+**Pendiente (próxima sesión):**
+1. Revisión de Alberto de WineUp (copy, orden, colores de bandas; «Para: WineUp» o cliente).
+2. Interactius: repasar juntos el logo técnico; grabar DeckMakr de verdad (tras login del equipo); copy de «La web».
+3. SwifT: quizá una lámina técnica del logo (la pasa Alberto).
+4. Comprobar en móvil la zona web/manual de Interactius y la cabecera de WineUp.
+5. En el carrusel de Product siguen los conceptos antiguos (Netflix, Nike…): decidir si se filtran.
+6. Pendientes de antes: tipografía (licencia), Marca y web (¿se quedan?), ACT (prototipo de Figma), El Reto.
+
+## ▶ HECHO EL 2026-10-16 (MacBook)
 
 Feedback de **SwifT e Interactius** aplicado; detalle con casillas en `docs/feedback-swift-interactius-2026-10-16.md`.
 Cierre común en todos los casos (`CaseClosing`). SwifT con 2.ª vuelta (etiquetas desde el trazo, icono sobre cristal oscuro, landing en MacBook en bucle).
