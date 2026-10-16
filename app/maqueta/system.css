@@ -3,6 +3,22 @@
    tenía con Instrument Sans (medido en el trazo de la «l»): 300–400 → Regular (Instrument no tiene
    Light, así que antes también se veía Regular), 500–700 → Semibold, 800–900 → Extrabold. Archivos
    fuera de git (public/fonts-licencia/); ver app/maqueta/layout.tsx. */
+/* Satoshi (Fontshare, ITF Free Font License: gratis también para uso comercial y web autoalojada), prueba
+   2026-10-17 como sans de toda la maqueta. Variable (300–900), fuera de git como Neue Montreal. */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts-licencia/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts-licencia/Satoshi-VariableItalic.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
 @font-face {
   font-family: "PP Neue Montreal";
   src: url("/fonts-licencia/PPNeueMontreal-Regular.otf") format("opentype");

@@ -45,7 +45,7 @@ export const metadata: Metadata = {
 // Fondo negro/blanco puros. Desde el 2026-10-17, el color lo decide cada página (lib/maqueta/theme.ts); antes había
 // un selector sol/luna en el menú (2026-10-12) y antes aún cada caso tenía su color. Los colores salen de estas variables; las páginas no fijan ninguno.
 const themes = `
-  #case-root { --font-case-sans: "PP Neue Montreal", var(--font-instrument), sans-serif; }
+  #case-root { --font-case-sans: "Satoshi", "PP Neue Montreal", var(--font-instrument), sans-serif; }
   #case-root, #case-root[data-case-theme="dark"] {
     --case-bg: #000000; --case-fg: #F4F4F5;
     --case-muted: rgba(244,244,245,0.56); --case-line: rgba(244,244,245,0.16); --case-ph: rgba(244,244,245,0.07);
