@@ -263,7 +263,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
         <CaseClosing
           className={section}
           title="Una app para descubrir el vino con los que más saben y con los tuyos."
-          cta={{ label: "Ver el prototipo", href: "https://cloud.protopie.io/p/60728aeeed322a3cf2520398" }}
+          cta={{ label: "Ver el prototipo", href: "https://cloud.protopie.io/p/60728aeeed322a3cf2520398?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%23252525&bgImage=undefined&playSpeed=1" }}
         />
       </CaseLayer>
       <CaseEnd items={n.items} all={n.all} />
