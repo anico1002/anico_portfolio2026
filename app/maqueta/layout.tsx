@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Bitter, DM_Serif_Display, Familjen_Grotesk, Instrument_Sans, PT_Serif } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
+import PageTheme from "@/components/case-study/PageTheme";
+import { THEMES } from "@/lib/maqueta/theme";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
 import PortalLayer from "@/components/case-study/Portal";
@@ -40,8 +42,8 @@ export const metadata: Metadata = {
   icons: { icon: "/maqueta/favicon.svg" },
 };
 
-// Fondo negro/blanco puros con selector sol/luna en el menú (2026-10-12; antes cada caso
-// tenía su color, y el negro era #0A0A0B). Los colores salen de estas variables; las páginas no fijan ninguno.
+// Fondo negro/blanco puros. Desde el 2026-10-17, el color lo decide cada página (lib/maqueta/theme.ts); antes había
+// un selector sol/luna en el menú (2026-10-12) y antes aún cada caso tenía su color. Los colores salen de estas variables; las páginas no fijan ninguno.
 const themes = `
   #case-root { --font-case-sans: "PP Neue Montreal", var(--font-instrument), sans-serif; }
   #case-root, #case-root[data-case-theme="dark"] {
@@ -59,8 +61,8 @@ const themes = `
   #case-root main { transition: background-color var(--dur-base) var(--ease-in-out), color var(--dur-base) var(--ease-in-out); }
 `;
 
-// Antes de pintar: la elección guardada o, si no hay, la del sistema. Así no parpadea.
-const pick = `(function(){var r=document.getElementById('case-root');try{var t=localStorage.getItem('case-theme');if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';r.dataset.caseTheme=t}catch(e){}})();`;
+// Antes de pintar: el color de la página (lib/maqueta/theme.ts), sin parpadeo. Ya no hay selector sol/luna.
+const pick = `(function(){var r=document.getElementById('case-root');var m=${JSON.stringify(THEMES)};var p=location.pathname.replace(/\\/$/,'');r.dataset.caseTheme=m[p]||'dark';try{localStorage.removeItem('case-theme')}catch(e){}})();`;
 
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -71,6 +73,7 @@ export default function MaquetaLayout({ children }: { children: React.ReactNode 
           global pelea con Lenis: aquí lo apagamos. */}
       <style>{`html, body { overflow-x: clip; } html { scroll-behavior: auto; }${themes}`}</style>
       <SmoothScroll />
+      <PageTheme />
       {children}
       {/* Capa de la transición home → caso: vive aquí para sobrevivir al cambio de página. */}
       <FlightLayer />

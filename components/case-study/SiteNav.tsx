@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import ThemeToggle from "@/components/case-study/ThemeToggle";
 import RollText from "@/components/case-study/RollText";
 import { createPortal } from "react-dom";
 import { TLink, go } from "@/components/case-study/Portal";
@@ -114,7 +113,6 @@ export default function SiteNav({
                 Menu
               </button>
             )}
-            <ThemeToggle />
           </div>
         )}
       </nav>
