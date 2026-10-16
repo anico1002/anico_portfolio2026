@@ -75,3 +75,4 @@ scripts/mockups/photoshop/run.jsx
 # Fuentes con licencia (o de prueba) para la web: el repo es público, nunca a git
 /public/fonts-licencia/
 /public/maqueta/wineup/media/
+/scripts/case-media/shots-en/

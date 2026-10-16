@@ -2,6 +2,30 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-17, MacBook)
+
+**Siguiente sesión, por orden:**
+1. **Dovla:** antes, Alberto abre el proyecto de la app por separado para cambiar cosas y poder hacer las capturas.
+   Luego revisión del caso, traducción al inglés y su miniatura al pase de Product (`lib/maqueta/sections.ts`).
+2. **Los cinco juegos:** revisión y traducción (en inglés solo está la ficha).
+3. **Auditoría final** (lista ⛔ de abajo) y **publicar**.
+
+**Hecho hoy (2026-10-16 noche → 17):** todo en inglés salvo Dovla y los juegos; color por página
+(`lib/maqueta/theme.ts`: cada caso en blanco o negro, Product negro, Games y todos los juegos blanco, sin
+selector sol/luna; cortinilla entre páginas siempre negra); entrada con Product negro / Games blanco y recuentos;
+About como bloque al final de las dos homes (`AboutBlock.tsx`), menú Product · Games · About; Contact fuera
+(página borrada) y «Let’s talk» + email del pie que **copian** el email (montado en el navegador, no en el HTML);
+`© año` y `28+ years` automáticos; ocultos (no borrados) Netflix, Nike, Hawkers y los de Marca y web (`HIDDEN` en
+`cases.ts`); roles unificados (Lead Product Designer, Brand Designer, Art Director, Lead UI/UX Designer); copy
+publicitario en Gloop, 7News, Interactius, MasterChef, WineUp y SwifT; WineUp rehecho (mitades alternas, clips
+regrabados sin barra doble, fotos de Alberto con velo, prototipo enlazado); MasterChef con la app real y tortitas;
+SwifT con el iPhone Duo (miniatura y cabecera), teclas ⌥⌘T como pieza común (`Keys.tsx`) y MacBook limpio;
+palabras clave «pruebo una serif y la descarto» (`FontFlip.tsx`); cabecera de sección común (`SectionHead.tsx`);
+**Satoshi** en prueba (gratis, Fontshare) con los textos pequeños un peso más.
+
+**Solo en el MacBook (fuera de git):** los vídeos de `public/maqueta/*/media/`, las fuentes de
+`public/fonts-licencia/` (Satoshi incluida: en el otro Mac la web saldría en otra tipografía) y `mockups-src/`.
+
 ## ⛔ ANTES DE PUBLICAR: auditoría final (pedido por Alberto, 2026-10-17)
 
 1. **Rendimiento:** optimizar TODOS los contenidos para que pesen lo mínimo y carguen ligeros en móvil, sin perder
