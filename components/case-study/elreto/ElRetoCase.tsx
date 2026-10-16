@@ -65,7 +65,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: More
             delay={t}
             facts={[
               ["Para", "MasterChef World"],
-              ["Rol", "Senior Designer"],
+              ["Rol", "Art Director"],
               ["Qué hice", "Identidad · UX/UI · App iOS y Android · Web"],
               ["Año", "2026"],
             ]}

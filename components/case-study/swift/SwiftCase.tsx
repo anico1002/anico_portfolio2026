@@ -68,7 +68,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
             delay={t}
             facts={[
               ["Para", "Proyecto propio"],
-              ["Rol", "Diseño y desarrollo"],
+              ["Rol", "Lead Product Designer"],
               ["Qué hice", "Producto · App macOS · Icono · Landing"],
               ["Año", "2026 · v2.1"],
             ]}

@@ -61,7 +61,7 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
             delay={t}
             facts={[
               ["Para", "Un neobanco · en desarrollo"],
-              ["Rol", "UI/UX"],
+              ["Rol", "Lead Product Designer"],
               ["Qué hice", "App iOS nativa · Design system · Accesibilidad"],
               ["Año", "2026"],
             ]}

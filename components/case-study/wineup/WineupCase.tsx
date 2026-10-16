@@ -104,7 +104,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
               delay={t}
               facts={[
                 ["Para", "WineUp"],
-                ["Rol", "UX/UI Designer"],
+                ["Rol", "Lead Product Designer"],
                 ["Qué hice", "Arquitectura · UX/UI · Prototipo"],
                 ["Año", "2025"],
               ]}

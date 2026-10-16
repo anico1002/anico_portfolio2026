@@ -57,7 +57,7 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
             delay={t}
             facts={[
               ["Proyecto", "App para salir con amigos"],
-              ["Rol", "Art Direction · Product Design"],
+              ["Rol", "Lead Product Designer"],
               ["Entregables", "Dirección de arte · UX/UI · Design system · App iOS"],
               ["Año", "2026"],
             ]}

@@ -53,7 +53,7 @@ export default function NewsCase({ next: n }: { next: MoreCases }) {
             delay={t}
             facts={[
               ["Para", "Proyecto propio"],
-              ["Rol", "Diseño y desarrollo"],
+              ["Rol", "Lead Product Designer"],
               ["Qué hice", "App iOS · Apple Watch · Logo"],
               ["Año", "2026"],
             ]}
