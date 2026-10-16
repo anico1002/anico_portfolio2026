@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Arrow from "@/components/case-study/Arrow";
 import { FadeIn } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { STAGGER } from "@/lib/maqueta/motion";
@@ -211,17 +212,33 @@ function PlayInView({ src, poster, className, style }: { src: string; poster: st
   );
 }
 
+/* Encuadre (feedback 2026-10-16: «se ve más el fondo que el contenido»). La foto entera es el «escenario» y
+   se amplía dentro de un marco que recorta: el portátil ocupa ~66 % del ancho en escritorio (marco 16:9) y
+   ~87 % en móvil (marco cuadrado). Las medidas van en cqw (ancho del marco) para que el escenario conserve su
+   proporción. Centro del portátil en la foto: 50,5 % × 46 %. */
 export function ManualLaptop() {
   return (
-    <div className="m-bleed relative overflow-hidden" style={{ aspectRatio: "2400 / 1429" }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/maqueta/interactius/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" loading="lazy" />
-      <PlayInView
-        src="/maqueta/interactius/media/manual-web.mp4"
-        poster="/maqueta/interactius/media/manual-web-poster.jpg"
-        className="absolute overflow-hidden"
-        style={{ left: `${MAC_SCREEN.l}%`, top: `${MAC_SCREEN.t}%`, width: `${MAC_SCREEN.w}%`, height: `${MAC_SCREEN.h}%` }}
-      />
+    <div className="m-bleed relative aspect-square overflow-hidden md:aspect-video" style={{ containerType: "inline-size" }}>
+      <div className="absolute left-[-35.85cqw] top-0 w-[170cqw] md:left-[-15.65cqw] md:top-[-9.5cqw] md:w-[130cqw]" style={{ aspectRatio: "2400 / 1429" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/maqueta/interactius/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" loading="lazy" />
+        <PlayInView
+          src="/maqueta/interactius/media/manual-web.mp4"
+          poster="/maqueta/interactius/media/manual-web-poster.jpg"
+          className="absolute overflow-hidden"
+          style={{ left: `${MAC_SCREEN.l}%`, top: `${MAC_SCREEN.t}%`, width: `${MAC_SCREEN.w}%`, height: `${MAC_SCREEN.h}%` }}
+        />
+      </div>
+      {/* El manual de verdad, centrado abajo sobre la foto */}
+      <a
+        href="https://brand.interactius.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-3 whitespace-nowrap px-6 py-4 t-small transition-opacity hover:opacity-85 md:bottom-8"
+        style={{ background: IX.dark, color: IX.warmLight }}
+      >
+        Ver el manual de marca <Arrow />
+      </a>
     </div>
   );
 }
