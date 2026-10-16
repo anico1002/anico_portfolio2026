@@ -217,28 +217,28 @@ function PlayInView({ src, poster, className, style }: { src: string; poster: st
    se amplía dentro de un marco que recorta: el portátil ocupa ~66 % del ancho en escritorio (marco 16:9) y
    ~87 % en móvil (marco cuadrado). Las medidas van en cqw (ancho del marco) para que el escenario conserve su
    proporción. Centro del portátil en la foto: 50,5 % × 46 %. */
-export function ManualLaptop() {
+export function WebLaptop() {
   return (
     <div className="m-bleed relative aspect-square overflow-hidden md:aspect-video" style={{ containerType: "inline-size" }}>
       <div className="absolute left-[-35.85cqw] top-0 w-[170cqw] md:left-[-15.65cqw] md:top-[-9.5cqw] md:w-[130cqw]" style={{ aspectRatio: "2400 / 1429" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/maqueta/interactius/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" loading="lazy" />
         <PlayInView
-          src="/maqueta/interactius/media/manual-web.mp4"
-          poster="/maqueta/interactius/media/manual-web-poster.jpg"
+          src="/maqueta/interactius/media/web.mp4"
+          poster="/maqueta/interactius/media/web-poster.jpg"
           className="absolute overflow-hidden"
           style={{ left: `${MAC_SCREEN.l}%`, top: `${MAC_SCREEN.t}%`, width: `${MAC_SCREEN.w}%`, height: `${MAC_SCREEN.h}%` }}
         />
       </div>
-      {/* El manual de verdad, centrado abajo sobre la foto */}
+      {/* La web de verdad, centrado abajo sobre la foto (el manual no se enlaza: Interactius no lo ha hecho público) */}
       <a
-        href="https://brand.interactius.com"
+        href="https://www.interactius.com"
         target="_blank"
         rel="noopener noreferrer"
         className="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center gap-3 whitespace-nowrap px-6 py-4 t-small transition-opacity hover:opacity-85 md:bottom-8"
         style={{ background: IX.dark, color: IX.warmLight }}
       >
-        Ver el manual de marca <Arrow />
+        Ver la web <Arrow />
       </a>
     </div>
   );
@@ -246,17 +246,39 @@ export function ManualLaptop() {
 
 /* Móvil volandero (feedback 2026-10-16, como el de Gloop): sin fondo, inclinado, y sube con parallax desde abajo
    hasta montarse sobre el borde inferior de la foto del MacBook. El texto va pegado a la foto. */
-export function ManualPhone() {
+export function WebPhone() {
   return (
     <div className="relative z-10 grid grid-cols-12 gap-x-4 md:gap-x-6">
       <FadeIn className="col-span-7 mt-8 md:col-span-3 md:col-start-2 md:mt-12">
-        <p className="t-body text-[var(--case-muted)]">Y en el móvil, el mismo sistema: la retícula se recompone y la letra mantiene su escala.</p>
+        <p className="t-body text-[var(--case-muted)]">Y en el móvil, la misma marca: la retícula se recompone y la letra mantiene su escala.</p>
       </FadeIn>
       <Parallax speed={320} className="col-span-5 -mt-24 md:col-span-3 md:col-start-9 md:-mt-[22rem]">
         <div className="mx-auto w-full max-w-[300px] rotate-[14deg] drop-shadow-[0_40px_50px_rgba(28,26,23,0.35)]">
-          <RealPhone src="/maqueta/interactius/media/manual-movil-screen.mp4" label="El manual de marca en el móvil" />
+          <RealPhone src="/maqueta/interactius/media/web-movil.mp4" label="La web de Interactius en el móvil" />
         </div>
       </Parallax>
+    </div>
+  );
+}
+
+/* ── El manual de marca: una ventana de navegador limpia, sin dispositivo (para no repetir el portátil de la web)
+   y sin enlace ni dirección, porque Interactius no lo ha hecho público. ─────────────────────────────────────── */
+export function ManualWindow() {
+  return (
+    <div className="m-bleed px-4 py-14 md:px-16 md:py-24" style={{ background: IX.warmDark }}>
+      <FadeIn>
+        <div className="mx-auto max-w-[68rem] overflow-hidden rounded-[10px] shadow-[0_40px_90px_-40px_rgba(28,26,23,0.55)] ring-1 ring-black/10">
+          <div className="flex items-center gap-2 px-4 py-3" style={{ background: IX.warmLight }}>
+            <span className="h-2.5 w-2.5 rounded-full bg-black/15" />
+            <span className="h-2.5 w-2.5 rounded-full bg-black/15" />
+            <span className="h-2.5 w-2.5 rounded-full bg-black/15" />
+            <span className="ml-4 text-[11px] uppercase tracking-[0.08em]" style={{ ...mono, color: IX.ash }}>
+              Brand Guidelines 2026
+            </span>
+          </div>
+          <PlayInView src="/maqueta/interactius/media/manual-web.mp4" poster="/maqueta/interactius/media/manual-web-poster.jpg" className="aspect-[16/10] w-full bg-white" />
+        </div>
+      </FadeIn>
     </div>
   );
 }

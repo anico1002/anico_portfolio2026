@@ -18,6 +18,10 @@ frontal sobre mármol (opción B) + landing en el iPhone plegable de Pixeden (PS
 por script `scripts/mockups/photoshop/duo*.jsx`, vídeo `scripts/mockups/duo_video.py`); miniatura = la del portátil
 sobre piedra (Alberto la prefiere). Interactius: logotipo ampliado (macrón animado + versiones) y cabecera en franja
 (`BandMedia`, `scripts/mockups/hero_band.py`: el dispositivo entero en el 56 % de arriba que deja ver CaseHero).
+**Interactius y la web (2026-10-16):** la web corporativa (www.interactius.com, grabada con `ixweb.mjs` del
+scratchpad: acepta cookies y baja con paradas) pasa al MacBook + móvil volandero, y a miniatura/cabecera/cierre.
+El manual va en una ventana de navegador sin enlace: **no se enlaza brand.interactius.com** (la empresa no lo ha
+hecho público).
 **WineUp (2026-10-16, tira millas):** caso a medida en `/maqueta/wineup` (`components/case-study/wineup/`). Grabado del
 ProtoPie (60728aee…) con `scripts/case-media/protopie/rec.mjs` (Chrome con --remote-debugging-port=9333, ventana fuera
 de pantalla: Alberto no quiere que salte al frente; oculta el reloj real que el prototipo pinta sobre el 9:41).

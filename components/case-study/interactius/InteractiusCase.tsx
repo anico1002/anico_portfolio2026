@@ -9,7 +9,7 @@ import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn } from "@/compone
 import { STAGGER } from "@/lib/maqueta/motion";
 import { MarkdownToSlide } from "./DeckDemos";
 import { TokenSync, ToneCheck } from "./BrandDemos";
-import { AiLayer, DeckWindow, ImagePrompt, ManualLaptop, ManualPhone } from "./AiPieces";
+import { AiLayer, DeckWindow, ImagePrompt, ManualWindow, WebLaptop, WebPhone } from "./AiPieces";
 import TypePair from "./TypePair";
 import LogoStory from "./LogoStory";
 import { IX, ixFonts, mono } from "./tokens";
@@ -64,7 +64,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
             facts={[
               ["Para", "Interactius"],
               ["Rol", "Diseño de producto y de sistema"],
-              ["Qué hice", "Manual de marca · Generador de presentaciones · API de marca"],
+              ["Qué hice", "Rebranding · Web · Manual de marca · Herramientas"],
               ["Año", "2026"],
             ]}
           />
@@ -81,14 +81,14 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
               <Eyebrow>Introducción</Eyebrow>
             </FadeIn>
             <Lines className="t-intro" delay={STAGGER}>
-              Un rediseño de marca pensado también para la IA.
+              Una marca nueva, una web y un manual pensado también para la IA.
             </Lines>
           </div>
           <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              Interactius, consultora de estrategia, experiencias y transformación cultural, renovó su marca en 2026
-              para dos lectores: su equipo y los modelos de IA con los que ya trabaja. Cada decisión del manual tiene
-              su versión para personas y su versión para máquinas.
+              Interactius, consultora de estrategia, experiencias y transformación cultural, renovó su marca en 2026: el
+              rebranding, la web y un manual escrito para dos lectores, su equipo y los modelos de IA con los que ya
+              trabaja. Cada decisión tiene su versión para personas y su versión para máquinas.
             </p>
           </FadeIn>
         </div>
@@ -123,15 +123,25 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <TypePair />
       </section>
 
-      {/* La web del manual: MacBook real (foto en monocromo cálido) y la versión móvil en un iPhone */}
+      {/* La web corporativa (gran parte del trabajo, junto al rebranding): MacBook real y la versión móvil */}
       <section className={section}>
         <Head
           eyebrow="La web"
-          title="El manual vive en la web, en tres idiomas."
+          title="La nueva marca, en su primera casa."
+          body="La web pone la marca a trabajar: el logotipo en vertical en el margen, las dos letras, la fotografía liminal y los servicios y casos contados con la voz nueva."
+        />
+        <WebLaptop />
+        <WebPhone />
+      </section>
+
+      {/* El manual: ventana de navegador, sin enlace */}
+      <section className={section}>
+        <Head
+          eyebrow="El manual"
+          title="Un manual que se consulta en la web, en tres idiomas."
           body="Quince secciones en castellano, inglés y catalán, con cada logo, color y tipografía listos para descargar."
         />
-        <ManualLaptop />
-        <ManualPhone />
+        <ManualWindow />
       </section>
 
       {/* Preparada para IA: el capítulo central */}
@@ -193,7 +203,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       <CaseClosing
         className={section}
         title="La marca deja de ser un PDF que nadie abre y pasa a ser la herramienta con la que se trabaja."
-        cta={{ label: "Ver el manual", href: "https://brand.interactius.com" }}
+        cta={{ label: "Ver la web", href: "https://www.interactius.com" }}
       />
 
       </CaseLayer>
