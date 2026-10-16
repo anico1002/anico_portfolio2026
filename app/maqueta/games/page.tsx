@@ -19,7 +19,7 @@ export default function GamesHome() {
       active="games"
       slides={SLIDES.games}
       title="Interfaces for games played by *hundreds of millions*."
-      intro="Over a decade in game UI/UX, with studios like Gameloft Barcelona: menus, HUDs, visual systems and marketing, from pre-production to launch."
+      intro="Over a decade shaping how millions of players navigate, compete and stay hooked. Game UI/UX for leading studios, from first concept to worldwide launch."
       items={items}
     />
   );

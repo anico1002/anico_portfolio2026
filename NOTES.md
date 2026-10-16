@@ -2,6 +2,14 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ⛔ ANTES DE PUBLICAR: auditoría final (pedido por Alberto, 2026-10-17)
+
+1. **Rendimiento:** optimizar TODOS los contenidos para que pesen lo mínimo y carguen ligeros en móvil, sin perder
+   calidad (vídeos H.264/H.265 + póster, tamaños por dispositivo, imágenes en AVIF/WebP, lazy load, fuentes).
+2. **Detalles de transición:** revisar en Safari y en móvil el paso miniatura → cabecera (Alberto vio «un salto
+   raro» en Gloop que en Chrome no se reproduce).
+3. **Copy:** el repaso de abajo.
+
 ## ⛔ ANTES DE PUBLICAR: repaso de copy de TODA la web (pedido por Alberto, 2026-10-17)
 
 Pasar cada texto de cada página (home, casos, verticales, Sobre mí, contacto, pies, fichas, notas de los apartados)
