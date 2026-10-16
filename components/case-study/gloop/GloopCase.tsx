@@ -70,7 +70,7 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
       {/* 1 · Intro: qué es y de qué me encargué. El texto pequeño baja a la fila siguiente (feedback general). */}
       <section className={`pt-24 md:pt-36 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
-          <div className="col-span-12 md:col-span-8">
+          <div className="col-span-12 md:col-span-7">
             <FadeIn>
               <Eyebrow>Introduction</Eyebrow>
             </FadeIn>

@@ -60,7 +60,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: More
 
       <section className={`pt-24 md:pt-36 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
-          <div className="col-span-12 md:col-span-8">
+          <div className="col-span-12 md:col-span-7">
             <FadeIn>
               <Eyebrow>Introducción</Eyebrow>
             </FadeIn>
