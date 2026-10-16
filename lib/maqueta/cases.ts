@@ -98,7 +98,7 @@ export const CASES: CaseCopy[] = [
       ["5M", "seguidores de la marca"],
       ["40K", "espectadores en el primer evento"],
     ],
-    outcomeTitle: "Una marca y un producto listos para la temporada 2026.",
+    outcomeTitle: "El concurso de cocina más grande del mundo, ahora también se juega en el móvil.",
     outcome: "El Reto se lanzó con una identidad coherente y una app donde el contenido de los usuarios y el juego conviven de forma natural. Un estándar para gamificar formatos de televisión: la pantalla grande y el móvil, conectados.",
     // Sin botón al prototipo (2026-10-15, Alberto: no queda profesional).
   },

@@ -190,9 +190,9 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     },
     {
       eyebrow: "Atmósfera",
-      title: "Brillos de fondo y texturas de comida.",
+      title: "Cocina de competición.",
       bleed: true,
-      body: "Los brillos dan el aire premium de un videojuego y las texturas distinguen cada categoría de reto.",
+      body: "Luz de videojuego premium y el sabor de cada reto en pantalla: la marca se vive en cada pantalla.",
       // Feedback de Alberto (2026-10-15): fuera los textos de «Piezas» y «La app»; sus láminas van aquí.
       items: [
         "02_Brand-Identity/ElReto_9.png",
