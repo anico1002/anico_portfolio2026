@@ -254,7 +254,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           side="left"
           eyebrow="Aprender jugando"
           title="Saber más de vino, jugando y en buena compañía."
-          body="Retos y trivias para pasar de curioso a entendido, a tu ritmo."
+          body="Retos y trivias para pasar de Lover a Expert, a tu ritmo."
           clip="trivias"
           label="Trivias"
           photo={`${M}/bg-hojas.jpg`}
