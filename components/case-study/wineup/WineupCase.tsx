@@ -41,7 +41,14 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
 }
 
 /** Fondo de color con un degradado suave hacia un tono algo más oscuro del mismo color, para que no quede plano. */
-const shade = (c: string) => (c.startsWith("linear-gradient") ? c : `linear-gradient(160deg, ${c} 0%, color-mix(in srgb, ${c} 72%, #000) 100%)`);
+const shade = (c: string) =>
+  c.startsWith("linear-gradient")
+    ? c
+    : `linear-gradient(160deg, color-mix(in srgb, ${c} 88%, #fff) 0%, ${c} 35%, color-mix(in srgb, ${c} 52%, #000) 100%)`;
+/** Velo negro sobre las fotos (2026-10-17): oscurece los bordes y la base para que no se lean como una foto cuadrada
+    pegada y el móvil mande. */
+const VEIL =
+  "radial-gradient(ellipse 75% 70% at 50% 42%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 100%), linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0) 55%)";
 /** El degradado de la cabecera del experto en la app (medido del prototipo): de #861AD6 arriba a #571697. */
 const EXPERT = "linear-gradient(180deg, #861AD6 0%, #571697 100%)";
 
@@ -122,6 +129,7 @@ function Feature({
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
                 )}
+                {photo && <span aria-hidden className="absolute inset-0" style={{ background: VEIL }} />}
               </div>
             </MaskReveal>
             <Parallax speed={220} className="relative z-10 aspect-[805/1661] h-[90%]">

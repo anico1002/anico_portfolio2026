@@ -33,7 +33,7 @@ scratchpad: acepta cookies y baja con paradas) pasa al MacBook + móvil volander
 El manual va en una ventana de navegador sin enlace: **no se enlaza brand.interactius.com** (la empresa no lo ha
 hecho público).
 **WineUp (2026-10-16, tira millas):** caso a medida en `/maqueta/wineup` (`components/case-study/wineup/`). Grabado del
-ProtoPie (60728aee…) con `scripts/case-media/protopie/rec.mjs` (Chrome con --remote-debugging-port=9333, ventana fuera
+ProtoPie (https://cloud.protopie.io/p/60728aeeed322a3cf2520398) con `scripts/case-media/protopie/rec.mjs` (Chrome con --remote-debugging-port=9333, ventana fuera
 de pantalla: Alberto no quiere que salte al frente; oculta el reloj real que el prototipo pinta sobre el 9:41).
 Cabecera/miniatura: mano 3D de su carpeta de mockups (`mockups-src/hand-3d`, Photoshop por script) sobre un bar de
 vinos de Unsplash desenfocado (`scripts/mockups/hand3d_video.py`). Apartados en iPhone frontal (marco iphone18).
