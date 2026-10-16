@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { AnimatePresence, motion, useMotionTemplate, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { FadeIn } from "@/components/case-study/primitives";
 import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
@@ -120,7 +120,11 @@ export function DayEnds() {
   // fundido a negro por abajo, subiendo un poco para que el foco quede donde se escribe «Videojuegos».
   const phoneIn = useTransform(p, [0.5, 0.58], [0, 1]);
   const phoneRise = useTransform(p, [0.5, 0.58], [60, 0]);
-  const phoneLeft = useTransform(p, [0.64, 0.8], ["71%", "30%"]); // centrado en el hueco que deja el texto (60 % de ancho)
+  // Centro del móvil ya crecido (min(32vh, 20vw) × 2,1 de ancho; el tope en vw es para pantallas altas): al 30 %, pero nunca tan a la izquierda que se salga, y el texto
+  // empieza siempre a la misma distancia de su borde derecho (2026-10-17: en ratios anchos quedaba un hueco enorme y en
+  // los altos el móvil pisaba el texto).
+  const go = useTransform(p, [0.64, 0.8], [0, 1]);
+  const phoneLeft = useMotionTemplate`calc(71% * (1 - ${go}) + max(30%, min(33.6vh, 21vw) + 3vw) * ${go})`;
   const phoneScale = useTransform(p, [0.64, 0.8], [1, 2.1]);
   const phoneUp = useTransform(p, [0.64, 0.8, 1], ["0vh", "-4vh", "-12vh"]);
   const fadeStart = useTransform(p, [0.64, 0.8], [100, 26]);
@@ -192,7 +196,7 @@ export function DayEnds() {
         </div>
         {/* El iPhone, plano y de frente: «Ya estás al día» en su pantalla; va al centro, crece y pasa a la búsqueda. */}
         <motion.div
-          className="absolute top-[15vh] w-[32vh] origin-top"
+          className="absolute top-[15vh] w-[min(32vh,20vw)] origin-top"
           style={{ left: phoneLeft, x: "-50%", y: phoneUp, scale: phoneScale, maskImage: mask, WebkitMaskImage: mask }}
         >
           <motion.div style={{ opacity: phoneIn, y: phoneRise }}>
@@ -213,8 +217,8 @@ export function DayEnds() {
             </FlatPhone>
           </motion.div>
         </motion.div>
-        {/* Crear un tema, a la derecha del móvil y en grande. */}
-        <motion.div className="absolute inset-y-0 right-0 flex w-[40%] items-center justify-center px-6" style={{ opacity: createIn, y: createY }}>
+        {/* Crear un tema, a la derecha del móvil, a una distancia fija de su borde. */}
+        <motion.div className="absolute inset-y-0 right-0 flex items-center pr-[4vw] left-[calc(max(30%,min(33.6vh,21vw)+3vw)+min(33.6vh,21vw)+5vw)]" style={{ opacity: createIn, y: createY }}>
           <div className="w-full max-w-[30rem]">{create}</div>
         </motion.div>
       </div>
