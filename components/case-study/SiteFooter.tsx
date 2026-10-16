@@ -5,6 +5,7 @@ import RollText from "@/components/case-study/RollText";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const noop = () => () => {};
+const BUILD_YEAR = new Date().getFullYear();
 import { useReduce } from "@/lib/maqueta/reduce";
 import { scrollToTop } from "@/components/case-study/SmoothScroll";
 import { LINKEDIN, email } from "@/lib/maqueta/contact";
@@ -58,6 +59,8 @@ function Hablamos({ show, onCopy, mail, copied }: { show?: boolean; onCopy: () =
 export default function SiteFooter({ cta = true, show, flush = false }: { cta?: boolean; show?: boolean; flush?: boolean }) {
   // El email se monta en el navegador (no está en el HTML) y los dos clics, «Let’s talk» y el del pie, lo copian.
   const mail = useSyncExternalStore(noop, email, () => ""); // en el servidor (HTML), vacío
+  // El año del copyright, el del navegador: cambia solo con el año aunque la página se generara antes.
+  const year = useSyncExternalStore(noop, () => new Date().getFullYear(), () => BUILD_YEAR);
   const [copied, setCopied] = useState<"cta" | "foot" | null>(null); // dónde se ha copiado: el aviso sale solo ahí
   useEffect(() => {
     if (!copied) return;
@@ -73,7 +76,7 @@ export default function SiteFooter({ cta = true, show, flush = false }: { cta?: 
       <div
         className={`flex flex-col gap-4 border-t border-[var(--case-line)] pt-5 md:flex-row md:items-baseline md:justify-between`}
       >
-        <p className="t-small text-[var(--case-muted)]">© {new Date().getFullYear()} anico. All rights reserved</p>
+        <p className="t-small text-[var(--case-muted)]">© {year} anico. All rights reserved</p>
         {/* Enlaces del pie en gris y en el color del texto al pasar (como el menú; 2026-10-17). */}
         <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small text-[var(--case-muted)] md:gap-x-8 [&_a:hover]:text-[var(--case-fg)] [&_button:hover]:text-[var(--case-fg)] [&_a]:transition-colors [&_button]:transition-colors">
           {/* El email: se ve (montado en el navegador, no en el HTML) y al clicar se copia, con aviso. */}
