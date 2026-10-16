@@ -171,7 +171,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
               facts={[
                 ["Para", "WineUp"],
                 ["Rol", "Lead Product Designer"],
-                ["Qué hice", "Arquitectura · UX/UI · Prototipo"],
+                ["Qué hice", "Architecture · UX/UI · Prototype"],
                 ["Año", "2025"],
               ]}
             />
@@ -185,17 +185,17 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           <div className={`${grid} gap-y-10`}>
             <div className="col-span-12 md:col-span-8">
               <FadeIn>
-                <Eyebrow>Introducción</Eyebrow>
+                <Eyebrow>Introduction</Eyebrow>
               </FadeIn>
               <Lines className="t-intro" delay={STAGGER}>
-                Una red social para quien ama el vino.
+                A social network for people who love wine.
               </Lines>
             </div>
             <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
               <p className="t-body text-[var(--case-muted)]">
-                WineUp quiere ser el sitio donde se encuentran los amantes del vino: para descubrir botellas, conocer a
-                otros y compartir lo que beben. Con la marca ya definida, el trabajo fue la experiencia y la interfaz de
-                la app.
+                WineUp wants to be the place where wine lovers meet: to discover bottles, get to know each other and
+                share what they’re drinking. With the brand already in place, my work was the app’s experience and
+                interface.
               </p>
             </FadeIn>
           </div>
@@ -203,67 +203,67 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
 
         <Feature
           side="right"
-          eyebrow="Dos perfiles"
-          title="Dos perfiles, dos experiencias."
-          body="Para quien disfruta del vino y para quien lo conoce a fondo. Un mundo por descubrir, sea cual sea tu perfil."
+          eyebrow="Two profiles"
+          title="Two profiles, two experiences."
+          body="For people who enjoy wine and for people who know it inside out. A world to discover, whatever your profile."
           clip="perfiles"
-          label="Splash, elección de perfil y onboarding de WineLover"
+          label="Splash, profile choice and WineLover onboarding"
           photo={`${M}/bg-atardecer.jpg`}
         />
         <Feature
           side="left"
-          eyebrow="La home"
-          title="Todo lo importante, en un solo vistazo."
+          eyebrow="The home screen"
+          title="Everything that matters, at a glance."
           clip="home"
-          label="Home de WineUp"
+          label="WineUp home screen"
           bg={W.wine}
           steps={[
-            ["Escáner", "La etiqueta como puerta de entrada: se escanea y la botella cuenta todo lo que sabe."],
-            ["Scans recientes", "Lo último que has probado, con tu nota y la de la comunidad, a un dedo."],
-            ["Eventos y catas", "Quedar con otros cerca de ti o catar desde casa: la comunidad, a la vista."],
+            ["Scanner", "The label as a way in: scan it and the bottle tells you everything it knows."],
+            ["Recent scans", "What you tried last, with your rating and the community’s, one tap away."],
+            ["Events and tastings", "Meet people nearby or taste from home: the community, right there."],
           ]}
         />
         <Feature
           side="right"
-          eyebrow="Explorar"
-          title="Vinos, bodegas y gente que sabe."
-          body="Descubre a quién seguir, qué se está bebiendo y dónde se brinda cerca de ti."
+          eyebrow="Explore"
+          title="Wines, wineries and people who know."
+          body="Find who to follow, what people are drinking and where the toasts are happening near you."
           clip="explorar"
-          label="Explorar: descubre, feed y mapa"
+          label="Explore: discover, feed and map"
           photo={`${M}/bg-copa-noche.jpg`}
         />
         <Feature
           side="left"
-          eyebrow="Catas virtuales"
-          title="La botella gira y empieza la cata."
-          body="Cada vino se abre como si estuviera en tu mesa. Y con él, todo lo que la comunidad sabe de esa botella."
+          eyebrow="Virtual tastings"
+          title="The bottle turns and the tasting begins."
+          body="Every wine opens as if it were on your table. And with it, everything the community knows about that bottle."
           clip="vino"
-          label="Ficha del vino con la botella girando"
+          label="Wine page with the bottle turning"
           photo={`${M}/bg-cava.jpg`}
         />
         <Feature
           side="right"
-          eyebrow="Perfil"
-          title="Tu cava, tus logros y tu gente."
-          body="Lo que has probado, lo que te queda por probar y todo lo que has aprendido por el camino."
+          eyebrow="Profile"
+          title="Your cellar, your milestones, your people."
+          body="What you’ve tried, what’s still on your list and everything you’ve learned along the way."
           clip="cava"
-          label="Perfil de WineLover y de WineExpert"
+          label="WineLover and WineExpert profiles"
           bg={EXPERT}
         />
         <Feature
           side="left"
-          eyebrow="Aprender jugando"
-          title="Saber más de vino, jugando y en buena compañía."
-          body="Retos y trivias para pasar de Lover a Expert, a tu ritmo."
+          eyebrow="Learn by playing"
+          title="Know more about wine, through play and good company."
+          body="Challenges and trivia to go from Lover to Expert, at your own pace."
           clip="trivias"
-          label="Trivias"
+          label="Trivia"
           photo={`${M}/bg-hojas.jpg`}
         />
 
         <CaseClosing
           className={section}
-          title="Una app para descubrir el vino con los que más saben y con los tuyos."
-          cta={{ label: "Ver el prototipo", href: "https://cloud.protopie.io/p/60728aeeed322a3cf2520398?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%23252525&bgImage=undefined&playSpeed=1" }}
+          title="Wine tastes better together. An app to share it with people who love it like you do."
+          cta={{ label: "View the prototype", href: "https://cloud.protopie.io/p/60728aeeed322a3cf2520398?ui=false&scaleToFit=true&enableHotspotHints=true&cursorType=touch&mockup=true&bgColor=%23252525&bgImage=undefined&playSpeed=1" }}
         />
       </CaseLayer>
       <CaseEnd items={n.items} all={n.all} />
