@@ -15,6 +15,8 @@ const DEL = 45; // ms por letra al borrar
 const TYPE = 80; // ms por letra al escribir
 const HOLD = 1100; // ms con la serif escrita
 const PAUSE = 260; // ms con la palabra borrada, antes de escribir
+const STRIKE = 380; // ms que tarda en tacharse la serif (prueba C, 2026-10-17: descartar tachando)
+const STRUCK = 650; // ms tachada antes de borrarla
 
 type Face = "sans" | "serif";
 
@@ -23,6 +25,7 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
   const [face, setFace] = useState<Face>("sans");
   const [n, setN] = useState(text.length); // letras visibles
   const [busy, setBusy] = useState(false); // cursor a la vista
+  const [struck, setStruck] = useState(false); // la serif, tachada
   const base = useRef<HTMLSpanElement>(null);
   const probe = useRef<HTMLSpanElement>(null);
   const [k, setK] = useState(1);
@@ -52,7 +55,11 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
     erase();
     write("serif");
     t += HOLD;
+    // Descarte: se tacha como en una corrección y, tachada, se borra.
+    at(t, () => setStruck(true));
+    t += STRIKE + STRUCK;
     erase();
+    at(t, () => setStruck(false));
     write("sans");
     at((t += 500), () => setBusy(false));
     return () => timers.forEach(clearTimeout);
@@ -74,7 +81,14 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
           className="absolute left-0 top-0 whitespace-nowrap"
           style={serif ? { fontFamily: "var(--font-case-serif)", fontStyle: "italic", fontSize: `${k}em` } : undefined}
         >
-          {text.slice(0, n)}
+          <span className="relative">
+            {text.slice(0, n)}
+            {/* La tachadura: crece de izquierda a derecha por el centro de las minúsculas y encoge con lo que se borra. */}
+            <span
+              className="absolute left-0 right-0 top-[58%] h-[0.06em] origin-left bg-current"
+              style={{ transform: `scaleX(${struck ? 1 : 0})`, transition: struck ? `transform ${STRIKE}ms cubic-bezier(0.65, 0, 0.35, 1)` : "none" }}
+            />
+          </span>
           <span className="type-caret" />
         </span>
       )}
