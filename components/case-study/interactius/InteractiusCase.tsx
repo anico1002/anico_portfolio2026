@@ -12,6 +12,7 @@ import { MarkdownToSlide } from "./DeckDemos";
 import { TokenSync, ToneCheck } from "./BrandDemos";
 import { AiLayer, DeckWindow, ImagePrompt, ManualLaptop, ManualPhone } from "./AiPieces";
 import TypePair from "./TypePair";
+import LogoStory from "./LogoStory";
 import { IX, ixFonts, mono } from "./tokens";
 
 /* Caso de Interactius, a medida (2026-10-13; rehecho el 2026-10-16 con el feedback de Alberto: fuera las
@@ -100,7 +101,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <Head
           eyebrow="El logotipo"
           title="Un macrón que corrige cómo se dice."
-          body="El acento cae en la última i, y quien lee tiende a llevarlo al centro. El macrón lo fija. Su trazo vertical marca además cómo entra y sale cada elemento en pantalla."
+          body="Un logotipo construido sobre IBM Plex Mono con una sola intervención: el macrón sobre la última i. De ella sale todo el sistema."
         />
         <FadeIn>
           <div className="m-bleed overflow-hidden px-4 py-14 md:px-16 md:py-28" style={{ background: IX.warmLight }}>
@@ -108,6 +109,9 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
             <img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construcción del logotipo de interactīus" className="mx-auto w-full max-w-[64rem]" />
           </div>
         </FadeIn>
+        <div className="mt-24 md:mt-36">
+          <LogoStory />
+        </div>
       </section>
 
       {/* Tipografía: las dos de la marca y por qué */}
