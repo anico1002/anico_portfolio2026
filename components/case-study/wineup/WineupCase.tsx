@@ -70,7 +70,7 @@ function Feature({
   side: "left" | "right";
   eyebrow: string;
   title: string;
-  body: string;
+  body?: string;
   clip: string;
   label: string;
   bg?: string;
@@ -93,9 +93,11 @@ function Feature({
           <Lines as="h2" className="t-statement text-balance" delay={STAGGER}>
             {title}
           </Lines>
-          <FadeIn delay={2 * STAGGER} className="mt-5">
-            <p className="t-body text-[var(--case-muted)]">{body}</p>
-          </FadeIn>
+          {body && (
+            <FadeIn delay={2 * STAGGER} className="mt-5">
+              <p className="t-body text-[var(--case-muted)]">{body}</p>
+            </FadeIn>
+          )}
           {steps && (
             // Todos en la misma celda (la caja mide lo que el más alto): no se acumulan ni descuadran el bloque.
             <div className="mt-10 grid md:mt-12">
@@ -211,7 +213,6 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           side="left"
           eyebrow="La home"
           title="Todo lo importante, en un solo vistazo."
-          body="La pantalla que más vueltas tuvo. Arriba, lo que más se usa; debajo, lo último que has probado; al final, las dos puertas a la comunidad."
           clip="home"
           label="Home de WineUp"
           bg={W.lime}

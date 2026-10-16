@@ -1,7 +1,7 @@
 // Graba una escena de un prototipo de ProtoPie Cloud abierto en un Chrome con --remote-debugging-port=9333
 // (ventana visible: el reproductor necesita WebGL). La pantalla del prototipo es HTML (#webplayer-root): se emula
 // una ventana muy alta (el reproductor encaja el móvil al alto, así la pantalla se pinta grande), se graba con el screencast de CDP y se recorta a la pantalla. WineUp, 2026-10-16.
-// node rec.mjs <salida.mp4> <escena|-> <guion>   guion: "tap:x,y@t;drag:x1,y1,x2,y2@t;end@t" (t en s; x,y en pt del móvil 393x852)
+// [HIDE_SB=1] node rec.mjs <salida.mp4> <escena|-> <guion>   guion: "tap:x,y@t;drag:x1,y1,x2,y2@t;end@t" (t en s; x,y en pt del móvil 393x852)
 import { chromium } from 'playwright-core';
 import fs from 'fs'; import path from 'path'; import { execFileSync } from 'child_process';
 const [out, scene, script] = process.argv.slice(2);
@@ -18,9 +18,14 @@ if (scene !== '-') {
 }
 // El prototipo trae una capa de texto con la hora real encima del «9:41» de la barra de estado: se oculta (y se
 // vigila, porque cada escena la vuelve a crear).
-await p.evaluate(() => { if (window.__noClock) return; window.__noClock = setInterval(() => {
+// Además, con HIDE_SB=1, la barra de estado que ProtoPie pinta por su cuenta (capas `status-bar/*`): en las escenas que
+// ya traen la suya dibujada salía doble (2026-10-17). Solo para esas escenas: en las que no la traen, se quedaría sin.
+await p.evaluate((hideSb) => { clearInterval(window.__noClock); window.__noClock = setInterval(() => {
   for (const e of document.querySelectorAll('.TextLayer')) if (/^\s*\d{1,2}:\d{2}\s*$/.test(e.textContent || '') && !/9:41/.test(e.textContent)) e.style.visibility = 'hidden';
-}, 100); });
+  // Pantallas sin barra dibujada (en WineUp, «¿Cómo te defines?»): ahí se deja la de ProtoPie.
+  const bare = [...document.querySelectorAll('.TextLayer')].some((e) => /¿Cómo te defines\?/.test(e.textContent || '') && e.getBoundingClientRect().width > 0 && getComputedStyle(e).opacity !== '0');
+  for (const e of document.querySelectorAll('[data-layer-id^="status-bar/"]')) e.style.visibility = hideSb && !bare ? 'hidden' : '';
+}, 100); }, !!process.env.HIDE_SB);
 await p.waitForTimeout(300);
 const R = await p.evaluate(() => { const r = document.getElementById('webplayer-root').getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; });
 const k = R.w / 393; // pt del móvil → px de la página
@@ -56,7 +61,7 @@ execFileSync(FF, ['-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path
 console.log('ok', out, frames.length, 'fotogramas', R);
 process.exit(0);
 // ANTES DE GRABAR, en View options (rueda): desmarcar «Hotspot Hints» (si no, cada toque enseña las zonas activas en
-// azul) y cursor en flecha. Los gestos van lentos y con curva para que se note la fluidez de la app.
+// azul), desmarcar «Device Frame» (si no, sale el marco de ProtoPie dentro de nuestro iPhone) y cursor en flecha. Los gestos van lentos y con curva para que se note la fluidez de la app.
 // Abrir el Chrome sin molestar (fuera de la pantalla y sin que deje de pintar por no verse):
 // "…/Google Chrome for Testing" --remote-debugging-port=9333 --user-data-dir=<tmp> --window-position=-2400,0
 //   --window-size=1400,1100 --disable-backgrounding-occluded-windows --disable-renderer-backgrounding
