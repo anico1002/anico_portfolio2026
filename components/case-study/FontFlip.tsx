@@ -17,6 +17,11 @@ const HOLD = 1100; // ms con la serif escrita
 const PAUSE = 260; // ms con la palabra borrada, antes de escribir
 const STRIKE = 380; // ms que tarda en tacharse la serif (prueba C, 2026-10-17: descartar tachando)
 const STRUCK = 650; // ms tachada antes de borrarla
+const SELECT = 300; // ms que tarda en seleccionarse la serif (prueba B, 2026-10-17: seleccionar y borrar de golpe)
+const SELECTED = 550; // ms seleccionada antes de borrarla
+// Cómo se descarta la serif: «strike» (C, tacharla y borrarla letra a letra) o «select» (B, seleccionarla y borrarla
+// de golpe, como al pulsar la tecla de borrar con todo seleccionado).
+const REJECT: "strike" | "select" = "select";
 
 type Face = "sans" | "serif";
 
@@ -26,6 +31,7 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
   const [n, setN] = useState(text.length); // letras visibles
   const [busy, setBusy] = useState(false); // cursor a la vista
   const [struck, setStruck] = useState(false); // la serif, tachada
+  const [sel, setSel] = useState(false); // la serif, seleccionada
   const base = useRef<HTMLSpanElement>(null);
   const probe = useRef<HTMLSpanElement>(null);
   const [k, setK] = useState(1);
@@ -55,11 +61,22 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
     erase();
     write("serif");
     t += HOLD;
-    // Descarte: se tacha como en una corrección y, tachada, se borra.
-    at(t, () => setStruck(true));
-    t += STRIKE + STRUCK;
-    erase();
-    at(t, () => setStruck(false));
+    if (REJECT === "strike") {
+      // Descarte C: se tacha como en una corrección y, tachada, se borra letra a letra.
+      at(t, () => setStruck(true));
+      t += STRIKE + STRUCK;
+      erase();
+      at(t, () => setStruck(false));
+    } else {
+      // Descarte B: se selecciona entera y desaparece de golpe.
+      at(t, () => setSel(true));
+      t += SELECT + SELECTED;
+      at(t, () => {
+        setSel(false);
+        setN(0);
+      });
+      t += PAUSE;
+    }
     write("sans");
     at((t += 500), () => setBusy(false));
     return () => timers.forEach(clearTimeout);
@@ -82,7 +99,24 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
           style={serif ? { fontFamily: "var(--font-case-serif)", fontStyle: "italic", fontSize: `${k}em` } : undefined}
         >
           <span className="relative">
-            {text.slice(0, n)}
+            {/* La selección (descarte B): crece de izquierda a derecha y el texto se invierte sobre ella. */}
+            <span
+              className="absolute -inset-x-[0.04em] inset-y-[0.04em] origin-left bg-current"
+              style={{ transform: `scaleX(${sel ? 1 : 0})`, transition: sel ? `transform ${SELECT}ms cubic-bezier(0.65, 0, 0.35, 1)` : "none" }}
+            />
+            <span className="relative">{text.slice(0, n)}</span>
+            {/* Copia invertida, recortada con el mismo avance que la selección: el texto se invierte justo donde pasa. */}
+            <span
+              aria-hidden
+              className="absolute left-0 top-0"
+              style={{
+                color: "var(--case-bg)",
+                clipPath: sel ? "inset(0 0 0 0)" : "inset(0 100% 0 0)",
+                transition: sel ? `clip-path ${SELECT}ms cubic-bezier(0.65, 0, 0.35, 1)` : "none",
+              }}
+            >
+              {text.slice(0, n)}
+            </span>
             {/* La tachadura: crece de izquierda a derecha por el centro de las minúsculas y encoge con lo que se borra. */}
             <span
               className="absolute left-0 right-0 top-[58%] h-[0.06em] origin-left bg-current"
