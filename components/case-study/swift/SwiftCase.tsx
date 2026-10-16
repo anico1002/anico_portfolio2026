@@ -116,9 +116,9 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
       {/* Frases trampa */}
       <section className={section}>
         <Head
-          eyebrow="Frases trampa"
+          eyebrow="Casos límite"
           title="El motor se eligió con un banco de pruebas, no por impresiones."
-          body="21 frases que esconden una trampa: modismos, preguntas que hay que traducir y no contestar, cifras, ironía, alfabetos de derecha a izquierda."
+          body="21 frases que ponen a prueba a cualquier traductor: modismos, preguntas que hay que traducir y no contestar, cifras, ironía, alfabetos de derecha a izquierda."
         />
         <TrapBench />
       </section>

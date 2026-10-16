@@ -80,7 +80,7 @@ export default function TrapBench() {
       </div>
       <div className="mt-24 grid grid-cols-12 gap-x-4 md:mt-32 md:gap-x-6">
         <div className="col-span-12 md:col-span-6 md:col-start-4">
-          <p className="mb-8 t-label t-tag text-[var(--case-muted)]">Banco de 21 frases trampa · aciertos</p>
+          <p className="mb-8 t-label t-tag text-[var(--case-muted)]">21 casos límite · aciertos</p>
           <Bars />
         </div>
       </div>
