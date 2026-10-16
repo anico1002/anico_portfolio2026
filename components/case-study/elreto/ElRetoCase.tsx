@@ -61,7 +61,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: More
         poster={<Placeholder ratio="auto" className="h-full" src={hero} label="El Reto MasterChef" />}
         overlay={(t) => (
           <CaseHeroOverlay
-            name="El Reto MasterChef"
+            name="MasterChef"
             delay={t}
             facts={[
               ["Para", "MasterChef World"],

@@ -58,7 +58,7 @@ export const CASES: CaseCopy[] = [
     // scripts/mockups/recetas/elreto-hero.json). La apertura con el recorrido completo va en games.ts.
     thumb: "/maqueta/elreto/media/hero.mp4",
     hero: "/maqueta/elreto/media/hero.mp4",
-    name: "El Reto MasterChef",
+    name: "MasterChef", // antes «El Reto MasterChef»: partía los titulares (Alberto, 2026-10-16)
     line: "La experiencia MasterChef llevada al móvil",
     year: "2025",
     client: "MasterChef World",
