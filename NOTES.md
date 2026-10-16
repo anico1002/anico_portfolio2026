@@ -18,6 +18,13 @@ frontal sobre mármol (opción B) + landing en el iPhone plegable de Pixeden (PS
 por script `scripts/mockups/photoshop/duo*.jsx`, vídeo `scripts/mockups/duo_video.py`); miniatura = la del portátil
 sobre piedra (Alberto la prefiere). Interactius: logotipo ampliado (macrón animado + versiones) y cabecera en franja
 (`BandMedia`, `scripts/mockups/hero_band.py`: el dispositivo entero en el 56 % de arriba que deja ver CaseHero).
+**WineUp (2026-10-16, tira millas):** caso a medida en `/maqueta/wineup` (`components/case-study/wineup/`). Grabado del
+ProtoPie (60728aee…) con `scripts/case-media/protopie/rec.mjs` (Chrome con --remote-debugging-port=9333, ventana fuera
+de pantalla: Alberto no quiere que salte al frente; oculta el reloj real que el prototipo pinta sobre el 9:41).
+Cabecera/miniatura: mano 3D de su carpeta de mockups (`mockups-src/hand-3d`, Photoshop por script) sobre un bar de
+vinos de Unsplash desenfocado (`scripts/mockups/hand3d_video.py`). Apartados en iPhone frontal (marco iphone18).
+**Pendiente de revisión de Alberto:** copy, orden y colores de las bandas; el escáner, «Catar» y abrir trivias no
+responden en el prototipo (se ven como pantalla). Vídeos en `public/maqueta/wineup/media/` (fuera de git).
 `WebScroll.tsx` (web a toda página fija dentro de la máscara) queda sin usar, por si sirve en otra landing.
 
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-15, MacBook)
