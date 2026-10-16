@@ -12,16 +12,20 @@ import { useReduce } from "@/lib/maqueta/reduce";
    guarda el hueco. Reutilizable en Product y Games: `run` lo dispara. */
 
 const FACES = ["var(--font-flip-serif)", "var(--font-flip-mono)", "var(--font-flip-grot)"];
-// Guion: [ms desde el arranque, seleccionado, tipografía (-1 = la del titular)]
-const SCRIPT: [number, boolean, number][] = [
-  [0, true, -1],
-  [520, true, 0],
-  [1000, true, 1],
-  [1480, true, 2],
-  [1960, true, -1],
-  [2380, false, -1],
-];
-const END = 2650;
+// Guion: [ms desde el arranque, seleccionado, tipografía (-1 = la del titular)]. Cada cambio con su selección: se
+// selecciona (crece), se cambia la tipografía y se suelta; así con las tres y una última vuelta a la del titular.
+const SEL = 300; // ms hasta que la selección ha crecido y cambia la tipografía
+const HOLD = 520; // ms que se queda seleccionada con la tipografía nueva
+const GAP = 280; // ms sin selección antes de la siguiente
+const SCRIPT: [number, boolean, number][] = [];
+let prev = -1;
+let at = 0;
+for (const f of [0, 1, 2, -1]) {
+  SCRIPT.push([at, true, prev], [at + SEL, true, f], [at + SEL + HOLD, false, f]);
+  prev = f;
+  at += SEL + HOLD + GAP;
+}
+const END = at;
 const START = 1100; // ms: cuando el titular ya ha subido a su sitio
 
 export default function FontFlip({ text, run = true, onDone }: { text: string; run?: boolean; onDone?: () => void }) {
@@ -64,14 +68,14 @@ export default function FontFlip({ text, run = true, onDone }: { text: string; r
       {/* La selección: el color del texto de fondo, crece de izquierda a derecha. */}
       <span
         aria-hidden
-        className="absolute -inset-x-[0.06em] inset-y-[0.04em] origin-left bg-current transition-transform duration-[260ms] ease-out"
+        className={`absolute -inset-x-[0.06em] inset-y-[0.04em] origin-left bg-current ${sel ? "transition-transform duration-[260ms] ease-out" : ""}`}
         style={{ transform: `scaleX(${sel ? 1 : 0})` }}
       />
-      <span ref={base} className={`relative transition-colors duration-150 ${face >= 0 ? "invisible" : ""}`} style={sel ? { color: "var(--case-bg)" } : undefined}>
+      <span ref={base} className={`relative ${face >= 0 ? "invisible" : ""}`} style={sel ? { color: "var(--case-bg)" } : undefined}>
         {text}
       </span>
       {face >= 0 && (
-        <span ref={over} aria-hidden className="absolute left-0 top-0 whitespace-nowrap" style={{ fontFamily: FACES[face], color: "var(--case-bg)" }}>
+        <span ref={over} aria-hidden className="absolute left-0 top-0 whitespace-nowrap" style={{ fontFamily: FACES[face], color: sel ? "var(--case-bg)" : undefined }}>
           {text}
         </span>
       )}
