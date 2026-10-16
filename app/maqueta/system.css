@@ -357,23 +357,40 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   .ln-i { transform: none; }
 }
 
-/* Recuento del menú (D5): «Product⁽¹²⁾». Pequeño, en cifras de ancho fijo, pegado arriba a la
-   palabra y un poco más tenue; no altera la altura de la línea. */
+/* Superíndices alineados a la mayúscula (2026-10-17): la parte de arriba de los números queda a la altura de la parte
+   de arriba de las mayúsculas del texto al que acompañan. Con la unidad `cap` sale de la propia fuente, así que
+   sigue cuadrando al cambiar de tipografía: el padre fija su altura de mayúscula en --pcap (registrada como
+   longitud para que llegue al hijo ya en px) y el superíndice, sobre la línea base, sube la diferencia. */
+@property --pcap {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+:has(> .cap-sup),
+:has(> .nav-count) {
+  --pcap: 1cap;
+}
+.cap-sup,
+.nav-count {
+  vertical-align: baseline;
+  position: relative;
+  top: calc(1cap - var(--pcap));
+  line-height: 1;
+}
+
+/* Recuento del menú (D5): «Product⁽¹²⁾». Pequeño, en cifras de ancho fijo y un poco más tenue; no altera la
+   altura de la línea. */
 .nav-count {
   font-size: 0.62em;
   font-variant-numeric: tabular-nums;
-  vertical-align: 0;
-  position: relative;
-  top: -0.7em;
   margin-left: 0.15em;
   opacity: 0.6;
   letter-spacing: 0;
 }
 /* En el menú de móvil (titulares de 40 px) la proporción de escritorio daba un número enorme: aquí va a
-   tamaño de etiqueta, pequeño y fino como en la barra, subido hasta la altura de las mayúsculas (2026-10-14). */
+   tamaño de etiqueta (2026-10-14). */
 .nav-count-big {
   font-size: 12px;
-  top: -1.9em;
   margin-left: 0.35em;
 }
 

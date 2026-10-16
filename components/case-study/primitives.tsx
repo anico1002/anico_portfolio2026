@@ -516,7 +516,7 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
       >
         {text}
         {/* El año, en pequeño al lado del nombre, como el recuento de «Product (14)» del menú (prueba 2026-10-17). */}
-        {sup && <sup className="ml-[0.12em] align-top t-small font-normal tracking-normal text-[var(--case-muted)] [line-height:1] relative top-[0.35em]">({sup})</sup>}
+        {sup && <sup className="cap-sup ml-[0.12em] t-small font-normal tracking-normal text-[var(--case-muted)]">({sup})</sup>}
       </motion.h1>
     </div>
   );
@@ -535,10 +535,10 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
     <div className="flex h-full flex-col justify-between gap-6 px-4 pb-6 pt-4 md:px-6 md:pb-7 md:pt-3">
       <FitTitle text={name} delay={delay} sup={year} />
       <div className="grid grid-cols-12 gap-x-4 md:gap-x-6">
-        <div className="col-span-12 md:col-span-5 md:col-start-8 lg:col-span-4 lg:col-start-9">
+        <div className="col-span-12 md:col-span-4 md:col-start-8 lg:col-span-3 lg:col-start-9">
           <MaskText delay={delay + 2 * STAGGER}>
             <div className="t-small">
-              {did && <p>{did}</p>}
+              {did && <p className="text-balance">{did}</p>}
               {role && (
                 <p className="mt-1">
                   <span className="text-[var(--case-muted)]">Rol: </span>
