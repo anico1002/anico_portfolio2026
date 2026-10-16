@@ -188,7 +188,7 @@ export default function ImagoCanon() {
           <FadeIn className="mt-6">
             <p className="t-body text-[var(--case-muted)]">
               La esquina recta del logo firma cada pieza de la interfaz, de la tarjeta más grande al avatar más
-              pequeño. Por eso todo parece Gloop.
+              pequeño. Por eso todo respira marca.
             </p>
           </FadeIn>
           <div className="mt-8 flex items-end gap-3">
