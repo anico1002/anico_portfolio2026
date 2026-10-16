@@ -3,7 +3,6 @@
 import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
 import type { MoreCases } from "@/lib/maqueta/media";
 import SiteNav from "@/components/case-study/SiteNav";
-import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import {
@@ -172,7 +171,6 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
       </CaseLayer>
 
       <CaseEnd items={n.items} all={n.all} />
-      <SiteFooter />
     </main>
   );
 }

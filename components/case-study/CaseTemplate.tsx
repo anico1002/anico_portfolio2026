@@ -22,7 +22,6 @@ import type { CaseCopy } from "@/lib/maqueta/cases";
 import type { CaseMedia, MediaItem } from "@/lib/maqueta/media";
 import { invText } from "@/components/case-study/invText";
 import Lines from "@/components/case-study/Lines";
-import SiteFooter from "@/components/case-study/SiteFooter";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import { useReduce } from "@/lib/maqueta/reduce";
 
@@ -407,8 +406,6 @@ export default function CaseTemplate({
       {/* 6 · Siguiente caso + contacto */}
       </CaseLayer>
       <CaseEnd items={next.items} all={next.all} />
-      {/* Pie común (E2): «¿Hablamos?» + franja con email, LinkedIn y volver arriba. */}
-      <SiteFooter />
     </main>
   );
 }

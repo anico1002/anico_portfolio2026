@@ -4,7 +4,6 @@ import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
 import type { MoreCases } from "@/lib/maqueta/media";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
-import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
 import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Placeholder } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
@@ -161,7 +160,6 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
       </CaseLayer>
 
       <CaseEnd items={n.items} all={n.all} />
-      <SiteFooter />
     </main>
   );
 }

@@ -3,7 +3,10 @@
 import Arrow from "@/components/case-study/Arrow";
 import RollText from "@/components/case-study/RollText";
 import { TLink } from "@/components/case-study/Portal";
-import { FadeIn } from "@/components/case-study/primitives";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useReduce } from "@/lib/maqueta/reduce";
+import { DUR, EASE } from "@/lib/maqueta/motion";
 import { scrollToTop } from "@/components/case-study/SmoothScroll";
 import { EMAIL, LINKEDIN } from "@/lib/maqueta/contact";
 
@@ -18,16 +21,42 @@ import { EMAIL, LINKEDIN } from "@/lib/maqueta/contact";
 const wrap = "px-4 md:px-6";
 const mono = "t-tag";
 
-export default function SiteFooter({ cta = true }: { cta?: boolean }) {
+/* «¿Hablamos?» entra cada vez que vuelve a pantalla (feedback 2026-10-16: «que se note que viene cada vez»):
+   máscara desde abajo y subida, como FadeIn, pero sin quedarse fija tras la primera vez. `show` permite mandarlo
+   desde fuera (al final de los casos lo decide el telón, porque ahí está en pantalla aunque la capa lo tape). */
+function Hablamos({ show }: { show?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReduce();
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (show !== undefined) return;
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver((es) => setInView(es.some((e) => e.isIntersecting)), { rootMargin: "0px 0px -10% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [show]);
+  const on = reduce || (show ?? inView);
   return (
-    <footer className={`pb-6 md:pb-8 ${cta ? "mt-40 md:mt-64" : "mt-24"} ${wrap}`}>
-      {cta && (
-        <FadeIn>
-          <TLink href="/maqueta/contacto" className="block t-d2">
-            <RollText text="¿Hablamos?" />
-          </TLink>
-        </FadeIn>
-      )}
+    <div ref={ref}>
+      <motion.div
+        className="pb-[0.25em] -mb-[0.25em]"
+        initial={false}
+        animate={on ? { clipPath: "inset(-5% -5% -5% -5%)", y: 0 } : { clipPath: "inset(100% -5% 0% -5%)", y: 60 }}
+        transition={on ? { duration: DUR.slow, ease: EASE.out } : { duration: DUR.fast, ease: EASE.inOut }}
+      >
+        <TLink href="/maqueta/contacto" className="block t-d2">
+          <RollText text="¿Hablamos?" />
+        </TLink>
+      </motion.div>
+    </div>
+  );
+}
+
+export default function SiteFooter({ cta = true, show, flush = false }: { cta?: boolean; show?: boolean; flush?: boolean }) {
+  return (
+    <footer className={`pb-6 md:pb-8 ${flush ? "" : cta ? "mt-40 md:mt-64" : "mt-24"} ${wrap}`}>
+      {cta && <Hablamos show={show} />}
       <div
         className={`${cta ? "mt-16 md:mt-24" : ""} flex flex-col gap-4 border-t border-[var(--case-line)] pt-5 md:flex-row md:items-baseline md:justify-between`}
       >

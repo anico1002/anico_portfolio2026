@@ -7,7 +7,6 @@ import SiteNav from "@/components/case-study/SiteNav";
 import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Parallax, Placeholder } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
-import SiteFooter from "@/components/case-study/SiteFooter";
 import OneThing from "@/components/case-study/gloop/OneThing";
 import TeamShift from "@/components/case-study/gloop/TeamShift";
 import ColorMeaning from "@/components/case-study/gloop/ColorMeaning";
@@ -187,7 +186,6 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
       </CaseLayer>
 
       <CaseEnd items={more.items} all={more.all} />
-      <SiteFooter />
     </main>
   );
 }

@@ -33,9 +33,9 @@ function Macron() {
   useEffect(() => {
     if (!on || reduce) return;
     // Punto → macrón, pausa, y vuelta a empezar mientras se ve.
-    setLong(true);
+    const t0 = window.setTimeout(() => setLong(true), 250);
     const id = window.setInterval(() => setLong((v) => !v), 2600);
-    return () => clearInterval(id);
+    return () => (clearTimeout(t0), clearInterval(id));
   }, [on, reduce]);
   const r = reduce || long ? BAR : DOT;
   return (

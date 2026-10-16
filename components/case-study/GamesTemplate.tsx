@@ -5,7 +5,6 @@ import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
 import type { MoreCases } from "@/lib/maqueta/media";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import SiteNav from "@/components/case-study/SiteNav";
-import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import {
@@ -247,7 +246,6 @@ export default function GamesTemplate({
       </CaseLayer>
 
       <CaseEnd items={next.items} all={next.all} />
-      <SiteFooter />
     </main>
   );
 }
