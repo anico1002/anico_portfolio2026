@@ -207,7 +207,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Para quien disfruta del vino y para quien lo conoce a fondo. Un mundo por descubrir, sea cual sea tu perfil."
           clip="perfiles"
           label="Splash, elección de perfil y onboarding de WineLover"
-          photo={`${M}/bg-vinas.jpg`}
+          photo={`${M}/bg-atardecer.jpg`}
         />
         <Feature
           side="left"
@@ -229,7 +229,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Descubre a quién seguir, qué se está bebiendo y dónde se brinda cerca de ti."
           clip="explorar"
           label="Explorar: descubre, feed y mapa"
-          photo={`${M}/bg-atardecer.jpg`}
+          photo={`${M}/bg-vinas.jpg`}
         />
         <Feature
           side="left"
