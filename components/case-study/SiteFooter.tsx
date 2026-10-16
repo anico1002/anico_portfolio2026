@@ -17,7 +17,6 @@ import { EMAIL, LINKEDIN } from "@/lib/maqueta/contact";
    de Plastic (E4, en standby). */
 
 const wrap = "px-4 md:px-6";
-const mono = "t-tag";
 
 /* «¿Hablamos?» entra cada vez que vuelve a pantalla (feedback 2026-10-16: «que se note que viene cada vez»).
    Va pegado a la línea del pie y sale de ella (feedback 2026-10-17), pero sin quedarse fija tras la primera vez. `show` permite mandarlo
