@@ -63,8 +63,8 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
             delay={t}
             facts={[
               ["Para", "Interactius"],
-              ["Rol", "Diseño de producto y de sistema"],
-              ["Qué hice", "Rebranding · Web · Manual de marca · Herramientas"],
+              ["Rol", "Brand Designer / IA"],
+              ["Qué hice", "Rebranding · Web · Manual de marca · Herramientas IA"],
               ["Año", "2026"],
             ]}
           />

@@ -160,7 +160,7 @@ export const CASES: CaseCopy[] = [
     line: "Un manual de marca que se usa, no se lee",
     year: "2026",
     client: "Interactius",
-    role: "Diseño de producto y de sistema",
+    role: "Brand Designer / IA",
     services: ["Manual de marca", "Generador de presentaciones", "API de marca"],
     accent: "#99335F",
     tagline: "Un manual de marca que no se lee: se usa.",
