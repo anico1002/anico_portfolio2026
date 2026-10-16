@@ -84,9 +84,9 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
               Una marca nueva, una web y un manual pensado también para la IA.
             </Lines>
           </div>
-          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
+          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
-              Interactius, consultora de estrategia, experiencias y transformación cultural, renovó su marca en 2026: el
+              Interactius, partner estratégico en experiencias y transformación cultural, renovó su marca en 2026: el
               rebranding, la web y un manual escrito para dos lectores, su equipo y los modelos de IA con los que ya
               trabaja. Cada decisión tiene su versión para personas y su versión para máquinas.
             </p>

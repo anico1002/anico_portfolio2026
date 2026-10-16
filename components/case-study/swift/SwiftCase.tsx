@@ -89,7 +89,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
               Traducir cualquier texto sin salir de lo que estás haciendo.
             </Lines>
           </div>
-          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
+          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
               Traducir en el Mac obligaba a cambiar de app, abrir pestañas y copiar y pegar. SwifT vive en la barra de
               menús: seleccionas, pulsas un atajo y la traducción aparece encima, sin cuenta, sin claves y sin

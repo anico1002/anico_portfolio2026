@@ -125,7 +125,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
                 Una red social para quien ama el vino.
               </Lines>
             </div>
-            <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
+            <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
               <p className="t-body text-[var(--case-muted)]">
                 WineUp quiere ser el sitio donde se encuentran los amantes del vino: para descubrir botellas, conocer a
                 otros y compartir lo que beben. Con la marca ya definida, el trabajo fue la experiencia y la interfaz de

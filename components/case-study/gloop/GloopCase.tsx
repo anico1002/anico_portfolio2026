@@ -79,7 +79,7 @@ export default function GloopCase({ next: more }: { next: MoreCases }) {
               promete.
             </Lines>
           </div>
-          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
+          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
               Me encargué de la dirección de arte desde la base: el lenguaje visual, el design system y el diseño
               UX/UI de la app. El encargo era uno: que toda la diversión de una noche cupiera en una app.

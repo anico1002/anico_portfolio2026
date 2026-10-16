@@ -81,7 +81,7 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
               El banco que no grita.
             </Lines>
           </div>
-          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
+          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
               UI/UX de la app nativa para iOS de un neobanco, lista para que el equipo de desarrollo le conecte el
               backend. El listón: la usabilidad de los mejores bancos digitales. La regla: ante dos soluciones

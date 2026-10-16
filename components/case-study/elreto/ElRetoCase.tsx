@@ -85,7 +85,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: More
               Convertir a la audiencia de MasterChef en concursantes.
             </Lines>
           </div>
-          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-9 md:row-start-2 md:mt-6">
+          <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
             <p className="t-body text-[var(--case-muted)]">
               Una plataforma para el concurso online de MasterChef World: mini retos diarios, desafíos semanales en
               vídeo, directos con chefs y un ranking hacia el casting televisado. Identidad, experiencia y una sola
