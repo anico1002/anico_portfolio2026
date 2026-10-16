@@ -86,7 +86,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
               <Eyebrow>Introducción</Eyebrow>
             </FadeIn>
             <Lines className="t-intro" delay={STAGGER}>
-              Traducir cualquier texto sin salir de lo que estás haciendo.
+              Traducir cualquier texto sin cambiar de aplicación.
             </Lines>
           </div>
           <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">

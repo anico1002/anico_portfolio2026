@@ -118,7 +118,7 @@ export const CASES: CaseCopy[] = [
     services: ["Product", "macOS app", "Logo", "Landing page"],
     accent: "#8A8A8A",
     light: true,
-    tagline: "Traducir cualquier texto sin salir de lo que estás haciendo.",
+    tagline: "Traducir cualquier texto sin cambiar de aplicación.",
     question: "¿Y si la mejor herramienta de traducción fuera la que no se ve?",
     overview: [
       "Traducir en macOS obligaba a cambiar de app, abrir pestañas y copiar y pegar. Cada solución existente rompía el flujo de trabajo.",
