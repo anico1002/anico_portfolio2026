@@ -324,9 +324,10 @@ export function VersusTable() {
   return (
     <div className="border-t border-[var(--case-line)]">
       <div className="grid grid-cols-12 gap-x-4 py-3 t-label t-tag text-[var(--case-muted)] md:gap-x-6">
-        <span className="col-span-4" />
-        <span className="col-span-4">Otro reader</span>
-        <span className="col-span-4">
+        {/* En móvil, la columna del concepto va encima de cada fila: las cabeceras se reparten las dos columnas. */}
+        <span className="hidden md:col-span-4 md:block" />
+        <span className="col-span-6 md:col-span-4">Otro reader</span>
+        <span className="col-span-6 md:col-span-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/maqueta/7news/brand/7news-logo.svg" alt="7news" className="light-invert h-[1.1em] w-auto" />
         </span>
