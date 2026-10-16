@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, Instrument_Sans } from "next/font/google";
+import { Bricolage_Grotesque, DM_Serif_Display, Fraunces, Instrument_Sans, Space_Mono } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import FlightLayer from "@/components/case-study/Flight";
 import CurtainLayer from "@/components/case-study/Curtain";
@@ -24,6 +24,12 @@ const sans = Instrument_Sans({ variable: "--font-instrument", subsets: ["latin"]
 // pruebas del 12). Sustituye a Playfair, que al lado de la sans quedaba demasiado fina, sobre todo en claro.
 // Antes se probaron Instrument Serif (estrecha), Playfair, ácido, gris, barras, anchura y otras.
 const serif = DM_Serif_Display({ variable: "--font-case-serif", subsets: ["latin"], weight: "400", style: "italic" });
+
+// Tipografías del cambio letra a letra de las palabras clave (FontFlip, prueba 2026-10-17): peso parecido al del
+// titular y ancho normal, sin condensadas, extendidas, finas ni script.
+const flipSerif = Fraunces({ variable: "--font-flip-serif", subsets: ["latin"], weight: "400" });
+const flipMono = Space_Mono({ variable: "--font-flip-mono", subsets: ["latin"], weight: "400" });
+const flipGrot = Bricolage_Grotesque({ variable: "--font-flip-grot", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
@@ -56,7 +62,7 @@ const pick = `(function(){var r=document.getElementById('case-root');try{var t=l
 
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${serif.variable}`}>
+    <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${flipSerif.variable} ${flipMono.variable} ${flipGrot.variable}`}>
       <script dangerouslySetInnerHTML={{ __html: pick }} />
       {/* `overflow-x: hidden` global convierte html/body en contenedor de scroll y rompe
           `position: sticky`; `clip` recorta igual sin romperlo. Y `scroll-behavior: smooth`

@@ -36,11 +36,12 @@ export default function ProductHome() {
       title="I design *digital products* from first idea to native code."
       intro={`${yearsOfExperience()} years designing interfaces, now with AI as a building tool. Strategy, UX/UI, design systems and prototypes you can actually touch.`}
       items={items}
-      more={{
-        eyebrow: "Brand & web",
-        title: "Identities that carry a product.",
-        items: casesIn("brand").map(card),
-      }}
+      // «Brand & web» solo si queda algún proyecto de marca a la vista (2026-10-17: ocultos todos).
+      more={
+        casesIn("brand").length
+          ? { eyebrow: "Brand & web", title: "Identities that carry a product.", items: casesIn("brand").map(card) }
+          : undefined
+      }
     />
   );
 }

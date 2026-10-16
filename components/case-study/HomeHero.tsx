@@ -1,5 +1,6 @@
 "use client";
 
+import FontFlip from "@/components/case-study/FontFlip";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { endCurtain, useCurtain } from "@/components/case-study/Curtain";
@@ -111,7 +112,7 @@ const withEm = (t: string, slides: readonly string[], open: boolean) =>
       <InlineMedia key={i} slides={slides} open={open} />
     ) : part.startsWith("*") ? (
       <em key={i} className="kw">
-        {part.slice(1, -1)}
+        <FontFlip text={part.slice(1, -1)} run={open} />
       </em>
     ) : (
       part

@@ -673,9 +673,9 @@ const ALL_CASES: CaseCopy[] = [
   },
 ];
 
-/** Proyectos ocultos (Alberto, 2026-10-17: «demasiado viejos, no vale la pena mostrarlos»). No se borran: se
+/** Proyectos ocultos (Alberto, 2026-10-17): los de 2019 («demasiado viejos») y los de Marca y web. No se borran: se
     quedan en ALL_CASES por si se rescatan; quitarlos de aquí los vuelve a enseñar en homes, carruseles y rutas. */
-const HIDDEN = new Set(["netflix-app", "nike-shop", "hawkers"]);
+const HIDDEN = new Set(["netflix-app", "nike-shop", "hawkers", "obliq", "act", "gm-world", "metacampus"]);
 export const CASES: CaseCopy[] = ALL_CASES.filter((c) => !HIDDEN.has(c.slug));
 
 /** Proyectos de la home de Product que aún no tienen caso (sin enlace). */
