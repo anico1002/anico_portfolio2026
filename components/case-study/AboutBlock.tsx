@@ -22,7 +22,7 @@ export default function AboutBlock({ years }: { years: number }) {
             <p className="mb-4 t-label t-tag text-[var(--case-muted)]">About</p>
           </FadeIn>
           <Lines as="h2" className="t-hero" delay={STAGGER}>
-            {`${years} years designing interfaces people actually use.`}
+            {`${years}+ years designing interfaces people actually use.`}
           </Lines>
         </div>
       </div>
