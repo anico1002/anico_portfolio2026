@@ -11,6 +11,25 @@ del fallo: «La app empieza preguntando quién eres… el experto se reconoce po
 dos experiencias. Para quien disfruta del vino y para quien lo conoce a fondo». Se hace en inglés, que es como sale
 la web. No se publica sin este repaso.
 
+## ▶ WINEUP REHECHO (2026-10-17, MacBook)
+
+- **Composición:** apartados en mitades alternas (`Feature` en `WineupCase.tsx`): un solo móvil sobre un fondo más bajo
+  que él, tres capas de parallax, fotos de Unsplash elegidas por Alberto con velo negro (`VEIL`) y colores con
+  degradado casi a negro (`shade`). La home se queda fija y sus tres puntos se sustituyen uno a uno con el scroll.
+- **Clips regrabados** con `scripts/case-media/protopie/rec.mjs` (prototipo https://cloud.protopie.io/p/60728aeeed322a3cf2520398):
+  View options sin «Hotspot Hints» ni «Device Frame» y cursor flecha; `HIDE_SB=1` oculta la barra de estado que
+  ProtoPie pinta encima de la dibujada (salía doble); `sb:show@t` donde no hay dibujada («¿Cómo te defines?»);
+  `wheel:` para subir sin que un carrusel se quede el gesto. Fuentes en `scripts/case-media/clips/wineup/v2/` (con
+  `flow.mp4` para la mano), los viejos en `v1-*`. Guiones usados:
+  - perfiles `Splash` «sb:show@6.9;tap:196,233@11.5;end@55» (recortado a 50 s)
+  - home `Home` «drag:300,380,70,380,1500@7.5;tap:105,635@12;tap:196,800@17.5;end@25»
+  - explorar `Explore` «drag:330,300,60,300,1500@2.5;drag:196,700,196,320,1800@5.5;drag:196,320,196,700,1800@8.5;tap:196,160@11.5;drag:196,700,196,320,1800@13.5;tap:300,160@17;end@22»
+  - vino `Explore` «tap:70,680@2.5;drag:196,700,196,400,2600@7.5 (×4, cada 3,5 s);wheel:196,600,-500,2600@22 (×3);end@34» (recortado a 33 s)
+  - perfil `Profile` «drag:196,650,196,300,2400@2.5;wheel:196,500,-400,2000@6;tap:197,305@9;drag:196,650,196,300,2400@11.5;end@15.5» + expert `Profile-Expert` → `cava.mp4`
+  - trivias `Trivias` «drag:196,700,196,250,1800@3;drag:196,250,196,700,1800@6.5;end@9.5»
+- **Pendiente WineUp:** revisión de Alberto; en «Dos perfiles» la pantalla «¿Cómo te defines?» y el onboarding no
+  traen barra de estado en el prototipo (salen sin ella).
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-16, MacBook)
 
 **Pendiente (próxima sesión):**

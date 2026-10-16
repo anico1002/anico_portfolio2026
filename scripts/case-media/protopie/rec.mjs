@@ -1,7 +1,7 @@
 // Graba una escena de un prototipo de ProtoPie Cloud abierto en un Chrome con --remote-debugging-port=9333
 // (ventana visible: el reproductor necesita WebGL). La pantalla del prototipo es HTML (#webplayer-root): se emula
 // una ventana muy alta (el reproductor encaja el móvil al alto, así la pantalla se pinta grande), se graba con el screencast de CDP y se recorta a la pantalla. WineUp, 2026-10-16.
-// [HIDE_SB=1] node rec.mjs <salida.mp4> <escena|-> <guion>   guion: "tap:x,y@t;drag:x1,y1,x2,y2[,ms]@t;sb:show|hide@t;end@t" (t en s; x,y en pt del móvil 393x852)
+// [HIDE_SB=1] node rec.mjs <salida.mp4> <escena|-> <guion>   guion: "tap:x,y@t;drag:x1,y1,x2,y2[,ms]@t;wheel:x,y,dy[,ms]@t;sb:show|hide@t;end@t" (t en s; x,y en pt del móvil 393x852)
 import { chromium } from 'playwright-core';
 import fs from 'fs'; import path from 'path'; import { execFileSync } from 'child_process';
 const [out, scene, script] = process.argv.slice(2);
@@ -46,15 +46,25 @@ for (const step of script.split(';').filter(Boolean)) {
     for (let i = 1; i <= steps; i++) { const t = e(i / steps); await p.mouse.move(x1 + (x2 - x1) * t, y1 + (y2 - y1) * t); await p.waitForTimeout(16); }
     await p.waitForTimeout(60); await p.mouse.up();
   }
+  else if (k2 === 'wheel') {
+    // Rueda suave (wheel:x,y,dy[,ms]): donde un arrastre lo coge otro elemento (un carrusel), la rueda desplaza la
+    // página igual. Pasos pequeños con la misma curva in-out que los arrastres.
+    const [x, y] = at(n[0], n[1]); const dy = n[2] * k; const ms = n[3] || 1500; const steps = Math.round(ms / 16);
+    const e = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    await p.mouse.move(x, y); let done = 0;
+    for (let i = 1; i <= steps; i++) { const to = dy * e(i / steps); await p.mouse.wheel(0, to - done); done = to; await p.waitForTimeout(16); }
+  }
   else if (k2 === 'sb') await p.evaluate((h) => (window.__hideSb = h), v === 'hide');
   else if (k2 === 'end') end = +t;
 }
 const rest = end * 1000 - (Date.now() - t0); if (rest > 0) await p.waitForTimeout(rest);
-await s.send('Page.stopScreencast'); await p.waitForTimeout(300);
+const stopTs = Date.now() / 1000; await s.send('Page.stopScreencast'); await p.waitForTimeout(300);
 await s.send('Emulation.clearDeviceMetricsOverride');
 // Fotogramas con su duración real → 30 fps constantes, recortados a la pantalla y a 786x1704 (393x852 a 2x).
 let list = '';
-frames.forEach((f, i) => { const d = i < frames.length - 1 ? frames[i + 1].t - f.t : 0.1; list += `file '${f.file}'\nduration ${Math.max(0.001, d).toFixed(4)}\n`; });
+// El screencast solo manda fotogramas cuando algo cambia: el último dura hasta el final real de la grabación (si no,
+// una pantalla quieta al final se perdía y el clip salía corto; 2026-10-17).
+frames.forEach((f, i) => { const d = i < frames.length - 1 ? frames[i + 1].t - f.t : Math.max(0.1, stopTs - f.t); list += `file '${f.file}'\nduration ${Math.max(0.001, d).toFixed(4)}\n`; });
 list += `file '${frames.at(-1).file}'\n`; fs.writeFileSync(path.join(dir, 'list.txt'), list);
 const c = `crop=${Math.round(R.w)}:${Math.round(R.h)}:${Math.round(R.x)}:${Math.round(R.y)},scale=786:1704,fps=30`;
 execFileSync(FF, ['-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(dir, 'list.txt'), '-vf', c, '-vcodec', 'libx264', '-crf', '20', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', '-y', out]);
