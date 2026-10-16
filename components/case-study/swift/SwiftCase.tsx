@@ -20,6 +20,7 @@ import TrapBench from "./TrapBench";
 import EngineCascade from "./EngineCascade";
 import IconStory from "./IconStory";
 import LandingMac from "./LandingMac";
+import DuoPhone from "./DuoPhone";
 
 /* Caso de SwifT, a medida (2026-10-13). Sustituye a la plantilla común: en lugar de las láminas de la web
    actual, piezas recreadas del producto real (components/case-study/swift/). Hechos del repo
@@ -141,6 +142,9 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
       {/* La landing en inglés dentro de un MacBook, con la misma apertura de máscara; la web baja y sube en bucle. */}
       <div className="mt-4">
         <LandingMac />
+      </div>
+      <div className="mt-16 md:mt-24">
+        <DuoPhone />
       </div>
 
       {/* Datos, en pequeño (sin cifras gigantes), pegados al MacBook */}

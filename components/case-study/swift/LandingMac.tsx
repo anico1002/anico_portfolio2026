@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { WindowReveal } from "@/components/case-study/primitives";
 
-/* La landing de SwifT en un MacBook y un iPhone reales (2026-10-16). Alberto eligió entre cuatro fotos frontales,
-   neutras y claras la «B»: MacBook Air e iPhone de frente sobre mármol blanco (Unsplash photo-1654555023156,
-   mockups-src/mac-marble). Misma apertura de máscara que el resto de casos. En el portátil, la landing de escritorio;
-   en el iPhone, la misma página en móvil (375 px). Las dos son vídeos en bucle que bajan la página entera y vuelven
-   a subir, así que siempre hay movimiento. Cada pantalla va encima con la perspectiva de la foto (matrix3d sacado
-   de sus esquinas). La escena se dibuja a tamaño natural (2400×1350) y se escala al marco, centrada en los dos. */
+/* La landing de SwifT en un MacBook real (2026-10-16). Alberto eligió entre cuatro fotos frontales, neutras y
+   claras la «B»: MacBook Air de frente sobre mármol blanco (Unsplash photo-1654555023156, mockups-src/mac-marble).
+   El iPhone 8 que salía al lado se borró de la foto (relleno con el mármol): el móvil de esta sección es el iPhone
+   plegable de DuoPhone. Misma apertura de máscara que el resto de casos; la landing de escritorio en bucle baja la
+   página entera y vuelve a subir. La pantalla va encima con la perspectiva de la foto (matrix3d de sus esquinas).
+   La escena se dibuja a tamaño natural (2400×1350) y se escala al marco, centrada en el portátil. */
 
 const STAGE = { w: 2400, h: 1350 };
 const SCREENS = [
@@ -19,16 +19,9 @@ const SCREENS = [
     h: 900,
     m: "matrix3d(0.64895464,0.00085785526,0,-4.6218677e-06,-0.00067662175,0.65968616,0,-1.8566142e-06,0,0,1,0,842.40002,292,0,1)",
   },
-  {
-    src: "/maqueta/swift/landing/scroll-mobile.mp4",
-    poster: "/maqueta/swift/landing/scroll-mobile-poster.jpg",
-    w: 450,
-    h: 800,
-    m: "matrix3d(0.45545149,0.013326258,0,1.956048e-05,-0.010023453,0.43406181,0,-1.9893008e-05,0,0,1,0,454.39999,589.60004,0,1)",
-  },
 ];
-/** Centro de los dos dispositivos en la foto (0–1). */
-const FOCUS = { x: 0.5, y: 0.5 };
+/** Centro del portátil en la foto (0–1). */
+const FOCUS = { x: 0.563, y: 0.5 };
 
 export default function LandingMac() {
   const box = useRef<HTMLDivElement>(null);
@@ -60,7 +53,7 @@ export default function LandingMac() {
       // Escritorio: la foto cubre el marco. Móvil (marco alto y estrecho): los dos dispositivos a lo ancho y el
       // blanco del mármol arriba y abajo.
       const narrow = cw < 768;
-      const k = narrow ? (cw / STAGE.w) * 1.55 : Math.max(cw / STAGE.w, ch / STAGE.h);
+      const k = narrow ? (cw / STAGE.w) * 1.9 : Math.max(cw / STAGE.w, ch / STAGE.h);
       const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
       setT({
         k,
