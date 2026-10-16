@@ -24,7 +24,7 @@ export default function ProductHome() {
   // miniatura en un hueco de su forma (HomeView → layout): SwifT en el grande horizontal a sangre, 7News (móvil
   // en vertical) en el pequeño 3:4, Dovla en el cuadrado, Interactius en el 16:10 y El Reto (2025) en el 4:3.
   const items: P[] = [
-    { name: "Gloop", line: "App social para grupos de amigos", type: "iOS nativo", year: "2026", thumb: "/maqueta/gloop/media/hero-mock.mp4", href: "/maqueta/gloop" },
+    { name: "Gloop", line: "One app for every night out with your friends", type: "Native iOS", year: "2026", thumb: "/maqueta/gloop/media/hero-mock.mp4", href: "/maqueta/gloop" },
     ...productInOrder().slice(0, PRODUCT_FIRST.length).map(card),
     ...PENDING.map((p) => ({ ...p, line: "" })),
     ...productInOrder().slice(PRODUCT_FIRST.length).map(card),
@@ -33,12 +33,12 @@ export default function ProductHome() {
     <HomeView
       active="product"
       slides={SLIDES.product}
-      title="Diseño *productos digitales* de la idea al código nativo."
-      intro={`${yearsOfExperience()} años diseñando interfaces, ahora con la IA como herramienta de construcción. Estrategia, UX/UI, sistemas y prototipos que se pueden tocar.`}
+      title="I design *digital products* from first idea to native code."
+      intro={`${yearsOfExperience()} years designing interfaces, now with AI as a building tool. Strategy, UX/UI, design systems and prototypes you can actually touch.`}
       items={items}
       more={{
-        eyebrow: "Marca y web",
-        title: "Identidades que sostienen un producto.",
+        eyebrow: "Brand & web",
+        title: "Identities that carry a product.",
         items: casesIn("brand").map(card),
       }}
     />
