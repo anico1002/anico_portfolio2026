@@ -5,6 +5,8 @@
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-17, MacBook)
 
 **Siguiente sesión, por orden:**
+0. **Feedback de la revisión en móvil:** Alberto revisa la maqueta en el móvil antes de la sesión
+   (https://anico-maqueta.vercel.app) y trae apuntado lo que haya que retocar. Empezar por ahí.
 1. **Dovla:** antes, Alberto abre el proyecto de la app por separado para cambiar cosas y poder hacer las capturas.
    Luego revisión del caso, traducción al inglés y su miniatura al pase de Product (`lib/maqueta/sections.ts`).
 2. **Los cinco juegos:** revisión y traducción (en inglés solo está la ficha).
