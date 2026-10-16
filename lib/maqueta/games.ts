@@ -169,12 +169,13 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   ],
 
   /* ───────────── EL RETO (2026-10-15, de caso a medida a proyecto vertical) ─────────────
-     Abre con el recorrido completo del prototipo en un móvil apoyado en la pared de pizarra
-     (recetas/elreto-flow.json) y, pegado, el logo. Cortes donde cambia el apartado del manual; los
+     Abre con el recorrido completo de la app real en la mano sobre una mesa de tortitas desenfocada
+     (recetas/elreto-flow.json); la cabecera y la miniatura, la misma app sobre la roca (elreto-hero-app.json). Cortes donde cambia el apartado del manual; los
      titulares que lleva la lámina («El Reto Brand Guidelines», «Brand Identity El Reto 2025»,
      «App proposal») se recortan y los dice el texto. 9–10 y 11–12 van enlazadas: no se parten. */
   "elreto-masterchef": [
-    { bleed: true, items: ["/maqueta/elreto/media/flow.mp4", "01/ElReto_1.png"] },
+    // Sin el logo naranja pegado (feedback 2026-10-17): solo la app real en la mano, sobre las tortitas.
+    { bleed: true, items: ["/maqueta/elreto/media/flow.mp4"] },
     {
       eyebrow: "Guía de marca",
       title: "Una marca que convive con MasterChef.",

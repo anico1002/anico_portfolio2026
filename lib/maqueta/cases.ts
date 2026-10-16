@@ -58,7 +58,7 @@ export const CASES: CaseCopy[] = [
     slug: "elreto-masterchef",
     section: "product",
     // Miniatura y cabecera: el prototipo real en un móvil entre rocas negras (bucle corto,
-    // scripts/mockups/recetas/elreto-hero.json). La apertura con el recorrido completo va en games.ts.
+    // scripts/mockups/recetas/elreto-hero-app.json: la app real, no la propuesta). La apertura con el recorrido completo va en games.ts.
     thumb: "/maqueta/elreto/media/hero.mp4",
     hero: "/maqueta/elreto/media/hero.mp4",
     name: "MasterChef", // antes «El Reto MasterChef»: partía los titulares (Alberto, 2026-10-16)

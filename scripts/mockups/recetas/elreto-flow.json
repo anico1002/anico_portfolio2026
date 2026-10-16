@@ -1,4 +1,4 @@
-{ "canvas": [2000, 1333], "out": [1920, 1280], "bg": "mockups-src/bg-pizarra-caquis-blur.jpg",
+{ "canvas": [2000, 1333], "out": [1920, 1280], "bg": "mockups-src/bg-tortitas-blur.jpg",
   "black": 0.05, "vignette": 0.4, "top": 0, "xfade": 0.6, "crf": 24,
   "poster": "public/maqueta/elreto/media/flow-poster.jpg",
   "layers": [
