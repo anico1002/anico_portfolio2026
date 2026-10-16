@@ -3,80 +3,79 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
 
-/* Palabras clave «eligiendo tipografía» (2026-10-17, idea de Alberto; sustituye al degradado ácido, que rompía el
-   blanco y negro de la web). La palabra entra normal; luego se selecciona como en un editor (la selección crece de
-   izquierda a derecha y el texto se invierte sobre ella), cambia a una serif, a una slab y a una sans con carácter
-   (PT Serif, Bitter, Familjen Grotesk, medidas contra la sans del titular: mismo ancho y misma altura de
-   minúsculas, para que no haya saltos ni cambie el peso), vuelve a la del titular y se deselecciona. Entonces avisa
-   (`onDone`) para que siga el resto del titular. La palabra en la tipografía del titular queda debajo, invisible, y
-   guarda el hueco. Reutilizable en Product y Games: `run` lo dispara. */
+/* Palabras clave «pruebo una serif y la descarto» (2026-10-17, idea de Alberto; sustituye al degradado ácido, que
+   rompía el blanco y negro de la web). El titular entra entero con su ola; ya escrito, la palabra se borra letra a
+   letra desde la derecha (con cursor), se escribe en la serif de antes (DM Serif Display cursiva: «mezclar sans y
+   serif lo hace todo el mundo»), se queda un momento, se vuelve a borrar y se reescribe en la del titular. La
+   palabra original queda debajo, invisible, y guarda el hueco: el resto del titular no se mueve. `run` lo dispara;
+   reutilizable en Product y Games. */
 
-const FACES = ["var(--font-flip-serif)", "var(--font-flip-mono)", "var(--font-flip-grot)"];
-// Guion: [ms desde el arranque, seleccionado, tipografía (-1 = la del titular)]. Cada cambio con su selección: se
-// selecciona (crece), se cambia la tipografía y se suelta; así con las tres y una última vuelta a la del titular.
-const SEL = 300; // ms hasta que la selección ha crecido y cambia la tipografía
-const HOLD = 520; // ms que se queda seleccionada con la tipografía nueva
-const GAP = 280; // ms sin selección antes de la siguiente
-const SCRIPT: [number, boolean, number][] = [];
-let prev = -1;
-let at = 0;
-for (const f of [0, 1, 2, -1]) {
-  SCRIPT.push([at, true, prev], [at + SEL, true, f], [at + SEL + HOLD, false, f]);
-  prev = f;
-  at += SEL + HOLD + GAP;
-}
-const END = at;
-const START = 1100; // ms: cuando el titular ya ha subido a su sitio
+const START = 2300; // ms: cuando la ola del titular ya ha terminado
+const DEL = 45; // ms por letra al borrar
+const TYPE = 80; // ms por letra al escribir
+const HOLD = 1100; // ms con la serif escrita
+const PAUSE = 260; // ms con la palabra borrada, antes de escribir
 
-export default function FontFlip({ text, run = true, onDone }: { text: string; run?: boolean; onDone?: () => void }) {
+type Face = "sans" | "serif";
+
+export default function FontFlip({ text, run = true }: { text: string; run?: boolean }) {
   const reduce = useReduce();
-  const [face, setFace] = useState(-1);
-  const [sel, setSel] = useState(false);
+  const [face, setFace] = useState<Face>("sans");
+  const [n, setN] = useState(text.length); // letras visibles
+  const [busy, setBusy] = useState(false); // cursor a la vista
   const base = useRef<HTMLSpanElement>(null);
-  const over = useRef<HTMLSpanElement>(null);
-  const done = useRef(onDone);
-  useEffect(() => {
-    done.current = onDone;
-  }, [onDone]);
-  useEffect(() => {
-    if (!run) return;
-    if (reduce) {
-      done.current?.();
-      return;
-    }
-    const timers = SCRIPT.map(([t, s, f]) =>
-      window.setTimeout(() => {
-        setSel(s);
-        setFace(f);
-      }, START + t)
-    );
-    timers.push(window.setTimeout(() => done.current?.(), START + END));
-    return () => timers.forEach(clearTimeout);
-  }, [run, reduce, text]);
-  // Por si alguna tipografía saliera más ancha que la palabra: baja de cuerpo lo justo para no pisar lo de al lado.
+  const probe = useRef<HTMLSpanElement>(null);
+  const [k, setK] = useState(1);
+
+  // Si la serif sale más ancha que la palabra, baja de cuerpo lo justo para no pisar lo de al lado.
   useLayoutEffect(() => {
     const b = base.current;
-    const o = over.current;
-    if (!b || !o) return;
-    o.style.fontSize = "";
-    const k = Math.min(1, b.offsetWidth / o.offsetWidth);
-    o.style.fontSize = `${k}em`;
-    o.style.top = `${((1 - k) / 2) * b.offsetHeight}px`;
-  }, [face]);
+    const p = probe.current;
+    if (b && p) setK(Math.min(1, b.offsetWidth / p.offsetWidth));
+  }, [text]);
+
+  useEffect(() => {
+    if (!run || reduce) return;
+    const L = text.length;
+    const timers: number[] = [];
+    let t = START;
+    const at = (ms: number, fn: () => void) => timers.push(window.setTimeout(fn, ms));
+    const erase = () => {
+      for (let i = L - 1; i >= 0; i--) at((t += DEL), () => setN(i));
+      t += PAUSE;
+    };
+    const write = (f: Face) => {
+      at(t, () => setFace(f));
+      for (let i = 1; i <= L; i++) at((t += TYPE), () => setN(i));
+    };
+    at(t, () => setBusy(true));
+    erase();
+    write("serif");
+    t += HOLD;
+    erase();
+    write("sans");
+    at((t += 500), () => setBusy(false));
+    return () => timers.forEach(clearTimeout);
+  }, [run, reduce, text]);
+
+  const serif = face === "serif";
   return (
     <span className="font-flip relative inline-block">
-      {/* La selección: el color del texto de fondo, crece de izquierda a derecha. */}
-      <span
-        aria-hidden
-        className={`absolute -inset-x-[0.06em] inset-y-[0.04em] origin-left bg-current ${sel ? "transition-transform duration-[260ms] ease-out" : ""}`}
-        style={{ transform: `scaleX(${sel ? 1 : 0})` }}
-      />
-      <span ref={base} className={`relative ${face >= 0 ? "invisible" : ""}`} style={sel ? { color: "var(--case-bg)" } : undefined}>
+      <span ref={base} className={busy ? "invisible" : undefined}>
         {text}
       </span>
-      {face >= 0 && (
-        <span ref={over} aria-hidden className="absolute left-0 top-0 whitespace-nowrap" style={{ fontFamily: FACES[face], color: sel ? "var(--case-bg)" : undefined }}>
-          {text}
+      {/* Medida de la serif, invisible. */}
+      <span ref={probe} aria-hidden className="pointer-events-none invisible absolute left-0 top-0 whitespace-nowrap" style={{ fontFamily: "var(--font-case-serif)", fontStyle: "italic" }}>
+        {text}
+      </span>
+      {busy && (
+        <span
+          aria-hidden
+          className="absolute left-0 top-0 whitespace-nowrap"
+          style={serif ? { fontFamily: "var(--font-case-serif)", fontStyle: "italic", fontSize: `${k}em` } : undefined}
+        >
+          {text.slice(0, n)}
+          <span className="type-caret" />
         </span>
       )}
     </span>

@@ -104,33 +104,20 @@ function Rotating({ words, run }: { words: string[]; run: boolean }) {
 
 /** `*palabras*` del titular → palabras clave (`.kw`; cómo se destacan lo decide el CSS, `?em=`).
     `[m]` → ventana con imágenes dentro de la frase. `{a|b|c}` → palabras que cambian. */
-const withEm = (t: string, slides: readonly string[], open: boolean, typed = true, onTyped?: () => void) => {
-  // Lo que va detrás de la palabra clave espera a que termine de «elegir tipografía» (FontFlip) y entonces sube.
-  // Va palabra a palabra (cada una en su span) para que `Lines` siga partiendo líneas por los espacios.
-  let afterKw = false;
-  return t.split(/(\*[^*]+\*|\[m\]|\{[^}]+\})/).flatMap((part, i) => {
-    if (part.startsWith("{")) return [<Rotating key={i} words={part.slice(1, -1).split("|")} run={open} />];
-    if (part === "[m]") return [<InlineMedia key={i} slides={slides} open={open} />];
-    if (part.startsWith("*")) {
-      afterKw = true;
-      return [
-        <em key={i} className="kw">
-          <FontFlip text={part.slice(1, -1)} run={open} onDone={onTyped} />
-        </em>,
-      ];
-    }
-    if (!afterKw) return [part];
-    return part.split(/( +)/).map((w, k) =>
-      / +/.test(w) || !w ? (
-        w
-      ) : (
-        <span key={`${i}-${k}`} className={`after-kw ${typed ? "is-in" : ""}`}>
-          {w}
-        </span>
-      )
-    );
-  });
-};
+const withEm = (t: string, slides: readonly string[], open: boolean) =>
+  t.split(/(\*[^*]+\*|\[m\]|\{[^}]+\})/).map((part, i) =>
+    part.startsWith("{") ? (
+      <Rotating key={i} words={part.slice(1, -1).split("|")} run={open} />
+    ) : part === "[m]" ? (
+      <InlineMedia key={i} slides={slides} open={open} />
+    ) : part.startsWith("*") ? (
+      <em key={i} className="kw">
+        <FontFlip text={part.slice(1, -1)} run={open} />
+      </em>
+    ) : (
+      part
+    )
+  );
 
 export default function HomeHero({
   title,
@@ -150,8 +137,6 @@ export default function HomeHero({
   // Si el telón traía un vídeo, el primero sigue por el mismo segundo (los dos van en tiempo real).
   const [startAt] = useState(() => (curtain?.time != null ? curtain.time + (performance.now() - curtain.at) / 1000 : 0));
   const [retracted, setRetracted] = useState(false);
-  // El resto del titular (lo que va detrás de la palabra clave) entra cuando acaba de «elegir tipografía».
-  const [typed, setTyped] = useState(false);
   const first = useRef<HTMLImageElement | HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
 
@@ -228,7 +213,7 @@ export default function HomeHero({
             <h1 className="col-span-12 md:col-span-8">
               {retracted ? (
                 <Lines as="span" className="block t-hero" delay={DUR.slow / 2}>
-                  {withEm(title, slides, true, typed, () => setTyped(true))}
+                  {withEm(title, slides, true)}
                 </Lines>
               ) : (
                 <span className="block t-hero opacity-0">{withEm(title, slides, false)}</span>
