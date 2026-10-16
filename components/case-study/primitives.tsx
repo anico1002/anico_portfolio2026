@@ -547,9 +547,10 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
         ))}
         {/* El año, en pequeño al lado del nombre, como el recuento de «Product (14)» del menú. */}
         {sup && (
+          // Separación en em del titular (no del año): las letras que vuelan a la derecha (f, r, y) pisaban el número.
           <motion.span
             aria-hidden
-            className="inline-block"
+            className="ml-[0.09em] inline-block"
             initial={{ y: "1.3em" }}
             animate={{ y: "0em" }}
             transition={{ duration: DUR.slow, ease: EASE.out, delay: delay + text.replace(/ /g, "").length * WAVE }}
