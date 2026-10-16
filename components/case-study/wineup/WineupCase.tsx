@@ -59,6 +59,7 @@ function Feature({
   bg,
   photo,
   steps,
+  zoom,
 }: {
   side: "left" | "right";
   eyebrow: string;
@@ -70,6 +71,8 @@ function Feature({
   photo?: string;
   /** Puntos que se van sustituyendo bajo el párrafo, uno cada vez, mientras el apartado se queda fijo con el scroll. */
   steps?: [string, string][];
+  /** Vista en zoom: el móvil grande y cortado por el fondo, centrado en lo de arriba de la pantalla (la botella). */
+  zoom?: boolean;
 }) {
   const right = side === "right";
   const pin = useRef<HTMLDivElement>(null);
@@ -112,24 +115,35 @@ function Feature({
           )}
         </div>
         <div className={`col-span-12 -mx-4 md:row-start-1 md:col-span-6 md:mx-0 ${right ? "md:col-start-7 md:-mr-6" : "md:col-start-1 md:-ml-6"}`}>
-          {/* Tres capas a distinta velocidad (feedback 2026-10-17): el fondo, más bajo que el móvil, entra con la máscara y
-              va lento; la foto se mueve dentro de él (parallax interno de MaskReveal); el móvil, por encima y sin
-              máscara, sobresale arriba y abajo y va más rápido. */}
-          <div className="relative flex aspect-[4/5] items-center justify-center md:aspect-auto md:h-[min(92vh,60rem)]">
-            <MaskReveal from={right ? "right" : "left"} speed={50} className="absolute inset-x-0 top-[12%]">
-              <div className="relative aspect-[100/95] w-full md:aspect-auto md:h-[min(70vh,45.6rem)]" style={{ background: shade(bg ?? W.cellar) }}>
-                {photo && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
-                )}
+          {zoom ? (
+            // Zoom (2026-10-17): el móvil al doble, recortado por el fondo a sangre, para ver de cerca la botella que gira.
+            <MaskReveal from={right ? "right" : "left"} speed={0}>
+              <div className="relative aspect-[4/5] overflow-hidden md:aspect-auto md:h-[min(92vh,60rem)]" style={{ background: shade(bg ?? W.cellar) }}>
+                <Parallax speed={160} className="absolute left-[8%] right-[8%] top-[7%]">
+                  <Phone src={clip} label={label} />
+                </Parallax>
               </div>
             </MaskReveal>
-            <Parallax speed={220} className="relative z-10 aspect-[805/1661] h-[90%]">
-              <FadeIn delay={STAGGER} className="h-full w-full">
-                <Phone src={clip} label={label} />
-              </FadeIn>
-            </Parallax>
-          </div>
+          ) : (
+            // Tres capas a distinta velocidad (feedback 2026-10-17): el fondo, más bajo que el móvil, entra con la máscara y
+            // va lento; la foto se mueve dentro de él (parallax interno de MaskReveal); el móvil, por encima y sin
+            // máscara, sobresale arriba y abajo y va más rápido.
+            <div className="relative flex aspect-[4/5] items-center justify-center md:aspect-auto md:h-[min(92vh,60rem)]">
+              <MaskReveal from={right ? "right" : "left"} speed={50} className="absolute inset-x-0 top-[12%]">
+                <div className="relative aspect-[100/95] w-full md:aspect-auto md:h-[min(70vh,45.6rem)]" style={{ background: shade(bg ?? W.cellar) }}>
+                  {photo && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                  )}
+                </div>
+              </MaskReveal>
+              <Parallax speed={220} className="relative z-10 aspect-[805/1661] h-[90%]">
+                <FadeIn delay={STAGGER} className="h-full w-full">
+                  <Phone src={clip} label={label} />
+                </FadeIn>
+              </Parallax>
+            </div>
+          )}
         </div>
       </div>
   );
@@ -224,6 +238,16 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
         />
         <Feature
           side="left"
+          eyebrow="Catas virtuales"
+          title="La botella gira y empieza la cata."
+          body="Cada vino tiene su ficha: región, uva, crianza, valoraciones y reseñas de la comunidad. Y una botella que gira al abrirla, el detalle que la hace sentir como sacarla de la estantería."
+          clip="vino"
+          label="Ficha del vino con la botella girando"
+          bg="#3A0F1E"
+          zoom
+        />
+        <Feature
+          side="right"
           eyebrow="Perfil"
           title="Tu cava, tus logros y tu gente."
           body="Lo que has probado, lo que quieres probar y tus listas. En estadísticas, el nivel, las rachas y los logros. El perfil del experto suma su feed de contenidos, en violeta."
@@ -232,7 +256,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           bg={EXPERT}
         />
         <Feature
-          side="right"
+          side="left"
           eyebrow="Aprender jugando"
           title="Saber más de vino, jugando y en buena compañía."
           body="Retos y trivias por temas, de la introducción a las denominaciones de origen, con su progreso. Lo que aprendes suma en tu perfil."
