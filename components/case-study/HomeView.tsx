@@ -1,5 +1,8 @@
 "use client";
 
+import AboutBlock from "@/components/case-study/AboutBlock";
+import { takeHash } from "@/components/case-study/Portal";
+import { scrollToId } from "@/components/case-study/SmoothScroll";
 import Link from "next/link";
 import SiteNav from "@/components/case-study/SiteNav";
 import HomeHero from "@/components/case-study/HomeHero";
@@ -154,6 +157,7 @@ export default function HomeView({
   intro,
   items,
   more,
+  years,
 }: {
   active: "product" | "games";
   /** Pase de imágenes de la cabecera (las mismas que en la entrada partida). */
@@ -164,8 +168,15 @@ export default function HomeView({
   items: P[];
   /** Bloque secundario bajo la rejilla (p. ej. «Marca y web» en Product). */
   more?: { eyebrow: string; title: string; items: P[] };
+  /** Años de experiencia para el bloque About (se calculan en el servidor, que regenera a diario). */
+  years: number;
 }) {
   const [leaving, setLeaving] = useState(false);
+  // Llegando desde otra página por «About»: baja al bloque en cuanto la página está montada.
+  useEffect(() => {
+    const h = takeHash() ?? (window.location.hash ? window.location.hash.slice(1) : null);
+    if (h) requestAnimationFrame(() => scrollToId(h, true));
+  }, []);
   const leave = () => setLeaving(true);
   return (
     <motion.main
@@ -219,6 +230,8 @@ export default function HomeView({
           </div>
         </section>
       )}
+
+      <AboutBlock years={years} />
 
       <SiteFooter />
     </motion.main>

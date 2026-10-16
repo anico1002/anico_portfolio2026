@@ -22,7 +22,7 @@ export default function Contact() {
     <main
       className="relative flex min-h-screen flex-col justify-between bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased"
     >
-      <SiteNav active="contact" />
+      <SiteNav active={null} />
 
       <section className={`pt-32 md:pt-44 ${wrap}`}>
         <div className={`${grid} gap-y-8`}>

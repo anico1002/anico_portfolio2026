@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { scrollLock } from "@/components/case-study/SmoothScroll";
+import { scrollLock, scrollToId } from "@/components/case-study/SmoothScroll";
 import LogoLetters from "@/components/case-study/LogoLetters";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
@@ -33,10 +33,26 @@ const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matc
 
 /** Navegar con la transición. Ignora la página actual y los clics durante otra transición. */
 export function go(href: string) {
-  if (state.phase !== "idle" || href === window.location.pathname) return;
+  // Enlaces a una sección (#about, 2026-10-17): en la misma página, scroll hasta ella; en otra, se navega y la
+  // página nueva baja a la sección al llegar (`takeHash`).
+  const [path, hash] = href.split("#");
+  if (state.phase !== "idle") return;
+  if (path === window.location.pathname) {
+    if (hash) scrollToId(hash);
+    return;
+  }
+  pendingHash = hash ?? null;
   scrollLock.stop();
-  set({ phase: "closing", href });
+  set({ phase: "closing", href: path });
 }
+
+let pendingHash: string | null = null;
+/** La sección a la que hay que bajar al llegar (una sola vez). */
+export const takeHash = () => {
+  const h = pendingHash;
+  pendingHash = null;
+  return h;
+};
 
 /** `Link` que pasa por el portal si el destino es de la maqueta. Cmd/Ctrl-clic y similares
     siguen abriendo pestaña nueva como siempre. */

@@ -1,7 +1,11 @@
 import { SLIDES } from "@/lib/maqueta/sections";
+import { yearsOfExperience } from "@/lib/maqueta/years";
 import HomeView from "@/components/case-study/HomeView";
 import { casesIn } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
+
+// Se regenera a diario: los años de experiencia suben solos.
+export const revalidate = 86400;
 
 /* Home de Games: UI/UX de videojuegos, del más reciente al más antiguo. */
 
@@ -21,6 +25,7 @@ export default function GamesHome() {
       title="Interfaces for games played by *hundreds of millions*."
       intro="Over a decade shaping how millions of players navigate, compete and stay hooked. Game UI/UX for leading studios, from first concept to worldwide launch."
       items={items}
+      years={yearsOfExperience()}
     />
   );
 }

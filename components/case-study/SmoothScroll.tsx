@@ -37,6 +37,14 @@ export function scrollToTop() {
   else window.scrollTo({ top: 0 });
 }
 
+/** Ir a una sección de la página (#id) con el mismo scroll suavizado; `instant`, de golpe (al llegar de otra página). */
+export function scrollToId(id: string, instant = false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (lenis) lenis.scrollTo(el, instant ? { immediate: true, force: true } : { duration: 1.5, easing: (t) => (t < 0.5 ? 8 * t ** 4 : 1 - (-2 * t + 2) ** 4 / 2) });
+  else el.scrollIntoView({ behavior: instant ? "auto" : "smooth" });
+}
+
 export default function SmoothScroll() {
   const pathname = usePathname();
 

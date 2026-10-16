@@ -24,8 +24,9 @@ import { SECTION_COUNT } from "@/lib/maqueta/cases";
 const items = [
   ["product", "Product", "/maqueta/home"],
   ["games", "Games", "/maqueta/games"],
-  ["about", "About", "/maqueta/sobre-mi"],
-  ["contact", "Contact", "/maqueta/contacto"],
+  // About es un bloque al final de cada home (2026-10-17): lleva al de la sección en la que estás. Contact sale del
+  // menú: el contacto está en el pie de todas las páginas. Las dos páginas siguen en app/maqueta, sin enlazar.
+  ["about", "About", "#about"],
 ] as const;
 
 type Key = (typeof items)[number][0];
@@ -62,6 +63,8 @@ export default function SiteNav({
   parts?: "all" | "logo" | "menu";
 }) {
   const [open, setOpen] = useState(false);
+  // «#about» va al bloque About de la home de la sección en la que estás (Games o Product).
+  const to = (href: string) => (href.startsWith("#") ? `${active === "games" ? "/maqueta/games" : "/maqueta/home"}${href}` : href);
   // El menú de móvil se monta en #case-root (fuera de la barra): la barra lleva mezcla por diferencia
   // y, si el menú fuera dentro, se invertiría con ella.
   const [root, setRoot] = useState<HTMLElement | null>(null);
@@ -99,7 +102,7 @@ export default function SiteNav({
             {menu && items.map(([key, label, href]) => (
               <TLink
                 key={key}
-                href={href}
+                href={to(href)}
                 aria-current={key === active ? "page" : undefined}
                 className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
               >
@@ -135,7 +138,7 @@ export default function SiteNav({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto dark-invert" />
               <button type="button" onClick={() => setOpen(false)} className="t-nav">
-                Cerrar
+                Close
               </button>
             </div>
             <ul className="mt-auto space-y-1">
@@ -149,7 +152,7 @@ export default function SiteNav({
                     transition={{ duration: DUR.base, ease: EASE.inOut, delay: (i + 1) * STAGGER }}
                     onClick={() => {
                       setOpen(false);
-                      go(href);
+                      go(to(href));
                     }}
                   >
                     {label}
