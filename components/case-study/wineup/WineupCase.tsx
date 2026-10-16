@@ -235,7 +235,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           side="left"
           eyebrow="Catas virtuales"
           title="La botella gira y empieza la cata."
-          body="Cada vino se abre como si lo sacaras de la estantería. Y con él, todo lo que la comunidad sabe de esa botella."
+          body="Cada vino se abre como si estuviera en tu mesa. Y con él, todo lo que la comunidad sabe de esa botella."
           clip="vino"
           label="Ficha del vino con la botella girando"
           photo={`${M}/bg-cava.jpg`}
