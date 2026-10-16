@@ -228,7 +228,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
         <Feature
           side="right"
           eyebrow="Aprender jugando"
-          title="Saber más de vino, sin que parezca una clase."
+          title="Saber más de vino, jugando y en buena compañía."
           body="Retos y trivias por temas, de la introducción a las denominaciones de origen, con su progreso. Lo que aprendes suma en tu perfil."
           clip="trivias"
           label="Trivias"
