@@ -9,7 +9,7 @@ import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Placeholder } from "@/compo
 import { STAGGER } from "@/lib/maqueta/motion";
 import { MarkdownToSlide } from "./DeckDemos";
 import { TokenSync, ToneCheck } from "./BrandDemos";
-import { AiLayer, DeckWindow, ImagePrompt, ManualLaptop } from "./AiPieces";
+import { AiLayer, DeckWindow, ImagePrompt, ManualLaptop, ManualPhone } from "./AiPieces";
 import TypePair from "./TypePair";
 import { IX, ixFonts, mono } from "./tokens";
 
@@ -118,7 +118,7 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
         <TypePair />
       </section>
 
-      {/* La web del manual, dentro de un portátil (marco provisional: la imagen se decide con Alberto) */}
+      {/* La web del manual: MacBook real (foto en monocromo cálido) y la versión móvil en un iPhone */}
       <section className={section}>
         <Head
           eyebrow="La web"
@@ -126,6 +126,9 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
           body="Quince secciones en castellano, inglés y catalán, con cada logo, color y tipografía listos para descargar."
         />
         <ManualLaptop />
+        <div className="mt-20 md:mt-32">
+          <ManualPhone />
+        </div>
       </section>
 
       {/* Preparada para IA: el capítulo central */}

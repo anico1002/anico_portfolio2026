@@ -1,0 +1,6 @@
+{ "canvas": [2560, 1440], "out": [1920, 1080], "bg": "mockups-src/bg-ix-warm.jpg",
+  "black": 0, "vignette": 0.12, "xfade": 0.5, "crf": 23,
+  "poster": "public/maqueta/interactius/media/manual-movil-poster.jpg",
+  "layers": [
+    { "scene": "mockups-src/im-transparent", "view": "view-1", "video": "scripts/case-media/clips/ix-manual-mobile.mp4",
+      "place": "1.0,0.5,center", "rot": 0, "tint": 0.12, "body": 1.0, "wrap": 0.35, "refl": 0.25 } ] }

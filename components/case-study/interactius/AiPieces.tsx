@@ -176,7 +176,7 @@ export function AiLayer() {
     <div className="grid grid-cols-12 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14">
       {LAYER.map(([t, d], k) => (
         <FadeIn key={t} delay={(k % 3) * STAGGER} className="col-span-12 border-t border-[var(--case-line)] pt-5 sm:col-span-6 md:col-span-4">
-          <p className="t-title" style={k < 3 ? mono : undefined}>
+          <p className="text-[15px] font-medium" style={mono}>
             {t}
           </p>
           <p className="mt-3 t-small text-[var(--case-muted)] md:max-w-[32ch]">{d}</p>
@@ -186,9 +186,16 @@ export function AiLayer() {
   );
 }
 
-/* ── El manual en la web, dentro de un portátil (marco provisional en CSS: la imagen la decide Alberto) ── */
+/* ── El manual en la web: MacBook real y la versión móvil ───────────────────────────────────────────
+   Portátil: foto de Unsplash (photo-1526925712774, consola blanca, frontal) pasada a monocromo cálido de la marca
+   para que solo la pantalla tenga color (mockups-src/mac-console). Al ser casi frontal, el vídeo del manual va
+   encima en CSS, en la pantalla medida sobre la foto. Móvil: el manual grabado a 393 px dentro del iPhone
+   recortado de iphone-mockups.com sobre el cálido de la marca (receta scripts/mockups/recetas/ix-movil.json). */
 
-export function ManualLaptop() {
+/** Pantalla dentro de scene-mac.jpg, en % (izquierda, arriba, ancho, alto). */
+const MAC_SCREEN = { l: 29.13, t: 21.56, w: 41.97, h: 43.9 };
+
+function PlayInView({ src, poster, className, style }: { src: string; poster: string; className: string; style?: React.CSSProperties }) {
   const vid = useRef<HTMLVideoElement>(null);
   const { ref, on } = useInView<HTMLDivElement>();
   useEffect(() => {
@@ -198,24 +205,38 @@ export function ManualLaptop() {
     else v.pause();
   }, [on]);
   return (
-    <div ref={ref} className="mx-auto w-full max-w-[72rem]">
-      <div className="rounded-t-[1.4rem] bg-[#0d0d0f] p-[1.4%] pb-[2%] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.55)] ring-1 ring-black/10">
-        <div className="relative overflow-hidden rounded-[0.35rem] bg-[#F5F2ED]" style={{ aspectRatio: "16 / 10" }}>
-          <video
-            ref={vid}
-            src="/maqueta/interactius/media/manual-web.mp4"
-            poster="/maqueta/interactius/media/manual-web-poster.jpg"
-            muted
-            loop
-            playsInline
-            preload="none"
-            className="absolute inset-0 h-full w-full object-cover object-top"
-          />
-        </div>
-      </div>
-      <div className="relative mx-[-6%] h-[1rem] rounded-b-[1.2rem] bg-gradient-to-b from-[#d4d6db] to-[#9a9ca2] md:h-[1.4rem]">
-        <span className="absolute left-1/2 top-0 h-[40%] w-[14%] -translate-x-1/2 rounded-b-[0.6rem] bg-[#b1b3b9]" />
-      </div>
+    <div ref={ref} className={className} style={style}>
+      <video ref={vid} src={src} poster={poster} muted loop playsInline preload="none" className="h-full w-full object-cover object-top" />
+    </div>
+  );
+}
+
+export function ManualLaptop() {
+  return (
+    <div className="m-bleed relative overflow-hidden" style={{ aspectRatio: "2400 / 1429" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/maqueta/interactius/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" loading="lazy" />
+      <PlayInView
+        src="/maqueta/interactius/media/manual-web.mp4"
+        poster="/maqueta/interactius/media/manual-web-poster.jpg"
+        className="absolute overflow-hidden"
+        style={{ left: `${MAC_SCREEN.l}%`, top: `${MAC_SCREEN.t}%`, width: `${MAC_SCREEN.w}%`, height: `${MAC_SCREEN.h}%` }}
+      />
+    </div>
+  );
+}
+
+export function ManualPhone() {
+  return (
+    <div className="grid grid-cols-12 items-end gap-x-4 gap-y-6 md:gap-x-6">
+      <FadeIn className="col-span-12 md:col-span-3 md:pb-10">
+        <p className="t-body text-[var(--case-muted)]">Y en el móvil, el mismo sistema: la retícula se recompone y la letra mantiene su escala.</p>
+      </FadeIn>
+      <PlayInView
+        src="/maqueta/interactius/media/manual-movil.mp4"
+        poster="/maqueta/interactius/media/manual-movil-poster.jpg"
+        className="m-bleed col-span-12 aspect-video overflow-hidden md:col-span-8 md:col-start-5"
+      />
     </div>
   );
 }
