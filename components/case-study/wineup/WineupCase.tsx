@@ -68,14 +68,15 @@ function Feature({
   label: string;
   bg?: string;
   photo?: string;
-  /** Puntos que aparecen uno a uno bajo el párrafo mientras el apartado se queda fijo con el scroll. */
+  /** Puntos que se van sustituyendo bajo el párrafo, uno cada vez, mientras el apartado se queda fijo con el scroll. */
   steps?: [string, string][];
 }) {
   const right = side === "right";
   const pin = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: pin, offset: ["start start", "end end"] });
   const [shown, setShown] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => steps && setShown(Math.min(steps.length, Math.floor(v * (steps.length + 0.6)))));
+  // Un punto cada vez: el tramo fijo se reparte en tantas partes como puntos y cada uno sustituye al anterior.
+  useMotionValueEvent(scrollYProgress, "change", (v) => steps && setShown(Math.max(0, Math.min(steps.length - 1, Math.floor(v * steps.length)))));
   const content = (
       <div className={`${grid} items-center gap-y-12 ${steps ? "md:h-full" : ""}`}>
         <div className={`col-span-12 md:col-span-4 md:row-start-1 ${right ? "md:col-start-2" : "md:col-start-8"}`}>
@@ -89,16 +90,21 @@ function Feature({
             <p className="t-body text-[var(--case-muted)]">{body}</p>
           </FadeIn>
           {steps && (
-            <div className="mt-10 space-y-6 md:mt-12">
+            // Todos en la misma celda (la caja mide lo que el más alto): no se acumulan ni descuadran el bloque.
+            <div className="mt-10 grid md:mt-12">
               {steps.map(([t, d], k) => (
                 <motion.div
                   key={t}
-                  className="border-t border-[var(--case-line)] pt-4"
+                  className="[grid-area:1/1] border-t border-[var(--case-line)] pt-4"
                   initial={false}
-                  animate={k < shown ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+                  animate={k === shown ? { opacity: 1, y: 0 } : { opacity: 0, y: k < shown ? -24 : 24 }}
                   transition={{ duration: DUR.base, ease: EASE.out }}
+                  aria-hidden={k !== shown}
                 >
-                  <p className="t-title">{t}</p>
+                  <p className="t-label t-tag text-[var(--case-muted)]">
+                    {k + 1} / {steps.length}
+                  </p>
+                  <p className="mt-3 t-title">{t}</p>
                   <p className="mt-2 t-small text-[var(--case-muted)]">{d}</p>
                 </motion.div>
               ))}
