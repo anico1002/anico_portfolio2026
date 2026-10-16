@@ -6,7 +6,7 @@ import Arrow from "@/components/case-study/Arrow";
 import RollText from "@/components/case-study/RollText";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import { TLink } from "@/components/case-study/Portal";
-import { Placeholder } from "@/components/case-study/primitives";
+import { Placeholder, YearSup } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import type { MoreItem } from "@/lib/maqueta/media";
 
@@ -110,12 +110,10 @@ function Strip({ items }: { items: MoreItem[] }) {
             <div className="pointer-events-none overflow-hidden">
               <Placeholder ratio="16/10" src={c.thumb} label={c.name} />
             </div>
-            <div className="mt-3 flex items-baseline justify-between gap-4">
-              <p className="t-title">
-                <RollText text={c.name} />
-              </p>
-              <p className="shrink-0 t-small text-[var(--case-muted)]">{c.year}</p>
-            </div>
+            <p className="mt-3 t-title">
+              <RollText text={c.name} />
+              <YearSup year={c.year} />
+            </p>
           </TLink>
         ))}
       </motion.div>

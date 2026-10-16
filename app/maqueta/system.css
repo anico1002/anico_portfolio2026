@@ -201,6 +201,26 @@ html:has(#case-root) {
   :is(a, button):hover .roll-mask > span { transform: none; }
 }
 
+/* «¿Hablamos?» del pie (2026-10-17): entra en ola, letra a letra, desde la línea del pie (el contenedor recorta
+   ahí). Usa `translate`, aparte del `transform` del hover, para que no se pisen. Sale rápido y de golpe. */
+.hablamos .roll-mask > span {
+  translate: 0 1.6em;
+  transition: transform var(--dur-fast) var(--ease-out), translate var(--dur-fast) var(--ease-in-out);
+  transition-delay: 0s;
+}
+.hablamos.is-in .roll-mask > span {
+  translate: 0 0;
+  transition: transform var(--dur-fast) var(--ease-out), translate var(--dur-slow) var(--ease-out);
+  transition-delay: calc(var(--i) * 8ms), calc(var(--i) * 45ms);
+}
+.hablamos.is-in :is(a, button):hover .roll-mask > span {
+  transition: transform var(--dur-base) var(--ease-in-out), translate var(--dur-slow) var(--ease-out);
+  transition-delay: calc(var(--i) * 15ms), 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hablamos .roll-mask > span { translate: none; transition: none; }
+}
+
 /* La barra de progreso de scroll de la web actual vive en el layout raíz: en la maqueta, fuera. */
 html:has(#case-root) [data-scroll-progress] { display: none; }
 

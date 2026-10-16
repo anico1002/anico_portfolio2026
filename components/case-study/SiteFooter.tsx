@@ -3,10 +3,8 @@
 import Arrow from "@/components/case-study/Arrow";
 import RollText from "@/components/case-study/RollText";
 import { TLink } from "@/components/case-study/Portal";
-import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
-import { DUR, EASE } from "@/lib/maqueta/motion";
 import { scrollToTop } from "@/components/case-study/SmoothScroll";
 import { EMAIL, LINKEDIN } from "@/lib/maqueta/contact";
 
@@ -37,18 +35,13 @@ function Hablamos({ show }: { show?: boolean }) {
     return () => io.disconnect();
   }, [show]);
   const on = reduce || (show ?? inView);
-  // La máscara es el propio borde: el contenedor recorta justo encima de la línea del pie y el texto sube desde ella.
+  // La máscara es el propio borde: el contenedor recorta justo encima de la línea del pie y las letras suben desde
+  // ella en ola (las mismas letras del rodillo del hover; la animación vive en system.css, `.hablamos`).
   return (
-    <div ref={ref} className="overflow-hidden pb-[0.08em]">
-      <motion.div
-        initial={false}
-        animate={on ? { y: "0%" } : { y: "105%" }}
-        transition={on ? { duration: DUR.slow, ease: EASE.out } : { duration: DUR.fast, ease: EASE.inOut }}
-      >
-        <TLink href="/maqueta/contacto" className="block t-d2">
-          <RollText text="¿Hablamos?" />
-        </TLink>
-      </motion.div>
+    <div ref={ref} className={`hablamos overflow-hidden pb-[0.08em] ${on ? "is-in" : ""}`}>
+      <TLink href="/maqueta/contacto" className="block t-d2">
+        <RollText text="¿Hablamos?" />
+      </TLink>
     </div>
   );
 }

@@ -471,15 +471,24 @@ export function Caption({ children, className = "" }: { children: React.ReactNod
   );
 }
 
+/** El año en pequeño junto a un nombre, como el recuento de «Product (14)» del menú: en gris y con los números a la
+    altura de la mayúscula (`.cap-sup`). Mismo componente en la cabecera del caso y en el carrusel del final. */
+export function YearSup({ year }: { year: string }) {
+  return <sup className="cap-sup ml-[0.12em] t-small font-normal tracking-normal text-[var(--case-muted)]">({year})</sup>;
+}
+
 /** Titular del caso en una sola línea a todo el ancho: mide el texto y ajusta el cuerpo para
     llenar el hueco (tope 12vw / 200 px). Si en pantallas estrechas quedara por debajo de 44 px,
     se permite partirlo en dos líneas. Sin estado: escribe el estilo directamente. */
+/** Ola de las letras (s entre una y la siguiente): la misma que la de «¿Hablamos?» (45 ms en system.css). */
+const WAVE = 0.045;
+
 function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: string }) {
   const box = useRef<HTMLDivElement>(null);
   const h = useRef<HTMLHeadingElement>(null);
   useLayoutEffect(() => {
-    // El tamaño va en variables CSS del contenedor: motion.h1 reescribe su propio `style` al
-    // animar y pisaría un fontSize puesto en el titular.
+    // El tamaño va en variables CSS del contenedor (de cuando el titular entraba entero con motion.h1, que
+    // reescribe su propio `style` al animar).
     const fit = () => {
       const el = h.current;
       const b = box.current;
@@ -507,17 +516,47 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
       ref={box}
       className="-my-[calc(var(--fit,44px)*0.22)] w-full overflow-hidden py-[calc(var(--fit,44px)*0.22)]"
     >
-      <motion.h1
+      <h1
         ref={h}
         className="w-max max-w-none font-bold leading-[0.88] tracking-[-0.055em] [font-size:var(--fit,clamp(44px,9vw,200px))] [white-space:var(--fit-ws,nowrap)]"
-        initial={{ y: "140%" }}
-        animate={{ y: "0%" }}
-        transition={{ duration: DUR.base, ease: EASE.inOut, delay }}
       >
-        {text}
-        {/* El año, en pequeño al lado del nombre, como el recuento de «Product (14)» del menú (prueba 2026-10-17). */}
-        {sup && <sup className="cap-sup ml-[0.12em] t-small font-normal tracking-normal text-[var(--case-muted)]">({sup})</sup>}
-      </motion.h1>
+        <span className="sr-only">{text}</span>
+        {/* Entrada en ola, letra a letra desde la máscara (2026-10-17): el mismo gesto que «¿Hablamos?» del pie.
+            Cada palabra va junta (sin partir por dentro) y las letras, sueltas. */}
+        {text.split(" ").map((word, w, words) => (
+          <span key={w} aria-hidden>
+            <span className="inline-block whitespace-nowrap">
+              {[...word].map((ch, k) => {
+                const i = words.slice(0, w).join("").length + k;
+                return (
+                  <motion.span
+                    key={k}
+                    className="inline-block"
+                    initial={{ y: "140%" }}
+                    animate={{ y: "0%" }}
+                    transition={{ duration: DUR.slow, ease: EASE.out, delay: delay + i * WAVE }}
+                  >
+                    {ch}
+                  </motion.span>
+                );
+              })}
+            </span>
+            {w < words.length - 1 && " "}
+          </span>
+        ))}
+        {/* El año, en pequeño al lado del nombre, como el recuento de «Product (14)» del menú. */}
+        {sup && (
+          <motion.span
+            aria-hidden
+            className="inline-block"
+            initial={{ y: "1.3em" }}
+            animate={{ y: "0em" }}
+            transition={{ duration: DUR.slow, ease: EASE.out, delay: delay + text.replace(/ /g, "").length * WAVE }}
+          >
+            <YearSup year={sup} />
+          </motion.span>
+        )}
+      </h1>
     </div>
   );
 }
