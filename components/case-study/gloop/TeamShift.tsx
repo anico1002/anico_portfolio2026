@@ -146,7 +146,7 @@ export default function TeamShift() {
               <p className="t-label t-tag text-[var(--case-muted)]">Cambio de paradigma</p>
               <div className="relative mt-4">
                 <motion.p initial={false} animate={{ opacity: phase >= 2 ? 0 : 1, y: phase >= 2 ? -18 : 0 }} transition={swap} className="t-statement">
-                  Antes, la noche dependía del plan.
+                  Before, the night was about the plan.
                 </motion.p>
                 <motion.p
                   initial={false}
@@ -154,7 +154,7 @@ export default function TeamShift() {
                   transition={{ ...swap, delay: phase >= 2 ? DUR.fast : 0 }}
                   className="absolute inset-0 t-statement"
                 >
-                  Ahora, de con quién la vives.
+                  Now, it’s about who you’re with.
                 </motion.p>
               </div>
               <FadeIn className="mt-8">
