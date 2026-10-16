@@ -23,8 +23,9 @@ const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 const M = "/maqueta/wineup/media";
 
-/** Colores de la app (del prototipo): el ácido de la marca, el violeta del experto y un fondo de bodega. */
-const W = { lime: "#CDE84F", violet: "#6A1FD0", cellar: "#160C10" };
+/** Colores de la app (del prototipo): el ácido de la marca, el violeta del experto, un fondo de bodega y el burdeos de
+    la tarjeta de «Catas virtuales» de la home (medido: #730017). */
+const W = { lime: "#CDE84F", violet: "#6A1FD0", cellar: "#160C10", wine: "#730017" };
 
 /** iPhone frontal real (marco del PSD de iPhone 18 Pro, el mismo de Gloop) con un vídeo del prototipo dentro. La
     pantalla ocupa el 91,74 % × 96,66 % del marco, desde el 4,10 % / 1,69 %. */
@@ -215,7 +216,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           title="Todo lo importante, en un solo vistazo."
           clip="home"
           label="Home de WineUp"
-          bg={W.lime}
+          bg={W.wine}
           steps={[
             ["Escáner", "La etiqueta como puerta de entrada: se escanea y la botella cuenta todo lo que sabe."],
             ["Scans recientes", "Lo último que has probado, con tu nota y la de la comunidad, a un dedo."],
