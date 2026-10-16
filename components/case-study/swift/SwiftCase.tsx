@@ -5,7 +5,6 @@ import SiteNav from "@/components/case-study/SiteNav";
 import SiteFooter from "@/components/case-study/SiteFooter";
 import Lines from "@/components/case-study/Lines";
 import CaseClosing from "@/components/case-study/CaseClosing";
-import WebScroll from "@/components/case-study/WebScroll";
 import {
   CaseHero,
   CaseHeroOverlay,
@@ -19,6 +18,7 @@ import FeatureCards from "./FeatureCards";
 import TrapBench from "./TrapBench";
 import EngineCascade from "./EngineCascade";
 import IconStory from "./IconStory";
+import LandingMac from "./LandingMac";
 
 /* Caso de SwifT, a medida (2026-10-13). Sustituye a la plantilla común: en lugar de las láminas de la web
    actual, piezas recreadas del producto real (components/case-study/swift/). Hechos del repo
@@ -136,14 +136,13 @@ export default function SwiftCase({ next: n }: { next: { name: string; href: str
       <section className={section}>
         <Head eyebrow="Landing" title="Un producto que cabe en una frase merece una página que también." />
       </section>
-      {/* La landing en inglés, entera: la máscara se abre a pantalla completa y se queda fija mientras la
-          página hace scroll (captura a toda página de swift-translator.vercel.app, 2026-10-16). */}
+      {/* La landing en inglés dentro de un MacBook, con la misma apertura de máscara; la web baja y sube en bucle. */}
       <div className="mt-4">
-        <WebScroll page="/maqueta/swift/landing/page.webp" nav="/maqueta/swift/landing/nav.webp" ratio={7050 / 2160} navRatio={90 / 2160} label="La landing de SwifT" />
+        <LandingMac />
       </div>
 
-      {/* Datos, en pequeño (sin cifras gigantes) */}
-      <section className={section}>
+      {/* Datos, en pequeño (sin cifras gigantes), pegados al MacBook */}
+      <section className={`pt-12 md:pt-16 ${wrap}`}>
         <div className={`${grid} gap-y-10`}>
           {[
             ["14 idiomas", "Del catalán al árabe, con nombres en el idioma del sistema."],

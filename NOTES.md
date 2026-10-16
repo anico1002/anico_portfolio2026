@@ -5,9 +5,9 @@
 ## ▶ EMPEZAR AQUÍ (2026-10-16, MacBook)
 
 Feedback de **SwifT e Interactius** aplicado; detalle con casillas en `docs/feedback-swift-interactius-2026-10-16.md`.
-Cierre común en todos los casos (`CaseClosing`). **Standby (Alberto):** fondo del icono de SwifT y lámina técnica del
-logo; imagen del portátil de Interactius; repasar juntos el logo técnico; grabación real de DeckMakr.
-Nuevo `WebScroll.tsx` (web a toda página dentro de la máscara) reutilizable para otras landings.
+Cierre común en todos los casos (`CaseClosing`). SwifT con 2.ª vuelta (etiquetas desde el trazo, icono sobre cristal oscuro, landing en MacBook en bucle).
+**Standby (Alberto):** quizá una lámina técnica del logo de SwifT; imagen del portátil de Interactius; repasar juntos el logo técnico; grabación real de DeckMakr.
+`WebScroll.tsx` (web a toda página fija dentro de la máscara) queda sin usar, por si sirve en otra landing.
 
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-15, MacBook)
 

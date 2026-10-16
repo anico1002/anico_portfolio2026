@@ -51,22 +51,25 @@ export default function EngineCascade() {
           const hit = c.lane === n;
           return (
             <div key={l.name} className="flex flex-col">
-              {/* Recorta por abajo, en la barra: la etiqueta nace de ella y crece hacia arriba (feedback 2026-10-16;
-                  antes caía desde arriba). Mismo tempo. */}
-              <div className="relative h-36 overflow-hidden md:h-44">
+              {/* La etiqueta es el propio trazo de la barra que crece hacia arriba (feedback 2026-10-16): va pegada a
+                  la línea, a todo su ancho, con las esquinas de arriba redondas y las de abajo rectas. Crece en alto desde
+                  el grosor del trazo (2 px); el texto entra cuando ya hay sitio. Mismo tempo que antes. */}
+              <div className="relative h-36 md:h-44">
                 <AnimatePresence>
                   {hit && (
                     <motion.div
                       key={k}
-                      className="absolute inset-x-0 bottom-3 mx-auto w-[95%] rounded-[12px] px-3 py-3 text-white md:w-[85%] md:px-4"
+                      className="absolute inset-x-0 bottom-0 overflow-hidden text-white"
                       style={{ background: V }}
-                      initial={{ y: "120%" }}
-                      animate={{ y: 0 }}
-                      exit={{ y: "120%", transition: { duration: DUR.fast, ease: EASE.inOut } }}
+                      initial={{ height: 2, borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+                      animate={{ height: "auto", borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+                      exit={{ height: 2, borderTopLeftRadius: 0, borderTopRightRadius: 0, transition: { duration: DUR.fast, ease: EASE.inOut } }}
                       transition={{ duration: DUR.base, ease: EASE.inOut }}
                     >
-                      <p className="t-small font-medium">{c.text}</p>
-                      <p className="mt-1 text-[11px] opacity-80 md:text-[12px]">{c.meta}</p>
+                      <motion.div className="px-3 pb-4 pt-3 md:px-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: DUR.fast, delay: DUR.base * 0.45, ease: EASE.out }}>
+                        <p className="t-small font-medium">{c.text}</p>
+                        <p className="mt-1 text-[11px] opacity-80 md:text-[12px]">{c.meta}</p>
+                      </motion.div>
                     </motion.div>
                   )}
                 </AnimatePresence>

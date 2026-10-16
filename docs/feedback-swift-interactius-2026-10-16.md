@@ -10,14 +10,16 @@
       2. auto-flip con traducción real en bucle y las teclas encima (escribir → ⌘A → ⌥⌘T → da la vuelta);
       3. menú que se despliega, descarga TranslateGemma 4B (2,49 GB) con barra, aviso y después «Uninstall»;
       4. esquina de un MacBook (tapa, bisel, notch) con barra de menús: clic en el rayo y se abre el menú.
-- [x] Por dentro: las etiquetas violetas nacen de la barra y crecen hacia arriba, mismo tempo.
+- [x] Por dentro (2.ª vuelta): la etiqueta es el propio trazo que crece en alto, a todo el ancho de la barra,
+      con las esquinas de arriba redondas y las de abajo rectas. Mismo tempo.
 - [x] Fuera las banderas (`ImpossibleFlags.tsx` queda sin usar; borrar con tu OK).
 - [x] Fuera los tres conceptos de icono (los SVG `concept-*.svg` quedan sin usar).
-- [x] Icono sobre imagen para que se vea el cristal — **fondo provisional (degradado)**.
-- [x] Landing: captura a toda página en inglés (WebP 216 KB, más ligera que el vídeo); la máscara se abre a
-      pantalla completa, se queda fija y la web hace scroll entera con su barra quieta (`WebScroll.tsx`).
-- [ ] **Pendiente de Alberto:** imagen de fondo para el icono (prop `bg` de `IconStory`).
-- [ ] **Pendiente de Alberto:** lámina técnica del diseño del logo (irá antes del icono).
+- [x] Icono sobre fondo de cristal oscuro dibujado en CSS: luz cálida y fría detrás y dos placas esmeriladas
+      con la forma de cada esquirla.
+- [x] Landing (2.ª vuelta): misma apertura de máscara, pero dentro un MacBook minimal en CSS con la web en
+      vídeo bajando y subiendo en bucle (`swift/LandingMac.tsx`, `landing/scroll.mp4`, 2 MB). El scroll del caso
+      ya no se para. Los datos (14 idiomas, telemetría, 2,49 GB) van justo debajo. `WebScroll.tsx` queda sin usar.
+- [ ] **Quizá de Alberto:** alguna imagen más técnica del diseño del logo (iría antes del icono).
 
 ## Interactius
 - [x] Fuera las formas geométricas, el calendario (Gantt) y el texto líquido.
