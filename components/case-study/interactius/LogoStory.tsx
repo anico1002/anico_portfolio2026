@@ -81,7 +81,7 @@ export default function LogoStory() {
             </p>
           </div>
         </FadeIn>
-        <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 mb-10 md:mb-0 md:pt-16">
+        <FadeIn delay={STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 mb-10 md:mb-0 md:self-center">
           <p className="t-label t-tag text-[var(--case-muted)]">Función fonética</p>
           <p className="mt-3 t-body text-[var(--case-muted)]">
             Interactíus se acentúa en la última i, y quien lee tiende a llevar el peso al centro de la palabra. El
