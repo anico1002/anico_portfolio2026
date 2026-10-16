@@ -9,6 +9,10 @@
 2. **Detalles de transición:** revisar en Safari y en móvil el paso miniatura → cabecera (Alberto vio «un salto
    raro» en Gloop que en Chrome no se reproduce).
 3. **Copy:** el repaso de abajo.
+5. **Privacidad y cookies:** revisar qué recoge la web (analítica, cookies, embeds de terceros como vídeos o fuentes
+   externas), si hace falta aviso de cookies y una página de privacidad/aviso legal (RGPD, al ser España).
+6. **Email a la vista:** hoy sale en texto plano en el pie. Al montar «Let’s talk» (copiar el email), sacarlo del
+   HTML (montarlo en el navegador) para que no lo recojan los bots.
 4. **Consistencia de tipografía y estilos:** recorrer todas las páginas buscando estilos sueltos (tamaños, pesos o
    familias que no salgan de las clases `t-*`), para que no quede nada fuera del sistema.
 
