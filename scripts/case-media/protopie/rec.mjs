@@ -1,7 +1,7 @@
 // Graba una escena de un prototipo de ProtoPie Cloud abierto en un Chrome con --remote-debugging-port=9333
 // (ventana visible: el reproductor necesita WebGL). La pantalla del prototipo es HTML (#webplayer-root): se emula
 // una ventana muy alta (el reproductor encaja el móvil al alto, así la pantalla se pinta grande), se graba con el screencast de CDP y se recorta a la pantalla. WineUp, 2026-10-16.
-// [HIDE_SB=1] node rec.mjs <salida.mp4> <escena|-> <guion>   guion: "tap:x,y@t;drag:x1,y1,x2,y2@t;end@t" (t en s; x,y en pt del móvil 393x852)
+// [HIDE_SB=1] node rec.mjs <salida.mp4> <escena|-> <guion>   guion: "tap:x,y@t;drag:x1,y1,x2,y2[,ms]@t;sb:show|hide@t;end@t" (t en s; x,y en pt del móvil 393x852)
 import { chromium } from 'playwright-core';
 import fs from 'fs'; import path from 'path'; import { execFileSync } from 'child_process';
 const [out, scene, script] = process.argv.slice(2);
@@ -18,14 +18,13 @@ if (scene !== '-') {
 }
 // El prototipo trae una capa de texto con la hora real encima del «9:41» de la barra de estado: se oculta (y se
 // vigila, porque cada escena la vuelve a crear).
-// Además, con HIDE_SB=1, la barra de estado que ProtoPie pinta por su cuenta (capas `status-bar/*`): en las escenas que
-// ya traen la suya dibujada salía doble (2026-10-17). Solo para esas escenas: en las que no la traen, se quedaría sin.
-await p.evaluate((hideSb) => { clearInterval(window.__noClock); window.__noClock = setInterval(() => {
+// Además, la barra de estado que ProtoPie pinta por su cuenta (capas `status-bar/*`): en las pantallas que ya traen la
+// suya dibujada salía doble (2026-10-17). HIDE_SB=1 la oculta desde el principio, y el guion la enciende o la apaga
+// en cada momento con `sb:show@t` / `sb:hide@t` (en WineUp, «¿Cómo te defines?» es la única pantalla sin barra dibujada).
+await p.evaluate((hideSb) => { window.__hideSb = hideSb; clearInterval(window.__noClock); window.__noClock = setInterval(() => {
   for (const e of document.querySelectorAll('.TextLayer')) if (/^\s*\d{1,2}:\d{2}\s*$/.test(e.textContent || '') && !/9:41/.test(e.textContent)) e.style.visibility = 'hidden';
-  // Pantallas sin barra dibujada (en WineUp, «¿Cómo te defines?»): ahí se deja la de ProtoPie.
-  const bare = [...document.querySelectorAll('.TextLayer')].some((e) => /¿Cómo te defines\?/.test(e.textContent || '') && e.getBoundingClientRect().width > 0 && getComputedStyle(e).opacity !== '0');
-  for (const e of document.querySelectorAll('[data-layer-id^="status-bar/"]')) e.style.visibility = hideSb && !bare ? 'hidden' : '';
-}, 100); }, !!process.env.HIDE_SB);
+  for (const e of document.querySelectorAll('[data-layer-id^="status-bar/"]')) e.style.visibility = window.__hideSb ? 'hidden' : '';
+}, 30); }, !!process.env.HIDE_SB);
 await p.waitForTimeout(300);
 const R = await p.evaluate(() => { const r = document.getElementById('webplayer-root').getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; });
 const k = R.w / 393; // pt del móvil → px de la página
@@ -47,6 +46,7 @@ for (const step of script.split(';').filter(Boolean)) {
     for (let i = 1; i <= steps; i++) { const t = e(i / steps); await p.mouse.move(x1 + (x2 - x1) * t, y1 + (y2 - y1) * t); await p.waitForTimeout(16); }
     await p.waitForTimeout(60); await p.mouse.up();
   }
+  else if (k2 === 'sb') await p.evaluate((h) => (window.__hideSb = h), v === 'hide');
   else if (k2 === 'end') end = +t;
 }
 const rest = end * 1000 - (Date.now() - t0); if (rest > 0) await p.waitForTimeout(rest);

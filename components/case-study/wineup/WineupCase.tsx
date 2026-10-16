@@ -44,11 +44,11 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
 const shade = (c: string) =>
   c.startsWith("linear-gradient")
     ? c
-    : `linear-gradient(160deg, color-mix(in srgb, ${c} 88%, #fff) 0%, ${c} 35%, color-mix(in srgb, ${c} 52%, #000) 100%)`;
-/** Velo negro sobre las fotos (2026-10-17): oscurece los bordes y la base para que no se lean como una foto cuadrada
-    pegada y el móvil mande. */
+    : `linear-gradient(165deg, ${c} 0%, color-mix(in srgb, ${c} 75%, #000) 45%, color-mix(in srgb, ${c} 30%, #000) 100%)`;
+/** Velo negro sobre las fotos (2026-10-17): toda la foto un punto más oscura, más en los bordes y en la base, para
+    que no se lea como una foto cuadrada pegada y lo que destaque sea el móvil. */
 const VEIL =
-  "radial-gradient(ellipse 75% 70% at 50% 42%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 100%), linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0) 55%)";
+  "radial-gradient(ellipse 70% 65% at 50% 40%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.75) 100%), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 60%)";
 /** El degradado de la cabecera del experto en la app (medido del prototipo): de #861AD6 arriba a #571697. */
 const EXPERT = "linear-gradient(180deg, #861AD6 0%, #571697 100%)";
 
@@ -229,7 +229,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Descubre a quién seguir, qué se está bebiendo y dónde se brinda cerca de ti."
           clip="explorar"
           label="Explorar: descubre, feed y mapa"
-          photo={`${M}/bg-brindis.jpg`}
+          photo={`${M}/bg-atardecer.jpg`}
         />
         <Feature
           side="left"
