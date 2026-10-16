@@ -3,7 +3,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Arrow from "@/components/case-study/Arrow";
-import { FadeIn } from "@/components/case-study/primitives";
+import { FadeIn, Parallax } from "@/components/case-study/primitives";
+import RealPhone from "@/components/case-study/RealPhone";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { STAGGER } from "@/lib/maqueta/motion";
 import { IX, IX_EXPO, mono } from "./tokens";
@@ -243,17 +244,19 @@ export function ManualLaptop() {
   );
 }
 
+/* Móvil volandero (feedback 2026-10-16, como el de Gloop): sin fondo, inclinado, y sube con parallax desde abajo
+   hasta montarse sobre el borde inferior de la foto del MacBook. El texto va pegado a la foto. */
 export function ManualPhone() {
   return (
-    <div className="grid grid-cols-12 items-end gap-x-4 gap-y-6 md:gap-x-6">
-      <FadeIn className="col-span-12 md:col-span-3 md:pb-10">
+    <div className="relative z-10 grid grid-cols-12 gap-x-4 md:gap-x-6">
+      <FadeIn className="col-span-7 mt-8 md:col-span-3 md:col-start-2 md:mt-12">
         <p className="t-body text-[var(--case-muted)]">Y en el móvil, el mismo sistema: la retícula se recompone y la letra mantiene su escala.</p>
       </FadeIn>
-      <PlayInView
-        src="/maqueta/interactius/media/manual-movil.mp4"
-        poster="/maqueta/interactius/media/manual-movil-poster.jpg"
-        className="m-bleed col-span-12 aspect-video overflow-hidden md:col-span-8 md:col-start-5"
-      />
+      <Parallax speed={320} className="col-span-5 -mt-24 md:col-span-3 md:col-start-9 md:-mt-[22rem]">
+        <div className="mx-auto w-full max-w-[300px] rotate-[-12deg] drop-shadow-[0_40px_50px_rgba(28,26,23,0.35)]">
+          <RealPhone src="/maqueta/interactius/media/manual-movil-screen.mp4" label="El manual de marca en el móvil" />
+        </div>
+      </Parallax>
     </div>
   );
 }

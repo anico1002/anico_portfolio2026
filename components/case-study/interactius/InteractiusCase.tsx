@@ -126,9 +126,7 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
           body="Quince secciones en castellano, inglés y catalán, con cada logo, color y tipografía listos para descargar."
         />
         <ManualLaptop />
-        <div className="mt-20 md:mt-32">
-          <ManualPhone />
-        </div>
+        <ManualPhone />
       </section>
 
       {/* Preparada para IA: el capítulo central */}
@@ -170,8 +168,8 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
         </DeckWindow>
       </div>
 
-      {/* Datos, en pequeño */}
-      <section className={section}>
+      {/* Datos, en pequeño: repartidos a todo el ancho y pegados a la ventana de DeckMakr */}
+      <section className={`pt-12 md:pt-16 ${wrap}`}>
         <div className={`${grid} gap-y-10`} style={mono}>
           {[
             ["15", "secciones del manual"],
@@ -179,7 +177,7 @@ export default function InteractiusCase({ next: n }: { next: { name: string; hre
             ["17", "composiciones de diapositiva"],
             ["48", "conceptos vetados en el tono"],
           ].map(([t, d], k) => (
-            <FadeIn key={d} delay={k * STAGGER} className={`col-span-6 border-t border-[var(--case-line)] pt-5 md:col-span-2 ${k === 0 ? "md:col-start-2" : ""}`}>
+            <FadeIn key={d} delay={k * STAGGER} className="col-span-6 border-t border-[var(--case-line)] pt-5 md:col-span-3">
               <p className="t-title">{t}</p>
               <p className="mt-2 t-small text-[var(--case-muted)]">{d}</p>
             </FadeIn>
