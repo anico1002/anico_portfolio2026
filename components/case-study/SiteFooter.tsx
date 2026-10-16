@@ -53,7 +53,7 @@ export default function SiteFooter({ cta = true, show, flush = false }: { cta?: 
       <div
         className={`flex flex-col gap-4 border-t border-[var(--case-line)] pt-5 md:flex-row md:items-baseline md:justify-between`}
       >
-        <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · {new Date().getFullYear()}</p>
+        <p className="t-small text-[var(--case-muted)]">© {new Date().getFullYear()} anico. All rights reserved</p>
         <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small md:gap-x-8">
           <a href={`mailto:${EMAIL}`}>
             <RollText text={EMAIL} />
