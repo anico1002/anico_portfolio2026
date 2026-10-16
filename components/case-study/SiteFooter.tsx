@@ -21,8 +21,8 @@ import { EMAIL, LINKEDIN } from "@/lib/maqueta/contact";
 const wrap = "px-4 md:px-6";
 const mono = "t-tag";
 
-/* «¿Hablamos?» entra cada vez que vuelve a pantalla (feedback 2026-10-16: «que se note que viene cada vez»):
-   máscara desde abajo y subida, como FadeIn, pero sin quedarse fija tras la primera vez. `show` permite mandarlo
+/* «¿Hablamos?» entra cada vez que vuelve a pantalla (feedback 2026-10-16: «que se note que viene cada vez»).
+   Va pegado a la línea del pie y sale de ella (feedback 2026-10-17), pero sin quedarse fija tras la primera vez. `show` permite mandarlo
    desde fuera (al final de los casos lo decide el telón, porque ahí está en pantalla aunque la capa lo tape). */
 function Hablamos({ show }: { show?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -37,12 +37,12 @@ function Hablamos({ show }: { show?: boolean }) {
     return () => io.disconnect();
   }, [show]);
   const on = reduce || (show ?? inView);
+  // La máscara es el propio borde: el contenedor recorta justo encima de la línea del pie y el texto sube desde ella.
   return (
-    <div ref={ref}>
+    <div ref={ref} className="overflow-hidden pb-[0.08em]">
       <motion.div
-        className="pb-[0.25em] -mb-[0.25em]"
         initial={false}
-        animate={on ? { clipPath: "inset(-5% -5% -5% -5%)", y: 0 } : { clipPath: "inset(100% -5% 0% -5%)", y: 60 }}
+        animate={on ? { y: "0%" } : { y: "105%" }}
         transition={on ? { duration: DUR.slow, ease: EASE.out } : { duration: DUR.fast, ease: EASE.inOut }}
       >
         <TLink href="/maqueta/contacto" className="block t-d2">
@@ -58,7 +58,7 @@ export default function SiteFooter({ cta = true, show, flush = false }: { cta?: 
     <footer className={`pb-6 md:pb-8 ${flush ? "" : cta ? "mt-40 md:mt-64" : "mt-24"} ${wrap}`}>
       {cta && <Hablamos show={show} />}
       <div
-        className={`${cta ? "mt-16 md:mt-24" : ""} flex flex-col gap-4 border-t border-[var(--case-line)] pt-5 md:flex-row md:items-baseline md:justify-between`}
+        className={`flex flex-col gap-4 border-t border-[var(--case-line)] pt-5 md:flex-row md:items-baseline md:justify-between`}
       >
         <p className={`t-label text-[var(--case-muted)] ${mono}`}>anico · {new Date().getFullYear()}</p>
         <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small md:gap-x-8">

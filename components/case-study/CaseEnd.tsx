@@ -114,7 +114,7 @@ function Strip({ items }: { items: MoreItem[] }) {
               <p className="t-title">
                 <RollText text={c.name} />
               </p>
-              <p className="shrink-0 t-small text-[var(--case-muted)]">{c.tag}</p>
+              <p className="shrink-0 t-small text-[var(--case-muted)]">{c.year}</p>
             </div>
           </TLink>
         ))}

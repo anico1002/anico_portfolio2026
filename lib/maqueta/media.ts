@@ -140,7 +140,7 @@ export function getGameBlocks(slug: string): ResolvedGameBlock[] | null {
 
 /* ── Final de los casos: carrusel de proyectos (CaseEnd, 2026-10-16) ──────────────────────────── */
 
-export type MoreItem = { name: string; href: string; thumb?: string; tag: string };
+export type MoreItem = { name: string; href: string; thumb?: string; year: string };
 
 /** Los proyectos de la misma sección que el caso (Product + Marca y web, o Games), empezando por el
     siguiente y sin el propio caso. Solo los que tienen página. */
@@ -150,8 +150,8 @@ export function moreCases(slug: string): { items: MoreItem[]; all: { label: stri
   const list: MoreItem[] = (
     games
       ? casesIn("games")
-      : [{ name: "Gloop", slug: "gloop", services: ["iOS nativo"] } as Pick<CaseCopy, "name" | "slug" | "services">, ...productInOrder(), ...casesIn("brand")]
-  ).map((c) => ({ name: c.name, href: `/maqueta/${c.slug}`, thumb: thumbOf(c.slug), tag: c.services[0] ?? "" }));
+      : [{ name: "Gloop", slug: "gloop", year: "2026" } as Pick<CaseCopy, "name" | "slug" | "year">, ...productInOrder(), ...casesIn("brand")]
+  ).map((c) => ({ name: c.name, href: `/maqueta/${c.slug}`, thumb: thumbOf(c.slug), year: c.year }));
   const i = list.findIndex((x) => x.href === `/maqueta/${slug}`);
   const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];
   return { items, all: games ? { label: "Ver todos los juegos", href: "/maqueta/games" } : { label: "Ver todos los proyectos", href: "/maqueta/home" } };
