@@ -207,7 +207,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Para quien disfruta del vino y para quien lo conoce a fondo. Un mundo por descubrir, sea cual sea tu perfil."
           clip="perfiles"
           label="Splash, elección de perfil y onboarding de WineLover"
-          photo={`${M}/bg-copa.jpg`}
+          photo={`${M}/bg-vinas.jpg`}
         />
         <Feature
           side="left"
