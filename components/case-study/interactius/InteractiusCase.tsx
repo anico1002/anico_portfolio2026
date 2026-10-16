@@ -155,7 +155,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
       </section>
 
       <section className={section}>
-        <Head eyebrow="El tono" title="La voz de la marca, en un prompt." body="Frases de 15 a 22 palabras, sin exclamaciones y con 48 conceptos de consultora vetados. Se copia con un clic, y el validador avisa antes de que nada salga de la oficina." />
+        <Head eyebrow="El tono" title="La voz de la marca, en un prompt." body="Frases de 15 a 22 palabras, sin exclamaciones y con 48 conceptos vetados. Se copia con un clic, y el validador avisa antes de que nada salga de la oficina." />
         <ToneCheck />
       </section>
 
