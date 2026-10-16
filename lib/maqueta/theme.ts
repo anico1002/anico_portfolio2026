@@ -9,8 +9,7 @@ export const THEMES: Record<string, Theme> = {
   "/maqueta": "dark",
   "/maqueta/home": "dark",
   "/maqueta/games": "light",
-  "/maqueta/sobre-mi": "dark",
-  "/maqueta/contacto": "dark",
+  "/maqueta/sobre-mi": "dark", // sin enlazar: About es un bloque de las homes
   // Product
   "/maqueta/gloop": "dark",
   "/maqueta/swift-project": "light",
