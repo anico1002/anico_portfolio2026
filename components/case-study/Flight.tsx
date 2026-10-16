@@ -41,7 +41,13 @@ export function startFlight(src: string, frame: HTMLElement, onLanded: () => voi
 
 let overlay: HTMLDivElement | null = null;
 
-const once = (el: HTMLElement, ev: string) => new Promise<void>((r) => el.addEventListener(ev, () => r(), { once: true }));
+/* Cada espera, con tope (2026-10-17): en el iPhone un vídeo que no se carga (oculto, ahorro de batería) no avisa
+   nunca, y la capa se quedaba puesta con el scroll parado: la página parecía colgada (Interactius, WineUp). */
+const once = (el: HTMLElement, ev: string, ms = 1500) =>
+  new Promise<void>((r) => {
+    el.addEventListener(ev, () => r(), { once: true });
+    setTimeout(r, ms);
+  });
 const twoFrames = () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())));
 let ending = false;
 

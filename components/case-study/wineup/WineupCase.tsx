@@ -9,7 +9,7 @@ import LazyVideo from "@/components/case-study/LazyVideo";
 import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Parallax } from "@/components/case-study/primitives";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /* Caso de WineUp, a medida (2026-10-16). Contexto de Alberto: una app para amantes del vino, una red social donde se
    unen, conectan y comparten; dos perfiles desde el principio (WineLover y WineExpert), cada uno con su onboarding (el
@@ -83,6 +83,16 @@ function Feature({
   const pin = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: pin, offset: ["start start", "end end"] });
   const [shown, setShown] = useState(0);
+  // En móvil no hay parada (feedback 2026-10-17: los puntos salían tarde y casi fuera de pantalla): van los tres en
+  // lista, ya visibles, como el resto del texto.
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const on = () => setWide(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
   // Un punto cada vez: el tramo fijo se reparte en tantas partes como puntos y cada uno sustituye al anterior.
   useMotionValueEvent(scrollYProgress, "change", (v) => steps && setShown(Math.max(0, Math.min(steps.length - 1, Math.floor(v * steps.length)))));
   const content = (
@@ -101,15 +111,15 @@ function Feature({
           )}
           {steps && (
             // Todos en la misma celda (la caja mide lo que el más alto): no se acumulan ni descuadran el bloque.
-            <div className="mt-10 grid md:mt-12">
+            <div className="mt-10 grid gap-y-6 md:mt-12">
               {steps.map(([t, d], k) => (
                 <motion.div
                   key={t}
-                  className="[grid-area:1/1] border-t border-[var(--case-line)] pt-4"
+                  className="border-t border-[var(--case-line)] pt-4 md:[grid-area:1/1]"
                   initial={false}
-                  animate={k === shown ? { opacity: 1, y: 0 } : { opacity: 0, y: k < shown ? -24 : 24 }}
+                  animate={!wide || k === shown ? { opacity: 1, y: 0 } : { opacity: 0, y: k < shown ? -24 : 24 }}
                   transition={{ duration: DUR.base, ease: EASE.out }}
-                  aria-hidden={k !== shown}
+                  aria-hidden={wide && k !== shown}
                 >
                   <p className="t-label t-tag text-[var(--case-muted)]">
                     {k + 1} / {steps.length}

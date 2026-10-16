@@ -12,13 +12,13 @@ import { G, geist } from "./tokens";
    2026-10-14 (feedback de Alberto): la ruleta de la app a pantalla completa, para dar un golpe de color entre
    tanto negro. Una ventana se abre con el scroll hasta quedar a sangre (WindowReveal) y dentro gira la ruleta
    como en la app (decision-ruleta.mp4): cada juego a pantalla entera, su foto en grises teñida de su color y el
-   nombre en el centro; corta rápido, frena y se para en uno con «Te ha tocado». Y vuelta a girar mientras se ve. */
+   nombre en el centro; corta rápido, frena y se para en uno con «Tonight’s game» (en inglés desde el 2026-10-17, como toda la web). Y vuelta a girar mientras se ve. */
 
 const GAMES = [
-  { name: "Culpable", img: "/maqueta/gloop/media/photo-fingersup.jpg", color: G.cyan },
+  { name: "Guilty", img: "/maqueta/gloop/media/photo-fingersup.jpg", color: G.cyan },
   { name: "Podium", img: "/maqueta/gloop/media/photo-tierlist.jpg", color: G.lime },
-  { name: "De 0 a 100", img: "/maqueta/gloop/media/photo-radiotrivia.jpg", color: G.magenta },
-  { name: "Fiestómetro", img: "/maqueta/gloop/media/photo-xativometre.jpg", color: G.accent },
+  { name: "0 to 100", img: "/maqueta/gloop/media/photo-radiotrivia.jpg", color: G.magenta },
+  { name: "Party Meter", img: "/maqueta/gloop/media/photo-xativometre.jpg", color: G.accent },
   { name: "Clones", img: "/maqueta/gloop/media/photo-clones.jpg", color: G.brand },
 ];
 /* Pausas entre cortes: rápido al principio y cada vez más lento, como la ruleta de la app. */
@@ -99,7 +99,7 @@ export default function GameRoulette() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: DUR.base, ease: EASE.out }}
                   >
-                    Te ha tocado
+                    Tonight’s game
                   </motion.p>
                 )}
               </AnimatePresence>

@@ -277,7 +277,10 @@ export function CaseHero({
     if (!flown) return;
     // Llegando desde la home: la capa del vuelo sigue encima. Se retira cuando la portada ya
     // está pintada (y, si es vídeo, en el mismo fotograma), así no hay parpadeo.
-    const m = ref.current?.querySelector("[data-poster] img, [data-poster] video") as HTMLImageElement | HTMLVideoElement | null;
+    // La que se ve: en las cabeceras con versión de escritorio y de móvil (BandMedia), la otra está oculta y en el
+    // iPhone no llega a cargarse nunca.
+    const all = [...(ref.current?.querySelectorAll<HTMLImageElement | HTMLVideoElement>("[data-poster] img, [data-poster] video") ?? [])];
+    const m = all.find((el) => el.getClientRects().length > 0) ?? null;
     if (!m) endFlight();
     else if (m instanceof HTMLVideoElement) endFlight(m);
     else m.decode().then(() => endFlight(), () => endFlight());
@@ -572,6 +575,8 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
   const year = get("Año")?.split(" · ")[0];
   const did = get("Qué hice", "Entregables");
   const role = get("Rol");
+  // Proyecto propio (feedback 2026-10-17, 7news y SwifT): se dice en la ficha, que no parezca un encargo.
+  const own = get("Para") === "Personal project";
   return (
     <div className="flex h-full flex-col justify-between gap-6 px-4 pb-6 pt-4 md:px-6 md:pb-7 md:pt-3">
       <FitTitle text={name} delay={delay} sup={year} />
@@ -586,6 +591,7 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
                   {role}
                 </p>
               )}
+              {own && <p className="mt-1 text-[var(--case-muted)]">Personal project</p>}
             </div>
           </MaskText>
         </div>

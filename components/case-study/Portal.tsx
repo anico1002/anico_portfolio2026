@@ -83,7 +83,12 @@ const twoFrames = () => new Promise<void>((r) => requestAnimationFrame(() => req
 function isReady(m: HTMLImageElement | HTMLVideoElement): Promise<unknown> {
   if (m instanceof HTMLImageElement) return m.complete && m.naturalWidth ? Promise.resolve() : m.decode();
   if (m.readyState >= 2) return Promise.resolve();
-  return new Promise<void>((r) => m.addEventListener("loadeddata", () => r(), { once: true }));
+  // Un vídeo, con tope de 2,5 s (2026-10-17): el iPhone a veces no lo empieza a cargar hasta que se reproduce y la
+  // cortinilla se quedaba los 6 s del tope general, con pinta de página colgada. Sin él, sale su póster.
+  return new Promise<void>((r) => {
+    m.addEventListener("loadeddata", () => r(), { once: true });
+    setTimeout(r, 2500);
+  });
 }
 
 export default function PortalLayer() {

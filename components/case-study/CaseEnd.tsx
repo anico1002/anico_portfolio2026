@@ -4,7 +4,10 @@ import { motion, useAnimationFrame, useMotionValue, useMotionValueEvent, useScro
 import { useEffect, useRef, useState } from "react";
 import RollText from "@/components/case-study/RollText";
 import SiteFooter from "@/components/case-study/SiteFooter";
-import { TLink } from "@/components/case-study/Portal";
+import { TLink, go } from "@/components/case-study/Portal";
+import { markLanded, startFlight } from "@/components/case-study/Flight";
+import { reducedMotion } from "@/lib/maqueta/motion";
+import { useRouter } from "next/navigation";
 import { Placeholder, YearSup } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import type { MoreItem } from "@/lib/maqueta/media";
@@ -34,6 +37,20 @@ const SPEED = 40; // px/s del paso automático
 
 function Strip({ items }: { items: MoreItem[] }) {
   const reduce = useReduce();
+  const router = useRouter();
+  // Al abrir uno, la miniatura crece a pantalla completa y aterriza en la cabecera del caso, como desde la home
+  // (feedback 2026-10-17). Antes iba con la cortinilla de los demás enlaces.
+  const open = (e: React.MouseEvent<HTMLAnchorElement>, c: MoreItem) => {
+    const frame = e.currentTarget.querySelector<HTMLElement>("[data-frame]");
+    if (e.defaultPrevented || !c.thumb || !frame || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    if (reducedMotion()) return go(c.href);
+    router.prefetch(c.href);
+    startFlight(c.thumb, frame, () => {
+      markLanded();
+      router.push(c.href, { scroll: true });
+    });
+  };
   const track = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const half = useRef(0);
@@ -105,11 +122,12 @@ function Strip({ items }: { items: MoreItem[] }) {
               }
               drag.current.moved = 0;
             }}
+            onClick={(e: React.MouseEvent<HTMLAnchorElement>) => open(e, c)}
             className="block w-[68vw] shrink-0 sm:w-[18rem] md:w-[22rem] xl:w-[24rem]"
             aria-hidden={k >= items.length || undefined}
             tabIndex={k >= items.length ? -1 : undefined}
           >
-            <div className="pointer-events-none overflow-hidden">
+            <div data-frame className="pointer-events-none overflow-hidden">
               <Placeholder ratio="16/10" src={c.thumb} label={c.name} />
             </div>
             <p className="mt-3 t-title">

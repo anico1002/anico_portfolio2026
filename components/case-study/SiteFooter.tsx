@@ -36,18 +36,20 @@ function Hablamos({ show, onCopy, mail, copied }: { show?: boolean; onCopy: () =
     return () => io.disconnect();
   }, [show]);
   const on = reduce || (show ?? inView);
-  // La máscara es el propio borde: el contenedor recorta justo encima de la línea del pie y las letras suben desde
+  // La máscara es el propio borde: el contenedor recorta (solo por abajo: arriba deja asomar el aviso de copiado en móvil) justo encima de la línea del pie y las letras suben desde
   // ella en ola. Aire bajo las letras igual al margen lateral de la página (16 / 24 px), 2026-10-17 (las mismas letras del rodillo del hover; la animación vive en system.css, `.hablamos`).
   return (
-    <div ref={ref} className={`hablamos overflow-hidden pb-4 md:pb-6 ${on ? "is-in" : ""}`}>
-      <div className="group flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
-        <button type="button" onClick={onCopy} className="block text-left t-d2" aria-label="Let’s talk: copy my email">
+    <div ref={ref} className={`hablamos pb-4 [clip-path:inset(-4em_-1em_0_-1em)] md:pb-6 ${on ? "is-in" : ""}`}>
+      <div className="relative flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+        <button type="button" onClick={onCopy} className="peer block text-left t-d2" aria-label="Let’s talk: copy my email">
           <RollText text="Let’s talk" />
         </button>
-        {/* Al pasar por encima se ve qué hará el clic: tu email y «Click to copy»; al copiar, el aviso. */}
+        {/* Al pasar por encima de «Let’s talk» (solo de las letras: con toda la fila salía también en la esquina, donde el clic
+            no copia; 2026-10-17) se ve qué hará el clic: tu email y «Click to copy»; al copiar, el aviso. En móvil (sin hover)
+            va encima, a la derecha, y no ocupa línea: invisible bajo «Let’s talk» la separaba de la raya (feedback 2026-10-17). */}
         <span
           aria-live="polite"
-          className={`t-small text-[var(--case-muted)] transition-opacity duration-300 ${copied ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+          className={`pointer-events-none max-md:absolute max-md:bottom-full max-md:right-0 max-md:mb-2 t-small text-[var(--case-muted)] transition-opacity duration-300 ${copied ? "opacity-100" : "opacity-0 peer-hover:opacity-100"}`}
         >
           {copied ? "Email copied ✓" : mail ? `${mail} · Click to copy` : ""}
         </span>

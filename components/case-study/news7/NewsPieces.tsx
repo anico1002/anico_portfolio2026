@@ -68,8 +68,8 @@ function AllRead({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-col items-center gap-2 text-center ${className}`}>
       <span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#0a84ff] text-[18px] text-[#0a84ff]">✓</span>
-      <p className="text-[22px] font-semibold text-white">Ya estás al día</p>
-      <p className="text-[15px] text-[#0a84ff]">Ver todas</p>
+      <p className="text-[22px] font-semibold text-white">You’re all caught up</p>
+      <p className="text-[15px] text-[#0a84ff]">See all</p>
     </div>
   );
 }
@@ -78,7 +78,8 @@ function AllRead({ className = "" }: { className?: string }) {
     contador de 678 a 32 y las reglas; a la derecha, un muro de noticias reales que se van apagando al azar
     hasta «Ya estás al día». Detrás aparece un iPhone de verdad (marco negro) con esa pantalla; se va al
     centro y con él entra «Crear un tema»: la búsqueda real de «Videojuegos» grabada en el simulador
-    (`media/buscar-tema.mp4`), en vez de una simulación en HTML. Con movimiento reducido o en móvil, en lista. */
+    (`media/buscar-tema.mp4`), en vez de una simulación en HTML. En móvil, la misma parada en una columna; con
+    movimiento reducido, en lista. */
 export function DayEnds() {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReduce();
@@ -159,6 +160,61 @@ export function DayEnds() {
       </p>
     </>
   );
+
+  // Móvil (feedback 2026-10-17: «no funciona»; antes era una lista quieta): la misma parada en una columna. Arriba el
+  // contador y las reglas; debajo, el muro que se apaga; después todo se va, sube el iPhone al centro con «You’re all
+  // caught up», pasa a la búsqueda y abajo entra «Create a topic».
+  if (!wide && !reduce)
+    return (
+      <div ref={ref} className="relative h-[420vh]">
+        <div className="sticky top-0 h-[100svh] overflow-hidden px-4">
+          <motion.div className="absolute inset-x-4 top-[12svh]" style={{ opacity: leftOut }}>
+            <p className="t-label t-tag text-[var(--case-muted)]">The day has an end</p>
+            <div className="mt-3 flex items-baseline gap-3">
+              <p className="t-d3 tabular-nums">{n}</p>
+              <p className="t-small text-[var(--case-muted)]">stories today</p>
+            </div>
+            <ol className="mt-6 space-y-2">
+              {RULES.map((r, k) => (
+                <li key={r.label} className="flex items-center gap-3 t-small transition-opacity duration-500" style={{ opacity: done > k ? 1 : 0.3 }}>
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-current text-[11px]">{done > k ? "✓" : k + 1}</span>
+                  {r.label}
+                </li>
+              ))}
+            </ol>
+            <div className="mt-8 grid grid-cols-3 gap-1.5">
+              {ROWS.map((src, k) => (
+                <NewsRow key={src} src={src} k={k} p={p} />
+              ))}
+            </div>
+          </motion.div>
+          {/* El iPhone, al centro: sube con «You’re all caught up», pasa a la búsqueda y se funde por abajo. */}
+          <motion.div
+            className="absolute left-1/2 top-[11svh] w-[min(58vw,38svh)] -translate-x-1/2"
+            style={{ opacity: phoneIn, y: phoneRise, maskImage: mask, WebkitMaskImage: mask }}
+          >
+            <FlatPhone>
+              <div className="absolute inset-0 flex items-center justify-center bg-black">
+                <AllRead className="scale-[0.8]" />
+              </div>
+              <motion.video
+                ref={video}
+                src="/maqueta/7news/media/buscar-tema.mp4"
+                muted
+                playsInline
+                preload="auto"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ opacity: searchIn }}
+                aria-label="Creating the Video games topic: type it, sources are found and their stories appear"
+              />
+            </FlatPhone>
+          </motion.div>
+          <motion.div className="absolute inset-x-4 bottom-[6svh]" style={{ opacity: createIn, y: createY }}>
+            {create}
+          </motion.div>
+        </div>
+      </div>
+    );
 
   // El ref del scroll va en los dos casos: framer exige que el objetivo esté montado.
   if (!pinned)

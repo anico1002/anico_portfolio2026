@@ -157,7 +157,8 @@ export default function KitLaptop() {
                       animate={{ opacity: on ? 1 : 0.25 }}
                       transition={{ duration: DUR.base, ease: EASE.out }}
                     >
-                      <span className="absolute right-full top-0 mr-2 whitespace-nowrap t-label t-tag leading-[inherit] text-[var(--case-muted)]" style={{ lineHeight: "inherit" }}>
+                      {/* En móvil va en línea: colgado por fuera, el recorte de la sección lo cortaba. */}
+                      <span className="mr-2 whitespace-nowrap md:absolute md:right-full md:top-0 t-label t-tag leading-[inherit] text-[var(--case-muted)]" style={{ lineHeight: "inherit" }}>
                         0{k + 1}/
                       </span>
                       {s.title}

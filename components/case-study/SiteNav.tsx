@@ -1,13 +1,30 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { usePathname } from "next/navigation";
 import RollText from "@/components/case-study/RollText";
 import { createPortal } from "react-dom";
 import { TLink, go } from "@/components/case-study/Portal";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { SECTION_COUNT } from "@/lib/maqueta/cases";
+import { LINKEDIN, email } from "@/lib/maqueta/contact";
+import Arrow from "@/components/case-study/Arrow";
+
+const noop = () => () => {};
+
+/** Dos líneas (feedback 2026-10-17: «Menu» en texto pasa a hamburguesa de dos rayas); abierto, las rayas se cruzan
+    en una X. */
+function Burger({ x = false }: { x?: boolean }) {
+  const line = "absolute left-0 h-[1.5px] w-full bg-current transition-transform duration-300";
+  return (
+    <span aria-hidden className="relative block h-[10px] w-6">
+      <span className={`${line} top-0 ${x ? "translate-y-[4.25px] rotate-45" : ""}`} />
+      <span className={`${line} bottom-0 ${x ? "-translate-y-[4.25px] -rotate-45" : ""}`} />
+    </span>
+  );
+}
 
 /** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna, en blanco con
     `mix-blend-difference` (la inversión por píxel de Yakushev). Se probó una tinta adaptativa que
@@ -18,7 +35,7 @@ import { SECTION_COUNT } from "@/lib/maqueta/cases";
     Sin placa de fondo (se probó la de Metalab y se descartó, 2026-10-12): se queda en su sitio
     cambiando de tinta según lo que pase por detrás.
     Hover: las letras ruedan dentro de su máscara, una tras otra (`RollText`).
-    B3 · En móvil los cuatro enlaces no caben: «Menú» abre una capa propia que baja con máscara y
+    B3 · En móvil los cuatro enlaces no caben: la hamburguesa abre una capa propia que baja con máscara y
     palabras grandes que suben con máscara (Yakushev). */
 
 const items = [
@@ -63,6 +80,22 @@ export default function SiteNav({
   parts?: "all" | "logo" | "menu";
 }) {
   const [open, setOpen] = useState(false);
+  // Al cambiar de página se cierra solo: así, al elegir Product o Games, el menú se queda puesto y la cortinilla sube
+  // por encima de él (antes se recogía hacia arriba mientras la cortinilla subía: se veía un salto entre medias).
+  const path = usePathname();
+  const [openAt, setOpenAt] = useState(path);
+  if (open && openAt !== path) {
+    setOpen(false);
+    setOpenAt(path);
+  }
+  // Contacto dentro del menú (2026-10-17): el email se monta en el navegador y se copia al tocarlo, como en el pie.
+  const mail = useSyncExternalStore(noop, email, () => "");
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const t = window.setTimeout(() => setCopied(false), 2200);
+    return () => clearTimeout(t);
+  }, [copied]);
   // «#about» va al bloque About de la home de la sección en la que estás (Games o Product).
   const to = (href: string) => (href.startsWith("#") ? `${active === "games" ? "/maqueta/games" : "/maqueta/home"}${href}` : href);
   // El menú de móvil se monta en #case-root (fuera de la barra): la barra lleva mezcla por diferencia
@@ -112,8 +145,17 @@ export default function SiteNav({
               </TLink>
             ))}
             {menu && (
-              <button type="button" onClick={() => setOpen(true)} className="md:hidden" aria-expanded={open}>
-                Menu
+              <button
+                type="button"
+                onClick={() => {
+                  setOpenAt(path);
+                  setOpen(true);
+                }}
+                className="-m-3 p-3 md:hidden"
+                aria-expanded={open}
+                aria-label="Open menu"
+              >
+                <Burger />
               </button>
             )}
           </div>
@@ -137,8 +179,9 @@ export default function SiteNav({
             <div className="flex items-center justify-between py-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto dark-invert" />
-              <button type="button" onClick={() => setOpen(false)} className="t-nav">
-                Close
+              {/* Misma caja que la hamburguesa de la barra: la X sale justo donde estaban las dos rayas. */}
+              <button type="button" onClick={() => setOpen(false)} className="-m-3 p-3" aria-label="Close menu">
+                <Burger x />
               </button>
             </div>
             <ul className="mt-auto space-y-1">
@@ -151,8 +194,13 @@ export default function SiteNav({
                     animate={{ y: "0%" }}
                     transition={{ duration: DUR.base, ease: EASE.inOut, delay: (i + 1) * STAGGER }}
                     onClick={() => {
+                      const dest = to(href);
+                      // Otra página: la cortinilla tapa el menú y este se cierra al llegar (ver `openAt`).
+                      if (dest.split("#")[0] !== window.location.pathname) return go(dest);
+                      // La misma página (About desde su home): primero se cierra el menú, que tiene el scroll parado;
+                      // con él parado el desplazamiento hasta la sección no hacía nada (feedback 2026-10-17).
                       setOpen(false);
-                      go(to(href));
+                      requestAnimationFrame(() => requestAnimationFrame(() => go(dest)));
                     }}
                   >
                     {label}
@@ -161,6 +209,25 @@ export default function SiteNav({
                 </li>
               ))}
             </ul>
+            <motion.div
+              className="mt-10 flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small text-[var(--case-muted)]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: DUR.base, ease: EASE.out, delay: (items.length + 1) * STAGGER }}
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  navigator.clipboard?.writeText(email()).then(() => setCopied(true), () => (window.location.href = `mailto:${email()}`))
+                }
+                aria-live="polite"
+              >
+                {copied ? "Email copied ✓" : mail || "Email"}
+              </button>
+              <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5">
+                LinkedIn <Arrow />
+              </a>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>,
