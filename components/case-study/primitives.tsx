@@ -509,7 +509,7 @@ function FitTitle({ text, delay }: { text: string; delay: number }) {
     >
       <motion.h1
         ref={h}
-        className="w-max max-w-none font-extrabold leading-[0.88] tracking-[-0.045em] [font-size:var(--fit,clamp(44px,9vw,200px))] [white-space:var(--fit-ws,nowrap)]"
+        className="w-max max-w-none font-bold leading-[0.88] tracking-[-0.055em] [font-size:var(--fit,clamp(44px,9vw,200px))] [white-space:var(--fit-ws,nowrap)]"
         initial={{ y: "140%" }}
         animate={{ y: "0%" }}
         transition={{ duration: DUR.base, ease: EASE.inOut, delay }}
