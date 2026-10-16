@@ -1,6 +1,6 @@
 import { SLIDES } from "@/lib/maqueta/sections";
 import HomeView, { type P } from "@/components/case-study/HomeView";
-import { casesIn, PENDING, type CaseCopy } from "@/lib/maqueta/cases";
+import { casesIn, PENDING, PRODUCT_FIRST, productInOrder, type CaseCopy } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
 import { yearsOfExperience } from "@/lib/maqueta/years";
 
@@ -20,18 +20,14 @@ const card = (c: CaseCopy): P => ({
 });
 
 export default function ProductHome() {
-  const [elreto, swift, ...rest] = casesIn("product").map(card);
-  // Los casos a medida de proyectos hechos juntos van delante de los pendientes y de los conceptos.
-  const OWN = ["/maqueta/interactius", "/maqueta/7news", "/maqueta/dovla"];
-  const own = OWN.map((h) => rest.find((c) => c.href === h)).filter((c): c is P => !!c);
-  const concepts = rest.filter((c) => !OWN.includes(c.href ?? ""));
+  // Por fecha, lo más actual arriba (feedback 2026-10-16). Dentro de 2026, el orden también encaja cada
+  // miniatura en un hueco de su forma (HomeView → layout): SwifT en el grande horizontal a sangre, 7News (móvil
+  // en vertical) en el pequeño 3:4, Dovla en el cuadrado, Interactius en el 16:10 y El Reto (2025) en el 4:3.
   const items: P[] = [
     { name: "Gloop", line: "App social para grupos de amigos", type: "iOS nativo", year: "2026", thumb: "/maqueta/gloop/media/hero-mock.mp4", href: "/maqueta/gloop" },
-    elreto,
-    swift,
-    ...own,
+    ...productInOrder().slice(0, PRODUCT_FIRST.length).map(card),
     ...PENDING.map((p) => ({ ...p, line: "" })),
-    ...concepts,
+    ...productInOrder().slice(PRODUCT_FIRST.length).map(card),
   ];
   return (
     <HomeView

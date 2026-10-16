@@ -3,24 +3,37 @@
 import { useEffect, useRef, useState } from "react";
 import { WindowReveal } from "@/components/case-study/primitives";
 
-/* La landing de SwifT dentro de un MacBook real (feedback 2026-10-16). Misma apertura de máscara que el resto
-   de casos; dentro, foto de Unsplash de un MacBook Air en la mano sobre gris liso (photo-1625766763788,
-   mockups-src/mac-hand), pasada a monocromo frío para que solo la pantalla tenga color. La web va encima con
-   la perspectiva exacta de la foto (matrix3d sacado de las cuatro esquinas medidas de la pantalla) y es un vídeo
-   en bucle que baja la página entera y vuelve a subir (scroll.mp4), así que siempre está en movimiento.
-   La escena se dibuja a tamaño natural (2400×1600) y se escala para cubrir el marco, centrada en el portátil. */
+/* La landing de SwifT en un MacBook y un iPhone reales (2026-10-16). Alberto eligió entre cuatro fotos frontales,
+   neutras y claras la «B»: MacBook Air e iPhone de frente sobre mármol blanco (Unsplash photo-1654555023156,
+   mockups-src/mac-marble). Misma apertura de máscara que el resto de casos. En el portátil, la landing de escritorio;
+   en el iPhone, la misma página en móvil (375 px). Las dos son vídeos en bucle que bajan la página entera y vuelven
+   a subir, así que siempre hay movimiento. Cada pantalla va encima con la perspectiva de la foto (matrix3d sacado
+   de sus esquinas). La escena se dibuja a tamaño natural (2400×1350) y se escala al marco, centrada en los dos. */
 
-const STAGE = { w: 2400, h: 1600 };
-const SCREEN = { w: 1440, h: 900 };
-const MATRIX =
-  "matrix3d(0.86245067,0.12015857,0,0.0002017045,-0.012313774,0.77332063,0,-3.594118e-06,0,0,1,0,714.40002,293.60001,0,1)";
-/** Centro del portátil en la foto (0–1). */
-const FOCUS = { x: 0.56, y: 0.46 };
+const STAGE = { w: 2400, h: 1350 };
+const SCREENS = [
+  {
+    src: "/maqueta/swift/landing/scroll.mp4",
+    poster: "/maqueta/swift/landing/scroll-poster.jpg",
+    w: 1440,
+    h: 900,
+    m: "matrix3d(0.64895464,0.00085785526,0,-4.6218677e-06,-0.00067662175,0.65968616,0,-1.8566142e-06,0,0,1,0,842.40002,292,0,1)",
+  },
+  {
+    src: "/maqueta/swift/landing/scroll-mobile.mp4",
+    poster: "/maqueta/swift/landing/scroll-mobile-poster.jpg",
+    w: 450,
+    h: 800,
+    m: "matrix3d(0.45545149,0.013326258,0,1.956048e-05,-0.010023453,0.43406181,0,-1.9893008e-05,0,0,1,0,454.39999,589.60004,0,1)",
+  },
+];
+/** Centro de los dos dispositivos en la foto (0–1). */
+const FOCUS = { x: 0.5, y: 0.5 };
 
 export default function LandingMac() {
   const box = useRef<HTMLDivElement>(null);
   const frame = useRef<HTMLDivElement>(null);
-  const vid = useRef<HTMLVideoElement>(null);
+  const vids = useRef<(HTMLVideoElement | null)[]>([]);
   const [on, setOn] = useState(false);
   const [t, setT] = useState({ k: 0.5, x: 0, y: 0 });
 
@@ -32,10 +45,11 @@ export default function LandingMac() {
     return () => io.disconnect();
   }, []);
   useEffect(() => {
-    const v = vid.current;
-    if (!v) return;
-    if (on) v.play().catch(() => {});
-    else v.pause();
+    for (const v of vids.current) {
+      if (!v) continue;
+      if (on) v.play().catch(() => {});
+      else v.pause();
+    }
   }, [on]);
   useEffect(() => {
     const el = frame.current;
@@ -43,10 +57,10 @@ export default function LandingMac() {
     const fit = () => {
       const cw = el.clientWidth;
       const ch = el.clientHeight;
-      // Escritorio: la foto cubre el marco. Móvil (marco alto y estrecho): se ajusta al ancho con el portátil
-      // casi a sangre, y arriba y abajo se funde con el gris de la foto.
+      // Escritorio: la foto cubre el marco. Móvil (marco alto y estrecho): los dos dispositivos a lo ancho y el
+      // blanco del mármol arriba y abajo.
       const narrow = cw < 768;
-      const k = narrow ? (cw / STAGE.w) * 1.6 : Math.max(cw / STAGE.w, ch / STAGE.h);
+      const k = narrow ? (cw / STAGE.w) * 1.55 : Math.max(cw / STAGE.w, ch / STAGE.h);
       const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
       setT({
         k,
@@ -63,25 +77,29 @@ export default function LandingMac() {
   return (
     <div ref={box}>
       <WindowReveal>
-        <div ref={frame} className="relative h-full w-full overflow-hidden bg-[#b5b4ba]">
+        <div ref={frame} className="relative h-full w-full overflow-hidden bg-[#f4f4f3]">
           <div
-            className="absolute left-0 top-0 origin-top-left [mask-image:linear-gradient(transparent,#000_12%,#000_88%,transparent)] md:[mask-image:none]"
+            className="absolute left-0 top-0 origin-top-left [mask-image:linear-gradient(transparent,#000_10%,#000_90%,transparent)] md:[mask-image:none]"
             style={{ width: STAGE.w, height: STAGE.h, transform: `translate(${t.x}px, ${t.y}px) scale(${t.k})` }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/maqueta/swift/landing/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" />
-            <div className="absolute left-0 top-0 origin-top-left overflow-hidden bg-white" style={{ width: SCREEN.w, height: SCREEN.h, transform: MATRIX }}>
-              <video
-                ref={vid}
-                src="/maqueta/swift/landing/scroll.mp4"
-                poster="/maqueta/swift/landing/scroll-poster.jpg"
-                muted
-                loop
-                playsInline
-                preload="none"
-                className="h-full w-full object-cover object-top"
-              />
-            </div>
+            <img src="/maqueta/swift/landing/scene-marble.jpg" alt="" className="absolute inset-0 h-full w-full" />
+            {SCREENS.map((s, i) => (
+              <div key={s.src} className="absolute left-0 top-0 origin-top-left overflow-hidden bg-white" style={{ width: s.w, height: s.h, transform: s.m }}>
+                <video
+                  ref={(el) => {
+                    vids.current[i] = el;
+                  }}
+                  src={s.src}
+                  poster={s.poster}
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </WindowReveal>

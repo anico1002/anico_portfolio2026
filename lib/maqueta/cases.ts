@@ -653,8 +653,18 @@ export const CASES: CaseCopy[] = [
 
 /** Proyectos de la home de Product que aún no tienen caso (sin enlace). */
 export const PENDING = [
-  { name: "WineUp", type: "App", year: "" },
+  { name: "WineUp", type: "App", year: "2025" },
 ];
+
+/** Orden de Product (2026-10-16): por fecha, lo más actual arriba. Estos van primero, en este orden (encajan
+    con los huecos de la rejilla de la home); el resto de Product, después, por año descendente. */
+export const PRODUCT_FIRST = ["swift-project", "7news", "dovla", "interactius", "elreto-masterchef"];
+export function productInOrder(): CaseCopy[] {
+  const all = CASES.filter((c) => c.section === "product");
+  const first = PRODUCT_FIRST.map((s) => all.find((c) => c.slug === s)).filter((c): c is CaseCopy => !!c);
+  const rest = all.filter((c) => !PRODUCT_FIRST.includes(c.slug)).sort((a, b) => Number(b.year) - Number(a.year));
+  return [...first, ...rest];
+}
 
 export const caseBySlug = (slug: string) => CASES.find((c) => c.slug === slug);
 export const casesIn = (s: CaseSection) => CASES.filter((c) => c.section === s);

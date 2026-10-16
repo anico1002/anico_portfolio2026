@@ -2,7 +2,7 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 import { getScannedProject } from "@/lib/scan-project";
-import { caseBySlug, casesIn, type CaseCopy } from "./cases";
+import { caseBySlug, casesIn, productInOrder, type CaseCopy } from "./cases";
 import { GAME_BLOCKS } from "./games";
 
 /* Medios de un caso de la maqueta a partir de public/projects/<slug>/ (los de la web
@@ -150,7 +150,7 @@ export function moreCases(slug: string): { items: MoreItem[]; all: { label: stri
   const list: MoreItem[] = (
     games
       ? casesIn("games")
-      : [{ name: "Gloop", slug: "gloop", services: ["iOS nativo"] } as Pick<CaseCopy, "name" | "slug" | "services">, ...casesIn("product"), ...casesIn("brand")]
+      : [{ name: "Gloop", slug: "gloop", services: ["iOS nativo"] } as Pick<CaseCopy, "name" | "slug" | "services">, ...productInOrder(), ...casesIn("brand")]
   ).map((c) => ({ name: c.name, href: `/maqueta/${c.slug}`, thumb: thumbOf(c.slug), tag: c.services[0] ?? "" }));
   const i = list.findIndex((x) => x.href === `/maqueta/${slug}`);
   const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];
