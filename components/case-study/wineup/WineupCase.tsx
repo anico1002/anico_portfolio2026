@@ -197,7 +197,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="La app empieza preguntando quién eres. WineLover y WineExpert tienen cada uno su onboarding, y el experto se reconoce en toda la app por su cabecera violeta."
           clip="perfiles"
           label="Splash, elección de perfil y onboarding de WineLover"
-          photo={`${M}/bg-vinas.jpg`}
+          photo={`${M}/bg-copa.jpg`}
         />
         <Feature
           side="left"
