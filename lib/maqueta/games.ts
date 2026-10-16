@@ -177,22 +177,22 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     // Sin el logo naranja pegado (feedback 2026-10-17): solo la app real en la mano, sobre las tortitas.
     { bleed: true, items: ["/maqueta/elreto/media/flow.mp4"] },
     {
-      eyebrow: "Guía de marca",
-      title: "Una marca que convive con MasterChef.",
-      body: "Logos para la app y para la pantalla de televisión, colores y tipografías, listos para cualquier soporte.",
+      eyebrow: "Brand guidelines",
+      title: "A brand that lives alongside MasterChef.",
+      body: "Logos for the app and the TV screen, colors and typefaces, ready for any format.",
       items: [{ src: "01/ElReto_2.png", crop: { top: 336 } }, "01/ElReto_3.png", "01/ElReto_4.png", "01/ElReto_5.png"],
     },
     {
-      eyebrow: "Identidad",
-      title: "Gamificación con control.",
-      body: "Un sistema competitivo y aspiracional, pensado para producirse rápido en la app y en las redes.",
+      eyebrow: "Identity",
+      title: "Gamification, under control.",
+      body: "A competitive, aspirational system built to produce fast, in the app and on social.",
       items: [{ src: "02_Brand-Identity/ElReto_8.png", crop: { top: 400 } }],
     },
     {
-      eyebrow: "Atmósfera",
-      title: "Cocina de competición.",
+      eyebrow: "Atmosphere",
+      title: "Competition cooking.",
       bleed: true,
-      body: "Luz de videojuego premium y el sabor de cada reto: la marca se vive en cada pantalla.",
+      body: "Premium game lighting and the flavor of every challenge: the brand comes alive on every screen.",
       // Feedback de Alberto (2026-10-15): fuera los textos de «Piezas» y «La app»; sus láminas van aquí.
       items: [
         "02_Brand-Identity/ElReto_9.png",

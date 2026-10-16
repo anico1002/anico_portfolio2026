@@ -69,11 +69,11 @@ export const CASES: CaseCopy[] = [
     services: ["Brand identity", "Brand book", "App UX/UI", "Prototype"],
     accent: "#F28142",
     accent2: "#B8401A",
-    tagline: "Convertir a la audiencia de MasterChef en concursantes.",
-    question: "¿Cómo se juega a un programa de cocina desde el sofá?",
+    tagline: "Turning the MasterChef audience into contestants.",
+    question: "How do you play a cooking show from the couch?",
     overview: [
-      "El Reto es la extensión interactiva de MasterChef World: una app donde los espectadores dejan de mirar y empiezan a competir, con retos, rankings en tiempo real y contenido propio.",
-      "El proyecto abarca el producto completo, del logotipo y el brand book a la interfaz de la app, con un objetivo claro: gamificar la cocina profesional sin perder el rigor del programa.",
+      "El Reto is the interactive side of MasterChef World: an app where viewers stop watching and start competing, with challenges, live rankings and their own content.",
+      "I designed the whole product, from the logo and brand book to the app interface, with one clear goal: gamify professional cooking without losing the show’s rigor.",
     ],
     chapters: [
       {
@@ -93,12 +93,12 @@ export const CASES: CaseCopy[] = [
       },
     ],
     stats: [
-      ["+9K", "usuarios de la app"],
-      ["230K", "usuarios en total"],
-      ["5M", "seguidores de la marca"],
-      ["40K", "espectadores en el primer evento"],
+      ["+9K", "app users"],
+      ["230K", "total users"],
+      ["5M", "brand followers"],
+      ["40K", "viewers at the first event"],
     ],
-    outcomeTitle: "El concurso de cocina más grande del mundo, ahora también se juega en el móvil.",
+    outcomeTitle: "The world’s biggest cooking show, now playable on your phone.",
     outcome: "El Reto se lanzó con una identidad coherente y una app donde el contenido de los usuarios y el juego conviven de forma natural. Un estándar para gamificar formatos de televisión: la pantalla grande y el móvil, conectados.",
     // Sin botón al prototipo (2026-10-15, Alberto: no queda profesional).
   },
