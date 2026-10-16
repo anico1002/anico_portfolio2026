@@ -247,7 +247,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           body="Retos y trivias por temas, de la introducción a las denominaciones de origen, con su progreso. Lo que aprendes suma en tu perfil."
           clip="trivias"
           label="Trivias"
-          photo={`${M}/bg-botellas.jpg`}
+          photo={`${M}/bg-hojas.jpg`}
         />
 
         <CaseClosing className={section} title="Una app para descubrir el vino con los que más saben y con los tuyos." />
