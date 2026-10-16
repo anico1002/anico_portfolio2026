@@ -104,8 +104,18 @@ function Rotating({ words, run }: { words: string[]; run: boolean }) {
 
 /** `*palabras*` del titular → palabras clave (`.kw`; cómo se destacan lo decide el CSS, `?em=`).
     `[m]` → ventana con imágenes dentro de la frase. `{a|b|c}` → palabras que cambian. */
-const withEm = (t: string, slides: readonly string[], open: boolean) =>
-  t.split(/(\*[^*]+\*|\[m\]|\{[^}]+\})/).map((part, i) =>
+const withEm = (t: string, slides: readonly string[], open: boolean) => {
+  const parts = t.split(/(\*[^*]+\*|\[m\]|\{[^}]+\})/);
+  // La puntuación pegada detrás de una palabra clave («millions.») va con ella: se borra y se reescribe junta y no
+  // se queda un punto flotando solo mientras la palabra no está (2026-10-17).
+  parts.forEach((p, i) => {
+    const m = p.startsWith("*") ? parts[i + 1]?.match(/^[.,;:!?…]+/) : null;
+    if (m) {
+      parts[i] = p.slice(0, -1) + m[0] + "*";
+      parts[i + 1] = parts[i + 1].slice(m[0].length);
+    }
+  });
+  return parts.map((part, i) =>
     part.startsWith("{") ? (
       <Rotating key={i} words={part.slice(1, -1).split("|")} run={open} />
     ) : part === "[m]" ? (
@@ -118,6 +128,7 @@ const withEm = (t: string, slides: readonly string[], open: boolean) =>
       part
     )
   );
+};
 
 export default function HomeHero({
   title,
