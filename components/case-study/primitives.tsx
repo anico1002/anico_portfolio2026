@@ -456,8 +456,9 @@ export function FadeIn({
 }
 
 /** Antetítulo (los «Introduction», «The vision»… de Metalab), con el mismo estilo que los datos. */
+/** Titulillo. Separación al titular: 16 px, la misma en todas las páginas (2026-10-17; antes 24, y 40 en WineUp). */
 export function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <p className="mb-6 t-label t-tag text-[var(--case-muted)]">
+  return <p className="mb-4 t-label t-tag text-[var(--case-muted)]">
       {children}
     </p>;
 }

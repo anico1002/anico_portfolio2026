@@ -82,10 +82,10 @@ function Feature({
           <FadeIn>
             <Eyebrow>{eyebrow}</Eyebrow>
           </FadeIn>
-          <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
+          <Lines as="h2" className="t-statement text-balance" delay={STAGGER}>
             {title}
           </Lines>
-          <FadeIn delay={2 * STAGGER} className="mt-6">
+          <FadeIn delay={2 * STAGGER} className="mt-5">
             <p className="t-body text-[var(--case-muted)]">{body}</p>
           </FadeIn>
           {steps && (
