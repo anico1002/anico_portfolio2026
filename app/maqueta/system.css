@@ -245,6 +245,10 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   font-style: normal;
   white-space: nowrap;
 }
+/* Lo que sigue a la palabra clave espera a que acabe de «elegir tipografía» y entonces sube en ola corta. */
+.after-kw { display: inline-block; opacity: 0; transform: translateY(0.35em); transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+.after-kw.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .after-kw { opacity: 1; transform: none; transition: none; } }
 
 /* Titulillos (antetítulos y datos: «Introducción», «Rol», «01 / 2026»…): un solo estilo para todos,
    en Instrument Sans (la misma familia que el resto), mayúsculas espaciadas y peso medio. Se probaron
