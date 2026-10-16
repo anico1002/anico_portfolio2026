@@ -189,6 +189,25 @@ export const CASES: CaseCopy[] = [
     outcome: "",
   },
   {
+    // Caso a medida (app/maqueta/wineup). Miniatura: el recorrido del prototipo en un móvil en la mano sobre un bar
+    // de vinos desenfocado (scripts/mockups/hand3d_video.py).
+    slug: "wineup",
+    section: "product",
+    thumb: "/maqueta/wineup/media/thumb.mp4",
+    name: "WineUp",
+    line: "La comunidad de los amantes del vino",
+    year: "2025",
+    role: "UX/UI",
+    services: ["App", "UX/UI", "Prototipo"],
+    accent: "#CDE84F",
+    tagline: "La comunidad de los amantes del vino.",
+    question: "¿Cómo se reúne en una app a quien disfruta del vino y a quien sabe de vino?",
+    overview: ["UX/UI de una app social para amantes del vino, con dos perfiles: WineLover y WineExpert."],
+    chapters: [],
+    outcomeTitle: "Una app para descubrir el vino con los que más saben y con los tuyos.",
+    outcome: "",
+  },
+  {
     // Caso a medida (app/maqueta/dovla): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "dovla",
     section: "product",
@@ -652,13 +671,12 @@ export const CASES: CaseCopy[] = [
 ];
 
 /** Proyectos de la home de Product que aún no tienen caso (sin enlace). */
-export const PENDING = [
-  { name: "WineUp", type: "App", year: "2025" },
-];
+/** Proyectos de Product aún sin caso (van sin enlace). WineUp ya tiene el suyo desde el 2026-10-16. */
+export const PENDING: { name: string; type: string; year: string }[] = [];
 
 /** Orden de Product (2026-10-16): por fecha, lo más actual arriba. Estos van primero, en este orden (encajan
     con los huecos de la rejilla de la home); el resto de Product, después, por año descendente. */
-export const PRODUCT_FIRST = ["swift-project", "7news", "dovla", "interactius", "elreto-masterchef"];
+export const PRODUCT_FIRST = ["swift-project", "7news", "dovla", "interactius", "elreto-masterchef", "wineup"];
 export function productInOrder(): CaseCopy[] {
   const all = CASES.filter((c) => c.section === "product");
   const first = PRODUCT_FIRST.map((s) => all.find((c) => c.slug === s)).filter((c): c is CaseCopy => !!c);

@@ -10,7 +10,7 @@ import { getCaseMedia, getGameBlocks, moreCases } from "@/lib/maqueta/media";
 // Casos con página propia (ruta fija, que manda sobre esta): no se generan aquí para no duplicar rutas.
 // El Reto pasó a proyecto vertical el 2026-10-15 (su página a medida queda en app/maqueta/_elreto-a-medida,
 // carpeta privada que Next no publica).
-const BESPOKE = new Set(["swift-project", "interactius", "7news", "dovla"]);
+const BESPOKE = new Set(["swift-project", "interactius", "7news", "dovla", "wineup"]);
 
 export function generateStaticParams() {
   return CASES.filter((c) => !BESPOKE.has(c.slug)).map((c) => ({ slug: c.slug }));

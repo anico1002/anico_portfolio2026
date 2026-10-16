@@ -1,5 +1,5 @@
 app.displayDialogs = DialogModes.NO;
-var f = new File('/Users/anico/Vibe_Projects/anico_portfolio2026/mockups-src/iphone-duo/Foldable-iPhone-Duo-Smartphone-Stand-Free-PSD-Mockup.psd');
+var f = new File('/Users/anico/Vibe_Projects/anico_portfolio2026/mockups-src/hand-3d/hand.psd');
 var doc = app.open(f);
 var out = [];
 function walk(ls, d){ for (var i=0;i<ls.length;i++){ var l=ls[i]; var s=''; for(var k=0;k<d;k++) s+='  ';
