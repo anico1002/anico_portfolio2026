@@ -33,7 +33,26 @@ const section = `pt-36 md:pt-56 ${wrap}`;
 /** Cabecera de capítulo: titulillo numerado, titular y, si hay, una línea en diagonal. */
 /* Cabecera de capítulo con el feedback general de Gloop (2026-10-14): titulillo sin número, titular
    equilibrado y el párrafo cerca de él, alineado con su última línea (no colgado arriba ni pegado al borde). */
-function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {
+/** Teclas dibujadas dentro de un titular (feedback 2026-10-17): en vez de «⌥⌘T» escrito, tres teclas con borde. En em,
+    para que escalen con el cuerpo del texto. */
+function Keys({ keys }: { keys: string[] }) {
+  return (
+    <span className="inline-flex translate-y-[-0.08em] gap-[0.14em] align-middle" aria-label={keys.join(" ")}>
+      {keys.map((k) => (
+        <span
+          key={k}
+          aria-hidden
+          className="inline-grid h-[1.12em] min-w-[1.12em] place-items-center rounded-[0.2em] border border-current/25 bg-current/[0.06] px-[0.18em] text-[0.62em] leading-none"
+          style={{ boxShadow: "inset 0 -0.08em 0 color-mix(in srgb, currentColor 18%, transparent)" }}
+        >
+          {k}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function Head({ eyebrow, title, body }: { eyebrow: string; title: React.ReactNode; body?: string }) {
   return (
     <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
       <div className="col-span-12 md:col-span-6">
@@ -101,7 +120,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
 
       {/* El gesto */}
       <section className={section}>
-        <Head eyebrow="El gesto" title="Seleccionar, pulsar ⌥⌘T, listo." body="Funciona en cualquier app, aunque SwifT no esté en primer plano. El panel no le roba el foco a lo que estás haciendo." />
+        <Head eyebrow="El gesto" title={<>Seleccionar, pulsar <Keys keys={["⌥", "⌘", "T"]} />, listo.</>} body="Funciona en cualquier app, aunque SwifT no esté en primer plano. El panel no le roba el foco a lo que estás haciendo." />
         <FadeIn>
           <ShortcutDemo />
         </FadeIn>
