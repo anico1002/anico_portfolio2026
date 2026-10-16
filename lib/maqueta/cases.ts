@@ -52,7 +52,7 @@ export type CaseCopy = {
   feature?: string;
 };
 
-export const CASES: CaseCopy[] = [
+const ALL_CASES: CaseCopy[] = [
   /* ───────────── PRODUCT ───────────── */
   {
     slug: "elreto-masterchef",
@@ -672,6 +672,11 @@ export const CASES: CaseCopy[] = [
     outcome: "Lanzado en octubre de 2016 con buen rendimiento comercial, Asphalt Xtreme superó los 100 millones de descargas y llevó la franquicia a las carreras todoterreno.",
   },
 ];
+
+/** Proyectos ocultos (Alberto, 2026-10-17: «demasiado viejos, no vale la pena mostrarlos»). No se borran: se
+    quedan en ALL_CASES por si se rescatan; quitarlos de aquí los vuelve a enseñar en homes, carruseles y rutas. */
+const HIDDEN = new Set(["netflix-app", "nike-shop", "hawkers"]);
+export const CASES: CaseCopy[] = ALL_CASES.filter((c) => !HIDDEN.has(c.slug));
 
 /** Proyectos de la home de Product que aún no tienen caso (sin enlace). */
 /** Proyectos de Product aún sin caso (van sin enlace). WineUp ya tiene el suyo desde el 2026-10-16. */
