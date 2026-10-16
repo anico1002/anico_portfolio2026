@@ -98,17 +98,19 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
           className="absolute left-0 top-0 whitespace-nowrap"
           style={serif ? { fontFamily: "var(--font-case-serif)", fontStyle: "italic", fontSize: `${k}em` } : undefined}
         >
-          <span className="relative">
+          {/* Texto y copia invertida apilados en la misma celda (inline-grid): comparten línea base, así que la copia no
+              se desplaza respecto al texto (antes, en absoluto, subía con la serif). */}
+          <span className="relative inline-grid">
             {/* La selección (descarte B): crece de izquierda a derecha y el texto se invierte sobre ella. */}
             <span
               className="absolute -inset-x-[0.04em] inset-y-[0.04em] origin-left bg-current"
               style={{ transform: `scaleX(${sel ? 1 : 0})`, transition: sel ? `transform ${SELECT}ms cubic-bezier(0.65, 0, 0.35, 1)` : "none" }}
             />
-            <span className="relative">{text.slice(0, n)}</span>
+            <span className="relative [grid-area:1/1]">{text.slice(0, n)}</span>
             {/* Copia invertida, recortada con el mismo avance que la selección: el texto se invierte justo donde pasa. */}
             <span
               aria-hidden
-              className="absolute left-0 top-0"
+              className="relative [grid-area:1/1]"
               style={{
                 color: "var(--case-bg)",
                 clipPath: sel ? "inset(0 0 0 0)" : "inset(0 100% 0 0)",
