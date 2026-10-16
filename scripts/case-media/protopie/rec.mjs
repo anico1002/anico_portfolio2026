@@ -33,7 +33,15 @@ for (const step of script.split(';').filter(Boolean)) {
   const [act, t] = step.split('@'); const wait = +t * 1000 - (Date.now() - t0); if (wait > 0) await p.waitForTimeout(wait);
   const [k2, v = ''] = act.split(':'); const n = v.split(',').map(Number);
   if (k2 === 'tap') { const [x, y] = at(n[0], n[1]); await p.mouse.click(x, y); }
-  else if (k2 === 'drag') { const [x1, y1] = at(n[0], n[1]); const [x2, y2] = at(n[2], n[3]); await p.mouse.move(x1, y1); await p.mouse.down(); for (let i = 1; i <= 24; i++) { await p.mouse.move(x1 + (x2 - x1) * i / 24, y1 + (y2 - y1) * i / 24); await p.waitForTimeout(16); } await p.mouse.up(); }
+  else if (k2 === 'drag') {
+    // Arrastre como un dedo: arranca suave, acelera y frena al final (ease in-out), con un paso por fotograma.
+    // n[4] = duración en ms (por defecto 900). Más lento = scroll sin inercia brusca.
+    const [x1, y1] = at(n[0], n[1]); const [x2, y2] = at(n[2], n[3]); const ms = n[4] || 900; const steps = Math.round(ms / 16);
+    const e = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    await p.mouse.move(x1, y1); await p.mouse.down();
+    for (let i = 1; i <= steps; i++) { const t = e(i / steps); await p.mouse.move(x1 + (x2 - x1) * t, y1 + (y2 - y1) * t); await p.waitForTimeout(16); }
+    await p.waitForTimeout(60); await p.mouse.up();
+  }
   else if (k2 === 'end') end = +t;
 }
 const rest = end * 1000 - (Date.now() - t0); if (rest > 0) await p.waitForTimeout(rest);
@@ -47,6 +55,8 @@ const c = `crop=${Math.round(R.w)}:${Math.round(R.h)}:${Math.round(R.x)}:${Math.
 execFileSync(FF, ['-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', path.join(dir, 'list.txt'), '-vf', c, '-vcodec', 'libx264', '-crf', '20', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', '-y', out]);
 console.log('ok', out, frames.length, 'fotogramas', R);
 process.exit(0);
+// ANTES DE GRABAR, en View options (rueda): desmarcar «Hotspot Hints» (si no, cada toque enseña las zonas activas en
+// azul) y cursor en flecha. Los gestos van lentos y con curva para que se note la fluidez de la app.
 // Abrir el Chrome sin molestar (fuera de la pantalla y sin que deje de pintar por no verse):
 // "…/Google Chrome for Testing" --remote-debugging-port=9333 --user-data-dir=<tmp> --window-position=-2400,0
 //   --window-size=1400,1100 --disable-backgrounding-occluded-windows --disable-renderer-backgrounding
