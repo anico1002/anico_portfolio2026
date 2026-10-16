@@ -157,7 +157,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <Head
           eyebrow="DeckMak_r"
           title="Una propuesta comercial, lista en minutos."
-          body="Preparar presentaciones comerciales se llevaba un tiempo valioso del equipo. Diseñé una herramienta que lo automatiza con IA: el equipo escribe la idea y recibe una propuesta con la marca impecable."
+          body="Preparar presentaciones comerciales se llevaba un tiempo valioso del equipo. Diseñé una herramienta que lo automatiza con IA: el equipo escribe la idea y recibe una propuesta con la voz y el tono corporativos de la marca."
         />
       </section>
       <div className="mt-4 md:px-6">
