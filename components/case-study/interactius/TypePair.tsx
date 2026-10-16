@@ -41,7 +41,7 @@ export default function TypePair() {
       {FACES.map((f, k) => (
         <FadeIn key={f.name} delay={k * STAGGER} className="col-span-12 md:col-span-6">
           <div className="flex h-full flex-col justify-between p-6 md:min-h-[34rem] md:p-10" style={{ background: k ? IX.grey : IX.light, color: IX.dark }}>
-            <div className="flex items-baseline justify-between text-[11px] uppercase tracking-[0.08em]" style={{ ...mono, color: IX.ash }}>
+            <div className="t-label t-tag flex items-baseline justify-between" style={{ color: IX.ash }}>
               <span>{f.role}</span>
               <span>{f.name}</span>
             </div>
@@ -52,12 +52,12 @@ export default function TypePair() {
               {f.weights.map(([w, n]) => (
                 <p key={w} className="border-t py-3 text-[1.35rem] leading-tight md:text-[1.7rem]" style={{ ...f.style, fontWeight: n, borderColor: "rgba(10,10,10,0.12)" }}>
                   {f.sample}
-                  <span className="ml-3 align-middle text-[11px] uppercase tracking-[0.08em]" style={{ ...mono, fontWeight: 400, color: IX.ash }}>
+                  <span className="t-label t-tag ml-3 align-middle font-[family-name:var(--font-case-sans)]" style={{ fontWeight: 400, color: IX.ash }}>
                     {w} {n}
                   </span>
                 </p>
               ))}
-              <p className="mt-6 max-w-[34ch] text-[14px] leading-relaxed" style={{ ...mono, color: IX.ashDark }}>
+              <p className="mt-6 max-w-[34ch] t-small" style={{ color: IX.ashDark }}>
                 {f.why}
               </p>
             </div>

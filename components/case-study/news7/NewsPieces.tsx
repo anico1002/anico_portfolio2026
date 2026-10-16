@@ -11,7 +11,6 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
    cuándo has terminado. Tipografía del sistema (New York para los titulares, como la app). */
 
 const INK = "#0A0A0B";
-const SERIF = { fontFamily: 'ui-serif, "New York", "Iowan Old Style", Georgia, serif' } as const;
 
 function useInView<T extends Element>(margin = "-15% 0px") {
   const ref = useRef<T>(null);
@@ -333,7 +332,7 @@ export function VersusTable() {
         <FadeIn key={k} delay={i * 0.06} className="grid grid-cols-12 gap-x-4 border-t border-[var(--case-line)] py-5 md:gap-x-6">
           <span className="col-span-12 t-small text-[var(--case-muted)] md:col-span-4">{k}</span>
           <span className="col-span-6 mt-2 t-body text-[var(--case-muted)] line-through decoration-1 md:col-span-4 md:mt-0">{a}</span>
-          <span className="col-span-6 mt-2 t-body md:col-span-4 md:mt-0" style={SERIF}>
+          <span className="col-span-6 mt-2 t-body md:col-span-4 md:mt-0">
             {b}
           </span>
         </FadeIn>

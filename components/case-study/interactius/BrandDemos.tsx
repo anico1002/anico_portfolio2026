@@ -69,12 +69,12 @@ export function TokenSync() {
       {/* Las salidas */}
       <div className="col-span-12 grid grid-cols-2 gap-3 md:col-span-7 md:gap-4" style={mono}>
         <div className="flex flex-col justify-between p-5" style={{ background: IX.light, color: IX.dark }}>
-          <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>Manual · color</p>
+          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>Manual · color</p>
           <motion.div key={s.key + "sw"} {...flash} className="mt-4 h-20 w-full" style={{ background: s.color }} />
           <p className="mt-3 text-[13px]">{s.name}</p>
         </div>
         <div className="flex flex-col p-5 text-[12px] leading-[1.8]" style={{ background: IX.dark, color: "rgba(255,255,255,0.7)" }}>
-          <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>/api/brand.json</p>
+          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>/api/brand.json</p>
           <p className="mt-4">{"{"}</p>
           <p className="pl-4">&quot;service&quot;: &quot;{s.key}&quot;,</p>
           <motion.p key={s.key + "js"} {...flash} className="pl-4">
@@ -83,13 +83,13 @@ export function TokenSync() {
           <p>{"}"}</p>
         </div>
         <div className="p-5" style={{ background: IX.white, color: IX.dark }}>
-          <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>Deck · Gantt</p>
+          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>Deck · Gantt</p>
           <div className="mt-6 h-3 w-full" style={{ background: "rgba(10,10,10,0.06)" }}>
             <motion.div className="h-full" animate={{ background: s.color, width: ["20%", "68%"] }} transition={{ duration: 0.9, ease: IX_EXPO }} key={s.key + "g"} />
           </div>
         </div>
         <div className="p-5" style={{ background: IX.mid, color: IX.dark }}>
-          <p className="text-[11px] uppercase tracking-[0.08em]" style={{ color: IX.ash }}>Deck · portada</p>
+          <p className="t-label t-tag font-[family-name:var(--font-case-sans)]" style={{ color: IX.ash }}>Deck · portada</p>
           <motion.p key={s.key + "ey"} {...flash} className="mt-5 text-[11px] font-medium uppercase tracking-[0.08em]" style={{ color: s.color === IX.opal ? IX.ashDark : s.color }}>
             {s.name}
           </motion.p>
