@@ -53,7 +53,8 @@ export default function SiteFooter({ cta = true, show, flush = false }: { cta?: 
         className={`flex flex-col gap-4 border-t border-[var(--case-line)] pt-5 md:flex-row md:items-baseline md:justify-between`}
       >
         <p className="t-small text-[var(--case-muted)]">© {new Date().getFullYear()} anico. All rights reserved</p>
-        <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small md:gap-x-8">
+        {/* Enlaces del pie en gris y en el color del texto al pasar (como el menú; 2026-10-17). */}
+        <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small text-[var(--case-muted)] md:gap-x-8 [&_a:hover]:text-[var(--case-fg)] [&_button:hover]:text-[var(--case-fg)] [&_a]:transition-colors [&_button]:transition-colors">
           <a href={`mailto:${EMAIL}`}>
             <RollText text={EMAIL} />
           </a>

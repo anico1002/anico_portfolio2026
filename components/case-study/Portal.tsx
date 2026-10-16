@@ -146,7 +146,7 @@ export default function PortalLayer() {
   return (
     <div aria-hidden className="fixed inset-0 z-[90]">
       <motion.div
-        className="absolute inset-0 flex items-center justify-center bg-[var(--case-fg)]"
+        className="absolute inset-0 flex items-center justify-center bg-black"
         initial={{ clipPath: s.instant ? SHUT : below }}
         animate={{ clipPath: shut ? SHUT : above }}
         transition={shut ? { duration: DUR.base, ease: EASE.screen } : { duration: DUR.base, ease: EASE.inOut }}
@@ -162,9 +162,10 @@ export default function PortalLayer() {
       >
         {/* Logo fijo en el centro: la máscara lo descubre y lo vuelve a tapar al pasar. Va en
             el color del fondo (el panel es del color del texto) y al mismo tamaño que en la cabecera. */}
-        {/* Carga: el logo hace el rodillo del menú, en bucle mientras carga la página nueva.
-            En el color del fondo (el panel es del texto). */}
-        <LogoLetters cycle={cycle} className="h-[1.125rem] w-auto text-[var(--case-bg)] md:h-[1.375rem]" />
+        {/* Carga: el logo hace el rodillo del menú, en bucle mientras carga la página nueva. La cortinilla es
+            siempre negra con el logo blanco (2026-10-17): con el color por página, la del color del texto se
+            daba la vuelta a mitad de camino al cambiar de tema debajo (p. ej. al entrar en Games). */}
+        <LogoLetters cycle={cycle} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
       </motion.div>
     </div>
   );

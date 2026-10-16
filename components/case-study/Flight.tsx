@@ -52,18 +52,24 @@ export async function endFlight(poster?: HTMLVideoElement | null) {
   if (!flight || !overlay || ending) return;
   ending = true;
   const v = overlay.querySelector("video");
-  if (poster && v) {
+  // El fotograma que se VE en la capa: el congelado en el canvas al aterrizar (el vídeo de debajo siguió corriendo;
+  // usar su tiempo hacía saltar la imagen al fundir, 2026-10-17) o, si no hay canvas, el del vídeo.
+  const frozen = overlay.querySelector("canvas") as HTMLCanvasElement | null;
+  const t = frozen?.dataset.t != null ? Number(frozen.dataset.t) : v?.currentTime;
+  if (poster && t != null) {
     try {
+      poster.pause();
       if (poster.readyState < 1) await once(poster, "loadedmetadata");
       const seeked = once(poster, "seeked");
-      poster.currentTime = Math.min(v.currentTime + 0.05, (poster.duration || 1e9) - 0.05);
+      poster.currentTime = Math.min(t, (poster.duration || 1e9) - 0.05);
       await seeked;
-      if (poster.readyState < 3) await once(poster, "canplay");
-      await poster.play().catch(() => {});
+      if (poster.readyState < 2) await once(poster, "loadeddata");
     } catch {}
   }
   await twoFrames();
+  // Las dos imágenes, quietas en el mismo fotograma, mientras se funde la capa; después arranca la portada.
   await animate(overlay, { opacity: 0 }, { duration: DUR.fast, ease: EASE.inOut });
+  poster?.play().catch(() => {});
   flight = null;
   ending = false;
   scrollLock.start();
@@ -85,6 +91,8 @@ function freeze(wrap: HTMLDivElement) {
   c.width = Math.round(W * dpr);
   c.height = Math.round(H * dpr);
   c.style.cssText = "position:absolute;inset:0;width:100%;height:100%";
+  c.dataset.t = String(v.currentTime);
+  v.pause();
   const k = Math.max(W / v.videoWidth, H / v.videoHeight);
   const sw = W / k;
   const sh = H / k;

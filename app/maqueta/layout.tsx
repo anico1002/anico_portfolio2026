@@ -58,7 +58,7 @@ const themes = `
   }
   body:has(#case-root) { background: #000000; }
   body:has(#case-root[data-case-theme="light"]) { background: #FFFFFF; }
-  #case-root main { transition: background-color var(--dur-base) var(--ease-in-out), color var(--dur-base) var(--ease-in-out); }
+  /* Sin fundido de fondo: el cambio de color entre páginas queda tapado por la cortinilla o el vuelo. */
 `;
 
 // Antes de pintar: el color de la página (lib/maqueta/theme.ts), sin parpadeo. Ya no hay selector sol/luna.
