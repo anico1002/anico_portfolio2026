@@ -1,5 +1,6 @@
 "use client";
 
+import SectionHead from "@/components/case-study/SectionHead";
 import CaseEnd, { CaseLayer } from "@/components/case-study/CaseEnd";
 import type { MoreCases } from "@/lib/maqueta/media";
 import SiteNav from "@/components/case-study/SiteNav";
@@ -27,25 +28,7 @@ const section = `pt-36 md:pt-56 ${wrap}`;
 
 /* Cabecera de capítulo con el feedback general de Gloop (2026-10-14): titulillo sin número, titular
    equilibrado y el párrafo cerca de él, alineado con su última línea (no colgado arriba ni pegado al borde). */
-function Head({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {
-  return (
-    <div className={`${grid} mb-14 items-end gap-y-8 md:mb-20 md:[align-items:last_baseline]`}>
-      <div className="col-span-12 md:col-span-6">
-        <FadeIn>
-          <p className="t-label t-tag text-[var(--case-muted)]">{eyebrow}</p>
-        </FadeIn>
-        <Lines as="h2" className="mt-4 t-statement text-balance" delay={STAGGER}>
-          {title}
-        </Lines>
-      </div>
-      {body && (
-        <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8">
-          <p className="t-body text-[var(--case-muted)]">{body}</p>
-        </FadeIn>
-      )}
-    </div>
-  );
-}
+const Head = SectionHead;
 
 
 export default function InteractiusCase({ next: n }: { next: MoreCases }) {
