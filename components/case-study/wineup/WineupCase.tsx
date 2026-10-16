@@ -260,7 +260,11 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
           photo={`${M}/bg-hojas.jpg`}
         />
 
-        <CaseClosing className={section} title="Una app para descubrir el vino con los que más saben y con los tuyos." />
+        <CaseClosing
+          className={section}
+          title="Una app para descubrir el vino con los que más saben y con los tuyos."
+          cta={{ label: "Ver el prototipo", href: "https://cloud.protopie.io/p/60728aeeed322a3cf2520398" }}
+        />
       </CaseLayer>
       <CaseEnd items={n.items} all={n.all} />
     </main>
