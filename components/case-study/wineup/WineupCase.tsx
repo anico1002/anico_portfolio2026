@@ -40,6 +40,9 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
   );
 }
 
+/** Fondo de color con un degradado suave hacia un tono algo más oscuro del mismo color, para que no quede plano. */
+const shade = (c: string) => `linear-gradient(160deg, ${c} 0%, color-mix(in srgb, ${c} 72%, #000) 100%)`;
+
 /** Apartado en dos mitades que se alternan (feedback 2026-10-17): a un lado, un solo móvil con el clip de lo que se
     cuenta, sobre un fondo a sangre hasta el borde (color de la app o foto); al otro, titulillo, titular y párrafo
     juntos a la izquierda, metidos una columna hacia dentro para que no vayan pegados al borde. En móvil, el texto
@@ -106,7 +109,7 @@ function Feature({
               máscara, sobresale arriba y abajo y va más rápido. */}
           <div className="relative flex aspect-[4/5] items-center justify-center md:aspect-auto md:h-[min(92vh,60rem)]">
             <MaskReveal from={right ? "right" : "left"} speed={50} className="absolute inset-x-0 top-[12%]">
-              <div className="relative aspect-[100/95] w-full md:aspect-auto md:h-[min(70vh,45.6rem)]" style={{ background: bg ?? W.cellar }}>
+              <div className="relative aspect-[100/95] w-full md:aspect-auto md:h-[min(70vh,45.6rem)]" style={{ background: shade(bg ?? W.cellar) }}>
                 {photo && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
