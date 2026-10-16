@@ -44,13 +44,13 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
 const shade = (c: string) =>
   c.startsWith("linear-gradient")
     ? c
-    : `linear-gradient(165deg, ${c} 0%, color-mix(in srgb, ${c} 75%, #000) 45%, color-mix(in srgb, ${c} 30%, #000) 100%)`;
+    : `linear-gradient(165deg, ${c} 0%, color-mix(in srgb, ${c} 55%, #000) 50%, color-mix(in srgb, ${c} 8%, #000) 100%)`;
 /** Velo negro sobre las fotos (2026-10-17): toda la foto un punto más oscura, más en los bordes y en la base, para
     que no se lea como una foto cuadrada pegada y lo que destaque sea el móvil. */
 const VEIL =
   "radial-gradient(ellipse 70% 65% at 50% 40%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.75) 100%), linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0) 60%)";
-/** El degradado de la cabecera del experto en la app (medido del prototipo): de #861AD6 arriba a #571697. */
-const EXPERT = "linear-gradient(180deg, #861AD6 0%, #571697 100%)";
+/** El degradado de la cabecera del experto en la app (medido del prototipo: de #861AD6 a #571697), llevado casi a negro. */
+const EXPERT = "linear-gradient(180deg, #861AD6 0%, #571697 45%, #0C0316 100%)";
 
 /** Apartado en dos mitades que se alternan (feedback 2026-10-17): a un lado, un solo móvil con el clip de lo que se
     cuenta, sobre un fondo a sangre hasta el borde (color de la app o foto); al otro, titulillo, titular y párrafo
