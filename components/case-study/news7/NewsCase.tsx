@@ -54,7 +54,7 @@ export default function NewsCase({ next: n }: { next: MoreCases }) {
             facts={[
               ["Para", "Proyecto propio"],
               ["Rol", "Lead Product Designer"],
-              ["Qué hice", "App iOS · Apple Watch · Logo"],
+              ["Qué hice", "iOS app · Apple Watch · Logo"],
               ["Año", "2026"],
             ]}
           />
@@ -72,16 +72,16 @@ export default function NewsCase({ next: n }: { next: MoreCases }) {
           <div className="col-span-12 md:col-span-5 md:flex md:justify-center">
             <div className="md:max-w-[26rem]">
               <FadeIn>
-                <Eyebrow>Introducción</Eyebrow>
+                <Eyebrow>Introduction</Eyebrow>
               </FadeIn>
               <Lines className="t-intro" delay={STAGGER}>
-                El día se acaba.
+                The day has an end.
               </Lines>
               <FadeIn delay={2 * STAGGER} className="mt-8">
                 <p className="t-body text-[var(--case-muted)]">
-                  Un lector de noticias para iPhone y Apple Watch, hecho para mí. Los lectores de feeds son infinitos: nunca
-                  sabes si lees algo de hoy o de hace tres meses, y acabas por no abrirlos. 7news decide cuándo has
-                  terminado. Sin IA y sin servidor: todo pasa en el teléfono.
+                A news reader for iPhone and Apple Watch, made for me. Feed readers never end: you can’t tell today’s
+                story from one three months old, so you stop opening them. 7news tells you when you’re done. No AI, no
+                server: everything happens on the phone.
                 </p>
               </FadeIn>
             </div>
@@ -91,7 +91,7 @@ export default function NewsCase({ next: n }: { next: MoreCases }) {
               <LazyVideo
                 src="/maqueta/7news/media/recorrido.mp4"
                 poster="/maqueta/7news/media/recorrido-poster.jpg"
-                aria-label="Recorrido por 7news: leer una noticia, elegir qué sale en portada, crear el tema Videojuegos y guardar para después"
+                aria-label="A tour of 7news: reading a story, choosing what makes the front page, creating a Video games topic and saving for later"
                 className="aspect-[4/5] w-full object-cover md:aspect-auto md:h-[84vh]"
               />
             </MaskReveal>
@@ -105,19 +105,19 @@ export default function NewsCase({ next: n }: { next: MoreCases }) {
 
       {/* Más cerca del final de «El día se acaba» (feedback 2026-10-14: quedaba demasiado separado). */}
       <section className={`pt-12 md:pt-16 ${wrap}`}>
-        <Head eyebrow="La diferencia" title="Lo que cambia frente a otro reader." />
+        <Head eyebrow="The difference" title="What changes compared with any other reader." />
         <VersusTable />
       </section>
 
       <section className={section}>
-        <Head eyebrow="Avisos" title="Del iPhone a la muñeca." body="Tres titulares al día como notificación local, reflejados en el Apple Watch. Sin servidor y sin coste." />
+        <Head eyebrow="Notifications" title="From iPhone to wrist." body="Three headlines a day, mirrored on the Apple Watch. No server, no cost." />
       </section>
       {/* El aviso: notificación real del simulador en el iPhone y el Watch flotando a su derecha
           (notice_anim.py → mockup_video.py → float_watch.py). Desde el 2026-10-14 se queda fija un rato y las
           cifras entran sobre la piedra (WatchStage). */}
       <WatchStage />
 
-      <CaseClosing className={section} title="Un lector que se termina. Y por eso apetece volver a abrirlo." />
+      <CaseClosing className={section} title="A reader that ends. That’s exactly why you’ll want to open it again." />
 
       </CaseLayer>
 

@@ -26,10 +26,10 @@ function useInView<T extends Element>(margin = "-15% 0px") {
 }
 
 const RULES = [
-  { at: 0.12, label: "Solo las últimas 48 horas" },
-  { at: 0.22, label: "Como mucho 3 por fuente" },
-  { at: 0.32, label: "La misma noticia en varios medios, una vez" },
-  { at: 0.42, label: "Fuera las palabras silenciadas" },
+  { at: 0.12, label: "Only the last 48 hours" },
+  { at: 0.22, label: "No more than 3 per source" },
+  { at: 0.32, label: "The same story from many outlets, once" },
+  { at: 0.42, label: "Muted words, gone" },
 ];
 
 /* Noticias reales del día (Tech, IA, Design y Apple), recortadas tal cual de las listas de la app en el
@@ -136,9 +136,9 @@ export function DayEnds() {
 
   const counter = (
     <>
-      <p className="t-label t-tag text-[var(--case-muted)]">El día se acaba</p>
+      <p className="t-label t-tag text-[var(--case-muted)]">The day has an end</p>
       <p className="mt-4 t-d3 tabular-nums">{n}</p>
-      <p className="mt-2 t-small text-[var(--case-muted)]">noticias hoy</p>
+      <p className="mt-2 t-small text-[var(--case-muted)]">stories today</p>
       <ol className="mt-10 space-y-3">
         {RULES.map((r, k) => (
           <li key={r.label} className="flex items-center gap-3 t-small transition-opacity duration-500" style={{ opacity: !pinned || done > k ? 1 : 0.3 }}>
@@ -151,11 +151,11 @@ export function DayEnds() {
   );
   const create = (
     <>
-      <p className="t-label t-tag text-[var(--case-muted)]">Crear un tema</p>
-      <p className="mt-4 t-statement text-balance">Se escribe un tema y las fuentes se buscan solas.</p>
+      <p className="t-label t-tag text-[var(--case-muted)]">Create a topic</p>
+      <p className="mt-4 t-statement text-balance">Type a topic and the sources find themselves.</p>
       <p className="mt-6 t-body text-[var(--case-muted)]">
-        Un índice de feeds y un buscador web traen candidatos; cuatro filtros —relevancia, idioma, actividad real y que
-        se pueda leer dentro— dejan solo los buenos.
+        7news gathers candidates and four filters keep only the good ones: relevance, language, real activity and
+        stories you can read without leaving the app.
       </p>
     </>
   );
@@ -174,7 +174,7 @@ export function DayEnds() {
         <AllRead />
         <div>{create}</div>
         <FlatPhone className="mx-auto max-w-[300px]">
-          <video src="/maqueta/7news/media/buscar-tema.mp4" muted playsInline autoPlay loop className="absolute inset-0 h-full w-full object-cover" aria-label="Crear el tema Videojuegos" />
+          <video src="/maqueta/7news/media/buscar-tema.mp4" muted playsInline autoPlay loop className="absolute inset-0 h-full w-full object-cover" aria-label="Creating the Video games topic" />
         </FlatPhone>
       </div>
     );
@@ -212,7 +212,7 @@ export function DayEnds() {
                 preload="auto"
                 className="absolute inset-0 h-full w-full object-cover"
                 style={{ opacity: searchIn }}
-                aria-label="Crear el tema Videojuegos: se escribe, se buscan las fuentes y salen sus noticias"
+                aria-label="Creating the Video games topic: type it, sources are found and their stories appear"
               />
             </FlatPhone>
           </motion.div>
@@ -311,12 +311,12 @@ export function TopicBuilder() {
 }
 
 const VS = [
-  ["Final de la sesión", "Scroll infinito", "«Ya estás al día»"],
-  ["Antigüedad", "De hoy o de hace tres meses, no se sabe", "Ventana de 48 horas"],
-  ["Quien publica mucho", "Entierra al resto", "Tope de 3 por fuente"],
-  ["La misma noticia en 6 medios", "Seis entradas", "Una, con «también en…»"],
-  ["Abrir una noticia", "Te saca a la web del medio", "Lector propio, misma tipografía siempre"],
-  ["Avisos", "Ninguno en el reloj", "Notificación reflejada en el Watch"],
+  ["End of the session", "Endless scroll", "“You’re all caught up”"],
+  ["Freshness", "Today or three months ago, who knows", "A 48-hour window"],
+  ["Prolific sources", "Bury everyone else", "Capped at 3 per source"],
+  ["One story, 6 outlets", "Six entries", "One, with “also in…”"],
+  ["Opening a story", "Sends you to the outlet’s site", "Its own reader, same type every time"],
+  ["Notifications", "Nothing on the watch", "Mirrored on the Watch"],
 ];
 
 /** Feedly frente a 7news: la tabla del README, fila a fila. */
@@ -326,7 +326,7 @@ export function VersusTable() {
       <div className="grid grid-cols-12 gap-x-4 py-3 t-label t-tag text-[var(--case-muted)] md:gap-x-6">
         {/* En móvil, la columna del concepto va encima de cada fila: las cabeceras se reparten las dos columnas. */}
         <span className="hidden md:col-span-4 md:block" />
-        <span className="col-span-6 md:col-span-4">Otro reader</span>
+        <span className="col-span-6 md:col-span-4">Any other reader</span>
         <span className="col-span-6 md:col-span-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/maqueta/7news/brand/7news-logo.svg" alt="7news" className="light-invert h-[1.1em] w-auto" />
@@ -418,9 +418,9 @@ export function WristNotice() {
 }
 
 const FACTS = [
-  ["48 horas", "La ventana del día. Lo anterior ya no es noticia."],
-  ["3 por fuente", "Quien publica mucho deja de enterrar al resto."],
-  ["0 €", "Sin servidor ni suscripciones: todo ocurre en el teléfono."],
+  ["48 hours", "The day’s window. Anything older isn’t news."],
+  ["3 per source", "Prolific sources stop burying the rest."],
+  ["€0", "No server, no subscriptions: it all happens on the phone."],
 ];
 
 /** Fila de cifra: entra en su tramo del scroll y se queda. */
@@ -451,7 +451,7 @@ export function WatchStage() {
       autoPlay
       loop
       className="absolute inset-0 h-full w-full object-cover"
-      aria-label="El aviso de 7news llega al iPhone y, al momento, al Apple Watch"
+      aria-label="The 7news notification reaches the iPhone and, instantly, the Apple Watch"
     />
   );
   return (
