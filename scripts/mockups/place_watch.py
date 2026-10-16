@@ -1,6 +1,7 @@
 """Apple Watch recortado de una plantilla en 3/4 (con su pantalla en perspectiva) sobre una escena de móvil.
 
 Uso: python3 scripts/mockups/place_watch.py <escena.mp4> <pantalla_reloj.mp4> <reloj.png> <reloj.json> <salida.mp4>
+       (7News: clips/reloj-escena.mp4 clips/aviso-reloj.mp4 mockups-src/watch-s10/watch-flip.{png,json} --contrast 0.5)
        [--c 1285,525] [--h 427] [--rot 0] [--poster salida.jpg:3.5]
 
 `reloj.png` es el reloj recortado con alfa y `reloj.json` trae {"size": [w, h], "screen": [[x, y] × 4]} con las
@@ -19,6 +20,8 @@ ap.add_argument("scene"); ap.add_argument("screen"); ap.add_argument("watch"); a
 ap.add_argument("--c", default="1285,525"); ap.add_argument("--h", type=float, default=427)  # 2026-10-14: un 30 % más pequeño
 ap.add_argument("--rot", type=float, default=0); ap.add_argument("--shadow", default="-30,30")
 ap.add_argument("--poster"); ap.add_argument("--crf", type=int, default=20)
+# Contraste del reloj (2026-10-17: se veía plano frente al fondo): sombras más hondas y luces más vivas. 0 = como antes.
+ap.add_argument("--contrast", type=float, default=0)
 a = ap.parse_args()
 
 wt = cv2.imread(a.watch, cv2.IMREAD_UNCHANGED).astype(np.float32) / 255
@@ -58,6 +61,12 @@ for i, (sc, scr) in enumerate(zip(frames(a.scene), frames(a.screen))):
         Ak = np.diag([K, K, 1]) @ A
         warp = lambda im, M: cv2.resize(cv2.warpPerspective(im, M, (W * K, H * K), flags=cv2.INTER_CUBIC), (W, H), interpolation=cv2.INTER_AREA)
         Wrgb = warp(wt[:, :, :3], Ak); Wa = np.clip(warp(wt[:, :, 3], Ak), 0, 1)[..., None]
+        if a.contrast:
+            c = a.contrast
+            blur = cv2.GaussianBlur(Wrgb, (0, 0), 6 * K)
+            Wrgb = np.clip(Wrgb + (Wrgb - blur) * 1.6 * c, 0, 1)  # claridad: contraste local, no se pierden detalles
+            Wrgb = np.clip(Wrgb, 0, 1) ** (1 + 0.35 * c)  # sombras algo más hondas
+            Wrgb = np.clip(Wrgb * (1 + 0.25 * c), 0, 1)  # y luces más vivas
         sh, sw = scr.shape[:2]
         Ms = Ak @ cv2.getPerspectiveTransform(np.float32([[0, 0], [sw, 0], [sw, sh], [0, sh]]), Q).astype(np.float64)
         Sm = np.clip(warp(rounded(sw, sh, int(sw * 0.16)), Ms), 0, 1)[..., None]
