@@ -516,7 +516,7 @@ const ALL_CASES: CaseCopy[] = [
       ["1.000M+", "descargas"],
       ["2023", "lanzamiento"],
     ],
-    outcomeTitle: "La identidad esports que lleva la franquicia hacia delante.",
+    outcomeTitle: "A billion downloads in, the legend shifts up a gear.",
     outcome: "La nueva interfaz se convirtió en la identidad visual definitiva de Asphalt Unite en consola y PC. La dirección de arte se aprobó por unanimidad en su primera presentación.",
     cta: { label: "Descargar", href: "https://apps.apple.com/gt/app/asphalt-legends-carreras/id805603214" },
   },
