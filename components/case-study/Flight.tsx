@@ -113,9 +113,16 @@ export default function FlightLayer() {
   useEffect(() => {
     overlay = ref.current;
     if (!f) return;
+    // Aterriza al acabar el vuelo, por reloj y no con el fin de la animación de la imagen: si la imagen ya llena el
+    // marco (miniaturas del pie, sin zoom ni parallax), esa animación no tiene recorrido, «acaba» al instante y la
+    // página cambiaba en cuanto se pulsaba (salto, 2026-10-17).
+    const land = setTimeout(() => {
+      if (ref.current) freeze(ref.current);
+      f.onLanded();
+    }, FLIGHT_S * 1000);
     // Seguridad: si la portada no avisara (error de carga), la capa no se queda puesta.
     const t = setTimeout(() => endFlight(), (FLIGHT_S + 4) * 1000);
-    return () => clearTimeout(t);
+    return () => (clearTimeout(land), clearTimeout(t));
   }, [f]);
 
   if (!f) return null;
@@ -135,10 +142,6 @@ export default function FlightLayer() {
     initial: { left: pct(ox), top: pct(oy), width: pct(kw), height: pct(kh) },
     animate: { left: "0%", top: "0%", width: "100%", height: "100%" },
     transition: { duration: FLIGHT_S, ease: EASE.inOut },
-    onAnimationComplete: () => {
-      if (ref.current) freeze(ref.current);
-      f.onLanded();
-    },
   };
   return (
     <motion.div
