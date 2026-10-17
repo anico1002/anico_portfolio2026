@@ -669,7 +669,7 @@ const ALL_CASES: CaseCopy[] = [
       ["100M+", "descargas"],
       ["2016", "lanzamiento"],
     ],
-    outcomeTitle: "Asphalt abre una categoría nueva.",
+    outcomeTitle: "Asphalt leaves the asphalt behind.",
     outcome: "Lanzado en octubre de 2016 con buen rendimiento comercial, Asphalt Xtreme superó los 100 millones de descargas y llevó la franquicia a las carreras todoterreno.",
   },
 ];
