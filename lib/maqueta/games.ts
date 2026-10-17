@@ -129,8 +129,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       items: ["01_Game-UI/A9_2.png", "01_Game-UI/A9_3.png", "01_Game-UI/A9_4.png", "01_Game-UI/A9_5.png"],
     },
     {
-      eyebrow: "Exploraciones de marketing",
-      title: "La misma ambición fuera del juego.",
+      eyebrow: "Marketing explorations",
+      title: "The same ambition beyond the game.",
       bleed: true,
       items: [seq("02_Marketing-Exploration/A9_6", "abcdefg"), "02_Marketing-Exploration/A9_7.png"],
     },

@@ -601,10 +601,10 @@ const ALL_CASES: CaseCopy[] = [
     services: ["UX/UI", "HUD", "Marketing"],
     accent: "#FD0055",
     accent2: "#2A2AD8",
-    tagline: "Una interfaz a la altura del juego de carreras más ambicioso del móvil.",
+    tagline: "An interface worthy of the most ambitious racing game on mobile.",
     question: "¿Cómo se navega un juego con más de 300 coches sin perderse?",
     overview: [
-      "Asphalt 9: Legends es la novena entrega de la franquicia insignia de Gameloft y, en su lanzamiento, el juego de carreras para móvil más ambicioso hecho hasta entonces.",
+      "Asphalt 9: Legends is the ninth chapter of Gameloft’s flagship franchise and, at launch, the most ambitious mobile racing game ever made. In the UI/UX team, from pre-production to launch, I worked on the menus, the car showcases, the HUD and the social and multiplayer screens.",
       "Dentro del equipo de UI/UX, de la preproducción al lanzamiento: menús, exposición de vehículos, HUD y las superficies sociales y multijugador.",
     ],
     chapters: [
@@ -629,7 +629,7 @@ const ALL_CASES: CaseCopy[] = [
     ],
     outcomeTitle: "Some legends set the pace. This one set the course.",
     outcome: "Lanzado en julio de 2018, con éxito de crítica y ventas: el juego de carreras más taquillero en iOS y Android. Su dirección visual y su UI marcaron el camino de toda la saga.",
-    cta: { label: "Descargar", href: "https://apps.apple.com/gt/story/id1441913825" },
+    cta: { label: "Download", href: "https://apps.apple.com/gt/story/id1441913825" },
   },
   {
     slug: "asphalt-xtreme",
