@@ -642,10 +642,10 @@ const ALL_CASES: CaseCopy[] = [
     services: ["Logo", "UX/UI", "HUD", "Marketing"],
     accent: "#E0542A",
     accent2: "#8A4A22",
-    tagline: "Más crudo y más salvaje, sin dejar de ser Asphalt.",
+    tagline: "Rougher, wilder and still unmistakably Asphalt.",
     question: "¿Cómo se anuncia un juego distinto dentro de una saga tan reconocible?",
     overview: [
-      "Asphalt Xtreme es la entrega todoterreno de la franquicia: un cambio respecto a las carreras urbanas que definieron Asphalt 8 y 9.",
+      "Asphalt Xtreme takes the franchise off-road, a break from the street racing that defined Asphalt 8. I covered the whole interface, from the logo and type system to the menus, the HUD and the launch marketing.",
       "El trabajo cubrió toda la interfaz, del logotipo y el sistema tipográfico a los menús, el HUD y las piezas de marketing del lanzamiento de octubre de 2016.",
     ],
     chapters: [
