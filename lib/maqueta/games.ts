@@ -135,8 +135,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       items: [seq("02_Marketing-Exploration/A9_6", "abcdefg"), "02_Marketing-Exploration/A9_7.png"],
     },
     {
-      eyebrow: "Exploraciones gráficas",
-      title: "Probar el lenguaje hasta encontrarlo.",
+      eyebrow: "Graphic explorations",
+      title: "Many drafts, one direction.",
       items: ["03_Graphic-Explorations/A9_8.png", "03_Graphic-Explorations/A9_9.png", "03_Graphic-Explorations/A9_10.png"],
     },
   ],
