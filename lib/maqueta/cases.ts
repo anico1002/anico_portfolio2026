@@ -566,7 +566,7 @@ const ALL_CASES: CaseCopy[] = [
     services: ["Art direction", "UX/UI", "Marketing"],
     accent: "#0551E8",
     accent2: "#6A2BD9",
-    tagline: "El universo Disney, llevado a un terreno más cinematográfico.",
+    tagline: "Disney’s heroes on the starting grid, from mobile to console.",
     question: "¿Cómo sería un juego de karts Disney pensado también para adultos?",
     overview: [
       "Una propuesta de dirección de arte y UI/UX para un juego de karts de Disney, desarrollada en Gameloft Barcelona.",
