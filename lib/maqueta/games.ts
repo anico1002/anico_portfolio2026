@@ -88,9 +88,9 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   "disney-karting": [
     { bleed: true, items: ["01_Game-UI/dk_01.png"] },
     {
-      eyebrow: "UI del juego",
-      title: "La calidez de Disney con estándares casi AAA.",
-      body: "Paletas vivas, tipografía expresiva e iconografía protagonizada por los personajes.",
+      eyebrow: "Game UI",
+      title: "Disney charm, near-AAA polish.",
+      body: "Bright palettes, expressive type and icons starring the characters themselves.",
       items: ["01_Game-UI/dk_02.png", "01_Game-UI/dk_03.png", "01_Game-UI/dk_04.png"],
     },
     {
