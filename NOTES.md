@@ -2,7 +2,20 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (2026-10-17 tarde, MacBook) — repaso de copy de Games
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-17 noche, MacBook)
+
+**Desplegado en https://anico-maqueta.vercel.app** con todo lo de hoy. **Siguiente sesión, por orden:**
+0. **Alberto prueba la demo en el móvil (Safari) con wifi justo y 4G** y trae lo que vea: sobre todo abrir casos de
+   Product desde la home y desde el carrusel del pie (antes se congelaba y no llegaba a pantalla completa).
+1. **Dovla** (necesita que Alberto abra antes la app para sus capturas): revisión, inglés y miniatura en Product.
+2. **Auditoría final** (⛔ de abajo): falta repaso de copy del resto de la web (homes de sección, About, pies), Gloop
+   en Safari/móvil, consistencia tipográfica, privacidad/cookies. Rendimiento de imágenes y vuelo: hechos.
+
+**Hecho hoy:** copy en inglés de los cinco juegos (Disney Karting se llama ya **Disney Speedstorm**, slug igual);
+vuelo desde el carrusel del pie sin salto; rayas de la ola del titular en Safari; imágenes AVIF con calidad medida
+(`npm run media:opt` al añadir imágenes o vídeos); vuelo con poca red arreglado y pósters para todos los vídeos.
+
+## (anterior) 2026-10-17 tarde, MacBook — repaso de copy de Games
 
 **Ahora:** repasar y traducir al inglés los copys de los juegos, uno a uno, con Alberto (opciones de copy → elige él).
 Criterio: publicitario, nada que no sea cierto (p. ej. Unite NO era para esports: solo la estética). Los textos que se
@@ -22,7 +35,7 @@ móvil; Let’s talk pegado a la raya, sin animación al salir y aviso de copiar
 la ficha de 7news y SwifT; Foundations sin cortar; juegos de Gloop en inglés (nombres traducidos por Claude: confirmar si
 la app tiene oficiales); velo en la esquina del nombre de las miniaturas de la home; intro de Product sin corte tras «idea».
 
-**Falta desplegar** anico-maqueta para que Alberto lo vea en el móvil.
+Desplegado en anico-maqueta (2026-10-17 noche).
 
 ## ▶ (anterior) cierre 2026-10-17, MacBook
 
