@@ -78,8 +78,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       items: ["02_Logo-& -Typeface-Design/CT_logo_1.png", "02_Logo-& -Typeface-Design/CT_logo_2.png"],
     },
     {
-      eyebrow: "Prototipos",
-      title: "El combate y la escalera competitiva, en movimiento.",
+      eyebrow: "Prototypes",
+      title: "Battles and rankings, in motion.",
       bleed: true,
       items: ["03_Crystal-Battle-Prototype/cybertitans_battle.mp4", "04_Ladder-Prototype/cybertitans_ladder.mp4"],
     },
