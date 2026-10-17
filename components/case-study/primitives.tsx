@@ -516,9 +516,12 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
     // La máscara lleva 0,22 veces el cuerpo de aire arriba y abajo (compensado con margen negativo:
     // no mueve nada). Con el interlineado de 0,88 las g, p, j y los acentos se salían de la caja y
     // se cortaban (2026-10-13). El titular arranca un 140 % más abajo para no asomar en ese aire.
+    // El recorte va también en clip-path (2026-10-17): con solo overflow-hidden, al acabar la ola quedaba pintado el
+    // canto de arriba de cada letra en el borde de abajo de la máscara, como una raya discontinua (visto en el Mac de
+    // Alberto, no en los navegadores de prueba).
     <div
       ref={box}
-      className="-my-[calc(var(--fit,44px)*0.22)] w-full overflow-hidden py-[calc(var(--fit,44px)*0.22)]"
+      className="-my-[calc(var(--fit,44px)*0.22)] w-full overflow-hidden py-[calc(var(--fit,44px)*0.22)] [clip-path:inset(0)]"
     >
       <h1
         ref={h}
