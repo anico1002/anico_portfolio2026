@@ -9,7 +9,8 @@ Criterio: publicitario, nada que no sea cierto (p. ej. Unite NO era para esports
 ven en la página de juego son `tagline`, `overview[0]`, `line` (tarjeta), `outcomeTitle` y `cta` en `lib/maqueta/cases.ts`,
 y los bloques (`eyebrow`/`title`/`body`) en `lib/maqueta/games.ts`; el resto de campos de la ficha no se pinta.
 - **Asphalt Unite: hecho entero.** Cards sin texto (pegadas al design system).
-- **Pendientes:** CyberTitans, Disney Karting, Asphalt 9, Asphalt Xtreme. Después, cabeceras y miniaturas de Games.
+- **CyberTitans: hecho entero** (falta que Alberto confirme año 2023/2024 y si salió en móvil: el bloque de UI dice «desktop and mobile»).
+- **Pendientes:** Disney Karting, Asphalt 9, Asphalt Xtreme. Después, cabeceras y miniaturas de Games.
 
 **Hecho en esta sesión (feedback de móvil, todo en commits locales, sin desplegar):** menú con hamburguesa de dos rayas,
 email y LinkedIn dentro; About desde la home (antes no hacía nada); sin salto al ir a Product/Games desde el menú; cuelgue
