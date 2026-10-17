@@ -17,6 +17,9 @@ vuelo desde el carrusel del pie sin salto; rayas de la ola del titular en Safari
 
 ## Dovla rehecho (2026-10-17 noche, MacBook, «tira millas»)
 
+**Cierre:** desplegado en https://anico-maqueta.vercel.app/maqueta/dovla. Alberto lo mira en el móvil y **mañana se
+itera**: empezar por su feedback y por el standby de abajo. A Alberto le ha gustado mucho la primera versión.
+
 Nuevo enfoque (Alberto): **banca privada** para clientes con mucho patrimonio, el **UI kit** como capítulo central
 (como Interactius) y las **dovelas que giran** como hilo visual. Caso en inglés en `components/case-study/dovla/`
 (`DovlaCase.tsx` + piezas nuevas en `DovlaKit.tsx`): cabecera con dos móviles, intro con la promo en vídeo,
