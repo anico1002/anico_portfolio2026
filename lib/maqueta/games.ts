@@ -123,9 +123,9 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   "asphalt-9": [
     { bleed: true, items: ["01_Game-UI/A9_1.png"] },
     {
-      eyebrow: "UI del juego",
-      title: "Velocidad, nitro y posición, sin tapar el espectáculo.",
-      body: "Los vehículos se presentan como fotografía de automoción; los menús, con una metáfora espacial para saber siempre dónde estás.",
+      eyebrow: "Game UI",
+      title: "Everything you need, at a glance and at 300 km/h.",
+      body: "In the race, the interface shows only what matters: speed, nitro and position. Off the track, every car is shown off like the star of a luxury catalogue, and the menus are laid out like a place you move through.",
       items: ["01_Game-UI/A9_2.png", "01_Game-UI/A9_3.png", "01_Game-UI/A9_4.png", "01_Game-UI/A9_5.png"],
     },
     {
