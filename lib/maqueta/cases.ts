@@ -627,7 +627,7 @@ const ALL_CASES: CaseCopy[] = [
       ["#1", "juego de carreras en iOS y Android"],
       ["300+", "coches en el juego"],
     ],
-    outcomeTitle: "La plantilla de todos los Asphalt que vinieron después.",
+    outcomeTitle: "Some legends set the pace. This one set the course.",
     outcome: "Lanzado en julio de 2018, con éxito de crítica y ventas: el juego de carreras más taquillero en iOS y Android. Su dirección visual y su UI marcaron el camino de toda la saga.",
     cta: { label: "Descargar", href: "https://apps.apple.com/gt/story/id1441913825" },
   },
