@@ -72,9 +72,9 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       items: ["01_Game-UI/CT_2.png", "01_Game-UI/CT_3.png"],
     },
     {
-      eyebrow: "Logo y tipografía",
-      title: "Una tipografía hecha a medida como ADN técnico.",
-      body: "Diseñada para leerse en cualquier punto de contacto y alejarse de los tópicos ciberpunk.",
+      eyebrow: "Logo and typeface",
+      title: "Its own letters, its own voice.",
+      body: "A typeface drawn for the game gives it a voice of its own: technical, confident and recognisable on any screen, from the menu to the poster.",
       items: ["02_Logo-& -Typeface-Design/CT_logo_1.png", "02_Logo-& -Typeface-Design/CT_logo_2.png"],
     },
     {
