@@ -531,10 +531,10 @@ const ALL_CASES: CaseCopy[] = [
     services: ["UX/UI", "Identity", "Custom typeface", "Design system"],
     accent: "#3CC8E0",
     accent2: "#C84EEE",
-    tagline: "Estrategia hardcore y economía Web3, con estándares de producto.",
+    tagline: "Hardcore strategy and a crypto economy, held to product standards.",
     question: "¿Cómo se maneja la complejidad de un juego cripto sin abrumar al jugador?",
     overview: [
-      "CyberTitans es un auto-battler competitivo de LitLab Games. El encargo: rediseño completo de UI/UX y una nueva identidad de marca, con tipografía propia incluida.",
+      "CyberTitans is LitLab Games’ competitive auto-battler, with a marketplace, wallet and tokens built into the game. As Lead UI/UX, I redesigned the whole interface, from the combat HUD to the shop and inventory, and built a new brand around a custom typeface.",
       "El objetivo, elevar su presencia en el gaming Web3 uniendo una estética ciberpunk táctica con la precisión de un buen diseño de producto.",
     ],
     chapters: [
@@ -551,9 +551,9 @@ const ALL_CASES: CaseCopy[] = [
       { eyebrow: "Prototipo · Crystal Battle", title: "El combate, en movimiento." },
       { eyebrow: "Prototipo · Ladder", title: "La escalera competitiva, en movimiento." },
     ],
-    outcomeTitle: "Un nuevo listón para el ecosistema de LitLab.",
+    outcomeTitle: "The arena is open. Titans, take your places.",
     outcome: "La tipografía y el lenguaje visual se convirtieron en la columna vertebral de la marca, y la experiencia rebaja la barrera de entrada al gaming Web3 tanto para nativos cripto como para jugadores tradicionales.",
-    cta: { label: "Ver en Steam", href: "https://store.steampowered.com/app/2350590/CyberTitans/?l=latam" },
+    cta: { label: "Play on Steam", href: "https://store.steampowered.com/app/2350590/CyberTitans/?l=latam" },
   },
   {
     slug: "disney-karting",

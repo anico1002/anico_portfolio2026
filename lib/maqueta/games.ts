@@ -66,9 +66,9 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   cybertitans: [
     { bleed: true, items: ["01_Game-UI/CT_1.png"] },
     {
-      eyebrow: "UI del juego",
-      title: "Precisión quirúrgica para mucha información.",
-      body: "Del HUD de combate a matchmaking, tienda e inventario: un design system modular para escritorio y móvil.",
+      eyebrow: "Game UI",
+      title: "Surgical precision for a crowded screen.",
+      body: "From the combat HUD to matchmaking, shop and inventory: one modular design system for desktop and mobile.",
       items: ["01_Game-UI/CT_2.png", "01_Game-UI/CT_3.png"],
     },
     {
