@@ -2,7 +2,26 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-17, MacBook)
+## ▶ EMPEZAR AQUÍ (2026-10-17 tarde, MacBook) — repaso de copy de Games
+
+**Ahora:** repasar y traducir al inglés los copys de los juegos, uno a uno, con Alberto (opciones de copy → elige él).
+Criterio: publicitario, nada que no sea cierto (p. ej. Unite NO era para esports: solo la estética). Los textos que se
+ven en la página de juego son `tagline`, `overview[0]`, `line` (tarjeta), `outcomeTitle` y `cta` en `lib/maqueta/cases.ts`,
+y los bloques (`eyebrow`/`title`/`body`) en `lib/maqueta/games.ts`; el resto de campos de la ficha no se pinta.
+- **Asphalt Unite: hecho entero.** Cards sin texto (pegadas al design system).
+- **Pendientes:** CyberTitans, Disney Karting, Asphalt 9, Asphalt Xtreme. Después, cabeceras y miniaturas de Games.
+
+**Hecho en esta sesión (feedback de móvil, todo en commits locales, sin desplegar):** menú con hamburguesa de dos rayas,
+email y LinkedIn dentro; About desde la home (antes no hacía nada); sin salto al ir a Product/Games desde el menú; cuelgue
+al llegar a Interactius/WineUp desde la miniatura (esperaba al vídeo de escritorio oculto; topes en todas las esperas);
+vuelo de miniatura desde el carrusel del pie; 7news con la parada también en móvil; WineUp con los tres pasos en lista en
+móvil; Let’s talk pegado a la raya, sin animación al salir y aviso de copiar solo sobre las letras; «Personal project» en
+la ficha de 7news y SwifT; Foundations sin cortar; juegos de Gloop en inglés (nombres traducidos por Claude: confirmar si
+la app tiene oficiales); velo en la esquina del nombre de las miniaturas de la home; intro de Product sin corte tras «idea».
+
+**Falta desplegar** anico-maqueta para que Alberto lo vea en el móvil.
+
+## ▶ (anterior) cierre 2026-10-17, MacBook
 
 **Siguiente sesión, por orden:**
 0. **Feedback de la revisión en móvil:** Alberto revisa la maqueta en el móvil antes de la sesión
