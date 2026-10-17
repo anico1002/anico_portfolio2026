@@ -57,8 +57,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     // Las cards, sin texto (Alberto, 2026-10-17): la imagen sube y sigue al design system.
     { items: ["03_Game-UI/AU_4.png"] },
     {
-      eyebrow: "Pantallas de consola",
-      title: "Un menú que transmite escala antes de la primera carrera.",
+      eyebrow: "Console screens",
+      title: "Events, garage and races, all one thumbstick away.",
       items: [seq("04_Console-screens/AU_7", "abcdefg")],
     },
   ],
