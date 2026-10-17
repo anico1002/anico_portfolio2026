@@ -12,7 +12,7 @@ y los bloques (`eyebrow`/`title`/`body`) en `lib/maqueta/games.ts`; el resto de 
 - **CyberTitans: hecho entero.** Año 2024 (el de anico.design) y salió en móvil (confirmado).
 - **Disney Karting: hecho entero.** Es una exploración inicial (el juego final cambió mucho): no nombrar Speedstorm.
 - **Asphalt 9 y Asphalt Xtreme: hechos enteros.** Disney Karting se llama ya Disney Speedstorm (slug igual).
-- **Pendientes:** cabeceras y miniaturas de Games. Después, cabeceras y miniaturas de Games.
+- **Games: copy cerrado.** Cabeceras y miniaturas de Games se quedan como están (Alberto, 2026-10-17: no hace falta cambiarlas). Después, cabeceras y miniaturas de Games.
 
 **Hecho en esta sesión (feedback de móvil, todo en commits locales, sin desplegar):** menú con hamburguesa de dos rayas,
 email y LinkedIn dentro; About desde la home (antes no hacía nada); sin salto al ir a Product/Games desde el menú; cuelgue
