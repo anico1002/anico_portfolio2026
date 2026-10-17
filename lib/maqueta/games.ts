@@ -94,10 +94,10 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
       items: ["01_Game-UI/dk_02.png", "01_Game-UI/dk_03.png", "01_Game-UI/dk_04.png"],
     },
     {
-      eyebrow: "Exploraciones gráficas",
-      title: "Un tono maduro sin perder la magia.",
+      eyebrow: "Graphic explorations",
+      title: "A grown-up tone that keeps the magic.",
       bleed: true,
-      body: "Rondas de exploración sobre las pantallas clave: selección de personaje, previa de carrera, clasificaciones y personalización.",
+      body: "Rounds of exploration on the key screens: character select, pre-race, leaderboards and customisation.",
       items: [
         seq("02_Graphic-Explorations/dk_05", "abcdef"),
         ["a", "b", "c"].map((l) => `02_Graphic-Explorations/dk_06${l}.jpg`).concat(seq("02_Graphic-Explorations/dk_06", "de")),
@@ -114,7 +114,7 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     },
     {
       eyebrow: "Marketing",
-      title: "Un brief, una sola voz visual.",
+      title: "One brief, one visual voice.",
       bleed: true,
       items: ["03_Marketing-Exploration/dk_1.png", "03_Marketing-Exploration/dk_2.png", "03_Marketing-Exploration/dk_3.png"],
     },
