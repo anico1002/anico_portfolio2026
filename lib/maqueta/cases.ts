@@ -558,7 +558,7 @@ const ALL_CASES: CaseCopy[] = [
   {
     slug: "disney-karting",
     section: "games",
-    name: "Disney Karting",
+    name: "Disney Speedstorm",
     line: "Disney karting with a more grown-up edge",
     year: "2020",
     client: "Gameloft Barcelona",
