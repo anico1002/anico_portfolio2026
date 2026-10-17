@@ -516,12 +516,9 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
     // La máscara lleva 0,22 veces el cuerpo de aire arriba y abajo (compensado con margen negativo:
     // no mueve nada). Con el interlineado de 0,88 las g, p, j y los acentos se salían de la caja y
     // se cortaban (2026-10-13). El titular arranca un 140 % más abajo para no asomar en ese aire.
-    // El recorte va también en clip-path (2026-10-17): con solo overflow-hidden, al acabar la ola quedaba pintado el
-    // canto de arriba de cada letra en el borde de abajo de la máscara, como una raya discontinua (visto en el Mac de
-    // Alberto, no en los navegadores de prueba).
     <div
       ref={box}
-      className="-my-[calc(var(--fit,44px)*0.22)] w-full overflow-hidden py-[calc(var(--fit,44px)*0.22)] [clip-path:inset(0)]"
+      className="-my-[calc(var(--fit,44px)*0.22)] w-full overflow-hidden py-[calc(var(--fit,44px)*0.22)]"
     >
       <h1
         ref={h}
@@ -538,7 +535,10 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
                 return (
                   <motion.span
                     key={k}
-                    className="inline-block"
+                    // Capa propia por letra (Safari, 2026-10-17): con el interlineado de 0,88 la tinta sobresale de la
+                    // caja de la letra y Safari solo repintaba la caja; el canto de arriba se quedaba pintado en el borde
+                    // de la máscara como una raya discontinua.
+                    className="inline-block will-change-transform"
                     initial={{ y: "140%" }}
                     animate={{ y: "0%" }}
                     transition={{ duration: DUR.slow, ease: EASE.out, delay: delay + i * WAVE }}
