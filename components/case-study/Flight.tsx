@@ -1,7 +1,7 @@
 "use client";
 
 import { animate, motion } from "framer-motion";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { FLIGHT_KEY, FLIGHT_S } from "@/components/case-study/primitives";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
@@ -15,12 +15,15 @@ import { scrollLock } from "@/components/case-study/SmoothScroll";
    En vídeo, la portada del caso continúa desde el mismo fotograma. */
 
 type Rect = { left: number; top: number; width: number; height: number };
-type Flight = { src: string; frame: Rect; media: Rect; time: number; onLanded: () => void };
+type Flight = { src: string; frame: Rect; media: Rect; time: number; still: HTMLVideoElement | null; onLanded: () => void };
 
 let flight: Flight | null = null;
 const subs = new Set<() => void>();
 const emit = () => subs.forEach((f) => f());
 const subscribe = (f: () => void) => (subs.add(f), () => subs.delete(f));
+
+/** ¿Hay un vuelo en curso? La portada sobre la que aterriza no debe arrancar sola: la arranca `endFlight` al fundir. */
+export const isFlying = () => flight != null;
 
 export const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);
 const box = (r: DOMRect): Rect => ({ left: r.left, top: r.top, width: r.width, height: r.height });
@@ -35,6 +38,8 @@ export function startFlight(src: string, frame: HTMLElement, onLanded: () => voi
     frame: box(frame.getBoundingClientRect()),
     media: box((media ?? frame).getBoundingClientRect()),
     time: media instanceof HTMLVideoElement ? media.currentTime : 0,
+    // El vídeo de la tarjeta, si ya pinta: su fotograma abre el vuelo al instante (ver `Still`).
+    still: media instanceof HTMLVideoElement && media.readyState >= 2 ? media : null,
     onLanded,
   };
   scrollLock.stop();
@@ -65,14 +70,25 @@ export async function endFlight(poster?: HTMLVideoElement | null) {
   const frozen = overlay.querySelector("canvas") as HTMLCanvasElement | null;
   const t = frozen?.dataset.t != null ? Number(frozen.dataset.t) : v?.currentTime;
   if (poster && t != null) {
-    try {
-      poster.pause();
-      if (poster.readyState < 1) await once(poster, "loadedmetadata");
-      const seeked = once(poster, "seeked");
-      poster.currentTime = Math.min(t, (poster.duration || 1e9) - 0.05);
-      await seeked;
-      if (poster.readyState < 2) await once(poster, "loadeddata");
-    } catch {}
+    // Un segundo y poco como mucho para dejar la portada en el mismo fotograma (2026-10-17: con 4G las tres esperas
+    // encadenadas sumaban hasta 4,5 s con la imagen quieta, la página parecía congelada). Si el vídeo no llega a
+    // tiempo, la capa se funde sobre su póster (el primer fotograma) y el vídeo arranca cuando llegue.
+    const sync = (async () => {
+      try {
+        poster.pause();
+        if (poster.readyState < 1) await once(poster, "loadedmetadata");
+        const seeked = once(poster, "seeked");
+        poster.currentTime = Math.min(t, (poster.duration || 1e9) - 0.05);
+        await seeked;
+        if (poster.readyState < 2) await once(poster, "loadeddata");
+      } catch {}
+    })();
+    await Promise.race([sync, new Promise((r) => setTimeout(r, 1200))]);
+    if (poster.readyState < 2 && poster.poster) {
+      const img = new Image();
+      img.src = poster.poster;
+      await Promise.race([img.decode().catch(() => {}), new Promise((r) => setTimeout(r, 1000))]);
+    }
   }
   await twoFrames();
   // Las dos imágenes, quietas en el mismo fotograma, mientras se funde la capa; después arranca la portada.
@@ -90,6 +106,8 @@ const FULL = { left: 0, top: 0, width: "100vw", height: "100svh" };
     durante el cambio de página el navegador puede dejar de pintar el vídeo un instante y se
     vería en blanco; una imagen fija no. */
 function freeze(wrap: HTMLDivElement) {
+  // Si el vídeo de la capa no llegó a reproducirse, sigue puesto el fotograma de la tarjeta (`Still`): ya está quieto.
+  if (wrap.querySelector("canvas")) return;
   const v = wrap.querySelector("video");
   if (!v || !v.videoWidth) return;
   const W = wrap.clientWidth;
@@ -108,9 +126,33 @@ function freeze(wrap: HTMLDivElement) {
   wrap.appendChild(c);
 }
 
+/** El fotograma que se veía en la tarjeta, congelado en un canvas, mientras el vídeo de la capa no puede reproducirse.
+    Sin él (2026-10-17, iPhone emulado con 4G), la capa volvía a pedir el vídeo a la red y crecía vacía hasta 1,4 s.
+    Lleva el tiempo del fotograma (`data-t`): si se aterriza con él puesto, la portada continúa desde ahí. */
+function Still({ video, time, ...rest }: React.ComponentProps<typeof motion.canvas> & { video: HTMLVideoElement; time: number }) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useLayoutEffect(() => {
+    const c = ref.current;
+    if (!c || !video.videoWidth) return;
+    c.width = video.videoWidth;
+    c.height = video.videoHeight;
+    c.dataset.t = String(time);
+    try {
+      c.getContext("2d")?.drawImage(video, 0, 0);
+    } catch {}
+  }, [video, time]);
+  return <motion.canvas ref={ref} {...rest} />;
+}
+
 export default function FlightLayer() {
   const f = useSyncExternalStore(subscribe, () => flight, () => null);
   const ref = useRef<HTMLDivElement>(null);
+  const [live, setLive] = useState(false);
+  const landed = useRef(false);
+  useEffect(() => {
+    setLive(false);
+    landed.current = false;
+  }, [f]);
 
   useEffect(() => {
     overlay = ref.current;
@@ -119,6 +161,8 @@ export default function FlightLayer() {
     // marco (miniaturas del pie, sin zoom ni parallax), esa animación no tiene recorrido, «acaba» al instante y la
     // página cambiaba en cuanto se pulsaba (salto, 2026-10-17).
     const land = setTimeout(() => {
+      landed.current = true;
+      ref.current?.querySelector("video")?.pause();
       if (ref.current) freeze(ref.current);
       f.onLanded();
     }, FLIGHT_S * 1000);
@@ -155,19 +199,24 @@ export default function FlightLayer() {
       transition={{ duration: FLIGHT_S - 0.2, ease: EASE.screen }}
     >
       {isVideo(f.src) ? (
-        <motion.video
-          {...inner}
-          src={f.src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          onLoadedMetadata={(e) => {
-            try {
-              e.currentTarget.currentTime = f.time;
-            } catch {}
-          }}
-        />
+        <>
+          <motion.video
+            {...inner}
+            src={f.src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            onLoadedMetadata={(e) => {
+              try {
+                e.currentTarget.currentTime = f.time;
+              } catch {}
+            }}
+            // Solo mientras vuela: aterrizado, la capa ya está quieta en su fotograma y la portada se ajusta a él.
+            onPlaying={(e) => (landed.current ? e.currentTarget.pause() : setLive(true))}
+          />
+          {f.still && !live && <Still {...inner} video={f.still} time={f.time} />}
+        </>
       ) : (
         <motion.img {...inner} src={f.src} alt="" />
       )}

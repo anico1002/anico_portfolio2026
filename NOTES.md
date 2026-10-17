@@ -54,7 +54,11 @@ palabras clave «pruebo una serif y la descarto» (`FontFlip.tsx`); cabecera de 
 
 1. **Rendimiento — imágenes HECHO (2026-10-17):** AVIF con el ancho justo por pantalla y calidad medida (Unite
    51,6 → 4,5 MB en móvil; Disney 55,9 → 6,8; Asphalt 9 39,8 → 2,9). Vídeos ya razonables (H.264 ≤ 1,7 Mbps, solo cargan
-   al acercarse): no se han tocado. Queda probarlo Alberto en el móvil con wifi justo y 4G. Antes:
+   al acercarse): no se han tocado. Vuelo miniatura → caso con poca red ARREGLADO (medido en producción, iPhone
+   emulado con 4G y sin caché): la capa abre con el fotograma de la tarjeta congelado (antes crecía vacía 1,4 s), el
+   aterrizaje no espera más de ~1 s al vídeo de la portada (antes hasta 4,5 s congelada) y se funde sobre su póster,
+   todo vídeo tiene póster (los genera `npm run media:opt`) y la portada se descarga antes que el resto. Queda
+   probarlo Alberto en el móvil con wifi justo y 4G. Antes:
    optimizar TODOS los contenidos para que pesen lo mínimo y carguen ligeros en móvil, sin perder
    calidad (vídeos H.264/H.265 + póster, tamaños por dispositivo, imágenes en AVIF/WebP, lazy load, fuentes).
 2. **Detalles de transición:** revisar en Safari y en móvil el paso miniatura → cabecera (Alberto vio «un salto

@@ -6,6 +6,7 @@
 // con SSIM contra el original al mismo tamaño; si baja de 0,99, se repite con más calidad hasta pasar (tope 95).
 // Si a su ancho original no pasa ese listón, o no ahorra al menos un 40 % (JPG que ya venían comprimidos: recomprimirlos
 // solo añade pérdida), la imagen se queda con su original y no entra en el manifiesto (marca `.skip` en public/opt/).
+// Antes, a cada vídeo sin póster se le saca el suyo (primer fotograma).
 // Es incremental: solo procesa lo que no tiene versión o cuyo original ha cambiado.
 //
 //   node scripts/media-opt/images.mjs          → genera lo que falte y reescribe lib/maqueta/opt.json
@@ -25,6 +26,27 @@ const WIDTHS = [828, 1290];
 const Q0 = 85;
 const FLOOR = 0.99;
 const SAVE = 0.6; // la versión a ancho original debe pesar como mucho esto del original
+
+// Pósters (2026-10-17): todo vídeo lleva al lado su primer fotograma en JPG (`<vídeo>-poster.jpg`), que es lo que se
+// ve mientras el vídeo no ha llegado (en 4G, segundos). LazyVideo lo pone solo cuando el vídeo está cerca.
+import { execFileSync } from "child_process";
+const FF = path.join(execFileSync("npm", ["root", "-g"]).toString().trim(), "ffmpeg-static/ffmpeg");
+const videos = [];
+const walkV = (d) => {
+  for (const f of fs.readdirSync(d)) {
+    const p = path.join(d, f);
+    if (fs.statSync(p).isDirectory()) walkV(p);
+    else if (/\.mp4$/i.test(f) && !/_src\.mp4$/i.test(f) && !SKIP.test(p)) videos.push(p);
+  }
+};
+walkV(path.join(PUB, "maqueta"));
+walkV(path.join(PUB, "projects"));
+for (const v of videos) {
+  const poster = v.replace(/\.mp4$/i, "-poster.jpg");
+  if (fs.existsSync(poster)) continue;
+  execFileSync(FF, ["-v", "error", "-i", v, "-frames:v", "1", "-q:v", "2", "-y", poster]);
+  console.log("póster nuevo:", path.relative(PUB, poster));
+}
 
 const files = [];
 const walk = (d) => {

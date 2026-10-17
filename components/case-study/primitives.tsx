@@ -317,7 +317,8 @@ export function CaseHero({
         };
 
   return (
-    <section ref={ref} className="relative h-[100svh] w-full overflow-hidden">
+    // `data-case-hero`: su vídeo visible se descarga antes que el resto de la página (LazyVideo).
+    <section ref={ref} data-case-hero className="relative h-[100svh] w-full overflow-hidden">
       <motion.div className="absolute inset-0" {...clip}>
         <motion.div className="absolute inset-0" style={reduce ? undefined : { y: mediaY }}>
           {children}
