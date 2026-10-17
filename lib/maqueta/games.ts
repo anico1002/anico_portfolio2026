@@ -37,10 +37,10 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
   "asphalt-unite": [
     { bleed: true, items: ["01/AU_1.png"] },
     {
-      eyebrow: "Dirección de arte",
-      title: "Explorar antes de decidir.",
+      eyebrow: "Art direction",
+      title: "Study the greats, then go our own way.",
       bleed: true,
-      body: "Auditoría de los grandes de consola —Forza Horizon, Gran Turismo, Need for Speed— y playtests internos para localizar la fricción heredada del móvil.",
+      body: "We took apart Forza Horizon, Gran Turismo and Need for Speed, then ran internal playtests to find every flow that still felt like a phone.",
       items: [
         seq("02_First-Art-Direction-Exploration/A92023_01", "abcdef"),
         "02_First-Art-Direction-Exploration/A92023_02.mp4",
@@ -49,8 +49,8 @@ export const GAME_BLOCKS: Record<string, GameBlock[]> = {
     },
     {
       eyebrow: "Design system",
-      title: "Un sistema pensado para el mando.",
-      body: "Paleta, botones, barras de navegación y sus estados, documentados para consola y móvil.",
+      title: "A design system built for the gamepad.",
+      body: "Palette, buttons, navigation bars and every state, documented once for console, PC and mobile. One crossplatform system.",
       // La primera lámina abre con «DESIGN SYSTEM» en grande: lo dice ya el titular del bloque.
       items: [{ src: "03_Game-UI/AU_1.png", crop: { top: 340 } }, "03_Game-UI/AU_2.png", "03_Game-UI/AU_3.png"],
     },
