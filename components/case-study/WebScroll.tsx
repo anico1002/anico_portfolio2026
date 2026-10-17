@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
+import Img from "@/components/case-study/Img";
 
 /* Una web entera dentro de la máscara que se abre (2026-10-16, feedback de SwifT). La ventana se abre
    igual que WindowReveal y, ya a pantalla completa, se queda fija mientras el scroll recorre la página de
@@ -60,7 +61,7 @@ export default function WebScroll({
   const bar = (
     <div className="absolute inset-x-0 top-0 z-10 bg-white" style={{ paddingTop: TOP }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      {nav && <img src={nav} alt="" className="block w-full" />}
+      {nav && <Img src={nav} alt="" className="block w-full" />}
     </div>
   );
   const padTop = `calc(${TOP}px + ${navRatio ? navRatio * 100 : 0}vw)`;
@@ -70,7 +71,7 @@ export default function WebScroll({
       <div className="relative h-[100svh] w-full overflow-hidden bg-white">
         {bar}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={page} alt={label} className="w-full" style={{ marginTop: padTop }} />
+        <Img src={page} alt={label} className="w-full" style={{ marginTop: padTop }} />
       </div>
     );
 
@@ -81,7 +82,7 @@ export default function WebScroll({
           {bar}
           <motion.div style={{ y, paddingTop: padTop }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={page} alt={label} className="block w-full" loading="lazy" />
+            <Img src={page} alt={label} className="block w-full" loading="lazy" />
           </motion.div>
         </motion.div>
       </motion.div>

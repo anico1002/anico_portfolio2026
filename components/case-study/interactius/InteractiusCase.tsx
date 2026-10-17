@@ -14,6 +14,7 @@ import { AiLayer, DeckWindow, ImagePrompt, ManualWindow, WebLaptop, WebPhone } f
 import TypePair from "./TypePair";
 import LogoStory from "./LogoStory";
 import { IX, ixFonts } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* Caso de Interactius, a medida (2026-10-13; rehecho el 2026-10-16 con el feedback de Alberto: fuera las
    formas geométricas, el Gantt y el texto líquido; dentro el logo en técnico, las dos tipografías, la web en
@@ -88,7 +89,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         <FadeIn>
           <div className="m-bleed overflow-hidden px-4 py-14 md:px-16 md:py-28" style={{ background: IX.light }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construction of the interactīus logotype" className="mx-auto w-full max-w-[64rem]" />
+            <Img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construction of the interactīus logotype" className="mx-auto w-full max-w-[64rem]" />
           </div>
         </FadeIn>
         <div className="mt-2">

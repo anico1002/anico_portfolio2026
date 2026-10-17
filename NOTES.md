@@ -12,7 +12,7 @@ y los bloques (`eyebrow`/`title`/`body`) en `lib/maqueta/games.ts`; el resto de 
 - **CyberTitans: hecho entero.** Año 2024 (el de anico.design) y salió en móvil (confirmado).
 - **Disney Karting: hecho entero.** Es una exploración inicial (el juego final cambió mucho): no nombrar Speedstorm.
 - **Asphalt 9 y Asphalt Xtreme: hechos enteros.** Disney Karting se llama ya Disney Speedstorm (slug igual).
-- **Games: copy cerrado.** Cabeceras y miniaturas de Games se quedan como están (Alberto, 2026-10-17: no hace falta cambiarlas). Después, cabeceras y miniaturas de Games.
+- **Games: copy cerrado.** Cabeceras y miniaturas de Games se quedan como están (Alberto, 2026-10-17: no hace falta cambiarlas).
 
 **Hecho en esta sesión (feedback de móvil, todo en commits locales, sin desplegar):** menú con hamburguesa de dos rayas,
 email y LinkedIn dentro; About desde la home (antes no hacía nada); sin salto al ir a Product/Games desde el menú; cuelgue
@@ -52,7 +52,10 @@ palabras clave «pruebo una serif y la descarto» (`FontFlip.tsx`); cabecera de 
 
 ## ⛔ ANTES DE PUBLICAR: auditoría final (pedido por Alberto, 2026-10-17)
 
-1. **Rendimiento:** optimizar TODOS los contenidos para que pesen lo mínimo y carguen ligeros en móvil, sin perder
+1. **Rendimiento — imágenes HECHO (2026-10-17):** AVIF con el ancho justo por pantalla y calidad medida (Unite
+   51,6 → 4,5 MB en móvil; Disney 55,9 → 6,8; Asphalt 9 39,8 → 2,9). Vídeos ya razonables (H.264 ≤ 1,7 Mbps, solo cargan
+   al acercarse): no se han tocado. Queda probarlo Alberto en el móvil con wifi justo y 4G. Antes:
+   optimizar TODOS los contenidos para que pesen lo mínimo y carguen ligeros en móvil, sin perder
    calidad (vídeos H.264/H.265 + póster, tamaños por dispositivo, imágenes en AVIF/WebP, lazy load, fuentes).
 2. **Detalles de transición:** revisar en Safari y en móvil el paso miniatura → cabecera (Alberto vio «un salto
    raro» en Gloop que en Chrome no se reproduce).

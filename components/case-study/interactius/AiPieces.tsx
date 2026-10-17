@@ -8,6 +8,7 @@ import RealPhone from "@/components/case-study/RealPhone";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { STAGGER } from "@/lib/maqueta/motion";
 import { IX, IX_EXPO, mono } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* La capa «preparada para IA» de Interactius (2026-10-16, feedback de Alberto: contar el rediseño como una
    marca pensada también para la IA). Todo sale del repo interactius-brandguidelines: el prompt técnico de
@@ -94,7 +95,7 @@ export function ImagePrompt() {
         {[1, 3, 2, 4].map((k, i) => (
           <FadeIn key={k} delay={i * STAGGER}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/maqueta/interactius/media/universo-0${k}.jpg`} alt="" loading="lazy" className="aspect-square w-full object-cover" />
+            <Img src={`/maqueta/interactius/media/universo-0${k}.jpg`} alt="" loading="lazy" className="aspect-square w-full object-cover" />
           </FadeIn>
         ))}
       </div>
@@ -222,7 +223,7 @@ export function WebLaptop() {
     <div className="m-bleed relative aspect-square overflow-hidden md:aspect-video" style={{ containerType: "inline-size" }}>
       <div className="absolute left-[-35.85cqw] top-0 w-[170cqw] md:left-[-15.65cqw] md:top-[-9.5cqw] md:w-[130cqw]" style={{ aspectRatio: "2400 / 1429" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/maqueta/interactius/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" loading="lazy" />
+        <Img src="/maqueta/interactius/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" loading="lazy" />
         <PlayInView
           src="/maqueta/interactius/media/web.mp4"
           poster="/maqueta/interactius/media/web-poster.jpg"

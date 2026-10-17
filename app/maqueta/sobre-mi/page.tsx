@@ -4,6 +4,7 @@ import { STAGGER } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
 import { yearsOfExperience } from "@/lib/maqueta/years";
 import SiteFooter from "@/components/case-study/SiteFooter";
+import Img from "@/components/case-study/Img";
 
 /* Sobre mí: textos de public/profile.txt (web actual), en castellano. Estructura de
    plastic.design: declaración, bio, disciplinas, con quién he trabajado y contacto.
@@ -49,7 +50,7 @@ export default function About() {
       <div className={`mt-16 md:mt-24 ${wrap}`}>
         <MaskReveal from="bottom" speed={40} className="m-bleed">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/about.webp" alt="Alberto Nicolás" className="block h-auto w-full" style={{ aspectRatio: "1296/630" }} />
+          <Img src="/about.webp" alt="Alberto Nicolás" className="block h-auto w-full" style={{ aspectRatio: "1296/630" }} />
         </MaskReveal>
       </div>
 

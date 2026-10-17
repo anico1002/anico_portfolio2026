@@ -19,6 +19,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useReduce } from "@/lib/maqueta/reduce";
 import type { CaseCopy } from "@/lib/maqueta/cases";
 import type { CaseMedia, GameMedia, ResolvedGameBlock } from "@/lib/maqueta/media";
+import Img from "@/components/case-study/Img";
 
 /* Plantilla de Games: escaparate gráfico (2026-10-13). Product cuenta casos de éxito; aquí manda
    la imagen. Las láminas se diseñaron para ir una debajo de otra con continuidad, así que se apilan
@@ -61,7 +62,7 @@ function Sheet({ m }: { m: Extract<GameMedia, { type: "img" }> }) {
       style={{ aspectRatio: `${m.w - left} / ${m.h - top}`, background: m.bg }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Img
         src={m.src}
         alt=""
         loading="lazy"
@@ -99,7 +100,7 @@ function Slides({ m }: { m: Extract<GameMedia, { type: "slides" }> }) {
       {m.srcs.map((s, k) => (
         // Todas montadas (la siguiente ya está cargada cuando le toca); visible solo la actual.
         // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Img
           key={s}
           src={s}
           alt=""
@@ -217,7 +218,7 @@ export default function GamesTemplate({
             <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
-            <img className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} alt="" />
+            <Img className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} alt="" />
           ))}
       </CaseHero>
 

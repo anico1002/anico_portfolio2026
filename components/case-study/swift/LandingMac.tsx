@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { WindowReveal } from "@/components/case-study/primitives";
+import Img from "@/components/case-study/Img";
 
 /* La landing de SwifT en un MacBook real (2026-10-16). Alberto eligió entre cuatro fotos frontales, neutras y
    claras la «B»: MacBook Air de frente sobre mármol blanco (Unsplash photo-1654555023156, mockups-src/mac-marble).
@@ -78,7 +79,7 @@ export default function LandingMac() {
             style={{ width: STAGE.w, height: STAGE.h, transform: `translate(${t.x}px, ${t.y}px) scale(${t.k})` }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/maqueta/swift/landing/scene-marble.jpg" alt="" className="absolute inset-0 h-full w-full" />
+            <Img src="/maqueta/swift/landing/scene-marble.jpg" alt="" className="absolute inset-0 h-full w-full" />
             {SCREENS.map((s, i) => (
               <div key={s.src} className="absolute left-0 top-0 origin-top-left overflow-hidden bg-white" style={{ width: s.w, height: s.h, transform: s.m }}>
                 <video

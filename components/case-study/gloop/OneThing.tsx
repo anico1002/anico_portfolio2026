@@ -6,6 +6,7 @@ import Lines from "@/components/case-study/Lines";
 import { GraphicReveal } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
+import { OptSource } from "@/components/case-study/Img";
 
 /* El insight (Gloop; copy rehecho el 2026-10-13): salimos de noche para pasarlo bien, sin más plan, y
    ninguna app estaba pensada para esa noche. El panel muestra todo lo que una app podría ofrecer a la
@@ -136,13 +137,16 @@ export default function OneThing() {
               style={{ background: G.base, height: CANVAS.h * fit + 48 }}
             >
               { }
-              <motion.img
-                src="/maqueta/gloop/media/party-ev5.jpg"
-                alt=""
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover"
-                style={{ scale: reduce ? 1 : bgScale, filter: "brightness(0.38) saturate(1.15)" }}
-              />
+              <picture style={{ display: "contents" }}>
+                <OptSource src="/maqueta/gloop/media/party-ev5.jpg" />
+                <motion.img
+                  src="/maqueta/gloop/media/party-ev5.jpg"
+                  alt=""
+                  aria-hidden
+                  className="absolute inset-0 h-full w-full object-cover"
+                  style={{ scale: reduce ? 1 : bgScale, filter: "brightness(0.38) saturate(1.15)" }}
+                />
+              </picture>
               <span aria-hidden className="absolute inset-0" style={{ background: `linear-gradient(180deg, ${G.base}99, transparent 40%, ${G.base}cc)` }} />
               <div
                 className="absolute left-1/2 top-1/2"

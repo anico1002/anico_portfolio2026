@@ -9,6 +9,7 @@ import Lines from "@/components/case-study/Lines";
 import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, Placeholder } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import { BrandGlow, ChefLive, DualSurface, EnergyCard, Funnel, retoFonts } from "./ElRetoPieces";
+import Img from "@/components/case-study/Img";
 
 /* Caso de El Reto, a medida (2026-10-13). Hechos del repo ElReto-app-2026-Lovable (es.json, ui-kit.css,
    CLAUDE.md). Piezas recreadas + dos láminas de identidad de la web actual (trabajo de marca real).
@@ -93,7 +94,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: More
       <div className="mt-20 md:mt-28">
         {["/projects/elreto-masterchef/02_Brand-Identity/ElReto_9.png", "/projects/elreto-masterchef/02_Brand-Identity/ElReto_10.png"].map((src) => (
           // eslint-disable-next-line @next/next/no-img-element
-          <img key={src} src={src} alt="" loading="lazy" className="block h-auto w-full" />
+          <Img key={src} src={src} alt="" loading="lazy" className="block h-auto w-full" />
         ))}
       </div>
 

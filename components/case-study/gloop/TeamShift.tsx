@@ -6,6 +6,7 @@ import { FadeIn, GraphicReveal, useSeen } from "@/components/case-study/primitiv
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* Cambio de paradigma (Gloop): la noche ya no depende del plan, sino de con quién la vives. El lienzo se
    parte en cuatro fotos de fiesta (con un zoom lento); se separan hacia sus esquinas y en el hueco del
@@ -57,7 +58,7 @@ function Quad({ q, apart }: { q: (typeof QUADS)[number]; apart: boolean }) {
         <video src={q.video} poster={q.src} muted loop playsInline autoPlay className="h-full w-full object-cover" style={{ filter: "brightness(0.8)" }} />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={q.src} alt="" className="gloop-drift h-full w-full object-cover" style={{ filter: "brightness(0.8)" }} />
+        <Img src={q.src} alt="" className="gloop-drift h-full w-full object-cover" style={{ filter: "brightness(0.8)" }} />
       )}
     </motion.div>
   );
@@ -85,7 +86,7 @@ function TeamCard({ t, open }: { t: (typeof TEAMS)[number]; open: boolean }) {
         <div className="mt-4 flex items-center">
           {/* El grupo de avatares de la app (forma imago, solapados y con el «+N»). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/maqueta/gloop/media/av-${t.av}.png`} alt="" className="h-[34px] w-auto" style={{ borderRadius: "0 9px 9px 9px" }} />
+          <Img src={`/maqueta/gloop/media/av-${t.av}.png`} alt="" className="h-[34px] w-auto" style={{ borderRadius: "0 9px 9px 9px" }} />
           {/* Botón con la altura del grupo de avatares y radio de botón, no de pastilla. */}
           <span className="ml-auto flex h-[34px] items-center rounded-[10px] bg-white px-3.5 text-[13px] font-semibold text-black">Enter now</span>
         </div>

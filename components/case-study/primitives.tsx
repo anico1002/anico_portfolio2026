@@ -7,6 +7,7 @@ import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { useBooted } from "@/lib/maqueta/boot";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import { useReduce } from "@/lib/maqueta/reduce";
+import Img from "@/components/case-study/Img";
 
 /* Piezas de la maqueta de caso de estudio.
    Los colores salen de variables CSS que fija cada caso (--case-bg, --case-fg…),
@@ -348,7 +349,7 @@ function Media({ src, alt }: { src: string; alt: string }) {
   if (/\.(mp4|webm|mov)$/i.test(src))
     return <LazyVideo className={cls} src={src} aria-label={alt} />;
   // eslint-disable-next-line @next/next/no-img-element
-  return <img className={cls} src={src} alt={alt} />;
+  return <Img className={cls} src={src} alt={alt} />;
 }
 
 /** Caja con el medio real (`src`) o, mientras no exista, gris con la indicación de qué

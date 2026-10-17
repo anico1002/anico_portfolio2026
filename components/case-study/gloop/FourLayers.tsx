@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Lines from "@/components/case-study/Lines";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { geist } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* Por capas (Gloop): lo nativo donde se espera, la marca donde se luce. El usuario ya conoce los gestos
    de su móvil y eso se lee profesional; todo a medida pierde eso, todo nativo pierde la marca. Copy
@@ -29,7 +30,7 @@ const L = "/maqueta/gloop/media/layers";
 function Layer({ src, base = false }: { src: string; base?: boolean }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={src} alt="" className="absolute inset-0 h-full w-full" style={base ? { borderRadius: 44 } : undefined} />
+    <Img src={src} alt="" className="absolute inset-0 h-full w-full" style={base ? { borderRadius: 44 } : undefined} />
   );
 }
 const STACK = [
@@ -124,7 +125,7 @@ export default function FourLayers() {
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/maqueta/gloop/media/iphone18-frame.png" alt="" className="absolute inset-0 h-full w-full" />
+                <Img src="/maqueta/gloop/media/iphone18-frame.png" alt="" className="absolute inset-0 h-full w-full" />
                 <span className="absolute left-1/2 top-[2.4%] h-[3.6%] w-[30%] -translate-x-1/2 rounded-full bg-black" />
               </motion.div>
             </motion.div>

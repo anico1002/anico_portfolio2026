@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import LazyVideo from "@/components/case-study/LazyVideo";
+import Img from "@/components/case-study/Img";
 
 /* Móvil de verdad (2026-10-14, feedback de Alberto: «mete un marco de móvil real»; Gloop y 7news). El marco es la plantilla
    transparente de iphone-mockups.com (titanio natural, algo girado; `media/iphone-frame.png`, recortada de
@@ -44,7 +45,7 @@ export default function RealPhone({
     <div ref={ref} className={`relative w-full ${className}`} style={{ aspectRatio: `${FRAME.w} / ${FRAME.h}` }}>
       <div className="absolute left-0 top-0 origin-top-left" style={{ width: FRAME.w, height: FRAME.h, transform: `scale(${k})`, opacity: k ? 1 : 0 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={frame} alt="" className="absolute inset-0 h-full w-full" />
+        <Img src={frame} alt="" className="absolute inset-0 h-full w-full" />
         <div
           className="absolute left-0 top-0 origin-top-left overflow-hidden bg-black"
           style={{ width: SCREEN.w, height: SCREEN.h, transform: MATRIX, borderRadius: 52 }}

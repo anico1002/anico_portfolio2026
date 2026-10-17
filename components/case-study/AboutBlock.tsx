@@ -3,6 +3,7 @@
 import { FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import Lines from "@/components/case-study/Lines";
 import { STAGGER } from "@/lib/maqueta/motion";
+import Img from "@/components/case-study/Img";
 
 /* About al final de cada home (2026-10-17, decidido con Alberto: fuera la página de contacto y About como bloque
    en Product y en Games, porque cada visitante puede mirar solo una de las dos). Cada home lo enseña en su color:
@@ -31,7 +32,7 @@ export default function AboutBlock({ years }: { years: number }) {
         {/* Foto a todo el ancho (2026-10-17). */}
         <MaskReveal from="bottom" speed={40} className="m-bleed md:-mx-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/about.webp" alt="Alberto Nicolás" className="block h-auto w-full" style={{ aspectRatio: "1296/630" }} />
+          <Img src="/about.webp" alt="Alberto Nicolás" className="block h-auto w-full" style={{ aspectRatio: "1296/630" }} />
         </MaskReveal>
       </div>
 

@@ -8,6 +8,7 @@ import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
 import { ISOTYPE, LOGO_LETTERS } from "./logo-paths";
+import Img from "@/components/case-study/Img";
 
 /* El canon de formas (Gloop, 6-oct-2026). Todo sale del «imago», la esquina recta del isotipo: las
    tarjetas llevan radio 18 con la esquina de arriba a la izquierda recta, que rima con el logo; los
@@ -169,7 +170,7 @@ export default function ImagoCanon() {
             >
               {shapeKey === "avatar" && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src="/maqueta/gloop/media/photo-profile.jpg" alt="" className="h-full w-full object-cover" />
+                <Img src="/maqueta/gloop/media/photo-profile.jpg" alt="" className="h-full w-full object-cover" />
               )}
               {shapeKey === "cta" && (
                 <span className="flex h-full items-center justify-center text-[17px] font-semibold text-black" style={{ fontFamily: "var(--font-gloop)" }}>

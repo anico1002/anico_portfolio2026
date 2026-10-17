@@ -6,6 +6,7 @@ import { FadeIn } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { STAGGER } from "@/lib/maqueta/motion";
 import { IX, IX_EXPO, mono } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* El logotipo de Interactius, ampliado (feedback 2026-10-16: «incidir en el concepto del macrón y en la parte de
    branding»). Todo sale del manual (messages/es.json → concepto y logo; public/concepto y public/logo):
@@ -55,9 +56,9 @@ function Version({ tone }: { tone: "positivo" | "negativo" }) {
     <FadeIn className="col-span-12 md:col-span-6">
       <figure className="flex aspect-[16/10] flex-col items-center justify-between p-6 md:p-10" style={{ background: pos ? IX.light : IX.dark }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/maqueta/interactius/brand/isotipo-${tone}.svg`} alt={`Isotipo ${tone}`} className="w-7 md:w-9" />
+        <Img src={`/maqueta/interactius/brand/isotipo-${tone}.svg`} alt={`Isotipo ${tone}`} className="w-7 md:w-9" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/maqueta/interactius/brand/interactius-${tone}.svg`} alt={`interactīus, ${pos ? "positive" : "negative"} version`} className="w-[78%]" />
+        <Img src={`/maqueta/interactius/brand/interactius-${tone}.svg`} alt={`interactīus, ${pos ? "positive" : "negative"} version`} className="w-[78%]" />
         <figcaption className="t-label t-tag" style={{ color: pos ? IX.ash : "rgba(255,255,255,0.6)" }}>
           {pos ? "Positive" : "Negative"} version
         </figcaption>

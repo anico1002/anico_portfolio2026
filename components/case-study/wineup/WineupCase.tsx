@@ -10,6 +10,7 @@ import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Para
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import Img from "@/components/case-study/Img";
 
 /* Caso de WineUp, a medida (2026-10-16). Contexto de Alberto: una app para amantes del vino, una red social donde se
    unen, conectan y comparten; dos perfiles desde el principio (WineLover y WineExpert), cada uno con su onboarding (el
@@ -36,7 +37,7 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
         <LazyVideo className="h-full w-full object-cover" src={`${M}/${src}.mp4`} poster={`${M}/${src}-poster.jpg`} aria-label={label} />
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/maqueta/gloop/media/iphone18-frame.png" alt="" className="pointer-events-none absolute inset-0 h-full w-full" />
+      <Img src="/maqueta/gloop/media/iphone18-frame.png" alt="" className="pointer-events-none absolute inset-0 h-full w-full" />
     </div>
   );
 }
@@ -140,7 +141,7 @@ function Feature({
               <div className="relative aspect-[100/95] w-full md:aspect-auto md:h-[min(70vh,45.6rem)]" style={{ background: shade(bg ?? W.cellar) }}>
                 {photo && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                  <Img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
                 )}
                 {photo && <span aria-hidden className="absolute inset-0" style={{ background: VEIL }} />}
               </div>

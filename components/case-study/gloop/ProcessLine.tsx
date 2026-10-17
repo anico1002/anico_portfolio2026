@@ -7,6 +7,7 @@ import Lines from "@/components/case-study/Lines";
 import { GraphicReveal, Placeholder } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { G, geist } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* El proceso (Gloop; rehecho el 2026-10-13 con el feedback de Alberto: sin fechas, que envejecen mal y no
    le importan a quien visita). Los pasos de creación, del benchmark a la app final. En escritorio, la
@@ -54,7 +55,7 @@ function Mood() {
       {imgs.map((n, k) => (
         <div key={n} className={`overflow-hidden ${k === 0 ? "col-span-2 row-span-2" : ""}`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/maqueta/gloop/media/${n}.jpg`} alt="" loading="lazy" className="gloop-drift h-full w-full object-cover" style={{ animationDelay: `${-k * 5}s` }} />
+          <Img src={`/maqueta/gloop/media/${n}.jpg`} alt="" loading="lazy" className="gloop-drift h-full w-full object-cover" style={{ animationDelay: `${-k * 5}s` }} />
         </div>
       ))}
       <div className="absolute bottom-3 left-3 flex gap-1.5">
@@ -187,7 +188,7 @@ function StepCard({ s, i }: { s: Step; i: number }) {
             <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={s.media.src} />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={s.media.src} alt="" loading="lazy" className="gloop-drift absolute inset-0 h-full w-full object-cover" />
+            <Img src={s.media.src} alt="" loading="lazy" className="gloop-drift absolute inset-0 h-full w-full object-cover" />
           )}
         </div>
       )}
@@ -204,7 +205,7 @@ function StepCard({ s, i }: { s: Step; i: number }) {
         // detrás en vez del fondo de brillos (feedback 2026-10-14).
         <div className="relative mt-6 aspect-[16/10] overflow-hidden" style={{ background: G.base }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/maqueta/gloop/media/party-ev5.jpg" alt="" aria-hidden className="gloop-drift absolute inset-0 h-full w-full object-cover" style={{ filter: "blur(16px) brightness(0.55) saturate(1.2)" }} />
+          <Img src="/maqueta/gloop/media/party-ev5.jpg" alt="" aria-hidden className="gloop-drift absolute inset-0 h-full w-full object-cover" style={{ filter: "blur(16px) brightness(0.55) saturate(1.2)" }} />
           <div
             className="absolute left-1/2 top-[5%] h-[96%] -translate-x-1/2 overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.8)]"
             style={{ aspectRatio: "480 / 1042", borderRadius: "11% / 5.1%" }}

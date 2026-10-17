@@ -10,6 +10,7 @@ import { startCurtain } from "@/components/case-study/Curtain";
 import { SLIDES } from "@/lib/maqueta/sections";
 import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/SlideMedia";
+import Img from "@/components/case-study/Img";
 
 /* Entrada de la maqueta (elegida 2026-10-12; adonde lleva el logo): pantalla partida por la mitad, Product a la izquierda
    y Games a la derecha. Titulares juntos en el centro, pegados a la línea central; un párrafo corto
@@ -65,7 +66,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
       <div className="hidden">
         {srcs.map((s) => (
           // eslint-disable-next-line @next/next/no-img-element
-          <img key={s} src={posterOf(s)} alt="" />
+          <Img key={s} src={posterOf(s)} alt="" />
         ))}
       </div>
     </motion.div>

@@ -8,6 +8,7 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
 import Lines from "@/components/case-study/Lines";
 import { useReduce } from "@/lib/maqueta/reduce";
 import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/SlideMedia";
+import Img from "@/components/case-study/Img";
 
 /* Cabecera de la home de una sección (2026-10-12; antes era un titular estático y se sentía
    muy quieta). Continúa la entrada partida sin corte: pase de imágenes a pantalla completa
@@ -34,7 +35,7 @@ function InlineMedia({ slides, open }: { slides: readonly string[]; open: boolea
   return (
     <span className={`inline-media ${open ? "is-open" : ""}`} aria-hidden>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={posterOf(slides[k])} alt="" />
+      <Img src={posterOf(slides[k])} alt="" />
     </span>
   );
 }
@@ -213,7 +214,7 @@ export default function HomeHero({
           <div className="hidden">
             {slides.map((s) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={s} src={posterOf(s)} alt="" />
+              <Img key={s} src={posterOf(s)} alt="" />
             ))}
           </div>
         </motion.div>

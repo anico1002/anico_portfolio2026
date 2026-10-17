@@ -7,6 +7,7 @@ import { FadeIn, WindowReveal } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* Momentos Gloop (antes «Momentos firma»): los juegos, donde la marca se suelta.
    2026-10-14 (feedback de Alberto): la ruleta de la app a pantalla completa, para dar un golpe de color entre
@@ -86,7 +87,7 @@ export default function GameRoulette() {
             {/* La foto del juego en grises, teñida con su color (corte seco entre juegos, como en la app). */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {/* El color manda (como en la app): la foto en grises solo le da textura, en «superponer». */}
-            <img src={g.img} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ filter: "grayscale(1) contrast(1.2) brightness(1.15)", mixBlendMode: "overlay" }} />
+            <Img src={g.img} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ filter: "grayscale(1) contrast(1.2) brightness(1.15)", mixBlendMode: "overlay" }} />
             <span aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/35" />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white" style={{ fontFamily: "var(--font-gloop)" }}>
               <AnimatePresence>

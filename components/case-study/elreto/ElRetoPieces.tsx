@@ -5,6 +5,7 @@ import { Onest, Unbounded } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import Img from "@/components/case-study/Img";
 
 /* Piezas de El Reto (plataforma gamificada del concurso online de MasterChef World), recreadas con su UI kit
    real (src/ui-kit.css del repo ElReto-app-2026-Lovable): naranja #FC6B37, degradado #F3AD68 → #FC6B37,
@@ -54,9 +55,9 @@ export function BrandGlow() {
         />
       ))}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/maqueta/elreto/brand/concentric-circles.svg" alt="" className="absolute h-[140%] w-auto opacity-40" />
+      <Img src="/maqueta/elreto/brand/concentric-circles.svg" alt="" className="absolute h-[140%] w-auto opacity-40" />
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/maqueta/elreto/brand/logo-elreto-vertical.svg" alt="El Reto" className="relative w-[22%]" />
+      <Img src="/maqueta/elreto/brand/logo-elreto-vertical.svg" alt="El Reto" className="relative w-[22%]" />
     </div>
   );
 }

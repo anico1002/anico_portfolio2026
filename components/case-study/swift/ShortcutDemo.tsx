@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import Img from "@/components/case-study/Img";
 
 /* SwifT en acción, recreado (no es una captura): una ventana de macOS con un mensaje; se selecciona con
    el barrido violeta de la landing, se encienden ⌥ ⌘ T (el atajo de la v2.1) y aparece el panel de
@@ -89,7 +90,7 @@ export default function ShortcutDemo() {
         <span className="font-semibold">Mensajes</span>
         <span className="flex items-center gap-3 text-[#6e6e73]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/maqueta/swift/brand/mark-black.svg" alt="" className="h-3.5 w-3.5" />
+          <Img src="/maqueta/swift/brand/mark-black.svg" alt="" className="h-3.5 w-3.5" />
           <span>mar 13 oct 9:41</span>
         </span>
       </div>

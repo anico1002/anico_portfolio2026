@@ -5,6 +5,7 @@ import { FadeIn } from "@/components/case-study/primitives";
 import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import Img, { OptSource } from "@/components/case-study/Img";
 
 /* Piezas de 7news (lector de noticias nativo para iPhone y Apple Watch), recreadas a partir del repo 7News:
    README, docs/DECISIONES.md y la splash real. Sin IA ni noticias generadas: un lector de feeds que decide
@@ -44,7 +45,10 @@ function NewsRow({ src, k, p }: { src: string; k: number; p: MotionValue<number>
   const scale = useTransform(p, [at, at + 0.03], [1, 0.94]);
   return (
      
-    <motion.img src={src} alt="" className="w-full rounded-[12px] ring-1 ring-white/10" style={{ opacity, scale }} />
+    <picture style={{ display: "contents" }}>
+      <OptSource src={src} />
+      <motion.img src={src} alt="" className="w-full rounded-[12px] ring-1 ring-white/10" style={{ opacity, scale }} />
+    </picture>
   );
 }
 
@@ -224,7 +228,7 @@ export function DayEnds() {
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {ROWS.slice(0, 6).map((src) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={src} src={src} alt="" className="w-full rounded-[12px]" />
+            <Img key={src} src={src} alt="" className="w-full rounded-[12px]" />
           ))}
         </div>
         <AllRead />
@@ -385,7 +389,7 @@ export function VersusTable() {
         <span className="col-span-6 md:col-span-4">Any other reader</span>
         <span className="col-span-6 md:col-span-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/maqueta/7news/brand/7news-logo.svg" alt="7news" className="light-invert h-[1.1em] w-auto" />
+          <Img src="/maqueta/7news/brand/7news-logo.svg" alt="7news" className="light-invert h-[1.1em] w-auto" />
         </span>
       </div>
       {VS.map(([k, a, b], i) => (

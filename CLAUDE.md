@@ -83,6 +83,12 @@ $FFMPEG -i input_src.mp4 -vcodec libx264 -crf 26 -preset slow \
 - 392px width (even number, matches iPhone 14 ratio 393×852)
 - Remove source file after conversion — never commit `*_src.mp4` files
 
+**Imágenes ligeras (maqueta, 2026-10-17):** las imágenes se sirven en AVIF desde `public/opt/` con el ancho justo
+para cada pantalla (`components/case-study/Img.tsx`; los `motion.img` llevan `OptSource`). Al añadir o cambiar una
+imagen, lanzar `npm run media:opt`: genera solo lo nuevo, mide la calidad contra el original (SSIM ≥ 0,99) y, si no
+la alcanza o no ahorra un 40 %, deja el original. Sin ese paso la imagen sale igual, pero en su versión pesada.
+Los originales no se tocan nunca.
+
 ## UI conventions
 
 - **Content width:** `max-w-6xl mx-auto` with `px-6 md:px-12`

@@ -11,6 +11,7 @@ import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import { LINKEDIN, email } from "@/lib/maqueta/contact";
 import Arrow from "@/components/case-study/Arrow";
+import Img from "@/components/case-study/Img";
 
 const noop = () => () => {};
 
@@ -127,7 +128,7 @@ export default function SiteNav({
         {parts !== "menu" && (
           <TLink href="/maqueta" aria-label="anico · home" className="pointer-events-auto">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
+            <Img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
           </TLink>
         )}
         {parts !== "logo" && (
@@ -178,7 +179,7 @@ export default function SiteNav({
           >
             <div className="flex items-center justify-between py-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto dark-invert" />
+              <Img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto dark-invert" />
               {/* Misma caja que la hamburguesa de la barra: la X sale justo donde estaban las dos rayas. */}
               <button type="button" onClick={() => setOpen(false)} className="-m-3 p-3" aria-label="Close menu">
                 <Burger x />

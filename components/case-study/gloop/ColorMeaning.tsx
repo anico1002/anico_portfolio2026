@@ -7,6 +7,7 @@ import { FadeIn, GraphicReveal, Parallax } from "@/components/case-study/primiti
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* El color habla (Gloop): en la app el color no decora, dice. Tres significados (en directo, lo tuyo,
    algo te espera; el rojo de «irreversible» se quitó el 2026-10-13 por feedback) y una tarjeta de
@@ -54,7 +55,7 @@ function TeamCard({ on }: { on: Key }) {
       <div className="relative mt-5 flex items-center gap-2">
         {/* El grupo de avatares de la app (forma imago) y, al lado, tú, con el lima. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/maqueta/gloop/media/av-piso.png" alt="" className="h-[38px] w-auto" style={{ borderRadius: "0 10px 10px 10px" }} />
+        <Img src="/maqueta/gloop/media/av-piso.png" alt="" className="h-[38px] w-auto" style={{ borderRadius: "0 10px 10px 10px" }} />
         <span
           className="flex h-[38px] w-[38px] items-center justify-center text-[13px] font-bold text-black"
           style={{ ...dim("yours"), borderRadius: "0 10px 10px 10px", background: G.lime }}
@@ -129,7 +130,7 @@ export default function ColorMeaning() {
         <div className="relative flex min-h-[28rem] items-center justify-center overflow-hidden p-6 md:min-h-[34rem] md:p-12" style={{ background: G.base }}>
           {/* Foto de fiesta desenfocada: el cristal de la tarjeta necesita algo detrás. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Img
             src="/maqueta/gloop/media/party-ev6.jpg"
             alt=""
             aria-hidden

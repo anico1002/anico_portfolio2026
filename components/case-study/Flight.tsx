@@ -29,7 +29,9 @@ const box = (r: DOMRect): Rect => ({ left: r.left, top: r.top, width: r.width, h
 export function startFlight(src: string, frame: HTMLElement, onLanded: () => void) {
   const media = frame.querySelector("img, video") as HTMLImageElement | HTMLVideoElement | null;
   flight = {
-    src,
+    // El archivo que la tarjeta ya tiene cargado (su versión ligera, `Img`), no el original: si no, la capa
+    // descargaría el PNG pesado justo al empezar a volar.
+    src: media instanceof HTMLImageElement && media.currentSrc ? media.currentSrc : src,
     frame: box(frame.getBoundingClientRect()),
     media: box((media ?? frame).getBoundingClientRect()),
     time: media instanceof HTMLVideoElement ? media.currentTime : 0,

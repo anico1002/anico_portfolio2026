@@ -3,6 +3,7 @@
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { forwardRef, useEffect, useState } from "react";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import { OptSource } from "@/components/case-study/Img";
 
 /* Diapositiva de los pases de fondo (entrada partida, cabecera de la home y telón entre las dos).
    Desde el 2026-10-14 el pase de Product son las miniaturas en movimiento de cada caso, así que
@@ -55,7 +56,13 @@ const SlideMedia = forwardRef<HTMLImageElement | HTMLVideoElement, Props>(functi
       ? { opacity: { duration: DUR.base, ease: EASE.inOut }, scale: { duration: DUR.drift, ease: EASE.out } }
       : { duration: DUR.slow, ease: EASE.inOut },
   };
-  if (!isVideo(src)) return <motion.img ref={ref as React.Ref<HTMLImageElement>} src={src} alt="" {...common} />;
+  if (!isVideo(src))
+    return (
+      <picture style={{ display: "contents" }}>
+        <OptSource src={src} />
+        <motion.img ref={ref as React.Ref<HTMLImageElement>} src={src} alt="" {...common} />
+      </picture>
+    );
   return <Video {...common} ref={ref as React.Ref<HTMLVideoElement>} src={src} playing={playing} startAt={startAt} onReady={onReady} />;
 });
 

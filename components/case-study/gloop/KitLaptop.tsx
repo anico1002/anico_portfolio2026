@@ -7,6 +7,7 @@ import { FadeIn } from "@/components/case-study/primitives";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { G, geist } from "./tokens";
+import Img from "@/components/case-study/Img";
 
 /* El design system de Gloop (rehecho el 2026-10-13 con el feedback de Alberto: «parte importante, que no
    pase tan rápido»). Los textos llegan sobre negro; después, parada de scroll: el portátil se queda fijo
@@ -188,7 +189,7 @@ export default function KitLaptop() {
                   <KitVideo step={pinned ? step : 0} play={!pinned || inView} />
                 </div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={MOCK} alt="The Gloop design system on a MacBook" className="relative block w-full" />
+                <Img src={MOCK} alt="The Gloop design system on a MacBook" className="relative block w-full" />
                 {/* Handoff: el código sube sobre la pantalla. */}
                 <motion.pre
                   className="absolute bottom-[26%] right-[14%] w-[36%] overflow-hidden rounded-[10px] p-[2.2%] text-[clamp(8px,0.9vw,13px)] leading-relaxed shadow-2xl"

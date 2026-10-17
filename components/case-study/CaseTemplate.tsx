@@ -24,6 +24,7 @@ import { invText } from "@/components/case-study/invText";
 import Lines from "@/components/case-study/Lines";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import { useReduce } from "@/lib/maqueta/reduce";
+import Img from "@/components/case-study/Img";
 
 /* Plantilla de caso de la maqueta: el mismo lenguaje que Gloop (máscaras y curvas de
    Metalab, parallax de Yakushev) alimentado por lib/maqueta/cases.ts + los medios de
@@ -99,7 +100,7 @@ function Slides({ srcs, w, h, alt }: { srcs: string[]; w: number; h: number; alt
     <div className="relative w-full" style={{ aspectRatio: `${w}/${h}` }}>
       {srcs.map((s, k) => (
         // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Img
           key={s}
           src={s}
           alt={k === i ? alt : ""}
@@ -123,7 +124,7 @@ function MediaView({ item, alt }: { item: MediaItem; alt: string }) {
   if (item.type === "slides") return <Slides srcs={item.srcs} w={item.w} h={item.h} alt={alt} />;
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={item.src} alt={alt} loading="lazy" className="block h-auto w-full" style={{ aspectRatio: `${item.w}/${item.h}` }} />
+    <Img src={item.src} alt={alt} loading="lazy" className="block h-auto w-full" style={{ aspectRatio: `${item.w}/${item.h}` }} />
   );
 }
 
@@ -293,7 +294,7 @@ export default function CaseTemplate({
             <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
-            <img className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} alt="" />
+            <Img className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} alt="" />
           ))}
       </CaseHero>
 
@@ -363,7 +364,7 @@ export default function CaseTemplate({
               <LazyVideo className="h-full w-full object-cover" src={c.feature} aria-label={c.name} />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={c.feature} alt={c.name} className="h-full w-full object-cover" />
+              <Img src={c.feature} alt={c.name} className="h-full w-full object-cover" />
             )}
           </FeatureReveal>
         </div>
@@ -374,7 +375,7 @@ export default function CaseTemplate({
         <div className="mt-28 md:mt-40">
           <WindowReveal>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={media.phone.bg} alt="" className="h-full w-full object-cover" />
+            <Img src={media.phone.bg} alt="" className="h-full w-full object-cover" />
           </WindowReveal>
         </div>
       )}
