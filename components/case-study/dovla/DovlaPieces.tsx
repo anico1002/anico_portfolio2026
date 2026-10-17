@@ -22,7 +22,7 @@ export const D = {
 } as const;
 
 const SF = { fontFamily: '-apple-system, "SF Pro Display", "SF Pro Text", system-ui, sans-serif' } as const;
-const eur = (v: number) => v.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+const eur = (v: number) => "€" + v.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 function useInView<T extends Element>(margin = "-15% 0px") {
   const ref = useRef<T>(null);
@@ -63,9 +63,9 @@ function RollingAmount({ value }: { value: number }) {
 }
 
 const MOVES = [
-  { who: "Mercadona", what: "Hoy · Supermercado", v: -47.32 },
-  { who: "Renfe", what: "Hoy · Transporte", v: -12.4 },
-  { who: "Marta Ferrer", what: "Ayer · Transferencia recibida", v: 25 },
+  { who: "Mercadona", what: "Today · Groceries", v: -47.32 },
+  { who: "Renfe", what: "Today · Transport", v: -12.4 },
+  { who: "Marta Ferrer", what: "Yesterday · Transfer received", v: 25 },
   { who: "Netflix", what: "Ayer · Suscripción", v: -13.99 },
   { who: "Nómina", what: "30 sep · Ingreso", v: 2340 },
   { who: "Farmacia", what: "29 sep · Salud", v: -18.6 },
@@ -331,7 +331,7 @@ export function LargeText() {
     <div ref={ref} className="mx-auto w-full max-w-[24rem] rounded-[2.6rem] p-3" style={{ background: "#120910" }}>
       <div className="min-h-[22rem] rounded-[2.1rem] px-5 py-8" style={{ background: D.bg, color: D.sand, ...SF }}>
         <p className="text-[12px] uppercase tracking-[0.1em]" style={{ color: D.text3 }}>
-          Texto {big ? "200 %" : "normal"}
+          Text size {big ? "200%" : "100%"}
         </p>
         {MOVES.slice(0, 3).map((m) => (
           <motion.div

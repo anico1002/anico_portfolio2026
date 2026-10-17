@@ -76,3 +76,9 @@ scripts/mockups/photoshop/run.jsx
 /public/fonts-licencia/
 /public/maqueta/wineup/media/
 /scripts/case-media/shots-en/
+
+# Dovla: capturas, vídeos y fotos de una app sin publicar (repo público): solo en local
+/public/maqueta/dovla/screens/
+/public/maqueta/dovla/media/
+/public/opt/maqueta/dovla/screens/
+/public/opt/maqueta/dovla/media/

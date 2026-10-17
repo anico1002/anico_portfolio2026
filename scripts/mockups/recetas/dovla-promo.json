@@ -1,0 +1,27 @@
+{
+ "canvas": [
+  2000,
+  1333
+ ],
+ "out": [
+  1920,
+  1280
+ ],
+ "bg": "mockups-src/bg-dovla-plum.jpg",
+ "black": 0,
+ "vignette": 0.4,
+ "top": 0,
+ "xfade": 0.6,
+ "crf": 21,
+ "poster": "public/maqueta/dovla/media/promo-poster.jpg",
+ "layers": [
+  {
+   "scene": "mockups-src/im-silver",
+   "view": "view-2",
+   "video": "scripts/case-media/clips/dovla/promo.mp4",
+   "place": "1.0,0.5,center",
+   "rot": -6,
+   "tint": 0.3
+  }
+ ]
+}

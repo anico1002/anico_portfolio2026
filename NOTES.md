@@ -15,6 +15,28 @@
 vuelo desde el carrusel del pie sin salto; rayas de la ola del titular en Safari; imágenes AVIF con calidad medida
 (`npm run media:opt` al añadir imágenes o vídeos); vuelo con poca red arreglado y pósters para todos los vídeos.
 
+## Dovla rehecho (2026-10-17 noche, MacBook, «tira millas»)
+
+Nuevo enfoque (Alberto): **banca privada** para clientes con mucho patrimonio, el **UI kit** como capítulo central
+(como Interactius) y las **dovelas que giran** como hilo visual. Caso en inglés en `components/case-study/dovla/`
+(`DovlaCase.tsx` + piezas nuevas en `DovlaKit.tsx`): cabecera con dos móviles, intro con la promo en vídeo,
+Identity (fotos que se deshacen en dovelas giratorias + patrón), UI kit (la Home señalando cada pieza, color,
+Silka en imagen, espaciado y radios, hoja de componentes), Cards (familia en abanico + vídeo del monedero), Private
+service, Accessibility, Appearance (claro/oscuro arrastrando), cierre. Ficha de `cases.ts` en inglés y miniatura
+en vídeo. **Aún no está en el pase de Product** (`sections.ts`): esperar a que Alberto lo dé por bueno.
+
+- **Grabar la app:** `scripts/case-media/dovla.sh tour|intro|home|promo|tx|cards|tabs` (toca por texto; la app se
+  compila antes desde `~/Vibe_Projects/dovla-app` en `build/dd`). Recorrido completo de 1:51 en
+  `scripts/case-media/clips/dovla/tour.mp4`, tramos limpios al lado.
+- **Piezas del kit:** `python3 scripts/case-media/dovla-kit.py` recorta componentes de `public/maqueta/dovla/screens/`
+  y renderiza la escala de Silka como imagen (su licencia no permite servirla en la web).
+- **Mockups:** recetas `scripts/mockups/recetas/dovla-{hero,cards,promo}.json`, fondo `mockups-src/bg-dovla-plum.jpg`.
+- Todo lo de `public/maqueta/dovla/{media,screens}` va fuera de git (app sin publicar).
+
+**Standby para revisar con Alberto:** copy (titulares alternativos), la foto del coche enseña el logo de
+Rolls-Royce, más fotos si hacen falta, la nota interna visible en Pagos de la app y el ⌄ de Tarjetas que reabre el
+extracto si no está arriba (los dos en `dovla-app`, sin tocar), NDA/nombre.
+
 ## (anterior) 2026-10-17 tarde, MacBook — repaso de copy de Games
 
 **Ahora:** repasar y traducir al inglés los copys de los juegos, uno a uno, con Alberto (opciones de copy → elige él).
