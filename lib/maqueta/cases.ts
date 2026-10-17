@@ -569,7 +569,7 @@ const ALL_CASES: CaseCopy[] = [
     tagline: "Disney’s heroes on the starting grid, from mobile to console.",
     question: "¿Cómo sería un juego de karts Disney pensado también para adultos?",
     overview: [
-      "Una propuesta de dirección de arte y UI/UX para un juego de karts de Disney, desarrollada en Gameloft Barcelona.",
+      "An early art direction and UI/UX proposal for a Disney kart racer, made at Gameloft Barcelona for console and mobile. The brief: a game that grown-up Disney fans and younger players would love equally, with a richer finish and real respect for the characters.",
       "La premisa: un juego que atraiga por igual a los fans adultos de la marca y a los jugadores más jóvenes, con un homenaje a sus personajes y un acabado más ambicioso.",
     ],
     chapters: [
@@ -587,7 +587,7 @@ const ALL_CASES: CaseCopy[] = [
         title: "Un brief, una sola voz visual.",
       },
     ],
-    outcomeTitle: "Una referencia creativa interna.",
+    outcomeTitle: "Every big game starts as a bold first draft.",
     outcome: "La propuesta sirvió en Gameloft Barcelona como referente de dirección de arte: lo que podría ser un juego de karts Disney con la inversión creativa adecuada. Uno de los paquetes de concepto más completos de mi portfolio.",
   },
   {
