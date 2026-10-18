@@ -31,7 +31,7 @@ vuelve al punto de partida al final del bucle:
     franja, "width": 0–1, "gain": subida dentro de la franja, "floor": luz fuera de ella, "rake": fuerza del relieve,
     "rake_swing": grados que gira la luz rasante, "soft": penumbra del borde, "mullion": medio ancho del parteluz, "keep_dx"/"keep_dy": canto del móvil que asoma junto a la pantalla }.
 """
-import cv2, numpy as np, json, sys, subprocess
+import cv2, numpy as np, json, sys, subprocess, os
 
 FF = subprocess.check_output(["npm", "root", "-g"], text=True).strip() + "/ffmpeg-static/ffmpeg"
 R = json.load(open(sys.argv[1])); OUT = sys.argv[2]
@@ -175,23 +175,52 @@ def keep_mask(l):
 
 
 def sweep_gain(l, i):
-    """Luz nueva del muro en el fotograma i, como factor sobre la de la foto (a un cuarto de resolución)."""
-    sw = MV["sweep"]; t = i / T
-    if "rel" not in l:
+    """Luz de ventana sobre el muro y el suelo en el fotograma i, como factor sobre la luz de la foto (2026-10-18, v2:
+    la primera, una franja recta que cruzaba todo, «se siente poco real»). Cada punto se lleva por su rayo hasta la arista
+    muro-suelo y allí se mide la ventana: así la luz dobla en la esquina y la mancha tiene su forma (dos paños, parteluz,
+    travesaño y final), con la penumbra abriéndose al alejarse de la arista. El relieve rasante solo se enciende donde da
+    la luz, el móvil la corta con su sombra y su canto brilla cuando le llega. La ventana no cruza: deriva despacio
+    alrededor del móvil y, una vez por bucle, pasa una nube."""
+    sw = MV["sweep"]; ph = 2 * np.pi * i / T
+    if "geo" not in l:
+        x0, y0, x1, y1 = sw["junction"]; k = (y1 - y0) / (x1 - x0); b = y0 - k * x0
+        X, Y = xx[::2, ::2], yy[::2, ::2]  # a media resolución basta para la luz (en px del lienzo)
+        def hit(d):
+            dx, dy = d; t = (b + k * X - Y) / (dy - k * dx); return X + t * dx, np.abs(t) * np.hypot(dx, dy)
+        wall = Y < b + k * X
+        aw, af = np.radians(sw.get("wall_angle", 62)), np.radians(sw.get("floor_angle", 152))
+        hw, dw = hit((np.cos(aw), np.sin(aw))); hf, df = hit((np.cos(af), np.sin(af)))
+        l["geo"] = (np.where(wall, hw, hf), np.where(wall, dw, df), wall)
         lum = cv2.cvtColor((l["rgb"] * 255).astype(np.uint8), cv2.COLOR_BGR2GRAY).astype(np.float32) / 255
         h = cv2.GaussianBlur(lum, (0, 0), 1.6)
         gx, gy = cv2.Sobel(h, cv2.CV_32F, 1, 0), cv2.Sobel(h, cv2.CV_32F, 0, 1)
         n = max(1e-4, float(np.std(np.hypot(gx, gy))))
-        l["rel"] = (gx / n, gy / n)
-    gx, gy = l["rel"]
-    a = np.radians(-135 + sw.get("rake_swing", 40) * np.sin(2 * np.pi * t))
-    rake = 1 + sw.get("rake", 0.08) * np.clip(gx * np.cos(a) + gy * np.sin(a), -3, 3)
-    th = np.radians(sw.get("angle", 62)); u = (qx * np.cos(th) + qy * np.sin(th)) / (QW * abs(np.cos(th)) + QH * abs(np.sin(th)))
-    # La franja tiene forma de ventana: meseta con bordes de penumbra y un parteluz oscuro en medio.
-    d = np.abs(u - (-0.35 + 1.7 * t)); w2, e = sw.get("width", 0.16) / 2, sw.get("soft", 0.025)
-    band = np.clip((w2 - d) / e + 0.5, 0, 1) * (1 - 0.85 * np.clip((sw.get("mullion", 0.012) - d) / (e * 0.4) + 0.5, 0, 1))
-    band = cv2.resize(band.astype(np.float32), (CW, CH), interpolation=cv2.INTER_LINEAR)
-    return (rake * (sw.get("floor", 0.88) + sw.get("gain", 0.7) * band))[..., None]
+        a = np.radians(sw.get("rake_dir", -135))
+        l["rake"] = np.clip((gx * np.cos(a) + gy * np.sin(a)) / n, -3, 3)
+        keep = keep_mask(l)[..., 0]
+        sh = cv2.warpAffine(keep, np.float32([[1, 0, sw.get("shadow_dx", 70)], [0, 1, sw.get("shadow_dy", 14)]]), (CW, CH))
+        l["shadow"] = cv2.GaussianBlur(np.clip(sh - keep, 0, 1), (0, 0), 9)
+        l["frame"] = np.clip(keep - cv2.GaussianBlur(l["msk"][..., 0], (0, 0), 2), 0, 1)
+    xh, dist, wall = l["geo"]
+    c = sw.get("center", 900) + sw.get("drift", 120) * np.sin(ph)
+    pen = sw.get("soft", 6) + sw.get("spread", 0.03) * dist
+    def edge(v): return np.clip(v / np.maximum(pen, 1) + 0.5, 0, 1)
+    u = xh - c; w2 = sw.get("width", 300) / 2; mu = sw.get("mullion", 14) / 2
+    across = edge(w2 - np.abs(u)) * (1 - edge(mu - np.abs(u)) * 0.9)
+    # A lo largo del rayo: la luz llega hasta el final de la ventana y la cruza un travesaño.
+    top = np.where(wall, sw.get("wall_len", 760), sw.get("floor_len", 300)); tr = sw.get("transom", 0.45) * top
+    along = edge(top - dist) * (1 - 0.9 * edge(sw.get("bar", 12) / 2 - np.abs(dist - tr)))
+    patch = cv2.resize((across * along).astype(np.float32), (CW, CH), interpolation=cv2.INTER_LINEAR)
+    patch *= 1 - 0.85 * l["shadow"]
+    if os.environ.get("DEBUG") and i == 0: cv2.imwrite(os.environ["DEBUG"], (patch * 255).astype(np.uint8))
+    cloud = 1 - sw.get("cloud", 0.45) * (0.5 - 0.5 * np.cos(ph)) ** 4  # una nube a mitad del bucle
+    lit = patch * cloud
+    gain = sw.get("floor", 0.9) + sw.get("gain", 0.8) * lit * (1 + sw.get("rake", 0.18) * l["rake"])
+    # El suelo es casi negro y multiplicar no lo levanta: ahí la luz también suma (se aplica en compose como "add").
+    l["add"] = (lit * sw.get("add", 0.07) * (1 - l["keep"][..., 0]))[..., None]
+    # El canto del móvil se enciende cuando le da la luz (como si fuera muro: misma mancha).
+    gain = gain * (1 - l["keep_frame"]) + (1 + sw.get("rim", 0.5) * lit) * l["keep_frame"] if "keep_frame" in l else gain
+    return gain[..., None]
 
 
 def compose(i, init=False):
@@ -208,7 +237,9 @@ def compose(i, init=False):
         body = l["body"]
         if MV and MV.get("sweep") and not init:
             if "keep" not in l: l["keep"] = keep_mask(l)
-            body = body * (1 + (sweep_gain(l, i) - 1) * (1 - l["keep"]))
+            g = sweep_gain(l, i)
+            if "keep_frame" not in l: l["keep_frame"] = l["frame"]
+            body = body * (1 + (g - 1) * np.maximum(1 - l["keep"], l["keep_frame"][..., None])) + l["add"] * l["al"]
         st = warp(np.concatenate([l["al"], body, l["shade"], l["wrap"], l["msk"], l["refl"]], axis=2), A)
         al, body, shade, wrp, msk, refl = st[..., 0:1], st[..., 1:4], st[..., 4:5], st[..., 5:8], st[..., 8:9], st[..., 9:12]
         if MV: refl = np.clip(refl + gloss(i), 0, 1)

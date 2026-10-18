@@ -100,12 +100,13 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
       <CaseHero
         poster={
           // El móvil 3D, más grande en la cabecera (2026-10-18, Alberto: «queda muy pequeño… aunque se corte por arriba y
-          // por abajo»). Aterriza igual que la miniatura y, mientras la cabecera se recoge a la franja de arriba, se
-          // acerca (1,25×) y sube hasta quedar centrado en ella.
+          // por abajo»). Arranca con el encuadre de la miniatura (hero-3d-thumb.mp4: recorte 1,35× centrado en el
+          // móvil), para que el vuelo desde la tarjeta aterrice sin salto, y mientras la cabecera se recoge a la franja de
+          // arriba se asienta (1,25×) y sube hasta quedar centrado en ella.
           <motion.div
             className="absolute inset-0"
-            initial={reduce ? false : { scale: 1, y: "0%" }}
-            animate={wide ? { scale: 1.25, y: "-22%" } : { scale: 1, y: "0%" }}
+            initial={reduce ? false : { scale: 1.35, x: "6%", y: "2.5%" }}
+            animate={wide ? { scale: 1.25, x: "0%", y: "-22%" } : { scale: 1, x: "0%", y: "0%" }}
             transition={{ duration: DUR.slow, ease: EASE.inOut, delay: 0.2 }}
           >
             <Placeholder ratio="auto" className="h-full" src={`${M}/hero-3d.mp4`} label="Dovla" />

@@ -12,7 +12,7 @@ export const SLIDES = {
     "/maqueta/dovla/media/hero-3d.mp4",
     // Todos los casos aprobados (2026-10-17).
     "/maqueta/interactius/thumb.mp4",
-    "/maqueta/elreto/media/hero.mp4",
+    "/maqueta/elreto/media/hero-25d-v2.mp4",
     "/maqueta/wineup/media/thumb.mp4",
   ],
   games: [

@@ -59,8 +59,8 @@ const ALL_CASES: CaseCopy[] = [
     section: "product",
     // Miniatura y cabecera: el prototipo real en un móvil entre rocas negras (bucle corto,
     // scripts/mockups/recetas/elreto-hero-app.json: la app real, no la propuesta). La apertura con el recorrido completo va en games.ts.
-    thumb: "/maqueta/elreto/media/hero.mp4",
-    hero: "/maqueta/elreto/media/hero.mp4",
+    thumb: "/maqueta/elreto/media/hero-25d-v2.mp4", // 2026-10-18: las rocas flotan y toman el color de la pantalla (la de antes, hero.mp4)
+    hero: "/maqueta/elreto/media/hero-25d-v2.mp4",
     name: "MasterChef", // antes «El Reto MasterChef»: partía los titulares (Alberto, 2026-10-16)
     line: "The MasterChef experience, in your pocket",
     year: "2025",
@@ -215,7 +215,7 @@ const ALL_CASES: CaseCopy[] = [
     slug: "dovla",
     section: "product",
     // Móvil girando en estudio oscuro, render de Blender (2026-10-18, prueba). El de antes: media/hero.mp4.
-    thumb: "/maqueta/dovla/media/hero-3d.mp4",
+    thumb: "/maqueta/dovla/media/hero-3d-thumb.mp4", // 2026-10-18: recorte 1,35× sobre el móvil (en tarjetas pequeñas, como el carrusel del pie, se veía diminuto); la cabecera sigue con hero-3d.mp4
     name: "Dovla",
     line: "The bank that doesn’t shout",
     year: "2026",

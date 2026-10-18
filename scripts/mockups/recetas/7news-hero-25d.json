@@ -1,8 +1,66 @@
-{ "canvas": [2000, 1333], "out": [1920, 1280], "bg": "mockups-src/bg-ev5.jpg",
-  "black": 0, "vignette": 0, "top": 0, "xfade": 0.6, "crf": 23,
-  "poster": "public/maqueta/7news/media/hero-25d-poster.jpg",
-  "move": { "cycles": 1, "zoom": 0.03, "pan": 18, "overscan": 1.03, "gloss": 0.1, "beams": [],
-            "sweep": { "angle": 62, "width": 0.16, "gain": 0.7, "floor": 0.88, "rake": 0.08, "rake_swing": 40 } },
-  "layers": [
-    { "scene": "mockups-src/im-wall-black", "view": "view-2", "video": "scripts/case-media/clips/news-thumb-cut.mp4",
-      "place": "1,0.5,center", "tint": 0, "body": 1, "wrap": 0, "refl": 0.5 } ] }
+{
+ "canvas": [
+  2000,
+  1333
+ ],
+ "out": [
+  1920,
+  1280
+ ],
+ "bg": "mockups-src/bg-ev5.jpg",
+ "black": 0,
+ "vignette": 0,
+ "top": 0,
+ "xfade": 0.6,
+ "crf": 23,
+ "poster": "public/maqueta/7news/media/hero-25d-v2-poster.jpg",
+ "move": {
+  "cycles": 1,
+  "zoom": 0.03,
+  "pan": 18,
+  "overscan": 1.03,
+  "gloss": 0.1,
+  "beams": [],
+  "sweep": {
+   "junction": [
+    40,
+    725,
+    1960,
+    1218
+   ],
+   "wall_angle": 62,
+   "floor_angle": 152,
+   "center": 1030,
+   "drift": 110,
+   "width": 300,
+   "mullion": 14,
+   "soft": 6,
+   "spread": 0.03,
+   "wall_len": 760,
+   "floor_len": 300,
+   "transom": 0.45,
+   "bar": 12,
+   "cloud": 0.45,
+   "floor": 0.9,
+   "gain": 0.8,
+   "rake": 0.18,
+   "rake_dir": -135,
+   "shadow_dx": 70,
+   "shadow_dy": 14,
+   "rim": 0.5,
+   "add": 0.07
+  }
+ },
+ "layers": [
+  {
+   "scene": "mockups-src/im-wall-black",
+   "view": "view-2",
+   "video": "scripts/case-media/clips/news-thumb-cut.mp4",
+   "place": "1,0.5,center",
+   "tint": 0,
+   "body": 1,
+   "wrap": 0,
+   "refl": 0.5
+  }
+ ]
+}
