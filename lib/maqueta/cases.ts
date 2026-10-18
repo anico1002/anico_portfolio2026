@@ -59,8 +59,8 @@ const ALL_CASES: CaseCopy[] = [
     section: "product",
     // Miniatura y cabecera: el prototipo real en un móvil entre rocas negras (bucle corto,
     // scripts/mockups/recetas/elreto-hero-app.json: la app real, no la propuesta). La apertura con el recorrido completo va en games.ts.
-    thumb: "/maqueta/elreto/media/hero-25d-v2.mp4", // 2026-10-18: las rocas flotan y toman el color de la pantalla (la de antes, hero.mp4)
-    hero: "/maqueta/elreto/media/hero-25d-v2.mp4",
+    thumb: "/maqueta/elreto/media/hero-25d-v3.mp4", // 2026-10-18: las rocas flotan y toman el color de la pantalla (la de antes, hero.mp4)
+    hero: "/maqueta/elreto/media/hero-25d-v3.mp4",
     name: "MasterChef", // antes «El Reto MasterChef»: partía los titulares (Alberto, 2026-10-16)
     line: "The MasterChef experience, in your pocket",
     year: "2025",
@@ -177,7 +177,7 @@ const ALL_CASES: CaseCopy[] = [
     // Caso a medida (app/maqueta/7news): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "7news",
     section: "product",
-    thumb: "/maqueta/7news/media/hero-25d.mp4", // 2026-10-18: la luz de ventana cruza el muro (la de antes, hero.mp4)
+    thumb: "/maqueta/7news/media/hero-25d-v3.mp4", // 2026-10-18: la luz de ventana cruza el muro (la de antes, hero.mp4)
     name: "7news",
     line: "A news reader that knows when you’re done",
     year: "2026",

@@ -29,7 +29,7 @@ export default function NewsCase({ next: n }: { next: MoreCases }) {
       <CaseLayer>
 
       <CaseHero
-        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/7news/media/hero-25d.mp4" label="7news" />}
+        poster={<Placeholder ratio="auto" className="h-full" src="/maqueta/7news/media/hero-25d-v3.mp4" label="7news" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="7news"

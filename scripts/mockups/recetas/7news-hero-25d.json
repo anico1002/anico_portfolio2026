@@ -13,7 +13,7 @@
  "top": 0,
  "xfade": 0.6,
  "crf": 23,
- "poster": "public/maqueta/7news/media/hero-25d-v2-poster.jpg",
+ "poster": "public/maqueta/7news/media/hero-25d-v3-poster.jpg",
  "move": {
   "cycles": 1,
   "zoom": 0.03,
@@ -34,8 +34,8 @@
    "drift": 110,
    "width": 300,
    "mullion": 14,
-   "soft": 6,
-   "spread": 0.03,
+   "soft": 24,
+   "spread": 0.08,
    "wall_len": 760,
    "floor_len": 300,
    "transom": 0.45,
@@ -48,7 +48,9 @@
    "shadow_dx": 70,
    "shadow_dy": 14,
    "rim": 0.5,
-   "add": 0.07
+   "add": 0.07,
+   "mullion_dark": 0.55,
+   "bar_dark": 0.55
   }
  },
  "layers": [

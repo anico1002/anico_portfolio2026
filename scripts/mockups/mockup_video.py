@@ -206,10 +206,10 @@ def sweep_gain(l, i):
     pen = sw.get("soft", 6) + sw.get("spread", 0.03) * dist
     def edge(v): return np.clip(v / np.maximum(pen, 1) + 0.5, 0, 1)
     u = xh - c; w2 = sw.get("width", 300) / 2; mu = sw.get("mullion", 14) / 2
-    across = edge(w2 - np.abs(u)) * (1 - edge(mu - np.abs(u)) * 0.9)
+    across = edge(w2 - np.abs(u)) * (1 - edge(mu - np.abs(u)) * sw.get("mullion_dark", 0.9))
     # A lo largo del rayo: la luz llega hasta el final de la ventana y la cruza un travesaño.
     top = np.where(wall, sw.get("wall_len", 760), sw.get("floor_len", 300)); tr = sw.get("transom", 0.45) * top
-    along = edge(top - dist) * (1 - 0.9 * edge(sw.get("bar", 12) / 2 - np.abs(dist - tr)))
+    along = edge(top - dist) * (1 - sw.get("bar_dark", 0.9) * edge(sw.get("bar", 12) / 2 - np.abs(dist - tr)))
     patch = cv2.resize((across * along).astype(np.float32), (CW, CH), interpolation=cv2.INTER_LINEAR)
     patch *= 1 - 0.85 * l["shadow"]
     if os.environ.get("DEBUG") and i == 0: cv2.imwrite(os.environ["DEBUG"], (patch * 255).astype(np.uint8))

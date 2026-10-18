@@ -47,8 +47,6 @@ for i in rocks:
 
 # Lo que no se mueve: la losa con el móvil, sin la piedra que tenga dentro.
 anyrock = np.clip(sum(alphas), 0, 1)
-front = np.clip(slab.astype(np.float32) - anyrock, 0, 1)
-front = cv2.GaussianBlur(front, (0, 0), 1.0)
 
 # Fondo: es un degradado liso, así que se rehace entero liso a partir de lo que queda lejos de rocas y losa (cerca de
 # ellas, el brillo de su borde dejaba fantasmas).
@@ -59,6 +57,10 @@ for sg in (30, 80, 200, 500):
     w = np.clip(den * 3, 0, 1) * (1 - got)
     bg += num / np.maximum(den, 1e-5) * w; got += w
 bg = bg / np.maximum(got, 1e-5)
+# El original en todas partes salvo donde había piedra y su brillo de borde (una línea clara salía de mezclar el fondo
+# original, más claro junto a la losa, con el rehecho: 2026-10-18).
+near = cv2.GaussianBlur(cv2.dilate((anyrock > 0.05).astype(np.uint8), np.ones((31, 31), np.uint8)).astype(np.float32), (0, 0), 8)[..., None]
+bg = f * (1 - near) + bg * near
 cv2.imwrite(D + "capas/fondo.png", np.clip(bg, 0, 255).astype(np.uint8))
 
 # Cada roca, prolongada unos píxeles hacia dentro de la losa (donde estaba tapada) para que al moverse no se vea el corte.
@@ -68,5 +70,8 @@ for k, a in enumerate(alphas):
     rgb = cv2.inpaint(im, ((grow > 0) & (hard == 0)).astype(np.uint8) * 255, 9, cv2.INPAINT_TELEA)
     alpha = np.maximum(a, cv2.GaussianBlur(grow.astype(np.float32), (0, 0), 1.2))
     cv2.imwrite(D + f"capas/roca-{k}.png", np.dstack([rgb, np.clip(alpha * 255, 0, 255).astype(np.uint8)]))
+# Sin difuminar: el borde de la losa con la roca es el de la roca (2026-10-18). Donde el polígono pisa el fondo no se
+# nota, porque el fondo es el original en todas partes salvo donde había piedra.
+front = slab.astype(np.float32) * (1 - (anyrock > 0.5))
 cv2.imwrite(D + "capas/frente.png", np.dstack([im, np.clip(front * 255, 0, 255).astype(np.uint8)]))
 print(len(alphas), "rocas")

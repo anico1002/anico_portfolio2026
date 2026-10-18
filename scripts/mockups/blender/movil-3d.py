@@ -3,7 +3,8 @@ de Dovla; referencia: art-yakushev.com). Todo procedural: el iPhone es un bloque
 redondeadas con canto de titanio, cristal y pantalla; con giros de ±35° solo se ven la cara y el canto.
 
   Blender -b -P scripts/mockups/blender/movil-3d.py -- --video <app.mp4> --out <carpeta/> [--stills] [--w 1280 --h 800]
-  [--samples 96] [--frames 180] [--video-start 0]
+  [--samples 96] [--frames 180] [--video-start 0] [--tail 30] [--lens 85]
+  Dovla (cabecera): --video public/maqueta/dovla/media/app-flow.mp4 --w 1920 --h 1080 --frames 270 --tail 30
 
 --stills: cuatro fotogramas sueltos para juzgar la luz. Sin él, el bucle entero (PNG numerados; se montan con ffmpeg).
 El giro es una senoide de un periodo, así que el último fotograma enlaza con el primero.
@@ -23,6 +24,9 @@ ap.add_argument("--stills", action="store_true"); ap.add_argument("--w", type=in
 ap.add_argument("--samples", type=int, default=96); ap.add_argument("--frames", type=int, default=180)
 ap.add_argument("--video-start", type=int, default=0)
 ap.add_argument("--tail", type=int, default=0)
+# Objetivo: 85 mm en la cabecera; 115 mm (1,35×) para el pase de fondo de Product, donde a pantalla completa el móvil
+# se veía pequeño al lado de los demás casos (2026-10-18).
+ap.add_argument("--lens", type=float, default=85)
 A = ap.parse_args(argv)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -166,7 +170,7 @@ sc.world = bpy.data.worlds.new("mundo"); sc.world.use_nodes = True
 sc.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0, 0, 0, 1)
 
 # ── Cámara ──────────────────────────────────────────────────────────────────
-cam_d = bpy.data.cameras.new("camara"); cam_d.lens = 85
+cam_d = bpy.data.cameras.new("camara"); cam_d.lens = A.lens
 cam_d.dof.use_dof = True; cam_d.dof.aperture_fstop = 4.0
 cam = bpy.data.objects.new("camara", cam_d); bpy.context.collection.objects.link(cam)
 cam.location = (0, -100, 20)

@@ -17,7 +17,7 @@ CYCLES = 3  # vaivenes por bucle: con el recorrido entero de la app (44 s), uno 
 
 def rd(n): return cv2.imread(C + n, cv2.IMREAD_UNCHANGED).astype(np.float32) / 255
 bg = rd("fondo.png"); H, W = bg.shape[:2]
-front = rd("frente.png"); front[..., 3:] = cv2.GaussianBlur(front[..., 3], (0, 0), 2)[..., None]
+front = rd("frente.png")
 rocks = [rd(f) for f in sorted(os.listdir(C)) if f.startswith("roca-")]
 q = np.float32(json.load(open(D + "view-1.json"))["screen"]["quad"])
 
@@ -62,7 +62,7 @@ def rock_m(k, ph):
     R[0, 2] += ax * np.sin(p); R[1, 2] += ay * np.cos(p)
     return np.vstack([R, [0, 0, 1]])
 
-def warp(a, A): return cv2.warpAffine(a, A[:2].astype(np.float32), (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+def warp(a, A, border=cv2.BORDER_REPLICATE): return cv2.warpAffine(a, A[:2].astype(np.float32), (W, H), flags=cv2.INTER_LINEAR, borderMode=border)
 
 def over(dst, src):
     a = src[..., 3:]; return dst * (1 - a) + src[..., :3] * a
@@ -78,7 +78,8 @@ def frame(i, f):
     Af = cam(1.0, ph)
     glow = warp(fall, Af)[..., None] * tint * GLOW
     for k, rk in enumerate(rocks):
-        w = warp(rk, cam(0.7, ph) @ rock_m(k, ph))
+        # En espejo más allá del borde: las rocas que corta la imagen siguen siendo piedra al alejarse de él.
+        w = warp(rk, cam(0.7, ph) @ rock_m(k, ph), cv2.BORDER_REFLECT)
         w[..., :3] = w[..., :3] * (1 + 2 * glow)  # multiplica: tiñe los relieves con luz y deja negras las sombras
         out = over(out, w)
     out = over(out, warp(front, Af))
