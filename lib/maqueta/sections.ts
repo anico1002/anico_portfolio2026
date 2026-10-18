@@ -13,7 +13,7 @@ export const SLIDES = {
     // Todos los casos aprobados (2026-10-17).
     "/maqueta/interactius/thumb.mp4",
     "/maqueta/elreto/media/hero-25d-v3.mp4",
-    "/maqueta/wineup/media/thumb-live.mp4",
+    "/maqueta/wineup/media/thumb-live2.mp4",
   ],
   games: [
     "/projects/asphalt-unite/AU_hero.png",

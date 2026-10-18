@@ -196,7 +196,7 @@ const ALL_CASES: CaseCopy[] = [
     // de vinos desenfocado (scripts/mockups/hand3d_video.py).
     slug: "wineup",
     section: "product",
-    thumb: "/maqueta/wineup/media/thumb-live.mp4",
+    thumb: "/maqueta/wineup/media/thumb-live2.mp4",
     name: "WineUp",
     line: "Where wine lovers meet",
     year: "2025",

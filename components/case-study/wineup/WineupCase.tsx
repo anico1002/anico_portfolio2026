@@ -174,7 +174,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
       <CaseLayer>
         <CaseHero
           videoReady
-          poster={<BandMedia desktop={`${M}/hero-band-live.mp4`} mobile={`${M}/thumb-live.mp4`} label="WineUp" />}
+          poster={<BandMedia desktop={`${M}/hero-band-live2.mp4`} mobile={`${M}/thumb-live2.mp4`} label="WineUp" />}
           overlay={(t) => (
             <CaseHeroOverlay
               name="WineUp"
@@ -188,7 +188,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
             />
           )}
         >
-          <BandMedia desktop={`${M}/hero-band-live.mp4`} mobile={`${M}/thumb-live.mp4`} label="WineUp" />
+          <BandMedia desktop={`${M}/hero-band-live2.mp4`} mobile={`${M}/thumb-live2.mp4`} label="WineUp" />
         </CaseHero>
 
         {/* Intro */}

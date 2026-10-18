@@ -8,10 +8,11 @@ WineUp (2026-10-17), con fondo mockups-src/bg-wine-bar-blur.jpg y clip scripts/c
 --live (2026-10-18, Alberto: «que el fondo desenfocado parezca un vídeo»): el fondo deja de ser una foto quieta. Deriva
 despacio como cámara en mano, ondula como gente moviéndose fuera de foco, las luces del bar parpadean cada una a su
 ritmo y una vez por bucle pasa por delante una silueta desenfocada. Todo es periódico: el final enlaza con el principio.
+--busy: lo mismo con mucha más vida (varias siluetas, más ondulación, luces y deriva) → media/*-live2.mp4. --crf: compresión.
 """
 import sys, argparse, subprocess, numpy as np, cv2
 a = argparse.ArgumentParser(); a.add_argument("bg"); a.add_argument("video"); a.add_argument("out"); a.add_argument("poster")
-a.add_argument("--max", type=float, default=40); a.add_argument("--live", action="store_true"); a.add_argument("--size", default="1920x1080"); a.add_argument("--place", default="0.62,0.5,1.0")  # centro x (0-1), centro y, escala
+a.add_argument("--max", type=float, default=40); a.add_argument("--live", action="store_true"); a.add_argument("--busy", action="store_true"); a.add_argument("--crf", type=int, default=23); a.add_argument("--size", default="1920x1080"); a.add_argument("--place", default="0.62,0.5,1.0")  # centro x (0-1), centro y, escala
 A = a.parse_args()
 D = "mockups-src/hand-3d/"
 FF = subprocess.check_output(["npm", "root", "-g"], text=True).strip() + "/ffmpeg-static/ffmpeg"
@@ -55,7 +56,7 @@ dst = (np.c_[screen_quad(magscr), np.ones(4)] @ M.T).astype(np.float32)
 VW, VH = 786, 1704  # clip a 2x de 393x852
 Hm = cv2.getPerspectiveTransform(np.float32([[0, 0], [VW, 0], [VW, VH], [0, VH]]), dst)
 # Fondo: cubre el lienzo, oscurecido y con viñeta para que mande la pantalla.
-B = cv2.imread(A.bg).astype(np.float32) / 255; bh, bw = B.shape[:2]; s = max(OW / bw, OH / bh) * (1.08 if A.live else 1)
+B = cv2.imread(A.bg).astype(np.float32) / 255; bh, bw = B.shape[:2]; s = max(OW / bw, OH / bh) * ((1.16 if A.busy else 1.08) if A.live else 1)
 B = cv2.resize(B, (round(bw * s), round(bh * s)), interpolation=cv2.INTER_AREA)
 y0 = (B.shape[0] - OH) // 2; x0 = (B.shape[1] - OW) // 2
 BIG = B * 0.8  # con --live se guarda entero (un 8 % mayor) para que la deriva no enseñe el borde
@@ -70,7 +71,7 @@ wrap = cv2.GaussianBlur(B, (0, 0), 25) * np.clip(edge - alpha, 0, 1) * 1.3
 base = np.clip(base + wrap, 0, 1)
 p = subprocess.Popen([FF, "-loglevel", "error", "-t", str(A.max), "-i", A.video, "-vf", f"scale={VW}:{VH}", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"], stdout=subprocess.PIPE)
 o = subprocess.Popen([FF, "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{OW}x{OH}", "-r", "30", "-i", "-",
-                      "-vcodec", "libx264", "-crf", "23", "-preset", "slow", "-pix_fmt", "yuv420p", "-an", "-movflags", "+faststart", "-y", A.out], stdin=subprocess.PIPE)
+                      "-vcodec", "libx264", "-crf", str(A.crf), "-preset", "slow", "-pix_fmt", "yuv420p", "-an", "-movflags", "+faststart", "-y", A.out], stdin=subprocess.PIPE)
 N = int(min(A.max * 30, int(cv2.VideoCapture(A.video).get(cv2.CAP_PROP_FRAME_COUNT))))
 if A.live:
     # Luces del bar: lo más claro del fondo, con una fase distinta por zona (ruido suave) para que no latan a la vez.
@@ -82,20 +83,33 @@ if A.live:
     w1, w2 = noise(160), noise(160); w1 /= np.abs(w1).max(); w2 /= np.abs(w2).max()
     bgy, bgx = np.mgrid[0:BIG.shape[0], 0:BIG.shape[1]].astype(np.float32)
     awrap = np.clip(edge - alpha, 0, 1)
+# --busy (2026-10-18, Alberto: «me imaginaba un fondo mucho más animado… no tan sutil»): el bar lleno. Varias siluetas
+# a distintas distancias cruzan en los dos sentidos (cada una un número entero de veces por bucle, para que enlace),
+# la ondulación es más amplia y rápida, las luces laten más y la cámara se mueve más.
+E = dict(wave=(55, 36, 4), flick=(0.6, 9), drift=(0.75, 2)) if A.busy else dict(wave=(22, 14, 1), flick=(0.35, 3), drift=(0.3, 1))
+# (pasadas por bucle, sentido, altura del centro, ancho, oscuridad, desfase)
+PEOPLE = [(3, 1, 0.62, 0.13, 0.65, 0.0), (2, -1, 0.70, 0.22, 0.7, 0.35), (5, 1, 0.55, 0.08, 0.5, 0.6),
+          (4, -1, 0.58, 0.10, 0.55, 0.15), (1, 1, 0.75, 0.30, 0.7, 0.8)] if A.busy else [(1, 1, 0.62, 0.13, 0.7, 0.0)]
 def live_bg(n):
     """Fondo del fotograma n: periódico en N fotogramas."""
     ph = 2 * np.pi * n / N
     # Ondulación: el fondo se desplaza con dos campos suaves que se alternan (gente moviéndose fuera de foco).
-    dx = 22 * (w1 * np.sin(ph) + w2 * np.cos(ph)); dy = 14 * (w2 * np.sin(ph) - w1 * np.cos(ph))
+    ax, ay, k = E["wave"]
+    dx = ax * (w1 * np.sin(k * ph) + w2 * np.cos(k * ph)); dy = ay * (w2 * np.sin(k * ph) - w1 * np.cos(k * ph))
     f = cv2.remap(BIG, (bgx + dx).astype(np.float32), (bgy + dy).astype(np.float32), cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-    # Luces que parpadean a su ritmo (tres pulsos por bucle) y bajan un poco al pasar la silueta.
-    f = f * (1 + 0.35 * lights * np.sin(3 * ph + fase))[..., None]
-    # Silueta desenfocada que cruza el bar de izquierda a derecha una vez por bucle (fuera de cuadro en la costura).
-    W2, H2 = f.shape[1], f.shape[0]; cx = (-0.3 + 1.6 * (n / N)) * W2
-    blob = np.exp(-(((bgx - cx) / (0.13 * W2)) ** 2 + ((bgy - 0.62 * H2) / (0.55 * H2)) ** 2))
-    f = f * (1 - 0.7 * blob)[..., None]
-    # Deriva de cámara en mano: un poco de lado y arriba, sin salir del margen del 8 %.
-    ox = (f.shape[1] - OW) / 2 + 0.3 * (f.shape[1] - OW) / 2 * np.sin(ph); oy = (f.shape[0] - OH) / 2 + 0.3 * (f.shape[0] - OH) / 2 * np.sin(2 * ph + 1)
+    # Luces que parpadean cada una a su ritmo.
+    fa, fk = E["flick"]
+    f = f * (1 + fa * lights * np.sin(fk * ph + fase))[..., None]
+    # Siluetas desenfocadas que cruzan el bar; a la vuelta del bucle (y al dar la vuelta) quedan fuera de cuadro.
+    W2, H2 = f.shape[1], f.shape[0]
+    for m, sd, yc, wd, dk, off in PEOPLE:
+        t = (m * n / N + off) % 1; t = t if sd > 0 else 1 - t
+        cx = (-3 * wd + (1 + 6 * wd) * t) * W2
+        blob = np.exp(-(((bgx - cx) / (wd * W2)) ** 2 + ((bgy - yc * H2) / (0.55 * H2)) ** 2))
+        f = f * (1 - dk * blob)[..., None]
+    # Deriva de cámara en mano, sin salir del margen sobrante.
+    da, dc = E["drift"]
+    ox = (f.shape[1] - OW) / 2 * (1 + da * np.sin(dc * ph)); oy = (f.shape[0] - OH) / 2 * (1 + da * np.sin(2 * dc * ph + 1))
     Mt = np.float32([[1, 0, -ox], [0, 1, -oy]])
     f = cv2.warpAffine(f, Mt, (OW, OH), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT) * VIG
     out = f * (1 - alpha) + hrgb * alpha
