@@ -13,6 +13,23 @@ im_compose.py (que hace la imagen fija), para que vídeo e imagen sean el mismo 
 Todo lo que no cambia (móvil, sombra, tinte, reflejo del cristal, máscaras) se calcula una vez; por
 fotograma solo se proyecta cada pantalla y se apilan las capas. El final se funde con el principio
 (xfade) para que el bucle no tenga corte.
+
+2,5D (2026-10-18, Gloop; «opción C»): con "move" en la receta la escena cobra vida sin girar los móviles, y todo
+vuelve al punto de partida al final del bucle:
+  "move": { "zoom": 0.05, "pan": 30, "bg_depth": 0.35, "beams": [[x, ángulo, amplitud, fase, [b, g, r]], …],
+            "beam_width": 7, "beam_gain": 0.35, "gloss": 0.16 }
+  · la cámara se acerca y vuelve (zoom) y se desliza de lado (pan, px del lienzo); cada capa se mueve según su
+    "depth" (0–1; por defecto 0,7 la de atrás y 1 la de delante) y el fondo con bg_depth: eso es el paralaje;
+  · haces de luz de escenario que barren el fondo por detrás de los móviles (beams: x de 0 a 1 en lo alto,
+    ángulo y amplitud en grados respecto a la vertical, fase en vueltas, color BGR de 0 a 1);
+  · un brillo en diagonal cruza el cristal de los móviles una vez por vaivén (gloss);
+  · "cycles": vaivenes por bucle, entero para que cierre (2 en Gloop: con uno cada 21 s se hacía lento);
+  · "overscan": aumento fijo de las capas para que el vaivén no enseñe el borde cuando la escena ocupa todo el lienzo;
+  · "sweep" (7news, escena de una pieza con muro): una franja de luz de ventana cruza el muro una vez por bucle y la
+    luz rasante cambia de ángulo, así que el relieve de la piedra (sacado de la propia foto) se mueve con ella. Todo
+    multiplica la luz que ya hay (la sombra sigue siendo sombra) y el móvil queda fuera: { "angle": grados de la
+    franja, "width": 0–1, "gain": subida dentro de la franja, "floor": luz fuera de ella, "rake": fuerza del relieve,
+    "rake_swing": grados que gira la luz rasante, "soft": penumbra del borde, "mullion": medio ancho del parteluz, "keep_dx"/"keep_dy": canto del móvil que asoma junto a la pantalla }.
 """
 import cv2, numpy as np, json, sys, subprocess
 
@@ -72,7 +89,7 @@ for L in R["layers"]:
     msk, M, ssz = screen_geom(q, w, h)
     lum = rgb.mean(axis=2); base = np.percentile(lum[msk[..., 0] > 0.99], 5)
     refl = np.clip((rgb - base) / max(1e-3, 1 - base), 0, 1) * L.get("refl", 0.35)
-    layers.append(dict(L=L, al=al, rgb=rgb, msk=msk, M=M, ssz=ssz, refl=refl, n=n)); caps.append(cap)
+    layers.append(dict(L=L, al=al, rgb=rgb, msk=msk, M=M, ssz=ssz, refl=refl, n=n, q=q)); caps.append(cap)
 
 N = min(l["n"] for l in layers); X = int(R.get("xfade", 0.5) * 30); T = N - X
 print(f"{N} fotogramas, bucle de {T/30:.2f}s", file=sys.stderr)
@@ -90,14 +107,6 @@ for l, c in zip(layers, caps):
 clips = caps
 
 
-def screen_frame(i, l, cap):
-    ok, f = cap.read()
-    f = cv2.resize(f, l["ssz"], interpolation=cv2.INTER_AREA).astype(np.float32) / 255
-    if i < X:  # el final se funde sobre el principio
-        t = i / X; f = f * t + l["tail"][i].astype(np.float32) / 255 * (1 - t)
-    return cv2.warpPerspective(f, l["M"], (CW, CH), flags=cv2.INTER_LINEAR)
-
-
 # lo que depende del fondo (sombra, tinte, light wrap) se calcula con el fotograma 0 y se fija
 def statics(l, bgimg):
     L = l["L"]; al = l["al"]
@@ -110,15 +119,108 @@ def statics(l, bgimg):
     l["body"] = body * al; l["shade"] = (1 - 0.65 * np.clip(sh, 0, 1))[..., None]; l["wrap"] = wrap
 
 
+MV = R.get("move")
+
+
+def affine(d, i):
+    """Cámara 2,5D para una capa a profundidad d en el fotograma i (matriz 3×3 sobre el lienzo)."""
+    if not MV: return np.eye(3)
+    ph = 2 * np.pi * MV.get("cycles", 1) * i / T
+    sc = 1 + MV.get("zoom", 0.05) * d * (0.5 - 0.5 * np.cos(ph))
+    dx = MV.get("pan", 30) * d * np.sin(ph); dy = -0.3 * MV.get("pan", 30) * d * np.sin(ph)
+    return np.array([[sc, 0, CW / 2 * (1 - sc) + dx], [0, sc, CH / 2 * (1 - sc) + dy], [0, 0, 1]])
+
+
+def warp(a, A):
+    """Deforma un array de cualquier número de canales (cv2 admite hasta 4 por llamada)."""
+    if np.allclose(A, np.eye(3)): return a
+    a3 = a if a.ndim == 3 else a[..., None]
+    outs = [cv2.warpAffine(np.ascontiguousarray(a3[..., k:k + 4]), A[:2].astype(np.float32), (CW, CH), flags=cv2.INTER_LINEAR,
+                           borderMode=cv2.BORDER_REPLICATE) for k in range(0, a3.shape[2], 4)]
+    outs = [o if o.ndim == 3 else o[..., None] for o in outs]
+    return np.concatenate(outs, axis=2)
+
+
+# Haces de escenario a un cuarto de resolución (son luz difusa): ángulo de cada píxel visto desde el foco.
+QW, QH = CW // 4, CH // 4
+qy, qx = np.mgrid[0:QH, 0:QW].astype(np.float32)
+
+
+def beams(i):
+    ph = 2 * np.pi * MV.get("cycles", 1) * i / T; acc = np.zeros((QH, QW, 3), np.float32)
+    for x0, ang, amp, fase, col in MV.get("beams", []):
+        ox, oy = x0 * QW, -0.08 * QH
+        th = np.radians(ang + amp * np.sin(ph + 2 * np.pi * fase))
+        a = np.arctan2(qx - ox, qy - oy) - th
+        r = np.hypot(qx - ox, qy - oy) / QH
+        acc += np.exp(-(a / np.radians(MV.get("beam_width", 7))) ** 2)[..., None] * np.exp(-r * 0.9)[..., None] * np.float32(col)
+    acc = cv2.GaussianBlur(acc, (0, 0), 3)
+    return cv2.resize(acc, (CW, CH), interpolation=cv2.INTER_LINEAR) * MV.get("beam_gain", 0.35)
+
+
+def gloss(i):
+    # Banda diagonal que entra por la izquierda y sale por la derecha una vez por vuelta (fuera de cuadro en la costura).
+    u = (xx + 0.55 * yy) / (CW + 0.55 * CH) - (-0.25 + 1.5 * (MV.get("cycles", 1) * i / T % 1))
+    return (np.exp(-(u / 0.035) ** 2) * MV.get("gloss", 0.16))[..., None]
+
+
+def keep_mask(l):
+    """Silueta del móvil a partir del cuadro de la pantalla: el cuadro un poco mayor (marco) y desplazado (canto)."""
+    q = l["q"]; c = q.mean(0); sw = MV["sweep"]
+    big = (q - c) * 1.05 + c
+    pts = np.vstack([big, big + np.float32([sw.get("keep_dx", 28), sw.get("keep_dy", 8)])])
+    m = np.zeros((CH, CW), np.float32)
+    cv2.fillConvexPoly(m, cv2.convexHull(pts.astype(np.int32)), 1, lineType=cv2.LINE_AA)
+    return cv2.GaussianBlur(m, (0, 0), 3)[..., None]
+
+
+def sweep_gain(l, i):
+    """Luz nueva del muro en el fotograma i, como factor sobre la de la foto (a un cuarto de resolución)."""
+    sw = MV["sweep"]; t = i / T
+    if "rel" not in l:
+        lum = cv2.cvtColor((l["rgb"] * 255).astype(np.uint8), cv2.COLOR_BGR2GRAY).astype(np.float32) / 255
+        h = cv2.GaussianBlur(lum, (0, 0), 1.6)
+        gx, gy = cv2.Sobel(h, cv2.CV_32F, 1, 0), cv2.Sobel(h, cv2.CV_32F, 0, 1)
+        n = max(1e-4, float(np.std(np.hypot(gx, gy))))
+        l["rel"] = (gx / n, gy / n)
+    gx, gy = l["rel"]
+    a = np.radians(-135 + sw.get("rake_swing", 40) * np.sin(2 * np.pi * t))
+    rake = 1 + sw.get("rake", 0.08) * np.clip(gx * np.cos(a) + gy * np.sin(a), -3, 3)
+    th = np.radians(sw.get("angle", 62)); u = (qx * np.cos(th) + qy * np.sin(th)) / (QW * abs(np.cos(th)) + QH * abs(np.sin(th)))
+    # La franja tiene forma de ventana: meseta con bordes de penumbra y un parteluz oscuro en medio.
+    d = np.abs(u - (-0.35 + 1.7 * t)); w2, e = sw.get("width", 0.16) / 2, sw.get("soft", 0.025)
+    band = np.clip((w2 - d) / e + 0.5, 0, 1) * (1 - 0.85 * np.clip((sw.get("mullion", 0.012) - d) / (e * 0.4) + 0.5, 0, 1))
+    band = cv2.resize(band.astype(np.float32), (CW, CH), interpolation=cv2.INTER_LINEAR)
+    return (rake * (sw.get("floor", 0.88) + sw.get("gain", 0.7) * band))[..., None]
+
+
 def compose(i, init=False):
     cur = B
-    for l, clip in zip(layers, clips):
+    if MV and not init:
+        cur = warp(B, affine(MV.get("bg_depth", 0.35), i) @ np.diag([1.04, 1.04, 1]) @ np.array([[1, 0, -CW * 0.02], [0, 1, -CH * 0.02], [0, 0, 1]]))
+        cur = 1 - (1 - cur) * (1 - np.clip(beams(i), 0, 1))
+    for k, (l, clip) in enumerate(zip(layers, clips)):
         if init: statics(l, cur)
-        under = cur * l["shade"] * (1 - l["al"]) + l["body"]
-        under = 1 - (1 - under) * (1 - l["wrap"])
-        scr = np.clip(screen_frame(i, l, clip), 0, 1)
-        lit = 1 - (1 - scr) * (1 - l["refl"])
-        cur = under * (1 - l["msk"]) + lit * l["msk"]
+        d = l["L"].get("depth", 1.0 if k == len(layers) - 1 else 0.7)
+        A = affine(d, i)
+        if MV and MV.get("overscan"):
+            o = MV["overscan"]; A = A @ np.array([[o, 0, CW / 2 * (1 - o)], [0, o, CH / 2 * (1 - o)], [0, 0, 1]])
+        body = l["body"]
+        if MV and MV.get("sweep") and not init:
+            if "keep" not in l: l["keep"] = keep_mask(l)
+            body = body * (1 + (sweep_gain(l, i) - 1) * (1 - l["keep"]))
+        st = warp(np.concatenate([l["al"], body, l["shade"], l["wrap"], l["msk"], l["refl"]], axis=2), A)
+        al, body, shade, wrp, msk, refl = st[..., 0:1], st[..., 1:4], st[..., 4:5], st[..., 5:8], st[..., 8:9], st[..., 9:12]
+        if MV: refl = np.clip(refl + gloss(i), 0, 1)
+        under = cur * shade * (1 - al) + body
+        under = 1 - (1 - under) * (1 - wrp)
+        ok, f = clip.read()
+        f = cv2.resize(f, l["ssz"], interpolation=cv2.INTER_AREA).astype(np.float32) / 255
+        if i < X:
+            t = i / X; f = f * t + l["tail"][i].astype(np.float32) / 255 * (1 - t)
+        scr = np.clip(cv2.warpPerspective(f, (A @ l["M"]).astype(np.float64), (CW, CH), flags=cv2.INTER_LINEAR), 0, 1)
+        lit = 1 - (1 - scr) * (1 - refl)
+        cur = under * (1 - msk) + lit * msk
     return cur
 
 
@@ -127,6 +229,18 @@ for c in caps: c.set(cv2.CAP_PROP_POS_FRAMES, 0)
 p = subprocess.Popen([FF, "-loglevel", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{OW}x{OH}", "-r", "30", "-i", "-",
                       "-c:v", "libx264", "-crf", str(R.get("crf", 20)), "-preset", "slow", "-pix_fmt", "yuv420p",
                       "-movflags", "+faststart", "-an", OUT], stdin=subprocess.PIPE)
+# STILLS=carpeta: solo cuatro fotogramas sueltos (al 0, 25, 50 y 75 % del bucle), para ajustar la luz sin esperar al vídeo.
+import os
+STILLS = os.environ.get("STILLS")
+if STILLS:
+    p.stdin.close(); p.wait(); os.remove(OUT)
+    for i in range(T):
+        if i not in (0, T // 4, T // 2, 3 * T // 4):
+            for c in clips: c.read()
+            continue
+        fr = compose(i)
+        cv2.imwrite(f"{STILLS}/s-{i:04d}.jpg", cv2.resize(np.clip(fr * 255, 0, 255).astype(np.uint8), (OW // 2, OH // 2), interpolation=cv2.INTER_AREA))
+    sys.exit()
 for i in range(T):
     fr = compose(i)
     out = cv2.resize(np.clip(fr * 255, 0, 255).astype(np.uint8), (OW, OH), interpolation=cv2.INTER_AREA)

@@ -177,7 +177,7 @@ const ALL_CASES: CaseCopy[] = [
     // Caso a medida (app/maqueta/7news): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "7news",
     section: "product",
-    thumb: "/maqueta/7news/media/hero.mp4",
+    thumb: "/maqueta/7news/media/hero-25d.mp4", // 2026-10-18: la luz de ventana cruza el muro (la de antes, hero.mp4)
     name: "7news",
     line: "A news reader that knows when you’re done",
     year: "2026",

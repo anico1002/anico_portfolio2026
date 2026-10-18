@@ -5,9 +5,9 @@ export const SLIDES = {
   // Product: las miniaturas en movimiento de cada caso (2026-10-14). Cada vídeo nuevo de
   // miniatura entra aquí; necesita su póster al lado (`x.mp4` → `x-poster.jpg`, SlideMedia.tsx).
   product: [
-    "/maqueta/gloop/media/hero-mock.mp4",
+    "/maqueta/gloop/media/hero-mock-25d-v2.mp4",
     "/maqueta/swift/duo-thumb.mp4",
-    "/maqueta/7news/media/hero.mp4",
+    "/maqueta/7news/media/hero-25d.mp4",
     // Dovla, su móvil 3D girando en el estudio oscuro (2026-10-18, Alberto lo da por bueno).
     "/maqueta/dovla/media/hero-3d.mp4",
     // Todos los casos aprobados (2026-10-17).

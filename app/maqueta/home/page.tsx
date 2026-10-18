@@ -27,7 +27,7 @@ export default function ProductHome() {
   // miniatura en un hueco de su forma (HomeView → layout): SwifT en el grande horizontal a sangre, 7News (móvil
   // en vertical) en el pequeño 3:4, Dovla en el cuadrado, Interactius en el 16:10 y El Reto (2025) en el 4:3.
   const items: P[] = [
-    { name: "Gloop", line: "One app for every night out with your friends", type: "Native iOS", year: "2026", thumb: "/maqueta/gloop/media/hero-mock.mp4", href: "/maqueta/gloop" },
+    { name: "Gloop", line: "One app for every night out with your friends", type: "Native iOS", year: "2026", thumb: "/maqueta/gloop/media/hero-mock-25d-v2.mp4", href: "/maqueta/gloop" },
     ...productInOrder().slice(0, PRODUCT_FIRST.length).map(card),
     ...PENDING.map((p) => ({ ...p, line: "" })),
     ...productInOrder().slice(PRODUCT_FIRST.length).map(card),
