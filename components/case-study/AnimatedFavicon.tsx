@@ -9,7 +9,7 @@ import { DUR } from "@/lib/maqueta/motion";
    la «a», que es la imagen principal y donde descansa. Con el logo nuevo (2026-10-18) cada letra se
    transforma en la siguiente, el mismo gesto que el logo de la cabecera. El rodillo de antes está en
    el historial de git.
-   Se dibuja en un canvas y se cambia el `href` de un <link rel="icon"> propio. Antes de que
+   Se dibuja en un canvas y se cambia el `href` de todos los <link rel="icon"> (uno propio delante y los de Next). Antes de que
    arranque (y sin JS, o con movimiento reducido) se ve la «a» fija de public/maqueta/favicon-anico.svg. */
 
 const SIZE = 64;
@@ -29,11 +29,15 @@ export default function AnimatedFavicon() {
     canvas.width = canvas.height = SIZE;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    // Safari se queda con el primer icono de la página: el nuestro va delante y los demás fuera de juego.
+    // Safari se queda con el primer icono de la página y Chrome con el último (2026-10-18: en Chrome no se movía, mandaba
+    // el fijo que añade Next detrás del nuestro). Así que el nuestro va delante y cada fotograma va a todos los iconos;
+    // al salir, cada uno recupera lo que tenía.
     const link = document.createElement("link");
     link.rel = "icon";
     link.type = "image/png";
     document.head.prepend(link);
+    const icons = [...document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]')];
+    const saved = icons.map((l) => [l.href, l.type] as const);
     const shapes = WORD.map((l) => LETTERS[l]);
 
     // Letra `i` y, si `p` > 0, a medio camino hacia la siguiente (0–1).
@@ -46,7 +50,11 @@ export default function AnimatedFavicon() {
       ctx.scale(SCALE, SCALE);
       ctx.fill(new Path2D(glyph(shapes[i % shapes.length], shapes[(i + 1) % shapes.length], ease(p))));
       ctx.restore();
-      link.href = canvas.toDataURL("image/png");
+      const url = canvas.toDataURL("image/png");
+      for (const l of icons) {
+        l.type = "image/png";
+        l.href = url;
+      }
     };
 
     // Guion: descanso en la «a» y después cinco cambios (a→n→i→c→o→a) con una pausa en cada letra.
@@ -77,6 +85,10 @@ export default function AnimatedFavicon() {
     return () => {
       alive = false;
       clearTimeout(timer);
+      icons.forEach((l, k) => {
+        l.href = saved[k][0];
+        l.type = saved[k][1];
+      });
       link.remove();
     };
   }, []);

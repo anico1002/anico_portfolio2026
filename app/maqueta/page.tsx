@@ -218,7 +218,7 @@ export default function EntryB() {
                 >
                   <p
                     lang="en"
-                    className={`hyphens-auto text-justify t-body ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
+                    className={`hyphens-auto text-justify t-small ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
                   >
                     {s.text}
                   </p>
