@@ -108,6 +108,11 @@ palabras clave «pruebo una serif y la descarto» (`FontFlip.tsx`); cabecera de 
    HTML (montarlo en el navegador) para que no lo recojan los bots.
 4. **Consistencia de tipografía y estilos:** recorrer todas las páginas buscando estilos sueltos (tamaños, pesos o
    familias que no salgan de las clases `t-*`), para que no quede nada fuera del sistema.
+7. **Scroll a saltos en pantalla grande (Alberto, 2026-10-18):** en monitor grande la web «va un poco a saltos, no se
+   percibe el scroll fluido que buscamos». Medir con rAF y grabación (memoria `movimiento-fluido-sutil`) a 1440, 1920
+   y 2560 px, en Chrome y Safari: fotogramas perdidos al hacer scroll, vídeos que decodifican a la vez (pase de fondo,
+   miniaturas y cabeceras 2,5D a pantalla completa), capas con `backdrop-filter`/`blur` grandes, máscaras y el
+   suavizado del scroll (`SmoothScroll`). Revisar sobre todo Dovla (mosaico de dovelas, cristal) y las homes.
 
 ## ⛔ ANTES DE PUBLICAR: repaso de copy de TODA la web (pedido por Alberto, 2026-10-17)
 

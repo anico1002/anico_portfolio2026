@@ -5,10 +5,13 @@ python3 hand3d_video.py <fondo.jpg> <video.mp4> <salida.mp4> <poster.jpg> [--siz
 WineUp (2026-10-17), con fondo mockups-src/bg-wine-bar-blur.jpg y clip scripts/case-media/clips/wineup/flow.mp4:
   cabecera (franja de arriba): --place 0.55,0.36,0.72                     → media/hero-band.mp4
   miniatura: --size 1920x1200 --place 0.555,0.5,1.0, luego escalada a 1280x800 → media/thumb.mp4
+--live (2026-10-18, Alberto: «que el fondo desenfocado parezca un vídeo»): el fondo deja de ser una foto quieta. Deriva
+despacio como cámara en mano, ondula como gente moviéndose fuera de foco, las luces del bar parpadean cada una a su
+ritmo y una vez por bucle pasa por delante una silueta desenfocada. Todo es periódico: el final enlaza con el principio.
 """
 import sys, argparse, subprocess, numpy as np, cv2
 a = argparse.ArgumentParser(); a.add_argument("bg"); a.add_argument("video"); a.add_argument("out"); a.add_argument("poster")
-a.add_argument("--max", type=float, default=40); a.add_argument("--size", default="1920x1080"); a.add_argument("--place", default="0.62,0.5,1.0")  # centro x (0-1), centro y, escala
+a.add_argument("--max", type=float, default=40); a.add_argument("--live", action="store_true"); a.add_argument("--size", default="1920x1080"); a.add_argument("--place", default="0.62,0.5,1.0")  # centro x (0-1), centro y, escala
 A = a.parse_args()
 D = "mockups-src/hand-3d/"
 FF = subprocess.check_output(["npm", "root", "-g"], text=True).strip() + "/ffmpeg-static/ffmpeg"
@@ -52,11 +55,14 @@ dst = (np.c_[screen_quad(magscr), np.ones(4)] @ M.T).astype(np.float32)
 VW, VH = 786, 1704  # clip a 2x de 393x852
 Hm = cv2.getPerspectiveTransform(np.float32([[0, 0], [VW, 0], [VW, VH], [0, VH]]), dst)
 # Fondo: cubre el lienzo, oscurecido y con viñeta para que mande la pantalla.
-B = cv2.imread(A.bg).astype(np.float32) / 255; bh, bw = B.shape[:2]; s = max(OW / bw, OH / bh)
+B = cv2.imread(A.bg).astype(np.float32) / 255; bh, bw = B.shape[:2]; s = max(OW / bw, OH / bh) * (1.08 if A.live else 1)
 B = cv2.resize(B, (round(bw * s), round(bh * s)), interpolation=cv2.INTER_AREA)
-y0 = (B.shape[0] - OH) // 2; x0 = (B.shape[1] - OW) // 2; B = B[y0:y0 + OH, x0:x0 + OW] * 0.8
+y0 = (B.shape[0] - OH) // 2; x0 = (B.shape[1] - OW) // 2
+BIG = B * 0.8  # con --live se guarda entero (un 8 % mayor) para que la deriva no enseñe el borde
+B = B[y0:y0 + OH, x0:x0 + OW] * 0.8
 yy, xx = np.mgrid[0:OH, 0:OW]; v = ((xx - OW / 2) / (OW / 2)) ** 2 + ((yy - OH / 2) / (OH / 2)) ** 2
-B = B * (1 - 0.45 * np.clip(v, 0, 1))[..., None]
+VIG = (1 - 0.45 * np.clip(v, 0, 1))[..., None]
+B = B * VIG
 # Luz de la escena sobre la mano: un toque cálido del fondo en los bordes (light wrap).
 edge = np.clip(cv2.GaussianBlur(alpha[..., 0], (0, 0), 6), 0, 1)[..., None]
 base = B * (1 - alpha) + hrgb * alpha
@@ -65,13 +71,42 @@ base = np.clip(base + wrap, 0, 1)
 p = subprocess.Popen([FF, "-loglevel", "error", "-t", str(A.max), "-i", A.video, "-vf", f"scale={VW}:{VH}", "-f", "rawvideo", "-pix_fmt", "bgr24", "-"], stdout=subprocess.PIPE)
 o = subprocess.Popen([FF, "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{OW}x{OH}", "-r", "30", "-i", "-",
                       "-vcodec", "libx264", "-crf", "23", "-preset", "slow", "-pix_fmt", "yuv420p", "-an", "-movflags", "+faststart", "-y", A.out], stdin=subprocess.PIPE)
+N = int(min(A.max * 30, int(cv2.VideoCapture(A.video).get(cv2.CAP_PROP_FRAME_COUNT))))
+if A.live:
+    # Luces del bar: lo más claro del fondo, con una fase distinta por zona (ruido suave) para que no latan a la vez.
+    lum = cv2.cvtColor((BIG * 255).astype(np.uint8), cv2.COLOR_BGR2GRAY).astype(np.float32) / 255
+    lights = np.clip((lum - np.percentile(lum, 80)) / 0.25, 0, 1)
+    rng = np.random.default_rng(7)
+    def noise(sig): return cv2.GaussianBlur(rng.standard_normal(BIG.shape[:2]).astype(np.float32), (0, 0), sig)
+    fase = noise(40); fase = (fase - fase.min()) / (np.ptp(fase) + 1e-6) * 2 * np.pi
+    w1, w2 = noise(160), noise(160); w1 /= np.abs(w1).max(); w2 /= np.abs(w2).max()
+    bgy, bgx = np.mgrid[0:BIG.shape[0], 0:BIG.shape[1]].astype(np.float32)
+    awrap = np.clip(edge - alpha, 0, 1)
+def live_bg(n):
+    """Fondo del fotograma n: periódico en N fotogramas."""
+    ph = 2 * np.pi * n / N
+    # Ondulación: el fondo se desplaza con dos campos suaves que se alternan (gente moviéndose fuera de foco).
+    dx = 22 * (w1 * np.sin(ph) + w2 * np.cos(ph)); dy = 14 * (w2 * np.sin(ph) - w1 * np.cos(ph))
+    f = cv2.remap(BIG, (bgx + dx).astype(np.float32), (bgy + dy).astype(np.float32), cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    # Luces que parpadean a su ritmo (tres pulsos por bucle) y bajan un poco al pasar la silueta.
+    f = f * (1 + 0.35 * lights * np.sin(3 * ph + fase))[..., None]
+    # Silueta desenfocada que cruza el bar de izquierda a derecha una vez por bucle (fuera de cuadro en la costura).
+    W2, H2 = f.shape[1], f.shape[0]; cx = (-0.3 + 1.6 * (n / N)) * W2
+    blob = np.exp(-(((bgx - cx) / (0.13 * W2)) ** 2 + ((bgy - 0.62 * H2) / (0.55 * H2)) ** 2))
+    f = f * (1 - 0.7 * blob)[..., None]
+    # Deriva de cámara en mano: un poco de lado y arriba, sin salir del margen del 8 %.
+    ox = (f.shape[1] - OW) / 2 + 0.3 * (f.shape[1] - OW) / 2 * np.sin(ph); oy = (f.shape[0] - OH) / 2 + 0.3 * (f.shape[0] - OH) / 2 * np.sin(2 * ph + 1)
+    Mt = np.float32([[1, 0, -ox], [0, 1, -oy]])
+    f = cv2.warpAffine(f, Mt, (OW, OH), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT) * VIG
+    out = f * (1 - alpha) + hrgb * alpha
+    return np.clip(out + cv2.GaussianBlur(f, (0, 0), 25) * awrap * 1.3, 0, 1)
 n = 0
 while True:
     b = p.stdout.read(VW * VH * 3)
     if len(b) < VW * VH * 3: break
     f = np.frombuffer(b, np.uint8).reshape(VH, VW, 3).astype(np.float32) / 255
     w = cv2.warpPerspective(f, Hm, (OW, OH), flags=cv2.INTER_LINEAR)
-    img = (base * (1 - scr) + w * scr) * 255
+    img = ((live_bg(n) if A.live else base) * (1 - scr) + w * scr) * 255
     b8 = np.clip(img, 0, 255).astype(np.uint8)
     if n == 75: cv2.imwrite(A.poster, b8, [cv2.IMWRITE_JPEG_QUALITY, 88])
     o.stdin.write(b8.tobytes()); n += 1

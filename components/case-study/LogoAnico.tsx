@@ -23,7 +23,9 @@ type Shape = { w: number; top: Half; bot: Half };
 
 export const LETTERS: Record<"a" | "n" | "i" | "c" | "o", Shape> = {
   a: { w: W, top: [F, F, 0, 0], bot: [0, 0, S, F] },
-  n: { w: W, top: [F, F, 0, 0], bot: [0, 0, S, S] },
+  // Solo el hombro de arriba a la derecha (31, la curva de cada mitad de la «c»): con la cúpula entera, la «a» y la «n»
+  // se juntaban y en un test dos personas leyeron «AMICO» (Alberto, 2026-10-18). Queda en espejo con la «a».
+  n: { w: W, top: [S, F, 0, 0], bot: [0, 0, S, S] },
   i: { w: W / 2, top: [S, S, 0, 0], bot: [0, 0, S, S] },
   c: { w: W, top: [F, S, F, 0], bot: [0, F, S, F] },
   o: { w: W, top: [F, F, 0, 0], bot: [0, 0, F, F] },
