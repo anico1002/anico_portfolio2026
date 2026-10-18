@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bitter, DM_Serif_Display, Familjen_Grotesk, Instrument_Sans, PT_Serif } from "next/font/google";
+import { Bitter, DM_Serif_Display, Familjen_Grotesk, Instrument_Sans, PT_Serif, Chakra_Petch } from "next/font/google";
 import SmoothScroll from "@/components/case-study/SmoothScroll";
 import PageTheme from "@/components/case-study/PageTheme";
 import { THEMES } from "@/lib/maqueta/theme";
@@ -34,12 +34,16 @@ const serif = DM_Serif_Display({ variable: "--font-case-serif", subsets: ["latin
 const flipSerif = PT_Serif({ variable: "--font-flip-serif", subsets: ["latin"], weight: "400" });
 const flipMono = Bitter({ variable: "--font-flip-mono", subsets: ["latin"], weight: "400" });
 const flipGrot = Familjen_Grotesk({ variable: "--font-flip-grot", subsets: ["latin"], weight: "400" });
+// En Games la palabra clave no se prueba en serif sino en una tipografía de aire tecnológico, que pega con videojuegos
+// (Alberto, 2026-10-18). Chakra Petch 500, elegida por él entre 15 en /maqueta/tipos (antes Oxanium, y antes unas
+// pixel que descartó: Handjet condensada, DotGothic16, Pixelify, Bitcount…).
+const flipTech = Chakra_Petch({ variable: "--font-flip-tech", subsets: ["latin"], weight: "500" });
 
 export const metadata: Metadata = {
   title: "Maqueta · caso de estudio",
   robots: { index: false, follow: false },
-  // La «a» fija; AnimatedFavicon la hace rodar por las letras del logo (E5).
-  icons: { icon: "/maqueta/favicon.svg" },
+  // La «a» fija; AnimatedFavicon la hace pasar por las letras del logo (E5).
+  icons: { icon: "/maqueta/favicon-anico.svg" }, // logo nuevo (2026-10-18); el de antes, favicon.svg
 };
 
 // Fondo negro/blanco puros. Desde el 2026-10-17, el color lo decide cada página (lib/maqueta/theme.ts); antes había
@@ -66,7 +70,7 @@ const pick = `(function(){var r=document.getElementById('case-root');var m=${JSO
 
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${flipSerif.variable} ${flipMono.variable} ${flipGrot.variable}`}>
+    <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${flipSerif.variable} ${flipMono.variable} ${flipGrot.variable} ${flipTech.variable}`}>
       <script dangerouslySetInnerHTML={{ __html: pick }} />
       {/* `overflow-x: hidden` global convierte html/body en contenedor de scroll y rompe
           `position: sticky`; `clip` recorta igual sin romperlo. Y `scroll-behavior: smooth`

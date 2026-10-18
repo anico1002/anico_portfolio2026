@@ -196,7 +196,7 @@ export default function HomeView({
 
       {/* Logo fijo arriba desde el principio; el menú, al pie de la cabecera (sube y se pega arriba). */}
       <SiteNav active={active} parts="logo" />
-      <HomeHero title={title} slides={slides} nav={<SiteNav active={active} docked parts="menu" />} />
+      <HomeHero title={title} slides={slides} alt={active === "games" ? "tech" : "serif"} nav={<SiteNav active={active} docked parts="menu" />} />
 
       {/* Los proyectos: el primero y después la rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:
           copiaban mal el contador de Yakushev y ahí no tenían sentido.) */}

@@ -105,7 +105,7 @@ function Rotating({ words, run }: { words: string[]; run: boolean }) {
 
 /** `*palabras*` del titular → palabras clave (`.kw`; cómo se destacan lo decide el CSS, `?em=`).
     `[m]` → ventana con imágenes dentro de la frase. `{a|b|c}` → palabras que cambian. */
-const withEm = (t: string, slides: readonly string[], open: boolean) => {
+const withEm = (t: string, slides: readonly string[], open: boolean, alt: "serif" | "tech") => {
   const parts = t.split(/(\*[^*]+\*|\[m\]|\{[^}]+\})/);
   // La puntuación pegada detrás de una palabra clave («millions.») va con ella: se borra y se reescribe junta y no
   // se queda un punto flotando solo mientras la palabra no está (2026-10-17).
@@ -123,7 +123,7 @@ const withEm = (t: string, slides: readonly string[], open: boolean) => {
       <InlineMedia key={i} slides={slides} open={open} />
     ) : part.startsWith("*") ? (
       <em key={i} className="kw">
-        <FontFlip text={part.slice(1, -1)} run={open} />
+        <FontFlip text={part.slice(1, -1)} run={open} alt={alt} />
       </em>
     ) : (
       part
@@ -135,8 +135,11 @@ export default function HomeHero({
   title,
   slides,
   nav,
+  alt = "serif",
 }: {
   title: string;
+  /** Tipografía que la palabra clave prueba y descarta: serif en Product, técnica en Games. */
+  alt?: "serif" | "tech";
   slides: readonly string[];
   /** La barra (logo + menú), montada en modo `docked`: aparece al pie y se pega arriba. */
   nav: React.ReactNode;
@@ -225,10 +228,10 @@ export default function HomeHero({
             <h1 className="col-span-12 md:col-span-8">
               {retracted ? (
                 <Lines as="span" className="block t-hero" delay={DUR.slow / 2}>
-                  {withEm(title, slides, true)}
+                  {withEm(title, slides, true, alt)}
                 </Lines>
               ) : (
-                <span className="block t-hero opacity-0">{withEm(title, slides, false)}</span>
+                <span className="block t-hero opacity-0">{withEm(title, slides, false, alt)}</span>
               )}
             </h1>
           </div>

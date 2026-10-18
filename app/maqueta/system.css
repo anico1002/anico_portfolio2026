@@ -376,6 +376,11 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   margin: -0.25em -0.12em;
   clip-path: inset(0);
 }
+/* La palabra que cambia de tipo (FontFlip) puede salir más ancha que la suya: la máscara solo recorta arriba y abajo,
+   que es por donde entra la línea; a los lados la dejaba sin el punto final (2026-10-18). */
+.ln-w:has(.font-flip) {
+  clip-path: inset(0 -100vw);
+}
 .ln-i {
   display: inline-block;
   transform: translateY(calc(100% + 0.6em));

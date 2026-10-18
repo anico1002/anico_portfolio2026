@@ -25,7 +25,19 @@ const REJECT: "strike" | "select" = "select";
 
 type Face = "sans" | "serif";
 
-export default function FontFlip({ text, run = true }: { text: string; run?: boolean }) {
+/** La tipografía que se prueba y se descarta: la serif (Product) o una técnica (Games, 2026-10-18). */
+const ALT = {
+  serif: { fontFamily: "var(--font-case-serif)", fontStyle: "italic" },
+  tech: { fontFamily: "var(--font-flip-tech)", fontWeight: 500 },
+} as const;
+// La de Games no se encoge al ancho de la palabra (a menor cuerpo se veía estrecha, Alberto 2026-10-18): va al
+// final del titular y puede salir más ancha. Solo baja de cuerpo si no le cabe en la línea (móvil).
+const FIT: Record<keyof typeof ALT, boolean> = { serif: true, tech: false };
+// Chakra Petch tiene las minúsculas un 3 % más altas que la Satoshi (medido: x de 49,8 frente a 48,4): un 3 % menos
+// de cuerpo las iguala y no parece más grande.
+const SIZE: Record<keyof typeof ALT, number> = { serif: 1, tech: 0.97 };
+
+export default function FontFlip({ text, run = true, alt = "serif" }: { text: string; run?: boolean; alt?: keyof typeof ALT }) {
   const reduce = useReduce();
   const [face, setFace] = useState<Face>("sans");
   const [n, setN] = useState(text.length); // letras visibles
@@ -35,13 +47,30 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
   const base = useRef<HTMLSpanElement>(null);
   const probe = useRef<HTMLSpanElement>(null);
   const [k, setK] = useState(1);
+  // Línea base: la palabra superpuesta va anclada arriba y, con otra fuente y otro cuerpo, su línea base caía en otro
+  // sitio (con Oxanium, más arriba: «hace el salto para arriba», 2026-10-18). Dos marcas de alto cero, una en cada
+  // texto, dicen dónde está cada línea base, y la superpuesta baja o sube lo que haga falta.
+  const root = useRef<HTMLSpanElement>(null);
+  const over = useRef<HTMLSpanElement>(null);
+  const baseMark = useRef<HTMLSpanElement>(null);
+  const overMark = useRef<HTMLSpanElement>(null);
+  const [dy, setDy] = useState(0);
+  useLayoutEffect(() => {
+    const r = root.current, o = over.current, bm = baseMark.current, om = overMark.current;
+    if (!busy || !r || !o || !bm || !om) return;
+    const want = bm.getBoundingClientRect().top - r.getBoundingClientRect().top;
+    const has = om.getBoundingClientRect().top - o.getBoundingClientRect().top;
+    setDy(want - has);
+  }, [busy, face, k]);
 
   // Si la serif sale más ancha que la palabra, baja de cuerpo lo justo para no pisar lo de al lado.
   useLayoutEffect(() => {
     const b = base.current;
     const p = probe.current;
-    if (b && p) setK(Math.min(1, b.offsetWidth / p.offsetWidth));
-  }, [text]);
+    if (!b || !p) return;
+    const room = FIT[alt] ? b.offsetWidth : (b.closest(".t-hero") ?? b.parentElement!).getBoundingClientRect().right - b.getBoundingClientRect().left;
+    setK(Math.min(1, room / p.offsetWidth));
+  }, [text, alt]);
 
   useEffect(() => {
     if (!run || reduce) return;
@@ -84,19 +113,21 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
 
   const serif = face === "serif";
   return (
-    <span className="font-flip relative inline-block">
+    <span ref={root} className="font-flip relative inline-block">
       <span ref={base} className={busy ? "invisible" : undefined}>
+        <span ref={baseMark} className="inline-block h-0 w-0" />
         {text}
       </span>
       {/* Medida de la serif, invisible. */}
-      <span ref={probe} aria-hidden className="pointer-events-none invisible absolute left-0 top-0 whitespace-nowrap" style={{ fontFamily: "var(--font-case-serif)", fontStyle: "italic" }}>
+      <span ref={probe} aria-hidden className="pointer-events-none invisible absolute left-0 top-0 whitespace-nowrap" style={{ ...ALT[alt], fontSize: `${SIZE[alt]}em` }}>
         {text}
       </span>
       {busy && (
         <span
+          ref={over}
           aria-hidden
           className="absolute left-0 top-0 whitespace-nowrap"
-          style={serif ? { fontFamily: "var(--font-case-serif)", fontStyle: "italic", fontSize: `${k}em` } : undefined}
+          style={{ ...(serif ? { ...ALT[alt], fontSize: `${k * SIZE[alt]}em` } : {}), top: dy }}
         >
           {/* Texto y copia invertida apilados en la misma celda (inline-grid): comparten línea base, así que la copia no
               se desplaza respecto al texto (antes, en absoluto, subía con la serif). */}
@@ -106,7 +137,10 @@ export default function FontFlip({ text, run = true }: { text: string; run?: boo
               className="absolute -inset-x-[0.04em] inset-y-[0.04em] origin-left bg-current"
               style={{ transform: `scaleX(${sel ? 1 : 0})`, transition: sel ? `transform ${SELECT}ms cubic-bezier(0.65, 0, 0.35, 1)` : "none" }}
             />
-            <span className="relative [grid-area:1/1]">{text.slice(0, n)}</span>
+            <span className="relative [grid-area:1/1]">
+              <span ref={overMark} className="inline-block h-0 w-0" />
+              {text.slice(0, n)}
+            </span>
             {/* Copia invertida, recortada con el mismo avance que la selección: el texto se invierte justo donde pasa. */}
             <span
               aria-hidden

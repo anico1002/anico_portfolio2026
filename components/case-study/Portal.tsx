@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { scrollLock, scrollToId } from "@/components/case-study/SmoothScroll";
-import LogoLetters from "@/components/case-study/LogoLetters";
+import LogoAnico from "@/components/case-study/LogoAnico";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
 /* Transición para TODOS los enlaces internos (B1 de la revisión): un barrido de máscara vertical
@@ -107,7 +107,7 @@ export default function PortalLayer() {
 
   // Rodillo del logo: un giro en cuanto el barrido deja ver el logo y, mientras la página nueva no
   // esté lista, otro y otro. Al terminar la carga se acaba el giro en curso y se destapa.
-  const [cycle, setCycle] = useState(0);
+  const [, setCycle] = useState(0); // marca el ritmo de la espera (el logo nuevo va en bucle por su cuenta)
   const pathRef = useRef(path);
   useEffect(() => {
     pathRef.current = path;
@@ -186,7 +186,8 @@ export default function PortalLayer() {
         {/* Carga: el logo hace el rodillo del menú, en bucle mientras carga la página nueva. La cortinilla es
             siempre negra con el logo blanco (2026-10-17): con el color por página, la del color del texto se
             daba la vuelta a mitad de camino al cambiar de tema debajo (p. ej. al entrar en Games). */}
-        <LogoLetters cycle={cycle} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
+        {/* Logo nuevo (2026-10-18): el mismo bucle que en la cabecera. El rodillo de antes es LogoLetters. */}
+        <LogoAnico loop key={s.href ?? ""} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
       </motion.div>
     </div>
   );

@@ -11,7 +11,10 @@ import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import { LINKEDIN, email } from "@/lib/maqueta/contact";
 import Arrow from "@/components/case-study/Arrow";
-import Img from "@/components/case-study/Img";
+import LogoAnico from "@/components/case-study/LogoAnico";
+
+/** En la cabecera el bucle es un guiño de vez en cuando (Alberto, 2026-10-18): unos 15 s formado entre vueltas. */
+const WINK = 15000;
 
 const noop = () => () => {};
 
@@ -127,8 +130,8 @@ export default function SiteNav({
       >
         {parts !== "menu" && (
           <TLink href="/maqueta" aria-label="anico · home" className="pointer-events-auto">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <Img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto invert md:h-[1.375rem]" />
+            {/* Logo nuevo en bucle (2026-10-18, a prueba). El de antes sigue en public/anico_logo.svg. */}
+            <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
           </TLink>
         )}
         {parts !== "logo" && (
@@ -178,8 +181,7 @@ export default function SiteNav({
             exit={{ clipPath: "inset(0% 0% 100% 0%)", transition: { duration: DUR.fast, ease: EASE.inOut } }}
           >
             <div className="flex items-center justify-between py-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <Img src="/anico_logo.svg" alt="anico" className="h-[1.125rem] w-auto dark-invert" />
+              <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto" />
               {/* Misma caja que la hamburguesa de la barra: la X sale justo donde estaban las dos rayas. */}
               <button type="button" onClick={() => setOpen(false)} className="-m-3 p-3" aria-label="Close menu">
                 <Burger x />

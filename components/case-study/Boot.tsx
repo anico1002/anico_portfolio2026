@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import LogoLetters from "@/components/case-study/LogoLetters";
+import LogoAnico from "@/components/case-study/LogoAnico";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import { setBooted } from "@/lib/maqueta/boot";
 import { DUR, EASE } from "@/lib/maqueta/motion";
@@ -72,7 +72,7 @@ export default function Boot() {
     >
       {/* El logo solo se ve si la carga tarda (antes del primer giro está transparente). */}
       <span className="transition-opacity duration-300" style={{ opacity: cycle > 0 ? 1 : 0 }}>
-        <LogoLetters cycle={cycle} className="h-[1.125rem] w-auto md:h-[1.375rem]" />
+        <LogoAnico loop play={cycle > 0} className="h-[1.125rem] w-auto md:h-[1.375rem]" />
       </span>
     </motion.div>
   );

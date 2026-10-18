@@ -21,7 +21,7 @@ export const D = {
   negative: "#E08A72",
 } as const;
 
-const SF = { fontFamily: '-apple-system, "SF Pro Display", "SF Pro Text", system-ui, sans-serif' } as const;
+export const SF = { fontFamily: '-apple-system, "SF Pro Display", "SF Pro Text", system-ui, sans-serif' } as const;
 const eur = (v: number) => "€" + v.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 function useInView<T extends Element>(margin = "-15% 0px") {

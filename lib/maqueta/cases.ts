@@ -214,7 +214,8 @@ const ALL_CASES: CaseCopy[] = [
     // Caso a medida (app/maqueta/dovla): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "dovla",
     section: "product",
-    thumb: "/maqueta/dovla/media/hero.mp4",
+    // Móvil girando en estudio oscuro, render de Blender (2026-10-18, prueba). El de antes: media/hero.mp4.
+    thumb: "/maqueta/dovla/media/hero-3d.mp4",
     name: "Dovla",
     line: "The bank that doesn’t shout",
     year: "2026",

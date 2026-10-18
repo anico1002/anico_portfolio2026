@@ -8,7 +8,9 @@ export const SLIDES = {
     "/maqueta/gloop/media/hero-mock.mp4",
     "/maqueta/swift/duo-thumb.mp4",
     "/maqueta/7news/media/hero.mp4",
-    // Todos los casos aprobados (2026-10-17); Dovla, cuando Alberto lo dé por bueno.
+    // Dovla, su móvil 3D girando en el estudio oscuro (2026-10-18, Alberto lo da por bueno).
+    "/maqueta/dovla/media/hero-3d.mp4",
+    // Todos los casos aprobados (2026-10-17).
     "/maqueta/interactius/thumb.mp4",
     "/maqueta/elreto/media/hero.mp4",
     "/maqueta/wineup/media/thumb.mp4",
