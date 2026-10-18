@@ -207,11 +207,11 @@ export default function EntryB() {
                     </motion.p>
                   </div>
                 </div>
-                {/* Párrafo desplazado abajo, en el lado exterior (en espejo); solo al pasar por
+                {/* Ancho: dos columnas y media de la rejilla (con 3 una frase quedaba en 2 líneas y con 2 pasaban a 4). Párrafo desplazado abajo, en el lado exterior (en espejo); solo al pasar por
                     encima (en táctil, siempre). */}
                 <motion.div
                   data-para
-                  className={`absolute bottom-6 hidden max-w-[30ch] md:bottom-8 md:block ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
+                  className={`absolute bottom-6 hidden md:bottom-8 md:w-[calc((100vw-312px)/12*2.5+48px)] md:block ${left ? "left-4 md:left-6" : "right-4 md:right-6"}`}
                   initial={false}
                   animate={chosen ? { clipPath: exitClip(chosen, stacked), opacity: 1, y: 0 } : { clipPath: OPEN, opacity: on ? 1 : 0, y: on ? 0 : 16 }}
                   transition={chosen ? EXIT : { duration: inOrOut(on), ease: EASE.out, delay: on ? STAGGER : 0 }}
