@@ -2,7 +2,24 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-17 noche, MacBook)
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-18)
+
+**Desplegado en https://anico-maqueta.vercel.app.** Alberto confirma que **solo queda la auditoría final** (⛔ de
+abajo, puntos 2–8). Empezar por el 7 (scroll a saltos en pantalla grande), que es técnico y no necesita decisiones.
+
+**Hecho hoy:** cada caso con su propio movimiento (sin plantilla común; el pedestal, fuera para siempre): Gloop 2,5D
+con vaivén más rápido, 7news con luz de ventana sobre el muro (geometría real, bandas suaves), ElReto con las rocas
+flotando y tomando el color de la pantalla, WineUp con el fondo del bar vivo (`hand3d_video.py --live --busy`: cinco
+siluetas, luces, deriva; `*-live2`, ~100 KB más que la foto quieta), Dovla con el móvil 3D a 108 mm para miniatura y
+pase del launcher (un archivo para los dos). Dovla cerrado (visto en móvil). Logo: la «n» vuelve a la cúpula (el
+hombro solo podía leerse M). Favicon animado también en Chrome. Párrafos del launcher en `t-small` y a 2,5 columnas
+(los dos en 3 líneas). Los vídeos generados no van en git: viven en `public/maqueta/*/media/` y en la demo.
+
+**Salida a producción (Alberto, 2026-10-18):** no sustituye la home: va a **anico.design/new**, solo para quien tenga
+la URL, navegando entre Product y Games, **fuera de buscadores** (noindex, robots, sin sitemap). NDA de Dovla y logo
+de Rolls-Royce: sin problema. Publicar solo con su OK.
+
+## (anterior) cierre 2026-10-17 noche, MacBook
 
 **Desplegado en https://anico-maqueta.vercel.app** con todo lo de hoy. **Siguiente sesión, por orden:**
 0. **Alberto prueba la demo en el móvil (Safari) con wifi justo y 4G** y trae lo que vea: sobre todo abrir casos de
@@ -113,6 +130,8 @@ palabras clave «pruebo una serif y la descarto» (`FontFlip.tsx`); cabecera de 
    y 2560 px, en Chrome y Safari: fotogramas perdidos al hacer scroll, vídeos que decodifican a la vez (pase de fondo,
    miniaturas y cabeceras 2,5D a pantalla completa), capas con `backdrop-filter`/`blur` grandes, máscaras y el
    suavizado del scroll (`SmoothScroll`). Revisar sobre todo Dovla (mosaico de dovelas, cristal) y las homes.
+8. **Ruta `/new` y fuera de buscadores (2026-10-18):** montar la maqueta en anico.design/new sin tocar la home actual;
+   `noindex` en esas páginas, robots.txt y sitemap sin ellas, y que la navegación no salga de Product/Games.
 
 ## ⛔ ANTES DE PUBLICAR: repaso de copy de TODA la web (pedido por Alberto, 2026-10-17)
 
