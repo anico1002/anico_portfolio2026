@@ -9,7 +9,7 @@ export const SLIDES = {
     "/maqueta/swift/duo-thumb.mp4",
     "/maqueta/7news/media/hero-25d-v3.mp4",
     // Dovla, su móvil 3D girando en el estudio oscuro (2026-10-18, Alberto lo da por bueno).
-    "/maqueta/dovla/media/hero-3d.mp4",
+    "/maqueta/dovla/media/hero-3d-bg.mp4",
     // Todos los casos aprobados (2026-10-17).
     "/maqueta/interactius/thumb.mp4",
     "/maqueta/elreto/media/hero-25d-v3.mp4",

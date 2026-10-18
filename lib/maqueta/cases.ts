@@ -215,7 +215,7 @@ const ALL_CASES: CaseCopy[] = [
     slug: "dovla",
     section: "product",
     // Móvil girando en estudio oscuro, render de Blender (2026-10-18, prueba). El de antes: media/hero.mp4.
-    thumb: "/maqueta/dovla/media/hero-3d-thumb.mp4", // 2026-10-18: recorte 1,35× sobre el móvil (en tarjetas pequeñas, como el carrusel del pie, se veía diminuto); la cabecera sigue con hero-3d.mp4
+    thumb: "/maqueta/dovla/media/hero-3d-bg.mp4", // 2026-10-18: el mismo móvil renderizado a 108 mm (en tarjetas pequeñas y en el pase de fondo se veía diminuto); un solo archivo para miniatura y pase; la cabecera sigue con hero-3d.mp4
     name: "Dovla",
     line: "The bank that doesn’t shout",
     year: "2026",
