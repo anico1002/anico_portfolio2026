@@ -1,15 +1,15 @@
-"""Móvil que gira sobre un pedestal negro, con el vídeo de la app en la pantalla (2026-10-18, prueba A para la
-cabecera y la miniatura de Dovla; referencia: art-yakushev.com). Todo procedural: el iPhone es un bloque de esquinas
+"""Móvil que gira en un estudio a oscuras, con el vídeo de la app en la pantalla (2026-10-18, cabecera y miniatura
+de Dovla; referencia: art-yakushev.com). Todo procedural: el iPhone es un bloque de esquinas
 redondeadas con canto de titanio, cristal y pantalla; con giros de ±35° solo se ven la cara y el canto.
 
-  Blender -b -P scripts/mockups/blender/pedestal.py -- --video <app.mp4> --out <carpeta/> [--stills] [--w 1280 --h 800]
+  Blender -b -P scripts/mockups/blender/movil-3d.py -- --video <app.mp4> --out <carpeta/> [--stills] [--w 1280 --h 800]
   [--samples 96] [--frames 180] [--video-start 0]
 
 --stills: cuatro fotogramas sueltos para juzgar la luz. Sin él, el bucle entero (PNG numerados; se montan con ffmpeg).
 El giro es una senoide de un periodo, así que el último fotograma enlaza con el primero.
---scene studio (2026-10-18, Alberto: «quítale el pedestal»): sin pedestal, un sin fin berenjena casi negro, una luz muy
-focal sobre el móvil y luces berenjena que giran con él, como un objeto en un estudio de fotografía. Es la que va en
-la cabecera y la miniatura de Dovla; `pedestal` se queda por si hay que volver.
+La escena: un sin fin berenjena casi negro, una luz muy focal sobre el móvil y luces berenjena que giran con él, como
+un objeto en un estudio de fotografía. La primera prueba llevaba un pedestal; Alberto lo descartó del todo
+(2026-10-18) y ya no existe.
 --tail T: renderiza T fotogramas más allá del bucle (misma pose que los primeros) para fundir el vídeo de la pantalla
 en la costura (scripts/mockups/blender/loop.py).
 """
@@ -22,7 +22,7 @@ ap.add_argument("--video", required=True); ap.add_argument("--out", required=Tru
 ap.add_argument("--stills", action="store_true"); ap.add_argument("--w", type=int, default=1280); ap.add_argument("--h", type=int, default=800)
 ap.add_argument("--samples", type=int, default=96); ap.add_argument("--frames", type=int, default=180)
 ap.add_argument("--video-start", type=int, default=0)
-ap.add_argument("--scene", choices=("pedestal", "studio"), default="pedestal"); ap.add_argument("--tail", type=int, default=0)
+ap.add_argument("--tail", type=int, default=0)
 A = ap.parse_args(argv)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -40,8 +40,8 @@ def mat(name, color, metal=0.0, rough=0.5, coat=0.0):
 
 titanium = mat("titanio", (0.16, 0.15, 0.145), metal=1.0, rough=0.18)
 glass = mat("cristal", (0.004, 0.004, 0.004), rough=0.04, coat=1.0)
-pedestal_m = mat("pedestal", (0.018, 0.018, 0.018), rough=0.55)
-wall_m = mat("fondo", (0.02, 0.019, 0.02), rough=0.85)
+# Sin fin berenjena: solo se ve donde le llega la luz; lo demás cae a negro.
+wall_m = mat("fondo", (0.05, 0.017, 0.038), rough=0.85)
 
 # Pantalla: el vídeo como emisión, con la capa de cristal encima para que los reflejos la barran al girar.
 screen_m = bpy.data.materials.new("pantalla"); screen_m.use_nodes = True
@@ -112,23 +112,7 @@ for name, x, y, h in (("accion", -1, 4.0, 0.75), ("vol+", -1, 2.55, 1.35), ("vol
 for p in parts:
     p.parent = phone
 
-# ── Escena: pedestal, suelo y fondo curvo, como un estudio negro ────────────
-def box(name, size, loc, material, bevel=0.0):
-    bpy.ops.mesh.primitive_cube_add(size=1, location=loc)
-    ob = bpy.context.object; ob.name = name; ob.scale = size
-    ob.data.materials.append(material)
-    if bevel:
-        m = ob.modifiers.new("canto", "BEVEL"); m.width = bevel; m.segments = 4
-    return ob
-
-STUDIO = A.scene == "studio"
-if STUDIO:
-    # Sin fin berenjena: solo se ve donde le llega la luz; lo demás cae a negro.
-    wall_m.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = (0.05, 0.017, 0.038, 1)
-else:
-    PED = 13.0
-    box("pedestal", (PED, PED, 20), (0, 0, -10), pedestal_m, bevel=0.06)
-# Fondo de estudio continuo (ciclorama): suelo que se curva en pared sin esquina, para que no haya horizonte.
+# ── Escena: fondo de estudio continuo (ciclorama): suelo que se curva en pared sin esquina, para que no haya horizonte.
 def cyc(y0=-250, y_wall=70, z_floor=-20, rad=60, top=260, half=300, seg=24):
     prof = [(y0, z_floor), (y_wall - rad, z_floor)]
     for i in range(1, seg + 1):
@@ -147,7 +131,7 @@ cyc()
 
 pivot.location = (0, 0, 14.5)
 
-# ── Luces: una dura arriba a la izquierda, un cenital sobre el pedestal y dos recortes berenjena detrás ───
+# ── Luces ───────────────────────────────────────────────────────────────────
 def light(name, kind, energy, loc, target, size=1.0, color=(1, 1, 1), spot=None):
     d = bpy.data.lights.new(name, kind); d.energy = energy; d.color = color
     if kind == "AREA": d.size = size
@@ -157,49 +141,36 @@ def light(name, kind, energy, loc, target, size=1.0, color=(1, 1, 1), spot=None)
     return ob
 
 AUB = (0.8, 0.45, 0.66)
-if STUDIO:
-    # Una sola luz focal sobre el móvil, cálida, de arriba y algo de frente: el resto del estudio queda a oscuras.
-    light("foco", "SPOT", 110000, (-14, -60, 70), (0, 0, 14.5), size=2, spot=9)
-    # Ventana: solo se ve reflejada en el cristal y lo barre al girar.
-    win = light("ventana", "AREA", 30000, (34, -62, 52), (0, 0, 14.5), size=30)
-    win.data.shape = "RECTANGLE"; win.data.size_y = 9
-    # Luces berenjena que giran con el móvil (hijas del pivote): dos recortes que dibujan el canto y un halo en el sin
-    # fin, detrás, que se desliza de lado a lado con el giro.
-    rigs = [
-        light("recorte-izq", "AREA", 60000, (-24, 30, 22), (0, 0, 14.5), size=1.2, color=AUB),
-        light("recorte-der", "AREA", 45000, (26, 28, 26), (0, 0, 14.5), size=1.2, color=(1, 0.9, 0.95)),
-        light("halo", "SPOT", 700000, (-4, -10, 40), (4, 70, -6), size=12, spot=30, color=AUB),
-    ]
-    rigs[2].data.spot_blend = 0.9
-    for l in rigs[:2]:
-        l.data.shape = "RECTANGLE"; l.data.size_y = 30
-    for l in rigs:
-        l.parent = pivot; l.matrix_parent_inverse = pivot.matrix_world.inverted()
-    # Para que el fondo quede negro, las luces del móvil solo dan brillos (el titanio y el cristal son espejos): no
-    # iluminan el sin fin. Lo único que lo toca es el halo.
-    for name in ("foco", "ventana", "recorte-izq", "recorte-der"):
-        bpy.data.objects[name].visible_diffuse = False
-else:
-    k = light("clave", "SPOT", 90000, (-40, -35, 55), (0, 0, 10), size=3, spot=22)
-    light("cenital", "SPOT", 70000, (0, -4, 80), (0, 0, 0), size=1.5, spot=15)
-    # Halo del fondo: un charco de luz detrás del pedestal que se pierde en negro (el degradado de Yakushev).
-    light("fondo", "SPOT", 260000, (0, 10, 150), (0, 70, 30), size=30, spot=22)
-    # Ventana de luz: una caja grande delante, a la derecha; solo se ve reflejada y barre el cristal al girar.
-    win = light("ventana", "AREA", 45000, (34, -62, 52), (0, 0, 14), size=30)
-    win.data.shape = "RECTANGLE"; win.data.size_y = 9
-    # Recortes: tiras estrechas detrás que dibujan el canto de titanio, una blanca y otra berenjena.
-    for name, e, loc, col in (("recorte-izq", 26000, (-26, 34, 26), (1, 0.96, 0.92)), ("recorte-der", 22000, (28, 30, 30), AUB)):
-        l = light(name, "AREA", e, loc, (0, 0, 14), size=1.2, color=col)
-        l.data.shape = "RECTANGLE"; l.data.size_y = 30
+# Una sola luz focal sobre el móvil, cálida, de arriba y algo de frente: el resto del estudio queda a oscuras.
+light("foco", "SPOT", 110000, (-14, -60, 70), (0, 0, 14.5), size=2, spot=9)
+# Ventana: solo se ve reflejada en el cristal y lo barre al girar.
+win = light("ventana", "AREA", 30000, (34, -62, 52), (0, 0, 14.5), size=30)
+win.data.shape = "RECTANGLE"; win.data.size_y = 9
+# Luces berenjena que giran con el móvil (hijas del pivote): dos recortes que dibujan el canto y un halo en el sin
+# fin, detrás, que se desliza de lado a lado con el giro.
+rigs = [
+    light("recorte-izq", "AREA", 60000, (-24, 30, 22), (0, 0, 14.5), size=1.2, color=AUB),
+    light("recorte-der", "AREA", 45000, (26, 28, 26), (0, 0, 14.5), size=1.2, color=(1, 0.9, 0.95)),
+    light("halo", "SPOT", 700000, (-4, -10, 40), (4, 70, -6), size=12, spot=30, color=AUB),
+]
+rigs[2].data.spot_blend = 0.9
+for l in rigs[:2]:
+    l.data.shape = "RECTANGLE"; l.data.size_y = 30
+for l in rigs:
+    l.parent = pivot; l.matrix_parent_inverse = pivot.matrix_world.inverted()
+# Para que el fondo quede negro, las luces del móvil solo dan brillos (el titanio y el cristal son espejos): no
+# iluminan el sin fin. Lo único que lo toca es el halo.
+for name in ("foco", "ventana", "recorte-izq", "recorte-der"):
+    bpy.data.objects[name].visible_diffuse = False
 sc.world = bpy.data.worlds.new("mundo"); sc.world.use_nodes = True
 sc.world.node_tree.nodes["Background"].inputs["Color"].default_value = (0, 0, 0, 1)
 
 # ── Cámara ──────────────────────────────────────────────────────────────────
-cam_d = bpy.data.cameras.new("camara"); cam_d.lens = 85 if STUDIO else 72
+cam_d = bpy.data.cameras.new("camara"); cam_d.lens = 85
 cam_d.dof.use_dof = True; cam_d.dof.aperture_fstop = 4.0
 cam = bpy.data.objects.new("camara", cam_d); bpy.context.collection.objects.link(cam)
-cam.location = (0, -100, 20) if STUDIO else (0, -100, 24)
-aim = Vector((0, 0, 14.3)) if STUDIO else Vector((0, 0, 9.5))
+cam.location = (0, -100, 20)
+aim = Vector((0, 0, 14.3))
 cam.rotation_euler = (aim - cam.location).to_track_quat("-Z", "Y").to_euler()
 cam_d.dof.focus_distance = (aim - cam.location).length
 sc.camera = cam
