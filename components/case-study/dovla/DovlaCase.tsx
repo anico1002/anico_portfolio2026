@@ -8,9 +8,11 @@ import SiteNav from "@/components/case-study/SiteNav";
 import Lines from "@/components/case-study/Lines";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import { CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal, Placeholder } from "@/components/case-study/primitives";
-import { STAGGER } from "@/lib/maqueta/motion";
-import { DovelaPattern, LargeText } from "./DovlaPieces";
-import { CardFamily, ColorTokens, DovelaPhoto, KitSheet, KitToScreen, LightDark, SpaceRadii, TypeScale } from "./DovlaKit";
+import { EASE, STAGGER } from "@/lib/maqueta/motion";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { D } from "./DovlaPieces";
+import { CardFamily, ColorTokens, DovelaMosaic, KitSheet, LightDark, SpaceRadii, TypeScale } from "./DovlaKit";
 
 /* Caso de Dovla, a medida. Rehecho el 2026-10-17 (Alberto): banca privada para clientes con mucho patrimonio, el UI
    kit como capítulo central (como en Interactius) y las dovelas que giran como hilo visual. Vídeos y capturas de la
@@ -21,14 +23,13 @@ import { CardFamily, ColorTokens, DovelaPhoto, KitSheet, KitToScreen, LightDark,
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
-const sub = `pt-24 md:pt-36 ${wrap}`;
 const Head = SectionHead;
 const M = "/maqueta/dovla/media";
 
 /** Cabecera de media pantalla (junto a una imagen): titulillo, titular y párrafo apilados, con los estilos de SectionHead. */
 function SideHead({ eyebrow, title, body }: { eyebrow: string; title: string; body: string }) {
   return (
-    <div className="md:max-w-[30rem]">
+    <div>
       <FadeIn>
         <p className="t-label t-tag text-[var(--case-muted)]">{eyebrow}</p>
       </FadeIn>
@@ -36,20 +37,42 @@ function SideHead({ eyebrow, title, body }: { eyebrow: string; title: string; bo
         {title}
       </Lines>
       <FadeIn delay={2 * STAGGER} className="mt-8">
-        <p className="t-body text-[var(--case-muted)] md:max-w-[26rem]">{body}</p>
+        <p className="t-body text-[var(--case-muted)]">{body}</p>
       </FadeIn>
     </div>
   );
 }
 
-/* El kit va sobre un escenario berenjena noche a sangre: es el color de las hojas de la app. */
-const stage = "m-bleed bg-[#1C0B17] px-4 py-24 md:px-6 md:py-36";
+/** El fondo de la página pasa a berenjena mientras la hoja de componentes ocupa la franja central de la pantalla (del 30 % al 70 %) y vuelve a
+    negro al salir, con un fundido (como plastic.design; 2026-10-18, Alberto): las piezas son recortes de la app y
+    sobre su propio berenjena se ven enteras. Capa fija bajo el contenido del caso, dentro de su capa. */
+function useCentered<T extends Element>() {
+  const ref = useRef<T>(null);
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver((es) => setOn(es.some((e) => e.isIntersecting)), { rootMargin: "-30% 0px -30% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return { ref, on };
+}
 
 export default function DovlaCase({ next: n }: { next: MoreCases }) {
+  const { ref: kitRef, on: kitOn } = useCentered<HTMLElement>();
   return (
     <main className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased">
       <SiteNav active="product" />
       <CaseLayer>
+      <motion.div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{ background: D.bg }}
+        initial={false}
+        animate={{ opacity: kitOn ? 1 : 0 }}
+        transition={{ duration: 0.9, ease: EASE.inOut }}
+      />
 
       <CaseHero
         poster={<Placeholder ratio="auto" className="h-full" src={`${M}/hero.mp4`} label="Dovla" />}
@@ -82,9 +105,9 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
               </Lines>
               <FadeIn delay={2 * STAGGER} className="mt-8">
                 <p className="t-body text-[var(--case-muted)]">
-                  A native iOS app for a private bank. Its clients hold a great deal and expect to be known by name:
-                  an adviser who answers, a concierge, cards that open lounges. The app puts all of it within reach
-                  and keeps the volume low.
+                  A native iOS app for a private bank whose clients are never a number. Each one has an adviser who
+                  answers, a concierge and cards that open private lounges. The app keeps all of it within reach and
+                  never raises its voice.
                 </p>
               </FadeIn>
             </div>
@@ -109,51 +132,47 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
           title="The stone that holds the arch."
           body="A dovela is the wedge-shaped stone that keeps an arch standing. The pattern built from it turns slowly behind the balance and breaks up every photograph in the app."
         />
-        <div className={`${grid} gap-y-6`}>
-          <FadeIn className="col-span-12 md:col-span-6">
-            <DovelaPhoto src={`${M}/photo-travel.jpg`} alt="A first-class cabin window, breaking into dovelas" ratio={2 / 3} />
-          </FadeIn>
-          <FadeIn delay={STAGGER} className="col-span-10 col-start-3 md:col-span-4 md:col-start-8 md:mt-40">
-            <DovelaPhoto src={`${M}/photo-concierge.jpg`} alt="A yacht at sunset, breaking into dovelas" ratio={2 / 3} />
-          </FadeIn>
-        </div>
-        <div className="m-bleed mt-24 md:mt-36">
-          <DovelaPattern />
+        <div className="m-bleed">
+          <DovelaMosaic video={`${M}/app-flow.mp4`} />
         </div>
       </section>
 
-      {/* UI kit: el capítulo central. */}
+      {/* UI kit: el capítulo central. Color, tipografía y espaciado en un solo bloque, con los párrafos alternando
+          a un lado y a otro entre las muestras (2026-10-18, Alberto: «un bloque más homogéneo»). */}
       <section className={section}>
         <Head
           eyebrow="UI kit"
           title="Every screen comes from one kit."
           body="Colour, type, spacing and the components built from them are defined once. Screens are assembled from those pieces, so a change in the kit reaches the whole app, in both languages and both appearances."
         />
+        <div className={grid}>
+          <FadeIn className="col-span-12 md:col-span-4">
+            <p className="t-body text-[var(--case-muted)]">
+              The brand’s aubergine tired the eye at full screen, so the page went a step darker and aubergine moved to
+              cards and tiles, where it lifts off the page. Sand on aubergine reads at 9 : 1.
+            </p>
+          </FadeIn>
+        </div>
+        <div className="mt-12 md:mt-16">
+          <ColorTokens />
+        </div>
+        <div className="mt-24 md:mt-32">
+          <TypeScale />
+        </div>
+        <div className={`${grid} mt-20 md:mt-28`}>
+          <FadeIn className="col-span-12 md:col-span-4 md:col-start-8">
+            <p className="t-body text-[var(--case-muted)]">
+              The type comes in one family and eight styles, and each style grows with the reader’s text size. Spacing
+              and corners follow a single short scale, so every piece lands on the same grid.
+            </p>
+          </FadeIn>
+        </div>
+        <div className="mt-12 md:mt-16">
+          <SpaceRadii />
+        </div>
       </section>
-      <div className={`${stage} mt-4`}>
-        <KitToScreen />
-      </div>
 
-      <section className={sub}>
-        <Head
-          eyebrow="Colour"
-          title="Aubergine for surfaces, sand for reading."
-          body="The brand’s aubergine tired the eye at full screen, so the page went a step darker and aubergine moved to cards and tiles, where it lifts off the page. Sand on aubergine reads at 9 : 1."
-        />
-        <ColorTokens />
-      </section>
-
-      <section className={sub}>
-        <Head eyebrow="Type" title="One typeface, eight styles." />
-        <TypeScale />
-      </section>
-
-      <section className={sub}>
-        <Head eyebrow="Spacing" title="Everything sits on the same grid." />
-        <SpaceRadii />
-      </section>
-
-      <section className={sub}>
+      <section ref={kitRef} className={section}>
         <Head
           eyebrow="Components"
           title="The pieces every screen is built from."
@@ -167,7 +186,7 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
         <Head
           eyebrow="Cards"
           title="Four cards, one family."
-          body="Each card wears the dovela pattern in its own tone. In the app they rest in a fan, like a wallet: pick one and it rises to the top, scroll its activity and it steps aside."
+          body="Each card wears the dovela pattern in its own tone. In the app they rest in a fan, like a wallet."
         />
         <CardFamily />
       </section>
@@ -180,58 +199,25 @@ export default function DovlaCase({ next: n }: { next: MoreCases }) {
         />
       </FadeIn>
 
-      {/* Servicio privado. */}
+      {/* Accesibilidad: un solo bloque con claro y oscuro (2026-10-18, Alberto). Titular y párrafo a la izquierda; a la
+          derecha, el móvil frontal y ampliado, fundido a negro por abajo, con la raya para cambiar de modo. */}
       <section className={section}>
         <div className={`${grid} items-center gap-y-12`}>
-          <div className="col-span-12 md:col-span-6">
+          <div className="col-span-12 md:col-span-5">
             <SideHead
-              eyebrow="Private service"
-              title="The adviser is one tap from the balance."
-              body="Lounges, a personal adviser and a concierge sit on the home screen next to the money. Each opens on its own photograph, with the benefits written plainly and a single way to ask for them."
+              eyebrow="Accessibility"
+              title="Clear at any size, in any light."
+              body="Every style follows the reader’s text size up to 200%, and an amount shrinks before it breaks. Light and dark each have their own shades for money in and out, and the app speaks English and Spanish from the first screen."
             />
           </div>
-          <FadeIn delay={STAGGER} className="col-span-10 col-start-2 md:col-span-4 md:col-start-8">
-            <DovelaPhoto src={`${M}/photo-invest.jpg`} alt="A grand touring car at night, breaking into dovelas" ratio={2 / 3} />
-          </FadeIn>
-        </div>
-      </section>
-
-      <section className={section}>
-        <Head
-          eyebrow="Accessibility"
-          title="At 200%, an amount never breaks."
-          body="With the largest accessibility text, rows stack instead of cutting off. An amount shrinks before it wraps."
-        />
-        <LargeText />
-      </section>
-
-      <section className={section}>
-        <div className={`${grid} items-center gap-y-12`}>
-          <div className="col-span-12 md:col-span-6">
-            <SideHead eyebrow="Appearance" title="Light and dark, from the same pieces." body="Two sets of tokens, one layout. Drag across the phone to switch." />
-          </div>
-          <div className="col-span-12 md:col-span-5 md:col-start-8">
+          <div className="col-span-12 md:col-span-6 md:col-start-7">
             <LightDark />
+            <p className="mt-2 text-center t-small text-[var(--case-muted)]">Drag across the phone to switch.</p>
           </div>
         </div>
       </section>
 
-      <section className={section}>
-        <div className={`${grid} gap-y-10`}>
-          {[
-            ["English and Spanish", "Bilingual from the first screen."],
-            ["Light and dark", "Each with its own shades for money in and out."],
-            ["Text up to 200%", "The full scale, with nothing cut off."],
-          ].map(([t, d], k) => (
-            <FadeIn key={t} delay={k * STAGGER} className={`col-span-12 border-t border-[var(--case-line)] pt-5 md:col-span-3 ${k === 0 ? "md:col-start-2" : ""} ${k === 1 ? "md:col-start-6" : ""} ${k === 2 ? "md:col-start-10" : ""}`}>
-              <p className="t-title">{t}</p>
-              <p className="mt-3 t-small text-[var(--case-muted)]">{d}</p>
-            </FadeIn>
-          ))}
-        </div>
-      </section>
-
-      <CaseClosing className={section} title="A private bank built from one kit, ready for its engineers." />
+      <CaseClosing className={section} title="Private banking for great fortunes, built on security and transparency." />
 
       </CaseLayer>
 

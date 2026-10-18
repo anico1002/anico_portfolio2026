@@ -18,7 +18,7 @@
   {
    "scene": "mockups-src/im-silver",
    "view": "view-2",
-   "video": "scripts/case-media/clips/dovla/cards.mp4",
+   "video": "scripts/case-media/clips/dovla/cards-cut.mp4",
    "place": "1.0,0.5,center",
    "rot": 5,
    "tint": 0.3

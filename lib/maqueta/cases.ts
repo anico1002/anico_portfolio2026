@@ -216,7 +216,7 @@ const ALL_CASES: CaseCopy[] = [
     section: "product",
     thumb: "/maqueta/dovla/media/hero.mp4",
     name: "Dovla",
-    line: "Private banking that keeps its voice down",
+    line: "The bank that doesn’t shout",
     year: "2026",
     role: "Lead Product Designer",
     services: ["Native iOS app", "UI kit", "Accessibility"],
@@ -225,7 +225,7 @@ const ALL_CASES: CaseCopy[] = [
     question: "How does a private bank feel on a phone?",
     overview: ["A native iOS app for a private bank, built from one UI kit."],
     chapters: [],
-    outcomeTitle: "A private bank built from one kit, ready for its engineers.",
+    outcomeTitle: "Private banking for great fortunes, built on security and transparency.",
     outcome: "",
   },
   {
