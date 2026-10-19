@@ -2,7 +2,7 @@
    problemas y obligaba a recalcular píxeles en cada fotograma): al pasar por encima, cada letra
    sale por arriba de su máscara y entra una copia igual por abajo, en ola de izquierda a
    derecha. La copia es una sombra de texto del mismo color (`currentColor`), así que sigue a la
-   tinta adaptativa. La animación vive en app/maqueta/system.css (`.roll`). El texto real queda
+   tinta adaptativa. La animación vive en app/new/system.css (`.roll`). El texto real queda
    para lectores de pantalla; las letras sueltas, ocultas. */
 
 import { Inv } from "@/components/case-study/Inv";

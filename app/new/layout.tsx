@@ -11,6 +11,7 @@ import Boot from "@/components/case-study/Boot";
 import AnimatedFavicon from "@/components/case-study/AnimatedFavicon";
 import LoopGate from "@/components/case-study/LoopGate";
 import { siteMeta } from "@/lib/maqueta/meta";
+import "../globals.css";
 import "./system.css";
 
 // Tipografía de la maqueta (2026-10-12): Instrument Sans para todo y una serif en cursiva para palabras
@@ -63,29 +64,35 @@ const themes = `
 // Antes de pintar: el color de la página (lib/maqueta/theme.ts), sin parpadeo. Ya no hay selector sol/luna.
 const pick = `(function(){var r=document.getElementById('case-root');var m=${JSON.stringify(THEMES)};var p=location.pathname.replace(/\\/$/,'');r.dataset.caseTheme=m[p]||'dark';try{localStorage.removeItem('case-theme')}catch(e){}})();`;
 
+// Layout raíz propio (desde el 2026-10-19 la web nueva vive en /new, en su propio grupo): sin la Inter, el JSON-LD ni
+// la canonical de la web de siempre (app/(classic)/layout.tsx). Sin analítica: se publica fuera de Vercel.
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   // La única fuente que se ve en todas las páginas: que llegue con el HTML y no tras leer el CSS.
   preload("/fonts-licencia/Satoshi-Variable.woff2", { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
   return (
-    <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${flipTech.variable}`}>
-      <script dangerouslySetInnerHTML={{ __html: pick }} />
-      {/* `overflow-x: hidden` global convierte html/body en contenedor de scroll y rompe
-          `position: sticky`; `clip` recorta igual sin romperlo. Y `scroll-behavior: smooth`
-          global pelea con Lenis: aquí lo apagamos. */}
-      <style>{`html, body { overflow-x: clip; } html { scroll-behavior: auto; }${themes}`}</style>
-      <SmoothScroll />
-      <PageTheme />
-      {children}
-      {/* Capa de la transición home → caso: vive aquí para sobrevivir al cambio de página. */}
-      <FlightLayer />
-      {/* Telón de la entrada → home de sección (barrido de abajo arriba al llegar). */}
-      <CurtainLayer />
-      {/* Transición «portal» de todos los demás enlaces (B1). */}
-      <PortalLayer />
-      {/* Primera carga: tapa la página hasta que llega la tipografía (D6). */}
-      <Boot />
-      <AnimatedFavicon />
-      <LoopGate />
-    </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-w-0">
+        <div id="case-root" data-case-theme="dark" suppressHydrationWarning className={`${sans.variable} ${serif.variable} ${flipTech.variable}`}>
+          <script dangerouslySetInnerHTML={{ __html: pick }} />
+          {/* `overflow-x: hidden` global convierte html/body en contenedor de scroll y rompe
+              `position: sticky`; `clip` recorta igual sin romperlo. Y `scroll-behavior: smooth`
+              global pelea con Lenis: aquí lo apagamos. */}
+          <style>{`html, body { overflow-x: clip; } html { scroll-behavior: auto; }${themes}`}</style>
+          <SmoothScroll />
+          <PageTheme />
+          {children}
+          {/* Capa de la transición home → caso: vive aquí para sobrevivir al cambio de página. */}
+          <FlightLayer />
+          {/* Telón de la entrada → home de sección (barrido de abajo arriba al llegar). */}
+          <CurtainLayer />
+          {/* Transición «portal» de todos los demás enlaces (B1). */}
+          <PortalLayer />
+          {/* Primera carga: tapa la página hasta que llega la tipografía (D6). */}
+          <Boot />
+          <AnimatedFavicon />
+          <LoopGate />
+        </div>
+      </body>
+    </html>
   );
 }

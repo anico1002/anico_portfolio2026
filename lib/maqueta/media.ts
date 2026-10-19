@@ -162,6 +162,6 @@ export function moreCases(slug: string): { items: MoreItem[]; all: { label: stri
   ).map((c) => ({ name: c.name, href: `${BASE}/${c.slug}`, thumb: thumbOf(c.slug), year: c.year }));
   const i = list.findIndex((x) => x.href === `${BASE}/${slug}`);
   const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];
-  return { items, all: games ? { label: "All games", href: `${BASE}/games` } : { label: "All projects", href: `${BASE}/home` } };
+  return { items, all: games ? { label: "All games", href: `${BASE}/games` } : { label: "All projects", href: `${BASE}/product` } };
 }
 export type MoreCases = ReturnType<typeof moreCases>;

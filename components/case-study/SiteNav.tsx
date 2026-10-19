@@ -44,10 +44,10 @@ function Burger({ x = false }: { x?: boolean }) {
     palabras grandes que suben con máscara (Yakushev). */
 
 const items = [
-  ["product", "Product", `${BASE}/home`],
+  ["product", "Product", `${BASE}/product`],
   ["games", "Games", `${BASE}/games`],
   // About es un bloque al final de cada home (2026-10-17): lleva al de la sección en la que estás. Contact sale del
-  // menú: el contacto está en el pie de todas las páginas. Las dos páginas siguen en app/maqueta, sin enlazar.
+  // menú: el contacto está en el pie de todas las páginas. Las dos páginas siguen en app/new, sin enlazar.
   ["about", "About", "#about"],
 ] as const;
 
@@ -102,7 +102,7 @@ export default function SiteNav({
     return () => clearTimeout(t);
   }, [copied]);
   // «#about» va al bloque About de la home de la sección en la que estás (Games o Product).
-  const to = (href: string) => (href.startsWith("#") ? `${active === "games" ? `${BASE}/games` : `${BASE}/home`}${href}` : href);
+  const to = (href: string) => (href.startsWith("#") ? `${active === "games" ? `${BASE}/games` : `${BASE}/product`}${href}` : href);
   // El menú de móvil se monta en #case-root (fuera de la barra): la barra lleva mezcla por diferencia
   // y, si el menú fuera dentro, se invertiría con ella.
   const [root, setRoot] = useState<HTMLElement | null>(null);

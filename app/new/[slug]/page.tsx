@@ -9,7 +9,7 @@ import { GAMES_INTRO, pageMeta, productIntro } from "@/lib/maqueta/meta";
    caso de éxito (CaseTemplate). Games y Marca y web: escaparate gráfico (GamesTemplate, lib/maqueta/games.ts). */
 
 // Casos con página propia (ruta fija, que manda sobre esta): no se generan aquí para no duplicar rutas.
-// El Reto pasó a proyecto vertical el 2026-10-15 (su página a medida queda en app/maqueta/_elreto-a-medida,
+// El Reto pasó a proyecto vertical el 2026-10-15 (su página a medida queda en app/new/_elreto-a-medida,
 // carpeta privada que Next no publica).
 const BESPOKE = new Set(["swift-project", "interactius", "7news", "dovla", "wineup"]);
 

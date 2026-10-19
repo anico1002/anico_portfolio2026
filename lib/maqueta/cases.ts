@@ -155,7 +155,7 @@ const ALL_CASES: CaseCopy[] = [
     cta: { label: "Descargar gratis", href: "https://swift-translator.vercel.app" },
   },
   {
-    // Caso a medida (app/maqueta/interactius): estos campos solo alimentan la tarjeta y el «siguiente caso».
+    // Caso a medida (app/new/interactius): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "interactius",
     section: "product",
     // Miniatura y cabecera (2026-10-16): el manual en el MacBook real (scene-mac.jpg + manual-web.mp4).
@@ -175,7 +175,7 @@ const ALL_CASES: CaseCopy[] = [
     outcome: "",
   },
   {
-    // Caso a medida (app/maqueta/7news): estos campos solo alimentan la tarjeta y el «siguiente caso».
+    // Caso a medida (app/new/7news): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "7news",
     section: "product",
     thumb: "/maqueta/7news/media/hero-25d-v3.mp4", // 2026-10-18: la luz de ventana cruza el muro (la de antes, hero.mp4)
@@ -193,7 +193,7 @@ const ALL_CASES: CaseCopy[] = [
     outcome: "",
   },
   {
-    // Caso a medida (app/maqueta/wineup). Miniatura: el recorrido del prototipo en un móvil en la mano sobre un bar
+    // Caso a medida (app/new/wineup). Miniatura: el recorrido del prototipo en un móvil en la mano sobre un bar
     // de vinos desenfocado (scripts/mockups/hand3d_video.py).
     slug: "wineup",
     section: "product",
@@ -212,7 +212,7 @@ const ALL_CASES: CaseCopy[] = [
     outcome: "",
   },
   {
-    // Caso a medida (app/maqueta/dovla): estos campos solo alimentan la tarjeta y el «siguiente caso».
+    // Caso a medida (app/new/dovla): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "dovla",
     section: "product",
     // Móvil girando en estudio oscuro, render de Blender (2026-10-18, prueba). El de antes: media/hero.mp4.

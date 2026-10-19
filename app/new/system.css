@@ -1,7 +1,7 @@
 /* Satoshi (Fontshare, ITF Free Font License: gratis también para uso comercial y web autoalojada), prueba
    2026-10-17 como sans de toda la maqueta. Variable (300–900), con sus pesos reales; solo los textos pequeños van un
    peso por encima (abajo, .t-small, .t-label y .t-nav). Fuera de git (public/fonts-licencia/); se precarga en
-   app/maqueta/layout.tsx. PP Neue Montreal (prueba del 2026-10-15) salió en la auditoría del 2026-10-19: licencia
+   app/new/layout.tsx. PP Neue Montreal (prueba del 2026-10-15) salió en la auditoría del 2026-10-19: licencia
    solo personal y OTF de ~200 KB que se bajaba entero por un espacio duro que Satoshi no trae. */
 @font-face {
   font-family: "Satoshi";

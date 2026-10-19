@@ -31,7 +31,7 @@ import SiteFooter from "@/components/case-study/SiteFooter";
 
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
-const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
+const mono = "t-tag"; // titulillos: estilo único en app/new/system.css
 
 export type P = { name: string; line: string; type: string; year: string; thumb?: string; href?: string; slot?: number }; // type: para filtros futuros; slot: forzar un hueco de la composición
 

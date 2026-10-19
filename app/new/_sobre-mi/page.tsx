@@ -14,7 +14,7 @@ import Img from "@/components/case-study/Img";
 
 const wrap = "px-4 md:px-6";
 const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
-const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
+const mono = "t-tag"; // titulillos: estilo único en app/new/system.css
 const tBody = "t-body";
 
 // Se regenera a diario: los años de experiencia suben solos (lib/maqueta/years.ts).

@@ -10,7 +10,7 @@ import { useSeen } from "@/components/case-study/primitives";
    real, se mira en qué línea ha caído; todas las palabras de una línea comparten retraso, así que
    se ven subir como una sola línea. Si cambia el ancho se vuelve a medir. Los elementos dentro
    del texto (palabras clave `.kw`, signos `Inv`…) viajan pegados a su palabra, sin cortes de
-   línea nuevos. La animación vive en app/maqueta/system.css (`.ln`). */
+   línea nuevos. La animación vive en app/new/system.css (`.ln`). */
 
 type Tag = "p" | "h1" | "h2" | "h3" | "span";
 

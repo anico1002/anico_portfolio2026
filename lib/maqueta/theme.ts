@@ -8,7 +8,7 @@ export type Theme = "dark" | "light";
 
 export const THEMES: Record<string, Theme> = {
   [BASE]: "dark",
-  [`${BASE}/home`]: "dark",
+  [`${BASE}/product`]: "dark",
   [`${BASE}/games`]: "light",
   // Product
   [`${BASE}/gloop`]: "dark",

@@ -1,7 +1,7 @@
 /* Sistema de movimiento de la maqueta (bloque A de docs/revision-calidad-2026-10-12.md).
    Todo lo que se mueve sale de aquí: nada de curvas ni duraciones sueltas en los componentes.
    Su gemelo en CSS (hover y transiciones de clase) son las variables --ease-* / --dur-* de
-   app/maqueta/system.css; si cambias un valor, cámbialo en los dos sitios.
+   app/new/system.css; si cambias un valor, cámbialo en los dos sitios.
 
    Curvas: las de Metalab sacadas de su código (GSAP → cubic-bezier), cada una con UN papel:
    - out    → algo que ENTRA o reacciona (textos, fundidos, hover).       Power3.easeOut

@@ -33,7 +33,7 @@ const sides: Side[] = [
     key: "product",
     label: "Product",
     text: "Apps, digital products, brand and web. From the first idea to native code, with prototypes you can actually touch.",
-    href: `${BASE}/home`,
+    href: `${BASE}/product`,
     slides: [...SLIDES.product],
   },
   {

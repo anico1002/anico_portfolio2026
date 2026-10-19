@@ -10,7 +10,7 @@ import Arrow from "@/components/case-study/Arrow";
 /* Entrada: el visitante elige por dónde entrar (pendiente del 2026-09-09: dos públicos,
    dos recorridos). Al pasar por encima de cada opción, su imagen ocupa el fondo. */
 
-const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
+const mono = "t-tag"; // titulillos: estilo único en app/new/system.css
 
 const ways = [
   {

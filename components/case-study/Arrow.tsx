@@ -3,7 +3,7 @@
    mismo gesto que las letras de `RollText`, pero en diagonal: al pasar por encima del enlace sale
    por la esquina de arriba a la derecha de su máscara y entra una copia por la de abajo a la
    izquierda. Mide 0,72 em y usa `currentColor`, así que sigue el tamaño y el color del texto. La
-   animación vive en app/maqueta/system.css (`.arr`). */
+   animación vive en app/new/system.css (`.arr`). */
 
 function Glyph() {
   return (

@@ -17,7 +17,7 @@ import Arrow from "@/components/case-study/Arrow";
    pantalla completa y aterriza en la cabecera del caso siguiente (el vuelo de la home). En
    táctil no hay «pasar por encima»: la ventana se ve ya abierta (`.nc-img` en system.css). */
 
-const mono = "t-tag"; // titulillos: estilo único en app/maqueta/system.css
+const mono = "t-tag"; // titulillos: estilo único en app/new/system.css
 
 export default function NextCase({ name, href, thumb }: { name: string; href: string; thumb?: string }) {
   const router = useRouter();
