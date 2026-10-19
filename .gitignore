@@ -87,3 +87,7 @@ scripts/mockups/photoshop/run.jsx
 # mayoría no van en git; se regeneran con `npm run media:opt` y salen en el despliegue por CLI.
 /public/opt/maqueta/**/*.mp4
 /public/opt/maqueta/**/*.mp4.skip
+
+# Build estático para hosting externo (generado con EXPORT_STATIC=1)
+/out/
+/deploy/cf-out/

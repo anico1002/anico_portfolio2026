@@ -1,0 +1,22 @@
+# Cloudflare Pages — web nueva (puente mientras se resuelve el hosting de anico.es).
+# Mismas protecciones que el .htaccess de Apache. 2026-10-19.
+
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive, noimageindex
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+
+# Bundles de Next (nombre con hash): inmutables de verdad.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Medios (nombres sin hash): un día + una semana en segundo plano.
+/maqueta/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/opt/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/fonts-licencia/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

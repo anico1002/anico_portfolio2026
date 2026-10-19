@@ -93,6 +93,19 @@ function Strip({ items, near }: { items: MoreItem[]; near: boolean }) {
 
   const loop = [...items, ...items];
   return (
+    <>
+    {/* Pista de que el carrusel se arrastra (feedback de Alberto 2026-10-19): el cursor de manita no se ve en móvil y
+        pasaba desapercibido. Fija y siempre visible en todos los casos: es un recordatorio discreto, no molesta.
+        Flechas en SVG (como `Arrow`), no «↔», que iOS pinta como emoji. */}
+    <div
+      aria-hidden
+      className="mb-5 flex items-center gap-2 pl-4 text-[var(--case-muted)] md:pl-6"
+    >
+      <svg viewBox="0 0 24 12" width="24" height="12" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="square">
+        <path d="M5 2 1.5 6 5 10M19 2l3.5 4L19 10M1.5 6h21" />
+      </svg>
+      <span className="t-label t-tag">Drag</span>
+    </div>
     <motion.div
       // Aire abajo (compensado): con overflow-hidden, la g, la p o la y de los nombres se cortaban.
       className="-mb-6 cursor-grab select-none overflow-hidden pb-6 active:cursor-grabbing"
@@ -147,6 +160,7 @@ function Strip({ items, near }: { items: MoreItem[]; near: boolean }) {
         ))}
       </motion.div>
     </motion.div>
+    </>
   );
 }
 
