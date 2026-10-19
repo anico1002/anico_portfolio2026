@@ -1,0 +1,4 @@
+# anico.es (web nueva, enlace privado). Todo bloqueado: no es para indexar.
+# Refuerza al noindex de las cabeceras y los <meta>. 2026-10-19.
+User-agent: *
+Disallow: /

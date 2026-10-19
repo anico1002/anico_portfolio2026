@@ -1,0 +1,54 @@
+# anico.es — web nueva (export estático de Next). Servida por Apache en MindYourGap.
+# Réplica de las cabeceras que daba Vercel (next.config.ts), más lo que Apache necesita de más:
+# tipos MIME de los medios modernos y la raíz llevando a la portada.
+# Generado 2026-10-19 (auditoría final). Fuente: deploy/apache/.htaccess.
+
+Options -Indexes +FollowSymLinks
+DirectoryIndex index.html
+
+# --- Enlace privado: fuera de TODO buscador (meta robots no cubre imágenes, vídeos ni fuentes) ---
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive, noimageindex"
+
+  # --- Seguridad (igual que en Vercel) ---
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+  Header set X-Frame-Options "DENY"
+  Header set Content-Security-Policy "frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+  Header unset X-Powered-By
+  Header unset Server
+
+  # --- Caché de medios: un día + una semana en segundo plano (sin immutable: nombres sin hash) ---
+  <FilesMatch "\.(avif|webp|png|jpg|jpeg|gif|svg|mp4|webm|mov|woff2|woff)$">
+    Header set Cache-Control "public, max-age=86400, stale-while-revalidate=604800"
+  </FilesMatch>
+  # Los HTML no se cachean: el contenido cambia y no llevan hash.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  # Los bundles de Next sí llevan hash en el nombre: inmutables de verdad.
+  <FilesMatch "^.*$">
+    <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </If>
+  </FilesMatch>
+</IfModule>
+
+# --- Tipos MIME que Apache viejo puede no servir bien ---
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+  AddType image/webp .webp
+  AddType video/mp4 .mp4
+  AddType video/webm .webm
+  AddType video/quicktime .mov
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+# --- La raíz del dominio lleva a la portada de la web nueva ---
+RewriteEngine On
+RewriteRule ^$ /new/product/ [R=302,L]
+
+# --- 404 propio del export ---
+ErrorDocument 404 /404.html

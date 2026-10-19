@@ -18,9 +18,18 @@ const SECURITY = [
 const NOINDEX = [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, noimageindex" }];
 const MEDIA_CACHE = [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }];
 
+// Export estático para servir la web nueva en un Apache (MindYourGap), fuera de Vercel.
+// `EXPORT_STATIC=1 npm run build` → carpeta `out/`. En ese modo no hay optimizador de imágenes
+// ni cabeceras/redirecciones de Next (no se soportan en export): todo eso lo pone el `.htaccess`.
+const EXPORT = process.env.EXPORT_STATIC === "1";
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // `trailingSlash` solo en export: genera `new/product/index.html` y Apache sirve `/new/product/`
+  // con su DirectoryIndex sin reescrituras. En Vercel se deja como está (sin barra final).
+  ...(EXPORT ? { output: "export" as const, trailingSlash: true } : {}),
   async headers() {
+    if (EXPORT) return [];
     return [
       { source: "/:path*", headers: SECURITY },
       ...["/new", "/new/:path*", "/maqueta", "/maqueta/:path*", "/opt/maqueta/:path*", "/fonts-licencia/:path*"].map((source) => ({ source, headers: NOINDEX })),
@@ -28,6 +37,8 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    // Apache no tiene el optimizador de Next: en export las imágenes se sirven tal cual.
+    unoptimized: EXPORT,
     remotePatterns: [
       {
         protocol: "https",

@@ -1,3 +1,4 @@
+export const dynamic = "force-static";
 import type { MetadataRoute } from "next";
 
 // La web nueva (/new) es un enlace privado (2026-10-19). A los buscadores NO se les cierra: necesitan entrar para
