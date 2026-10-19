@@ -1,7 +1,8 @@
 "use client";
 
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 import { motion } from "framer-motion";
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode } from "react";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -21,13 +22,7 @@ export default function ScrollReveal({
   x = 0,
   once = true,
 }: ScrollRevealProps) {
-  const [reduceMotion, setReduceMotion] = useState(false);
-
-  useEffect(() => {
-    const q = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(q.matches);
-    q.addEventListener("change", () => setReduceMotion(q.matches));
-  }, []);
+  const reduceMotion = usePrefersReducedMotion();
 
   if (reduceMotion) {
     return <div className={className}>{children}</div>;

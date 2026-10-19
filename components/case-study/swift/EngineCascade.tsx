@@ -67,7 +67,7 @@ export default function EngineCascade() {
                       transition={{ duration: DUR.base, ease: EASE.inOut }}
                     >
                       <motion.div className="px-3 pb-4 pt-3 md:px-4" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: DUR.fast, delay: DUR.base * 0.45, ease: EASE.out }}>
-                        <p className="t-small font-medium">{c.text}</p>
+                        <p className="t-small">{c.text}</p>
                         <p className="mt-1 text-[11px] opacity-80 md:text-[12px]">{c.meta}</p>
                       </motion.div>
                     </motion.div>
@@ -78,7 +78,7 @@ export default function EngineCascade() {
                 className="border-t-2 pt-4 transition-colors"
                 style={{ borderColor: hit ? V : "var(--case-line)", transitionDuration: `${DUR.base}s` }}
               >
-                <p className="t-small font-medium">{l.name}</p>
+                <p className="t-small">{l.name}</p>
                 <p className="mt-1 t-label text-[var(--case-muted)]">{l.tag}</p>
               </div>
             </div>

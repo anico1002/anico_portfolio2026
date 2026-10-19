@@ -3,6 +3,7 @@ import CaseTemplate from "@/components/case-study/CaseTemplate";
 import GamesTemplate from "@/components/case-study/GamesTemplate";
 import { CASES, caseBySlug } from "@/lib/maqueta/cases";
 import { getCaseMedia, getGameBlocks, moreCases } from "@/lib/maqueta/media";
+import { GAMES_INTRO, pageMeta, productIntro } from "@/lib/maqueta/meta";
 
 /* Casos de la maqueta salvo Gloop (que tiene página propia en /maqueta/gloop). Product:
    caso de éxito (CaseTemplate). Games y Marca y web: escaparate gráfico (GamesTemplate, lib/maqueta/games.ts). */
@@ -17,8 +18,9 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const c = caseBySlug((await params).slug);
-  return { title: c ? `${c.name} · maqueta` : "Maqueta" };
+  const { slug } = await params;
+  const c = caseBySlug(slug);
+  return c ? pageMeta(c.name, { slug, description: c.section === "games" ? GAMES_INTRO : productIntro() }) : {};
 }
 
 export default async function CasePage({ params }: { params: Promise<{ slug: string }> }) {

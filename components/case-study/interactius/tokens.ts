@@ -20,8 +20,8 @@ export const IX = {
 /** Curva de la marca (lib/motion.ts): expo. */
 export const IX_EXPO = [0.16, 1, 0.3, 1] as const;
 
-export const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-ix-mono" });
-export const plexSerif = IBM_Plex_Serif({ subsets: ["latin"], weight: ["300", "400"], variable: "--font-ix-serif" });
+export const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-ix-mono", preload: false });
+export const plexSerif = IBM_Plex_Serif({ subsets: ["latin"], weight: ["300", "400"], variable: "--font-ix-serif", preload: false });
 
 export const ixFonts = `${plexMono.variable} ${plexSerif.variable}`;
 export const mono = { fontFamily: "var(--font-ix-mono), ui-monospace, monospace" } as const;

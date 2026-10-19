@@ -12,6 +12,7 @@ import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import { LINKEDIN, email } from "@/lib/maqueta/contact";
 import Arrow from "@/components/case-study/Arrow";
 import LogoAnico from "@/components/case-study/LogoAnico";
+import { BASE } from "@/lib/maqueta/base";
 
 /** En la cabecera el bucle es un guiño de vez en cuando (Alberto, 2026-10-18): unos 15 s formado entre vueltas. */
 const WINK = 15000;
@@ -43,8 +44,8 @@ function Burger({ x = false }: { x?: boolean }) {
     palabras grandes que suben con máscara (Yakushev). */
 
 const items = [
-  ["product", "Product", "/maqueta/home"],
-  ["games", "Games", "/maqueta/games"],
+  ["product", "Product", `${BASE}/home`],
+  ["games", "Games", `${BASE}/games`],
   // About es un bloque al final de cada home (2026-10-17): lleva al de la sección en la que estás. Contact sale del
   // menú: el contacto está en el pie de todas las páginas. Las dos páginas siguen en app/maqueta, sin enlazar.
   ["about", "About", "#about"],
@@ -101,7 +102,7 @@ export default function SiteNav({
     return () => clearTimeout(t);
   }, [copied]);
   // «#about» va al bloque About de la home de la sección en la que estás (Games o Product).
-  const to = (href: string) => (href.startsWith("#") ? `${active === "games" ? "/maqueta/games" : "/maqueta/home"}${href}` : href);
+  const to = (href: string) => (href.startsWith("#") ? `${active === "games" ? `${BASE}/games` : `${BASE}/home`}${href}` : href);
   // El menú de móvil se monta en #case-root (fuera de la barra): la barra lleva mezcla por diferencia
   // y, si el menú fuera dentro, se invertiría con ella.
   const [root, setRoot] = useState<HTMLElement | null>(null);
@@ -129,7 +130,7 @@ export default function SiteNav({
         className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50 mix-blend-difference"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts !== "all" ? "pointer-events-none" : ""}`}
       >
         {parts !== "menu" && (
-          <TLink href="/maqueta" aria-label="anico · home" className="pointer-events-auto">
+          <TLink href={BASE} aria-label="anico · home" className="pointer-events-auto">
             {/* Logo nuevo en bucle (2026-10-18, a prueba). El de antes sigue en public/anico_logo.svg. */}
             <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
           </TLink>

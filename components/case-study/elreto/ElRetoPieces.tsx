@@ -13,8 +13,8 @@ import Img from "@/components/case-study/Img";
    pasos de receta de ejemplo. */
 
 export const R = { orange: "#FC6B37", peach: "#F3AD68", card: "#E8673A", bg: "#000000", surface: "#121212", line: "#262626" } as const;
-export const unbounded = Unbounded({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-reto-display" });
-export const onest = Onest({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-reto-text" });
+export const unbounded = Unbounded({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-reto-display", preload: false });
+export const onest = Onest({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-reto-text", preload: false });
 export const retoFonts = `${unbounded.variable} ${onest.variable}`;
 const DISPLAY = { fontFamily: "var(--font-reto-display), sans-serif" } as const;
 const TEXT = { fontFamily: "var(--font-reto-text), sans-serif" } as const;
@@ -45,18 +45,18 @@ export function BrandGlow() {
   return (
     <div className="relative flex aspect-[16/9] items-center justify-center overflow-hidden" style={{ background: R.bg }}>
       {blobs.map((b, k) => (
-        <motion.span
+        <span
           key={k}
           aria-hidden
-          className="absolute h-[45%] w-[30%] rounded-full opacity-50 blur-[60px]"
-          style={{ left: b.x, top: b.y, background: `radial-gradient(circle, ${b.c}, transparent 70%)`, translateX: "-50%", translateY: "-50%" }}
-          animate={reduce ? undefined : { x: [0, b.dx, 0], y: [0, b.dy, 0] }}
-          transition={{ duration: b.d, repeat: Infinity, ease: "easeInOut" }}
+          data-loop
+          className={`absolute h-[45%] w-[30%] rounded-full opacity-50 ${reduce ? "" : "reto-blob"}`}
+          // Sin `blur`: el degradado llega a transparente en el borde y ya es igual de suave, sin filtro que recalcular.
+          style={{ left: b.x, top: b.y, background: `radial-gradient(closest-side, ${b.c}, transparent)`, transform: "translate(-50%, -50%)", ["--dx" as string]: `${b.dx}px`, ["--dy" as string]: `${b.dy}px`, ["--d" as string]: `${b.d}s` }}
         />
       ))}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      { }
       <Img src="/maqueta/elreto/brand/concentric-circles.svg" alt="" className="absolute h-[140%] w-auto opacity-40" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      { }
       <Img src="/maqueta/elreto/brand/logo-elreto-vertical.svg" alt="El Reto" className="relative w-[22%]" />
     </div>
   );

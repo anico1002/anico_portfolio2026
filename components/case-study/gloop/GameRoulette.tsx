@@ -85,7 +85,7 @@ export default function GameRoulette() {
         <WindowReveal>
           <div className="relative h-full w-full overflow-hidden" style={{ background: g.color }}>
             {/* La foto del juego en grises, teñida con su color (corte seco entre juegos, como en la app). */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             {/* El color manda (como en la app): la foto en grises solo le da textura, en «superponer». */}
             <Img src={g.img} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ filter: "grayscale(1) contrast(1.2) brightness(1.15)", mixBlendMode: "overlay" }} />
             <span aria-hidden className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/35" />

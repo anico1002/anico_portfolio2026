@@ -36,7 +36,7 @@ function Phone({ src, label, className = "" }: { src: string; label: string; cla
       <div className="absolute overflow-hidden rounded-[13%/6.2%] bg-black" style={{ left: "4.0968%", top: "1.6852%", width: "91.744%", height: "96.66%" }}>
         <LazyVideo className="h-full w-full object-cover" src={`${M}/${src}.mp4`} poster={`${M}/${src}-poster.jpg`} aria-label={label} />
       </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      { }
       <Img src="/maqueta/gloop/media/iphone18-frame.png" alt="" className="pointer-events-none absolute inset-0 h-full w-full" />
     </div>
   );
@@ -140,7 +140,7 @@ function Feature({
             <MaskReveal from={right ? "right" : "left"} speed={50} className="absolute inset-x-0 top-[12%]">
               <div className="relative aspect-[100/95] w-full md:aspect-auto md:h-[min(70vh,45.6rem)]" style={{ background: shade(bg ?? W.cellar) }}>
                 {photo && (
-                  // eslint-disable-next-line @next/next/no-img-element
+                   
                   <Img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover" />
                 )}
                 {photo && <span aria-hidden className="absolute inset-0" style={{ background: VEIL }} />}
@@ -174,7 +174,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
       <CaseLayer>
         <CaseHero
           videoReady
-          poster={<BandMedia desktop={`${M}/hero-band-live2.mp4`} mobile={`${M}/thumb-live2.mp4`} label="WineUp" />}
+          poster={<BandMedia desktop={`${M}/hero-band-live2.mp4`} mobile={`${M}/hero-portrait.mp4`} label="WineUp" />}
           overlay={(t) => (
             <CaseHeroOverlay
               name="WineUp"
@@ -188,7 +188,7 @@ export default function WineupCase({ next: n }: { next: MoreCases }) {
             />
           )}
         >
-          <BandMedia desktop={`${M}/hero-band-live2.mp4`} mobile={`${M}/thumb-live2.mp4`} label="WineUp" />
+          <BandMedia desktop={`${M}/hero-band-live2.mp4`} mobile={`${M}/hero-portrait.mp4`} label="WineUp" />
         </CaseHero>
 
         {/* Intro */}

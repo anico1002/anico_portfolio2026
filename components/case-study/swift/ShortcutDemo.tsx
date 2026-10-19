@@ -89,7 +89,7 @@ export default function ShortcutDemo() {
       <div className="flex h-7 items-center justify-between bg-white/80 px-4 text-[12px] backdrop-blur">
         <span className="font-semibold">Mensajes</span>
         <span className="flex items-center gap-3 text-[#6e6e73]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <Img src="/maqueta/swift/brand/mark-black.svg" alt="" className="h-3.5 w-3.5" />
           <span>mar 13 oct 9:41</span>
         </span>

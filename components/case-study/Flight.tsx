@@ -34,7 +34,8 @@ export function startFlight(src: string, frame: HTMLElement, onLanded: () => voi
   flight = {
     // El archivo que la tarjeta ya tiene cargado (su versión ligera, `Img`), no el original: si no, la capa
     // descargaría el PNG pesado justo al empezar a volar.
-    src: media instanceof HTMLImageElement && media.currentSrc ? media.currentSrc : src,
+    // Lo mismo con los vídeos: la tarjeta puede llevar su versión de 1280 px (LazyVideo, video-opt.json).
+    src: media?.currentSrc || src,
     frame: box(frame.getBoundingClientRect()),
     media: box((media ?? frame).getBoundingClientRect()),
     time: media instanceof HTMLVideoElement ? media.currentTime : 0,
@@ -149,8 +150,14 @@ export default function FlightLayer() {
   const ref = useRef<HTMLDivElement>(null);
   const [live, setLive] = useState(false);
   const landed = useRef(false);
-  useEffect(() => {
+  // Cada vuelo nuevo arranca sin vídeo en marcha: se reajusta al renderizar (no en un efecto, que pintaría antes un
+  // fotograma con el estado del vuelo anterior).
+  const [prev, setPrev] = useState(f);
+  if (f !== prev) {
+    setPrev(f);
     setLive(false);
+  }
+  useEffect(() => {
     landed.current = false;
   }, [f]);
 

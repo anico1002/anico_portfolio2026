@@ -63,11 +63,12 @@ export default function IconStory({ bg }: { bg?: string }) {
     >
       {!bg && (
         <>
-          {/* Luces: cálida arriba a la izquierda, fría abajo a la derecha */}
-          <div className="absolute left-[8%] top-[6%] h-[55%] w-[45%] rounded-full bg-[#ff7a59] opacity-60 blur-[90px]" />
-          <div className="absolute left-[30%] top-[22%] h-[40%] w-[30%] rounded-full bg-[#e0459b] opacity-40 blur-[100px]" />
-          <div className="absolute bottom-[4%] right-[8%] h-[60%] w-[48%] rounded-full bg-[#6d3cf0] opacity-70 blur-[90px]" />
-          <div className="absolute bottom-[18%] right-[30%] h-[35%] w-[28%] rounded-full bg-[#2f7bff] opacity-40 blur-[100px]" />
+          {/* Luces: cálida arriba a la izquierda, fría abajo a la derecha. Degradados radiales en vez de blur de 90–100 px
+              (auditoría 2026-10-19: sin filtro que recalcular en Safari). */}
+          <div className="absolute left-[8%] top-[6%] -m-[90px] opacity-60" style={{ width: "calc(45% + 180px)", height: "calc(55% + 180px)", background: "radial-gradient(closest-side, #ff7a59 45%, transparent)" }} />
+          <div className="absolute left-[30%] top-[22%] -m-[100px] opacity-40" style={{ width: "calc(30% + 200px)", height: "calc(40% + 200px)", background: "radial-gradient(closest-side, #e0459b 45%, transparent)" }} />
+          <div className="absolute bottom-[4%] right-[8%] -m-[90px] opacity-70" style={{ width: "calc(48% + 180px)", height: "calc(60% + 180px)", background: "radial-gradient(closest-side, #6d3cf0 45%, transparent)" }} />
+          <div className="absolute bottom-[18%] right-[30%] -m-[100px] opacity-40" style={{ width: "calc(28% + 200px)", height: "calc(35% + 200px)", background: "radial-gradient(closest-side, #2f7bff 45%, transparent)" }} />
           {/* Grano muy leve para que el negro no quede plano */}
           <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay" style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.8) 0.5px, transparent 0.6px)", backgroundSize: "3px 3px" }} />
         </>

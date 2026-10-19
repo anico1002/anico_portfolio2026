@@ -21,4 +21,4 @@ export const G = {
 } as const;
 
 /** Geist, la tipografía de la app (una sola variable, titulares a 800). Solo para las piezas recreadas. */
-export const geist = Geist({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-gloop" });
+export const geist = Geist({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-gloop", preload: false });

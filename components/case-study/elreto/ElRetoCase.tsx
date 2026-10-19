@@ -93,7 +93,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: More
       </section>
       <div className="mt-20 md:mt-28">
         {["/projects/elreto-masterchef/02_Brand-Identity/ElReto_9.png", "/projects/elreto-masterchef/02_Brand-Identity/ElReto_10.png"].map((src) => (
-          // eslint-disable-next-line @next/next/no-img-element
+           
           <Img key={src} src={src} alt="" loading="lazy" className="block h-auto w-full" />
         ))}
       </div>
@@ -109,7 +109,7 @@ export default function ElRetoCase({ next: n, hero, outcomeTitle }: { next: More
             {RULES.map(([a, b], k) => (
               <FadeIn key={a} delay={k * 0.05} className="flex items-baseline justify-between gap-4 border-t border-[var(--case-line)] py-3">
                 <span className="t-small">{a}</span>
-                <span className="shrink-0 t-small font-medium tabular-nums">{b}</span>
+                <span className="shrink-0 t-small tabular-nums">{b}</span>
               </FadeIn>
             ))}
           </div>

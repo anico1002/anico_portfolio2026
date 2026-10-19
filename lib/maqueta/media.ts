@@ -4,6 +4,7 @@ import path from "path";
 import { getScannedProject } from "@/lib/scan-project";
 import { caseBySlug, casesIn, productInOrder, type CaseCopy } from "./cases";
 import { GAME_BLOCKS } from "./games";
+import { BASE } from "@/lib/maqueta/base";
 
 /* Medios de un caso de la maqueta a partir de public/projects/<slug>/ (los de la web
    actual), repartidos por capítulos y con sus medidas: las láminas llevan texto pegado al
@@ -151,9 +152,9 @@ export function moreCases(slug: string): { items: MoreItem[]; all: { label: stri
     games
       ? casesIn("games")
       : [{ name: "Gloop", slug: "gloop", year: "2026" } as Pick<CaseCopy, "name" | "slug" | "year">, ...productInOrder(), ...casesIn("brand")]
-  ).map((c) => ({ name: c.name, href: `/maqueta/${c.slug}`, thumb: thumbOf(c.slug), year: c.year }));
-  const i = list.findIndex((x) => x.href === `/maqueta/${slug}`);
+  ).map((c) => ({ name: c.name, href: `${BASE}/${c.slug}`, thumb: thumbOf(c.slug), year: c.year }));
+  const i = list.findIndex((x) => x.href === `${BASE}/${slug}`);
   const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];
-  return { items, all: games ? { label: "All games", href: "/maqueta/games" } : { label: "All projects", href: "/maqueta/home" } };
+  return { items, all: games ? { label: "All games", href: `${BASE}/games` } : { label: "All projects", href: `${BASE}/home` } };
 }
 export type MoreCases = ReturnType<typeof moreCases>;

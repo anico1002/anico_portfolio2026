@@ -1,5 +1,6 @@
 "use client";
 
+import { cancelFrame, frame } from "framer-motion";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { usePathname } from "next/navigation";
@@ -50,9 +51,15 @@ export default function SmoothScroll() {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    lenis = new Lenis({ lerp: 0.085, autoRaf: true });
+    // Lenis avanza en el mismo bucle de fotogramas que framer-motion, justo antes de que este lea el scroll
+    // (auditoría 2026-10-19). Con su propio rAF (`autoRaf`) los parallax podían leer la posición del fotograma
+    // anterior: tironcitos, sobre todo en monitores de 120/144 Hz.
+    lenis = new Lenis({ lerp: 0.085, autoRaf: false });
+    const tick = ({ timestamp }: { timestamp: number }) => lenis?.raf(timestamp);
+    frame.update(tick, true);
     if (locks) lenis.stop();
     return () => {
+      cancelFrame(tick);
       lenis?.destroy();
       lenis = null;
     };

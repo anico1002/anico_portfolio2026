@@ -32,7 +32,7 @@ function Bars() {
       {SCORES.map((s, k) => (
         <div key={s.name}>
           <div className="flex items-baseline justify-between gap-4">
-            <p className="t-small font-medium">
+            <p className="t-small">
               {s.name} <span className="text-[var(--case-muted)]">· {s.note}</span>
             </p>
             <p className="t-small tabular-nums">

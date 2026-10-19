@@ -3,8 +3,11 @@ import HomeView, { type P } from "@/components/case-study/HomeView";
 import { casesIn, PENDING, PRODUCT_FIRST, productInOrder, type CaseCopy } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
 import { yearsOfExperience } from "@/lib/maqueta/years";
+import { BASE } from "@/lib/maqueta/base";
+import { pageMeta, productIntro } from "@/lib/maqueta/meta";
 
 // Se regenera a diario: los años de experiencia suben solos (lib/maqueta/years.ts).
+export const metadata = pageMeta("Product");
 export const revalidate = 86400;
 
 /* Home de Product: apps y producto digital. Debajo, «Marca y web» (identidades y webs),
@@ -19,7 +22,7 @@ const card = (c: CaseCopy): P => ({
   type: c.services[0],
   year: c.year,
   thumb: thumbOf(c.slug),
-  href: `/maqueta/${c.slug}`,
+  href: `${BASE}/${c.slug}`,
 });
 
 export default function ProductHome() {
@@ -27,7 +30,7 @@ export default function ProductHome() {
   // miniatura en un hueco de su forma (HomeView → layout): SwifT en el grande horizontal a sangre, 7News (móvil
   // en vertical) en el pequeño 3:4, Dovla en el cuadrado, Interactius en el 16:10 y El Reto (2025) en el 4:3.
   const items: P[] = [
-    { name: "Gloop", line: "One app for every night out with your friends", type: "Native iOS", year: "2026", thumb: "/maqueta/gloop/media/hero-mock-25d-v2.mp4", href: "/maqueta/gloop" },
+    { name: "Gloop", line: "One app for every night out with your friends", type: "Native iOS", year: "2026", thumb: "/maqueta/gloop/media/hero-mock-25d-v2.mp4", href: `${BASE}/gloop` },
     ...productInOrder().slice(0, PRODUCT_FIRST.length).map(card),
     ...PENDING.map((p) => ({ ...p, line: "" })),
     ...productInOrder().slice(PRODUCT_FIRST.length).map(card),
@@ -39,7 +42,7 @@ export default function ProductHome() {
       // «from first idea to native code» va unido con espacios duros: en móvil partía «from first idea / to native
       // code.» (feedback 2026-10-17); así queda «I design digital products / from first idea to native code.»
       title={"I design *digital products* from\u00a0first\u00a0idea\u00a0to\u00a0native\u00a0code."}
-      intro={`${yearsOfExperience()}+ years designing interfaces, now with AI as a building tool. Strategy, UX/UI, design systems and prototypes you can touch.`}
+      intro={productIntro()}
       items={items}
       years={yearsOfExperience()}
       // «Brand & web» solo si queda algún proyecto de marca a la vista (2026-10-17: ocultos todos).

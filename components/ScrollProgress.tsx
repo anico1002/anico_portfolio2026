@@ -1,16 +1,11 @@
 "use client";
 
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 import { useEffect, useState } from "react";
 
 export default function ScrollProgress() {
   const [progress, setProgress] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const q = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(q.matches);
-    q.addEventListener("change", () => setReducedMotion(q.matches));
-  }, []);
+  const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (reducedMotion) return;

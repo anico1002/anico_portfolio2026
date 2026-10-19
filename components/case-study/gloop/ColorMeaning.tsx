@@ -54,7 +54,7 @@ function TeamCard({ on }: { on: Key }) {
       </div>
       <div className="relative mt-5 flex items-center gap-2">
         {/* El grupo de avatares de la app (forma imago) y, al lado, tú, con el lima. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <Img src="/maqueta/gloop/media/av-piso.png" alt="" className="h-[38px] w-auto" style={{ borderRadius: "0 10px 10px 10px" }} />
         <span
           className="flex h-[38px] w-[38px] items-center justify-center text-[13px] font-bold text-black"
@@ -129,13 +129,13 @@ export default function ColorMeaning() {
         <GraphicReveal from="right">
         <div className="relative flex min-h-[28rem] items-center justify-center overflow-hidden p-6 md:min-h-[34rem] md:p-12" style={{ background: G.base }}>
           {/* Foto de fiesta desenfocada: el cristal de la tarjeta necesita algo detrás. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <Img
-            src="/maqueta/gloop/media/party-ev6.jpg"
+            // Desenfoque, brillo y saturación horneados (scripts/media-opt/bake-blur.mjs): sin filtro en vivo.
+            src="/maqueta/gloop/media/party-ev6-blur.jpg"
             alt=""
             aria-hidden
             className="gloop-drift absolute inset-0 h-full w-full object-cover"
-            style={{ filter: "blur(18px) brightness(0.55) saturate(1.2)" }}
           />
           {/* Tinte del color activo sobre toda la foto (antes un brillo bajo la tarjeta, que tapaba la lectura). */}
           <motion.span

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useReduce } from "@/lib/maqueta/reduce";
 
 /* Banderas imposibles (SwifT): Unicode codifica la senyera, la gallega y la ikurriña como secuencias de
@@ -14,12 +13,7 @@ function Flag({ id, children, label, dark }: { id: string; children: React.React
   const reduce = useReduce();
   return (
     <figure className="flex flex-col items-center gap-4">
-      <motion.svg
-        viewBox="0 0 180 120"
-        className="w-full max-w-[13rem]"
-        animate={reduce ? undefined : { skewY: [0, 1.5, 0, -1.5, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      >
+      <svg viewBox="0 0 180 120" data-loop className={`w-full max-w-[13rem] ${reduce ? "" : "flag-wave"}`}>
         <defs>
           <clipPath id={`wave-${id}`}>
             <path d={WAVE} />
@@ -36,7 +30,7 @@ function Flag({ id, children, label, dark }: { id: string; children: React.React
           {children}
           <rect width="180" height="120" fill={`url(#shade-${id})`} />
         </g>
-      </motion.svg>
+      </svg>
       <figcaption className={`t-label t-tag ${dark ? "text-[var(--case-muted)]" : ""}`}>{label}</figcaption>
     </figure>
   );

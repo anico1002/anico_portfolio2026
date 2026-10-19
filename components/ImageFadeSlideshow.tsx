@@ -12,23 +12,21 @@ interface ImageFadeSlideshowProps {
 
 /** Detecta la relación de aspecto de la primera imagen para que el contenedor no muestre fondo gris. */
 function useAspectRatio(firstUrl: string | null) {
-  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
-  const measured = useRef<string | null>(null);
+  // La medida va con su URL: si cambia la imagen, la anterior deja de valer sin tener que borrarla en un efecto.
+  const [measured, setMeasured] = useState<{ url: string; ratio: number } | null>(null);
 
   useEffect(() => {
-    if (!firstUrl || measured.current === firstUrl) return;
-    measured.current = firstUrl;
-    setAspectRatio(null);
+    if (!firstUrl) return;
     const img = new window.Image();
     img.onload = () => {
       if (img.naturalWidth && img.naturalHeight) {
-        setAspectRatio(img.naturalWidth / img.naturalHeight);
+        setMeasured({ url: firstUrl, ratio: img.naturalWidth / img.naturalHeight });
       }
     };
     img.src = firstUrl;
   }, [firstUrl]);
 
-  return aspectRatio;
+  return measured?.url === firstUrl ? measured.ratio : null;
 }
 
 export default function ImageFadeSlideshow({

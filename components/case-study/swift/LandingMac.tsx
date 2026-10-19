@@ -78,7 +78,7 @@ export default function LandingMac() {
             className="absolute left-0 top-0 origin-top-left [mask-image:linear-gradient(transparent,#000_10%,#000_90%,transparent)] md:[mask-image:radial-gradient(ellipse_65%_70%_at_56%_50%,#000_70%,transparent_100%)]"
             style={{ width: STAGE.w, height: STAGE.h, transform: `translate(${t.x}px, ${t.y}px) scale(${t.k})` }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <Img src="/maqueta/swift/landing/scene-marble.jpg" alt="" className="absolute inset-0 h-full w-full" />
             {SCREENS.map((s, i) => (
               <div key={s.src} className="absolute left-0 top-0 origin-top-left overflow-hidden bg-white" style={{ width: s.w, height: s.h, transform: s.m }}>

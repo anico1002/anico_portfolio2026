@@ -29,7 +29,7 @@ const H = Math.round((W * 2622) / 1206); // la proporción de la captura real
 const L = "/maqueta/gloop/media/layers";
 function Layer({ src, base = false }: { src: string; base?: boolean }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
+     
     <Img src={src} alt="" className="absolute inset-0 h-full w-full" style={base ? { borderRadius: 44 } : undefined} />
   );
 }
@@ -85,7 +85,7 @@ export default function FourLayers() {
                 <li key={l.n} className="grid grid-cols-[2rem_1fr] items-baseline gap-2">
                   <span className="t-label t-tag text-[var(--case-muted)]">0{l.n}</span>
                   <span>
-                    <span className="block t-small font-medium">{l.title}</span>
+                    <span className="block t-small">{l.title}</span>
                     <span className="block t-small text-[var(--case-muted)]">{l.body}</span>
                   </span>
                 </li>
@@ -124,7 +124,7 @@ export default function FourLayers() {
                   z: 2,
                 }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <Img src="/maqueta/gloop/media/iphone18-frame.png" alt="" className="absolute inset-0 h-full w-full" />
                 <span className="absolute left-1/2 top-[2.4%] h-[3.6%] w-[30%] -translate-x-1/2 rounded-full bg-black" />
               </motion.div>

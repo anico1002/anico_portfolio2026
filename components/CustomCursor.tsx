@@ -1,32 +1,26 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+
+// Solo escritorio con ratón (antes se comprobaba en un efecto y se pintaba dos veces).
+const FINE = "(min-width: 768px) and (hover: hover) and (pointer: fine)";
+const onFine = (cb: () => void) => {
+  const q = window.matchMedia(FINE);
+  q.addEventListener("change", cb);
+  return () => q.removeEventListener("change", cb);
+};
 
 export default function CustomCursor() {
-  const [visible, setVisible] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const visible = useSyncExternalStore(onFine, () => window.matchMedia(FINE).matches, () => false);
+  const reducedMotion = usePrefersReducedMotion();
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0 });
   const ringPos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const q = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(q.matches);
-    const onChange = () => setReducedMotion(q.matches);
-    q.addEventListener("change", onChange);
-    return () => q.removeEventListener("change", onChange);
-  }, []);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const isTouch =
-      "ontouchstart" in window ||
-      navigator.maxTouchPoints > 0;
-    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
-    if (!isDesktop || isTouch) return;
-
-    setVisible(true);
+    if (reducedMotion || !visible) return;
 
     const handleMove = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY };
@@ -53,7 +47,7 @@ export default function CustomCursor() {
       window.removeEventListener("mousemove", handleMove);
       cancelAnimationFrame(raf);
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, visible]);
 
   if (!visible || reducedMotion) return null;
 

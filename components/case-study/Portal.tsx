@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { scrollLock, scrollToId } from "@/components/case-study/SmoothScroll";
 import LogoAnico from "@/components/case-study/LogoAnico";
 import { DUR, EASE } from "@/lib/maqueta/motion";
+import { BASE } from "@/lib/maqueta/base";
 
 /* Transición para TODOS los enlaces internos (B1 de la revisión): un barrido de máscara vertical
    del color invertido sube desde abajo hasta tapar la pantalla, se cambia de página tapada y el
@@ -64,7 +65,7 @@ export function TLink({ href, onClick, ...rest }: React.ComponentProps<typeof Li
       onClick={(e) => {
         onClick?.(e);
         if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-        if (!href.startsWith("/maqueta")) return;
+        if (!href.startsWith(BASE)) return;
         e.preventDefault();
         go(href);
       }}

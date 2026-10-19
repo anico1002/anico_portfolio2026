@@ -11,6 +11,7 @@ import { SLIDES } from "@/lib/maqueta/sections";
 import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/SlideMedia";
 import Img from "@/components/case-study/Img";
+import { BASE } from "@/lib/maqueta/base";
 
 /* Entrada de la maqueta (elegida 2026-10-12; adonde lleva el logo): pantalla partida por la mitad, Product a la izquierda
    y Games a la derecha. Titulares juntos en el centro, pegados a la línea central; un párrafo corto
@@ -32,14 +33,14 @@ const sides: Side[] = [
     key: "product",
     label: "Product",
     text: "Apps, digital products, brand and web. From the first idea to native code, with prototypes you can actually touch.",
-    href: "/maqueta/home",
+    href: `${BASE}/home`,
     slides: [...SLIDES.product],
   },
   {
     key: "games",
     label: "Games",
     text: "Game UI/UX: menus, HUDs and visual systems for titles played by hundreds of millions of people.",
-    href: "/maqueta/games",
+    href: `${BASE}/games`,
     slides: [...SLIDES.games],
   },
 ];
@@ -65,7 +66,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
       {/* Precarga del resto de diapositivas (sin mostrar). */}
       <div className="hidden">
         {srcs.map((s) => (
-          // eslint-disable-next-line @next/next/no-img-element
+           
           <Img key={s} src={posterOf(s)} alt="" />
         ))}
       </div>
@@ -117,7 +118,7 @@ export default function EntryB() {
     const m = el && getComputedStyle(el).transform;
     const scale = m && m !== "none" ? new DOMMatrixReadOnly(m).a : 1;
     const time = el instanceof HTMLVideoElement ? el.currentTime : undefined;
-    startCurtain({ src: el?.dataset.slide ?? s.slides[0], scale, from: "/maqueta", time, at: performance.now() });
+    startCurtain({ src: el?.dataset.slide ?? s.slides[0], scale, from: BASE, time, at: performance.now() });
     router.push(s.href);
   };
   useEffect(() => {

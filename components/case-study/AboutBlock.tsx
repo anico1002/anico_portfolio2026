@@ -31,7 +31,7 @@ export default function AboutBlock({ years }: { years: number }) {
       <div className="mt-16 md:mt-24">
         {/* Foto a todo el ancho (2026-10-17). */}
         <MaskReveal from="bottom" speed={40} className="m-bleed md:-mx-6">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <Img src="/about.webp" alt="Alberto Nicolás" className="block h-auto w-full" style={{ aspectRatio: "1296/630" }} />
         </MaskReveal>
       </div>

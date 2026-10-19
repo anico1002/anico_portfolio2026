@@ -35,7 +35,12 @@ export function CaseLayer({ children }: { children: React.ReactNode }) {
 
 const SPEED = 40; // px/s del paso automático
 
-function Strip({ items }: { items: MoreItem[] }) {
+/** `near`: el final del caso está a menos de una pantalla. Hasta entonces el carrusel, que vive fijo detrás de la
+    página, ni se mueve ni carga sus vídeos (auditoría 2026-10-19): antes los descargaba al entrar en el caso, a la vez
+    que la cabecera, y su animación corría en cada fotograma de toda la página. */
+function Strip({ items, near }: { items: MoreItem[]; near: boolean }) {
+  const [loaded, setLoaded] = useState(near);
+  if (near && !loaded) setLoaded(true);
   const reduce = useReduce();
   const router = useRouter();
   // Al abrir uno, la miniatura crece a pantalla completa y aterriza en la cabecera del caso, como desde la home
@@ -75,7 +80,7 @@ function Strip({ items }: { items: MoreItem[] }) {
 
   useAnimationFrame((_, dt) => {
     const d = drag.current;
-    if (d.on) return;
+    if (d.on || !near) return;
     const s = dt / 1000;
     // Inercia al soltar y, cuando se apaga, el paso automático (parado con el ratón encima o movimiento reducido).
     if (Math.abs(d.v) > 5) {
@@ -128,7 +133,11 @@ function Strip({ items }: { items: MoreItem[] }) {
             tabIndex={k >= items.length ? -1 : undefined}
           >
             <div data-frame className="pointer-events-none overflow-hidden">
-              <Placeholder ratio="16/10" src={c.thumb} label={c.name} />
+              {loaded ? (
+                <Placeholder ratio="16/10" src={c.thumb} label={c.name} />
+              ) : (
+                <div className="aspect-[16/10] w-full bg-[var(--case-ph)]" />
+              )}
             </div>
             <p className="mt-3 t-title">
               <RollText text={c.name} />
@@ -144,10 +153,15 @@ function Strip({ items }: { items: MoreItem[] }) {
 export default function CaseEnd({ items }: { items: MoreItem[]; all?: { label: string; href: string } }) {
   const ref = useRef<HTMLElement>(null);
   const end = useRef<HTMLElement | null>(null);
+  const [near, setNear] = useState(false);
   useEffect(() => {
     // El testigo está al final de la capa del caso (hermano anterior). Este efecto va antes que el de useScroll,
     // así que la referencia ya está puesta cuando empieza a medir.
     end.current = (ref.current?.previousElementSibling?.querySelector("[data-case-layer-end]") as HTMLElement) ?? null;
+    if (!end.current) return;
+    const io = new IntersectionObserver((es) => setNear(es.some((e) => e.isIntersecting)), { rootMargin: "0px 0px 100% 0px" });
+    io.observe(end.current);
+    return () => io.disconnect();
   }, []);
   // 0 cuando el borde de la capa está abajo (empieza a descubrirse), 1 cuando ha llegado arriba (todo a la vista).
   const { scrollYProgress } = useScroll({ target: end, offset: ["start end", "start start"] });
@@ -162,7 +176,7 @@ export default function CaseEnd({ items }: { items: MoreItem[]; all?: { label: s
       <div>
         {/* Sin «More projects» ni «All projects» (2026-10-17): el menú ya lleva a cada sección. */}
         <div>
-          <Strip items={items} />
+          <Strip items={items} near={near} />
         </div>
       </div>
       <SiteFooter flush show={show} />

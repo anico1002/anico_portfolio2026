@@ -61,7 +61,7 @@ function Sheet({ m }: { m: Extract<GameMedia, { type: "img" }> }) {
       className="relative overflow-hidden bg-[var(--case-ph)]"
       style={{ aspectRatio: `${m.w - left} / ${m.h - top}`, background: m.bg }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      { }
       <Img
         src={m.src}
         alt=""
@@ -99,7 +99,7 @@ function Slides({ m }: { m: Extract<GameMedia, { type: "slides" }> }) {
     <div ref={ref} className="relative overflow-hidden bg-[var(--case-ph)]" style={{ aspectRatio: `${m.w} / ${m.h}` }}>
       {m.srcs.map((s, k) => (
         // Todas montadas (la siguiente ya está cargada cuando le toca); visible solo la actual.
-        // eslint-disable-next-line @next/next/no-img-element
+         
         <Img
           key={s}
           src={s}
@@ -217,7 +217,7 @@ export default function GamesTemplate({
           (media.hero.video ? (
             <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} />
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
+             
             <Img className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} alt="" />
           ))}
       </CaseHero>

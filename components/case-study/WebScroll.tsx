@@ -60,7 +60,7 @@ export default function WebScroll({
   // Franja blanca para la barra del sitio y, debajo, la barra de la web, quieta.
   const bar = (
     <div className="absolute inset-x-0 top-0 z-10 bg-white" style={{ paddingTop: TOP }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      { }
       {nav && <Img src={nav} alt="" className="block w-full" />}
     </div>
   );
@@ -70,7 +70,7 @@ export default function WebScroll({
     return (
       <div className="relative h-[100svh] w-full overflow-hidden bg-white">
         {bar}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <Img src={page} alt={label} className="w-full" style={{ marginTop: padTop }} />
       </div>
     );
@@ -81,7 +81,7 @@ export default function WebScroll({
         <motion.div className="relative h-full w-full" style={{ scale }}>
           {bar}
           <motion.div style={{ y, paddingTop: padTop }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <Img src={page} alt={label} className="block w-full" loading="lazy" />
           </motion.div>
         </motion.div>

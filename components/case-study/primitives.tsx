@@ -50,9 +50,10 @@ export function useSeen<T extends Element>(ref: React.RefObject<T | null>, margi
     // Lo último de una página puede quedar a menos de ese margen del borde de abajo, y entonces no
     // llegaría a entrar nunca (el pie de «Sobre mí» en móvil, 2026-10-13): si ya no se puede bajar
     // más y el bloque está en pantalla, entra.
+    // Primero la condición barata (¿estamos al final?); el rect solo se lee entonces, no en cada fotograma de scroll.
     const atEnd = () => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight && window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+      if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 2) return;
+      if (el.getBoundingClientRect().top < window.innerHeight) {
         setSeen(true);
         io.disconnect();
       }
@@ -349,7 +350,7 @@ function Media({ src, alt }: { src: string; alt: string }) {
   const cls = "absolute inset-0 h-full w-full object-cover";
   if (/\.(mp4|webm|mov)$/i.test(src))
     return <LazyVideo className={cls} src={src} aria-label={alt} />;
-  // eslint-disable-next-line @next/next/no-img-element
+   
   return <Img className={cls} src={src} alt={alt} />;
 }
 
@@ -607,19 +608,17 @@ export function CaseHeroOverlay({ name, facts, delay }: { name: string; facts: [
 
 /** Medio de cabecera pensado para la franja (2026-10-16). Tras la apertura, CaseHero solo deja ver el 56 % de
     arriba: en escritorio va un vídeo compuesto con el dispositivo entero en esa franja (scripts/mockups/hero_band.py);
-    en móvil, la miniatura 16:10 ocupando solo la franja, donde el dispositivo cabe a lo ancho. */
-export function BandMedia({ desktop, mobile, label, zoom = 1.3 }: { desktop: string; mobile: string; label: string; zoom?: number }) {
+    en móvil, uno vertical del tamaño de la pantalla con el dispositivo en la franja y la escena prolongada hasta abajo
+    (scripts/mockups/hero_portrait.py). Hasta el 2026-10-19 el móvil llevaba la miniatura 16:10 encajada a lo ancho y
+    se veían franjas vacías arriba y abajo, sobre todo a pantalla completa. */
+export function BandMedia({ desktop, mobile, label }: { desktop: string; mobile: string; label: string }) {
   return (
     <div className="relative h-full w-full bg-[var(--case-ph)]">
       <div className="hidden h-full md:block">
         <Placeholder ratio="auto" className="h-full" src={desktop} label={label} />
       </div>
-      {/* En móvil la miniatura no se recorta a lo alto: se escala para que el dispositivo quepa a lo ancho
-          (`zoom` = ancho del vídeo / ancho de pantalla) y se centra en la franja. */}
-      <div className="absolute inset-x-0 top-0 h-[56%] overflow-hidden md:hidden">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: `${zoom * 100}%` }}>
-          <Placeholder ratio="16/10" src={mobile} label={label} />
-        </div>
+      <div className="absolute inset-0 md:hidden">
+        <Placeholder ratio="auto" className="h-full" src={mobile} label={label} />
       </div>
     </div>
   );

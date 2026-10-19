@@ -60,8 +60,9 @@ function Apps() {
       {ROWS.map((row, r) => (
         <div
           key={r}
+          data-loop
           className="flex w-max gap-3"
-          style={{ animation: `marquee ${22 + r * 4}s linear infinite ${r % 2 ? "reverse" : "normal"}`, willChange: "transform" }}
+          style={{ animation: `marquee ${22 + r * 4}s linear infinite ${r % 2 ? "reverse" : "normal"}` }}
         >
           {[...row, ...row].map((a, k) => (
             <span

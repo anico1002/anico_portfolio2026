@@ -34,7 +34,7 @@ function InlineMedia({ slides, open }: { slides: readonly string[]; open: boolea
   }, [open, slides.length]);
   return (
     <span className={`inline-media ${open ? "is-open" : ""}`} aria-hidden>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      { }
       <Img src={posterOf(slides[k])} alt="" />
     </span>
   );
@@ -216,7 +216,7 @@ export default function HomeHero({
           {/* Precarga del resto del pase. */}
           <div className="hidden">
             {slides.map((s) => (
-              // eslint-disable-next-line @next/next/no-img-element
+               
               <Img key={s} src={posterOf(s)} alt="" />
             ))}
           </div>

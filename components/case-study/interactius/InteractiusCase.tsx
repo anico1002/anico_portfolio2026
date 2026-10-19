@@ -40,7 +40,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
 
       <CaseHero
         videoReady
-        poster={<BandMedia desktop="/maqueta/interactius/hero-band.mp4" mobile="/maqueta/interactius/thumb.mp4" label="Interactius" />}
+        poster={<BandMedia desktop="/maqueta/interactius/hero-band.mp4" mobile="/maqueta/interactius/hero-portrait.mp4" label="Interactius" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="Interactius"
@@ -54,7 +54,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
           />
         )}
       >
-        <BandMedia desktop="/maqueta/interactius/hero-band.mp4" mobile="/maqueta/interactius/thumb.mp4" label="Interactius" />
+        <BandMedia desktop="/maqueta/interactius/hero-band.mp4" mobile="/maqueta/interactius/hero-portrait.mp4" label="Interactius" />
       </CaseHero>
 
       {/* Intro */}
@@ -88,7 +88,7 @@ export default function InteractiusCase({ next: n }: { next: MoreCases }) {
         />
         <FadeIn>
           <div className="m-bleed overflow-hidden px-4 py-14 md:px-16 md:py-28" style={{ background: IX.light }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <Img src="/maqueta/interactius/brand/interactius-logo-tecnic.svg" alt="Construction of the interactīus logotype" className="mx-auto w-full max-w-[64rem]" />
           </div>
         </FadeIn>

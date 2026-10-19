@@ -94,7 +94,7 @@ export function ImagePrompt() {
       <div className="col-span-12 grid grid-cols-2 gap-1 md:col-span-7">
         {[1, 3, 2, 4].map((k, i) => (
           <FadeIn key={k} delay={i * STAGGER}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <Img src={`/maqueta/interactius/media/universo-0${k}.jpg`} alt="" loading="lazy" className="aspect-square w-full object-cover" />
           </FadeIn>
         ))}
@@ -222,7 +222,7 @@ export function WebLaptop() {
   return (
     <div className="m-bleed relative aspect-square overflow-hidden md:aspect-video" style={{ containerType: "inline-size" }}>
       <div className="absolute left-[-35.85cqw] top-0 w-[170cqw] md:left-[-15.65cqw] md:top-[-9.5cqw] md:w-[130cqw]" style={{ aspectRatio: "2400 / 1429" }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <Img src="/maqueta/interactius/scene-mac.jpg" alt="" className="absolute inset-0 h-full w-full" loading="lazy" />
         <PlayInView
           src="/maqueta/interactius/media/web.mp4"

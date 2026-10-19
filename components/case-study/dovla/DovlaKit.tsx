@@ -691,7 +691,7 @@ export function CardFamily() {
   }, [on, reduce]);
   return (
     <div ref={ref} className="m-bleed relative overflow-hidden py-20 md:py-28">
-      <div className="absolute inset-0 scale-125" style={{ background: `url(/maqueta/dovla/media/photo-travel.jpg) center / cover`, filter: "blur(48px) saturate(0.9)" }} aria-hidden />
+      <div className="absolute inset-0 scale-125" style={{ background: `url(/maqueta/dovla/media/photo-travel-blur.jpg) center / cover` }} aria-hidden />
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(10,10,10,0.55), rgba(10,10,10,0.2) 50%, rgba(10,10,10,0.55))" }} aria-hidden />
       <div className="relative mx-auto aspect-[16/9] w-full max-w-[64rem] px-4">
         {CARDS.map((img, k) => {
@@ -856,7 +856,7 @@ export function CardWallet({ video }: { video: string }) {
         {/* Fondo: la foto desenfocada, apagada y teñida de berenjena. Prueba con el coche de noche (2026-10-18, Alberto: la
             de la cabina dejaba un gris amarillento a la izquierda); la de antes era photo-travel.jpg. */}
         <div className="absolute inset-x-0 bottom-0 overflow-hidden" style={{ top: T }} aria-hidden>
-          <div className="absolute inset-0 scale-125" style={{ background: `url(/maqueta/dovla/media/photo-invest.jpg) center 60% / cover`, filter: "blur(56px) saturate(0.7) brightness(0.85)" }} />
+          <div className="absolute inset-0 scale-125" style={{ background: `url(/maqueta/dovla/media/photo-invest-blur.jpg) center 60% / cover` }} /* desenfoque horneado: bake-blur.mjs */ />
           <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, rgba(28,11,23,0.82), rgba(47,23,40,0.62) 45%, rgba(28,11,23,0.9))` }} />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 70% 40%, rgba(150,80,125,0.28), transparent 60%)" }} />
         </div>

@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Copias de referencia de otras webs y pruebas sueltas: no son código del proyecto.
+    "refs/**",
+    "fuentes-prueba/**",
+    "motion/**",
+    "scripts/mockups/photoshop/**", // ExtendScript de Photoshop, no JS del navegador
   ]),
 ]);
 

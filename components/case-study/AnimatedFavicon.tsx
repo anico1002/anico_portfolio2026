@@ -40,8 +40,11 @@ export default function AnimatedFavicon() {
     const saved = icons.map((l) => [l.href, l.type] as const);
     const shapes = WORD.map((l) => LETTERS[l]);
 
-    // Letra `i` y, si `p` > 0, a medio camino hacia la siguiente (0–1).
-    const draw = (i: number, p = 0) => {
+    // Letra `i` y, si `p` > 0, a medio camino hacia la siguiente (0–1). Cada fotograma se dibuja y codifica una sola
+    // vez (auditoría 2026-10-19): las vueltas siguientes reutilizan el PNG en vez de volver a hacer `toDataURL`.
+    const frames = new Map<string, string>();
+    const STEPS = Math.round((MORPH / 1000) * FPS);
+    const render = (i: number, p: number) => {
       ctx.fillStyle = "#000";
       ctx.fillRect(0, 0, SIZE, SIZE);
       ctx.fillStyle = "#fff";
@@ -50,7 +53,13 @@ export default function AnimatedFavicon() {
       ctx.scale(SCALE, SCALE);
       ctx.fill(new Path2D(glyph(shapes[i % shapes.length], shapes[(i + 1) % shapes.length], ease(p))));
       ctx.restore();
-      const url = canvas.toDataURL("image/png");
+      return canvas.toDataURL("image/png");
+    };
+    const draw = (i: number, p = 0) => {
+      const k = Math.round(p * STEPS);
+      const key = `${i % shapes.length}:${k}`;
+      let url = frames.get(key);
+      if (!url) frames.set(key, (url = render(i, k / STEPS)));
       for (const l of icons) {
         l.type = "image/png";
         l.href = url;

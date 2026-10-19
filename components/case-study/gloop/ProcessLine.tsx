@@ -54,7 +54,7 @@ function Mood() {
     <div className="relative mt-6 grid aspect-[16/10] grid-cols-3 grid-rows-2 gap-1.5 overflow-hidden" style={{ background: G.base }}>
       {imgs.map((n, k) => (
         <div key={n} className={`overflow-hidden ${k === 0 ? "col-span-2 row-span-2" : ""}`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <Img src={`/maqueta/gloop/media/${n}.jpg`} alt="" loading="lazy" className="gloop-drift h-full w-full object-cover" style={{ animationDelay: `${-k * 5}s` }} />
         </div>
       ))}
@@ -187,7 +187,7 @@ function StepCard({ s, i }: { s: Step; i: number }) {
           {s.media.video ? (
             <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={s.media.src} />
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
+             
             <Img src={s.media.src} alt="" loading="lazy" className="gloop-drift absolute inset-0 h-full w-full object-cover" />
           )}
         </div>
@@ -204,8 +204,9 @@ function StepCard({ s, i }: { s: Step; i: number }) {
         // Como nativa.mp4 (la pantalla sola, centrada y casi a toda altura), pero con una foto de fiesta desenfocada
         // detrás en vez del fondo de brillos (feedback 2026-10-14).
         <div className="relative mt-6 aspect-[16/10] overflow-hidden" style={{ background: G.base }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <Img src="/maqueta/gloop/media/party-ev5.jpg" alt="" aria-hidden className="gloop-drift absolute inset-0 h-full w-full object-cover" style={{ filter: "blur(16px) brightness(0.55) saturate(1.2)" }} />
+          { }
+          {/* Desenfoque, brillo y saturación horneados en la imagen (scripts/media-opt/bake-blur.mjs): sin filtro en vivo. */}
+          <Img src="/maqueta/gloop/media/party-ev5-blur.jpg" alt="" aria-hidden className="gloop-drift absolute inset-0 h-full w-full object-cover" />
           <div
             className="absolute left-1/2 top-[5%] h-[96%] -translate-x-1/2 overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.8)]"
             style={{ aspectRatio: "480 / 1042", borderRadius: "11% / 5.1%" }}

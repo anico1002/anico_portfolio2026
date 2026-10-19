@@ -131,8 +131,10 @@ export default function KitLaptop() {
         <div className={pinned ? "sticky top-0 flex h-screen items-center overflow-hidden" : "relative overflow-hidden py-20"}>
           {/* Con el fondo dentro de la capa: así el «superponer» de la textura solo asoma donde hay brillo. */}
           <motion.div aria-hidden className="pointer-events-none absolute inset-0 isolate bg-[var(--case-bg)]" style={{ opacity: pinned ? glow : 1 }}>
-            <span className="absolute -left-40 top-[10%] h-[36rem] w-[36rem] rounded-full opacity-35 blur-[140px]" style={{ background: G.brandDeep }} />
-            <span className="absolute -right-32 bottom-[5%] h-[32rem] w-[32rem] rounded-full opacity-20 blur-[140px]" style={{ background: G.accent }} />
+            {/* Halos con degradado radial en vez de blur de 140 px (auditoría 2026-10-19: Safari lo recalculaba en cada
+                fotograma de este escenario fijo, hasta 400 ms). La caja crece lo que antes añadía el desenfoque. */}
+            <span className="absolute -left-40 top-[10%] -m-[140px] h-[calc(36rem+280px)] w-[calc(36rem+280px)] opacity-35" style={{ background: `radial-gradient(closest-side, ${G.brandDeep} 45%, transparent)` }} />
+            <span className="absolute -right-32 bottom-[5%] -m-[140px] h-[calc(32rem+280px)] w-[calc(32rem+280px)] opacity-20" style={{ background: `radial-gradient(closest-side, ${G.accent} 45%, transparent)` }} />
             {/* Sin textura de foto encima (2026-10-14): a 1.100 px se veía blanda y Alberto prefirió quitarla. */}
           </motion.div>
           <div className="relative grid w-full grid-cols-12 items-center gap-x-4 gap-y-12 px-4 md:gap-x-6 md:px-6">
@@ -188,7 +190,7 @@ export default function KitLaptop() {
                 >
                   <KitVideo step={pinned ? step : 0} play={!pinned || inView} />
                 </div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <Img src={MOCK} alt="The Gloop design system on a MacBook" className="relative block w-full" />
                 {/* Handoff: el código sube sobre la pantalla. */}
                 <motion.pre

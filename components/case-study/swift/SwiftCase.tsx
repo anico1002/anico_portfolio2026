@@ -45,7 +45,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
 
       <CaseHero
         videoReady
-        poster={<BandMedia desktop="/maqueta/swift/duo-band.mp4" mobile="/maqueta/swift/duo-thumb.mp4" label="SwifT Translator" />}
+        poster={<BandMedia desktop="/maqueta/swift/duo-band.mp4" mobile="/maqueta/swift/duo-portrait.mp4" label="SwifT Translator" />}
         overlay={(t) => (
           <CaseHeroOverlay
             name="SwifT Translator"
@@ -59,7 +59,7 @@ export default function SwiftCase({ next: n }: { next: MoreCases }) {
           />
         )}
       >
-        <BandMedia desktop="/maqueta/swift/duo-band.mp4" mobile="/maqueta/swift/duo-thumb.mp4" label="SwifT Translator" />
+        <BandMedia desktop="/maqueta/swift/duo-band.mp4" mobile="/maqueta/swift/duo-portrait.mp4" label="SwifT Translator" />
       </CaseHero>
 
       {/* Intro */}

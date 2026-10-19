@@ -1,11 +1,8 @@
-/* PP Neue Montreal en prueba (2026-10-15), versión oficial gratuita para uso personal de Pangram
-   (OTF: no trae Medium ni Bold). Cada peso que pide la web va al archivo de grosor más parecido al que
-   tenía con Instrument Sans (medido en el trazo de la «l»): 300–400 → Regular (Instrument no tiene
-   Light, así que antes también se veía Regular), 500–700 → Semibold, 800–900 → Extrabold. Archivos
-   fuera de git (public/fonts-licencia/); ver app/maqueta/layout.tsx. */
 /* Satoshi (Fontshare, ITF Free Font License: gratis también para uso comercial y web autoalojada), prueba
    2026-10-17 como sans de toda la maqueta. Variable (300–900), con sus pesos reales; solo los textos pequeños van un
-   peso por encima (abajo, .t-small, .t-label y .t-nav). Fuera de git como Neue Montreal. */
+   peso por encima (abajo, .t-small, .t-label y .t-nav). Fuera de git (public/fonts-licencia/); se precarga en
+   app/maqueta/layout.tsx. PP Neue Montreal (prueba del 2026-10-15) salió en la auditoría del 2026-10-19: licencia
+   solo personal y OTF de ~200 KB que se bajaba entero por un espacio duro que Satoshi no trae. */
 @font-face {
   font-family: "Satoshi";
   src: url("/fonts-licencia/Satoshi-Variable.woff2") format("woff2");
@@ -20,47 +17,12 @@
   font-style: italic;
   font-display: swap;
 }
+/* Satoshi no trae el espacio duro (U+00A0, el de «28&nbsp;years»): sin esto el navegador bajaba la fuente siguiente
+   entera para un espacio. Se toma de una fuente del sistema, sin descarga. */
 @font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts-licencia/PPNeueMontreal-Regular.otf") format("opentype");
-  font-weight: 100 450;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts-licencia/PPNeueMontreal-Italic.otf") format("opentype");
-  font-weight: 100 450;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts-licencia/PPNeueMontreal-Semibold.otf") format("opentype");
-  font-weight: 451 750;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts-licencia/PPNeueMontreal-SemiboldItalic.otf") format("opentype");
-  font-weight: 451 750;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts-licencia/PPNeueMontreal-Extrabold.otf") format("opentype");
-  font-weight: 751 1000;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "PP Neue Montreal";
-  src: url("/fonts-licencia/PPNeueMontreal-ExtraboldItalic.otf") format("opentype");
-  font-weight: 751 1000;
-  font-style: italic;
-  font-display: swap;
+  font-family: "Satoshi";
+  src: local("Helvetica Neue"), local("HelveticaNeue"), local("Arial"), local("Roboto");
+  unicode-range: U+00A0;
 }
 
 /* Sistema de la maqueta (bloque A de docs/revision-calidad-2026-10-12.md): escala fluida,
@@ -119,51 +81,51 @@ html:has(#case-root) {
 
    Texto
    .t-label      12 → 13   antetítulos, etiquetas en mono, datos de ficha
-   .t-nav        15 → 17   menú (subido el 2026-10-17: en portátil se perdía)
+   .t-nav        16 → 18   menú: tamaño de .t-body a 500 (antes 15 → 17; unificado el 2026-10-19)
    .t-small      14 → 15   pies de foto, botones, líneas secundarias
    .t-body       16 → 18   párrafos
    .t-lead       18 → 24   párrafo destacado, listas, títulos de tarjeta
    Titulares
    .t-title      24 → 36   titular de capítulo
-   .t-statement  26 → 48   frase destacada
-   .t-intro      28 → 56   párrafo de intro del caso (Metalab: 56)
-   .t-h2         32 → 72   titular de sección
+   .t-statement  27 → 52   frase destacada            ┐ un solo tamaño desde la auditoría del 2026-10-19
+   .t-intro      27 → 52   párrafo de intro del caso  ┘ (antes 26 → 48 y 28 → 56)
    .t-hero       30 → 64   intro de la home de sección (empezó en 80, la de Yakushev; más fino así)
+   .t-h2         30 → 64   titular de sección: tamaño de .t-hero a 500 (antes 32 → 72)
    .t-h1         40 → 104  titular de página
    Display (cifras y palabras gigantes, extrabold)
    .t-d3         56 → 120  Product / Games en la entrada B y el telón
-   .t-d2         60 → 168  «¿Hablamos?», contacto
-   .t-d1         88 → 232  cifras gigantes, entrada A */
+   .t-d2 / .t-d1 60 → 168  «Let’s talk» y cifras gigantes (d1 era 88 → 232; unificadas el 2026-10-19)
+   Pesos: 400 texto, 500 etiquetas, pequeños y titulares, 700 display. */
 .t-label     { font-size: 0.75rem;   line-height: 1.3; font-weight: 500; }
-.t-nav       { font-size: 0.9375rem; line-height: 1.3; font-weight: 500; }
+.t-nav       { font-size: 1rem;      line-height: 1.3; font-weight: 500; } /* el tamaño de .t-body, con peso */
 .t-small     { font-size: 0.875rem;  line-height: 1.45; font-weight: 500; } /* pequeños, un peso más: en blanco se perdían */
 .t-body      { font-size: 1rem;      line-height: 1.55; }
 .t-lead      { font-size: 1.125rem;  line-height: 1.35; letter-spacing: -0.01em; }
 .t-title     { font-size: 1.5rem;    line-height: 1.15; letter-spacing: -0.02em; }
-.t-statement { font-size: 1.625rem;  line-height: 1.15; letter-spacing: -0.03em; }
-.t-intro     { font-size: 1.75rem;   line-height: 1.12; letter-spacing: -0.025em; }
-.t-h2        { font-size: 2rem;      line-height: 1.04; letter-spacing: -0.035em; font-weight: 500; }
+.t-statement,
+.t-intro     { font-size: 1.6875rem; line-height: 1.14; letter-spacing: -0.025em; text-wrap: pretty; } /* un paso: antes 26 y 28; sin viudas */
 .t-hero      { font-size: 1.875rem;  line-height: 1.12;  letter-spacing: -0.02em;  font-weight: 400; text-wrap: balance; }
+.t-h2        { font-size: 1.875rem;  line-height: 1.04; letter-spacing: -0.04em; font-weight: 500; } /* tamaño de .t-hero */
 .t-h1        { font-size: 2.5rem;    line-height: 1.02; letter-spacing: -0.04em;  font-weight: 500; }
 .t-d3        { font-size: 3.5rem;    line-height: 0.84; letter-spacing: -0.055em; font-weight: 700; }
-.t-d2        { font-size: 3.75rem;   line-height: 0.85; letter-spacing: -0.055em; font-weight: 700; }
-.t-d1        { font-size: 5.5rem;    line-height: 0.82; letter-spacing: -0.055em; font-weight: 700; }
+.t-d2,
+.t-d1        { font-size: 3.75rem;   line-height: 0.84; letter-spacing: -0.055em; font-weight: 700; } /* d1 = d2 desde el 2026-10-19 */
 
 @media (min-width: 768px) {
   .t-label     { font-size: max(12px, 0.8125rem); }
-  .t-nav       { font-size: max(15px, 1.0625rem); }
+  .t-nav       { font-size: max(15.5px, 1.125rem); }
   .t-small     { font-size: max(13.5px, 0.9375rem); }
   .t-body      { font-size: max(15.5px, 1.125rem); }
   .t-lead      { font-size: 1.5rem; }
   .t-title     { font-size: 2.25rem; }
-  .t-statement { font-size: 3rem; }
-  .t-intro     { font-size: 3.5rem; }
-  .t-h2        { font-size: 4.5rem; }
+  .t-statement,
+  .t-intro     { font-size: 3.25rem; }
   .t-hero      { font-size: 4rem; line-height: 1.08; }
+  .t-h2        { font-size: 4rem; }
   .t-h1        { font-size: 6.5rem; }
   .t-d3        { font-size: 7.5rem; }
-  .t-d2        { font-size: 10.5rem; }
-  .t-d1        { font-size: 14.5rem; }
+  .t-d2,
+  .t-d1        { font-size: 10.5rem; }
 }
 
 /* Logo negro dentro de capas que no usan `difference` (menú de móvil): en oscuro, a blanco. */
@@ -454,6 +416,15 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   to { transform: scale(1.02) translate(-1.5%, 1%); }
 }
 .gloop-drift { animation: gloop-drift 16s ease-in-out infinite alternate; }
+/* Bucles en pausa fuera de pantalla: LoopGate.tsx marca con data-on los que se ven (auditoría 2026-10-19). */
+:is([data-loop], .gloop-drift, .wf-pan):not([data-on]),
+[data-loop]:not([data-on]) * { animation-play-state: paused !important; }
+/* El Reto: manchas de color a la deriva (antes en framer-motion con blur de 60 px, en el hilo principal y sin parar). */
+@keyframes reto-blob { 50% { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)); } }
+.reto-blob { transform: translate(-50%, -50%); animation: reto-blob var(--d) ease-in-out infinite; }
+/* SwifT: banderas que ondean (antes skewY infinito en framer-motion). */
+@keyframes flag-wave { 25% { transform: skewY(1.5deg); } 75% { transform: skewY(-1.5deg); } }
+.flag-wave { animation: flag-wave 6s ease-in-out infinite; }
 /* Wireframes del proceso de Gloop: el documento se desplaza muy despacio de un lado a otro. */
 @keyframes wf-pan { from { transform: translateX(0); } to { transform: translateX(-22%); } }
 .wf-pan { animation: wf-pan 18s ease-in-out infinite alternate; }

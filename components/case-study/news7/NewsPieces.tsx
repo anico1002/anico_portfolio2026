@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useReduce } from "@/lib/maqueta/reduce";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import Img, { OptSource } from "@/components/case-study/Img";
+import LazyVideo from "@/components/case-study/LazyVideo";
 
 /* Piezas de 7news (lector de noticias nativo para iPhone y Apple Watch), recreadas a partir del repo 7News:
    README, docs/DECISIONES.md y la splash real. Sin IA ni noticias generadas: un lector de feeds que decide
@@ -227,14 +228,14 @@ export function DayEnds() {
         <div>{counter}</div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {ROWS.slice(0, 6).map((src) => (
-            // eslint-disable-next-line @next/next/no-img-element
+             
             <Img key={src} src={src} alt="" className="w-full rounded-[12px]" />
           ))}
         </div>
         <AllRead />
         <div>{create}</div>
         <FlatPhone className="mx-auto max-w-[300px]">
-          <video src="/maqueta/7news/media/buscar-tema.mp4" muted playsInline autoPlay loop className="absolute inset-0 h-full w-full object-cover" aria-label="Creating the Video games topic" />
+          <LazyVideo src="/maqueta/7news/media/buscar-tema.mp4" muted playsInline loop className="absolute inset-0 h-full w-full object-cover" aria-label="Creating the Video games topic" />
         </FlatPhone>
       </div>
     );
@@ -388,7 +389,7 @@ export function VersusTable() {
         <span className="hidden md:col-span-4 md:block" />
         <span className="col-span-6 md:col-span-4">Any other reader</span>
         <span className="col-span-6 md:col-span-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <Img src="/maqueta/7news/brand/7news-logo.svg" alt="7news" className="light-invert h-[1.1em] w-auto" />
         </span>
       </div>
@@ -503,12 +504,10 @@ export function WatchStage() {
   const reduce = useReduce();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const video = (
-    <video
+    <LazyVideo
       src="/maqueta/7news/media/reloj.mp4"
-      poster="/maqueta/7news/media/reloj-poster.jpg"
       muted
       playsInline
-      autoPlay
       loop
       className="absolute inset-0 h-full w-full object-cover"
       aria-label="The 7news notification reaches the iPhone and, instantly, the Apple Watch"

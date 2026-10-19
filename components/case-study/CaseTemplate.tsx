@@ -91,15 +91,26 @@ function FeatureReveal({ children }: { children: React.ReactNode }) {
 
 /** Grupo 1a/1b/1c…: fundido en bucle, como en la web actual. */
 function Slides({ srcs, w, h, alt }: { srcs: string[]; w: number; h: number; alt: string }) {
+  const ref = useRef<HTMLDivElement>(null);
   const [i, setI] = useState(0);
+  const [on, setOn] = useState(false);
+  // Solo pasa mientras se ve (como en GamesTemplate): fuera de pantalla no hay temporizador ni repintado.
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver((es) => setOn(es.some((e) => e.isIntersecting)));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!on) return;
     const t = setInterval(() => setI((x) => (x + 1) % srcs.length), 2600);
     return () => clearInterval(t);
-  }, [srcs.length]);
+  }, [on, srcs.length]);
   return (
-    <div className="relative w-full" style={{ aspectRatio: `${w}/${h}` }}>
+    <div ref={ref} className="relative w-full" style={{ aspectRatio: `${w}/${h}` }}>
       {srcs.map((s, k) => (
-        // eslint-disable-next-line @next/next/no-img-element
+         
         <Img
           key={s}
           src={s}
@@ -123,7 +134,7 @@ function MediaView({ item, alt }: { item: MediaItem; alt: string }) {
     return <LazyVideo className="block h-auto w-full" src={item.src} aria-label={alt} />;
   if (item.type === "slides") return <Slides srcs={item.srcs} w={item.w} h={item.h} alt={alt} />;
   return (
-    // eslint-disable-next-line @next/next/no-img-element
+     
     <Img src={item.src} alt={alt} loading="lazy" className="block h-auto w-full" style={{ aspectRatio: `${item.w}/${item.h}` }} />
   );
 }
@@ -293,7 +304,7 @@ export default function CaseTemplate({
           (media.hero.video ? (
             <LazyVideo className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} />
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
+             
             <Img className="absolute inset-0 h-full w-full object-cover" src={media.hero.src} alt="" />
           ))}
       </CaseHero>
@@ -363,7 +374,7 @@ export default function CaseTemplate({
             {/\.(mp4|webm|mov)$/i.test(c.feature) ? (
               <LazyVideo className="h-full w-full object-cover" src={c.feature} aria-label={c.name} />
             ) : (
-              // eslint-disable-next-line @next/next/no-img-element
+               
               <Img src={c.feature} alt={c.name} className="h-full w-full object-cover" />
             )}
           </FeatureReveal>
@@ -374,7 +385,7 @@ export default function CaseTemplate({
       {media.phone?.bg && (
         <div className="mt-28 md:mt-40">
           <WindowReveal>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            { }
             <Img src={media.phone.bg} alt="" className="h-full w-full object-cover" />
           </WindowReveal>
         </div>

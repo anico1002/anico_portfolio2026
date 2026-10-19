@@ -82,3 +82,8 @@ scripts/mockups/photoshop/run.jsx
 /public/maqueta/dovla/media/
 /public/opt/maqueta/dovla/screens/
 /public/opt/maqueta/dovla/media/
+
+# Versiones ligeras de vídeo (scripts/media-opt/videos.mjs, 2026-10-19): derivadas de originales que en su
+# mayoría no van en git; se regeneran con `npm run media:opt` y salen en el despliegue por CLI.
+/public/opt/maqueta/**/*.mp4
+/public/opt/maqueta/**/*.mp4.skip

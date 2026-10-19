@@ -3,6 +3,7 @@
    va el texto y la dirección de cada caso. Fuente de los hechos: el content.txt de cada
    proyecto — nada inventado. Estructura de textos inspirada en plastic.design (resumen con
    el reto como pregunta, capítulos con titular-frase) y concisión de Metalab. */
+import { BASE } from "@/lib/maqueta/base";
 
 export type CaseSection = "product" | "brand" | "games";
 
@@ -713,5 +714,5 @@ export function nextCase(slug: string): { name: string; href: string; slug: stri
       : [{ name: "Gloop", slug: "gloop" }, ...casesIn("product"), ...casesIn("brand")];
   const i = list.findIndex((x) => x.slug === slug);
   const n = list[(i + 1) % list.length];
-  return { name: n.name, slug: n.slug, href: `/maqueta/${n.slug}` };
+  return { name: n.name, slug: n.slug, href: `${BASE}/${n.slug}` };
 }

@@ -169,7 +169,7 @@ export default function ImagoCanon() {
               transition={{ duration: DUR.slow, ease: EASE.inOut, opacity: { duration: DUR.fast } }}
             >
               {shapeKey === "avatar" && (
-                // eslint-disable-next-line @next/next/no-img-element
+                 
                 <Img src="/maqueta/gloop/media/photo-profile.jpg" alt="" className="h-full w-full object-cover" />
               )}
               {shapeKey === "cta" && (

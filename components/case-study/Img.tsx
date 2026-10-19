@@ -26,9 +26,9 @@ export function OptSource({ src, sizes = "100vw" }: { src: string; sizes?: strin
   return set ? <source type="image/avif" srcSet={set} sizes={sizes} /> : null;
 }
 
-export default function Img({ src, sizes, loading, ...rest }: React.ImgHTMLAttributes<HTMLImageElement> & { src: string }) {
+export default function Img({ src, alt, sizes, loading, ...rest }: React.ImgHTMLAttributes<HTMLImageElement> & { src: string; alt: string }) {
   const set = optSrcSet(src);
-  const img = <img src={src} loading={loading} {...rest} />;
+  const img = <img src={src} alt={alt} loading={loading} {...rest} />;
   if (!set) return img;
   return (
     <picture style={{ display: "contents" }}>
