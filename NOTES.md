@@ -2,6 +2,31 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ AUDITORÍA FINAL (2026-10-19, MacBook) — hecha salvo lo de abajo
+
+**Hecho (commits 61ae2f8…):** cabeceras de móvil sin franjas (versión vertical de SwifT, Interactius y WineUp,
+`scripts/mockups/hero_portrait.py`); vídeos a su tamaño justo (`scripts/media-opt/videos.mjs`: 1280 px para tarjetas
+y recorte vertical sin reescalar para la cabecera en móvil; LazyVideo elige; `npm run media:opt` ya genera las dos
+cosas); carrusel del final sin cargar ni animar hasta acercarse; en Safari, desenfoques horneados
+(`scripts/media-opt/bake-blur.mjs`) y halos con degradado (Gloop llegaba a 400 ms por fotograma, medido con WebKit);
+Lenis en el bucle de framer; bucles CSS en pausa fuera de pantalla (`LoopGate`); tipografía a 10 tamaños por pantalla
+y fuera PT Serif, Bitter, Familjen y PP Neue Montreal (licencia personal); Satoshi precargada; noindex + X-Robots-Tag
+para la web nueva y sus medios, robots.txt cerrado a rastreadores de IA, metadatos y `og.jpg` propios, cabeceras de
+seguridad y caché (`next.config.ts`); lint sin errores. Medición: sin fotogramas perdidos al hacer scroll en
+Chrome y WebKit a 2560 y 390 px (el sin-ventana engaña con la página quieta: baja a 30 fps sin que pase nada).
+
+**Pendiente:**
+1. **Mover a `/new`** (bloqueado por permisos: `git mv`). Plan: `app/layout.tsx`, `app/page.tsx` y `app/proyecto` →
+   `app/(classic)/`; `app/maqueta` → `app/new` con su propio layout raíz (`<html lang="en">`, sin Inter ni PersonSchema
+   ni canonical de la web vieja); páginas de prueba `tipos`, `logo`, `entrada-a`, `sobre-mi` → `_tipos`… (fuera del
+   build); `BASE` = "/new" en `lib/maqueta/base.ts`. Después: `not-found` propio en /new.
+2. **Hosting** (Alberto, 2026-10-19: Vercel avisa al 100 % — es el *Deployment Storage* de 10 GB del plan Hobby, cada
+   despliegue sube los ~400 MB de medios). Hablar: código en Vercel + medios fuera (Cloudflare R2 o el hosting de
+   Arsys de anico.es), o todo estático en Arsys. anico.es = Apache compartido de Piensa Solutions, hoy solo redirige.
+3. **Legal**: Alberto quiere ver qué hacen portfolios personales antes de decidir (análisis hecho en la sesión).
+4. **Standby de borrado (con OK):** ~68 MB de vídeos que el código no parece usar (versiones viejas: `hero-25d.mp4`,
+   `-v2`…; la lista sale de `grep`, comprobar antes), `components/CustomCursor.tsx` sin uso.
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-18)
 
 **Desplegado en https://anico-maqueta.vercel.app.** Alberto confirma que **solo queda la auditoría final** (⛔ de
