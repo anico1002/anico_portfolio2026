@@ -105,7 +105,7 @@ export function thumbOf(slug: string): string | undefined {
 export type GameMedia =
   | { type: "img"; src: string; w: number; h: number; cropTop?: number; cropLeft?: number; bg?: string }
   | { type: "slides"; srcs: string[]; w: number; h: number }
-  | { type: "video"; src: string };
+  | { type: "video"; src: string; w?: number; h?: number };
 
 export type ResolvedGameBlock = { eyebrow?: string; title?: string; body?: string; bleed?: boolean; items: GameMedia[] };
 
@@ -131,7 +131,14 @@ export function getGameBlocks(slug: string): ResolvedGameBlock[] | null {
       }
       if (typeof it === "string") {
         if (!exists(it)) return [];
-        if (/\.(mp4|webm|mov)$/i.test(it)) return [{ type: "video", src: url(it) }];
+        if (/\.(mp4|webm|mov)$/i.test(it)) {
+          // Proporción del vídeo leída de su póster (mismo primer fotograma): la caja ya mide lo que toca antes de
+          // que llegue el vídeo, sin el 300×150 por defecto ni salto de altura al cargar (auditoría 2026-10-19).
+          const src = url(it);
+          const poster = src.replace(/\.(mp4|webm|mov)$/i, "-poster.jpg");
+          const d = fs.existsSync(path.join(process.cwd(), "public", decodeURIComponent(poster))) ? dims(poster) : null;
+          return [{ type: "video", src, ...(d ?? {}) }];
+        }
         return [{ type: "img", src: url(it), ...dims(url(it)) }];
       }
       return exists(it.src) ? [{ type: "img", src: url(it.src), ...dims(url(it.src)), cropTop: it.crop?.top, cropLeft: it.crop?.left, bg: it.bg }] : [];

@@ -131,7 +131,12 @@ function Stack({ items, bleed, label }: { items: GameMedia[]; bleed?: boolean; l
           ) : m.type === "slides" ? (
             <Slides m={m} />
           ) : (
-            <LazyVideo className="block h-auto w-full" src={m.src} aria-label={label} />
+            <LazyVideo
+              className="block h-auto w-full object-cover"
+              style={m.w && m.h ? { aspectRatio: `${m.w} / ${m.h}` } : undefined}
+              src={m.src}
+              aria-label={label}
+            />
           )}
         </Drift>
       ))}
