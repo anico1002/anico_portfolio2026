@@ -2,6 +2,32 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-19 tarde, MacBook)
+
+**Web nueva PUBLICADA como puente en Cloudflare Pages** para enviar al recruiter ya, sin tocar Vercel:
+👉 **https://anico-design.pages.dev** (raíz → `/new/` launcher). Enlace privado: noindex total + robots.txt cerrado,
+sin contraseña. Proyecto CF `anico-design`, cuenta anico.es@gmail.com. Detalle en memoria `puente-cloudflare-pages`.
+
+**Hecho hoy (commits 42a2571, e037484, 21451a7):**
+- Movida la web nueva a `/new` (Product en `/new/product`) con layout raíz propio; la clásica a `app/(classic)`.
+- Export estático para Apache/CF: `EXPORT_STATIC=1 npm run build` → `out/`; `next.config.ts` con `output:export`+
+  `trailingSlash` tras el flag; `app/sitemap.ts`/`robots.ts` con `dynamic="force-static"`.
+- `deploy/apache/.htaccess` (para anico.es) y `deploy/cloudflare/` (_headers/_redirects/robots) — noindex, seguridad,
+  caché, MIME. `deploy/cf-out/` es el build subido (gitignored).
+- Carrusel del footer: pista **"↔ Drag" fija** y visible en todos los casos (CaseEnd.tsx).
+- Auditoría de assets: las 15 páginas, 593 assets, 0 faltan. Arreglado: faltaban las 6 carpetas de juegos
+  (`opt/projects` + `projects`) → las imágenes de Games del launcher no cargaban. Verificado visualmente en vivo.
+
+**PRÓXIMA SESIÓN — subir al hosting definitivo (lo que pidió Alberto):**
+1. **Esperamos los datos de FTP de Carlos (MindYourGap)** — él los pide. El panel es `gestiona.mi-alojamiento.com`
+   (deep-link caducado); credenciales no están en Gmail; anico.es ha cambiado de servidor 3 veces, solo Carlos sabe
+   cuál está vivo hoy. Memoria `hosting-mindyourgap`.
+2. Con el FTP: subir el export de Apache a anico.es → **anico.es/new/product**, y retirar el puente de Cloudflare.
+3. Decidir entonces si se quita el `/new` de la ruta (requiere montar la web nueva en la raíz: rebuild dedicado;
+   hoy se deja con `/new` a propósito, no molesta).
+
+Legal: aparcado para esta entrega (no se crean páginas nuevas). Standby de borrado: igual que abajo.
+
 ## ▶ AUDITORÍA FINAL (2026-10-19, MacBook) — hecha salvo lo de abajo
 
 **Hecho (commits 61ae2f8…):** cabeceras de móvil sin franjas (versión vertical de SwifT, Interactius y WineUp,
