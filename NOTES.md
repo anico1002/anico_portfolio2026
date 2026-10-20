@@ -2,6 +2,16 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-20, Mac mini)
+
+**Web nueva lista para enviar al recruiter: https://anico-design.pages.dev** (publicada y revisada con `npm run qa`
+antes y después de subir: Chrome y Safari, móvil y escritorio, 18 pruebas). Último arreglo: pie de Safari (hueco
+negro y «k» cortada en el hover de «Let’s talk»).
+
+**Pendiente:**
+1. FTP de Carlos (MindYourGap) → subir a anico.es siguiendo `deploy/README.md` (raíz → lanzador `/new/`).
+2. Idea aparcada «sigue bajando para el siguiente proyecto» (ver Pendientes).
+
 ## ▶ 2026-10-20 — puente de Cloudflare corregido y revisado a fondo
 
 Fallos que vio Alberto y que la auditoría del 19 no cazó: la foto del About (`/about.webp`) no se subió, y la
