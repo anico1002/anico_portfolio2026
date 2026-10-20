@@ -2,6 +2,19 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ 2026-10-20 — puente de Cloudflare corregido y revisado a fondo
+
+Fallos que vio Alberto y que la auditoría del 19 no cazó: la foto del About (`/about.webp`) no se subió, y la
+cortinilla se quedaba en negro al navegar (el export usa rutas con barra final y se comparaban sin ella). Corregidos,
+más: og:image apuntaba a anico.design (404), y la cortinilla esperaba ~5 s a un vídeo tapado al ir a About.
+Fuera los «28+ years» de la intro y del About (edadismo: va a recruiters).
+
+**Publicar el puente ahora es:** `SITE_URL=https://anico-design.pages.dev EXPORT_STATIC=1 npm run build && node deploy/cloudflare/build.mjs`
+y `npx -y wrangler@latest pages deploy deploy/cf-out --project-name=anico-design --branch=main`.
+**Antes de publicar, revisión de navegación real** (no basta con mirar que existan los archivos): Chrome y WebKit,
+móvil y escritorio, 15 páginas, cada enlace pulsado, menú Product/Games/About desde cada página, carrusel final,
+atrás/adelante. Hecha el 2026-10-20 en local y otra vez en producción: 0 fallos.
+
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-19 tarde, MacBook)
 
 **Web nueva PUBLICADA como puente en Cloudflare Pages** para enviar al recruiter ya, sin tocar Vercel:
