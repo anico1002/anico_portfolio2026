@@ -37,7 +37,7 @@ existieran archivos; ninguna navegaba de verdad.
 | Al cambiar Product ⇄ Games desde el menú del móvil, pantalla negra para siempre | El export sirve las rutas con barra final (`/new/games/`) y el código las comparaba sin ella: la cortinilla nunca daba la página por cargada | `bare()` en `lib/maqueta/base.ts` en todas las comparaciones de rutas, y la cortinilla se quita sola como mucho a los 8 s |
 | La imagen al compartir el enlace (WhatsApp, LinkedIn…) salía rota | `og:image` apuntaba a anico.design, donde ese archivo no existe | `SITE_URL` al construir; `build.mjs` comprueba que el export apunta al dominio del destino |
 | «About» desde un caso: ~5 s en negro | La cortinilla esperaba a un vídeo tapado (tarjeta sin revelar) que nunca iba a cargar | `Portal.tsx` no espera a vídeos perezosos que nadie ha pedido |
-| En Safari (portátil), hueco negro bajo el pie hasta volver a hacer scroll | Las letras de «Let’s talk» esperan 1,6 em por debajo para su entrada en ola; el `clip-path` las ocultaba pero Safari las contaba como alto de página (+170 px) | `overflow-y: clip` en `.roll-mask` (system.css); la revisión falla si la página es más alta que su contenido |
+| En Safari (portátil), hueco negro bajo el pie hasta volver a hacer scroll | Las letras de «Let’s talk» esperan 1,6 em por debajo para su entrada en ola; el `clip-path` las ocultaba pero Safari las contaba como alto de página (+170 px) | `contain: paint` en `.hablamos` (system.css; `overflow-y: clip` en `.roll-mask` cortaba la «k» en Safari); la revisión falla si la página es más alta que su contenido |
 | Los «28+ years» en la intro y el About | Decisión de contenido: va a recruiters (edadismo) | La revisión busca «N years» en cada página |
 
 ## Lo que hay que mirar en Apache en concreto

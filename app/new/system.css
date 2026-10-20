@@ -162,11 +162,6 @@ html:has(#case-root) {
   padding: 0.25em 0;
   margin: -0.25em 0;
   clip-path: inset(0 -0.15em);
-  /* El clip-path solo recorta lo que se pinta: las letras desplazadas que esperan fuera (la entrada en ola de «Let’s
-     talk» las tiene 1,6 em por debajo) seguían alargando la página, y en Safari el pie quedaba con un hueco negro
-     debajo hasta el siguiente scroll (2026-10-20). Este recorte es el mismo en vertical y sí cuenta para el scroll. */
-  overflow-x: visible;
-  overflow-y: clip;
   --roll: 1.7em;
 }
 .roll-mask > span {
@@ -187,6 +182,17 @@ html:has(#case-root) {
 
 /* «¿Hablamos?» del pie (2026-10-17): entra en ola, letra a letra, desde la línea del pie (el contenedor recorta
    ahí). Usa `translate`, aparte del `transform` del hover, para que no se pisen. Sale rápido y de golpe. */
+/* La máscara del bloque: recorta por abajo, justo en la línea del pie, y deja aire arriba (4 em: el aviso de copiado
+   en móvil) y a los lados (1 em). Antes era un clip-path, pero ese solo recorta lo que se pinta: las letras que esperan
+   1,6 em por debajo seguían contando como alto de página y en Safari quedaba un hueco negro bajo el pie hasta el
+   siguiente scroll. `contain: paint` recorta igual y además no deja que cuenten (2026-10-20). Se probó antes con
+   `overflow-y: clip` en .roll-mask y Safari cortaba la «k» por la derecha durante el hover. */
+.hablamos {
+  contain: paint;
+  margin: -4em -1em 0;
+  padding-top: 4em;
+  padding-inline: 1em;
+}
 .hablamos .roll-mask > span {
   translate: 0 1.6em;
   transition: transform var(--dur-fast) var(--ease-out), translate var(--dur-fast) var(--ease-in-out);
