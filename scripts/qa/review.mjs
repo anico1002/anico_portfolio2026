@@ -10,9 +10,10 @@ const tag = `[${engName}/${vpName}/${phase}]`;
 const fail = (m) => { fails.push(m); console.log(tag, "✗", m); };
 let where = "";
 p.on("response", (r) => r.status() >= 400 && fail(`HTTP ${r.status()} ${r.url()} @${where}`));
-// WebKit da por «error» las precargas de Next que corta un page.goto de la propia prueba: se cuentan aparte.
+// WebKit da por «error» las precargas de Next (datos y páginas de /new) que corta un page.goto de la propia prueba:
+// se cuentan aparte. Comprobado 2026-10-20: navegando sin cortes, 0 errores.
 let aborted = 0;
-p.on("pageerror", (e) => (/access control checks/.test(e.message) && /__next\./.test(e.message) ? aborted++ : fail(`JS ${e.message} @${where}`)));
+p.on("pageerror", (e) => (/access control checks/.test(e.message) && /\/new\//.test(e.message) ? aborted++ : fail(`JS ${e.message} @${where}`)));
 p.on("console", (m) => m.type() === "error" && !/Failed to load resource/.test(m.text()) && fail(`console ${m.text().slice(0, 200)} @${where}`));
 const bare = (s) => (s.length > 1 ? s.replace(/\/+$/, "") : s);
 const PORTAL = 'div.fixed.inset-0[class*="z-[90]"]';
