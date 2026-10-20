@@ -19,7 +19,15 @@ const bare = (s) => (s.length > 1 ? s.replace(/\/+$/, "") : s);
 const PORTAL = 'div.fixed.inset-0[class*="z-[90]"]';
 
 const PAGES = ["/new/", "/new/product/", "/new/games/", "/new/gloop/", "/new/7news/", "/new/dovla/", "/new/elreto-masterchef/", "/new/interactius/", "/new/swift-project/", "/new/wineup/", "/new/asphalt-9/", "/new/asphalt-unite/", "/new/asphalt-xtreme/", "/new/cybertitans/", "/new/disney-karting/"];
-const load = async (u) => { where = u; await p.goto(base + u, { waitUntil: "load" }); await p.waitForTimeout(400); };
+// Tras cargar, espera a que se vaya la capa de arranque (Boot, z-95: tapa la página hasta que llega la tipografía).
+// Pulsar por debajo de ella no lo puede hacer una persona, y Playwright movía la página buscando hueco y desajustaba el
+// scroll suave: falso fallo de «About no baja» en Safari (2026-10-20).
+const load = async (u) => {
+  where = u;
+  await p.goto(base + u, { waitUntil: "load" });
+  await p.waitForFunction(() => !document.querySelector('[class*="z-[95]"]'), null, { timeout: 15000 }).catch(() => fail(`la capa de arranque no se quita @${u}`));
+  await p.waitForTimeout(400);
+};
 async function arrived(target, label) {
   const t0 = Date.now();
   while (Date.now() - t0 < 12000) {
