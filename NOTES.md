@@ -9,11 +9,10 @@ cortinilla se quedaba en negro al navegar (el export usa rutas con barra final y
 más: og:image apuntaba a anico.design (404), y la cortinilla esperaba ~5 s a un vídeo tapado al ir a About.
 Fuera los «28+ years» de la intro y del About (edadismo: va a recruiters).
 
-**Publicar el puente ahora es:** `SITE_URL=https://anico-design.pages.dev EXPORT_STATIC=1 npm run build && node deploy/cloudflare/build.mjs`
-y `npx -y wrangler@latest pages deploy deploy/cf-out --project-name=anico-design --branch=main`.
-**Antes de publicar, revisión de navegación real** (no basta con mirar que existan los archivos): Chrome y WebKit,
-móvil y escritorio, 15 páginas, cada enlace pulsado, menú Product/Games/About desde cada página, carrusel final,
-atrás/adelante. Hecha el 2026-10-20 en local y otra vez en producción: 0 fallos.
+**Publicar (Cloudflare o Apache): seguir `deploy/README.md`** — export con `SITE_URL`, `node deploy/build.mjs
+<cloudflare|apache>` y `npm run qa -- <paquete>` antes de subir y `npm run qa -- <url>` después. Ahí está también la
+tabla de los fallos de estos días y qué los evita. La revisión navega de verdad (Chrome y WebKit, móvil y escritorio,
+cada enlace, menú, carrusel, atrás/adelante); hecha el 2026-10-20 en local y en producción: 0 fallos.
 
 ## ▶ EMPEZAR AQUÍ (cierre 2026-10-19 tarde, MacBook)
 
@@ -35,7 +34,9 @@ sin contraseña. Proyecto CF `anico-design`, cuenta anico.es@gmail.com. Detalle 
 1. **Esperamos los datos de FTP de Carlos (MindYourGap)** — él los pide. El panel es `gestiona.mi-alojamiento.com`
    (deep-link caducado); credenciales no están en Gmail; anico.es ha cambiado de servidor 3 veces, solo Carlos sabe
    cuál está vivo hoy. Memoria `hosting-mindyourgap`.
-2. Con el FTP: subir el export de Apache a anico.es → **anico.es/new/product**, y retirar el puente de Cloudflare.
+2. Con el FTP: subir el export de Apache a anico.es → **anico.es/new/product**, **siguiendo `deploy/README.md` paso a
+   paso** (paquete con `deploy/build.mjs apache`, `npm run qa` antes y después), y retirar el puente de Cloudflare.
+   Decidir antes adónde lleva la raíz: Apache → `/new/product/`, Cloudflare → `/new/` (pantalla partida).
 3. Decidir entonces si se quita el `/new` de la ruta (requiere montar la web nueva en la raíz: rebuild dedicado;
    hoy se deja con `/new` a propósito, no molesta).
 

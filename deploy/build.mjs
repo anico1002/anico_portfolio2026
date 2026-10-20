@@ -1,30 +1,43 @@
-// Arma el paquete de Cloudflare Pages (deploy/cf-out/) a partir del export estático, y lo audita (2026-10-20).
+// Arma el paquete de la web nueva para un hosting estático, y lo audita (2026-10-20).
 //
-//   SITE_URL=https://anico-design.pages.dev EXPORT_STATIC=1 npm run build && node deploy/cloudflare/build.mjs
+//   Cloudflare (puente):  SITE_URL=https://anico-design.pages.dev EXPORT_STATIC=1 npm run build && node deploy/build.mjs cloudflare
+//   Apache (MindYourGap): SITE_URL=https://anico.es EXPORT_STATIC=1 npm run build && node deploy/build.mjs apache
+//
+// Salida en deploy/<destino>-out/ (cf-out para Cloudflare, por compatibilidad). Lista de fallos que esto evita y la
+// revisión obligatoria antes de publicar: deploy/README.md.
 //
 // Antes se armaba a mano copiando carpetas sueltas (new, _next, maqueta, opt…) y se quedaron fuera los archivos
 // de la raíz de public/: /about.webp, la foto del bloque About, salía rota. Ahora no se elige nada a mano: se
 // copian las páginas de /new y TODO archivo que cualquiera de ellas (o el CSS/JS de Next) nombre, sacado del propio
 // export. Si algo nombrado no existe en el export, el script falla y no hay paquete que subir.
 //
-// Solo añade o sobrescribe dentro de deploy/cf-out/: no borra nada (si sobra algo de un paquete viejo, no estorba).
+// Solo añade o sobrescribe dentro de la carpeta de salida: no borra nada (si sobra algo de un paquete viejo, no estorba).
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
+const TARGETS = {
+  cloudflare: { site: "https://anico-design.pages.dev", out: "cf-out", conf: ["_headers", "_redirects", "robots.txt"] },
+  apache: { site: "https://anico.es", out: "apache-out", conf: [".htaccess", "robots.txt"] },
+};
+const TARGET = process.argv[2];
+if (!TARGETS[TARGET]) {
+  console.error(`✗ Destino: node deploy/build.mjs <${Object.keys(TARGETS).join("|")}>`);
+  process.exit(1);
+}
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(ROOT, "out");
-const DEST = join(ROOT, "deploy", "cf-out");
-const CONF = join(ROOT, "deploy", "cloudflare");
+const DEST = join(ROOT, "deploy", TARGETS[TARGET].out);
+const CONF = join(ROOT, "deploy", TARGET);
 
 if (!existsSync(join(OUT, "new", "index.html"))) {
   console.error("✗ Falta el export: lanza antes `EXPORT_STATIC=1 npm run build`.");
   process.exit(1);
 }
 
-// La imagen para compartir el enlace (og:image) lleva el dominio completo: tiene que ser el del puente. Con el de
+// La imagen para compartir el enlace (og:image) lleva el dominio completo: tiene que ser el del destino. Con el de
 // anico.design salía rota al pegar el enlace en WhatsApp o LinkedIn (2026-10-20).
-const SITE = "https://anico-design.pages.dev";
+const SITE = TARGETS[TARGET].site;
 if (!readFileSync(join(OUT, "new", "index.html"), "utf8").includes(`content="${SITE}/`)) {
   console.error(`✗ El export no apunta a ${SITE}: constrúyelo con SITE_URL=${SITE}.`);
   process.exit(1);
@@ -71,12 +84,12 @@ for (const r of refs) {
   copied++;
 }
 
-// 3. Cabeceras, redirecciones y robots del puente.
-for (const f of ["_headers", "_redirects", "robots.txt"]) cpSync(join(CONF, f), join(DEST, f));
+// 3. Cabeceras, redirecciones y robots del destino.
+for (const f of TARGETS[TARGET].conf) cpSync(join(CONF, f), join(DEST, f));
 
 if (missing.length) {
   console.error(`✗ ${missing.length} archivo(s) nombrados por la web no existen en el export:`);
   missing.forEach((m) => console.error("   " + m));
   process.exit(1);
 }
-console.log(`✓ deploy/cf-out listo: ${copied} medios referenciados + new/ + _next/ (${relative(ROOT, DEST)}).`);
+console.log(`✓ ${relative(ROOT, DEST)} listo (${TARGET}): ${copied} medios referenciados + new/ + _next/ + medios de la web nueva.`);

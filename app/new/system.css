@@ -162,6 +162,11 @@ html:has(#case-root) {
   padding: 0.25em 0;
   margin: -0.25em 0;
   clip-path: inset(0 -0.15em);
+  /* El clip-path solo recorta lo que se pinta: las letras desplazadas que esperan fuera (la entrada en ola de «Let’s
+     talk» las tiene 1,6 em por debajo) seguían alargando la página, y en Safari el pie quedaba con un hueco negro
+     debajo hasta el siguiente scroll (2026-10-20). Este recorte es el mismo en vertical y sí cuenta para el scroll. */
+  overflow-x: visible;
+  overflow-y: clip;
   --roll: 1.7em;
 }
 .roll-mask > span {
