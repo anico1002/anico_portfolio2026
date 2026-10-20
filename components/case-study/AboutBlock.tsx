@@ -14,7 +14,7 @@ const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 
 const DOING = ["Product design", "Game UI/UX", "Brand art direction", "Interactive prototyping", "AI-native apps", "Web3 & VR"];
 
-export default function AboutBlock({ years }: { years: number }) {
+export default function AboutBlock() {
   return (
     <section id="about" className={`scroll-mt-16 pt-40 md:pt-64 ${wrap}`}>
       <div className={grid}>
@@ -23,7 +23,7 @@ export default function AboutBlock({ years }: { years: number }) {
             <p className="mb-4 t-label t-tag text-[var(--case-muted)]">About</p>
           </FadeIn>
           <Lines as="h2" className="t-hero" delay={STAGGER}>
-            {`${years}+ years designing interfaces people actually use.`}
+            Designing interfaces people actually use.
           </Lines>
         </div>
       </div>

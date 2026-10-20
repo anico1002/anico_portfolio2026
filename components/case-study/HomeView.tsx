@@ -166,7 +166,6 @@ export default function HomeView({
   intro,
   items,
   more,
-  years,
 }: {
   active: "product" | "games";
   /** Pase de imágenes de la cabecera (las mismas que en la entrada partida). */
@@ -177,8 +176,6 @@ export default function HomeView({
   items: P[];
   /** Bloque secundario bajo la rejilla (p. ej. «Marca y web» en Product). */
   more?: { eyebrow: string; title: string; items: P[] };
-  /** Años de experiencia para el bloque About (se calculan en el servidor, que regenera a diario). */
-  years: number;
 }) {
   const [leaving, setLeaving] = useState(false);
   // Llegando desde otra página por «About»: baja al bloque en cuanto la página está montada.
@@ -240,7 +237,7 @@ export default function HomeView({
         </section>
       )}
 
-      <AboutBlock years={years} />
+      <AboutBlock />
 
       <SiteFooter />
     </motion.main>

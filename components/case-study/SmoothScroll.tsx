@@ -4,6 +4,7 @@ import { cancelFrame, frame } from "framer-motion";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { usePathname } from "next/navigation";
+import { bare } from "@/lib/maqueta/base";
 import { useEffect } from "react";
 
 /** Scroll suavizado (Lenis, el mismo que usa Yakushev): es lo que hace que los
@@ -71,7 +72,7 @@ export default function SmoothScroll() {
     const onPop = () => (popped = true);
     // Entre el «atrás» y la restauración, el navegador recorta el scroll al cambiar el contenido y
     // eso pisaría la posición guardada de la página a la que se vuelve: ahí no se guarda.
-    const onScroll = () => !popped && saved.set(window.location.pathname, window.scrollY);
+    const onScroll = () => !popped && saved.set(bare(window.location.pathname), window.scrollY);
     window.addEventListener("popstate", onPop);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
@@ -81,7 +82,7 @@ export default function SmoothScroll() {
   }, []);
 
   useEffect(() => {
-    const y = popped ? (saved.get(pathname) ?? 0) : 0;
+    const y = popped ? (saved.get(bare(pathname)) ?? 0) : 0;
     popped = false;
     lenis?.scrollTo(y, { immediate: true, force: true });
     window.scrollTo(0, y);

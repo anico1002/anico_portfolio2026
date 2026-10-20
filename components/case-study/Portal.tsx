@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { scrollLock, scrollToId } from "@/components/case-study/SmoothScroll";
 import LogoAnico from "@/components/case-study/LogoAnico";
 import { DUR, EASE } from "@/lib/maqueta/motion";
-import { BASE } from "@/lib/maqueta/base";
+import { BASE, bare } from "@/lib/maqueta/base";
 
 /* Transición para TODOS los enlaces internos (B1 de la revisión): un barrido de máscara vertical
    del color invertido sube desde abajo hasta tapar la pantalla, se cambia de página tapada y el
@@ -38,13 +38,13 @@ export function go(href: string) {
   // página nueva baja a la sección al llegar (`takeHash`).
   const [path, hash] = href.split("#");
   if (state.phase !== "idle") return;
-  if (path === window.location.pathname) {
+  if (bare(path) === bare(window.location.pathname)) {
     if (hash) scrollToId(hash);
     return;
   }
   pendingHash = hash ?? null;
   scrollLock.stop();
-  set({ phase: "closing", href: path });
+  set({ phase: "closing", href: bare(path) });
 }
 
 let pendingHash: string | null = null;
@@ -109,9 +109,9 @@ export default function PortalLayer() {
   // Rodillo del logo: un giro en cuanto el barrido deja ver el logo y, mientras la página nueva no
   // esté lista, otro y otro. Al terminar la carga se acaba el giro en curso y se destapa.
   const [, setCycle] = useState(0); // marca el ritmo de la espera (el logo nuevo va en bucle por su cuenta)
-  const pathRef = useRef(path);
+  const pathRef = useRef(bare(path));
   useEffect(() => {
-    pathRef.current = path;
+    pathRef.current = bare(path);
   }, [path]);
 
   // Atrás / adelante del navegador (2026-10-13): antes cambiaba de página en seco. El navegador
@@ -120,9 +120,9 @@ export default function PortalLayer() {
   // del barrido. Mismo gesto que el resto de la web.
   useEffect(() => {
     const onPop = () => {
-      if (state.phase !== "idle" || reduced() || window.location.pathname === pathRef.current) return;
+      if (state.phase !== "idle" || reduced() || bare(window.location.pathname) === pathRef.current) return;
       scrollLock.stop();
-      set({ phase: "covered", href: window.location.pathname, instant: true });
+      set({ phase: "covered", href: bare(window.location.pathname), instant: true });
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
@@ -137,7 +137,9 @@ export default function PortalLayer() {
       // Lista = la ruta es la nueva y ya ha pintado fuentes, imágenes y vídeos de la primera
       // pantalla (o han pasado 6 s, para no quedarse nunca tapado).
       const settle = (async () => {
-        while (alive && (state.phase !== "covered" || pathRef.current !== state.href)) await sleep(50);
+        // Con tope: si la ruta nueva no llegara a coincidir, la página se destapa igual (nunca negro para siempre).
+        const t0 = Date.now();
+        while (alive && (state.phase !== "covered" || pathRef.current !== state.href) && Date.now() - t0 < 8000) await sleep(50);
         await twoFrames();
         const media = [...document.querySelectorAll<HTMLImageElement | HTMLVideoElement>("main img, main video")].filter((m) => {
           const r = m.getBoundingClientRect();

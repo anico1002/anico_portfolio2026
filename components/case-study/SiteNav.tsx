@@ -12,7 +12,7 @@ import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import { LINKEDIN, email } from "@/lib/maqueta/contact";
 import Arrow from "@/components/case-study/Arrow";
 import LogoAnico from "@/components/case-study/LogoAnico";
-import { BASE } from "@/lib/maqueta/base";
+import { BASE, bare } from "@/lib/maqueta/base";
 
 /** En la cabecera el bucle es un guiño de vez en cuando (Alberto, 2026-10-18): unos 15 s formado entre vueltas. */
 const WINK = 15000;
@@ -200,7 +200,7 @@ export default function SiteNav({
                     onClick={() => {
                       const dest = to(href);
                       // Otra página: la cortinilla tapa el menú y este se cierra al llegar (ver `openAt`).
-                      if (dest.split("#")[0] !== window.location.pathname) return go(dest);
+                      if (bare(dest.split("#")[0]) !== bare(window.location.pathname)) return go(dest);
                       // La misma página (About desde su home): primero se cierra el menú, que tiene el scroll parado;
                       // con él parado el desplazamiento hasta la sección no hacía nada (feedback 2026-10-17).
                       setOpen(false);

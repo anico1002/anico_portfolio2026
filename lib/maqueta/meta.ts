@@ -3,11 +3,11 @@
    WhatsApp, LinkedIn o un email. Antes heredaba la tarjeta de la web vieja y títulos internos («Gloop · maqueta»).
    Las descripciones son los textos de entrada de cada home, no copy nuevo. */
 import type { Metadata } from "next";
-import { yearsOfExperience } from "@/lib/maqueta/years";
 import { thumbOf } from "@/lib/maqueta/media";
 
 export const SITE_URL = "https://anico.design";
-export const productIntro = () => `${yearsOfExperience()}+ years designing interfaces, now with AI as a building tool. Strategy, UX/UI, design systems and prototypes you can touch.`;
+// Sin años de experiencia (2026-10-20): la web va a recruiters y el número delataba la edad en lo primero que se lee.
+export const productIntro = () => "Designing apps from strategy to prototypes you can touch. UX/UI, design systems and AI as a building tool.";
 export const GAMES_INTRO =
   "Over a decade shaping how millions of players navigate, compete and stay hooked. Game UI/UX for leading studios, from first concept to worldwide launch.";
 

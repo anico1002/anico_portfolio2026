@@ -2,7 +2,6 @@ import { SLIDES } from "@/lib/maqueta/sections";
 import HomeView, { type P } from "@/components/case-study/HomeView";
 import { casesIn, PENDING, PRODUCT_FIRST, productInOrder, type CaseCopy } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
-import { yearsOfExperience } from "@/lib/maqueta/years";
 import { BASE } from "@/lib/maqueta/base";
 import { pageMeta, productIntro } from "@/lib/maqueta/meta";
 
@@ -44,7 +43,6 @@ export default function ProductHome() {
       title={"I design *digital products* from\u00a0first\u00a0idea\u00a0to\u00a0native\u00a0code."}
       intro={productIntro()}
       items={items}
-      years={yearsOfExperience()}
       // «Brand & web» solo si queda algún proyecto de marca a la vista (2026-10-17: ocultos todos).
       more={
         casesIn("brand").length

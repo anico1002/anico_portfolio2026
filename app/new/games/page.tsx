@@ -1,5 +1,4 @@
 import { SLIDES } from "@/lib/maqueta/sections";
-import { yearsOfExperience } from "@/lib/maqueta/years";
 import HomeView from "@/components/case-study/HomeView";
 import { casesIn } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
@@ -31,7 +30,6 @@ export default function GamesHome() {
       title="Interfaces for games played by *hundreds of millions*."
       intro={GAMES_INTRO}
       items={items}
-      years={yearsOfExperience()}
     />
   );
 }
