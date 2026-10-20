@@ -11,8 +11,14 @@ negro y «k» cortada en el hover de «Let’s talk»).
 La demo de Vercel (anico-maqueta) **no se ha redesplegado**: la versión buena es la de Cloudflare y Vercel está al
 100 % de almacenamiento. Si se vuelve a usar, redesplegar antes desde el MacBook.
 
+**Analítica (2026-10-20 tarde):** Cloudflare Web Analytics activado en el proyecto `anico-design` (Metrics → Web
+Analytics) y redesplegado el mismo `deploy/cf-out` para que se inyecte. Comprobado: el beacon carga y la visita llega
+(POST `/cdn-cgi/rum` 204). Cuenta desde hoy, sin datos anteriores. Datos: botón «Web Analytics» del proyecto.
+
 **Pendiente:**
 1. FTP de Carlos (MindYourGap) → subir a anico.es siguiendo `deploy/README.md` (raíz → lanzador `/new/`).
+   Al moverse, la inyección automática de Cloudflare deja de valer: meter el snippet de Web Analytics (con token)
+   en `app/layout.tsx`.
 2. Idea aparcada «sigue bajando para el siguiente proyecto» (ver Pendientes).
 
 ## ▶ 2026-10-20 — puente de Cloudflare corregido y revisado a fondo
