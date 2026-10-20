@@ -46,9 +46,9 @@ DirectoryIndex index.html
   AddType application/manifest+json .webmanifest
 </IfModule>
 
-# --- La raíz del dominio lleva a la portada de la web nueva ---
+# --- La raíz del dominio lleva al lanzador (pantalla partida Product / Games), como en Cloudflare (Alberto, 2026-10-20) ---
 RewriteEngine On
-RewriteRule ^$ /new/product/ [R=302,L]
+RewriteRule ^$ /new/ [R=302,L]
 
 # --- 404 propio del export ---
 ErrorDocument 404 /404.html

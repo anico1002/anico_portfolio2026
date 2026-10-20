@@ -48,5 +48,5 @@ existieran archivos; ninguna navegaba de verdad.
 - **Peticiones por rangos** (Safari no reproduce vídeo sin ellas): Apache las da de serie; el paso 5 lo comprueba en WebKit.
 - **`.htaccess`** necesita `AllowOverride` activo en el servidor; si no, no hay noindex, ni cabeceras, ni la
   redirección de la raíz. Comprobar con `curl -sI https://anico.es/new/ | grep -i x-robots`.
-- **La raíz** lleva a `/new/product/` en Apache y a `/new/` (la pantalla de elegir Product o Games) en Cloudflare.
-  Pendiente de decidir con Alberto cuál quiere en anico.es.
+- **La raíz** lleva a `/new/`, el lanzador (pantalla partida Product / Games), en los dos hostings (decidido por
+  Alberto, 2026-10-20). Comprobar con `curl -sI https://anico.es/ | grep -i location`.

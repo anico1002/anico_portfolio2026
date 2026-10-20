@@ -34,9 +34,9 @@ sin contraseña. Proyecto CF `anico-design`, cuenta anico.es@gmail.com. Detalle 
 1. **Esperamos los datos de FTP de Carlos (MindYourGap)** — él los pide. El panel es `gestiona.mi-alojamiento.com`
    (deep-link caducado); credenciales no están en Gmail; anico.es ha cambiado de servidor 3 veces, solo Carlos sabe
    cuál está vivo hoy. Memoria `hosting-mindyourgap`.
-2. Con el FTP: subir el export de Apache a anico.es → **anico.es/new/product**, **siguiendo `deploy/README.md` paso a
-   paso** (paquete con `deploy/build.mjs apache`, `npm run qa` antes y después), y retirar el puente de Cloudflare.
-   Decidir antes adónde lleva la raíz: Apache → `/new/product/`, Cloudflare → `/new/` (pantalla partida).
+2. Con el FTP: subir el export de Apache a anico.es, **siguiendo `deploy/README.md` paso a paso** (paquete con
+   `deploy/build.mjs apache`, `npm run qa` antes y después), y retirar el puente de Cloudflare. La raíz lleva al
+   lanzador `/new/` en los dos (decidido 2026-10-20).
 3. Decidir entonces si se quita el `/new` de la ruta (requiere montar la web nueva en la raíz: rebuild dedicado;
    hoy se deja con `/new` a propósito, no molesta).
 
@@ -849,6 +849,17 @@ de Alberto. El trabajo estaba íntegro aquí. Si reaparece: buscar qué la crea 
 **nunca** `rm -r` ahí sin mirar dentro.
 
 ## Pendientes
+
+- **«Sigue bajando para el siguiente proyecto»** (idea de Alberto, 2026-10-20, aparcada para después de enviar la web
+  al recruiter). Al final de un caso, junto al carrusel «Drag», un aviso «continúa para el siguiente proyecto»; si se
+  sigue haciendo scroll, sube la cortinilla negra (la de los enlaces, `Portal.tsx`) y se destapa el siguiente caso de
+  la lista. Objetivo: que el visitante se quede más tiempo.
+  - Técnico: la cortinilla ya existe; lo delicado es el disparo — distinguir «sigo bajando a propósito» de un golpe
+    de rueda o la inercia/rebote de Safari en móvil. Riesgo de fallos por navegador: probar con `npm run qa` y a mano
+    en su Safari y móvil antes de publicar.
+  - Usabilidad (mi propuesta): gesto claro y cancelable — una barra que se llena mientras sigues bajando y se vacía
+    si subes —, nunca un salto sin querer; «atrás» debe volver al final del caso anterior. Quien llega al final a
+    menudo quiere contactar: que «Let’s talk» y el pie sigan a la vista antes del disparo.
 
 - **Separar el portfolio en dos recorridos: app/web y videojuegos** (pedido el 2026-09-09).
   Una **pantalla de selección inicial** donde el visitante elige por dónde entrar, y de ahí
