@@ -2,11 +2,14 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-20, Mac mini)
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-20, MacBook)
 
 **Web nueva lista para enviar al recruiter: https://anico-design.pages.dev** (publicada y revisada con `npm run qa`
 antes y después de subir: Chrome y Safari, móvil y escritorio, 18 pruebas). Último arreglo: pie de Safari (hueco
 negro y «k» cortada en el hover de «Let’s talk»).
+
+La demo de Vercel (anico-maqueta) **no se ha redesplegado**: la versión buena es la de Cloudflare y Vercel está al
+100 % de almacenamiento. Si se vuelve a usar, redesplegar antes desde el MacBook.
 
 **Pendiente:**
 1. FTP de Carlos (MindYourGap) → subir a anico.es siguiendo `deploy/README.md` (raíz → lanzador `/new/`).
