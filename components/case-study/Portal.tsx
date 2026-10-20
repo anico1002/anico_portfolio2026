@@ -84,6 +84,9 @@ const twoFrames = () => new Promise<void>((r) => requestAnimationFrame(() => req
 function isReady(m: HTMLImageElement | HTMLVideoElement): Promise<unknown> {
   if (m instanceof HTMLImageElement) return m.complete && m.naturalWidth ? Promise.resolve() : m.decode();
   if (m.readyState >= 2) return Promise.resolve();
+  // Un vídeo perezoso que nadie ha pedido (LazyVideo, `preload="none"`) no va a cargar: está tapado, p. ej. por la
+  // máscara de una tarjeta aún sin revelar al saltar a About. Esperarlo alargaba la cortinilla ~3 s (2026-10-20).
+  if (m.preload === "none" && m.readyState === 0) return Promise.resolve();
   // Un vídeo, con tope de 2,5 s (2026-10-17): el iPhone a veces no lo empieza a cargar hasta que se reproduce y la
   // cortinilla se quedaba los 6 s del tope general, con pinta de página colgada. Sin él, sale su póster.
   return new Promise<void>((r) => {

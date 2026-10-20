@@ -5,7 +5,9 @@
 import type { Metadata } from "next";
 import { thumbOf } from "@/lib/maqueta/media";
 
-export const SITE_URL = "https://anico.design";
+// Dominio donde está publicada (las imágenes para compartir necesitan URL completa). En un hosting externo se pasa al
+// construir: `SITE_URL=https://anico-design.pages.dev` (deploy/cloudflare/build.mjs lo comprueba). Sin él, anico.design.
+export const SITE_URL = process.env.SITE_URL || "https://anico.design";
 // Sin años de experiencia (2026-10-20): la web va a recruiters y el número delataba la edad en lo primero que se lee.
 export const productIntro = () => "Designing apps from strategy to prototypes you can touch. UX/UI, design systems and AI as a building tool.";
 export const GAMES_INTRO =

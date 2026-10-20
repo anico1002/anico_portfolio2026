@@ -1,6 +1,6 @@
 // Arma el paquete de Cloudflare Pages (deploy/cf-out/) a partir del export estático, y lo audita (2026-10-20).
 //
-//   EXPORT_STATIC=1 npm run build && node deploy/cloudflare/build.mjs
+//   SITE_URL=https://anico-design.pages.dev EXPORT_STATIC=1 npm run build && node deploy/cloudflare/build.mjs
 //
 // Antes se armaba a mano copiando carpetas sueltas (new, _next, maqueta, opt…) y se quedaron fuera los archivos
 // de la raíz de public/: /about.webp, la foto del bloque About, salía rota. Ahora no se elige nada a mano: se
@@ -19,6 +19,14 @@ const CONF = join(ROOT, "deploy", "cloudflare");
 
 if (!existsSync(join(OUT, "new", "index.html"))) {
   console.error("✗ Falta el export: lanza antes `EXPORT_STATIC=1 npm run build`.");
+  process.exit(1);
+}
+
+// La imagen para compartir el enlace (og:image) lleva el dominio completo: tiene que ser el del puente. Con el de
+// anico.design salía rota al pegar el enlace en WhatsApp o LinkedIn (2026-10-20).
+const SITE = "https://anico-design.pages.dev";
+if (!readFileSync(join(OUT, "new", "index.html"), "utf8").includes(`content="${SITE}/`)) {
+  console.error(`✗ El export no apunta a ${SITE}: constrúyelo con SITE_URL=${SITE}.`);
   process.exit(1);
 }
 
@@ -44,7 +52,8 @@ const REF = new RegExp(`(?<![\\w./:-])/(?!/)[A-Za-z0-9_\\-./%@()&]+\\.(?:${MEDIA
 const sources = [...walk(join(OUT, "new")), ...walk(join(OUT, "_next", "static"))].filter((f) => /\.(html|txt|css|js)$/.test(f));
 const refs = new Set();
 // Las rutas pueden venir escapadas (`&amp;`, `\u0026`, `%20`): se leen ya desescapadas.
-const unescape = (t) => t.replaceAll("&amp;", "&").replaceAll("\\u0026", "&");
+// Las del propio dominio (las imágenes para compartir) se comprueban igual, como rutas desde la raíz.
+const unescape = (t) => t.replaceAll("&amp;", "&").replaceAll("\\u0026", "&").replaceAll(SITE, "");
 for (const f of sources) for (const m of unescape(readFileSync(f, "utf8")).matchAll(REF)) refs.add(decodeURIComponent(m[0]));
 
 const missing = [];
