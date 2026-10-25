@@ -2,7 +2,21 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-20, MacBook)
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-25, MacBook) — vídeo de motion para el hero
+
+**En curso: vídeo de fondo del hero** (sustituye al pase de diapositivas), al estilo de art-yakushev.com. Todo en
+**`scripts/hero-reel/`**: su `README.md` tiene el estado, lo que Alberto quiere y lo que no, el análisis de Yakushev y
+los pendientes. Vamos por la **prueba 04 (13,4 s)** y a Alberto le gusta. Mañana se sigue afinando.
+- Retomar: `bash scripts/hero-reel/prep.sh` (una vez; usa los medios que solo están en el MacBook) y
+  `node scripts/hero-reel/render.mjs` → `scripts/hero-reel/out/prueba.mp4`.
+- Siguiente: quitar el hueco muerto tras el primer colapso, dar un golpe intermedio a «PLAY THE MOMENT», llegar a
+  ~20 s con bucle sin costura, y pasar el copy provisional («AFTER DARK», «MADE TO BE FELT») por copywriting.
+
+**anico-design.pages.dev «no carga» (2026-10-25):** no es fallo nuestro. Es el bloqueo de LaLiga: los operadores
+españoles cortan las IPs compartidas de Cloudflare (188.114.96.5 / 97.5) durante los partidos. Vuelve sola al acabar.
+Se arregla de verdad al pasar a anico.es (MindYourGap no usa Cloudflare).
+
+## ▶ (anterior) cierre 2026-10-20, MacBook
 
 **Web nueva lista para enviar al recruiter: https://anico-design.pages.dev** (publicada y revisada con `npm run qa`
 antes y después de subir: Chrome y Safari, móvil y escritorio, 18 pruebas). Último arreglo: pie de Safari (hueco

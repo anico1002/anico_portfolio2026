@@ -1,0 +1,355 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:S;src:url(../../public/fonts-licencia/Satoshi-Black.woff2);font-weight:900}
+@font-face{font-family:S;src:url(../../public/fonts-licencia/Satoshi-Medium.woff2);font-weight:500}
+*{margin:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#070707}
+#root{position:relative;width:1920px;height:1080px;overflow:hidden;background:#070707;color:#fff;font-family:S}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px}
+img.full{object-fit:cover}
+#world,#stage{position:absolute;inset:0}
+/* marquesina con el vídeo dentro de las letras */
+#marq{isolation:isolate;background:#070707}
+#mk{background:#000;mix-blend-mode:multiply}
+.mline{position:absolute;top:170px;left:0;white-space:nowrap;font-weight:900;font-size:420px;line-height:1;letter-spacing:-.05em;text-transform:uppercase;color:#fff}
+#mglow .mline{color:rgba(255,255,255,.2)}
+/* arranque: montaje frenético + tipo grande */
+#mont{background:#0b0a0d;overflow:hidden}
+#mA{object-fit:cover}
+#scrw{position:absolute;inset:0;display:none;align-items:center;justify-content:center}
+#ms{height:1080px;width:auto;display:block}
+#open{position:absolute;inset:0;font-weight:900;text-transform:uppercase;letter-spacing:-.055em;line-height:.82;white-space:nowrap}
+#o1{position:absolute;left:28px;top:70px;font-size:400px}
+#o2{position:absolute;right:70px;top:560px;font-size:400px}
+#open span{display:inline-block}
+.cmp{position:absolute;display:none}
+.cmp .cin{width:100%;display:block}
+/* bloque escalonado */
+#blk,#blk2{position:absolute;left:0;font-weight:900;line-height:.86;letter-spacing:-.055em;text-transform:uppercase;white-space:nowrap}
+#blk{top:96px;font-size:300px}
+#blk .row,#blk2 .row{display:flex;align-items:center;gap:30px;height:.86em}
+.mask{overflow:hidden}
+.ln{display:block}
+#r1{margin-left:34px}#r2{margin-left:250px}#r3{margin-left:110px}
+#slotw{flex:none;height:.7em;width:0;overflow:hidden;border-radius:16px;position:relative}
+#slot{position:absolute;left:0;top:0;width:470px;height:100%;object-fit:cover}
+#st{display:inline-block}
+#next{position:absolute;inset:0}
+#plum{background:radial-gradient(70% 80% at 50% 45%,#3b2437 0%,#1d1220 55%,#0c080d 100%)}
+#blk2{top:600px;font-size:340px}
+#q1{margin-left:700px}
+/* plano de texto pequeño, en perspectiva */
+#ui3d{position:absolute;inset:0;perspective:1800px;perspective-origin:50% 50%;pointer-events:none}
+#pL{transform-origin:0% 50%}#pR{transform-origin:100% 50%}
+#cmps{position:absolute;inset:0}
+.plane{position:absolute;inset:0;transform-style:preserve-3d}
+.ui{position:absolute;font-weight:500;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;line-height:1.45;white-space:pre;color:rgba(255,255,255,.92)}
+.x{position:absolute;width:14px;height:14px}
+.x:before,.x:after{content:"";position:absolute;background:#fff}
+.x:before{left:6px;top:0;width:2px;height:14px}.x:after{top:6px;left:0;height:2px;width:14px}
+#ruler{position:absolute;height:10px;width:520px;background:repeating-linear-gradient(90deg,#fff 0 1px,transparent 1px 13px);opacity:.7}
+#ruler:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:#fff}
+#bars{position:absolute;display:flex;gap:3px;align-items:flex-end;height:14px}
+#bars i{display:block;width:3px;background:#fff}
+/* texturas */
+#leak{mix-blend-mode:screen}
+#grain{mix-blend-mode:overlay;opacity:.12}
+#scan{background:repeating-linear-gradient(to bottom,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+#track{position:absolute;left:0;width:1920px;backdrop-filter:brightness(1.22) contrast(1.08) saturate(.8);mix-blend-mode:normal}
+#track:after{content:"";position:absolute;left:0;right:0;top:40%;height:2px;background:rgba(255,255,255,.55)}
+#vig{background:radial-gradient(120% 95% at 50% 50%,transparent 55%,rgba(0,0,0,.45) 100%)}
+#static{mix-blend-mode:normal}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="rgb" x="-5%" y="0" width="110%" height="100%" color-interpolation-filters="sRGB">
+    <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="r"/>
+    <feOffset in="r" id="rOff" dx="0" dy="0" result="r2"/>
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="g"/>
+    <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="b"/>
+    <feOffset in="b" id="bOff" dx="0" dy="0" result="b2"/>
+    <feBlend in="r2" in2="g" mode="screen" result="rg"/>
+    <feBlend in="rg" in2="b2" mode="screen"/>
+  </filter>
+  <filter id="whip" x="-20%" y="0" width="140%" height="100%"><feGaussianBlur id="whipB" stdDeviation="0 0"/></filter>
+</svg>
+<div id="root">
+  <div id="world">
+    <div id="plum" class="full"></div>
+    <img id="next" class="full">
+    <div id="stage">
+      <img id="bg" class="full">
+      <div id="mont" class="full"><img id="mA" class="full"><div id="scrw"><img id="ms"></div></div>
+      <div id="open"><div id="o1"></div><div id="o2"></div></div>
+      <div id="blk">
+        <div class="row" id="r1"><span class="mask"><span class="ln">Play</span></span></div>
+        <div class="row" id="r2"><span id="slotw"><img id="slot"></span><span class="mask"><span class="ln">Th<span id="st">e</span></span></span></div>
+        <div class="row" id="r3"><span class="mask"><span class="ln">moment</span></span></div>
+      </div>
+    </div>
+    <div id="cmps"></div>
+  </div>
+  <img id="leak" class="full">
+  <div id="ui3d">
+    <div class="plane" id="pL">
+      <div class="ui" id="u-idx" style="left:150px;top:150px"></div>
+      <div class="ui" id="u-geo" style="left:150px;top:176px;opacity:.6"></div>
+      <div class="x" style="left:120px;top:120px"></div>
+      <div class="x" style="left:120px;top:930px"></div>
+      <div class="ui" id="u-par" style="left:150px;top:860px;width:380px;white-space:pre-wrap"></div>
+      <div id="ruler" style="left:150px;top:940px"></div>
+    </div>
+    <div class="plane" id="pR">
+      <div class="ui" id="u-top" style="right:150px;top:150px;text-align:right"></div>
+      <div class="x" style="right:120px;top:120px"></div>
+      <div class="x" style="right:120px;top:930px"></div>
+      <div class="ui" id="u-tc" style="right:150px;top:900px;text-align:right;font-variant-numeric:tabular-nums"></div>
+      <div id="bars" style="right:150px;top:870px"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+  <div id="track"></div>
+  <canvas id="grain" class="full" width="960" height="540"></canvas>
+  <div id="scan" class="full"></div>
+  <div id="vig" class="full"></div>
+  <canvas id="static" class="full" width="480" height="270"></canvas>
+</div>
+<script>
+const FR = new URL("fr/", location.href).href; // fotogramas que genera prep.sh
+const FPS = 30;
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const expoOut = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p));
+const expoIn = (p) => (p <= 0 ? 0 : Math.pow(2, 10 * p - 10));
+const hash = (a, b = 0) => { let h = (a * 374761393 + b * 668265263) | 0; h = (h ^ (h >>> 13)) * 1274126177; return ((h ^ (h >>> 16)) >>> 0) / 4294967296; };
+const pad = (n, l = 4) => String(n).padStart(l, "0");
+const GL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/_#*+<>";
+
+function decode(str, p, seed, frame) {
+  const n = Math.floor(p * str.length);
+  let out = "";
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if (c === "\n") out += c;
+    else if (i < n) out += c;
+    else if (c !== " " && i < n + 6) out += GL[Math.floor(hash(seed + i, Math.floor(frame / 2)) * GL.length)];
+    else out += " ";
+  }
+  return p > 0 && p < 1 ? out.replace(/\s+$/, "") + "_" : out;
+}
+
+// Golpes: cada uno da sacudida, separación RGB y un pequeño zoom de impacto que se apagan en ~0,25 s.
+const HITS = [0.05, 0.45, 0.9, 1.3, 2.0, 2.22, 2.39, 2.56, 2.8, 3.55, 4.25, 5.62, 11.0, 11.35, 11.7, 12.05, 12.45];
+const STATIC = [];
+function hitAmt(t) { let a = 0; for (const h of HITS) if (t >= h) a = Math.max(a, Math.exp(-(t - h) * 14)); return a; }
+
+async function setImg(el, src) { if (el.getAttribute("src") !== src) { el.src = src; await el.decode().catch(() => {}); } }
+
+const P_TOP = "SELECTED WORK 2019—2026\nPRODUCT ◦ GAMES ◦ BRAND";
+const P_PAR = [
+  "APPS, GAMES AND BRANDS THAT PEOPLE\nWANT TO OPEN AGAIN. FROM THE FIRST\nSKETCH TO THE LAST PIXEL.",
+  "SOCIAL GAME FOR NIGHTS OUT.\nTEAMS, MOMENTS AND A PHONE\nIN EVERY HAND.",
+  "PRIVATE BANKING FOR PEOPLE WHO\nHAVE EVERYTHING, EXCEPT TIME.",
+];
+
+const gctx = $("grain").getContext("2d"), gimg = gctx.createImageData(960, 540);
+const sctx = $("static").getContext("2d"), simg = sctx.createImageData(480, 270);
+function noise(ctx, img, seed, contrast) {
+  const d = img.data;
+  for (let i = 0, k = 0; i < d.length; i += 4, k++) {
+    const v = hash(k, seed) * 255;
+    const c = 128 + (v - 128) * contrast;
+    d[i] = d[i + 1] = d[i + 2] = c; d[i + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+// Curva de la web (EASE.inOut de lib/maqueta/motion.ts).
+function bez(x1, y1, x2, y2) {
+  const B = (a, b, t) => 3 * a * t * (1 - t) ** 2 + 3 * b * t * t * (1 - t) + t ** 3;
+  return (x) => { if (x <= 0) return 0; if (x >= 1) return 1; let lo = 0, hi = 1; for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; B(x1, x2, m) < x ? (lo = m) : (hi = m); } return B(y1, y2, (lo + hi) / 2); };
+}
+const IO = bez(0.645, 0.045, 0.355, 1);
+const backOut = (p) => { const c1 = 1.9, c3 = c1 + 1; return p >= 1 ? 1 : 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const CMPS = [
+  ["card-credit", 70, 60, 560, -4],
+  ["balance", 680, 50, 520, 2],
+  ["chart-clean", 1250, 70, 600, -2],
+  ["transactions-clean", 40, 420, 540, 3],
+  ["card-virtual", 640, 330, 560, 6],
+  ["promo", 1240, 440, 620, -3],
+  ["actions", 120, 860, 620, -1],
+  ["discover-clean", 760, 700, 540, 2],
+  ["contacts", 1400, 650, 400, -4],
+  ["detail-clean", 1160, 960, 520, 1],
+  ["freeze", 600, 975, 300, -3],
+].map(([n, x, y, w, rot]) => {
+  const el = document.createElement("div"); el.className = "cmp";
+  Object.assign(el.style, { left: x + "px", top: y + "px", width: w + "px" });
+  el.innerHTML = `<img class="cin" src="${FR}kit/${n}.png">`;
+  $("cmps").appendChild(el);
+  return { el, x, w, y, rot };
+});
+
+window.render = async function (t) {
+  const f = Math.round(t * FPS);
+  const hit = hitAmt(t);
+
+  // Fondo: el dispositivo de Gloop, con una ráfaga de cortes (7news, MasterChef, WineUp) a los 2,05–2,8 s.
+  let bgSrc = FR + "gl/" + pad(Math.min(195, f + 1)) + ".jpg";
+  const burst = [["f_7n", 2.05], ["f_mc", 2.22], ["f_wu", 2.39], ["f_7n", 2.56]];
+  for (const [c, s] of burst) if (t >= s && t < s + 0.17) bgSrc = FR + c + "/" + pad(Math.min(15, Math.floor((t - s) * FPS) + 1)) + ".jpg";
+  await setImg($("bg"), bgSrc);
+
+  // 1 · Arranque (0–2,0 s): montaje frenético de capturas de vídeo y pantallas fijas, cortes cada 2–4 fotogramas.
+  const close = t >= 11.0, mOn = t < 2.0 || (t >= 11.0 && t < 12.75), fm = close ? f - 330 : f, kb = close ? 700 : 0;
+  $("mont").style.display = $("open").style.display = mOn ? "block" : "none";
+  if (mOn) {
+    let k = 0, acc = 0; while (true) { const len = 2 + Math.floor(hash(k + kb, 61) * 3); if (fm < acc + len) break; acc += len; k++; }
+    const kind = k % 3, fi = fm - acc;
+    const vids = ["gl", "f_7n", "f_mc", "f_wu"];
+    let src, mode = "full";
+    if (kind === 0) { const v = vids[Math.floor(hash(k + kb, 62) * 4)]; src = FR + v + "/" + pad(Math.min(15, 1 + Math.floor(hash(k + kb, 63) * 10) + fi)) + ".jpg"; }
+    else if (kind === 1) src = FR + "st/p" + (1 + Math.floor(hash(k + kb, 64) * 13)) + ".jpg";
+    else { src = FR + "st/s" + (1 + Math.floor(hash(k + kb, 65) * 12)) + ".jpg"; mode = hash(k + kb, 66) > 0.5 ? "detail" : "contain"; }
+    if (mode === "full") { $("scrw").style.display = "none"; $("mA").style.display = "block"; await setImg($("mA"), src); $("mA").style.transform = `scale(${1.04 + 0.02 * fi})`; }
+    else {
+      $("mA").style.display = "none"; $("scrw").style.display = "flex"; await setImg($("ms"), src);
+      $("ms").style.transformOrigin = `${30 + hash(k + kb, 67) * 40}% ${20 + hash(k + kb, 68) * 60}%`;
+      $("ms").style.transform = mode === "detail" ? `scale(${2.6 + 0.05 * fi})` : `scale(${0.86 + 0.01 * fi})`;
+      $("mont").style.background = ["#120d1c", "#1b1218", "#0b0a0d", "#2a1730"][Math.floor(hash(k + kb, 69) * 4)];
+    }
+    // tipo grande: cada letra se descifra con glifos al azar antes de fijarse
+    const big = (str, t0, seed) => [...str].map((c, i) => { const ti = t0 + i * 0.07; if (t < ti) return " "; if (t < ti + 0.2) return GL[Math.floor(hash(seed + i, f) * 36)]; return c; });
+    const w1 = close ? big("MADE TO", 11.05, 700) : big("AFTER", 0.05, 500), w2 = close ? big("BE FELT", 11.4, 800) : big("DARK®", 0.45, 600);
+    $("o1").innerHTML = w1.map((c) => `<span>${c === " " ? "&nbsp;" : c}</span>`).join("");
+    $("o2").innerHTML = w2.map((c, i) => `<span${i === 1 ? ' id="za"' : ""}>${c === " " ? "&nbsp;" : c}</span>`).join("");
+    // zoom brutal dentro de la «A» de DARK: el blanco llena la pantalla y corta al dispositivo
+    const zp = close ? 0 : expoIn(prog(t, 1.55, 2.0));
+    const za = $("za"), o2 = $("o2");
+    const ox = o2.offsetLeft + za.offsetLeft + za.offsetWidth * 0.5, oy = o2.offsetTop + za.offsetHeight * 0.78;
+    $("open").style.transformOrigin = `${ox}px ${oy}px`;
+    $("open").style.transform = `scale(${1 + 120 * zp})`;
+  }
+
+  $("bg").style.display = t >= 2.0 && t < 11.0 ? "block" : "none";
+  // 2 · Bloque escalonado (2,8–5,6 s), entra seco; el hueco cambia de proyecto cada 0,2 s.
+  const bOn = t >= 2.8 && t < 6.3;
+  $("blk").style.display = bOn ? "block" : "none";
+  $("bg").style.filter = `brightness(${1 - 0.5 * prog(t, 2.8, 3.0)})`;
+  document.querySelectorAll("#blk .ln").forEach((el, i) => {
+    el.style.transform = `translateY(${(1 - expoOut(prog(t, 2.82 + i * 0.07, 3.22 + i * 0.07))) * 110}%)`;
+  });
+  document.querySelectorAll("#blk .mask").forEach((m) => (m.style.overflow = t > 3.6 ? "visible" : "hidden"));
+  $("slotw").style.width = `${470 * expoOut(prog(t, 3.0, 3.35))}px`;
+  const clips = ["s_gl2", "s_7n", "s_mc", "s_wu", "s_mano"], ci = Math.floor(Math.max(0, t - 3.0) / 0.2) % clips.length;
+  await setImg($("slot"), FR + clips[ci] + "/" + pad((f % 30) + 1) + ".jpg");
+  const jolt = (k) => (t >= k && t < k + 0.1 ? (hash(f, 21) - 0.5) * 60 : 0);
+  $("r1").style.transform = `translateX(${-Math.max(0, t - 2.8) * 26 + jolt(3.55)}px)`;
+  $("r2").style.transform = `translateX(${jolt(4.25)}px)`;
+  $("r3").style.transform = `translateX(${Math.max(0, t - 2.8) * 20 - jolt(3.55)}px)`;
+  // 2 fotogramas invertidos en el golpe de 4,25 s
+  $("stage").style.filter = t >= 4.25 && t < 4.32 ? "invert(1)" : "none";
+
+  // 3 · La «E» se estira (5,05–5,6 s) y el plano colapsa hacia el fondo de Dovla.
+  const sp = expoIn(prog(t, 5.05, 5.6));
+  $("st").style.transform = `scaleX(${1 + 34 * sp}) scaleY(${1 + 0.5 * sp})`;
+  $("plum").style.display = t >= 5.55 && t < 11.0 ? "block" : "none";
+
+  // 4 · Calma: los componentes de Dovla entran con rebote hasta llenar la pantalla (6,2–8,45 s) y se recogen (8,5–8,9 s).
+  CMPS.forEach((c, i) => {
+    const t0 = 6.2 + i * 0.17, on = t >= t0 && t < 8.95;
+    c.el.style.display = on ? "block" : "none";
+    if (!on) return;
+    const pin = prog(t, t0, t0 + 0.55), b = backOut(pin);
+    const tx = 8.5 + (CMPS.length - 1 - i) * 0.03, po = expoIn(prog(t, tx, tx + 0.3));
+    const h = c.el.offsetHeight, cx = 960 - (c.x + c.w / 2), cy = 540 - (c.y + h / 2);
+    const dy = (1 - b) * 70 + Math.sin(t * 1.1 + i) * 6;
+    c.el.style.transform = `translate(${cx * po}px, ${cy * po + dy}px) rotate(${c.rot + (1 - b) * 10}deg) scale(${(0.35 + 0.65 * b) * (1 - po)})`;
+    c.el.style.opacity = clamp(pin * 6);
+  });
+  $("cmps").style.transform = `scale(${1 + 0.04 * prog(t, 6.2, 8.5)})`;
+
+  // 5 · Calma: el móvil de Dovla, con la máscara de la web y un giro lento en perspectiva (8,85–11 s).
+  const phOn = t >= 8.85 && t < 11.0;
+  $("next").style.display = phOn ? "block" : "none";
+  if (phOn) {
+    await setImg($("next"), FR + "dovla/" + pad(Math.min(75, Math.floor((t - 8.85) * FPS) + 1)) + ".jpg");
+    const pr = IO(prog(t, 8.85, 9.5)), q = IO(prog(t, 8.85, 11.0));
+    $("next").style.clipPath = `inset(${((1 - pr) * 50).toFixed(2)}% 0% ${((1 - pr) * 50).toFixed(2)}% 0%)`;
+    $("next").style.transform = `perspective(1600px) scale(${1.5 - 0.3 * pr + 0.06 * q}) rotateY(${-9 + 13 * q}deg) rotateX(${5 - 4 * q}deg)`;
+  }
+
+  // Colapsos en franjas: a Dovla (5,6 s) y al final (12,45 s).
+  const st = $("stage");
+  const bands = (t0) => {
+    const N = 40, base = 1080 / N, pts = [];
+    for (let i = 0; i < N; i++) {
+      const d = hash(i, 11) * 0.3, len = 0.12 + hash(i, 12) * 0.22;
+      const k = 1 - expoIn(clamp((t - t0 - d) / len));
+      const keep = Math.pow(k, 1.6) * (0.5 + hash(i, f) * 0.5);
+      const c = base * (i + 0.5) + (hash(i, 13) - 0.5) * base * 0.6, h = base * keep;
+      const y1 = (c - h / 2).toFixed(1), y2 = (c + h / 2).toFixed(1);
+      pts.push(`0 ${y1}px`, `1920px ${y1}px`, `1920px ${y2}px`, `0 ${y2}px`);
+    }
+    return `polygon(${pts.join(",")})`;
+  };
+  if (t >= 5.35 && t < 6.3) { st.style.transform = `translateX(${(hash(f, 7) - 0.5) * (t < 5.6 ? 80 : 40)}px)`; st.style.clipPath = t < 5.6 ? "none" : bands(5.6); }
+  else if (t >= 12.45 && t < 13.15) { st.style.transform = `translateX(${(hash(f, 7) - 0.5) * 40}px)`; st.style.clipPath = bands(12.45); }
+  else { st.style.transform = "none"; st.style.clipPath = (t >= 6.3 && t < 11.0) || t >= 13.15 ? "inset(50% 0 50% 0)" : "none"; }
+
+  // Mundo: zoom de impacto + sacudida en cada golpe; separación RGB proporcional.
+  const sh = hit * 26;
+  $("world").style.transform = `translate(${(hash(f, 31) - 0.5) * sh}px, ${(hash(f, 32) - 0.5) * sh * 0.6}px) scale(${1 + hit * 0.045})`;
+  const rgb = hit * 7 + (t >= 5.6 && t < 6.0 ? 4 * hash(f, 3) : 0);
+  $("rOff").setAttribute("dx", rgb.toFixed(1)); $("bOff").setAttribute("dx", (-rgb).toFixed(1));
+  $("world").style.filter = rgb > 0.6 ? "url(#rgb)" : "none";
+
+  // Plano de texto pequeño: dos planos girados en 3D, flotando con su propio ritmo (no siguen al contenido).
+  const fl = (a, b) => Math.sin(t * a + b);
+  $("pL").style.transform = `translate3d(${fl(0.7, 0) * 14 - hit * 18}px, ${fl(0.9, 1) * 10}px, 0px) rotateY(${11 + fl(0.5, 2) * 2}deg) rotateX(${4 + fl(0.6, 0) * 1.5}deg)`;
+  $("pR").style.transform = `translate3d(${fl(0.6, 3) * 14 + hit * 18}px, ${fl(0.8, 2) * 10}px, 0px) rotateY(${-11 + fl(0.55, 1) * 2}deg) rotateX(${-3 + fl(0.7, 3) * 1.5}deg)`;
+  // Texto pequeño a su bola: cada campo se reescribe con su propio ciclo y falla de vez en cuando.
+  const live = (el, strs, seed, period) => {
+    const off = hash(seed, 1) * period, cyc = Math.floor((t + off) / period), ph = ((t + off) % period) / period;
+    let str = decode(strs[cyc % strs.length], clamp(ph / 0.38), seed + cyc * 31, f);
+    const g = hash(f, seed) < 0.1;
+    if (g && ph > 0.38) str = [...str].map((c, i) => (c !== "\n" && c !== " " && hash(i + f, seed) < 0.18 ? GL[Math.floor(hash(i, f + seed) * GL.length)] : c)).join("");
+    $(el).textContent = str;
+    $(el).style.transform = g ? `translateX(${(hash(f, seed + 2) - 0.5) * 16}px)` : "none";
+    $(el).style.color = g && hash(f, seed + 3) > 0.5 ? "#ff2a5f" : "";
+  };
+  live("u-idx", ["(01) — 03", "(01) — 03", "(02) — 03"], 50, 1.1);
+  live("u-geo", ["41°23′N  2°10′E", "REC ●  LIVE", "ISO 800  1/50"], 70, 0.9);
+  live("u-top", [P_TOP, "DESIGN IS HOW IT\nFEELS AT 3 AM", P_TOP, "NO TEMPLATES\nNO SHORTCUTS"], 100, 1.4);
+  live("u-par", P_PAR, 200, 1.7);
+  live("u-tc", ["REEL ◦ 2026", "SEQ ◦ 0" + (1 + Math.floor(t / 2.5)), "TAKE ◦ 07"], 300, 1.2);
+  $("u-tc").textContent += "\n" + `00:00:${pad(Math.floor(t), 2)}:${pad(f % FPS, 2)}`;
+  document.querySelectorAll("#bars i").forEach((b, i) => { b.style.height = `${3 + 11 * hash(i, Math.floor(f / 2))}px`; });
+  $("ruler").style.backgroundPosition = `${-(t * 60) % 13}px 0`;
+
+  // Texturas
+  noise(gctx, gimg, f, 1.0);
+  $("scan").style.transform = `translateY(${f % 3}px)`;
+  const tr = hash(Math.floor(t * 2.5), 41) > 0.82 || hit > 0.75;
+  $("track").style.display = tr ? "block" : "none";
+  $("track").style.top = `${((t * 520 + hash(Math.floor(t * 2.5), 42) * 1080) % 1180) - 100}px`;
+  $("track").style.height = `${30 + hash(Math.floor(t * 2.5), 43) * 90}px`;
+  const stOn = STATIC.some((s) => t >= s && t < s + 0.067);
+  $("static").style.display = stOn ? "block" : "none";
+  if (stOn) noise(sctx, simg, f + 999, 1.6);
+  // destello de luz de color que respira, más fuerte en los golpes
+  $("leak").style.opacity = 0.08 + hit * 0.3 + 0.05 * fl(1.3, 0);
+};
+
+// Destello: degradados de color en una imagen para fusionarlos en «screen».
+(() => {
+  const c = document.createElement("canvas"); c.width = 960; c.height = 540; const x = c.getContext("2d");
+  const g1 = x.createRadialGradient(80, 60, 0, 80, 60, 520); g1.addColorStop(0, "rgba(255,40,140,.9)"); g1.addColorStop(1, "rgba(255,40,140,0)");
+  x.fillStyle = g1; x.fillRect(0, 0, 960, 540);
+  const g2 = x.createRadialGradient(900, 500, 0, 900, 500, 460); g2.addColorStop(0, "rgba(255,150,40,.7)"); g2.addColorStop(1, "rgba(255,150,40,0)");
+  x.fillStyle = g2; x.fillRect(0, 0, 960, 540);
+  $("leak").src = c.toDataURL();
+})();
+</script>
+</body></html>
