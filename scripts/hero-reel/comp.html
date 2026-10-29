@@ -27,9 +27,9 @@ img.full{object-fit:cover}
 .ln{display:block}
 #r1{margin-left:40px}#r2{margin-left:330px}#r3{margin-left:24px}
 #slotw{flex:none;height:.66em;width:0}
-#st{display:inline-block}
+.st{display:inline-block}
 #bglow,#gglow{opacity:.13;pointer-events:none}
-#slot{position:absolute;object-fit:cover;border-radius:16px;display:none}
+#slot{position:absolute;object-fit:cover;display:none}
 /* pausa: media pantalla llena de interfaz de cristal a la izquierda, móvil a la derecha que luego crece */
 #cmps{position:absolute;left:0;top:0;width:960px;height:1080px;overflow:hidden;background:#0b0a0d}
 #cbg{position:absolute;inset:-60px;width:1080px;height:1200px;object-fit:cover;filter:blur(38px) brightness(.55) saturate(1.3)}
@@ -44,12 +44,13 @@ img.full{object-fit:cover}
 .gl span{display:inline-block}
 /* collage de pantallas en perspectiva */
 #coll{background:radial-gradient(90% 80% at 50% 50%,#1a1220 0%,#08070a 100%);overflow:hidden;perspective:1700px}
-#cplane{position:absolute;left:50%;top:50%;width:2620px;height:1340px;margin:-670px 0 0 -1310px;transform-style:preserve-3d}
+#cplane{position:absolute;left:50%;top:50%;width:2620px;height:2040px;margin:-1020px 0 0 -1310px;transform-style:preserve-3d}
 .ccol{position:absolute;top:0;width:300px}
 .ccol img{display:block;width:300px;height:652px;border-radius:26px;margin-bottom:28px;box-shadow:0 30px 60px rgba(0,0,0,.5);filter:brightness(.8) saturate(1.05)}
 /* texto pequeño: decorativo, casi imperceptible, pegado al margen */
-.ui{position:absolute;font-weight:500;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;line-height:1.55;white-space:pre;color:#fff;opacity:.38}
-#bars{position:absolute;display:flex;gap:3px;align-items:flex-end;height:10px;opacity:.38}
+/* en «superponer»: se funden con la imagen en lugar de flotar encima */
+.ui{position:absolute;font-weight:500;font-size:10px;letter-spacing:.16em;text-transform:uppercase;line-height:1.6;white-space:pre;color:#fff;opacity:.85;mix-blend-mode:overlay}
+#bars{position:absolute;display:flex;gap:3px;align-items:flex-end;height:10px;opacity:.6;mix-blend-mode:overlay}
 #bars i{display:block;width:2px;background:#fff}
 /* texturas */
 #leak{mix-blend-mode:screen}
@@ -79,9 +80,9 @@ img.full{object-fit:cover}
       <div id="mont" class="full"><img id="mA" class="full"><div id="scrw"><img id="ms"></div></div>
       <div id="bm" class="full mwrap"><img id="bv" class="full"><div class="full mk">
         <div id="blk">
-          <div class="row" id="r1"><span class="mask"><span class="ln">Shape</span></span></div>
-          <div class="row" id="r2"><span id="slotw"></span><span class="mask"><span class="ln">Th<span id="st">e</span></span></span></div>
-          <div class="row" id="r3"><span class="mask"><span class="ln">interface</span></span></div>
+          <div class="row" id="r1"><span class="mask"><span class="ln">Shap<span class="st">e</span></span></span></div>
+          <div class="row" id="r2"><span id="slotw"></span><span class="mask"><span class="ln">Th<span class="st">e</span></span></span></div>
+          <div class="row" id="r3"><span class="mask"><span class="ln">interfac<span class="st">e</span></span></span></div>
         </div>
       </div><div id="bglow" class="full"></div></div>
       <img id="slot">
@@ -122,8 +123,8 @@ function bez(x1, y1, x2, y2) {
 const IO = bez(0.645, 0.045, 0.355, 1);
 
 // Tramos. La ráfaga del final (Z) enlaza con la del principio: el bucle no tiene costura.
-const T = { blk: 1.6, e: 3.0, bands: 3.45, split: 3.5, grow: 6.0, full: 6.75, word: 6.95, dive: 8.25, coll: 8.85, Z: 11.0 };
-const HITS = [T.blk, T.bands, T.word, T.coll, T.Z];
+const T = { coll: 1.4, blk: 3.4, e: 4.8, bands: 5.25, split: 5.3, grow: 7.8, full: 8.55, word: 8.75, dive: 10.0, hold: 10.9, Z: 11.6 };
+const HITS = [T.coll, T.blk, T.bands, T.word, T.Z];
 function hitAmt(t) { let a = 0; for (const h of HITS) if (t >= h) a = Math.max(a, Math.exp(-(t - h) * 16)); return a; }
 
 // Ráfaga: cortes de 4–6 fotogramas entre vídeos, fotos a sangre y pantallas (enteras o en detalle).
@@ -132,13 +133,14 @@ const ZF = Math.round(T.Z * FPS);
 const DUR = (() => { let acc = 0, k = 0; while (acc < 36) acc += cutLen(k++, 700); return (ZF + acc) / FPS; })();
 window.DUR = DUR;
 // Las dos ráfagas tiran de un mismo mazo barajado, sin repetir: la del final sigue donde acabó la del principio.
-// Sin los dos móviles de Gloop ni el móvil de 7news, que ya tienen su tramo.
-const START_CUTS = (() => { let acc = 0, k = 0; while (acc < Math.round(T.blk * FPS)) acc += cutLen(k++, 0); return k; })();
+// Sin los dos móviles de Gloop ni el móvil de Dovla, que ya tienen su tramo.
+const START_CUTS = (() => { let acc = 0, k = 0; while (acc < Math.round(T.coll * FPS)) acc += cutLen(k++, 0); return k; })();
 const POOL = (() => {
-  const v = ["f_mc", "f_wu", "f_sw", "f_ia", "f_7n", "f_kit", "f_er"].map((x) => ({ v: x }));
+  const v = ["f_mc", "f_wu", "f_sw", "f_ia", "f_7n", "f_kit", "f_er", "f_rel", "f_flow", "f_wb", "f_swh", "f_nat", "f_fd"].map((x) => ({ v: x }));
   // Dovla fuera de las ráfagas: no se puede publicar hasta tener permiso (p7, p8 y s6–s9 son suyas).
-  // Fotos: las de la última iteración de Gloop (g1–g10) en lugar de las viejas del portfolio (p1–p6), más 7news y WineUp.
-  const p = [...[9, 10, 11, 12, 13].map((i) => ({ s: "p" + i })), ...Array.from({ length: 10 }, (_, i) => ({ s: "g" + (i + 1) }))];
+  // Fotos: pocas de fiesta (solo tres de Gloop: el mimo, las frutas y Sónar; «parece que solo trabaje para discotecas»),
+  // 7news y lo mejor de WineUp (las viñas desenfocadas no aportaban).
+  const p = [...[9, 10, 11, 12].map((i) => ({ s: "p" + i })), { s: "w-brindis" }, { s: "w-botellas" }, ...[7, 8, 9].map((i) => ({ s: "g" + i }))];
   // Las capturas de pantalla sueltas (sin dispositivo) se quedaban pobres: fuera.
   const all = [...v, ...p].map((o, i) => ({ o, r: hash(i, 97) })).sort((a, b) => a.r - b.r).map((x) => x.o);
   // alterna vídeo / foto / pantalla en lo posible para que el ritmo no se apelmace
@@ -153,9 +155,9 @@ const creep = (el, t0, t, k = 0.035) => (el.style.transform = `scale(${1.02 + k 
 
 // Texto pequeño: vocabulario de interfaz, sin hablar de nadie.
 const U = [
-  ["INTERACTION / MOTION / SYSTEMS", "GRID 12 COL — 8PT BASELINE", "TOKENS / COMPONENTS / STATES"],
-  ["STATE: HOVER → PRESSED", "EASE 0.645 0.045 0.355 1", "AUTO LAYOUT  ON"],
-  ["FLOWS / SCREENS / EDGE CASES", "TYPE SCALE 1.25 — CONTRAST AA", "60 FPS — 16.6 MS / FRAME"],
+  ["INTERACTION / MOTION / SYSTEMS\nGRID 12 COL — 8PT BASELINE", "TOKENS / COMPONENTS / STATES\nAUTO LAYOUT  ON — GAP 16", "PROTOTYPE → PRODUCT\nCOLOR SPACE  DISPLAY P3"],
+  ["STATE  HOVER → PRESSED\nEASE  0.645 0.045 0.355 1\nDURATION  0.8 S", "TYPE SCALE  1.25\nCONTRAST  AA\nRADIUS  0 / 12 / 24", "60 FPS — 16.6 MS / FRAME\nLATENCY BUDGET  OK\nBUILD  NATIVE"],
+  ["FLOWS, SCREENS AND EDGE CASES.\nEVERY STATE DRAWN, EVERY\nTRANSITION TIMED TO THE FRAME.", "FROM FIRST SKETCH TO NATIVE\nBUILD. SYSTEMS THAT SCALE,\nDETAILS THAT HOLD UP.", "GRIDS, TOKENS, MOTION CURVES.\nTHE INVISIBLE PART OF AN\nINTERFACE, MADE VISIBLE."],
   ["FRAME", "BUILD", "LAYER"],
 ];
 
@@ -204,10 +206,10 @@ async function buildGrid() {
 // Frase final: se carga con glifos (números y símbolos), se queda y entramos por la «I» de «IN».
 const PHRASE = [["gA", "DESIGN"], ["gB", "IN MOTION"]];
 // Collage: 8 columnas de pantallas (16 grabaciones distintas, 2 por columna) que suben y bajan por su cuenta.
-const CN = 16, CFR = [];
+const CN = 24, STILL = [15, 16, 21, 22, 23, 24], CFR = []; // c15, c16 y c21–c24 son pantallas fijas
 for (let c = 0; c < 8; c++) {
-  const col = document.createElement("div"); col.className = "ccol"; col.style.left = c * 330 + "px"; col.style.top = (c % 2 ? -160 : 40) + "px";
-  for (let r = 0; r < 2; r++) { const im = new Image(); col.appendChild(im); CFR.push({ im, n: 1 + ((c * 2 + r * 7) % CN) }); }
+  const col = document.createElement("div"); col.className = "ccol"; col.style.left = c * 330 + "px"; col.style.top = (c % 2 ? -200 : 0) + "px";
+  for (let r = 0; r < 3; r++) { const im = new Image(); col.appendChild(im); CFR.push({ im, n: 1 + ((c * 3 + r * 11) % CN) }); }
   $("cplane").appendChild(col);
 }
 for (const [id, w] of PHRASE) $("g1").insertAdjacentHTML("beforeend", `<div id="${id}">${[...w].map((c) => `<span>${c === " " ? "&nbsp;" : c}</span>`).join("")}</div>`);
@@ -217,8 +219,8 @@ window.render = async function (t) {
   if (!CMPS) await buildGrid();
   const f = Math.round(t * FPS), hit = hitAmt(t);
 
-  // 1 · Ráfaga (0–T.blk y T.Z–final)
-  const mOn = t < T.blk || t >= T.Z, end = t >= T.Z, fm = end ? f - ZF : f, kb = end ? 700 : 0;
+  // 1 · Ráfaga (0–T.coll y T.Z–final)
+  const mOn = t < T.coll || t >= T.Z, end = t >= T.Z, fm = end ? f - ZF : f, kb = end ? 700 : 0;
   $("mont").style.display = mOn ? "block" : "none";
   if (mOn) {
     let k = 0, acc = 0; while (true) { const len = cutLen(k, kb); if (fm < acc + len) break; acc += len; k++; }
@@ -254,7 +256,8 @@ window.render = async function (t) {
     $("r2").style.transform = `translateX(${d * 42 + tremor(2)}px)`;
     $("r3").style.transform = `translateX(${-d * 34 + tremor(3)}px)`;
     const sp = expoIn(prog(t, T.e, T.bands + 0.05));
-    $("st").style.transform = `scaleX(${1 + 34 * sp}) scaleY(${1 + 0.5 * sp})`;
+    // las tres «E» crecen a la vez, cada una desde su sitio, y abren el colapso en franjas
+    document.querySelectorAll("#blk .st").forEach((e, i) => (e.style.transform = `scaleX(${1 + (34 - i * 6) * sp}) scaleY(${1 + 0.5 * sp})`));
     // el clip del hueco va fuera de la máscara, encima, en el sitio exacto del hueco
     const r = $("slotw").getBoundingClientRect(), wr = $("world").getBoundingClientRect();
     Object.assign($("slot").style, { left: r.left - wr.left + "px", top: r.top - wr.top + "px", width: sw + "px", height: r.height + "px" });
@@ -266,11 +269,11 @@ window.render = async function (t) {
   }
 
   // 3 · Pausa (T.split–T.full): media pantalla de interfaz de cristal que entra con rebote y se desliza; a la derecha el
-  //     móvil de 7news, que en T.grow crece hacia la izquierda (como las máscaras de la web) hasta la pantalla entera.
+  //     móvil de Dovla, que en T.grow crece hacia la izquierda (como las máscaras de la web) hasta la pantalla entera.
   const sOn = t >= T.split - 0.05 && t < T.word + 0.8;
   for (const id of ["plum", "next", "cmps"]) $(id).style.display = sOn ? "block" : "none";
   if (sOn) {
-    await setImg($("cbg"), FR + "ph/" + pad(Math.min(195, 40 + Math.floor((t - T.split) * FPS))) + ".jpg");
+    await setImg($("cbg"), FR + "dovla/" + pad(Math.min(195, 40 + Math.floor((t - T.split) * FPS))) + ".jpg");
     CMPS.forEach((o) => {
       const t0 = T.split + 0.05 + (o.i % 14) * 0.045 + o.c * 0.05, p = prog(t, t0, t0 + 0.6), b = backOut(p);
       o.el.style.transform = `translateY(${(1 - b) * 90}px) scale(${0.7 + 0.3 * b})`;
@@ -280,17 +283,17 @@ window.render = async function (t) {
     $("cmps").style.transform = `scale(${1 + 0.02 * (t - T.split)})`;
     const g = IO(prog(t, T.grow, T.full)), x = 960 * (1 - g), w = 960 + 960 * g;
     for (const id of ["plum", "next"]) Object.assign($(id).style, { left: x + "px", width: w + "px" });
-    await setImg($("next"), FR + "ph/" + pad(Math.min(195, Math.floor((t - T.split) * FPS) + 1)) + ".jpg");
+    await setImg($("next"), FR + "dovla/" + pad(Math.min(195, Math.floor((t - T.split) * FPS) + 1)) + ".jpg");
     const pr = IO(prog(t, T.split, T.split + 0.7));
     $("next").style.clipPath = `inset(${((1 - pr) * 50).toFixed(2)}% 0% ${((1 - pr) * 50).toFixed(2)}% 0%)`;
     $("next").style.transform = `scale(${1.2 - 0.15 * pr + 0.03 * (t - T.split)})`;
   }
 
   // 4 · Frase en máscara sobre el móvil que ha crecido (T.word–T.Z): se carga como código, se queda y entramos en la «I».
-  const cOn = t >= T.word && t < T.coll;
+  const cOn = t >= T.word && t < T.Z;
   $("gm").style.display = cOn ? "block" : "none";
   if (cOn) {
-    await setImg($("gv"), FR + "ph/" + pad(Math.min(195, Math.floor((t - T.split) * FPS) + 1)) + ".jpg");
+    await setImg($("gv"), FR + "dovla/" + pad(Math.min(195, Math.floor((t - T.split) * FPS) + 1)) + ".jpg");
     $("gv").style.transform = `scale(${1.05 + 0.03 * (t - T.split)})`;
     let n = 0;
     for (const [id, w] of PHRASE) [...$(id).children].forEach((sp, i) => {
@@ -298,26 +301,26 @@ window.render = async function (t) {
       sp.textContent = c === " " ? "\u00a0" : t < t0 ? "\u00a0" : t < t0 + 0.22 ? SYM[Math.floor(hash(n * 13, Math.floor(f / 2)) * SYM.length)] : c;
     });
     // líneas que se deslizan en sentidos opuestos, con el mismo temblor leve que SHAPE THE INTERFACE
-    const dw = t - T.word, tremor = (k) => (hash(Math.floor(f / 2), k) - 0.5) * 5;
+    const dw = Math.min(t, T.dive) - T.word, tremor = (k) => (hash(Math.floor(f / 2), k) - 0.5) * 5;
     $("gA").style.transform = `translateX(${-dw * 40 + tremor(4)}px)`;
     $("gB").style.transform = `translateX(${dw * 44 + tremor(5)}px)`;
     // el punto de entrada sigue a la «I» hasta que empieza la inmersión, y ahí se fija
     if (t < T.dive || !$("gk").dataset.o) { $("gk").style.transform = "none"; const sr = DIVE_CH().getBoundingClientRect(); $("gk").dataset.o = `${sr.left + sr.width * 0.5}px ${sr.top + sr.height * 0.55}px`; }
-    const zp = expoIn(prog(t, T.dive, T.Z));
+    const zp = IO(prog(t, T.dive, T.hold)); // sin prisa: luego el móvil se queda solo hasta la ráfaga
     $("gk").style.transformOrigin = $("gk").dataset.o;
     $("gk").style.transform = `scale(${1 + 120 * zp})`;
     $("gglow").replaceChildren($("g1").cloneNode(true));
     $("gglow").style.transformOrigin = $("gk").style.transformOrigin; $("gglow").style.transform = $("gk").style.transform;
   }
 
-  // 5 · Calma (T.coll–T.Z): collage de pantallas en movimiento, todas juntas en perspectiva, girando y creciendo.
-  const lOn = t >= T.coll && t < T.Z;
+  // 5 · Calma (T.coll–T.blk): collage de pantallas en movimiento, todas juntas en perspectiva, girando y creciendo.
+  const lOn = t >= T.coll && t < T.blk;
   $("coll").style.display = lOn ? "block" : "none";
   if (lOn) {
     const lf = Math.floor((t - T.coll) * FPS);
-    await Promise.all(CFR.map((o) => setImg(o.im, FR + "c" + o.n + "/" + pad(o.n > 14 ? 1 : Math.min(72, lf + 1)) + ".jpg")));
-    const q = IO(prog(t, T.coll, T.Z));
-    $("cplane").style.transform = `translateY(${40 - 120 * q}px) rotateX(${34 - 14 * q}deg) rotateZ(${-16 + 6 * q}deg) scale(${0.62 + 0.42 * q})`;
+    await Promise.all(CFR.map((o) => setImg(o.im, FR + "c" + o.n + "/" + pad(STILL.includes(o.n) ? 1 : Math.min(72, lf + 1)) + ".jpg")));
+    const q = IO(prog(t, T.coll, T.blk));
+    $("cplane").style.transform = `rotateX(${30 - 10 * q}deg) rotateZ(${-15 + 5 * q}deg) scale(${1.05 + 0.3 * q})`;
     [...$("cplane").children].forEach((col, c) => (col.style.transform = `translateY(${(c % 2 ? 1 : -1) * 70 * (t - T.coll)}px)`));
   }
 
@@ -348,20 +351,20 @@ window.render = async function (t) {
   const PADX = 14;
   const small = (el, i, strs, top, vy, period) => {
     const off = hash(i, 1) * period, cyc = Math.floor((t + off) / period), ph = ((t + off) % period) / period;
-    const on = hash(cyc, i + 40) > 0.3; // en algunos ciclos no aparece
-    const right = hash(cyc, i + 80) > 0.78; // y en otros sale por la derecha
-    let str = on ? decode(strs[cyc % strs.length], clamp(ph / 0.35), i * 100 + cyc * 31, f) : "";
-    if (on && ph > 0.85) str = ""; // se apaga antes de cambiar de frase
+    const on = hash(cyc, i + 40) > 0.15; // de vez en cuando un ciclo no aparece
+    const right = hash(cyc, i + 80) > 0.8; // y alguno sale por la derecha
+    let str = on ? decode(strs[cyc % strs.length], clamp(ph / 0.3), i * 100 + cyc * 31, f) : "";
+    if (on && ph > 0.93) str = ""; // se apaga un instante antes de cambiar de frase
     $(el).textContent = str;
     const y = top + vy * ((t + off) % period);
     Object.assign($(el).style, { top: y + "px", left: right ? "auto" : PADX + "px", right: right ? PADX + "px" : "auto", textAlign: right ? "right" : "left" });
   };
   small("u1", 0, U[0], 18, 9, 2.6);
-  small("u2", 1, U[1], 36, 7, 2.1);
-  small("u3", 2, U[2], 1040, -8, 2.4);
-  small("u4", 3, U[3], 1056, -6, 1.9);
+  small("u2", 1, U[1], 62, 7, 2.1);
+  small("u3", 2, U[2], 975, -8, 2.4);
+  small("u4", 3, U[3], 1048, -6, 1.9);
   if ($("u4").textContent && !$("u4").textContent.endsWith("_")) $("u4").textContent += ` ${pad(f, 4)}`;
-  Object.assign($("bars").style, { left: PADX + "px", top: 1020 - 6 * ((t % 2.4)) + "px", display: hash(Math.floor(t / 1.3), 9) > 0.35 ? "flex" : "none" });
+  Object.assign($("bars").style, { left: PADX + "px", top: 955 - 6 * ((t % 2.4)) + "px", display: hash(Math.floor(t / 1.3), 9) > 0.35 ? "flex" : "none" });
   document.querySelectorAll("#bars i").forEach((b, i) => { b.style.height = `${2 + 8 * hash(i, Math.floor(f / 2))}px`; });
 
   // Texturas
