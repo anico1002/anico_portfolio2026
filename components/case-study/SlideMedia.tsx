@@ -44,11 +44,13 @@ type Props = {
   playing?: boolean;
   /** Segundo por el que arranca el vídeo (relevo con el telón). */
   startAt?: number;
+  /** Duración del fundido de entrada (por defecto DUR.base; el pase rápido del móvil usa uno corto). */
+  fade?: number;
   onReady?: () => void;
 };
 
 const SlideMedia = forwardRef<HTMLImageElement | HTMLVideoElement, Props>(function SlideMedia(
-  { src, enter = true, fromScale = 1.08, playing = true, startAt = 0, onReady },
+  { src, enter = true, fromScale = 1.08, playing = true, startAt = 0, fade = DUR.base, onReady },
   ref
 ) {
   const common = {
@@ -58,7 +60,7 @@ const SlideMedia = forwardRef<HTMLImageElement | HTMLVideoElement, Props>(functi
     animate: { opacity: 1, scale: 1 },
     exit: { opacity: 0 },
     transition: enter
-      ? { opacity: { duration: DUR.base, ease: EASE.inOut }, scale: { duration: DUR.drift, ease: EASE.out } }
+      ? { opacity: { duration: fade, ease: EASE.inOut }, scale: { duration: DUR.drift, ease: EASE.out } }
       : { duration: DUR.slow, ease: EASE.inOut },
   };
   if (!isVideo(src))

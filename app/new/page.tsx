@@ -47,8 +47,10 @@ const sides: Side[] = [
 
 /** Pase de fondo: fundido con un ligero zoom de salida (1,08 → 1) en cada diapositiva. Imágenes en
     corte rápido; los vídeos (miniaturas en movimiento) se dejan un poco más. */
-function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: boolean; frozen?: boolean }) {
-  const { i } = useSlideshow(srcs, active && !frozen, 1600, 3200);
+function Slides({ srcs, active, frozen = false, fast = false }: { srcs: string[]; active: boolean; frozen?: boolean; fast?: boolean }) {
+  // `fast` (2026-10-29): el reel de Product va con mucha caña; el pase va al doble de ritmo y con fundido corto para
+  // no quedarse lento al lado, sin llegar a imitar sus ráfagas. Ahora en todas partes, en prueba (Alberto lo compara).
+  const { i } = useSlideshow(srcs, active && !frozen, fast ? 800 : 1600, fast ? 1600 : 3200);
   return (
     <motion.div
       aria-hidden
@@ -59,7 +61,7 @@ function Slides({ srcs, active, frozen = false }: { srcs: string[]; active: bool
       transition={{ duration: inOrOut(active), ease: EASE.inOut }}
     >
       <AnimatePresence initial={false}>
-        <SlideMedia key={srcs[i]} src={srcs[i]} playing={active} />
+        <SlideMedia key={srcs[i]} src={srcs[i]} playing={active} fade={fast ? DUR.fast : DUR.base} />
       </AnimatePresence>
       {/* Velo para que el texto blanco se lea sobre cualquier imagen. */}
       <div className="absolute inset-0 bg-black/45" />
@@ -184,7 +186,7 @@ export default function EntryB() {
                   <div className="absolute inset-0 bg-black/25" />
                 </motion.div>
               ) : (
-                <Slides srcs={s.slides} active={on} frozen={picked} />
+                <Slides srcs={s.slides} active={on} frozen={picked} fast />
               )}
               <motion.div
                 className={`relative h-full ${on ? "text-white" : ""}`}
