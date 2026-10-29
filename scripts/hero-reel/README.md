@@ -15,21 +15,23 @@ node scripts/hero-reel/render.mjs                    # vídeo entero → out/pru
 en vivo, y por eso cada fotograma sale exacto. El vídeo de fondo se sirve como secuencias de JPG (`fr/`),
 no como `<video>`, para no depender de los códecs del navegador sin cabeza. `fr/` y `out/` no van a git.
 
-## Estado (prueba 06, 2026-10-29, 11,7 s) — pendiente de que la vea Alberto
-
-Rehecha tras su feedback a la 05: nada de texto blanco macizo (no puede competir con Product del Launcher),
-tempo más bajo con cambios de ritmo y bucle sin costura.
+## Estado (prueba 11, 2026-10-29, 12,4 s) — pendiente de que la vea Alberto
 
 | Tiempo | Qué pasa | Tempo |
 |---|---|---|
-| 0–1,6 s | Ráfaga de trabajos a pantalla completa, cortes de 4–6 fotogramas, sin texto | caña |
-| 1,6–3,5 s | «SHAPE / [hueco] THE / INTERFACE» **en máscara** (metraje dentro de las letras + copia al 13 % para que se lean). La «E» se estira y colapsa en franjas | media |
-| 3,5–6,6 s | Pausa: pantalla partida, retícula masonry de componentes de Dovla (rectos, suben como un scroll) y el móvil girando sobre morado | calma |
-| 6,6–9,9 s | Tipo gigante en máscara con caracteres que cambian como código (consonantes y números: no forman palabras); al final entramos en una «I» | caña |
-| 9,9–11,7 s | Ráfaga de trabajos; enlaza con el principio (`DUR` se calcula para acabar en un corte) | caña |
+| 0–1,6 s | Ráfaga: clips de dispositivos en movimiento y fotos de la última iteración de Gloop (otro repo, `Gloop-app`), 7news y WineUp; cortes de 4–6 fotogramas, sin texto | caña |
+| 1,6–3,5 s | «SHAPE / [hueco] THE / INTERFACE» en máscara; líneas que se deslizan en sentidos alternos con temblor leve; la «E» se estira y colapsa en franjas. El hueco: SwifT, 7news, Interactius, MasterChef, WineUp | media |
+| 3,5–6,75 s | Pausa: media pantalla llena de componentes de cristal de Dovla (rebote, 3 columnas que se salen y se deslizan) y el móvil de 7news, que crece hacia la izquierda hasta la pantalla entera | calma |
+| 6,95–8,85 s | «DESIGN / IN MOTION» en máscara sobre ese móvil: se carga con símbolos, se desliza y entramos por la «I» | media |
+| 8,85–11 s | Collage de 16 grabaciones de pantalla (todos los proyectos menos Dovla) en perspectiva, girando y creciendo | calma |
+| 11–12,4 s | Ráfaga; enlaza con el principio. Las dos ráfagas tiran del mismo mazo sin repetir | caña |
 
-Texto pequeño solo en el margen izquierdo (arriba y abajo), al 50 %, con vocabulario de interfaz. Los glifos de
-relleno al descifrarse son números y símbolos: con letras salió «ZUGOO» a mitad de escribirse un texto.
+Reglas que salen del feedback: **Dovla nunca a pantalla completa ni al principio o al final** (falta su permiso para
+publicar); nada de capturas sueltas sin dispositivo (quedan pobres: van al collage); nada estático (todo lleva zoom
+lento); no repetir metraje (mejor más corto); los glifos de relleno nunca son letras.
+
+Prueba aplicada: `app/new/page.tsx` pone `public/maqueta/hero-reel/reel.mp4` (1600 px, crf 28) de fondo en Product,
+sin commitear: el MP4 no está en git.
 
 ## Lo que pidió Alberto (no perderlo)
 
@@ -43,10 +45,10 @@ relleno al descifrarse son números y símbolos: con letras salió «ZUGOO» a m
 
 ## Pendiente para la siguiente sesión
 
-1. Feedback de Alberto a la prueba 06.
-2. Probarlo aplicado: dónde va exactamente (fondo del Launcher o hero de la home) y con qué capa oscura encima.
-3. Copy de los textos pequeños: revisar con copywriting (vocabulario del sector, nada inventado ni con marcas).
-4. Versión vertical para móvil, MP4/WebM ligero, póster y versión estática para `prefers-reduced-motion`.
+1. Feedback de Alberto a la prueba 11 y a cómo queda en el Launcher.
+2. Textos pequeños: Alberto va a revisar los de Yakushev para afinar; si no quedan con sentido, se quitan.
+3. Copy final de «SHAPE THE INTERFACE» (le gusta) y «DESIGN IN MOTION» (provisional).
+4. Versión vertical para móvil, WebM, póster y versión estática para `prefers-reduced-motion`.
 
 ## Referencia: qué hace Yakushev (análisis de sus 10 piezas)
 
