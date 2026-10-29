@@ -216,8 +216,10 @@ export default function SiteNav({
             <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
           </TLink>
         )}
-        {parts !== "logo" && (
-          <div className="pointer-events-auto flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6">
+        {/* En las homes, la barra del logo lleva también la hamburguesa en móvil: ahí empieza arriba, sin bajar al pie
+            de la cabecera y subir (feedback 2026-10-29). En escritorio la lleva la barra de abajo. */}
+        {(parts !== "logo" || menu) && (
+          <div className={`pointer-events-auto flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6 ${parts === "logo" ? "md:hidden" : ""}`}>
             {menu && (
               <button
                 type="button"
@@ -319,9 +321,10 @@ export default function SiteNav({
                 </li>
               ))}
             </ul>
-            {/* Email y LinkedIn en la esquina inferior derecha (feedback 2026-10-29). */}
+            {/* Email y LinkedIn: en escritorio, en la esquina inferior derecha; en móvil, alineados a la izquierda con el
+                menú, como antes (feedback 2026-10-29). */}
             <motion.div
-              className="mt-10 flex flex-wrap items-baseline justify-end gap-x-6 gap-y-2 self-end text-right t-small text-[var(--case-muted)] md:absolute md:bottom-12 md:right-6 md:mt-0"
+              className="mt-10 flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small text-[var(--case-muted)] md:absolute md:bottom-12 md:right-6 md:mt-0 md:justify-end md:text-right"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: DUR.base, ease: EASE.out, delay: (items.length + 1) * STAGGER }}

@@ -246,7 +246,8 @@ export default function HomeHero({
       {/* La barra al pie de la cabecera: al hacer scroll sube con la página y se queda pegada arriba. Va fuera de la
           sección para que el `sticky` dure toda la página. Visible desde el principio (2026-10-29): la hamburguesa nace
           a la vez que el logo (antes la barra aparecía al recogerse la imagen). */}
-      <div className="pointer-events-none sticky top-0 z-50 -mt-[3.5rem] mix-blend-difference">{nav}</div>
+      {/* Solo escritorio: en móvil la hamburguesa va arriba desde el principio, en la barra del logo. */}
+      <div className="pointer-events-none sticky top-0 z-50 -mt-[3.5rem] hidden mix-blend-difference md:block">{nav}</div>
     </>
   );
 }
