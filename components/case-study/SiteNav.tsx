@@ -180,6 +180,8 @@ export default function SiteNav({
   const [copied, setCopied] = useState(false);
   // Saliendo del menú hacia una página: su contenido se funde antes de que entre el logo de carga.
   const [leaving, setLeaving] = useState(false);
+  // Sección marcada en el menú abierto: la de la página o, si estás en su bloque About, About.
+  const [here, setHere] = useState<Key | null>(active);
   if (!open && leaving) setLeaving(false);
   useEffect(() => {
     if (!copied) return;
@@ -221,6 +223,10 @@ export default function SiteNav({
                 type="button"
                 onClick={() => {
                   setOpenAt(path);
+                  // Si estás en el bloque About de la home (se llega desde el menú), el activo es About: así Product o
+                  // Games vuelven a poder pulsarse y recargan la sección desde arriba (feedback 2026-10-29).
+                  const about = document.getElementById("about")?.getBoundingClientRect();
+                  setHere(about && about.top < window.innerHeight / 2 ? "about" : active);
                   setOpen(true);
                 }}
                 className="-m-3 p-3"
@@ -267,7 +273,7 @@ export default function SiteNav({
                 <li key={key} className="overflow-hidden">
                   <motion.button
                     type="button"
-                    className={`block t-h1 ${key === active ? "" : "text-[var(--case-muted)]"}`}
+                    className={`block t-h1 ${key === here ? "" : "text-[var(--case-muted)]"}`}
                     initial={{ y: "100%" }}
                     animate={{ y: "0%" }}
                     transition={{ duration: DUR.base, ease: EASE.inOut, delay: (i + 1) * STAGGER }}
@@ -297,7 +303,7 @@ export default function SiteNav({
                   >
                     {/* La ola de letras del menú en texto de antes (RollText, la misma de «Let's talk» en el pie), ahora
                         en el hover de estas. La sección en la que ya estás no reacciona. */}
-                    {key === active ? label : <RollText text={label} />}
+                    {key === here ? label : <RollText text={label} />}
                     <Count k={key} big />
                   </motion.button>
                 </li>
