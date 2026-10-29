@@ -397,11 +397,11 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   opacity: 0.6;
   letter-spacing: 0;
 }
-/* En el menú de móvil (titulares de 40 px) la proporción de escritorio daba un número enorme: aquí va a
-   tamaño de etiqueta (2026-10-14). */
+/* En el menú a pantalla completa (titulares de 40 → 104 px). Fijo a 12 px se quedaba diminuto en escritorio
+   (feedback 2026-10-29): proporcional a la palabra, con suelo de etiqueta en móvil. */
 .nav-count-big {
-  font-size: 12px;
-  margin-left: 0.35em;
+  font-size: max(12px, 0.22em);
+  margin-left: 0.12em;
 }
 
 /* Foco con teclado (F4, 2026-10-13): un contorno fino del color del texto, solo al navegar con

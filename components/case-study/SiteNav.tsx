@@ -1,9 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion, useTransform, type AnimationPlaybackControls } from "framer-motion";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
-import RollText from "@/components/case-study/RollText";
 import { createPortal } from "react-dom";
 import { TLink, go } from "@/components/case-study/Portal";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
@@ -12,24 +11,15 @@ import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import { LINKEDIN, email } from "@/lib/maqueta/contact";
 import Arrow from "@/components/case-study/Arrow";
 import LogoAnico from "@/components/case-study/LogoAnico";
+import RollText from "@/components/case-study/RollText";
 import { BASE, bare } from "@/lib/maqueta/base";
 
 /** En la cabecera el bucle es un guiño de vez en cuando (Alberto, 2026-10-18): unos 15 s formado entre vueltas. */
 const WINK = 15000;
 
 const noop = () => () => {};
-
-/** Dos líneas (feedback 2026-10-17: «Menu» en texto pasa a hamburguesa de dos rayas); abierto, las rayas se cruzan
-    en una X. */
-function Burger({ x = false }: { x?: boolean }) {
-  const line = "absolute left-0 h-[1.5px] w-full bg-current transition-transform duration-300";
-  return (
-    <span aria-hidden className="relative block h-[10px] w-6">
-      <span className={`${line} top-0 ${x ? "translate-y-[4.25px] rotate-45" : ""}`} />
-      <span className={`${line} bottom-0 ${x ? "-translate-y-[4.25px] -rotate-45" : ""}`} />
-    </span>
-  );
-}
+/** Colores del tema oscuro para la capa del menú, sea cual sea el de la página. */
+const DARK = { "--case-bg": "#000000", "--case-fg": "#F4F4F5", "--case-muted": "rgba(244,244,245,0.56)" } as React.CSSProperties;
 
 /** Nav común de las maquetas: logo (lleva a la entrada) + menú + sol/luna, en blanco con
     `mix-blend-difference` (la inversión por píxel de Yakushev). Se probó una tinta adaptativa que
@@ -40,8 +30,8 @@ function Burger({ x = false }: { x?: boolean }) {
     Sin placa de fondo (se probó la de Metalab y se descartó, 2026-10-12): se queda en su sitio
     cambiando de tinta según lo que pase por detrás.
     Hover: las letras ruedan dentro de su máscara, una tras otra (`RollText`).
-    B3 · En móvil los cuatro enlaces no caben: la hamburguesa abre una capa propia que baja con máscara y
-    palabras grandes que suben con máscara (Yakushev). */
+    B3 · La hamburguesa abre una capa propia que baja con máscara y palabras grandes que suben con máscara. Desde el
+    2026-10-29 también en escritorio (antes ahí el menú iba en texto, como en Yakushev): siempre en negro. */
 
 const items = [
   ["product", "Product", `${BASE}/product`],
@@ -65,6 +55,93 @@ function Count({ k, big = false }: { k: Key; big?: boolean }) {
       <span className="sr-only">, {n} projects</span>
     </sup>
   );
+}
+
+/** Hamburguesa que nace del logo (2026-10-29, idea de Alberto para separarnos del menú en texto de Yakushev). Al cargar,
+    a la vez que el logo: un módulo del logo (un cuadrado del alto de sus letras) crece desde abajo donde empezaba
+    «Product», se estira hacia la derecha hasta donde acababa «About» y, antes de llegar, se recoge desde la izquierda con
+    el mismo easing. Queda otra vez un cuadrado y se parte en tres franjas: arriba y abajo son las rayas, la del medio es
+    el hueco (como las dos mitades de cada letra del logo). Abierta, las rayas se cruzan en una X. */
+function Burger({ x = false, intro = false }: { x?: boolean; intro?: boolean }) {
+  const reduce = useReducedMotion();
+  const box = useRef<HTMLSpanElement>(null);
+  const span = useRef<HTMLSpanElement>(null);
+  const [phase, setPhase] = useState<"bar" | "split">(intro && !reduce ? "bar" : "split");
+  // Bordes izquierdo y derecho del bloque (px, desde la izquierda del cuadrado final) y su alto (0–1).
+  const l = useMotionValue(0), r = useMotionValue(0), h = useMotionValue(0);
+  const width = useTransform(() => r.get() - l.get());
+  const height = useTransform(h, (v) => `${v * 100}%`);
+  useEffect(() => {
+    if (phase !== "bar" || !box.current || !span.current) return;
+    const s = box.current.offsetHeight, off = span.current.offsetWidth - s;
+    l.set(-off);
+    r.set(-off + s);
+    // Con caña (feedback 2026-10-29: la primera era lenta): curva de pantalla, más marcada, y tiempos cortos.
+    const run: AnimationPlaybackControls[] = [];
+    let alive = true;
+    (async () => {
+      run.push(animate(h, 1, { duration: DUR.fast, ease: EASE.screen }));
+      await run[0];
+      run.push(animate(r, s, { duration: 0.6, ease: EASE.screen }));
+      run.push(animate(l, 0, { duration: 0.6, ease: EASE.screen, delay: 0.2 }));
+      await run[2];
+      if (alive) setPhase("split");
+    })();
+    return () => {
+      alive = false;
+      run.forEach((c) => c.stop());
+    };
+  }, [phase, l, r, h]);
+  // El cuadrado se parte en tres: las franjas de arriba y abajo se afinan hasta quedar en rayas (feedback 2026-10-29:
+  // finas) pegadas al hueco del medio. Abierta, las dos rayas se van al centro y se cruzan en una X.
+  const LINE = "1.5px";
+  const born = intro && !reduce;
+  const top = x ? { top: "50%", height: LINE, y: "-50%", rotate: 45 } : { top: "33.334%", height: LINE, y: "-100%", rotate: 0 };
+  const bot = x ? { top: "50%", height: LINE, y: "-50%", rotate: -45 } : { top: "66.667%", height: LINE, y: "0%", rotate: 0 };
+  const t = { duration: DUR.fast, ease: EASE.screen };
+  return (
+    <span ref={box} aria-hidden className="relative block size-[1.125rem] md:size-[1.375rem]">
+      {phase === "bar" ? (
+        <>
+          {/* Recorrido: lo que ocupaba el menú en texto (Product, Games, About), medido con su misma letra. */}
+          <span ref={span} className="invisible absolute right-0 top-0 flex gap-4 whitespace-nowrap t-nav md:gap-6">
+            {items.map(([key, label]) => (
+              <span key={key}>
+                {label}
+                <Count k={key} />
+              </span>
+            ))}
+          </span>
+          <motion.span className="absolute bottom-0 bg-current" style={{ left: l, width, height }} />
+        </>
+      ) : (
+        <>
+          <motion.span
+            className="absolute inset-x-0 bg-current"
+            initial={born ? { top: "0%", height: "50%", y: "0%", rotate: 0 } : false}
+            animate={top}
+            transition={t}
+          />
+          <motion.span
+            className="absolute inset-x-0 bg-current"
+            initial={born ? { top: "50%", height: "50%", y: "0%", rotate: 0 } : false}
+            animate={bot}
+            transition={t}
+          />
+        </>
+      )}
+    </span>
+  );
+}
+
+/** La X de cerrar del menú: nace como las dos rayas de la barra y se cruza al abrir (feedback 2026-10-29). */
+function CloseX() {
+  const [x, setX] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setX(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+  return <Burger x={x} />;
 }
 
 /** `menu={false}`: solo logo y sol/luna (en la entrada partida, donde las dos mitades ya son
@@ -96,6 +173,9 @@ export default function SiteNav({
   // Contacto dentro del menú (2026-10-17): el email se monta en el navegador y se copia al tocarlo, como en el pie.
   const mail = useSyncExternalStore(noop, email, () => "");
   const [copied, setCopied] = useState(false);
+  // Saliendo del menú hacia una página: su contenido se funde antes de que entre el logo de carga.
+  const [leaving, setLeaving] = useState(false);
+  if (!open && leaving) setLeaving(false);
   useEffect(() => {
     if (!copied) return;
     const t = window.setTimeout(() => setCopied(false), 2200);
@@ -111,17 +191,11 @@ export default function SiteNav({
     return () => cancelAnimationFrame(id);
   }, []);
 
-  // Menú de móvil abierto: scroll parado; se cierra solo si la pantalla pasa a escritorio.
+  // Menú abierto: scroll parado.
   useEffect(() => {
     if (!open) return;
     scrollLock.stop();
-    const mq = window.matchMedia("(min-width: 768px)");
-    const close = () => mq.matches && setOpen(false);
-    mq.addEventListener("change", close);
-    return () => {
-      scrollLock.start();
-      mq.removeEventListener("change", close);
-    };
+    return () => scrollLock.start();
   }, [open]);
 
   return (
@@ -137,18 +211,6 @@ export default function SiteNav({
         )}
         {parts !== "logo" && (
           <div className="pointer-events-auto flex items-center gap-4 whitespace-nowrap t-nav text-white md:gap-6">
-            {menu && items.map(([key, label, href]) => (
-              <TLink
-                key={key}
-                href={to(href)}
-                aria-current={key === active ? "page" : undefined}
-                className={`hidden md:inline ${key === active ? "" : "opacity-50 hov hover:opacity-100"}`}
-              >
-                {/* La sección en la que ya estás no reacciona al hover. */}
-                {key === active ? label : <RollText text={label} />}
-                <Count k={key} />
-              </TLink>
-            ))}
             {menu && (
               <button
                 type="button"
@@ -156,11 +218,11 @@ export default function SiteNav({
                   setOpenAt(path);
                   setOpen(true);
                 }}
-                className="-m-3 p-3 md:hidden"
+                className="-m-3 p-3"
                 aria-expanded={open}
                 aria-label="Open menu"
               >
-                <Burger />
+                <Burger intro />
               </button>
             )}
           </div>
@@ -176,16 +238,23 @@ export default function SiteNav({
             role="dialog"
             aria-modal
             aria-label="Menu"
-            className="fixed inset-0 z-[70] flex flex-col bg-[var(--case-bg)] px-4 pb-8 text-[var(--case-fg)] md:hidden"
+            // Siempre en negro (transición a negro, 2026-10-29), también en las páginas claras.
+            style={DARK}
+            className="fixed inset-0 z-[70] flex flex-col bg-[var(--case-bg)] px-4 pb-8 text-[var(--case-fg)] md:px-6 md:pb-12"
             initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
             animate={{ clipPath: "inset(0% 0% 0% 0%)", transition: { duration: DUR.base, ease: EASE.inOut } }}
             exit={{ clipPath: "inset(0% 0% 100% 0%)", transition: { duration: DUR.fast, ease: EASE.inOut } }}
           >
-            <div className="flex items-center justify-between py-4">
-              <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto" />
+            <motion.div
+              className="flex min-h-0 flex-1 flex-col"
+              animate={{ opacity: leaving ? 0 : 1 }}
+              transition={{ duration: DUR.fast, ease: EASE.inOut }}
+            >
+            <div className="flex h-[3.5rem] items-center justify-between">
+              <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto md:h-[1.375rem]" />
               {/* Misma caja que la hamburguesa de la barra: la X sale justo donde estaban las dos rayas. */}
               <button type="button" onClick={() => setOpen(false)} className="-m-3 p-3" aria-label="Close menu">
-                <Burger x />
+                <CloseX />
               </button>
             </div>
             <ul className="mt-auto space-y-1">
@@ -199,22 +268,39 @@ export default function SiteNav({
                     transition={{ duration: DUR.base, ease: EASE.inOut, delay: (i + 1) * STAGGER }}
                     onClick={() => {
                       const dest = to(href);
-                      // Otra página: la cortinilla tapa el menú y este se cierra al llegar (ver `openAt`).
-                      if (bare(dest.split("#")[0]) !== bare(window.location.pathname)) return go(dest);
-                      // La misma página (About desde su home): primero se cierra el menú, que tiene el scroll parado;
-                      // con él parado el desplazamiento hasta la sección no hacía nada (feedback 2026-10-17).
-                      setOpen(false);
-                      requestAnimationFrame(() => requestAnimationFrame(() => go(dest)));
+                      const [destPath, hash] = dest.split("#");
+                      const same = bare(destPath) === bare(window.location.pathname);
+                      // La misma página y una sección (About desde su home): primero se cierra el menú, que tiene el
+                      // scroll parado; con él parado el desplazamiento hasta la sección no hacía nada (2026-10-17).
+                      if (same && hash) {
+                        setOpen(false);
+                        requestAnimationFrame(() => requestAnimationFrame(() => go(dest)));
+                        return;
+                      }
+                      // Salida (feedback 2026-10-29): lo del menú se funde, queda el negro y sale el logo de carga
+                      // (la cortinilla ya tapada); luego sube como siempre descubriendo la página nueva.
+                      setLeaving(true);
+                      window.setTimeout(() => {
+                        // La sección en la que ya estás (Product desde Product): vuelve a cargar desde arriba, como
+                        // recién llegada, con su entrada de cabecera.
+                        if (same) {
+                          window.scrollTo(0, 0);
+                          window.location.reload();
+                        } else go(dest, { covered: true });
+                      }, DUR.fast * 1000);
                     }}
                   >
-                    {label}
+                    {/* La ola de letras del menú en texto de antes (RollText, la misma de «Let's talk» en el pie), ahora
+                        en el hover de estas. La sección en la que ya estás no reacciona. */}
+                    {key === active ? label : <RollText text={label} />}
                     <Count k={key} big />
                   </motion.button>
                 </li>
               ))}
             </ul>
+            {/* Email y LinkedIn en la esquina inferior derecha (feedback 2026-10-29). */}
             <motion.div
-              className="mt-10 flex flex-wrap items-baseline gap-x-6 gap-y-2 t-small text-[var(--case-muted)]"
+              className="mt-10 flex flex-wrap items-baseline justify-end gap-x-6 gap-y-2 self-end text-right t-small text-[var(--case-muted)] md:absolute md:bottom-12 md:right-6 md:mt-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: DUR.base, ease: EASE.out, delay: (items.length + 1) * STAGGER }}
@@ -231,6 +317,7 @@ export default function SiteNav({
               <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5">
                 LinkedIn <Arrow />
               </a>
+            </motion.div>
             </motion.div>
           </motion.div>
         )}

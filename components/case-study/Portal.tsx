@@ -22,7 +22,8 @@ import { BASE, bare } from "@/lib/maqueta/base";
 type Phase = "idle" | "closing" | "covered" | "opening";
 // `instant`: el panel aparece ya cerrado, sin subir (atrás/adelante del navegador: la página ya ha
 // cambiado y solo queda taparla y destaparla).
-let state: { phase: Phase; href: string | null; instant?: boolean } = { phase: "idle", href: null };
+// `push`: aún hay que cambiar de ruta (con `instant` desde el menú; en atrás/adelante ya la ha cambiado el navegador).
+let state: { phase: Phase; href: string | null; instant?: boolean; push?: boolean } = { phase: "idle", href: null };
 const subs = new Set<() => void>();
 const set = (s: typeof state) => {
   state = s;
@@ -33,7 +34,7 @@ const subscribe = (f: () => void) => (subs.add(f), () => subs.delete(f));
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /** Navegar con la transición. Ignora la página actual y los clics durante otra transición. */
-export function go(href: string) {
+export function go(href: string, { covered = false }: { covered?: boolean } = {}) {
   // Enlaces a una sección (#about, 2026-10-17): en la misma página, scroll hasta ella; en otra, se navega y la
   // página nueva baja a la sección al llegar (`takeHash`).
   const [path, hash] = href.split("#");
@@ -44,7 +45,9 @@ export function go(href: string) {
   }
   pendingHash = hash ?? null;
   scrollLock.stop();
-  set({ phase: "closing", href: bare(path) });
+  // `covered` (desde el menú, 2026-10-29): la pantalla ya está en negro, así que la cortinilla no sube a taparla;
+  // sale directamente el logo de carga y luego sube como siempre.
+  set(covered ? { phase: "covered", href: bare(path), instant: true, push: true } : { phase: "closing", href: bare(path) });
 }
 
 let pendingHash: string | null = null;
@@ -130,6 +133,10 @@ export default function PortalLayer() {
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
+
+  useEffect(() => {
+    if (s.phase === "covered" && s.push && s.href) router.push(s.href);
+  }, [s, router]);
 
   const active = s.phase === "closing" || s.phase === "covered";
   useEffect(() => {

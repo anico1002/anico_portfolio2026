@@ -243,17 +243,10 @@ export default function HomeHero({
           </div>
         </div>
       </section>
-      {/* La barra al pie de la cabecera (Yakushev): aparece cuando la imagen se recoge y, al hacer
-          scroll, sube con la página y se queda pegada arriba. Va fuera de la sección para que el
-          `sticky` dure toda la página. */}
-      <motion.div
-        className="pointer-events-none sticky top-0 z-50 -mt-[3.5rem] mix-blend-difference"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: retracted ? 1 : 0 }}
-        transition={{ duration: DUR.base, ease: EASE.out, delay: retracted ? DUR.slow / 2 : 0 }}
-      >
-        {nav}
-      </motion.div>
+      {/* La barra al pie de la cabecera: al hacer scroll sube con la página y se queda pegada arriba. Va fuera de la
+          sección para que el `sticky` dure toda la página. Visible desde el principio (2026-10-29): la hamburguesa nace
+          a la vez que el logo (antes la barra aparecía al recogerse la imagen). */}
+      <div className="pointer-events-none sticky top-0 z-50 -mt-[3.5rem] mix-blend-difference">{nav}</div>
     </>
   );
 }
