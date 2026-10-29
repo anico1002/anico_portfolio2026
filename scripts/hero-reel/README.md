@@ -8,23 +8,27 @@ es una pieza inspiracional, de puro diseño, al estilo de los vídeos de art-yak
 ```bash
 bash scripts/hero-reel/prep.sh                       # una vez por Mac: fotogramas en fr/ (necesita los medios del MacBook)
 node scripts/hero-reel/render.mjs 1.1,6.9,9.2        # revisar instantes sueltos → out/at-<t>.jpg
-node scripts/hero-reel/render.mjs                    # vídeo entero → out/prueba.mp4 (DUR=13.4 por defecto)
+node scripts/hero-reel/render.mjs                    # vídeo entero → out/prueba.mp4 (dura lo que diga DUR en comp.html; OUT=nombre)
 ```
 
 `comp.html` lo contiene todo: `window.render(t)` coloca cada elemento para el instante `t`, sin animaciones
 en vivo, y por eso cada fotograma sale exacto. El vídeo de fondo se sirve como secuencias de JPG (`fr/`),
 no como `<video>`, para no depender de los códecs del navegador sin cabeza. `fr/` y `out/` no van a git.
 
-## Estado (prueba 04, 2026-10-25) — a Alberto «le gusta»
+## Estado (prueba 05, 2026-10-29, 19 s) — pendiente de que la vea Alberto
 
 | Tiempo | Qué pasa | Ritmo |
 |---|---|---|
-| 0–2 s | Montaje frenético (cortes cada 2–4 fotogramas: capturas de vídeo, fotos y pantallas fijas, a sangre, centradas o en detalle). Encima, «AFTER / DARK®» asimétrico, con las letras descifrándose; zoom brutal dentro de la «A» | caña |
+| 0–2 s | Montaje frenético + «AFTER / DARK®» descifrándose; zoom dentro de la «A» | caña |
 | 2–2,8 s | Ráfaga de cortes de dispositivos | caña |
-| 2,8–5,6 s | Bloque escalonado «PLAY / [hueco] THE / MOMENT»; el hueco cambia de proyecto cada 0,2 s. La «E» se estira hasta cruzar la pantalla y todo colapsa en franjas | caña |
-| 6,2–8,9 s | Componentes del kit de Dovla que entran con rebote hasta llenar la pantalla y se recogen al centro | calma |
-| 8,9–11 s | Móvil de Dovla: máscara de la web (EASE.inOut) y giro lento en perspectiva | calma |
-| 11–13,4 s | Vuelta al montaje frenético con «MADE TO / BE FELT»; colapso final a negro | caña |
+| 2,8–5,6 s | Bloque escalonado «PLAY / [hueco] THE / MOMENT». **Golpe a 4,6 s**: el clip del hueco revienta a pantalla completa 5 fotogramas y el bloque vuelve recolocado. La «E» se estira y todo colapsa en franjas | caña |
+| 5,8–8,9 s | Componentes de Dovla con rebote; **el primero entra en el golpe del colapso** (ya no hay hueco ciruela) | calma |
+| 8,9–11 s | Móvil de Dovla: máscara de la web y giro en perspectiva | calma |
+| 11–14,6 s | **Nuevo**: marquesina gigante, dos líneas en sentidos opuestos con el metraje dentro de las letras; saltan y se inclinan en cada golpe | caña |
+| 14,6–16,8 s | **Nuevo**: la imagen nace en un rectángulo pequeño, crece a pantalla entera y encadena cortes | media |
+| 16,8–19 s | Montaje frenético con «MADE TO / BE FELT» y colapso en franjas; el último fotograma casi negro corta con el primero (bucle en un golpe) | caña |
+
+Las marcas de tiempo de la segunda mitad cuelgan de `C` (inicio del cierre) en `comp.html`; `DUR = C + 2,2`.
 
 Siempre encima: el texto pequeño en dos planos 3D que flotan a su ritmo y se reescriben solos con fallos sueltos,
 más las texturas (grano, líneas de televisor, banda VHS ocasional, viñeta, destello de color), ya bajadas de tono.
@@ -40,11 +44,9 @@ más las texturas (grano, líneas de televisor, banda VHS ocasional, viñeta, de
 
 ## Pendiente para la siguiente sesión
 
-1. Quitar el hueco muerto de fondo ciruela tras el primer colapso (~6,0–6,2 s): que el primer componente entre en el golpe.
-2. Dar un golpe intermedio al bloque «PLAY THE MOMENT», que se queda quieto casi 2 s.
-3. Llegar a ~20 s y cerrar el bucle sin costura (el final tiene que enlazar con el primer fotograma).
-4. Copy: «AFTER DARK», «MADE TO BE FELT» y los textos pequeños son provisionales; pasarlos por copywriting.
-5. Versión vertical para móvil, peso del MP4/WebM, póster y versión estática para `prefers-reduced-motion`; integrarlo en el hero.
+1. Feedback de Alberto a la prueba 05 (sobre todo la marquesina y el crecimiento, que son nuevos).
+2. Copy: «AFTER DARK», «MADE TO BE FELT», las líneas de la marquesina y los textos pequeños son provisionales; pasarlos por copywriting. El «◦» sale de una fuente de reserva (Satoshi no lo tiene).
+3. Versión vertical para móvil, peso del MP4/WebM (el máster de 19 s pesa ~37 MB), póster y versión estática para `prefers-reduced-motion`; integrarlo en el hero.
 
 ## Referencia: qué hace Yakushev (análisis de sus 10 piezas)
 

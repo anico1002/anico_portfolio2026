@@ -13,7 +13,8 @@ img.full{object-fit:cover}
 #marq{isolation:isolate;background:#070707}
 #mk{background:#000;mix-blend-mode:multiply}
 .mline{position:absolute;top:170px;left:0;white-space:nowrap;font-weight:900;font-size:420px;line-height:1;letter-spacing:-.05em;text-transform:uppercase;color:#fff}
-#mglow .mline{color:rgba(255,255,255,.2)}
+#m1{top:40px;font-size:470px}#m2{top:560px;font-size:470px}
+#grow{display:none}
 /* arranque: montaje frenético + tipo grande */
 #mont{background:#0b0a0d;overflow:hidden}
 #mA{object-fit:cover}
@@ -86,6 +87,8 @@ img.full{object-fit:cover}
         <div class="row" id="r2"><span id="slotw"><img id="slot"></span><span class="mask"><span class="ln">Th<span id="st">e</span></span></span></div>
         <div class="row" id="r3"><span class="mask"><span class="ln">moment</span></span></div>
       </div>
+      <div id="marq" class="full"><img id="mv" class="full"><div id="mk" class="full"><div class="mline" id="m1"></div><div class="mline" id="m2"></div></div></div>
+      <img id="grow" class="full">
     </div>
     <div id="cmps"></div>
   </div>
@@ -139,7 +142,10 @@ function decode(str, p, seed, frame) {
 }
 
 // Golpes: cada uno da sacudida, separación RGB y un pequeño zoom de impacto que se apagan en ~0,25 s.
-const HITS = [0.05, 0.45, 0.9, 1.3, 2.0, 2.22, 2.39, 2.56, 2.8, 3.55, 4.25, 5.62, 11.0, 11.35, 11.7, 12.05, 12.45];
+// Tramos de la segunda mitad: marquesina (11,0), imagen que crece (14,6) y cierre (C), que enlaza con t = 0.
+const C = 16.8, DUR = C + 2.2;
+const HITS = [0.05, 0.45, 0.9, 1.3, 2.0, 2.22, 2.39, 2.56, 2.8, 3.55, 4.25, 4.6, 4.77, 5.62, 5.8,
+  11.0, 11.9, 12.8, 13.6, 14.6, 15.5, 15.8, 16.1, 16.4, C, C + 0.35, C + 0.7, C + 1.05, C + 1.45];
 const STATIC = [];
 function hitAmt(t) { let a = 0; for (const h of HITS) if (t >= h) a = Math.max(a, Math.exp(-(t - h) * 14)); return a; }
 
@@ -191,6 +197,7 @@ const CMPS = [
   return { el, x, w, y, rot };
 });
 
+window.DUR = DUR;
 window.render = async function (t) {
   const f = Math.round(t * FPS);
   const hit = hitAmt(t);
@@ -202,7 +209,7 @@ window.render = async function (t) {
   await setImg($("bg"), bgSrc);
 
   // 1 · Arranque (0–2,0 s): montaje frenético de capturas de vídeo y pantallas fijas, cortes cada 2–4 fotogramas.
-  const close = t >= 11.0, mOn = t < 2.0 || (t >= 11.0 && t < 12.75), fm = close ? f - 330 : f, kb = close ? 700 : 0;
+  const close = t >= C, mOn = t < 2.0 || (t >= C && t < C + 1.75), fm = close ? f - Math.round(C * FPS) : f, kb = close ? 700 : 0;
   $("mont").style.display = $("open").style.display = mOn ? "block" : "none";
   if (mOn) {
     let k = 0, acc = 0; while (true) { const len = 2 + Math.floor(hash(k + kb, 61) * 3); if (fm < acc + len) break; acc += len; k++; }
@@ -221,7 +228,7 @@ window.render = async function (t) {
     }
     // tipo grande: cada letra se descifra con glifos al azar antes de fijarse
     const big = (str, t0, seed) => [...str].map((c, i) => { const ti = t0 + i * 0.07; if (t < ti) return " "; if (t < ti + 0.2) return GL[Math.floor(hash(seed + i, f) * 36)]; return c; });
-    const w1 = close ? big("MADE TO", 11.05, 700) : big("AFTER", 0.05, 500), w2 = close ? big("BE FELT", 11.4, 800) : big("DARK®", 0.45, 600);
+    const w1 = close ? big("MADE TO", C + 0.05, 700) : big("AFTER", 0.05, 500), w2 = close ? big("BE FELT", C + 0.4, 800) : big("DARK®", 0.45, 600);
     $("o1").innerHTML = w1.map((c) => `<span>${c === " " ? "&nbsp;" : c}</span>`).join("");
     $("o2").innerHTML = w2.map((c, i) => `<span${i === 1 ? ' id="za"' : ""}>${c === " " ? "&nbsp;" : c}</span>`).join("");
     // zoom brutal dentro de la «A» de DARK: el blanco llena la pantalla y corta al dispositivo
@@ -234,9 +241,12 @@ window.render = async function (t) {
 
   $("bg").style.display = t >= 2.0 && t < 11.0 ? "block" : "none";
   // 2 · Bloque escalonado (2,8–5,6 s), entra seco; el hueco cambia de proyecto cada 0,2 s.
-  const bOn = t >= 2.8 && t < 6.3;
+  // Golpe intermedio (4,6–4,77 s): el clip del hueco revienta a pantalla completa y el bloque vuelve recolocado.
+  const punch = t >= 4.6 && t < 4.77, bOn = t >= 2.8 && t < 6.3 && !punch;
   $("blk").style.display = bOn ? "block" : "none";
-  $("bg").style.filter = `brightness(${1 - 0.5 * prog(t, 2.8, 3.0)})`;
+  $("bg").style.filter = punch ? "none" : `brightness(${1 - 0.5 * prog(t, 2.8, 3.0)})`;
+  const re = t >= 4.77;
+  $("r1").style.marginLeft = re ? "330px" : ""; $("r2").style.marginLeft = re ? "40px" : ""; $("r3").style.marginLeft = re ? "560px" : "";
   document.querySelectorAll("#blk .ln").forEach((el, i) => {
     el.style.transform = `translateY(${(1 - expoOut(prog(t, 2.82 + i * 0.07, 3.22 + i * 0.07))) * 110}%)`;
   });
@@ -244,6 +254,7 @@ window.render = async function (t) {
   $("slotw").style.width = `${470 * expoOut(prog(t, 3.0, 3.35))}px`;
   const clips = ["s_gl2", "s_7n", "s_mc", "s_wu", "s_mano"], ci = Math.floor(Math.max(0, t - 3.0) / 0.2) % clips.length;
   await setImg($("slot"), FR + clips[ci] + "/" + pad((f % 30) + 1) + ".jpg");
+  if (punch) await setImg($("bg"), FR + "s_mano/" + pad((f % 30) + 1) + ".jpg");
   const jolt = (k) => (t >= k && t < k + 0.1 ? (hash(f, 21) - 0.5) * 60 : 0);
   $("r1").style.transform = `translateX(${-Math.max(0, t - 2.8) * 26 + jolt(3.55)}px)`;
   $("r2").style.transform = `translateX(${jolt(4.25)}px)`;
@@ -258,7 +269,7 @@ window.render = async function (t) {
 
   // 4 · Calma: los componentes de Dovla entran con rebote hasta llenar la pantalla (6,2–8,45 s) y se recogen (8,5–8,9 s).
   CMPS.forEach((c, i) => {
-    const t0 = 6.2 + i * 0.17, on = t >= t0 && t < 8.95;
+    const t0 = 5.8 + i * 0.2, on = t >= t0 && t < 8.95;
     c.el.style.display = on ? "block" : "none";
     if (!on) return;
     const pin = prog(t, t0, t0 + 0.55), b = backOut(pin);
@@ -268,7 +279,7 @@ window.render = async function (t) {
     c.el.style.transform = `translate(${cx * po}px, ${cy * po + dy}px) rotate(${c.rot + (1 - b) * 10}deg) scale(${(0.35 + 0.65 * b) * (1 - po)})`;
     c.el.style.opacity = clamp(pin * 6);
   });
-  $("cmps").style.transform = `scale(${1 + 0.04 * prog(t, 6.2, 8.5)})`;
+  $("cmps").style.transform = `scale(${1 + 0.04 * prog(t, 5.8, 8.5)})`;
 
   // 5 · Calma: el móvil de Dovla, con la máscara de la web y un giro lento en perspectiva (8,85–11 s).
   const phOn = t >= 8.85 && t < 11.0;
@@ -280,7 +291,39 @@ window.render = async function (t) {
     $("next").style.transform = `perspective(1600px) scale(${1.5 - 0.3 * pr + 0.06 * q}) rotateY(${-9 + 13 * q}deg) rotateX(${5 - 4 * q}deg)`;
   }
 
-  // Colapsos en franjas: a Dovla (5,6 s) y al final (12,45 s).
+  // 6 · Caña: marquesina gigante con el metraje dentro de las letras (11,0–14,6 s); dos líneas en sentidos opuestos.
+  const mqOn = t >= 11.0 && t < 14.6;
+  $("marq").style.display = mqOn ? "block" : "none";
+  if (mqOn) {
+    const cuts = [[11.0, "gl", 40], [11.9, "f_mc", 0], [12.2, "gl", 90], [12.8, "f_wu", 0], [13.1, "dovla", 20], [13.6, "f_7n", 0], [13.9, "gl", 140]];
+    let cur = cuts[0]; for (const c of cuts) if (t >= c[0]) cur = c;
+    const n = cur[1].startsWith("f_") ? 15 : cur[1] === "dovla" ? 75 : 195;
+    await setImg($("mv"), FR + cur[1] + "/" + pad(Math.min(n, cur[2] + 1 + Math.floor((t - cur[0]) * FPS))) + ".jpg");
+    $("mv").style.transform = `scale(${1.08 - 0.06 * prog(t, cur[0], cur[0] + 0.9)})`;
+    const L1 = "PRODUCT ◦ GAMES ◦ BRAND ◦ ", L2 = "FROM SKETCH TO PIXEL ◦ ";
+    if (!$("m1").textContent) { $("m1").textContent = L1.repeat(4); $("m2").textContent = L2.repeat(4); }
+    const w1 = $("m1").scrollWidth / 4, w2 = $("m2").scrollWidth / 4, d = t - 11.0;
+    // avance continuo + salto en cada golpe, para que el corte también mueva las letras
+    const jump = HITS.filter((h) => h >= 11.0 && h <= t).length * 260;
+    const sk = -hitAmt(t) * 14;
+    $("m1").style.transform = `translateX(${-((d * 820 + jump) % w1)}px) skewX(${sk}deg)`;
+    $("m2").style.transform = `translateX(${-w2 + ((d * 640 + jump) % w2)}px) skewX(${-sk}deg)`;
+  }
+  // 7 · La imagen nace en un rectángulo pequeño, espera y crece hasta la pantalla entera (14,6–15,5 s); luego cortes.
+  const grOn = t >= 14.6 && t < C;
+  $("grow").style.display = grOn ? "block" : "none";
+  if (grOn) {
+    const cuts = [[14.6, "gl", 100], [15.8, "f_mc", 0], [16.1, "f_wu", 0], [16.4, "f_7n", 0]];
+    let cur = cuts[0]; for (const c of cuts) if (t >= c[0]) cur = c;
+    const n = cur[1].startsWith("f_") ? 15 : 195;
+    await setImg($("grow"), FR + cur[1] + "/" + pad(Math.min(n, cur[2] + 1 + Math.floor((t - cur[0]) * FPS))) + ".jpg");
+    const g = IO(prog(t, 14.95, 15.5)), cx = 1290, cy = 690, w = 360 + 1560 * g, h = 203 + 877 * g;
+    const x0 = (cx - w / 2) * (1 - g), y0 = (cy - h / 2) * (1 - g);
+    $("grow").style.clipPath = `inset(${y0.toFixed(1)}px ${(1920 - x0 - w).toFixed(1)}px ${(1080 - y0 - h).toFixed(1)}px ${x0.toFixed(1)}px round ${(14 * (1 - g)).toFixed(1)}px)`;
+    $("grow").style.transform = `scale(${1 + 0.08 * (1 - g) + 0.03 * prog(t, 15.5, C)})`;
+  }
+
+  // Colapsos en franjas: a Dovla (5,6 s) y al final (C + 1,45 s), que deja la pantalla lista para el primer corte.
   const st = $("stage");
   const bands = (t0) => {
     const N = 40, base = 1080 / N, pts = [];
@@ -295,8 +338,8 @@ window.render = async function (t) {
     return `polygon(${pts.join(",")})`;
   };
   if (t >= 5.35 && t < 6.3) { st.style.transform = `translateX(${(hash(f, 7) - 0.5) * (t < 5.6 ? 80 : 40)}px)`; st.style.clipPath = t < 5.6 ? "none" : bands(5.6); }
-  else if (t >= 12.45 && t < 13.15) { st.style.transform = `translateX(${(hash(f, 7) - 0.5) * 40}px)`; st.style.clipPath = bands(12.45); }
-  else { st.style.transform = "none"; st.style.clipPath = (t >= 6.3 && t < 11.0) || t >= 13.15 ? "inset(50% 0 50% 0)" : "none"; }
+  else if (t >= C + 1.45 && t < C + 2.15) { st.style.transform = `translateX(${(hash(f, 7) - 0.5) * 40}px)`; st.style.clipPath = bands(C + 1.45); }
+  else { st.style.transform = "none"; st.style.clipPath = (t >= 6.3 && t < 11.0) || t >= C + 2.15 ? "inset(50% 0 50% 0)" : "none"; }
 
   // Mundo: zoom de impacto + sacudida en cada golpe; separación RGB proporcional.
   const sh = hit * 26;
