@@ -15,38 +15,38 @@ node scripts/hero-reel/render.mjs                    # vídeo entero → out/pru
 en vivo, y por eso cada fotograma sale exacto. El vídeo de fondo se sirve como secuencias de JPG (`fr/`),
 no como `<video>`, para no depender de los códecs del navegador sin cabeza. `fr/` y `out/` no van a git.
 
-## Estado (prueba 05, 2026-10-29, 19 s) — pendiente de que la vea Alberto
+## Estado (prueba 06, 2026-10-29, 11,7 s) — pendiente de que la vea Alberto
 
-| Tiempo | Qué pasa | Ritmo |
+Rehecha tras su feedback a la 05: nada de texto blanco macizo (no puede competir con Product del Launcher),
+tempo más bajo con cambios de ritmo y bucle sin costura.
+
+| Tiempo | Qué pasa | Tempo |
 |---|---|---|
-| 0–2 s | Montaje frenético + «AFTER / DARK®» descifrándose; zoom dentro de la «A» | caña |
-| 2–2,8 s | Ráfaga de cortes de dispositivos | caña |
-| 2,8–5,6 s | Bloque escalonado «PLAY / [hueco] THE / MOMENT». **Golpe a 4,6 s**: el clip del hueco revienta a pantalla completa 5 fotogramas y el bloque vuelve recolocado. La «E» se estira y todo colapsa en franjas | caña |
-| 5,8–8,9 s | Componentes de Dovla con rebote; **el primero entra en el golpe del colapso** (ya no hay hueco ciruela) | calma |
-| 8,9–11 s | Móvil de Dovla: máscara de la web y giro en perspectiva | calma |
-| 11–14,6 s | **Nuevo**: marquesina gigante, dos líneas en sentidos opuestos con el metraje dentro de las letras; saltan y se inclinan en cada golpe | caña |
-| 14,6–16,8 s | **Nuevo**: la imagen nace en un rectángulo pequeño, crece a pantalla entera y encadena cortes | media |
-| 16,8–19 s | Montaje frenético con «MADE TO / BE FELT» y colapso en franjas; el último fotograma casi negro corta con el primero (bucle en un golpe) | caña |
+| 0–1,6 s | Ráfaga de trabajos a pantalla completa, cortes de 4–6 fotogramas, sin texto | caña |
+| 1,6–3,5 s | «SHAPE / [hueco] THE / INTERFACE» **en máscara** (metraje dentro de las letras + copia al 13 % para que se lean). La «E» se estira y colapsa en franjas | media |
+| 3,5–6,6 s | Pausa: pantalla partida, retícula masonry de componentes de Dovla (rectos, suben como un scroll) y el móvil girando sobre morado | calma |
+| 6,6–9,9 s | Tipo gigante en máscara con caracteres que cambian como código (consonantes y números: no forman palabras); al final entramos en una «I» | caña |
+| 9,9–11,7 s | Ráfaga de trabajos; enlaza con el principio (`DUR` se calcula para acabar en un corte) | caña |
 
-Las marcas de tiempo de la segunda mitad cuelgan de `C` (inicio del cierre) en `comp.html`; `DUR = C + 2,2`.
-
-Siempre encima: el texto pequeño en dos planos 3D que flotan a su ritmo y se reescriben solos con fallos sueltos,
-más las texturas (grano, líneas de televisor, banda VHS ocasional, viñeta, destello de color), ya bajadas de tono.
+Texto pequeño solo en el margen izquierdo (arriba y abajo), al 50 %, con vocabulario de interfaz. Los glifos de
+relleno al descifrarse son números y símbolos: con letras salió «ZUGOO» a mitad de escribirse un texto.
 
 ## Lo que pidió Alberto (no perderlo)
 
 - **Sí**: tipografía enorme y **asimétrica** sobre imagen en movimiento; el bloque escalonado con vídeo en el hueco de
   una línea; texto pequeño que se escribe solo, en otro plano y con perspectiva; mucho dispositivo en movimiento;
   **alternar caña con calma**; el gesto de carga de la web, pero más rápido; componentes de los casos.
+- **No** (29-10): texto blanco grande (resta a Product en el Launcher); copy inventado que no hable de diseño («AFTER DARK»); datos personales (Barcelona, años); textos pequeños en las cuatro esquinas; demasiada caña seguida.
 - **No**: letras que caen con física («PowerPoint»); negro y lento al empezar; abusar del ruido blanco o del RGB
   cian/magenta («amateur»); texturas de televisor demasiado sucias.
 - Sus ideas sueltas (p. ej. «un carácter que se estira») son inspiración, no encargo.
 
 ## Pendiente para la siguiente sesión
 
-1. Feedback de Alberto a la prueba 05 (sobre todo la marquesina y el crecimiento, que son nuevos).
-2. Copy: «AFTER DARK», «MADE TO BE FELT», las líneas de la marquesina y los textos pequeños son provisionales; pasarlos por copywriting. El «◦» sale de una fuente de reserva (Satoshi no lo tiene).
-3. Versión vertical para móvil, peso del MP4/WebM (el máster de 19 s pesa ~37 MB), póster y versión estática para `prefers-reduced-motion`; integrarlo en el hero.
+1. Feedback de Alberto a la prueba 06.
+2. Probarlo aplicado: dónde va exactamente (fondo del Launcher o hero de la home) y con qué capa oscura encima.
+3. Copy de los textos pequeños: revisar con copywriting (vocabulario del sector, nada inventado ni con marcas).
+4. Versión vertical para móvil, MP4/WebM ligero, póster y versión estática para `prefers-reduced-motion`.
 
 ## Referencia: qué hace Yakushev (análisis de sus 10 piezas)
 
