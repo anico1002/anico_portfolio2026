@@ -138,9 +138,10 @@ const START_CUTS = (() => { let acc = 0, k = 0; while (acc < Math.round(T.coll *
 const POOL = (() => {
   const v = ["f_mc", "f_wu", "f_sw", "f_ia", "f_7n", "f_kit", "f_er", "f_rel", "f_flow", "f_wb", "f_swh", "f_nat", "f_fd"].map((x) => ({ v: x }));
   // Dovla fuera de las ráfagas: no se puede publicar hasta tener permiso (p7, p8 y s6–s9 son suyas).
-  // Fotos: pocas de fiesta (solo tres de Gloop: el mimo, las frutas y Sónar; «parece que solo trabaje para discotecas»),
+  // Fotos: pocas de fiesta (solo dos de Gloop: las frutas y Sónar; «parece que solo trabaje para discotecas»;
+  // el mimo de game-clones fuera: nada de mimos ni payasos),
   // 7news y lo mejor de WineUp (las viñas desenfocadas no aportaban).
-  const p = [...[9, 10, 11, 12].map((i) => ({ s: "p" + i })), { s: "w-brindis" }, { s: "w-botellas" }, ...[7, 8, 9].map((i) => ({ s: "g" + i }))];
+  const p = [...[9, 10, 11, 12].map((i) => ({ s: "p" + i })), { s: "w-brindis" }, { s: "w-botellas" }, ...[8, 9].map((i) => ({ s: "g" + i }))];
   // Las capturas de pantalla sueltas (sin dispositivo) se quedaban pobres: fuera.
   const all = [...v, ...p].map((o, i) => ({ o, r: hash(i, 97) })).sort((a, b) => a.r - b.r).map((x) => x.o);
   // alterna vídeo / foto / pantalla en lo posible para que el ritmo no se apelmace
