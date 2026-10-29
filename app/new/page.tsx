@@ -169,7 +169,7 @@ export default function EntryB() {
             >
               {/* Product (2026-10-29): el reel de motion (scripts/hero-reel) en lugar del pase, siempre en marcha y
                   con un velo ligero. Va como diapositiva (`data-slides`) para que el telón lo recoja por su segundo
-                  y la home de Product siga con él. En móvil carga la versión de 720 px (SlideMedia). */}
+                  y la home de Product siga con él. En móvil carga una versión más ligera (SlideMedia). */}
               {left ? (
                 <div aria-hidden data-slides className="absolute inset-0 overflow-hidden">
                   <SlideMedia src={REEL} enter={false} fromScale={1} />
