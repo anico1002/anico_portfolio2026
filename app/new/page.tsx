@@ -240,7 +240,8 @@ export default function EntryB() {
                 >
                   <p
                     lang="en"
-                    className={`hyphens-auto text-justify t-small ${left ? "[text-align-last:left]" : "[text-align-last:right]"}`}
+                    // Sin guiones ni justificado (2026-10-29: partía «mil-lions» y «sys-tems»): alineado a su lado y repartido.
+                    className={`text-pretty t-small ${left ? "text-left" : "text-right"}`}
                   >
                     {s.text}
                   </p>
