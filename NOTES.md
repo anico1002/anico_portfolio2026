@@ -2,7 +2,37 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-25, MacBook) — vídeo de motion para el hero
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-29, MacBook) — reel publicado, menú nuevo y SFTP pendiente
+
+**Publicado en https://anico-design.pages.dev** (último deploy de hoy, rama `case-study-maqueta` pusheada):
+- **Reel de motion** (`scripts/hero-reel/`, prueba 15, 12,8 s) de fondo en la mitad de Product del Launcher (solo con
+  el ratón encima; en móvil siempre) y en la cabecera de la home de Product; el telón lo recoge por su segundo, sin
+  saltos. Vídeos en `public/maqueta/hero-reel/`: `reel.mp4` 1920 px (5,1 MB, escritorio) y `reel-m.mp4` 1280 px
+  (2,1 MB, móvil, elegido por `<source media>` en `SlideMedia`). Con menos calidad se veía roto.
+- **Pase de Games al doble de ritmo** (0,8 s / 1,6 s y fundido corto) para acompañar al reel.
+- **Menú nuevo, también en escritorio** (`SiteNav.tsx`): un módulo del logo se estira donde estaba el menú en texto,
+  se recoge y se parte en dos rayas finas; al abrir se cruzan en X. Menú a pantalla completa siempre en negro, con la
+  ola de letras (RollText) en el hover salvo la sección activa (About si estás en su bloque). Al elegir: fundido →
+  logo de carga → cortinilla. La sección en la que ya estás recarga desde arriba. El logo del menú lleva al Launcher.
+  En móvil la hamburguesa de las homes va arriba desde el principio.
+- Texto de las mitades del Launcher sin guiones ni justificado (partía «mil-lions»).
+
+**Forma de trabajar (Alberto, hoy):** mientras itera delante de la pantalla, no comprobar nada. «Súbelo» = build +
+subir directo; el `npm run qa` completo solo en una salida grande (la primera subida a MindYourGap) o si lo pide.
+
+**Pendiente:**
+- **SFTP de MindYourGap:** Carlos activó SFTP; usuario `anico62`, host 134.0.9.249. La contraseña nueva (cambiada hoy)
+  está en el Llavero (`anico-es-ftp`), pero el servidor rechaza el acceso por SFTP (22) y FTP (530). Se le ha
+  preguntado el puerto del SFTP, si la contraseña es la de `anico62` en «Datos de conexión remota» y si hay que
+  esperar. Un único intento por prueba (riesgo de bloqueo). Cuando entre: copia del WordPress, borrarlo (con OK),
+  `SITE_URL=https://anico.es EXPORT_STATIC=1 npm run build && node deploy/build.mjs apache`, `npm run qa`, subir y
+  comprobar con el Chrome que apunta al servidor. Después, cambiar la contraseña (salió en el chat) con
+  `deploy/guardar-acceso-ftp.sh`.
+- **hero-reel:** `prep.sh` y `README.md` no reflejan aún lo que se extrae de verdad (carpetas k1–k12, f_gh, f_rec,
+  f_am, s_*, kit…); sincronizarlos. Versión vertical del reel para móvil (se vería mejor y pesaría menos); probarla
+  en HyperFrames. «DESIGN IN MOTION» sigue siendo copy provisional.
+
+## ▶ (anterior) cierre 2026-10-25, MacBook — vídeo de motion para el hero
 
 **En curso: vídeo de fondo del hero** (sustituye al pase de diapositivas), al estilo de art-yakushev.com. Todo en
 **`scripts/hero-reel/`**: su `README.md` tiene el estado, lo que Alberto quiere y lo que no, el análisis de Yakushev y
