@@ -397,10 +397,11 @@ html:has(#case-root) [data-scroll-progress] { display: none; }
   opacity: 0.6;
   letter-spacing: 0;
 }
-/* En el menú a pantalla completa (titulares de 40 → 104 px). Fijo a 12 px se quedaba diminuto en escritorio
-   (feedback 2026-10-29): proporcional a la palabra, con suelo de etiqueta en móvil. */
+/* En el menú a pantalla completa (titulares de 40 → 104 px). Fijo a 12 px se quedaba diminuto en escritorio y al
+   22 % de la palabra, enorme (feedback 2026-10-29): misma proporción que el número del Launcher (texto pequeño junto
+   a «Product» de 120 px), con suelo de etiqueta en móvil. */
 .nav-count-big {
-  font-size: max(12px, 0.22em);
+  font-size: max(12px, 0.14em);
   margin-left: 0.12em;
 }
 
