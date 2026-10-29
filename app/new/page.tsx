@@ -167,14 +167,22 @@ export default function EntryB() {
                 setChosen(s.key);
               }}
             >
-              {/* Product (2026-10-29): el reel de motion (scripts/hero-reel) en lugar del pase, siempre en marcha y
-                  con un velo ligero. Va como diapositiva (`data-slides`) para que el telón lo recoja por su segundo
+              {/* Product (2026-10-29): el reel de motion (scripts/hero-reel) en lugar del pase,
+                  con un velo ligero; aparece al pasar por encima, como el pase. Va como diapositiva (`data-slides`) para que el telón lo recoja por su segundo
                   y la home de Product siga con él. En móvil carga una versión más ligera (SlideMedia). */}
               {left ? (
-                <div aria-hidden data-slides className="absolute inset-0 overflow-hidden">
-                  <SlideMedia src={REEL} enter={false} fromScale={1} />
+                <motion.div
+                  aria-hidden
+                  data-slides
+                  className="absolute inset-0 overflow-hidden"
+                  // Como el pase: solo con el ratón encima de Product (o al elegirla); en móvil, siempre.
+                  initial={false}
+                  animate={{ opacity: on ? 1 : 0 }}
+                  transition={{ duration: inOrOut(on), ease: EASE.inOut }}
+                >
+                  <SlideMedia src={REEL} enter={false} fromScale={1} playing={on} />
                   <div className="absolute inset-0 bg-black/25" />
-                </div>
+                </motion.div>
               ) : (
                 <Slides srcs={s.slides} active={on} frozen={picked} />
               )}
