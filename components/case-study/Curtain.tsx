@@ -15,7 +15,7 @@ import SlideMedia from "@/components/case-study/SlideMedia";
 
 /** `time`/`at`: si la diapositiva es un vídeo, por qué segundo iba y cuándo (performance.now()),
     para que telón y cabecera lo sigan sin saltar al principio. */
-type Curtain = { src: string; scale: number; from: string; time?: number; at: number };
+type Curtain = { src: string; scale: number; from: string; time?: number; at: number; veil?: number };
 
 let curtain: Curtain | null = null;
 let ending = false;
@@ -83,7 +83,8 @@ export default function CurtainLayer() {
       }}
     >
       <SlideMedia src={c.src} enter={false} fromScale={c.scale} startAt={c.time ?? 0} />
-      <div className="absolute inset-0 bg-black/45" />
+      {/* Mismo velo que la mitad elegida (el reel de Product lleva uno más ligero). */}
+      <div className="absolute inset-0 bg-black" style={{ opacity: c.veil ?? 0.45 }} />
     </motion.div>
   );
 }

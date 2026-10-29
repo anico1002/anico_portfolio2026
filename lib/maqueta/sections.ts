@@ -23,3 +23,6 @@ export const SLIDES = {
     "/projects/asphalt-xtreme/AXT_hero.png",
   ],
 } as const;
+
+/** El reel de motion (scripts/hero-reel): fondo fijo de Product en la entrada y en su home, en lugar del pase. */
+export const REEL = "/maqueta/hero-reel/reel.mp4";

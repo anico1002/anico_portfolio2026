@@ -4,11 +4,15 @@ import { motion, type HTMLMotionProps } from "framer-motion";
 import { forwardRef, useEffect, useState } from "react";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 import { OptSource } from "@/components/case-study/Img";
+import { REEL } from "@/lib/maqueta/sections";
 
 /* Diapositiva de los pases de fondo (entrada partida, cabecera de la home y telón entre las dos).
    Desde el 2026-10-14 el pase de Product son las miniaturas en movimiento de cada caso, así que
    una diapositiva puede ser imagen o vídeo. Convención: el póster de `x.mp4` es `x-poster.jpg`,
    al lado (primer fotograma); se pinta mientras el vídeo carga y en el telón. */
+
+/** Versión ligera para móvil de un vídeo: el navegador la elige por ancho (720 px, ~0,6 MB frente a 1,4 MB). */
+const LIGHT: Record<string, string> = { [REEL]: "/maqueta/hero-reel/reel-m.mp4" };
 
 export const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);
 export const posterOf = (src: string) => (isVideo(src) ? src.replace(/\.(mp4|webm|mov)$/i, "-poster.jpg") : src);
@@ -93,7 +97,7 @@ const Video = forwardRef<
         if (typeof ref === "function") ref(v);
         else if (ref) ref.current = v;
       }}
-      src={src}
+      src={LIGHT[src] ? undefined : src}
       poster={posterOf(src)}
       muted
       loop
@@ -103,7 +107,14 @@ const Video = forwardRef<
       onLoadedMetadata={(e) => seek(e.currentTarget)}
       onLoadedData={onReady}
       {...rest}
-    />
+    >
+      {LIGHT[src] && (
+        <>
+          <source src={LIGHT[src]} type="video/mp4" media="(max-width: 767px)" />
+          <source src={src} type="video/mp4" />
+        </>
+      )}
+    </motion.video>
   );
 });
 

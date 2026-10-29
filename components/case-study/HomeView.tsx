@@ -162,6 +162,7 @@ function Card({ p, i, slot, offset, onLeave }: { p: P; i: number; slot: number; 
 export default function HomeView({
   active,
   slides,
+  reel,
   title,
   intro,
   items,
@@ -170,6 +171,8 @@ export default function HomeView({
   active: "product" | "games";
   /** Pase de imágenes de la cabecera (las mismas que en la entrada partida). */
   slides: readonly string[];
+  /** Vídeo de fondo fijo en lugar del pase (Product: el reel de motion). */
+  reel?: string;
   /** Titular; admite `{a|b|c}` (palabras que cambian) y `*palabras*` (palabras clave). */
   title: string;
   intro: string;
@@ -193,7 +196,7 @@ export default function HomeView({
 
       {/* Logo fijo arriba desde el principio; el menú, al pie de la cabecera (sube y se pega arriba). */}
       <SiteNav active={active} parts="logo" />
-      <HomeHero title={title} slides={slides} alt={active === "games" ? "tech" : "serif"} nav={<SiteNav active={active} docked parts="menu" />} />
+      <HomeHero title={title} slides={slides} reel={reel} alt={active === "games" ? "tech" : "serif"} nav={<SiteNav active={active} docked parts="menu" />} />
 
       {/* Los proyectos: el primero y después la rejilla escalonada. (Las cifras del rango de años, «19–26», se quitaron el 2026-10-12:
           copiaban mal el contador de Yakushev y ahí no tenían sentido.) */}

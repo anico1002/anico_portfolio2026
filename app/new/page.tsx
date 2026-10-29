@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import SiteNav from "@/components/case-study/SiteNav";
 import { DUR, EASE, STAGGER, inOrOut, reducedMotion } from "@/lib/maqueta/motion";
 import { startCurtain } from "@/components/case-study/Curtain";
-import { SLIDES } from "@/lib/maqueta/sections";
+import { REEL, SLIDES } from "@/lib/maqueta/sections";
 import { SECTION_COUNT } from "@/lib/maqueta/cases";
 import SlideMedia, { posterOf, useSlideshow } from "@/components/case-study/SlideMedia";
 import Img from "@/components/case-study/Img";
@@ -118,7 +118,8 @@ export default function EntryB() {
     const m = el && getComputedStyle(el).transform;
     const scale = m && m !== "none" ? new DOMMatrixReadOnly(m).a : 1;
     const time = el instanceof HTMLVideoElement ? el.currentTime : undefined;
-    startCurtain({ src: el?.dataset.slide ?? s.slides[0], scale, from: BASE, time, at: performance.now() });
+    const veil = s.key === "product" ? 0.25 : undefined; // el reel lleva un velo más ligero que el pase
+    startCurtain({ src: el?.dataset.slide ?? s.slides[0], scale, from: BASE, time, at: performance.now(), veil });
     router.push(s.href);
   };
   useEffect(() => {
@@ -166,7 +167,17 @@ export default function EntryB() {
                 setChosen(s.key);
               }}
             >
-              <Slides srcs={s.slides} active={on} frozen={picked} />
+              {/* Product (2026-10-29): el reel de motion (scripts/hero-reel) en lugar del pase, siempre en marcha y
+                  con un velo ligero. Va como diapositiva (`data-slides`) para que el telón lo recoja por su segundo
+                  y la home de Product siga con él. En móvil carga la versión de 720 px (SlideMedia). */}
+              {left ? (
+                <div aria-hidden data-slides className="absolute inset-0 overflow-hidden">
+                  <SlideMedia src={REEL} enter={false} fromScale={1} />
+                  <div className="absolute inset-0 bg-black/25" />
+                </div>
+              ) : (
+                <Slides srcs={s.slides} active={on} frozen={picked} />
+              )}
               <motion.div
                 className={`relative h-full ${on ? "text-white" : ""}`}
                 // Solo el color con CSS: la opacidad (atenuar la otra mitad) la anima framer. Si la clase

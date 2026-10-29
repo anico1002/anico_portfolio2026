@@ -134,6 +134,7 @@ const withEm = (t: string, slides: readonly string[], open: boolean, alt: "serif
 export default function HomeHero({
   title,
   slides,
+  reel,
   nav,
   alt = "serif",
 }: {
@@ -141,14 +142,19 @@ export default function HomeHero({
   /** Tipografía que la palabra clave prueba y descarta: serif en Product, técnica en Games. */
   alt?: "serif" | "tech";
   slides: readonly string[];
+  /** Vídeo de fondo fijo en lugar del pase (Product: el reel de motion). El pase sigue en la palabra clave del titular. */
+  reel?: string;
   /** La barra (logo + menú), montada en modo `docked`: aparece al pie y se pega arriba. */
   nav: React.ReactNode;
 }) {
   const reduce = useReduce();
   const curtain = useCurtain();
+  const bg = reel ? [reel] : slides;
+  // Velo de partida: el del telón; el reel lleva uno más ligero (el vídeo ya es oscuro).
+  const [veil] = useState(() => curtain?.veil ?? (reel ? 0.25 : 0.45));
   // Se decide en el primer render: si hay telón, arrancar igual que él (su imagen).
   const [arrived] = useState(() => !!curtain);
-  const [start] = useState(() => Math.max(0, curtain ? slides.indexOf(curtain.src) : 0));
+  const [start] = useState(() => Math.max(0, curtain ? bg.indexOf(curtain.src) : 0));
   // Si el telón traía un vídeo, el primero sigue por el mismo segundo (los dos van en tiempo real).
   const [startAt] = useState(() => (curtain?.time != null ? curtain.time + (performance.now() - curtain.at) / 1000 : 0));
   const [retracted, setRetracted] = useState(false);
@@ -178,7 +184,7 @@ export default function HomeHero({
 
   // Pase (siempre en marcha: también en la franja). Primer vídeo arrancado desde el telón: no se
   // reinicia, así que el índice inicial lo fija el telón y el resto del pase sigue desde ahí.
-  const { i, step } = useSlideshow(slides, !reduce, SLIDE_MS, VIDEO_MS, start);
+  const { i, step } = useSlideshow(bg, !reduce, SLIDE_MS, VIDEO_MS, start);
 
   const full = "inset(0% 0% 0% 0%)";
   const clipped = "inset(0% 0% 50% 0%)"; // la imagen se queda en la mitad de arriba
@@ -195,9 +201,9 @@ export default function HomeHero({
         >
           <AnimatePresence initial={false}>
             <SlideMedia
-              key={slides[i]}
+              key={bg[i]}
               ref={first}
-              src={slides[i]}
+              src={bg[i]}
               playing={!reduce}
               startAt={step === 0 ? startAt : 0} // al dar la vuelta, desde el principio
               onReady={() => setReady(true)}
@@ -209,13 +215,13 @@ export default function HomeHero({
           <motion.div
             aria-hidden
             className="absolute inset-0 bg-black"
-            initial={{ opacity: 0.45 }}
-            animate={{ opacity: retracted ? 0.15 : 0.45 }}
+            initial={{ opacity: veil }}
+            animate={{ opacity: retracted ? 0.15 : veil }}
             transition={{ duration: DUR.slow, ease: EASE.inOut }}
           />
           {/* Precarga del resto del pase. */}
           <div className="hidden">
-            {slides.map((s) => (
+            {bg.map((s) => (
                
               <Img key={s} src={posterOf(s)} alt="" />
             ))}

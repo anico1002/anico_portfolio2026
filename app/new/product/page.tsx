@@ -1,4 +1,4 @@
-import { SLIDES } from "@/lib/maqueta/sections";
+import { REEL, SLIDES } from "@/lib/maqueta/sections";
 import HomeView, { type P } from "@/components/case-study/HomeView";
 import { casesIn, PENDING, PRODUCT_FIRST, productInOrder, type CaseCopy } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
@@ -38,6 +38,7 @@ export default function ProductHome() {
     <HomeView
       active="product"
       slides={SLIDES.product}
+      reel={REEL}
       // «from first idea to native code» va unido con espacios duros: en móvil partía «from first idea / to native
       // code.» (feedback 2026-10-17); así queda «I design digital products / from first idea to native code.»
       title={"I design *digital products* from\u00a0first\u00a0idea\u00a0to\u00a0native\u00a0code."}
