@@ -262,7 +262,17 @@ export default function SiteNav({
               transition={{ duration: DUR.fast, ease: EASE.inOut }}
             >
             <div className="flex h-[3.5rem] items-center justify-between">
-              <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto md:h-[1.375rem]" />
+              {/* El logo lleva a la entrada, como en la barra, con la misma salida del menú (feedback 2026-10-29). */}
+              <button
+                type="button"
+                aria-label="anico · home"
+                onClick={() => {
+                  setLeaving(true);
+                  window.setTimeout(() => go(BASE, { covered: true }), DUR.fast * 1000);
+                }}
+              >
+                <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto md:h-[1.375rem]" />
+              </button>
               {/* Misma caja que la hamburguesa de la barra: la X sale justo donde estaban las dos rayas. */}
               <button type="button" onClick={() => setOpen(false)} className="-m-3 p-3" aria-label="Close menu">
                 <CloseX />
