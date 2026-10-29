@@ -44,9 +44,9 @@ img.full{object-fit:cover}
 .gl span{display:inline-block}
 /* collage de pantallas en perspectiva */
 #coll{background:radial-gradient(90% 80% at 50% 50%,#1a1220 0%,#08070a 100%);overflow:hidden;perspective:1700px}
-#cplane{position:absolute;left:50%;top:50%;width:2620px;height:2040px;margin:-1020px 0 0 -1310px;transform-style:preserve-3d}
-.ccol{position:absolute;top:0;width:300px}
-.ccol img{display:block;width:300px;height:652px;border-radius:26px;margin-bottom:28px;box-shadow:0 30px 60px rgba(0,0,0,.5);filter:brightness(.8) saturate(1.05)}
+#cplane{position:absolute;left:50%;top:50%;width:2690px;height:1890px;margin:-945px 0 0 -1345px;transform-style:preserve-3d}
+.ccol{position:absolute;top:0;width:420px}
+.ccol img{display:block;width:420px;height:913px;border-radius:34px;margin-bottom:32px;box-shadow:0 30px 60px rgba(0,0,0,.5);filter:brightness(.8) saturate(1.05)}
 /* texto pequeño: decorativo, casi imperceptible, pegado al margen */
 /* en «superponer»: se funden con la imagen en lugar de flotar encima */
 .ui{position:absolute;font-weight:500;font-size:10px;letter-spacing:.16em;text-transform:uppercase;line-height:1.6;white-space:pre;color:#fff;opacity:.85;mix-blend-mode:overlay}
@@ -130,19 +130,15 @@ function hitAmt(t) { let a = 0; for (const h of HITS) if (t >= h) a = Math.max(a
 // Ráfaga: cortes de 4–6 fotogramas entre vídeos, fotos a sangre y pantallas (enteras o en detalle).
 const cutLen = (k, kb) => 4 + Math.floor(hash(k + kb, 61) * 3);
 const ZF = Math.round(T.Z * FPS);
-const DUR = (() => { let acc = 0, k = 0; while (acc < 36) acc += cutLen(k++, 700); return (ZF + acc) / FPS; })();
+const DUR = (() => { let acc = 0, k = 0; while (acc < 30) acc += cutLen(k++, 700); return (ZF + acc) / FPS; })();
 window.DUR = DUR;
 // Las dos ráfagas tiran de un mismo mazo barajado, sin repetir: la del final sigue donde acabó la del principio.
 // Sin los dos móviles de Gloop ni el móvil de Dovla, que ya tienen su tramo.
 const START_CUTS = (() => { let acc = 0, k = 0; while (acc < Math.round(T.coll * FPS)) acc += cutLen(k++, 0); return k; })();
 const POOL = (() => {
-  const v = ["f_mc", "f_wu", "f_sw", "f_ia", "f_7n", "f_kit", "f_er", "f_rel", "f_flow", "f_wb", "f_swh", "f_nat", "f_fd"].map((x) => ({ v: x }));
-  // Dovla fuera de las ráfagas: no se puede publicar hasta tener permiso (p7, p8 y s6–s9 son suyas).
-  // Fotos: pocas de fiesta (solo dos de Gloop: las frutas y Sónar; «parece que solo trabaje para discotecas»;
-  // el mimo de game-clones fuera: nada de mimos ni payasos),
-  // 7news y lo mejor de WineUp (las viñas desenfocadas no aportaban).
-  const p = [...[9, 10, 11, 12].map((i) => ({ s: "p" + i })), { s: "w-brindis" }, { s: "w-botellas" }, ...[8, 9].map((i) => ({ s: "g" + i }))];
-  // Las capturas de pantalla sueltas (sin dispositivo) se quedaban pobres: fuera.
+  // Solo material que sale en la web (comprobado contra las páginas el 2026-10-29), más dos fotos de la app Gloop.
+  const v = ["f_mc", "f_wu", "f_sw", "f_ia", "f_7n", "f_kit", "f_flow", "f_fd", "f_gh", "f_am", "f_rec"].map((x) => ({ v: x }));
+  const p = [{ s: "p11" }, { s: "p12" }, { s: "g8" }, { s: "g9" }];
   const all = [...v, ...p].map((o, i) => ({ o, r: hash(i, 97) })).sort((a, b) => a.r - b.r).map((x) => x.o);
   // alterna vídeo / foto / pantalla en lo posible para que el ritmo no se apelmace
   const by = (f) => all.filter(f), q = [by((o) => o.v), by((o) => o.s)], out = [];
@@ -207,10 +203,11 @@ async function buildGrid() {
 // Frase final: se carga con glifos (números y símbolos), se queda y entramos por la «I» de «IN».
 const PHRASE = [["gA", "DESIGN"], ["gB", "IN MOTION"]];
 // Collage: 8 columnas de pantallas (16 grabaciones distintas, 2 por columna) que suben y bajan por su cuenta.
-const CN = 24, STILL = [15, 16, 21, 22, 23, 24], CFR = []; // c15, c16 y c21–c24 son pantallas fijas
-for (let c = 0; c < 8; c++) {
-  const col = document.createElement("div"); col.className = "ccol"; col.style.left = c * 330 + "px"; col.style.top = (c % 2 ? -200 : 0) + "px";
-  for (let r = 0; r < 3; r++) { const im = new Image(); col.appendChild(im); CFR.push({ im, n: 1 + ((c * 3 + r * 11) % CN) }); }
+// 12 pantallas distintas, todas de la web: 10 grabaciones (k1–k10) y dos fijas de Dovla (k11, k12).
+const CN = 12, STILL = [11, 12], CFR = [];
+for (let c = 0; c < 6; c++) {
+  const col = document.createElement("div"); col.className = "ccol"; col.style.left = c * 454 + "px"; col.style.top = (c % 2 ? -240 : 0) + "px";
+  for (let r = 0; r < 2; r++) { const im = new Image(); col.appendChild(im); CFR.push({ im, n: 1 + ((c * 2 + r * 5) % CN) }); }
   $("cplane").appendChild(col);
 }
 for (const [id, w] of PHRASE) $("g1").insertAdjacentHTML("beforeend", `<div id="${id}">${[...w].map((c) => `<span>${c === " " ? "&nbsp;" : c}</span>`).join("")}</div>`);
@@ -308,6 +305,8 @@ window.render = async function (t) {
     // el punto de entrada sigue a la «I» hasta que empieza la inmersión, y ahí se fija
     if (t < T.dive || !$("gk").dataset.o) { $("gk").style.transform = "none"; const sr = DIVE_CH().getBoundingClientRect(); $("gk").dataset.o = `${sr.left + sr.width * 0.5}px ${sr.top + sr.height * 0.55}px`; }
     const zp = IO(prog(t, T.dive, T.hold)); // sin prisa: luego el móvil se queda solo hasta la ráfaga
+    // El brillo extra solo hace falta para leer las letras: al entrar en la «I» vuelve a su color real
+    $("gv").style.filter = `brightness(${(2 - zp).toFixed(3)}) contrast(1.05) saturate(1.1)`;
     $("gk").style.transformOrigin = $("gk").dataset.o;
     $("gk").style.transform = `scale(${1 + 120 * zp})`;
     $("gglow").replaceChildren($("g1").cloneNode(true));
@@ -319,7 +318,7 @@ window.render = async function (t) {
   $("coll").style.display = lOn ? "block" : "none";
   if (lOn) {
     const lf = Math.floor((t - T.coll) * FPS);
-    await Promise.all(CFR.map((o) => setImg(o.im, FR + "c" + o.n + "/" + pad(STILL.includes(o.n) ? 1 : Math.min(72, lf + 1)) + ".jpg")));
+    await Promise.all(CFR.map((o) => setImg(o.im, FR + "k" + o.n + "/" + pad(STILL.includes(o.n) ? 1 : Math.min(72, lf + 1)) + ".jpg")));
     const q = IO(prog(t, T.coll, T.blk));
     $("cplane").style.transform = `rotateX(${30 - 10 * q}deg) rotateZ(${-15 + 5 * q}deg) scale(${1.05 + 0.3 * q})`;
     [...$("cplane").children].forEach((col, c) => (col.style.transform = `translateY(${(c % 2 ? 1 : -1) * 70 * (t - T.coll)}px)`));
