@@ -14,7 +14,7 @@ img.full{object-fit:cover}
 .mk{background:#000;mix-blend-mode:multiply}
 /* el metraje dentro de las letras, algo levantado para que no se pierdan en las zonas oscuras */
 #bv{filter:brightness(1.45) contrast(1.05) saturate(1.1)}
-#gv{filter:brightness(2) contrast(1.05) saturate(1.1)}
+#gv{filter:none}
 #_x{filter:brightness(1.45) contrast(1.05) saturate(1.1)}
 /* ráfaga de trabajos */
 #mont{background:#0b0a0d;overflow:hidden}
@@ -28,7 +28,8 @@ img.full{object-fit:cover}
 #r1{margin-left:40px}#r2{margin-left:330px}#r3{margin-left:24px}
 #slotw{flex:none;height:.66em;width:0}
 .st{display:inline-block}
-#bglow,#gglow{opacity:.13;pointer-events:none}
+#bglow{opacity:.13;pointer-events:none}
+#gglow{display:none} /* Dovla con su color real dentro de las letras: sin brillo ni calco blanco */
 #slot{position:absolute;object-fit:cover;display:none}
 /* pausa: media pantalla llena de interfaz de cristal a la izquierda, móvil a la derecha que luego crece */
 #cmps{position:absolute;left:0;top:0;width:960px;height:1080px;overflow:hidden;background:#0b0a0d}
@@ -127,14 +128,9 @@ const T = { coll: 1.4, blk: 3.4, e: 4.8, bands: 5.25, split: 5.3, grow: 7.8, ful
 const HITS = [T.coll, T.blk, T.bands, T.word, T.Z];
 function hitAmt(t) { let a = 0; for (const h of HITS) if (t >= h) a = Math.max(a, Math.exp(-(t - h) * 16)); return a; }
 
-// Ráfaga: cortes de 4–6 fotogramas entre vídeos, fotos a sangre y pantallas (enteras o en detalle).
-const cutLen = (k, kb) => 4 + Math.floor(hash(k + kb, 61) * 3);
-const ZF = Math.round(T.Z * FPS);
-const DUR = (() => { let acc = 0, k = 0; while (acc < 30) acc += cutLen(k++, 700); return (ZF + acc) / FPS; })();
-window.DUR = DUR;
+// Ráfaga: cortes de 4–6 fotogramas entre vídeos y fotos a sangre. Interactius lleva un corte largo
+// para que se vea el movimiento de su web (aro → ciudad → espigas).
 // Las dos ráfagas tiran de un mismo mazo barajado, sin repetir: la del final sigue donde acabó la del principio.
-// Sin los dos móviles de Gloop ni el móvil de Dovla, que ya tienen su tramo.
-const START_CUTS = (() => { let acc = 0, k = 0; while (acc < Math.round(T.coll * FPS)) acc += cutLen(k++, 0); return k; })();
 const POOL = (() => {
   // Solo material que sale en la web (comprobado contra las páginas el 2026-10-29), más dos fotos de la app Gloop.
   const v = ["f_mc", "f_wu", "f_sw", "f_ia", "f_7n", "f_kit", "f_flow", "f_fd", "f_gh", "f_am", "f_rec"].map((x) => ({ v: x }));
@@ -145,8 +141,17 @@ const POOL = (() => {
   for (let i = 0; out.length < all.length; i++) { const b = q[i % 2]; if (b.length) out.push(b.shift()); }
   return out;
 })();
+const LONG = { f_ia: 16 };
+const itemAt = (k, kb) => POOL[(kb ? START_CUTS + k : k) % POOL.length];
+const cutLen = (k, kb) => LONG[itemAt(k, kb).v] || 4 + Math.floor(hash(k + kb, 61) * 3);
+const START_CUTS = (() => { let acc = 0, k = 0; while (acc < Math.round(T.coll * FPS)) acc += cutLen(k++, 0); return k; })();
+const ZF = Math.round(T.Z * FPS);
+const DUR = (() => { let acc = 0, k = 0; while (acc < 30) acc += cutLen(k++, 700); return (ZF + acc) / FPS; })();
+window.DUR = DUR;
 
-async function setImg(el, src) { if (el.getAttribute("src") !== src) { el.src = src; await el.decode().catch(() => {}); } }
+// Si falta una imagen, el render se para: antes salía el hueco en negro sin avisar (pasó con los componentes).
+const need = (img, src) => img.decode().catch(() => { throw new Error("falta " + src); });
+async function setImg(el, src) { if (el.getAttribute("src") !== src) { el.src = src; await need(el, src); } }
 // Nada se queda quieto: todo metraje lleva un zoom lento desde que aparece.
 const creep = (el, t0, t, k = 0.035) => (el.style.transform = `scale(${1.02 + k * Math.max(0, t - t0)})`);
 
@@ -190,7 +195,7 @@ async function buildGrid() {
     let y = -260 + c * 110, k = c * 6;
     while (y < 1300) {
       const n = KIT[k++ % KIT.length], el = document.createElement("div"); el.className = "cmp";
-      const img = new Image(); img.src = FR + "kit/" + n + ".png"; await img.decode().catch(() => {});
+      const img = new Image(); img.src = FR + "kit/" + n + ".png"; await need(img, img.src);
       el.appendChild(img); col.appendChild(el);
       const w = CW - 20, h = w * img.naturalHeight / img.naturalWidth + 20;
       el.style.top = y + "px"; el.style.width = CW + "px";
@@ -222,9 +227,9 @@ window.render = async function (t) {
   $("mont").style.display = mOn ? "block" : "none";
   if (mOn) {
     let k = 0, acc = 0; while (true) { const len = cutLen(k, kb); if (fm < acc + len) break; acc += len; k++; }
-    const it = POOL[(end ? START_CUTS + k : k) % POOL.length], fi = fm - acc;
+    const it = itemAt(k, kb), fi = fm - acc;
     let src, mode = "full";
-    if (it.v) src = FR + it.v + "/" + pad(Math.min(15, 1 + Math.floor(hash(k + kb, 63) * 9) + fi)) + ".jpg";
+    if (it.v) src = FR + it.v + "/" + pad(LONG[it.v] ? Math.min(21, 1 + fi) : Math.min(15, 1 + Math.floor(hash(k + kb, 63) * 9) + fi)) + ".jpg";
     else { src = FR + "st/" + it.s + ".jpg"; if (it.s[0] === "s") mode = hash(k + kb, 66) > 0.5 ? "detail" : "contain"; }
     if (mode === "full") { $("scrw").style.display = "none"; $("mA").style.display = "block"; await setImg($("mA"), src); $("mA").style.transform = `scale(${1.03 + 0.008 * fi})`; }
     else {
@@ -281,7 +286,7 @@ window.render = async function (t) {
     $("cmps").style.transform = `scale(${1 + 0.02 * (t - T.split)})`;
     const g = IO(prog(t, T.grow, T.full)), x = 960 * (1 - g), w = 960 + 960 * g;
     for (const id of ["plum", "next"]) Object.assign($(id).style, { left: x + "px", width: w + "px" });
-    await setImg($("next"), FR + "dovla/" + pad(Math.min(195, Math.floor((t - T.split) * FPS) + 1)) + ".jpg");
+    await setImg($("next"), FR + "dovla/" + pad(Math.max(1, Math.min(195, Math.floor((t - T.split) * FPS) + 1))) + ".jpg");
     const pr = IO(prog(t, T.split, T.split + 0.7));
     $("next").style.clipPath = `inset(${((1 - pr) * 50).toFixed(2)}% 0% ${((1 - pr) * 50).toFixed(2)}% 0%)`;
     $("next").style.transform = `scale(${1.2 - 0.15 * pr + 0.03 * (t - T.split)})`;
@@ -291,7 +296,7 @@ window.render = async function (t) {
   const cOn = t >= T.word && t < T.Z;
   $("gm").style.display = cOn ? "block" : "none";
   if (cOn) {
-    await setImg($("gv"), FR + "dovla/" + pad(Math.min(195, Math.floor((t - T.split) * FPS) + 1)) + ".jpg");
+    await setImg($("gv"), FR + "dovla/" + pad(Math.max(1, Math.min(195, Math.floor((t - T.split) * FPS) + 1))) + ".jpg");
     $("gv").style.transform = `scale(${1.05 + 0.03 * (t - T.split)})`;
     let n = 0;
     for (const [id, w] of PHRASE) [...$(id).children].forEach((sp, i) => {
@@ -305,8 +310,6 @@ window.render = async function (t) {
     // el punto de entrada sigue a la «I» hasta que empieza la inmersión, y ahí se fija
     if (t < T.dive || !$("gk").dataset.o) { $("gk").style.transform = "none"; const sr = DIVE_CH().getBoundingClientRect(); $("gk").dataset.o = `${sr.left + sr.width * 0.5}px ${sr.top + sr.height * 0.55}px`; }
     const zp = IO(prog(t, T.dive, T.hold)); // sin prisa: luego el móvil se queda solo hasta la ráfaga
-    // El brillo extra solo hace falta para leer las letras: al entrar en la «I» vuelve a su color real
-    $("gv").style.filter = `brightness(${(2 - zp).toFixed(3)}) contrast(1.05) saturate(1.1)`;
     $("gk").style.transformOrigin = $("gk").dataset.o;
     $("gk").style.transform = `scale(${1 + 120 * zp})`;
     $("gglow").replaceChildren($("g1").cloneNode(true));

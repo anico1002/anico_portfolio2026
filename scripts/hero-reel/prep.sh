@@ -21,7 +21,7 @@ clip f_kit  gloop/media/kit.mp4              8 0.5 1920:1080
 clip f_er   elreto/media/hero.mp4            12 0.5 1920:1080
 clip f_sw   swift/duo-band.mp4               6 0.5 1920:1080 "$DARK"
 # Interactius: el aro naranja de «periferia» de su web (oscuro y con fuerza; el portátil de la estantería quedaba pálido)
-clip f_ia   interactius/media/web.mp4        2.25 0.5 1920:1080
+clip f_ia   interactius/media/web.mp4        2.25 0.7 1920:1080
 clip ph    7news/media/hero.mp4             2 6.5 1920:1080   # móvil del tramo que crece (Dovla no va a pantalla completa)
 clip dovla dovla/media/hero-3d.mp4          1 6.5 1920:1080
 # Clips del hueco del bloque escalonado
