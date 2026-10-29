@@ -4,7 +4,8 @@ import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion, use
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
-import { TLink, go } from "@/components/case-study/Portal";
+import { TLink, go, useCovered } from "@/components/case-study/Portal";
+import { useCurtain } from "@/components/case-study/Curtain";
 import { scrollLock } from "@/components/case-study/SmoothScroll";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { SECTION_COUNT } from "@/lib/maqueta/cases";
@@ -71,8 +72,12 @@ function Burger({ x = false, intro = false }: { x?: boolean; intro?: boolean }) 
   const l = useMotionValue(0), r = useMotionValue(0), h = useMotionValue(0);
   const width = useTransform(() => r.get() - l.get());
   const height = useTransform(h, (v) => `${v * 100}%`);
+  // Llegando con el telón del Launcher o con la cortinilla, la página se monta tapada: la animación espera a que se
+  // destape para no hacerse a escondidas (feedback 2026-10-29).
+  const curtain = useCurtain(), covered = useCovered();
+  const hidden = !!curtain || covered;
   useEffect(() => {
-    if (phase !== "bar" || !box.current || !span.current) return;
+    if (phase !== "bar" || hidden || !box.current || !span.current) return;
     const s = box.current.offsetHeight, off = span.current.offsetWidth - s;
     l.set(-off);
     r.set(-off + s);
@@ -91,7 +96,7 @@ function Burger({ x = false, intro = false }: { x?: boolean; intro?: boolean }) 
       alive = false;
       run.forEach((c) => c.stop());
     };
-  }, [phase, l, r, h]);
+  }, [phase, hidden, l, r, h]);
   // El cuadrado se parte en tres: las franjas de arriba y abajo se afinan hasta quedar en rayas (feedback 2026-10-29:
   // finas) pegadas al hueco del medio. Abierta, las dos rayas se van al centro y se cruzan en una X.
   const LINE = "1.5px";

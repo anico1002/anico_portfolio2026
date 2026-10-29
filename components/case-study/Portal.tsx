@@ -50,6 +50,10 @@ export function go(href: string, { covered = false }: { covered?: boolean } = {}
   set(covered ? { phase: "covered", href: bare(path), instant: true, push: true } : { phase: "closing", href: bare(path) });
 }
 
+/** ¿Tapa la cortinilla la pantalla? (mientras sube o espera la página nueva; al destaparse ya no). */
+export const useCovered = () =>
+  useSyncExternalStore(subscribe, () => state.phase === "closing" || state.phase === "covered", () => false);
+
 let pendingHash: string | null = null;
 /** La sección a la que hay que bajar al llegar (una sola vez). */
 export const takeHash = () => {
