@@ -2,7 +2,28 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-29, MacBook) — reel publicado, menú nuevo y SFTP pendiente
+## ▶ EMPEZAR AQUÍ (cierre 2026-10-30) — web subida al servidor de Carlos, sin publicar
+
+**FTP resuelto:** entra por FTP (puerto 21) con `anico62`. El 530 era un carácter invisible al **pegar** la
+contraseña; tecleada a mano funciona. Llavero (`anico-es-ftp`) re-guardado a mano y ya entra desde el terminal.
+El SFTP sigue sin ir, pero no hace falta: no se le pide nada más a Carlos sobre eso.
+
+**Hecho hoy:** por orden de Alberto, `web/` vaciada entera (WordPress viejo + carpetas de 2018–19, sin copia: no
+quería nada) y subido `deploy/apache-out` (build con `SITE_URL=https://anico.es`, 1.505 archivos, 656 MB) con un
+script Python `ftplib` (wipe/upload; no hay lftp — recrearlo si hace falta). Sin `npm run qa`. Se ve en
+http://anico.es.mialias.net/ (raíz → `/new/`, `.htaccess` activo, noindex OK).
+
+**NO publicar todavía:** Alberto tiene que pedir permiso a **Gloop y Dovla**. Cuando lo tenga, en esta sesión:
+1. **Quitar `/new`** de las URLs y hacer **todas las redirecciones** (las de `/new/...` y las viejas `/proyecto/...`).
+2. **Dominios:** el principal sigue siendo **anico.design** (Spaceship, hoy → Vercel) y **anico.es** (Piensa) lleva a
+   la misma web; los dos al servidor 134.0.9.249. Propuesta: anico.es con 301 → anico.design (decidir ese día).
+   Rehacer el build con `SITE_URL=https://anico.design`.
+3. Pedir a Carlos: añadir anico.design al alojamiento + **SSL (https)** para los dos dominios (hoy https da 403 con
+   certificado genérico `*.srv.cat`: normal hasta que apunte el DNS).
+4. Meter el snippet de Cloudflare Web Analytics en `app/layout.tsx` (fuera de Pages no se inyecta solo).
+5. Quitar anico.design de Vercel y **cambiar la contraseña del FTP** (ha pasado por chats).
+
+## ▶ (anterior) cierre 2026-10-29, MacBook — reel publicado, menú nuevo y SFTP pendiente
 
 **Publicado en https://anico-design.pages.dev** (último deploy de hoy, rama `case-study-maqueta` pusheada):
 - **Reel de motion** (`scripts/hero-reel/`, prueba 15, 12,8 s) de fondo en la mitad de Product del Launcher (solo con
