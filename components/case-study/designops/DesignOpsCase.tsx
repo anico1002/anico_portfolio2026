@@ -21,43 +21,77 @@ const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 const Head = SectionHead;
 
-const DETAILS: { name: string; ratio: string; alt: string; title: string; body: string }[] = [
+// Las filas del tablero son los principios del producto (guion de Cowork, docs/case-study-draft.md del prototipo).
+const DETAILS: { name: string; alt: string; title: string; body: string }[] = [
   {
     name: "cu-kpi",
-    ratio: "16 / 9",
     alt: "Close-up of the open, critical, adoption and fixed tiles",
-    title: "One number",
-    body: "The share of what your users see that uses the system as intended. A wrong color on the payment screen weighs more than one in settings. Around it, four tiles: what's open, what's critical, how much of the product uses official components and what got fixed this week.",
+    title: "One number anyone can repeat",
+    body: "The share of what your users see that uses the system as intended. Each drift costs its instances times its severity times how visible the screen is, so a wrong color on the payment confirmation weighs more than one in a settings page nobody opens. That is what lets the Copilot say “fix these six and you go from 82 to 88”, and be right.",
   },
   {
     name: "cu-copilot",
-    ratio: "4 / 5",
     alt: "Close-up of the Copilot's weekly summary",
-    title: "The Copilot speaks first",
-    body: "Each week opens with a summary in plain words: what came in, where it came from and how many points fixing it is worth. One button takes you straight to the fixes.",
+    title: "Speak design, not lint",
+    body: "The Copilot talks like a designer: the title disappears in dark mode, the pay button uses an invented blue. Each week opens with that read in plain words, where it came from and how many points fixing it is worth.",
   },
   {
     name: "cu-drift",
-    ratio: "16 / 9",
     alt: "Close-up of the light and dark comparison on a drift",
-    title: "Approval first",
-    body: "Every drift shows what was found next to what the system says, on the real screen and in both themes. The Copilot drafts the fix, and the pull request opens when someone says yes. Keeping a drift on purpose asks why, and from then on it stays out of the list.",
+    title: "Nothing changes without a yes",
+    body: "Every drift shows what was found next to what the system says, on the real screen, with the Copilot's reasoning step by step. It drafts the fix, and the pull request opens only when someone approves.",
+  },
+  {
+    name: "cu-exception",
+    alt: "Close-up of the dialog to accept a drift as an exception, with its reason written",
+    title: "An exception needs a reason",
+    body: "Keeping a drift on purpose asks why. The reason is saved for the team, the drift stops counting and it never comes back. Next time, the Copilot checks the approved exceptions before raising anything.",
   },
   {
     name: "cu-panel",
-    ratio: "4 / 5",
     alt: "Close-up of the dark design system panel",
     title: "The system in one column",
     body: "Components and tokens sit in a dark panel, each with its health beside the name. Below them, what the system is missing: the pieces teams keep building on their own.",
   },
   {
     name: "cu-ask",
-    ratio: "16 / 9",
     alt: "Close-up of the Ask the Copilot field and its suggestions",
     title: "Ask before you change",
     body: "Before touching a token, ask what it reaches. The answer lists every component and screen it affects, and the places that would stay behind.",
   },
 ];
+
+const AUDIENCE = [
+  ["Design system lead", "Owns the system. Needs to know what to fix first, and to stop arguing the same exceptions again."],
+  ["Head of Design", "Needs one number and a clear story for leadership."],
+  ["Engineers", "Keep their own tools. The Copilot reaches them through the pull request it opens."],
+];
+
+const NEXT = [
+  ["Before publishing", "Marketing builds landing pages with AI too. A check before anything goes live would catch drift where it starts."],
+  ["Context for coding agents", "Most drift comes from agents that can't see the system. Giving them Brand DS prevents it at the source."],
+  ["A guardian in every pull request", "Connected to the same memory of decisions, so an exception approved once is respected everywhere."],
+];
+
+const OBJECTIONS = [
+  ["Figma Check designs?", "It only sees Figma, and it flags intentional exceptions as errors. Here it is one of the sources."],
+  ["Buoy?", "A strong engineering tool for one repository. The Copilot sits above it, across Figma, code and teams, for the person who decides."],
+  ["Something a team could build with AI?", "The same way a team could build its own analytics. Someone still has to look after the integrations, the history and the decisions."],
+];
+
+/** Tres columnas de texto: título y párrafo. */
+function Trio({ items, className = "" }: { items: string[][]; className?: string }) {
+  return (
+    <div className={`${grid} gap-y-10 ${className}`}>
+      {items.map(([t, b], k) => (
+        <FadeIn key={t} delay={k * STAGGER} className={`col-span-12 md:col-span-3 ${["md:col-start-1", "md:col-start-5", "md:col-start-9"][k]}`}>
+          <p className="t-title">{t}</p>
+          <p className="mt-3 t-body text-[var(--case-muted)]">{b}</p>
+        </FadeIn>
+      ))}
+    </div>
+  );
+}
 
 export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
   return (
@@ -91,44 +125,51 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
                 <Eyebrow>Introduction</Eyebrow>
               </FadeIn>
               <Lines className="t-intro" delay={STAGGER}>
-                A copilot for whoever looks after the design system.
+                The command center for your design system.
               </Lines>
             </div>
-            {/* El hueco de la izquierda lo ocupa el close-up que mejor resume el producto (feedback 2026-11-01): así los
-                textos de la intro y del giro no caen en la misma pantalla. */}
+            {/* El hueco de la izquierda lo ocupa el close-up que mejor resume el producto (feedback 2026-11-01). El texto
+                cuenta el problema y la primera idea, con el benchmark solo nombrado (guion de Cowork). */}
             <FadeIn className="-mx-4 col-span-12 md:col-span-6 md:ml-[-1.5rem] md:mr-0 md:row-start-2 md:mt-6">
               <CloseUp name="cu-score" ratio="4 / 3" sizes="(min-width: 768px) 58vw, 100vw" alt="Close-up of the health score ring at 82" />
             </FadeIn>
             <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6 md:self-end">
               <div className="flex flex-col gap-5 t-body text-[var(--case-muted)]">
                 <p>
-                  With AI, anyone can ship a screen in minutes, and each one arrives with its own almost-right button, its
-                  own grey and its own spacing. The system wears away one pull request at a time.
+                  AI made interface cheap. Engineers and marketers ship screens in minutes, and each one brings its own
+                  almost-right button, its own grey and its own spacing. The design system wears away one pull request at
+                  a time, and the person who owns it ends up collecting warnings by hand, with no way to show leadership
+                  how healthy it really is.
                 </p>
                 <p>
-                  The person who looks after it usually finds out late, in a review or a bug report, and spends the week
-                  chasing fixes with teams that have already moved on.
+                  I started with a drift detector: scan Figma and code, flag what doesn&apos;t match, fix it in the pull
+                  request. Then I mapped the market. Figma Check designs, Buoy, Design Bug Bot and Omlet already did that
+                  part well.
                 </p>
                 <p>
-                  DesignOps Copilot watches Figma and code, tells the design system lead what is drifting and what it
-                  costs, and fixes it once they approve. Each morning starts with one number: how much of what users see
-                  still uses the system as intended.
+                  Side by side, they shared a gap. They speak to engineers or only see Figma, and none of them remembers
+                  a decision. Days after Check designs launched, designers were already asking how to stop it flagging
+                  their intentional exceptions.
                 </p>
               </div>
             </FadeIn>
           </div>
         </section>
 
-        {/* El giro: de detectar a decidir */}
+        {/* El giro: de detectar a decidir, y para quién */}
         <section className={section}>
           <Head
             eyebrow="The shift"
-            title="The detectors already exist. The decisions still land on one desk."
-            body="Checkers flag drift for engineers, one source at a time, and forget every exception. The Copilot reads them all and turns their alerts into a short list someone can act on."
+            title="The detectors are the smoke alarms. This is the fire chief’s dashboard."
+            body="So the question changed from how to detect drift better to who decides what to do with it, and what they need. The Copilot reads every detector and turns their alerts into three decisions a person can make."
           />
           <FadeIn>
             <FlowDiagram />
           </FadeIn>
+          <FadeIn className="mt-24 md:mt-32">
+            <p className="t-label t-tag text-[var(--case-muted)]">Who it&apos;s for</p>
+          </FadeIn>
+          <Trio items={AUDIENCE} className="mt-8" />
         </section>
 
         {/* La marca */}
@@ -192,7 +233,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
         {/* Close-ups */}
         <section className={section}>
           <Head
-            eyebrow="Details"
+            eyebrow="Principles"
             title="One ink, one light, and quiet everywhere else."
             body="Neutrals and a single deep violet carry the interface. Status gets a small dot instead of a fill. The gradient belongs to the Copilot, so you always know where the AI is."
           />
@@ -246,6 +287,16 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
               <OnTheGoStage />
             </div>
           </div>
+        </section>
+
+        {/* Lo siguiente y las objeciones: solo texto, en tres columnas */}
+        <section className={section}>
+          <Head eyebrow="What's next" title="Where it goes from here." />
+          <Trio items={NEXT} />
+          <div className="mt-28 md:mt-40">
+            <Head eyebrow="Fair questions" title="Isn’t this just…" />
+          </div>
+          <Trio items={OBJECTIONS} />
         </section>
 
         <CaseClosing className={section} title="A design system that tells you what it needs." />

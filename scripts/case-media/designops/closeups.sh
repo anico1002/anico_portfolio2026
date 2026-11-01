@@ -14,3 +14,4 @@ R health@4x.png cu-panel   1600 1200 "at=0.165,0.50&pw=3200&rx=16&ry=-30&rz=4&bl
 R health@4x.png cu-copilot 1600 1200 "at=0.83,0.29&pw=3200&rx=24&ry=22&rz=-6&blur=7&corners=tl&cs=60&r=40&edge=1&bg=dddce3&vig=0.08"
 R ask@4x.png    cu-ask     1600 1200 "at=0.62,0.80&pw=2800&rx=36&ry=-14&rz=5&blur=7&corners=tl,tr&cs=45&r=40&edge=1&bg=d4d2de&vig=0.08"
 R drift@4x.png  cu-drift   1600 1200 "at=0.39,0.56&pw=3000&rx=28&ry=24&rz=-5&blur=7&corners=tl&cs=55&r=40&edge=1&bg=dcdbe2&vig=0.08"
+R exception@4x.png cu-exception 1600 1200 "at=0.60,0.50&pw=2300&rx=30&ry=20&rz=-6&blur=7&corners=tl&cs=55&r=40&edge=1&bg=d6d4e0&vig=0.08"
