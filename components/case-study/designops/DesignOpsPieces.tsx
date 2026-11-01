@@ -323,16 +323,16 @@ export function OnTheGoStage() {
           {/* La bola del Copilot en blanco detrás del móvil (feedback 2026-11-01: que se reconozca el Copilot, no
               partículas sueltas). Se forma al entrar, como la de la sección de la bola. */}
           <div ref={orbRef} aria-hidden className="absolute inset-0 flex items-center justify-center">
-            {/* a la izquierda del móvil, para que la bola se lea entera y el creciente quede junto a él */}
-            <div className="-translate-x-[18%] scale-[.68] md:-translate-x-[23%] md:scale-100">
-              <CopilotMark size={520} kind="sphere" tone="white" gather={seen} />
+            {/* justo detrás del móvil y más grande que él, para que asome por los dos lados (feedback 2026-11-01) */}
+            <div className="scale-[.7] md:scale-100">
+              <CopilotMark size={820} kind="sphere" tone="white" gather={seen} />
             </div>
           </div>
         </div>
       </MaskReveal>
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <Parallax speed={220} className="w-[50%] max-w-[330px] md:w-[48%]">
-          <div className="translate-x-[22%] rotate-[14deg] drop-shadow-[0_40px_50px_rgba(44,35,87,0.35)]">
+          <div className="rotate-[14deg] drop-shadow-[0_40px_50px_rgba(44,35,87,0.35)]">
             <RealPhone src={`${M}/mobile.mp4`} label="Approving six fixes from a notification" />
           </div>
         </Parallax>
@@ -343,10 +343,11 @@ export function OnTheGoStage() {
 
 /* ── Close-ups ───────────────────────────────────────────────────────────────────────────────── */
 
-export function CloseUp({ name, alt, ratio, sizes = "100vw", className = "" }: { name: string; alt: string; ratio: string; sizes?: string; className?: string }) {
+/** `zoom` acerca un poco la imagen desde arriba (recorta por abajo), sin volver a renderizar el close-up. */
+export function CloseUp({ name, alt, ratio, sizes = "100vw", className = "", zoom }: { name: string; alt: string; ratio: string; sizes?: string; className?: string; zoom?: number }) {
   return (
     <div className={`relative overflow-hidden bg-[#dcdbe2] ${className}`} style={{ aspectRatio: ratio }}>
-      <Img src={`${M}/${name}.png`} alt={alt} sizes={sizes} className="absolute inset-0 h-full w-full object-cover" />
+      <Img src={`${M}/${name}.png`} alt={alt} sizes={sizes} className="absolute inset-0 h-full w-full object-cover" style={zoom ? { transform: `scale(${zoom})`, transformOrigin: "50% 20%" } : undefined} />
     </div>
   );
 }

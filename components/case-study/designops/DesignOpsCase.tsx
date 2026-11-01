@@ -93,6 +93,39 @@ function Trio({ items, className = "" }: { items: string[][]; className?: string
   );
 }
 
+/** Titular fijo a la izquierda (sticky) y, a la derecha, filas con filete: título y texto, numeradas si se pide. */
+function Pinned({ eyebrow, title, items, numbered = false }: { eyebrow: string; title: string; items: string[][]; numbered?: boolean }) {
+  return (
+    <section className={section}>
+      <div className={grid}>
+        <div className="col-span-12 md:col-span-5">
+          <div className="md:sticky md:top-32">
+            <FadeIn>
+              <Eyebrow>{eyebrow}</Eyebrow>
+            </FadeIn>
+            <Lines as="h2" className="t-statement text-balance" delay={STAGGER}>
+              {title}
+            </Lines>
+          </div>
+        </div>
+        <div className="col-span-12 mt-12 md:col-span-6 md:col-start-7 md:mt-0">
+          {items.map(([t, b], k) => (
+            <FadeIn key={t} className="border-t border-[var(--case-line,#e5e5e5)] py-10 md:py-14">
+              <div className="grid grid-cols-6 gap-x-4 md:gap-x-6">
+                {numbered && <span className="col-span-1 t-small tabular-nums text-[var(--case-muted)] pt-2">{String(k + 1).padStart(2, "0")}</span>}
+                <div className={numbered ? "col-span-5" : "col-span-6"}>
+                  <p className="t-title">{t}</p>
+                  <p className="mt-3 max-w-[34em] t-body text-[var(--case-muted)]">{b}</p>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
   return (
     <main className="relative isolate min-h-screen bg-[var(--case-bg)] font-[family-name:var(--font-case-sans)] text-[var(--case-fg)] antialiased">
@@ -131,7 +164,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
             {/* El hueco de la izquierda lo ocupa el close-up que mejor resume el producto (feedback 2026-11-01). El texto
                 cuenta el problema y la primera idea, con el benchmark solo nombrado (guion de Cowork). */}
             <FadeIn className="-mx-4 col-span-12 md:col-span-6 md:ml-[-1.5rem] md:mr-0 md:row-start-2 md:mt-6">
-              <CloseUp name="cu-score" ratio="4 / 3" sizes="(min-width: 768px) 58vw, 100vw" alt="Close-up of the health score ring at 82" />
+              <CloseUp name="cu-score" zoom={1.1} ratio="4 / 3" sizes="(min-width: 768px) 58vw, 100vw" alt="Close-up of the health score ring at 82" />
             </FadeIn>
             <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6 md:self-end">
               <div className="flex flex-col gap-5 t-body text-[var(--case-muted)]">
@@ -289,15 +322,10 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
           </div>
         </section>
 
-        {/* Lo siguiente y las objeciones: solo texto, en tres columnas */}
-        <section className={section}>
-          <Head eyebrow="What's next" title="Where it goes from here." />
-          <Trio items={NEXT} />
-          <div className="mt-28 md:mt-40">
-            <Head eyebrow="Fair questions" title="Isn’t this just…" />
-          </div>
-          <Trio items={OBJECTIONS} />
-        </section>
+        {/* Lo siguiente y las objeciones (feedback 2026-11-01: que no sean muros de texto). Parada de scroll: el titular
+            se queda fijo a la izquierda mientras las filas, en tabla con filetes, pasan a la derecha. */}
+        <Pinned eyebrow="What's next" title="Where it goes from here." items={NEXT} numbered />
+        <Pinned eyebrow="Fair questions" title="Isn’t this just…" items={OBJECTIONS} />
 
         <CaseClosing className={section} title="A design system that tells you what it needs." />
       </CaseLayer>

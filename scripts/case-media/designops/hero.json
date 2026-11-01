@@ -1,0 +1,437 @@
+[
+ {
+  "at": [
+   980,
+   640
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 2600
+ },
+ {
+  "to": "text=Let's set it up",
+  "ms": 300
+ },
+ {
+  "at": [
+   1060,
+   620
+  ],
+  "ms": 400
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "click": "text=Let's set it up",
+  "ms": 900
+ },
+ {
+  "wait": 2200
+ },
+ {
+  "click": "text=Use the demo file",
+  "ms": 900
+ },
+ {
+  "wait": 3200
+ },
+ {
+  "click": "text=Watch all 4",
+  "ms": 900
+ },
+ {
+  "wait": 900
+ },
+ {
+  "to": "text=Core flows",
+  "ms": 400
+ },
+ {
+  "at": [
+   1000,
+   700
+  ],
+  "ms": 300
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "click": "text=Core flows",
+  "ms": 900
+ },
+ {
+  "wait": 500
+ },
+ {
+  "click": "text=Code from AI tools",
+  "ms": 700
+ },
+ {
+  "wait": 600
+ },
+ {
+  "click": "text=Continue",
+  "ms": 800
+ },
+ {
+  "wait": 1000
+ },
+ {
+  "to": "text=Review the 6 fixes",
+  "ms": 400
+ },
+ {
+  "at": [
+   1100,
+   760
+  ],
+  "ms": 400
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "click": "text=Review the 6 fixes",
+  "ms": 1000
+ },
+ {
+  "wait": 4200
+ },
+ {
+  "to": ".sw-btn-panel",
+  "ms": 700
+ },
+ {
+  "click": ".sw-btn-panel",
+  "ms": 200
+ },
+ {
+  "wait": 2000
+ },
+ {
+  "to": ".sw-pop .sw-item:nth-of-type(2)",
+  "ms": 600
+ },
+ {
+  "wait": 700
+ },
+ {
+  "click": ".sw-btn-panel",
+  "ms": 400
+ },
+ {
+  "wait": 500
+ },
+ {
+  "click": ".p-more",
+  "ms": 600
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "at": [
+   230,
+   640
+  ],
+  "ms": 300
+ },
+ {
+  "wheel": 420,
+  "ms": 1300
+ },
+ {
+  "wait": 500
+ },
+ {
+  "wheel": -420,
+  "ms": 900
+ },
+ {
+  "click": ".p-more",
+  "ms": 600
+ },
+ {
+  "wait": 300
+ },
+ {
+  "at": [
+   38,
+   420
+  ],
+  "ms": 450
+ },
+ {
+  "wait": 700
+ },
+ {
+  "to": ".v3-rail a.r-btn[href*='/drifts']",
+  "ms": 500
+ },
+ {
+  "wait": 350
+ },
+ {
+  "click": ".v3-rail a.r-btn[href*='/drifts']",
+  "ms": 250
+ },
+ {
+  "at": [
+   820,
+   560
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 2200
+ },
+ {
+  "wheel": 520,
+  "ms": 1500
+ },
+ {
+  "wait": 700
+ },
+ {
+  "wheel": -520,
+  "ms": 1000
+ },
+ {
+  "at": [
+   38,
+   420
+  ],
+  "ms": 450
+ },
+ {
+  "wait": 700
+ },
+ {
+  "to": ".v3-rail a.r-btn[href*='/teams']",
+  "ms": 500
+ },
+ {
+  "wait": 350
+ },
+ {
+  "click": ".v3-rail a.r-btn[href*='/teams']",
+  "ms": 250
+ },
+ {
+  "at": [
+   820,
+   560
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 2400
+ },
+ {
+  "wheel": 420,
+  "ms": 1300
+ },
+ {
+  "wait": 600
+ },
+ {
+  "wheel": -420,
+  "ms": 900
+ },
+ {
+  "at": [
+   38,
+   420
+  ],
+  "ms": 450
+ },
+ {
+  "wait": 700
+ },
+ {
+  "to": ".v3-rail a.r-btn[href*='/systems']",
+  "ms": 500
+ },
+ {
+  "wait": 350
+ },
+ {
+  "click": ".v3-rail a.r-btn[href*='/systems']",
+  "ms": 250
+ },
+ {
+  "at": [
+   820,
+   560
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 2600
+ },
+ {
+  "at": [
+   38,
+   420
+  ],
+  "ms": 450
+ },
+ {
+  "wait": 700
+ },
+ {
+  "to": ".v3-rail a.r-btn[href*='/report']",
+  "ms": 500
+ },
+ {
+  "wait": 350
+ },
+ {
+  "click": ".v3-rail a.r-btn[href*='/report']",
+  "ms": 250
+ },
+ {
+  "at": [
+   820,
+   560
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 4200
+ },
+ {
+  "wheel": 500,
+  "ms": 1500
+ },
+ {
+  "wait": 700
+ },
+ {
+  "wheel": -500,
+  "ms": 900
+ },
+ {
+  "at": [
+   38,
+   420
+  ],
+  "ms": 450
+ },
+ {
+  "wait": 700
+ },
+ {
+  "to": ".v3-rail a.r-btn[href*='/health']",
+  "ms": 500
+ },
+ {
+  "wait": 350
+ },
+ {
+  "click": ".v3-rail a.r-btn[href*='/health']",
+  "ms": 250
+ },
+ {
+  "at": [
+   820,
+   560
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 1600
+ },
+ {
+  "click": ".p-ask",
+  "ms": 600
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "click": "text=What breaks if I change action-primary?",
+  "ms": 700
+ },
+ {
+  "wait": 6000
+ },
+ {
+  "key": "Escape"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "at": [
+   38,
+   420
+  ],
+  "ms": 450
+ },
+ {
+  "wait": 700
+ },
+ {
+  "to": ".v3-rail a.r-btn[href*='/settings']",
+  "ms": 500
+ },
+ {
+  "wait": 350
+ },
+ {
+  "click": ".v3-rail a.r-btn[href*='/settings']",
+  "ms": 250
+ },
+ {
+  "at": [
+   820,
+   560
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 900
+ },
+ {
+  "click": "text=Dark",
+  "ms": 600
+ },
+ {
+  "wait": 1100
+ },
+ {
+  "at": [
+   38,
+   420
+  ],
+  "ms": 450
+ },
+ {
+  "wait": 700
+ },
+ {
+  "to": ".v3-rail a.r-btn[href*='/health']",
+  "ms": 500
+ },
+ {
+  "wait": 350
+ },
+ {
+  "click": ".v3-rail a.r-btn[href*='/health']",
+  "ms": 250
+ },
+ {
+  "at": [
+   820,
+   560
+  ],
+  "ms": 600
+ },
+ {
+  "wait": 5000
+ }
+]
