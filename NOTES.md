@@ -27,6 +27,14 @@ paradas de scroll (titular fijo + filas) → bola como sello → cierre «Drift 
   (cortes en la nota del commit) y `bash scripts/case-media/designops/hero.sh <src.mp4>` (foto de las manos con
   `photo.html`); después `npm run media:opt`.
 
+**▶ PRÓXIMA SESIÓN (pedido por Alberto, cierre 2026-11-01):**
+1. **Meter DesignOps en el motion de Product** (el reel de `scripts/hero-reel/`, fondo del Launcher y cabecera de Product).
+2. **Versión móvil del caso:** repasarla entera; se ve **deformada/condensada** en el móvil.
+3. **Móvil de «On the go» en pantallas grandes:** que crezca más para que salga por arriba y por abajo del fondo, como
+   se acordó (en portátil ya queda bien; en una pantalla grande no sobresale).
+4. **Revisar la imagen del iPad de cabecera/thumb:** no le acaba de gustar; además la pantalla no está bien recortada
+   por las manos que quedan encima (los dedos deberían tapar la pantalla) y los bordes se ven pixelados.
+
 **Pendiente / ideas:** el dashboard del vídeo de cabecera sale ya en 88 (tras el onboarding); si se quiere el 82 con
 los arreglos pendientes, regrabar. Aviso #418 de hidratación dentro del prototipo exportado (no se ve).
 
