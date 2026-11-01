@@ -6,6 +6,7 @@ import LazyVideo from "@/components/case-study/LazyVideo";
 import Img from "@/components/case-study/Img";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { CopilotMark } from "./CopilotMark";
+import AskDemo from "./AskDemo";
 import RealPhone from "@/components/case-study/RealPhone";
 import { MaskReveal, Parallax, useSeen } from "@/components/case-study/primitives";
 
@@ -145,40 +146,45 @@ export function FlowDiagram() {
 /* ── La marca ─────────────────────────────────────────────────────────────────────────────────── */
 
 /** La esfera de verdad, viva, sobre blanco: gira, el cursor aparta sus nodos y, con el puntero encima, piensa
-    (pulsos). Detrás, un brillo leve de su propio degradado que le da color al conjunto. */
+    (pulsos). Detrás, un brillo leve de su propio degradado. Debajo, el campo para preguntarle, que se usa solo en bucle
+    (AskDemo): mientras responde, la bola piensa, y así se entiende para qué pulsa. */
 export function SphereStage() {
   const wide = useWide();
-  const [think, setThink] = useState(false);
+  const [hover, setHover] = useState(false);
+  const [asking, setAsking] = useState(false);
   const size = wide ? 480 : 250;
   const box = useRef<HTMLDivElement>(null);
   const seen = useSeen(box, "-20% 0px");   // los puntos llegan de los lados al entrar la sección
+  // la caja de la bola: el lienzo es más grande que la bola dibujada; se recorta el aire de arriba y abajo
+  const ball = size * 0.72;
   return (
     <div
       ref={box}
       style={AI_LIGHT}
-      className="relative -mx-4 flex aspect-[4/5] items-center justify-center overflow-hidden bg-white md:mx-0 md:aspect-[16/10]"
-      onPointerEnter={() => setThink(true)}
-      onPointerLeave={() => setThink(false)}
+      className="relative -mx-4 flex flex-col items-center justify-center gap-6 overflow-hidden bg-white px-5 py-14 md:mx-0 md:aspect-[16/10] md:gap-4 md:py-0"
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute rounded-full"
-        style={{
-          width: size * 0.9,
-          height: size * 0.9,
-          filter: `blur(${size * 0.12}px)`,
-          background:
-            "radial-gradient(circle at 60% 45%, rgba(240,69,155,.20), rgba(139,92,255,.16) 40%, rgba(255,154,61,.08) 62%, rgba(255,255,255,0) 72%)",
-        }}
-      />
-      <div className="relative" style={{ width: size, height: size }}>
-        <div className="absolute" style={{ left: -size / 2, top: -size / 2 }}>
-          <CopilotMark size={size} kind="sphere" thinking={think} gather={seen} />
+      <div className="relative flex shrink-0 items-center justify-center" style={{ height: ball, width: "100%" }}>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute rounded-full"
+          style={{
+            width: size * 0.9,
+            height: size * 0.9,
+            filter: `blur(${size * 0.12}px)`,
+            background:
+              "radial-gradient(circle at 60% 45%, rgba(240,69,155,.20), rgba(139,92,255,.16) 40%, rgba(255,154,61,.08) 62%, rgba(255,255,255,0) 72%)",
+          }}
+        />
+        <div className="relative" style={{ width: size, height: size }}>
+          <div className="absolute" style={{ left: -size / 2, top: -size / 2 }}>
+            <CopilotMark size={size} kind="sphere" thinking={hover || asking} gather={seen} />
+          </div>
         </div>
       </div>
-      <p className="absolute bottom-5 left-5 t-small text-[#2C2357]/60 md:bottom-7 md:left-7">
-        {wide ? "Move your cursor over it" : "Touch it"}
-      </p>
+      <AskDemo run={seen} onThink={setAsking} />
+      <p className="absolute bottom-5 left-5 hidden t-small text-[#2C2357]/60 md:bottom-7 md:left-7 md:block">Move your cursor over it</p>
     </div>
   );
 }
