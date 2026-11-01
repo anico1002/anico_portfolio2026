@@ -109,7 +109,7 @@ function donut(ctx: CanvasRenderingContext2D, size: number, dpr: number, tone: "
  *  different places, like syllables, and they fall back as pixels. Big: the pointer kicks nodes away,
  *  harder the faster it moves, and they spring back on their own. */
 function sphere(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, size: number, tone: "color" | "white", read: () => RGB[], thinking: { current: boolean }, reduce: boolean,
-  shape: { current: { ring: boolean; explode: boolean } }, ext = size) {
+  shape: { current: { ring: boolean; explode: boolean; gather?: boolean } }, ext = size) {
   const big = size >= 80;
   const ss = (a: number, b: number, x: number) => { const k = Math.min(1, Math.max(0, (x - a) / (b - a))); return k * k * (3 - 2 * k); };
   const rnd = (n: number) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -141,6 +141,8 @@ function sphere(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, size: 
   // ring: 0 = the ball, 1 = the nodes spread out into a flat ring (the score's ring takes over from there).
   // gone: 0…1 as it explodes into the dashboard.
   let ring = shape.current.ring ? 1 : 0, gone = 0;
+  // come: 0…1 as the nodes fly in from the sides and gather into the ball (1 = formed; starts at 0 only when asked)
+  let come = shape.current.gather === undefined || reduce ? 1 : 0;
   let raf = 0, frames = 0, t = still ? 1.2 : Math.random() * 10, e = 0, last = performance.now(), nextPulse = 0;
   const frame = (now: number) => {
     const dt = Math.min(0.05, (now - last) / 1000);
@@ -150,6 +152,7 @@ function sphere(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, size: 
       t += dt * (1 + e * 1.6);
       ring = Math.min(1, Math.max(0, ring + (shape.current.ring ? dt : -dt) / 1.1));
       gone = shape.current.explode ? Math.min(1, gone + dt / 1.3) : 0;
+      if (shape.current.gather) come = Math.min(1, come + dt / 2.4);
     }
     const ease = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2);
     const rk = ease(ring), boom = gone * gone;
@@ -194,6 +197,16 @@ function sphere(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, size: 
         const k = 1 + boom * (1.4 + q.s * 1.6);
         nx = nx * k + q.j[0] * boom * 0.6; ny = ny * k + q.j[1] * boom * 0.6;
       }
+      let arrive = 1;
+      if (come < 1) {
+        // each node sets off at its own moment from far out on its side (left or right) and lands on a soft
+        // ease-out with a small overshoot, so the ball fills up from both edges at once
+        const kk = Math.min(1, Math.max(0, (come - q.s * 0.45) / 0.55));
+        const e3 = kk === 1 ? 1 : 1 - (1 - kk) ** 3 + Math.sin(Math.PI * kk) * 0.06;
+        const side = q.j[0] < 0 ? -1 : 1, x0 = side * (2.8 + q.s * 1.2), y0 = ny * 0.5 + q.j[1] * 1.6;
+        nx = x0 + (nx - x0) * e3; ny = y0 + (ny - y0) * e3;
+        arrive = Math.min(1, kk * 2.5);
+      }
       const dep = z * 0.5 + 0.5;
       if (big) {
         if (mouse) {   // a wide area, each node kicked a little differently, so the shape breaks unevenly
@@ -209,7 +222,7 @@ function sphere(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, size: 
       }
       const b = Math.min(1, burst * 2.5 + gone * 1.5);
       let alpha = Math.min(1, (0.14 + 0.86 * Math.max(dep, w)) * (0.4 + 0.6 * w) + b * 0.3) * (1 - b * q.s * 0.4);
-      alpha = (alpha + (0.8 - alpha) * rk) * (1 - ss(0.88, 1, ring)) * (1 - ss(0.35, 1, gone));   // the drawn ring takes over at the end
+      alpha = (alpha + (0.8 - alpha) * rk) * (1 - ss(0.88, 1, ring)) * (1 - ss(0.35, 1, gone)) * arrive;   // the drawn ring takes over at the end
       // small: crescent nodes a touch heavier than the ball's, so the D still reads at icon size
       const rad = (big ? 0.6 + dep * 0.8 + w * 1.1 : Math.max(0.9, size / 15) * (0.5 + 0.3 * dep + 0.35 * w)) * (1 + b * 0.6);
       ctx.fillStyle = col(Math.atan2(ny, nx) / (Math.PI * 2) - t / 7, alpha);
@@ -253,17 +266,19 @@ function halftone(ctx: CanvasRenderingContext2D, size: number, dpr: number, tone
   }
 }
 
-export function CopilotMark({ size = 20, tone = "color", thinking = false, className, kind, ring = false, explode = false }: {
+export function CopilotMark({ size = 20, tone = "color", thinking = false, className, kind, ring = false, explode = false, gather }: {
   size?: number; tone?: "color" | "white"; thinking?: boolean; className?: string; kind?: "halftone" | "sphere" | "donut" | "pixel";
   /** sphere only: open out into the score's ring, or explode into the page */ ring?: boolean; explode?: boolean;
+  /** sphere only (portfolio, 2026-11-01): false = the nodes wait outside, on both sides; true = they fly in and gather
+      into the ball. Left out, the ball is already formed. */ gather?: boolean;
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const thinkingRef = useRef(thinking);
   thinkingRef.current = thinking;
   // the big sphere draws on a canvas twice its size, so its burst into the dashboard isn't cut off
   const ext = (kind ?? (size < 64 ? "halftone" : "pixel")) === "sphere" && size >= 80 ? size * 2 : size;
-  const shapeRef = useRef({ ring, explode });
-  shapeRef.current = { ring, explode };
+  const shapeRef = useRef({ ring, explode, gather });
+  shapeRef.current = { ring, explode, gather };
 
   useEffect(() => {
     const canvas = ref.current;

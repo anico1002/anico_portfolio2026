@@ -150,8 +150,11 @@ export function SphereStage() {
   const wide = useWide();
   const [think, setThink] = useState(false);
   const size = wide ? 480 : 250;
+  const box = useRef<HTMLDivElement>(null);
+  const seen = useSeen(box, "-20% 0px");   // los puntos llegan de los lados al entrar la sección
   return (
     <div
+      ref={box}
       style={AI_LIGHT}
       className="relative -mx-4 flex aspect-[4/5] items-center justify-center overflow-hidden bg-white md:mx-0 md:aspect-[16/10]"
       onPointerEnter={() => setThink(true)}
@@ -170,7 +173,7 @@ export function SphereStage() {
       />
       <div className="relative" style={{ width: size, height: size }}>
         <div className="absolute" style={{ left: -size / 2, top: -size / 2 }}>
-          <CopilotMark size={size} kind="sphere" thinking={think} />
+          <CopilotMark size={size} kind="sphere" thinking={think} gather={seen} />
         </div>
       </div>
       <p className="absolute bottom-5 left-5 t-small text-[#2C2357]/60 md:bottom-7 md:left-7">
