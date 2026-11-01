@@ -1,0 +1,59 @@
+<!doctype html>
+<!-- Pantalla dentro de una foto de producto (DesignOps Copilot, 2026-11-01): la foto de fondo (un mockup con la pantalla
+     en un color plano) y encima la captura o el vídeo, deformados con la homografía exacta de las cuatro esquinas de esa
+     pantalla en la foto. Las esquinas se sacan midiendo el color plano (ver la receta en scripts/mockups/README.md).
+     La pinta css_scene.mjs. Parámetros por la URL:
+       photo        URL de la foto (file://…)            pw, ph   su tamaño en px
+       q            esquinas «tlx,tly,trx,try,brx,bry,blx,bly» en px de la foto
+       sw, sh       tamaño de la captura que va dentro (px)   r  radio de sus esquinas (px de la captura)
+       vx, vy       punto de la foto que cae en el centro de la escena    vs  escala de la foto
+       bg           color con que se rellena fuera de la foto (hex sin #) -->
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { background: var(--bg, #c8c8c8); }
+  .rig { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .rig > img { position: absolute; left: 0; top: 0; display: block; }
+  .screen { position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden; background: #000; }
+  .screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+</style>
+</head>
+<body>
+<div class="rig" id="rig"><img id="photo" alt="" /><div class="screen" id="screen"><img alt="" /></div></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const n = (k, d) => (q.has(k) ? +q.get(k) : d);
+  if (q.get("bg")) document.body.style.setProperty("--bg", "#" + q.get("bg"));
+  const PW = n("pw", 2000), PH = n("ph", 1500), SW = n("sw", 1376), SH = n("sh", 1032);
+  const photo = document.getElementById("photo");
+  photo.src = q.get("photo");
+  Object.assign(photo.style, { width: PW + "px", height: PH + "px" });
+  // Encuadre: el punto (vx, vy) de la foto al centro de la escena, a escala vs.
+  const vs = n("vs", 1), vx = n("vx", PW / 2), vy = n("vy", PH / 2);
+  document.getElementById("rig").style.transform = `translate(${innerWidth / 2 - vx * vs}px, ${innerHeight / 2 - vy * vs}px) scale(${vs})`;
+
+  // Homografía del rectángulo SW×SH al cuadrilátero de la foto (tl, tr, br, bl), como matrix3d.
+  const [x0, y0, x1, y1, x2, y2, x3, y3] = q.get("q").split(",").map(Number);
+  function square2quad() {
+    const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3, dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3;
+    const den = dx1 * dy2 - dx2 * dy1;
+    const g = (dx3 * dy2 - dx2 * dy3) / den, h = (dx1 * dy3 - dx3 * dy1) / den;
+    return [x1 - x0 + g * x1, x3 - x0 + h * x3, x0, y1 - y0 + g * y1, y3 - y0 + h * y3, y0, g, h, 1];
+  }
+  const [a, b, c, d, e, f, g, h, i] = square2quad();
+  // unidad → captura: dividir entre SW, SH
+  const m = [a / SW, d / SW, 0, g / SW, b / SH, e / SH, 0, h / SH, 0, 0, 1, 0, c, f, 0, i];
+  const screen = document.getElementById("screen");
+  Object.assign(screen.style, { width: SW + "px", height: SH + "px", borderRadius: n("r", 30) + "px", transform: `matrix3d(${m.join(",")})` });
+
+  window.setFrame = (src) => new Promise((ok) => {
+    const im = screen.querySelector("img");
+    const done = () => (photo.complete ? ok() : (photo.onload = () => ok()));
+    im.onload = im.onerror = done;
+    im.src = src;
+  });
+</script>
+</body>
+</html>
