@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import Img from "@/components/case-study/Img";
+import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { CopilotMark } from "./CopilotMark";
 
 /* Piezas del caso de DesignOps Copilot (2026-11-01). Todo lo que se ve sale del prototipo real
@@ -13,6 +15,7 @@ export const M = "/maqueta/designops/media";
 
 /** La luz del Copilot (sus tokens --g1…--g4): solo donde está la IA. */
 export const AI_LIGHT = { "--g1": "#FF5A36", "--g2": "#F0459B", "--g3": "#8B5CFF", "--g4": "#FF9A3D" } as React.CSSProperties;
+const AI_GRADIENT = "linear-gradient(120deg, var(--g3), var(--g2) 45%, var(--g1) 75%, var(--g4))";
 const INK = "#2C2357";
 
 function useWide() {
@@ -27,46 +30,110 @@ function useWide() {
   return wide;
 }
 
+/** El logotipo del producto: «DesignOps» sobre «Copilot», en negrita y apretado (el Wordmark del prototipo). */
+function Wordmark({ className = "" }: { className?: string }) {
+  return (
+    <span className={`flex flex-col whitespace-nowrap font-bold leading-[1.05] tracking-[-0.02em] ${className}`}>
+      <span>DesignOps</span>
+      <span>Copilot</span>
+    </span>
+  );
+}
+
 /* ── De las alertas a las decisiones ─────────────────────────────────────────────────────────── */
 
 const SOURCES = ["Figma library", "4 code repositories", "Figma Check designs", "Buoy alerts"];
 const DECISIONS = ["Fix it, with your approval", "Keep it, with a reason", "Report it to leadership"];
 
-function Pill({ children, dim = false }: { children: React.ReactNode; dim?: boolean }) {
+/** Píldora de cristal: blanco translúcido, desenfoque de lo que pasa por detrás (el brillo del fondo), canto
+    iluminado. Entra deslizándose hacia el Copilot y luego flota, cada una a su ritmo. */
+function Pill({ children, dim = false, from, delay, k }: { children: React.ReactNode; dim?: boolean; from: number; delay: number; k: number }) {
+  const still = useReducedMotion();
   return (
-    <span className={`inline-flex items-center rounded-full border border-[var(--case-line)] px-4 py-2.5 t-small ${dim ? "text-[var(--case-muted)]" : ""}`}>
-      {children}
+    <motion.span
+      initial={{ opacity: 0, x: from }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-15% 0px" }}
+      transition={{ duration: DUR.slow, ease: EASE.out, delay }}
+      className="inline-flex"
+    >
+      <motion.span
+        animate={still ? undefined : { y: [0, -4, 0] }}
+        transition={{ duration: 4.2 + k * 0.7, ease: "easeInOut", repeat: Infinity, delay: k * 0.5 }}
+        className={`inline-flex items-center rounded-full border border-white/80 bg-white/55 px-4 py-2.5 t-small shadow-[inset_0_1px_0_rgba(255,255,255,.9),0_10px_30px_-14px_rgba(44,35,87,.35)] backdrop-blur-xl backdrop-saturate-150 ${dim ? "text-[#2C2357]/60" : "text-[#2C2357]"}`}
+      >
+        {children}
+      </motion.span>
+    </motion.span>
+  );
+}
+
+/** Un hilo de luz entre las columnas y el Copilot: una chispa que lo recorre hacia la derecha. */
+function Wire({ delay }: { delay: number }) {
+  const still = useReducedMotion();
+  return (
+    <span aria-hidden className="relative hidden h-px w-10 overflow-hidden bg-[#2C2357]/15 md:block lg:w-16">
+      {!still && (
+        <motion.span
+          className="absolute top-0 h-px w-6"
+          style={{ background: "linear-gradient(90deg, transparent, var(--g2), transparent)" }}
+          initial={{ left: "-30%" }}
+          animate={{ left: "110%" }}
+          transition={{ duration: 1.6, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.6, delay }}
+        />
+      )}
     </span>
   );
 }
 
-/** Fuentes a la izquierda, el Copilot en medio (lo único con la luz) y las decisiones a la derecha. En móvil, en columna. */
+/** Fuentes a la izquierda, el Copilot en medio (lo único con la luz) y las decisiones a la derecha, sobre un brillo
+    tenue de su degradado para que el cristal tenga algo que desenfocar. En móvil, en columna. */
 export function FlowDiagram() {
+  const wide = useWide();
+  const d0 = 0.15;
   return (
-    <div style={AI_LIGHT} className="grid grid-cols-1 items-center gap-8 md:grid-cols-[1fr_auto_1fr] md:gap-10">
-      <div className="flex flex-wrap gap-2 md:flex-col md:items-end">
-        {SOURCES.map((s) => (
-          <Pill key={s} dim>
-            {s}
-          </Pill>
-        ))}
+    <div style={AI_LIGHT} className="relative -mx-4 overflow-hidden px-4 py-16 md:-mx-6 md:px-6 md:py-28">
+      {/* El brillo: tres manchas del degradado, muy abiertas */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[8%] top-[18%] h-[60%] w-[34%] rounded-full opacity-[.16] blur-[80px]" style={{ background: "var(--g3)" }} />
+        <div className="absolute left-[38%] top-[26%] h-[52%] w-[26%] rounded-full opacity-[.14] blur-[80px]" style={{ background: "var(--g2)" }} />
+        <div className="absolute right-[6%] top-[20%] h-[56%] w-[30%] rounded-full opacity-[.12] blur-[90px]" style={{ background: "var(--g4)" }} />
       </div>
-      <div className="relative flex items-center justify-center md:px-6">
-        <span aria-hidden className="absolute left-0 right-0 top-1/2 hidden h-px bg-[var(--case-line)] md:block" />
-        <div
-          className="relative rounded-full p-[1.5px]"
-          style={{ background: "linear-gradient(120deg, var(--g3), var(--g2) 45%, var(--g1) 75%, var(--g4))" }}
-        >
-          <div className="flex items-center gap-3 rounded-full bg-[var(--case-bg)] px-6 py-4">
-            <CopilotMark size={28} kind="halftone" />
-            <span className="t-title">Copilot</span>
-          </div>
+      <div className="relative grid grid-cols-1 items-center gap-8 md:grid-cols-[1fr_auto_1fr] md:gap-0">
+        <div className="flex flex-wrap gap-2 md:flex-col md:items-end md:gap-3">
+          {SOURCES.map((s, k) => (
+            <Pill key={s} dim from={wide ? -40 : 0} delay={d0 + k * STAGGER} k={k}>
+              {s}
+            </Pill>
+          ))}
         </div>
-      </div>
-      <div className="flex flex-wrap gap-2 md:flex-col md:items-start">
-        {DECISIONS.map((s) => (
-          <Pill key={s}>{s}</Pill>
-        ))}
+        <div className="flex items-center justify-center">
+          <Wire delay={0} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: DUR.slow, ease: EASE.out, delay: d0 + 4 * STAGGER }}
+            className="relative mx-0 md:mx-2"
+          >
+            <div aria-hidden className="absolute -inset-6 rounded-full opacity-50 blur-2xl" style={{ background: AI_GRADIENT }} />
+            <div
+              className="relative flex items-center gap-3 rounded-full py-3.5 pl-4 pr-7 text-white shadow-[inset_0_1px_0_rgba(255,255,255,.35),0_14px_40px_-16px_rgba(139,92,255,.7)]"
+              style={{ background: AI_GRADIENT }}
+            >
+              <CopilotMark size={32} kind="halftone" tone="white" />
+              <Wordmark className="text-[17px] md:text-[19px]" />
+            </div>
+          </motion.div>
+          <Wire delay={0.8} />
+        </div>
+        <div className="flex flex-wrap gap-2 md:flex-col md:items-start md:gap-3">
+          {DECISIONS.map((s, k) => (
+            <Pill key={s} from={wide ? 40 : 0} delay={d0 + (6 + k) * STAGGER} k={k + 4}>
+              {s}
+            </Pill>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -74,7 +141,8 @@ export function FlowDiagram() {
 
 /* ── La marca ─────────────────────────────────────────────────────────────────────────────────── */
 
-/** La esfera de verdad, viva: gira, el cursor aparta sus nodos y, con el puntero encima, piensa (pulsos). */
+/** La esfera de verdad, viva, sobre blanco: gira, el cursor aparta sus nodos y, con el puntero encima, piensa
+    (pulsos). Detrás, un brillo leve de su propio degradado que le da color al conjunto. */
 export function SphereStage() {
   const wide = useWide();
   const [think, setThink] = useState(false);
@@ -82,10 +150,21 @@ export function SphereStage() {
   return (
     <div
       style={AI_LIGHT}
-      className="relative -mx-4 flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#EEEDF3] md:mx-0 md:aspect-[16/10]"
+      className="relative -mx-4 flex aspect-[4/5] items-center justify-center overflow-hidden bg-white md:mx-0 md:aspect-[16/10]"
       onPointerEnter={() => setThink(true)}
       onPointerLeave={() => setThink(false)}
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute rounded-full"
+        style={{
+          width: size * 0.9,
+          height: size * 0.9,
+          filter: `blur(${size * 0.12}px)`,
+          background:
+            "radial-gradient(circle at 60% 45%, rgba(240,69,155,.20), rgba(139,92,255,.16) 40%, rgba(255,154,61,.08) 62%, rgba(255,255,255,0) 72%)",
+        }}
+      />
       <div className="relative" style={{ width: size, height: size }}>
         <div className="absolute" style={{ left: -size / 2, top: -size / 2 }}>
           <CopilotMark size={size} kind="sphere" thinking={think} />
@@ -98,31 +177,34 @@ export function SphereStage() {
   );
 }
 
-/** El isotipo quieto en semitono, a los tamaños en que vive: en la luz y sobre el oscuro del panel. */
+/** El isotipo quieto en semitono, a los tamaños en que vive: en claro y en oscuro (el panel). A sangre y sin hueco. */
 export function MarkSizes() {
   const sizes = [56, 32, 20];
+  const tiles: [string, string, string][] = [
+    ["Light", "#F3F2F7", "text-[#2C2357]/55"],
+    ["Dark", INK, "text-white/55"],
+  ];
   return (
-    <div style={AI_LIGHT} className="grid grid-cols-2 gap-[6px]">
-      <div className="flex aspect-[4/3] items-center justify-center gap-6 bg-[#EEEDF3] md:gap-10">
-        {sizes.map((s) => (
-          <CopilotMark key={s} size={s} kind="halftone" />
-        ))}
-      </div>
-      <div className="flex aspect-[4/3] items-center justify-center gap-6 md:gap-10" style={{ background: INK }}>
-        {sizes.map((s) => (
-          <CopilotMark key={s} size={s} kind="halftone" />
-        ))}
-      </div>
+    <div style={AI_LIGHT} className="-mx-4 grid grid-cols-1 sm:grid-cols-2 md:-mx-6">
+      {tiles.map(([label, bg, fg]) => (
+        <div key={label} className="relative flex aspect-[4/3] items-center justify-center gap-6 md:gap-10" style={{ background: bg }}>
+          {sizes.map((s) => (
+            <CopilotMark key={s} size={s} kind="halftone" />
+          ))}
+          <p className={`absolute bottom-5 left-0 right-0 text-center t-small md:bottom-7 ${fg}`}>{label}</p>
+        </div>
+      ))}
     </div>
   );
 }
 
 /* ── El iPad navegable ───────────────────────────────────────────────────────────────────────── */
 
-const APP = { w: 1376, h: 1032, src: "/maqueta/designops/app/health/" };
+const APP = { w: 1600, h: 900, src: "/maqueta/designops/app/health/" };
 
-/** iPad Pro de frente, minimal (cuerpo casi negro, bisel fino). En escritorio, el prototipo de verdad dentro: se carga
-    al acercarse y se escala al ancho de la pantalla. En móvil no cabe usarlo: va el recorrido en vídeo. */
+/** iPad de frente, en apaisado 16:9, con su marco de verdad: aro de aluminio, bisel negro y cámara. Sombra corta y
+    nítida, como las fotos de producto de Apple (una de contacto y otra más abierta, sin bruma). En escritorio, el
+    prototipo de verdad dentro: se carga al acercarse y se escala al ancho de la pantalla. En móvil, el recorrido en vídeo. */
 export function LiveIpad() {
   const wide = useWide();
   const screen = useRef<HTMLDivElement>(null);
@@ -142,35 +224,43 @@ export function LiveIpad() {
     };
   }, []);
   return (
-    <div className="mx-auto w-full max-w-[1240px]">
-      <div className="rounded-[clamp(22px,3.4vw,48px)] bg-[#0d0d0f] p-[1.6%] shadow-[0_50px_120px_-40px_rgba(20,16,50,0.45),inset_0_0_0_1.5px_rgba(255,255,255,0.12)]">
-        <div
-          ref={screen}
-          className="relative overflow-hidden rounded-[clamp(12px,2vw,30px)] bg-[#E9E6F4]"
-          style={{ aspectRatio: `${APP.w} / ${APP.h}` }}
-        >
-          <Img
-            src={`${M}/dashboard-poster.png`}
-            alt="The Health dashboard of DesignOps Copilot"
-            sizes="(min-width: 768px) 90vw, 100vw"
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${ready ? "opacity-0" : "opacity-100"}`}
-          />
-          {wide && near && scale > 0 && (
-            <iframe
-              src={APP.src}
-              title="DesignOps Copilot, live prototype"
-              onLoad={() => setTimeout(() => setReady(true), 400)}
-              className="absolute left-0 top-0 border-0"
-              style={{ width: APP.w, height: APP.h, transform: `scale(${scale})`, transformOrigin: "0 0" }}
+    <div className="relative w-full">
+      {/* Sombra de contacto: una elipse fina y oscura justo debajo */}
+      <div aria-hidden className="absolute -bottom-[1.2%] left-[6%] right-[6%] h-[3%] rounded-[50%] bg-[rgba(16,14,30,.38)] blur-[10px]" />
+      <div
+        className="relative rounded-[clamp(18px,2.6vw,44px)] p-[0.45%] shadow-[0_1px_1px_rgba(16,14,30,.10),0_6px_12px_-4px_rgba(16,14,30,.16),0_28px_50px_-24px_rgba(16,14,30,.38)]"
+        style={{ background: "linear-gradient(135deg, #f4f5f7 0%, #c9cbd0 22%, #e9eaee 48%, #a9acb2 78%, #d8dade 100%)" }}
+      >
+        <div className="relative rounded-[clamp(15px,2.3vw,40px)] bg-[#070708] p-[1.7%] shadow-[inset_0_0_0_1px_rgba(255,255,255,.10)]">
+          <span aria-hidden className="absolute left-1/2 top-[0.75%] h-[clamp(4px,0.45vw,8px)] w-[clamp(4px,0.45vw,8px)] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_40%,#2a3140,#08090c_70%)]" />
+          <div
+            ref={screen}
+            className="relative overflow-hidden rounded-[clamp(8px,1.2vw,22px)] bg-[#E9E6F4]"
+            style={{ aspectRatio: `${APP.w} / ${APP.h}` }}
+          >
+            <Img
+              src={`${M}/dashboard-poster.png`}
+              alt="The Health dashboard of DesignOps Copilot"
+              sizes="100vw"
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${ready ? "opacity-0" : "opacity-100"}`}
             />
-          )}
-          {!wide && (
-            <LazyVideo
-              src={`${M}/walkthrough.mp4`}
-              className="absolute inset-0 h-full w-full object-cover"
-              aria-label="A walkthrough of the DesignOps Copilot dashboard"
-            />
-          )}
+            {wide && near && scale > 0 && (
+              <iframe
+                src={APP.src}
+                title="DesignOps Copilot, live prototype"
+                onLoad={() => setTimeout(() => setReady(true), 400)}
+                className="absolute left-0 top-0 border-0"
+                style={{ width: APP.w, height: APP.h, transform: `scale(${scale})`, transformOrigin: "0 0" }}
+              />
+            )}
+            {!wide && (
+              <LazyVideo
+                src={`${M}/walkthrough.mp4`}
+                className="absolute inset-0 h-full w-full object-cover"
+                aria-label="A walkthrough of the DesignOps Copilot dashboard"
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

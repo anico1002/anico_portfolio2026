@@ -5,7 +5,9 @@
        rx, ry, rz   giro en grados          s     escala del iPad (1 = 1100 px de ancho)
        x, y         desplazamiento en %     bg    fondo (hex sin #)        light  1 = franja de luz de ventana
        blur         px de desenfoque de lo que queda lejos (profundidad de campo; 0 = nada)
-       crop         recorte de la pantalla: «x,y,w,h» en fracciones (close-ups: solo un trozo, muy grande) -->
+       crop         recorte de la pantalla: «x,y,w,h» en fracciones (close-ups: solo un trozo, muy grande)
+       floor        1 = apoyado en el suelo, con sombra dura (cx, cy: desplazamiento; cb: desenfoque) y de contacto
+     Marco: aro de aluminio plata y bisel negro (2026-11-01, Alberto: «con marco real»). -->
 <html>
 <head>
 <meta charset="utf-8" />
@@ -23,20 +25,29 @@
   .rig { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
   .ipad { position: absolute; width: 1100px; aspect-ratio: 1376 / 1032; left: -550px; top: -412.5px;
     box-sizing: content-box; padding: 26px; margin: -26px; border-radius: 58px;
-    background: linear-gradient(145deg, #2b2b2f 0%, #121214 38%, #0b0b0c 70%, #1d1d20 100%);
-    box-shadow:
-      inset 0 0 0 1.5px rgba(255,255,255,.16),
-      inset 0 0 0 4px #050506,
-      0 2px 0 rgba(255,255,255,.05); }
+    transform-style: preserve-3d; }
+  /* Bisel negro: por encima del aro (en Z), si no el aro lo tapaba al aplanarse. */
+  .bezel { position: absolute; inset: 0; border-radius: 58px; background: #070708; transform: translateZ(0.4px);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.10); }
+  /* Aro de aluminio (plata) alrededor del bisel negro: el marco de un iPad de verdad. */
+  .rim { position: absolute; inset: -7px; border-radius: 65px; transform: translateZ(-0.6px);
+    background: linear-gradient(135deg, #f4f5f7 0%, #c9cbd0 22%, #e9eaee 48%, #a9acb2 78%, #d8dade 100%); }
   /* Canto del aluminio: una lámina detrás, desplazada en Z. */
-  .edge { position: absolute; inset: -26px; border-radius: 60px; transform: translateZ(-14px);
-    background: linear-gradient(160deg, #6b6c70, #2a2a2d 40%, #121214); }
-  .screen { position: absolute; inset: 0; border-radius: 34px; overflow: hidden; background: #000; }
+  .edge { position: absolute; inset: -7px; border-radius: 65px; transform: translateZ(-16px);
+    background: linear-gradient(160deg, #d6d8dc, #9a9da3 45%, #6f7277); }
+  /* Apoyado en el suelo (floor=1): sombras en el mismo plano, bajo el canto. Una dura que cae lejos de la luz
+     y otra de contacto, muy cerrada, donde el aluminio toca el suelo. */
+  .cast, .ao { position: absolute; inset: -7px; border-radius: 65px; display: none; }
+  .cast { transform: translate(var(--cx, 60px), var(--cy, 80px)) translateZ(-17px); background: rgba(18,16,30,.42); filter: blur(var(--cb, 22px)); }
+  .ao { transform: translate(6px, 8px) translateZ(-16.5px); background: rgba(10,10,18,.55); filter: blur(5px); }
+  .floor .cast, .floor .ao { display: block; }
+  .floor .shadow { display: none; }
+  .screen { position: absolute; inset: 26px; border-radius: 30px; overflow: hidden; background: #000; transform: translateZ(0.8px); }
   .screen img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
   /* Reflejo del cristal: muy sutil, diagonal. */
-  .glass { position: absolute; inset: 0; border-radius: 34px; pointer-events: none;
+  .glass { position: absolute; inset: 0; border-radius: 30px; pointer-events: none;
     background: linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 62%, rgba(255,255,255,.05) 80%, rgba(255,255,255,0) 100%); }
-  .cam { position: absolute; left: 50%; top: -15px; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%;
+  .cam { position: absolute; left: 50%; top: 10px; transform: translateZ(0.8px); width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%;
     background: radial-gradient(circle at 40% 40%, #2a3140, #08090c 70%); }
   /* Luz de ventana: franjas blandas que cruzan toda la escena (como la referencia de las lamas). */
   .light { position: fixed; inset: -20%; pointer-events: none; mix-blend-mode: soft-light; opacity: .85;
@@ -49,7 +60,11 @@
   <div class="shadow" id="shadow"></div>
   <div class="rig" id="rig">
     <div class="ipad">
+      <div class="cast"></div>
+      <div class="ao"></div>
       <div class="edge"></div>
+      <div class="rim"></div>
+      <div class="bezel"></div>
       <div class="cam"></div>
       <div class="screen"><img id="frame" alt="" /><div class="glass"></div></div>
     </div>
@@ -62,6 +77,13 @@
   const rx = n("rx", 22), ry = n("ry", -26), rz = n("rz", 7), s = n("s", 1), x = n("x", 0), y = n("y", 0), blur = n("blur", 0);
   if (q.get("bg")) document.documentElement.style.setProperty("--bg", "#" + q.get("bg"));
   if (q.get("light") === "1") document.getElementById("light").hidden = false;
+  if (q.get("floor") === "1") {
+    document.querySelector(".stage").classList.add("floor");
+    const r = document.documentElement.style;
+    if (q.has("cx")) r.setProperty("--cx", q.get("cx") + "px");
+    if (q.has("cy")) r.setProperty("--cy", q.get("cy") + "px");
+    if (q.has("cb")) r.setProperty("--cb", q.get("cb") + "px");
+  }
   const rig = document.getElementById("rig");
   rig.style.transform = `translate(${x}vw, ${y}vh) scale(${s}) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
   // La sombra cae debajo, aplastada, siguiendo el giro en Z.

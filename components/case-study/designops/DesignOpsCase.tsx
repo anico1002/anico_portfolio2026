@@ -109,7 +109,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
             body="The Copilot sets itself up in conversation: the Figma library, the repositories, what matters most. Then the sphere opens into the first score and bursts into the dashboard."
           />
           <FadeIn>
-            <div className="relative -mx-4 aspect-[16/10] overflow-hidden bg-[#ECEAF5] md:mx-0">
+            <div className="relative -mx-4 aspect-[16/10] overflow-hidden bg-[#ECEAF5] md:-mx-6">
               <LazyVideo
                 src={`${M}/onboarding.mp4`}
                 className="absolute inset-0 h-full w-full object-cover"
@@ -119,8 +119,11 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
           </FadeIn>
         </section>
 
-        {/* El dashboard, navegable */}
-        <section className={section}>
+        {/* El dashboard, navegable: casi a todo el ancho, sobre un degradado muy leve que sube hacia blanco */}
+        <section
+          className={`${section} pb-20 md:pb-32`}
+          style={{ background: "linear-gradient(to bottom, var(--case-bg) 0%, var(--case-bg) 35%, #ECEBF1 100%)" }}
+        >
           <Head
             eyebrow="The dashboard"
             title="Go ahead, click around."
@@ -136,7 +139,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
               </>
             }
           />
-          <FadeIn>
+          <FadeIn className="md:px-[1.5vw]">
             <LiveIpad />
           </FadeIn>
         </section>
