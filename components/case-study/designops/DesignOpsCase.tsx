@@ -140,7 +140,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
               delay={t}
               facts={[
                 ["Para", "Personal project"],
-                ["Rol", "Lead Product Designer"],
+                ["Rol", "End-to-end Product Designer"],
                 ["Qué hice", "Product · Web app · AI copilot · Identity"],
                 ["Año", "2026"],
               ]}

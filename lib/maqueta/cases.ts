@@ -17,7 +17,8 @@ export type Chapter = {
 
 /* Roles (decididos por Alberto, 2026-10-17): solo cuatro y sin nivel suelto por proyecto. Lead Product Designer
    (apps), Brand Designer (identidad), Art Director (proyectos con más marca en general: El Reto, GM World!) y
-   Lead UI/UX Designer (videojuegos). */
+   Lead UI/UX Designer (videojuegos). Y un quinto para los proyectos propios (DesignOps, SwifT y 7News; 2026-11-01):
+   End-to-end Product Designer, porque no hubo equipo que liderar y sí todo el recorrido, de la idea al prototipo. */
 export type CaseCopy = {
   slug: string;
   section: CaseSection;
@@ -115,7 +116,7 @@ const ALL_CASES: CaseCopy[] = [
     name: "SwifT Translator",
     line: "Instant translation from the macOS menu bar",
     year: "2026",
-    role: "Lead Product Designer",
+    role: "End-to-end Product Designer",
     services: ["Product", "macOS app", "Logo", "Landing page"],
     accent: "#8A8A8A",
     light: true,
@@ -183,7 +184,7 @@ const ALL_CASES: CaseCopy[] = [
     name: "DesignOps Copilot",
     line: "An AI copilot that keeps a design system in shape",
     year: "2026",
-    role: "Lead Product Designer",
+    role: "End-to-end Product Designer",
     services: ["Web app", "AI copilot", "Identity"],
     accent: "#2C2357",
     tagline: "A copilot for whoever looks after the design system.",
@@ -201,7 +202,7 @@ const ALL_CASES: CaseCopy[] = [
     name: "7news",
     line: "A news reader that knows when you’re done",
     year: "2026",
-    role: "Lead Product Designer",
+    role: "End-to-end Product Designer",
     services: ["iOS app", "Apple Watch", "Logo"],
     accent: "#0A0A0B",
     tagline: "El día se acaba.",
