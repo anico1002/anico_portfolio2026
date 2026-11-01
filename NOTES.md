@@ -2,23 +2,33 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EN CURSO (2026-11-01) — caso DesignOps Copilot, primera versión para revisar con Alberto
+## ▶ EMPEZAR AQUÍ (cierre 2026-11-01) — caso DesignOps Copilot terminado y publicado en el puente
 
-Caso nuevo en **`/new/designops`** (proyecto propio, primero en Product, delante de Gloop; el orden final lo decide
-Alberto según cómo quede). Código: `components/case-study/designops/` + `app/new/designops/page.tsx`.
-- **iPad navegable:** el prototipo real (`~/Vibe_Projects/designops-copilot`) exportado como web estática en
-  `public/maqueta/designops/app/` con `bash scripts/case-media/designops-app.sh` (no toca su repo; estado por pestaña
-  en sessionStorage, empieza en Health, claro). Se carga en un iframe del mismo dominio: abiertas solo esa carpeta las
-  cabeceras de iframe (`next.config.ts`, `.htaccess`, `_headers`) y un rewrite para servir sus `index.html` en dev/Vercel.
-  En móvil, en su lugar, el walkthrough en vídeo. Probado en Chrome y WebKit: aprobar → 82→88.
-- **Medios** (`public/maqueta/designops/{media,screens,app}`, **fuera de git**, hay que regenerarlos en el otro Mac):
-  grabaciones con `scripts/case-media/web-rec.mjs` + guiones `designops/{walkthrough,onboarding,mobile}.json`;
-  capturas a 3x `designops/screens.mjs`; close-ups `designops/closeups.sh` (escena `scripts/mockups/css-scene/plane.html`);
-  cabecera/miniatura: iPad en CSS 3D `css-scene/ipad.html` pintado con `scripts/mockups/css_scene.mjs` + `loop_fade.sh`.
-- Pendiente de revisar con Alberto: copy, orden en Product, si el iPad frontal o un MacBook, y el aviso #418 de
-  hidratación dentro del prototipo exportado (no se ve; viene de un texto que cambia entre build y navegador).
+Caso en **`/new/designops`** (proyecto propio, primero en Product). Alberto lo dio por bueno («está perfecta»).
+Código: `components/case-study/designops/` + `app/new/designops/page.tsx`. Publicado en https://anico-design.pages.dev.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-10-30) — web subida al servidor de Carlos, sin publicar
+**Estructura (sigue el thinking del guion de Cowork, `designops-copilot/docs/case-study-draft.md`, sin calcarlo):**
+cabecera (iPad en las manos con el recorrido) → intro: problema + primera idea + benchmark solo nombrado (Figma Check
+designs, Buoy, Design Bug Bot, Omlet) → el giro (detectores de humo / fire chief) con el diagrama y «Who it's for» →
+identidad (bola + demo de preguntas) → onboarding → dashboard navegable → principios (tablero de 6 close-ups, incl.
+«An exception needs a reason») → app móvil (bola blanca grande detrás) → «What's next» y «Isn't this just…» como
+paradas de scroll (titular fijo + filas) → bola como sello → cierre «Drift in. Decisions out.».
+
+**Rol de los proyectos propios** (DesignOps, SwifT, 7News): End-to-end Product Designer. Gloop NO es propio.
+
+**Medios** (`public/maqueta/designops/{media,screens,app}`, **fuera de git**: en el otro Mac hay que regenerarlos):
+- prototipo navegable: `bash scripts/case-media/designops-app.sh`;
+- capturas: `DPR=4 node scripts/case-media/designops/screens.mjs` (`ONLY=health,drift,review,exception`);
+- close-ups: `bash scripts/case-media/designops/closeups.sh` (escena `plane.html`, desenfoque progresivo por capas);
+- vídeos: `scripts/case-media/web-rec.mjs` + guiones `designops/{walkthrough,onboarding,mobile,hero}.json`;
+- cabecera/thumb: grabar `hero.json` (NOCURSOR=1, 1376×1032 dpr 2), recortar en partes con fundidos de 0,3 s
+  (cortes en la nota del commit) y `bash scripts/case-media/designops/hero.sh <src.mp4>` (foto de las manos con
+  `photo.html`); después `npm run media:opt`.
+
+**Pendiente / ideas:** el dashboard del vídeo de cabecera sale ya en 88 (tras el onboarding); si se quiere el 82 con
+los arreglos pendientes, regrabar. Aviso #418 de hidratación dentro del prototipo exportado (no se ve).
+
+## ▶ (anterior) cierre 2026-10-30 — web subida al servidor de Carlos, sin publicar
 
 **FTP resuelto:** entra por FTP (puerto 21) con `anico62`. El 530 era un carácter invisible al **pegar** la
 contraseña; tecleada a mano funciona. Llavero (`anico-es-ftp`) re-guardado a mano y ya entra desde el terminal.
