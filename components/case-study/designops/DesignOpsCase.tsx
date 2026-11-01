@@ -327,7 +327,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
         <Pinned eyebrow="What's next" title="Where it goes from here." items={NEXT} numbered />
         <Pinned eyebrow="Fair questions" title="Isn’t this just…" items={OBJECTIONS} />
 
-        <CaseClosing className={section} title="A design system that tells you what it needs." />
+        <CaseClosing className={section} title="Every drift ends in a decision, and every decision is remembered." />
       </CaseLayer>
 
       <CaseEnd items={n.items} all={n.all} />
