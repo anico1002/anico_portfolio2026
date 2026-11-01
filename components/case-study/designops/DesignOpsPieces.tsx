@@ -300,9 +300,11 @@ export function OnTheGoStage() {
     />
   );
   return (
-    <div style={AI_LIGHT} className="relative">
+    // El fondo es más bajo que el móvil (feedback 2026-11-01): el móvil sobresale por arriba y por abajo; el margen
+    // vertical del bloque le hace sitio para que no pise el texto ni la sección siguiente.
+    <div style={AI_LIGHT} className="relative my-[22%] md:my-[12%]">
       <MaskReveal from="bottom" speed={40}>
-        <div className="relative aspect-[4/5] overflow-hidden md:aspect-[6/5]" style={{ background: "#EEEAFB" }}>
+        <div className="relative aspect-[5/4] overflow-hidden md:aspect-[16/10]" style={{ background: "#EEEAFB" }}>
           {blob("var(--g3)", "left-[-10%] top-[-6%] h-[70%] w-[70%] opacity-45", [0, 60, 0], [0, 40, 0], 9)}
           {blob("var(--g2)", "right-[-12%] top-[28%] h-[60%] w-[60%] opacity-35", [0, -50, 0], [0, -30, 0], 11)}
           {blob("var(--g4)", "bottom-[-18%] left-[18%] h-[55%] w-[60%] opacity-35", [0, 40, 0], [0, -40, 0], 13)}
