@@ -7,10 +7,9 @@ import SiteNav from "@/components/case-study/SiteNav";
 import Lines from "@/components/case-study/Lines";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import LazyVideo from "@/components/case-study/LazyVideo";
-import RealPhone from "@/components/case-study/RealPhone";
 import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
-import { CloseUp, FlowDiagram, LiveIpad, M, MarkSizes, SphereStage } from "./DesignOpsPieces";
+import { CloseUp, FlowDiagram, LiveIpad, M, MarkSizes, OnTheGoStage, SphereStage } from "./DesignOpsPieces";
 
 /* Caso de DesignOps Copilot, a medida (2026-11-01). Proyecto propio: el centro de mando del responsable del design
    system, con un copiloto de IA que convierte los desvíos en decisiones. Medios: scripts/case-media/designops-app.sh
@@ -185,10 +184,10 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
           </div>
         </section>
 
-        {/* La app compañera */}
+        {/* La app compañera: el texto a la izquierda y, a sangre por la derecha, el móvil sobre la luz del Copilot */}
         <section className={section}>
           <div className={`${grid} items-center gap-y-12`}>
-            <div className="col-span-12 md:col-span-5">
+            <div className="col-span-12 md:col-span-4">
               <FadeIn>
                 <p className="t-label t-tag text-[var(--case-muted)]">On the go</p>
               </FadeIn>
@@ -202,9 +201,9 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
                 </p>
               </FadeIn>
             </div>
-            <FadeIn className="col-span-8 col-start-3 md:col-span-3 md:col-start-9">
-              <RealPhone src={`${M}/mobile.mp4`} label="Approving six fixes from a notification" />
-            </FadeIn>
+            <div className="col-span-12 -mx-4 md:col-span-7 md:col-start-6 md:mx-0 md:-mr-6">
+              <OnTheGoStage />
+            </div>
           </div>
         </section>
 

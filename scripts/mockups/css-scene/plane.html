@@ -67,7 +67,12 @@
     dof.style.filter = `blur(${blur}px)`;
     // Foco en elipse (por defecto) o en banda (`ba` = ángulo, `bc` = centro y `bw` = medio ancho de la franja nítida, en %):
     // en una lámina inclinada el foco real cae en una franja, como en un tilt-shift.
-    const m = q.has("ba")
+    // Esquinas (`corners=tl,br`; `cs` = alcance en %): desenfoque solo ahí, suave, y el resto nítido (2026-11-01:
+    // Alberto pidió que el close-up se vea definido y que solo se pierda por una esquina o dos).
+    const C = { tl: "0% 0%", tr: "100% 0%", bl: "0% 100%", br: "100% 100%" };
+    const m = q.has("corners")
+      ? q.get("corners").split(",").map((c) => `radial-gradient(ellipse ${n("cs", 55)}% ${n("cs", 55) * 1.1}% at ${C[c]}, #000 0%, rgba(0,0,0,.55) 45%, transparent 100%)`).join(", ")
+      : q.has("ba")
       ? `linear-gradient(${n("ba", 0)}deg, #000 0%, transparent ${n("bc", 50) - n("bw", 12)}%, transparent ${n("bc", 50) + n("bw", 12)}%, #000 100%)`
       : `radial-gradient(ellipse ${n("fw", 34)}% ${n("fh", 30)}% at ${n("fx", 50)}% ${n("fy", 50)}%, transparent 0%, transparent 35%, rgba(0,0,0,.6) 70%, #000 100%)`;
     dof.style.maskImage = m; dof.style.webkitMaskImage = m;

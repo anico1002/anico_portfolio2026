@@ -6,6 +6,8 @@ import LazyVideo from "@/components/case-study/LazyVideo";
 import Img from "@/components/case-study/Img";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
 import { CopilotMark } from "./CopilotMark";
+import RealPhone from "@/components/case-study/RealPhone";
+import { MaskReveal, Parallax, useSeen } from "@/components/case-study/primitives";
 
 /* Piezas del caso de DesignOps Copilot (2026-11-01). Todo lo que se ve sale del prototipo real
    (~/Vibe_Projects/designops-copilot): la marca es su mismo componente y el iPad lleva el prototipo exportado
@@ -47,13 +49,12 @@ const DECISIONS = ["Fix it, with your approval", "Keep it, with a reason", "Repo
 
 /** Píldora de cristal: blanco translúcido, desenfoque de lo que pasa por detrás (el brillo del fondo), canto
     iluminado. Entra deslizándose hacia el Copilot y luego flota, cada una a su ritmo. */
-function Pill({ children, dim = false, from, delay, k }: { children: React.ReactNode; dim?: boolean; from: number; delay: number; k: number }) {
+function Pill({ children, dim = false, from, delay, k, on }: { children: React.ReactNode; dim?: boolean; from: number; delay: number; k: number; on: boolean }) {
   const still = useReducedMotion();
   return (
     <motion.span
       initial={{ opacity: 0, x: from }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-15% 0px" }}
+      animate={on ? { opacity: 1, x: 0 } : { opacity: 0, x: from }}
       transition={{ duration: DUR.slow, ease: EASE.out, delay }}
       className="inline-flex"
     >
@@ -90,9 +91,12 @@ function Wire({ delay }: { delay: number }) {
     tenue de su degradado para que el cristal tenga algo que desenfocar. En móvil, en columna. */
 export function FlowDiagram() {
   const wide = useWide();
+  const box = useRef<HTMLDivElement>(null);
+  // useSeen y no whileInView: en Safari, llegando navegando, whileInView no se disparaba (primitives.tsx).
+  const on = useSeen(box, "-15% 0px");
   const d0 = 0.15;
   return (
-    <div style={AI_LIGHT} className="relative -mx-4 overflow-hidden px-4 py-16 md:-mx-6 md:px-6 md:py-28">
+    <div ref={box} style={AI_LIGHT} className="relative -mx-4 overflow-hidden px-4 py-16 md:-mx-6 md:px-6 md:py-28">
       {/* El brillo: tres manchas del degradado, muy abiertas */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute left-[8%] top-[18%] h-[60%] w-[34%] rounded-full opacity-[.16] blur-[80px]" style={{ background: "var(--g3)" }} />
@@ -102,7 +106,7 @@ export function FlowDiagram() {
       <div className="relative grid grid-cols-1 items-center gap-8 md:grid-cols-[1fr_auto_1fr] md:gap-0">
         <div className="flex flex-wrap gap-2 md:flex-col md:items-end md:gap-3">
           {SOURCES.map((s, k) => (
-            <Pill key={s} dim from={wide ? -40 : 0} delay={d0 + k * STAGGER} k={k}>
+            <Pill key={s} dim from={wide ? -40 : 0} delay={d0 + k * STAGGER} k={k} on={on}>
               {s}
             </Pill>
           ))}
@@ -111,8 +115,7 @@ export function FlowDiagram() {
           <Wire delay={0} />
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-15% 0px" }}
+            animate={on ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
             transition={{ duration: DUR.slow, ease: EASE.out, delay: d0 + 4 * STAGGER }}
             className="relative mx-0 md:mx-2"
           >
@@ -129,7 +132,7 @@ export function FlowDiagram() {
         </div>
         <div className="flex flex-wrap gap-2 md:flex-col md:items-start md:gap-3">
           {DECISIONS.map((s, k) => (
-            <Pill key={s} from={wide ? 40 : 0} delay={d0 + (6 + k) * STAGGER} k={k + 4}>
+            <Pill key={s} from={wide ? 40 : 0} delay={d0 + (6 + k) * STAGGER} k={k + 4} on={on}>
               {s}
             </Pill>
           ))}
@@ -225,10 +228,23 @@ export function LiveIpad() {
   }, []);
   return (
     <div className="relative w-full">
-      {/* Sombra de contacto: una elipse fina y oscura justo debajo */}
-      <div aria-hidden className="absolute -bottom-[1.2%] left-[6%] right-[6%] h-[3%] rounded-[50%] bg-[rgba(16,14,30,.38)] blur-[10px]" />
+      {/* De pie sobre la mesa (referencia de Alberto, 2026-11-01): una línea de contacto fina y oscura, algo más ancha
+          que el iPad, y debajo una sombra gris del ancho del aparato que cae y se desvanece. */}
       <div
-        className="relative rounded-[clamp(18px,2.6vw,44px)] p-[0.45%] shadow-[0_1px_1px_rgba(16,14,30,.10),0_6px_12px_-4px_rgba(16,14,30,.16),0_28px_50px_-24px_rgba(16,14,30,.38)]"
+        aria-hidden
+        className="absolute left-[3%] right-[3%] top-full h-[clamp(40px,8vw,130px)] blur-[2px]"
+        style={{
+          background: "linear-gradient(to bottom, rgba(16,14,30,.34), rgba(16,14,30,.14) 40%, rgba(16,14,30,0))",
+          WebkitMaskImage: "linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent)",
+          maskImage: "linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute -left-[0.6%] -right-[0.6%] top-full -mt-[4px] h-[7px] rounded-[50%] bg-[rgba(8,8,16,.85)] blur-[2px]"
+      />
+      <div
+        className="relative rounded-[clamp(18px,2.6vw,44px)] p-[0.45%] shadow-[0_1px_1px_rgba(16,14,30,.10)]"
         style={{ background: "linear-gradient(135deg, #f4f5f7 0%, #c9cbd0 22%, #e9eaee 48%, #a9acb2 78%, #d8dade 100%)" }}
       >
         <div className="relative rounded-[clamp(15px,2.3vw,40px)] bg-[#070708] p-[1.7%] shadow-[inset_0_0_0_1px_rgba(255,255,255,.10)]">
@@ -262,6 +278,42 @@ export function LiveIpad() {
             )}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── La app compañera ────────────────────────────────────────────────────────────────────────── */
+
+/** El móvil sobre un fondo de la luz del Copilot que entra en cortinilla (de abajo arriba) y llena el hueco hasta el
+    borde derecho; dentro, las manchas del degradado se mueven despacio. El móvil, girado como en Gloop o Interactius,
+    va por fuera de la máscara (si no, la cortinilla le cortaría las esquinas) y sube con parallax por encima. */
+export function OnTheGoStage() {
+  const still = useReducedMotion();
+  const blob = (bg: string, cls: string, a: number[], b: number[], t: number) => (
+    <motion.div
+      aria-hidden
+      className={`absolute rounded-full blur-[70px] ${cls}`}
+      style={{ background: bg }}
+      animate={still ? undefined : { x: a, y: b }}
+      transition={{ duration: t, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" }}
+    />
+  );
+  return (
+    <div style={AI_LIGHT} className="relative">
+      <MaskReveal from="bottom" speed={40}>
+        <div className="relative aspect-[4/5] overflow-hidden md:aspect-[6/5]" style={{ background: "#EEEAFB" }}>
+          {blob("var(--g3)", "left-[-10%] top-[-6%] h-[70%] w-[70%] opacity-45", [0, 60, 0], [0, 40, 0], 9)}
+          {blob("var(--g2)", "right-[-12%] top-[28%] h-[60%] w-[60%] opacity-35", [0, -50, 0], [0, -30, 0], 11)}
+          {blob("var(--g4)", "bottom-[-18%] left-[18%] h-[55%] w-[60%] opacity-35", [0, 40, 0], [0, -40, 0], 13)}
+        </div>
+      </MaskReveal>
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <Parallax speed={220} className="w-[50%] max-w-[330px] md:w-[34%]">
+          <div className="rotate-[14deg] drop-shadow-[0_40px_50px_rgba(44,35,87,0.35)]">
+            <RealPhone src={`${M}/mobile.mp4`} label="Approving six fixes from a notification" />
+          </div>
+        </Parallax>
       </div>
     </div>
   );
