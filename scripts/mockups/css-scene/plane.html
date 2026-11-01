@@ -7,7 +7,9 @@
        rx, ry, rz giro en grados        x, y   desplazamiento en %       bg  fondo (hex)
        blur       desenfoque máximo (px)  fx, fy  centro nítido en % de la escena   fw, fh  tamaño de la zona nítida (%)
        light      1 = franjas de luz;  la, lo  ángulo y opacidad          r  radio de las esquinas de la lámina (px)
-       edge       1 = canto de la lámina (grosor), para que parezca un objeto -->
+       edge       1 = canto de la lámina (grosor), para que parezca un objeto
+       at         «fx,fy» punto de la lámina que va al centro de la escena (y eje del giro)
+       corners    esquinas desenfocadas «tl,br»; cs = alcance en %; blur = desenfoque máximo en la esquina -->
 <html>
 <head>
 <meta charset="utf-8" />
@@ -44,7 +46,10 @@
   const fit = () => {
     const iw = img.naturalWidth || 1, ih = img.naturalHeight || 1;
     const ph = pw * (ch * ih) / (cw * iw);
-    Object.assign(plane.style, { width: pw + "px", height: ph + "px", left: -pw / 2 + "px", top: -ph / 2 + "px", borderRadius: r + "px" });
+    // `at=fx,fy` (fracciones de la lámina): ese punto cae en el centro de la escena y es el eje del giro. Para usar la
+    // pantalla entera (sin recorte, solo perspectiva y desenfoque) y acercarse a una zona (feedback 2026-11-01).
+    const [ax, ay] = (q.get("at") || "0.5,0.5").split(",").map(Number);
+    Object.assign(plane.style, { width: pw + "px", height: ph + "px", left: -pw * ax + "px", top: -ph * ay + "px", borderRadius: r + "px" });
     Object.assign(img.style, { width: pw / cw + "px", height: ph / ch + "px", left: (-cx / cw) * pw + "px", top: (-cy / ch) * ph + "px" });
   };
   const rig = document.getElementById("rig");
@@ -59,8 +64,26 @@
   document.getElementById("shade").style.background = `radial-gradient(120% 100% at ${n("fx", 50)}% ${n("fy", 50)}%, rgba(0,0,0,0) 45%, rgba(10,8,30,${n("vig", 0.18)}) 100%)`;
   let dof = null;
   const blur = n("blur", 0);
+  // Desenfoque progresivo por capas (2026-11-01). Antes se superponía una copia borrosa de la escena con una máscara
+  // y en la transición se veían las dos a la vez (la «doble imagen»). Ahora, N capas con backdrop-filter, cada una
+  // desenfocando un poco más lo que tiene detrás y cubriendo una zona más pequeña alrededor de la esquina lejana:
+  // la nitidez cae poco a poco hacia esa esquina, como la profundidad de campo de un objetivo, sin fantasmas.
+  if (blur && q.has("corners")) {
+    const C = { tl: "0% 0%", tr: "100% 0%", bl: "0% 100%", br: "100% 100%" };
+    const N = 8, reach = n("cs", 55), cs = q.get("corners").split(",");
+    // los desenfoques de las capas se suman en cuadratura: se escala para que en la esquina el total sea `blur`
+    const w = (i) => 1 + i * 0.25, norm = Math.sqrt(Array.from({ length: N }, (_, i) => w(i) ** 2).reduce((a, b) => a + b, 0));
+    for (let i = 0; i < N; i++) {
+      const outer = reach * (1 - i / N), inner = outer * 0.55;
+      const l = document.createElement("div");
+      l.style.cssText = `position:fixed;inset:0;pointer-events:none;backdrop-filter:blur(${(blur * w(i)) / norm}px);-webkit-backdrop-filter:blur(${(blur * w(i)) / norm}px)`;
+      const m = cs.map((c) => `radial-gradient(ellipse ${outer}% ${outer * 1.1}% at ${C[c]}, #000 ${(inner / outer) * 100}%, transparent 100%)`).join(", ");
+      l.style.maskImage = m; l.style.webkitMaskImage = m;
+      document.body.insertBefore(l, document.getElementById("shade"));
+    }
+  }
   const makeDof = () => {
-    if (!blur || dof) return;
+    if (!blur || dof || q.has("corners")) return;
     dof = document.getElementById("stage").cloneNode(true);
     dof.removeAttribute("id");
     dof.querySelectorAll("[id]").forEach((e) => e.removeAttribute("id"));

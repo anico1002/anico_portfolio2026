@@ -41,7 +41,7 @@ function Stream({ text, run }: { text: string; run: boolean }) {
   const [n, setN] = useState(run ? 0 : words.length);
   useEffect(() => {
     if (!run) return;
-    setN(0);
+    // empieza en 0: el componente se monta de nuevo con cada respuesta
     const id = setInterval(() => setN((k) => (k >= words.length ? k : k + 1)), 55);
     return () => clearInterval(id);
   }, [text, run, words.length]);
@@ -104,19 +104,24 @@ export default function AskDemo({ run, onThink }: { run: boolean; onThink: (on: 
   const [phase, setPhase] = useState<Phase>("idle");
   const [typed, setTyped] = useState("");
   const think = useRef(onThink);
-  think.current = onThink;
+  useEffect(() => {
+    think.current = onThink;
+  }, [onThink]);
   const q = QS[qi];
 
   useEffect(() => {
     if (!run) return;
-    if (still) {
-      setTyped(QS[0].q);
-      setPhase("answer");
-      return;
-    }
     const timers: number[] = [];
     let alive = true;
     const at = (ms: number, f: () => void) => timers.push(window.setTimeout(() => alive && f(), ms));
+    if (still) {
+      // sin movimiento: la primera respuesta, quieta
+      at(0, () => {
+        setTyped(QS[0].q);
+        setPhase("answer");
+      });
+      return () => timers.forEach(clearTimeout);
+    }
     const cycle = (i: number) => {
       const Q = QS[i];
       setQi(i);

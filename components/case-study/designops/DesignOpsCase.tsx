@@ -7,7 +7,7 @@ import SiteNav from "@/components/case-study/SiteNav";
 import Lines from "@/components/case-study/Lines";
 import CaseClosing from "@/components/case-study/CaseClosing";
 import LazyVideo from "@/components/case-study/LazyVideo";
-import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn } from "@/components/case-study/primitives";
+import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
 import { CloseUp, FlowDiagram, LiveIpad, M, MarkSizes, OnTheGoStage, SphereStage } from "./DesignOpsPieces";
 
@@ -21,10 +21,42 @@ const grid = "grid grid-cols-12 gap-x-4 md:gap-x-6";
 const section = `pt-36 md:pt-56 ${wrap}`;
 const Head = SectionHead;
 
-const FACTS: [string, string][] = [
-  ["One number", "The share of what your users see that uses the system as intended. A wrong color on the payment screen weighs more than one in settings."],
-  ["Approval first", "The Copilot drafts the fix and shows the change in code and in Figma. The pull request opens when someone says yes."],
-  ["Exceptions with a reason", "Keeping a drift on purpose asks why. From then on it stays out of the list."],
+const DETAILS: { name: string; ratio: string; alt: string; title: string; body: string }[] = [
+  {
+    name: "cu-kpi",
+    ratio: "16 / 9",
+    alt: "Close-up of the open, critical, adoption and fixed tiles",
+    title: "One number",
+    body: "The share of what your users see that uses the system as intended. A wrong color on the payment screen weighs more than one in settings. Around it, four tiles: what's open, what's critical, how much of the product uses official components and what got fixed this week.",
+  },
+  {
+    name: "cu-copilot",
+    ratio: "4 / 5",
+    alt: "Close-up of the Copilot's weekly summary",
+    title: "The Copilot speaks first",
+    body: "Each week opens with a summary in plain words: what came in, where it came from and how many points fixing it is worth. One button takes you straight to the fixes.",
+  },
+  {
+    name: "cu-drift",
+    ratio: "16 / 9",
+    alt: "Close-up of the light and dark comparison on a drift",
+    title: "Approval first",
+    body: "Every drift shows what was found next to what the system says, on the real screen and in both themes. The Copilot drafts the fix, and the pull request opens when someone says yes. Keeping a drift on purpose asks why, and from then on it stays out of the list.",
+  },
+  {
+    name: "cu-panel",
+    ratio: "4 / 5",
+    alt: "Close-up of the dark design system panel",
+    title: "The system in one column",
+    body: "Components and tokens sit in a dark panel, each with its health beside the name. Below them, what the system is missing: the pieces teams keep building on their own.",
+  },
+  {
+    name: "cu-ask",
+    ratio: "16 / 9",
+    alt: "Close-up of the Ask the Copilot field and its suggestions",
+    title: "Ask before you change",
+    body: "Before touching a token, ask what it reaches. The answer lists every component and screen it affects, and the places that would stay behind.",
+  },
 ];
 
 export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
@@ -64,7 +96,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
             </div>
             {/* El hueco de la izquierda lo ocupa el close-up que mejor resume el producto (feedback 2026-11-01): así los
                 textos de la intro y del giro no caen en la misma pantalla. */}
-            <FadeIn className="-mx-4 col-span-12 md:col-span-7 md:mx-0 md:row-start-2 md:mt-6">
+            <FadeIn className="-mx-4 col-span-12 md:col-span-6 md:ml-[-1.5rem] md:mr-0 md:row-start-2 md:mt-6">
               <CloseUp name="cu-score" ratio="4 / 3" sizes="(min-width: 768px) 58vw, 100vw" alt="Close-up of the health score ring at 82" />
             </FadeIn>
             <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6 md:self-end">
@@ -164,41 +196,39 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
             title="One ink, one light, and quiet everywhere else."
             body="Neutrals and a single deep violet carry the interface. Status gets a small dot instead of a fill. The gradient belongs to the Copilot, so you always know where the AI is."
           />
-          <div className="-mx-4 grid grid-cols-12 gap-[6px] md:mx-0">
-            <FadeIn className="col-span-12 md:col-span-6">
-              <CloseUp name="cu-panel" ratio="4 / 5" sizes="(min-width: 768px) 50vw, 100vw" alt="Close-up of the dark design system panel" />
-            </FadeIn>
-            <FadeIn delay={STAGGER} className="col-span-12 md:col-span-6">
-              <CloseUp name="cu-copilot" ratio="4 / 5" sizes="(min-width: 768px) 50vw, 100vw" alt="Close-up of the Copilot's weekly summary" />
-            </FadeIn>
-            <FadeIn className="col-span-12">
-              <CloseUp name="cu-kpi" ratio="16 / 9" alt="Close-up of the open, critical, adoption and fixed tiles" />
-            </FadeIn>
-            <FadeIn className="col-span-12 md:col-span-6">
-              <CloseUp name="cu-drift" ratio="16 / 9" sizes="(min-width: 768px) 50vw, 100vw" alt="Close-up of the light and dark comparison on a drift" />
-            </FadeIn>
-            <FadeIn delay={STAGGER} className="col-span-12 md:col-span-6">
-              <CloseUp name="cu-ask" ratio="16 / 9" sizes="(min-width: 768px) 50vw, 100vw" alt="Close-up of the Ask the Copilot field and its suggestions" />
-            </FadeIn>
-          </div>
-        </section>
-
-        {/* Principios, en pequeño */}
-        <section className={`pt-24 md:pt-36 ${wrap}`}>
-          <div className={`${grid} gap-y-10`}>
-            {FACTS.map(([t, d], k) => (
-              <FadeIn key={t} delay={k * STAGGER} className="col-span-12 border-t border-[var(--case-line)] pt-5 md:col-span-4">
-                <p className="t-title">{t}</p>
-                <p className="mt-3 t-small text-[var(--case-muted)]">{d}</p>
-              </FadeIn>
-            ))}
+          {/* En damero (feedback 2026-11-01): las imágenes, a sangre y del mismo alto, se tocan por las esquinas en el
+              centro de la página; los textos van en los huecos blancos, en la columna del texto de la cabecera (8–11) o
+              en su espejo (2–5). Sin parallax vertical, para que las esquinas casen siempre. */}
+          <div className="-mx-4 md:-mx-6">
+            {DETAILS.map((d, k) => {
+              const right = k % 2 === 1;
+              return (
+                <div key={d.name} className="grid grid-cols-1 md:grid-cols-2">
+                  <MaskReveal from={right ? "right" : "left"} speed={0} className={right ? "md:col-start-2 md:row-start-1" : "md:col-start-1 md:row-start-1"}>
+                    <CloseUp name={d.name} ratio="4 / 3" sizes="(min-width: 768px) 50vw, 100vw" alt={d.alt} />
+                  </MaskReveal>
+                  <div className={`flex items-center px-4 py-14 md:row-start-1 md:px-6 md:py-0 ${right ? "md:col-start-1" : "md:col-start-2"}`}>
+                    <div className={`${grid} w-full md:grid-cols-6`}>
+                      <div className={`col-span-12 md:col-span-4 ${right ? "md:col-start-2" : "md:col-start-2"}`}>
+                        <FadeIn>
+                          <p className="t-title">{d.title}</p>
+                        </FadeIn>
+                        <FadeIn delay={STAGGER} className="mt-4">
+                          <p className="t-body text-[var(--case-muted)]">{d.body}</p>
+                        </FadeIn>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
         {/* La app compañera: el texto a la izquierda y, a sangre por la derecha, el móvil sobre la luz del Copilot */}
         <section className={section}>
           <div className={`${grid} items-center gap-y-12`}>
-            <div className="col-span-12 md:col-span-4">
+            <div className="col-span-12 md:col-span-4 md:col-start-2">
               <FadeIn>
                 <p className="t-label t-tag text-[var(--case-muted)]">On the go</p>
               </FadeIn>
@@ -212,7 +242,7 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
                 </p>
               </FadeIn>
             </div>
-            <div className="col-span-12 -mx-4 md:col-span-7 md:col-start-6 md:mx-0 md:-mr-6">
+            <div className="col-span-12 -mx-4 md:col-span-5 md:col-start-8 md:mx-0 md:-mr-6">
               <OnTheGoStage />
             </div>
           </div>

@@ -295,10 +295,13 @@ export function LiveIpad() {
 /* ── La app compañera ────────────────────────────────────────────────────────────────────────── */
 
 /** El móvil sobre un fondo de la luz del Copilot que entra en cortinilla (de abajo arriba) y llena el hueco hasta el
-    borde derecho; dentro, las manchas del degradado se mueven despacio. El móvil, girado como en Gloop o Interactius,
-    va por fuera de la máscara (si no, la cortinilla le cortaría las esquinas) y sube con parallax por encima. */
+    borde derecho; dentro, las manchas del degradado se mueven despacio y la bola del Copilot, en blanco, se forma
+    detrás. El móvil, girado como en Gloop o Interactius, va por fuera de la máscara (si no, la cortinilla le cortaría
+    las esquinas) y sube con parallax por encima. */
 export function OnTheGoStage() {
   const still = useReducedMotion();
+  const orbRef = useRef<HTMLDivElement>(null);
+  const seen = useSeen(orbRef, "-20% 0px");
   const blob = (bg: string, cls: string, a: number[], b: number[], t: number) => (
     <motion.div
       aria-hidden
@@ -311,17 +314,25 @@ export function OnTheGoStage() {
   return (
     // El fondo es más bajo que el móvil (feedback 2026-11-01): el móvil sobresale por arriba y por abajo; el margen
     // vertical del bloque le hace sitio para que no pise el texto ni la sección siguiente.
-    <div style={AI_LIGHT} className="relative my-[22%] md:my-[12%]">
+    <div style={AI_LIGHT} className="relative my-[22%] md:my-[20%]">
       <MaskReveal from="bottom" speed={40}>
-        <div className="relative aspect-[5/4] overflow-hidden md:aspect-[16/10]" style={{ background: "#EEEAFB" }}>
+        <div className="relative aspect-[5/4] overflow-hidden md:aspect-[4/3]" style={{ background: "#EEEAFB" }}>
           {blob("var(--g3)", "left-[-10%] top-[-6%] h-[70%] w-[70%] opacity-45", [0, 60, 0], [0, 40, 0], 9)}
           {blob("var(--g2)", "right-[-12%] top-[28%] h-[60%] w-[60%] opacity-35", [0, -50, 0], [0, -30, 0], 11)}
           {blob("var(--g4)", "bottom-[-18%] left-[18%] h-[55%] w-[60%] opacity-35", [0, 40, 0], [0, -40, 0], 13)}
+          {/* La bola del Copilot en blanco detrás del móvil (feedback 2026-11-01: que se reconozca el Copilot, no
+              partículas sueltas). Se forma al entrar, como la de la sección de la bola. */}
+          <div ref={orbRef} aria-hidden className="absolute inset-0 flex items-center justify-center">
+            {/* a la izquierda del móvil, para que la bola se lea entera y el creciente quede junto a él */}
+            <div className="-translate-x-[18%] scale-[.68] md:-translate-x-[23%] md:scale-100">
+              <CopilotMark size={520} kind="sphere" tone="white" gather={seen} />
+            </div>
+          </div>
         </div>
       </MaskReveal>
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <Parallax speed={220} className="w-[50%] max-w-[330px] md:w-[34%]">
-          <div className="rotate-[14deg] drop-shadow-[0_40px_50px_rgba(44,35,87,0.35)]">
+        <Parallax speed={220} className="w-[50%] max-w-[330px] md:w-[48%]">
+          <div className="translate-x-[22%] rotate-[14deg] drop-shadow-[0_40px_50px_rgba(44,35,87,0.35)]">
             <RealPhone src={`${M}/mobile.mp4`} label="Approving six fixes from a notification" />
           </div>
         </Parallax>
