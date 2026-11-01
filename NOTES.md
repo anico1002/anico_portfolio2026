@@ -5,7 +5,9 @@
 ## ▶ EMPEZAR AQUÍ (cierre 2026-11-01) — caso DesignOps Copilot terminado y publicado en el puente
 
 Caso en **`/new/designops`** (proyecto propio, primero en Product). Alberto lo dio por bueno («está perfecta»).
-Código: `components/case-study/designops/` + `app/new/designops/page.tsx`. Publicado en https://anico-design.pages.dev.
+Código: `components/case-study/designops/` + `app/new/designops/page.tsx`. Publicado en https://anico-design.pages.dev
+y también subido al servidor de Carlos (http://anico.es.mialias.net/, sin DNS aún) con `python3 deploy/subir-ftp.py`
+(sube solo lo nuevo o cambiado; `--dry` para ver qué subiría). Útil los días de LaLiga, que bloquean pages.dev.
 
 **Estructura (sigue el thinking del guion de Cowork, `designops-copilot/docs/case-study-draft.md`, sin calcarlo):**
 cabecera (iPad en las manos con el recorrido) → intro: problema + primera idea + benchmark solo nombrado (Figma Check
