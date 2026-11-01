@@ -292,6 +292,43 @@ export function LiveIpad() {
   );
 }
 
+/** La bola del Copilot como sello antes del cierre (feedback 2026-11-01): separa la parada de scroll de la frase final y
+    cierra el caso con la misma marca con la que se presenta. Se forma al entrar, como la de identidad. */
+export function ClosingOrb() {
+  const wide = useWide();
+  const [hover, setHover] = useState(false);
+  const size = wide ? 420 : 260;
+  const box = useRef<HTMLDivElement>(null);
+  const seen = useSeen(box, "-20% 0px");
+  return (
+    <div
+      ref={box}
+      style={{ ...AI_LIGHT, height: size * 0.85 }}
+      className="relative flex w-full items-center justify-center"
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute rounded-full"
+        style={{
+          width: size * 0.9,
+          height: size * 0.9,
+          filter: `blur(${size * 0.12}px)`,
+          background:
+            "radial-gradient(circle at 60% 45%, rgba(240,69,155,.20), rgba(139,92,255,.16) 40%, rgba(255,154,61,.08) 62%, rgba(255,255,255,0) 72%)",
+        }}
+      />
+      {/* como en SphereStage: el lienzo de la bola es más grande que lo dibujado; se centra así */}
+      <div className="relative" style={{ width: size, height: size }}>
+        <div className="absolute" style={{ left: -size / 2, top: -size / 2 }}>
+          <CopilotMark size={size} kind="sphere" thinking={hover} gather={seen} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── La app compañera ────────────────────────────────────────────────────────────────────────── */
 
 /** El móvil sobre un fondo de la luz del Copilot que entra en cortinilla (de abajo arriba) y llena el hueco hasta el

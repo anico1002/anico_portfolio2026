@@ -9,7 +9,7 @@ import CaseClosing from "@/components/case-study/CaseClosing";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import { BandMedia, CaseHero, CaseHeroOverlay, Eyebrow, FadeIn, MaskReveal } from "@/components/case-study/primitives";
 import { STAGGER } from "@/lib/maqueta/motion";
-import { CloseUp, FlowDiagram, LiveIpad, M, MarkSizes, OnTheGoStage, SphereStage } from "./DesignOpsPieces";
+import { CloseUp, ClosingOrb, FlowDiagram, LiveIpad, M, MarkSizes, OnTheGoStage, SphereStage } from "./DesignOpsPieces";
 
 /* Caso de DesignOps Copilot, a medida (2026-11-01). Proyecto propio: el centro de mando del responsable del design
    system, con un copiloto de IA que convierte los desvíos en decisiones. Medios: scripts/case-media/designops-app.sh
@@ -327,7 +327,13 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
         <Pinned eyebrow="What's next" title="Where it goes from here." items={NEXT} numbered />
         <Pinned eyebrow="Fair questions" title="Isn’t this just…" items={OBJECTIONS} />
 
-        <CaseClosing className={section} title="Every drift ends in a decision, and every decision is remembered." />
+        {/* La bola como sello y, debajo, la frase final */}
+        <section className={`pt-48 md:pt-72 ${wrap}`}>
+          <FadeIn>
+            <ClosingOrb />
+          </FadeIn>
+        </section>
+        <CaseClosing className={`pt-6 md:pt-10 ${wrap}`} title="Drift in. Decisions out." />
       </CaseLayer>
 
       <CaseEnd items={n.items} all={n.all} />
