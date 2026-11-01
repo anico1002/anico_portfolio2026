@@ -62,13 +62,27 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
                 A copilot for whoever looks after the design system.
               </Lines>
             </div>
-            <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6">
-              <p className="t-body text-[var(--case-muted)]">
-                With AI, anyone can ship a screen in minutes, and each one arrives with its own almost-right button, its
-                own grey and its own spacing. The system wears away one pull request at a time. DesignOps Copilot watches
-                Figma and code, tells the design system lead what is drifting and what it costs, and fixes it once they
-                approve.
-              </p>
+            {/* El hueco de la izquierda lo ocupa el close-up que mejor resume el producto (feedback 2026-11-01): así los
+                textos de la intro y del giro no caen en la misma pantalla. */}
+            <FadeIn className="-mx-4 col-span-12 md:col-span-7 md:mx-0 md:row-start-2 md:mt-6">
+              <CloseUp name="cu-score" ratio="4 / 3" sizes="(min-width: 768px) 58vw, 100vw" alt="Close-up of the health score ring at 82" />
+            </FadeIn>
+            <FadeIn delay={2 * STAGGER} className="col-span-12 md:col-span-4 md:col-start-8 md:row-start-2 md:mt-6 md:self-end">
+              <div className="flex flex-col gap-5 t-body text-[var(--case-muted)]">
+                <p>
+                  With AI, anyone can ship a screen in minutes, and each one arrives with its own almost-right button, its
+                  own grey and its own spacing. The system wears away one pull request at a time.
+                </p>
+                <p>
+                  The person who looks after it usually finds out late, in a review or a bug report, and spends the week
+                  chasing fixes with teams that have already moved on.
+                </p>
+                <p>
+                  DesignOps Copilot watches Figma and code, tells the design system lead what is drifting and what it
+                  costs, and fixes it once they approve. Each morning starts with one number: how much of what users see
+                  still uses the system as intended.
+                </p>
+              </div>
             </FadeIn>
           </div>
         </section>
@@ -151,9 +165,6 @@ export default function DesignOpsCase({ next: n }: { next: MoreCases }) {
             body="Neutrals and a single deep violet carry the interface. Status gets a small dot instead of a fill. The gradient belongs to the Copilot, so you always know where the AI is."
           />
           <div className="-mx-4 grid grid-cols-12 gap-[6px] md:mx-0">
-            <FadeIn className="col-span-12">
-              <CloseUp name="cu-score" ratio="16 / 10" alt="Close-up of the health score ring at 82" />
-            </FadeIn>
             <FadeIn className="col-span-12 md:col-span-6">
               <CloseUp name="cu-panel" ratio="4 / 5" sizes="(min-width: 768px) 50vw, 100vw" alt="Close-up of the dark design system panel" />
             </FadeIn>
