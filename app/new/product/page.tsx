@@ -13,7 +13,9 @@ export const revalidate = 86400;
    separado para no mezclar públicos. Los casos aún sin contenido van sin enlace. */
 
 // WineUp a la derecha (2026-10-17): en el hueco grande a sangre por la derecha.
-const SLOT: Record<string, number> = { wineup: 1 };
+// DesignOps Copilot abre la lista (2026-11-01) en el 16:10 a sangre por la derecha, que es la forma de su miniatura; Gloop
+// pasa detrás a su 4:3 de siempre y los demás conservan su hueco (si no, todos corrían uno y SwifT caía en el 3:4).
+const SLOT: Record<string, number> = { designops: 1, "swift-project": 1, "7news": 2, dovla: 3, interactius: 4, "elreto-masterchef": 5, wineup: 1 };
 const card = (c: CaseCopy): P => ({
   slot: SLOT[c.slug],
   name: c.name,
@@ -28,9 +30,11 @@ export default function ProductHome() {
   // Por fecha, lo más actual arriba (feedback 2026-10-16). Dentro de 2026, el orden también encaja cada
   // miniatura en un hueco de su forma (HomeView → layout): SwifT en el grande horizontal a sangre, 7News (móvil
   // en vertical) en el pequeño 3:4, Dovla en el cuadrado, Interactius en el 16:10 y El Reto (2025) en el 4:3.
+  const [first, ...firstRest] = productInOrder().slice(0, PRODUCT_FIRST.length).map(card);
   const items: P[] = [
-    { name: "Gloop", line: "One app for every night out with your friends", type: "Native iOS", year: "2026", thumb: "/maqueta/gloop/media/hero-mock-25d-v2.mp4", href: `${BASE}/gloop` },
-    ...productInOrder().slice(0, PRODUCT_FIRST.length).map(card),
+    first,
+    { slot: 0, name: "Gloop", line: "One app for every night out with your friends", type: "Native iOS", year: "2026", thumb: "/maqueta/gloop/media/hero-mock-25d-v2.mp4", href: `${BASE}/gloop` },
+    ...firstRest,
     ...PENDING.map((p) => ({ ...p, line: "" })),
     ...productInOrder().slice(PRODUCT_FIRST.length).map(card),
   ];

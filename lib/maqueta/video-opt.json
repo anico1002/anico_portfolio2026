@@ -24,6 +24,7 @@
 "/maqueta/gloop/media/hero-mock.mp4":{"w":1920,"h":1080,"card":"/opt/maqueta/gloop/media/hero-mock.1280.mp4","port":"/opt/maqueta/gloop/media/hero-mock.port.mp4"},
 "/maqueta/gloop/media/hero.mp4":{"w":1920,"h":1080,"port":"/opt/maqueta/gloop/media/hero.port.mp4"},
 "/maqueta/gloop/media/nativa.mp4":{"w":1920,"h":1080,"card":"/opt/maqueta/gloop/media/nativa.1280.mp4"},
+"/maqueta/hero-reel/reel.mp4":{"w":1920,"h":1080,"port":"/opt/maqueta/hero-reel/reel.port.mp4"},
 "/maqueta/interactius/media/manual-movil.mp4":{"w":1920,"h":1080,"card":"/opt/maqueta/interactius/media/manual-movil.1280.mp4"},
 "/maqueta/obliq/logo-anim.mp4":{"w":1920,"h":438,"card":"/opt/maqueta/obliq/logo-anim.1280.mp4","port":"/opt/maqueta/obliq/logo-anim.port.mp4"},
 "/maqueta/swift/hero.mp4":{"w":1920,"h":1080,"card":"/opt/maqueta/swift/hero.1280.mp4","port":"/opt/maqueta/swift/hero.port.mp4"},

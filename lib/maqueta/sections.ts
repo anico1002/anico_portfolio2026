@@ -5,6 +5,7 @@ export const SLIDES = {
   // Product: las miniaturas en movimiento de cada caso (2026-10-14). Cada vídeo nuevo de
   // miniatura entra aquí; necesita su póster al lado (`x.mp4` → `x-poster.jpg`, SlideMedia.tsx).
   product: [
+    "/maqueta/designops/media/hero-thumb.mp4", // DesignOps Copilot (2026-11-01)
     "/maqueta/gloop/media/hero-mock-25d-v2.mp4",
     "/maqueta/swift/duo-thumb.mp4",
     "/maqueta/7news/media/hero-25d-v3.mp4",

@@ -16,6 +16,12 @@ DirectoryIndex index.html
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), browsing-topics=()"
   Header set X-Frame-Options "DENY"
   Header set Content-Security-Policy "frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+  # El prototipo de DesignOps Copilot se navega dentro de la pantalla de su caso (iframe del mismo dominio,
+  # 2026-11-01): solo esa carpeta se deja incrustar, y solo desde aquí.
+  <If "%{REQUEST_URI} =~ m#^/(new/)?maqueta/designops/app/#">
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Content-Security-Policy "frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
+  </If>
   Header unset X-Powered-By
   Header unset Server
 

@@ -175,6 +175,25 @@ const ALL_CASES: CaseCopy[] = [
     outcome: "",
   },
   {
+    // Caso a medida (app/new/designops, 2026-11-01): proyecto propio. Estos campos solo alimentan la tarjeta, el pase
+    // de Product y el «siguiente caso». Miniatura: el iPad en perspectiva con el dashboard vivo (css_scene.mjs).
+    slug: "designops",
+    section: "product",
+    thumb: "/maqueta/designops/media/hero-thumb.mp4",
+    name: "DesignOps Copilot",
+    line: "An AI copilot that keeps a design system in shape",
+    year: "2026",
+    role: "Lead Product Designer",
+    services: ["Web app", "AI copilot", "Identity"],
+    accent: "#2C2357",
+    tagline: "A copilot for whoever looks after the design system.",
+    question: "What does the person who owns a design system need when AI ships screens faster than anyone can review them?",
+    overview: ["The command center for a design system: an AI copilot that turns drift into decisions."],
+    chapters: [],
+    outcomeTitle: "A design system that tells you what it needs.",
+    outcome: "",
+  },
+  {
     // Caso a medida (app/new/7news): estos campos solo alimentan la tarjeta y el «siguiente caso».
     slug: "7news",
     section: "product",
@@ -687,7 +706,8 @@ export const PENDING: { name: string; type: string; year: string }[] = [];
 
 /** Orden de Product (2026-10-16): por fecha, lo más actual arriba. Estos van primero, en este orden (encajan
     con los huecos de la rejilla de la home); el resto de Product, después, por año descendente. */
-export const PRODUCT_FIRST = ["swift-project", "7news", "dovla", "interactius", "elreto-masterchef", "wineup"];
+// DesignOps Copilot abre Product, delante incluso de Gloop (2026-11-01, Alberto: «en principio irá el primero»).
+export const PRODUCT_FIRST = ["designops", "swift-project", "7news", "dovla", "interactius", "elreto-masterchef", "wineup"];
 export function productInOrder(): CaseCopy[] {
   const all = CASES.filter((c) => c.section === "product");
   const first = PRODUCT_FIRST.map((s) => all.find((c) => c.slug === s)).filter((c): c is CaseCopy => !!c);
@@ -711,7 +731,11 @@ export function nextCase(slug: string): { name: string; href: string; slug: stri
   const list =
     section === "games"
       ? casesIn("games")
-      : [{ name: "Gloop", slug: "gloop" }, ...casesIn("product"), ...casesIn("brand")];
+      : (() => {
+          // Gloop va justo detrás del primero de Product (DesignOps Copilot desde el 2026-11-01).
+          const [first, ...rest] = productInOrder();
+          return [first, { name: "Gloop", slug: "gloop" }, ...rest, ...casesIn("brand")];
+        })();
   const i = list.findIndex((x) => x.slug === slug);
   const n = list[(i + 1) % list.length];
   return { name: n.name, slug: n.slug, href: `${BASE}/${n.slug}` };

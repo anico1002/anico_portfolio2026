@@ -97,3 +97,9 @@ scripts/mockups/photoshop/run.jsx
 # hero reel: fotogramas y renders regenerables (scripts/hero-reel/prep.sh y render.mjs)
 /scripts/hero-reel/fr/
 /scripts/hero-reel/out/
+
+# DesignOps Copilot (2026-11-01): el prototipo exportado (scripts/case-media/designops-app.sh) y sus medios.
+/public/maqueta/designops/app/
+/public/maqueta/designops/media/
+/public/maqueta/designops/screens/
+/public/opt/maqueta/designops/

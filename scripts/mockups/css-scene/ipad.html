@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- Escena de un iPad Pro (horizontal) en CSS 3D, sin plantillas: cuerpo escultórico casi negro, luz dura de estudio
+     y la pantalla como única fuente de color. La pinta css_scene.mjs fotograma a fotograma (DesignOps Copilot,
+     2026-11-01). Parámetros por la URL:
+       rx, ry, rz   giro en grados          s     escala del iPad (1 = 1100 px de ancho)
+       x, y         desplazamiento en %     bg    fondo (hex sin #)        light  1 = franja de luz de ventana
+       blur         px de desenfoque de lo que queda lejos (profundidad de campo; 0 = nada)
+       crop         recorte de la pantalla: «x,y,w,h» en fracciones (close-ups: solo un trozo, muy grande) -->
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  :root { --bg: #e6e6e9; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); }
+  .stage { position: fixed; inset: 0; perspective: 2600px; perspective-origin: 50% 40%;
+    background:
+      radial-gradient(120% 90% at 50% 30%, rgba(255,255,255,.55), rgba(255,255,255,0) 60%),
+      radial-gradient(140% 120% at 50% 110%, rgba(0,0,0,.10), rgba(0,0,0,0) 55%),
+      var(--bg); }
+  .shadow { position: absolute; left: 50%; top: 50%; width: 1050px; height: 300px; transform-origin: center;
+    background: radial-gradient(closest-side, rgba(20,20,30,.34), rgba(20,20,30,.12) 55%, rgba(20,20,30,0));
+    filter: blur(30px); }
+  .rig { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
+  .ipad { position: absolute; width: 1100px; aspect-ratio: 1376 / 1032; left: -550px; top: -412.5px;
+    box-sizing: content-box; padding: 26px; margin: -26px; border-radius: 58px;
+    background: linear-gradient(145deg, #2b2b2f 0%, #121214 38%, #0b0b0c 70%, #1d1d20 100%);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.16),
+      inset 0 0 0 4px #050506,
+      0 2px 0 rgba(255,255,255,.05); }
+  /* Canto del aluminio: una lámina detrás, desplazada en Z. */
+  .edge { position: absolute; inset: -26px; border-radius: 60px; transform: translateZ(-14px);
+    background: linear-gradient(160deg, #6b6c70, #2a2a2d 40%, #121214); }
+  .screen { position: absolute; inset: 0; border-radius: 34px; overflow: hidden; background: #000; }
+  .screen img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+  /* Reflejo del cristal: muy sutil, diagonal. */
+  .glass { position: absolute; inset: 0; border-radius: 34px; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 62%, rgba(255,255,255,.05) 80%, rgba(255,255,255,0) 100%); }
+  .cam { position: absolute; left: 50%; top: -15px; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #2a3140, #08090c 70%); }
+  /* Luz de ventana: franjas blandas que cruzan toda la escena (como la referencia de las lamas). */
+  .light { position: fixed; inset: -20%; pointer-events: none; mix-blend-mode: soft-light; opacity: .85;
+    background: repeating-linear-gradient(118deg, rgba(255,255,255,0) 0 160px, rgba(255,255,255,.9) 230px 330px, rgba(255,255,255,0) 400px 560px); filter: blur(28px); }
+  .dof { position: fixed; inset: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="shadow" id="shadow"></div>
+  <div class="rig" id="rig">
+    <div class="ipad">
+      <div class="edge"></div>
+      <div class="cam"></div>
+      <div class="screen"><img id="frame" alt="" /><div class="glass"></div></div>
+    </div>
+  </div>
+</div>
+<div class="light" id="light" hidden></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const n = (k, d) => (q.has(k) ? +q.get(k) : d);
+  const rx = n("rx", 22), ry = n("ry", -26), rz = n("rz", 7), s = n("s", 1), x = n("x", 0), y = n("y", 0), blur = n("blur", 0);
+  if (q.get("bg")) document.documentElement.style.setProperty("--bg", "#" + q.get("bg"));
+  if (q.get("light") === "1") document.getElementById("light").hidden = false;
+  const rig = document.getElementById("rig");
+  rig.style.transform = `translate(${x}vw, ${y}vh) scale(${s}) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`;
+  // La sombra cae debajo, aplastada, siguiendo el giro en Z.
+  const sh = document.getElementById("shadow");
+  // Flota: la sombra cae en el suelo, por debajo y algo a la derecha (luz arriba a la izquierda). `sy` la acerca o aleja.
+  const sy = n("sy", 470);
+  sh.style.transform = `translate(calc(-50% + ${x}vw + ${70 * s}px), calc(-50% + ${y}vh + ${sy * s}px)) scale(${s * 1.15}, ${s * 0.55}) rotate(${rz * 0.6}deg)`;
+  // Recorte: la pantalla enseña solo un trozo de la captura, ampliado.
+  const img = document.getElementById("frame");
+  if (q.get("crop")) {
+    const [cx, cy, cw, ch] = q.get("crop").split(",").map(Number);
+    Object.assign(img.style, { width: `${100 / cw}%`, height: `${100 / ch}%`, left: `${(-cx / cw) * 100}%`, top: `${(-cy / ch) * 100}%`, objectFit: "fill" });
+  }
+  // Profundidad de campo: una copia desenfocada de todo encima, enmascarada para dejar nítida una franja.
+  if (blur > 0) {
+    const stage = document.querySelector(".stage");
+    const copy = stage.cloneNode(true);
+    copy.classList.add("dof");
+    copy.style.filter = `blur(${blur}px)`;
+    const fx = n("fx", 50), fy = n("fy", 50), fr = n("fr", 22);
+    const m = `radial-gradient(ellipse ${fr * 1.6}% ${fr}% at ${fx}% ${fy}%, transparent 0%, transparent 45%, #000 100%)`;
+    copy.style.maskImage = m; copy.style.webkitMaskImage = m;
+    copy.querySelectorAll("[id]").forEach((e) => (e.id = e.id + "-dof"));
+    document.body.insertBefore(copy, document.getElementById("light"));
+  }
+  // css_scene.mjs llama a esto en cada fotograma.
+  window.setFrame = (src) => new Promise((ok) => {
+    const imgs = document.querySelectorAll(".screen img");
+    let left = imgs.length;
+    imgs.forEach((im) => { im.onload = im.onerror = () => (--left === 0 && ok()); im.src = src; });
+  });
+</script>
+</body>
+</html>

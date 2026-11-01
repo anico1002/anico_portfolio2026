@@ -32,6 +32,15 @@ const nextConfig: NextConfig = {
     if (EXPORT) return [];
     return [
       { source: "/:path*", headers: SECURITY },
+      // El prototipo de DesignOps Copilot se navega dentro de la pantalla de su caso (iframe del mismo dominio,
+      // 2026-11-01): solo esa carpeta se deja incrustar, y solo desde aquí. Va después: pisa la cabecera general.
+      {
+        source: "/maqueta/designops/app/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Content-Security-Policy", value: "frame-ancestors 'self'; base-uri 'self'; object-src 'none'" },
+        ],
+      },
       ...["/new", "/new/:path*", "/maqueta", "/maqueta/:path*", "/opt/maqueta/:path*", "/fonts-licencia/:path*"].map((source) => ({ source, headers: NOINDEX })),
       ...["/maqueta/:path*", "/opt/:path*", "/fonts-licencia/:path*"].map((source) => ({ source, headers: MEDIA_CACHE })),
     ];
@@ -51,6 +60,17 @@ const nextConfig: NextConfig = {
   async redirects() {
     if (!process.env.VERCEL_PROJECT_PRODUCTION_URL?.startsWith("anico-maqueta")) return [];
     return [{ source: "/", destination: BASE, permanent: false }];
+  },
+  // El prototipo exportado de DesignOps Copilot (public/maqueta/designops/app) pide sus páginas como carpetas
+  // (`/health/`) y sus datos como `/health/index.txt`. Apache y Cloudflare sirven el index.html de cada carpeta
+  // solos; Next en desarrollo y en Vercel no, así que se lo indicamos aquí (2026-11-01).
+  async rewrites() {
+    if (EXPORT) return [];
+    return [
+      // Van detrás de los archivos de public/ (afterFiles): solo entran cuando la ruta no es un archivo real.
+      { source: "/maqueta/designops/app", destination: "/maqueta/designops/app/index.html" },
+      { source: "/maqueta/designops/app/:path*", destination: "/maqueta/designops/app/:path*/index.html" },
+    ];
   },
   outputFileTracingExcludes: {
     "*": [

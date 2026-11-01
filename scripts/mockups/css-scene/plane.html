@@ -1,0 +1,87 @@
+<!doctype html>
+<!-- Close-up de una interfaz (DesignOps Copilot, 2026-11-01): un trozo de captura como una lámina en perspectiva, muy
+     cerca, con profundidad de campo (lo lejano se desenfoca) y, si se pide, luz de ventana cruzando. Sin dispositivo:
+     el componente es el protagonista. La pinta css_scene.mjs. Parámetros por la URL:
+       crop       «x,y,w,h» en fracciones de la captura (lo que se ve de la lámina)
+       pw         ancho de la lámina en px (por defecto, 1.25 × el ancho de la escena)
+       rx, ry, rz giro en grados        x, y   desplazamiento en %       bg  fondo (hex)
+       blur       desenfoque máximo (px)  fx, fy  centro nítido en % de la escena   fw, fh  tamaño de la zona nítida (%)
+       light      1 = franjas de luz;  la, lo  ángulo y opacidad          r  radio de las esquinas de la lámina (px)
+       edge       1 = canto de la lámina (grosor), para que parezca un objeto -->
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  :root { --bg: #dcdce2; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); }
+  .stage { position: fixed; inset: 0; perspective: 1800px; background:
+      radial-gradient(90% 80% at 40% 30%, rgba(255,255,255,.35), rgba(255,255,255,0) 70%), var(--bg); }
+  .rig { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
+  .plane { position: absolute; overflow: hidden; background: #fff;
+    box-shadow: 0 60px 120px -40px rgba(20,16,50,.45), 0 20px 40px -20px rgba(20,16,50,.25); }
+  .plane img { position: absolute; display: block; }
+  .edge { position: absolute; inset: 0; transform: translateZ(-10px); background: #b9b6c8; }
+  .light { position: fixed; inset: -30%; pointer-events: none; mix-blend-mode: soft-light;
+    filter: blur(40px); }
+  .shade { position: fixed; inset: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="rig" id="rig"><div class="plane" id="plane"><img id="frame" alt="" /></div></div>
+</div>
+<div class="shade" id="shade"></div>
+<div class="light" id="light" hidden></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const n = (k, d) => (q.has(k) ? +q.get(k) : d);
+  const W = innerWidth, H = innerHeight;
+  if (q.get("bg")) document.documentElement.style.setProperty("--bg", "#" + q.get("bg"));
+  const [cx, cy, cw, ch] = (q.get("crop") || "0,0,1,1").split(",").map(Number);
+  const pw = n("pw", W * 1.25), r = n("r", 28);
+  const plane = document.getElementById("plane"), img = document.getElementById("frame");
+  // La proporción de la lámina sale del recorte y de la captura (se fija al cargar la primera imagen).
+  const fit = () => {
+    const iw = img.naturalWidth || 1, ih = img.naturalHeight || 1;
+    const ph = pw * (ch * ih) / (cw * iw);
+    Object.assign(plane.style, { width: pw + "px", height: ph + "px", left: -pw / 2 + "px", top: -ph / 2 + "px", borderRadius: r + "px" });
+    Object.assign(img.style, { width: pw / cw + "px", height: ph / ch + "px", left: (-cx / cw) * pw + "px", top: (-cy / ch) * ph + "px" });
+  };
+  const rig = document.getElementById("rig");
+  rig.style.transform = `translate(${n("x", 0)}vw, ${n("y", 0)}vh) rotateX(${n("rx", 30)}deg) rotateY(${n("ry", -20)}deg) rotateZ(${n("rz", 6)}deg)`;
+  if (q.get("edge") === "1") { const e = document.createElement("div"); e.className = "edge"; e.style.borderRadius = r + "px"; plane.prepend(e); }
+  if (q.get("light") === "1") {
+    const l = document.getElementById("light"); l.hidden = false;
+    const a = n("la", 118), o = n("lo", 0.9);
+    l.style.background = `repeating-linear-gradient(${a}deg, rgba(255,255,255,0) 0 180px, rgba(255,255,255,${o}) 260px 380px, rgba(255,255,255,0) 460px 640px)`;
+  }
+  // Sombra de ambiente: oscurece un poco los bordes, como una foto con luz dura.
+  document.getElementById("shade").style.background = `radial-gradient(120% 100% at ${n("fx", 50)}% ${n("fy", 50)}%, rgba(0,0,0,0) 45%, rgba(10,8,30,${n("vig", 0.18)}) 100%)`;
+  let dof = null;
+  const blur = n("blur", 0);
+  const makeDof = () => {
+    if (!blur || dof) return;
+    dof = document.getElementById("stage").cloneNode(true);
+    dof.removeAttribute("id");
+    dof.querySelectorAll("[id]").forEach((e) => e.removeAttribute("id"));
+    dof.style.filter = `blur(${blur}px)`;
+    // Foco en elipse (por defecto) o en banda (`ba` = ángulo, `bc` = centro y `bw` = medio ancho de la franja nítida, en %):
+    // en una lámina inclinada el foco real cae en una franja, como en un tilt-shift.
+    const m = q.has("ba")
+      ? `linear-gradient(${n("ba", 0)}deg, #000 0%, transparent ${n("bc", 50) - n("bw", 12)}%, transparent ${n("bc", 50) + n("bw", 12)}%, #000 100%)`
+      : `radial-gradient(ellipse ${n("fw", 34)}% ${n("fh", 30)}% at ${n("fx", 50)}% ${n("fy", 50)}%, transparent 0%, transparent 35%, rgba(0,0,0,.6) 70%, #000 100%)`;
+    dof.style.maskImage = m; dof.style.webkitMaskImage = m;
+    document.body.insertBefore(dof, document.getElementById("shade"));
+  };
+  window.setFrame = (src) => new Promise((ok) => {
+    img.onload = () => {
+      fit();
+      makeDof();
+      if (dof) { const di = dof.querySelector("img"); di.onload = () => ok(); di.src = src; Object.assign(dof.querySelector(".plane").style, plane.style.cssText ? {} : {}); dof.querySelector(".plane").style.cssText = plane.style.cssText; di.style.cssText = img.style.cssText; }
+      else ok();
+    };
+    img.src = src;
+  });
+</script>
+</body>
+</html>

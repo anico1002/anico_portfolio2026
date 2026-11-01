@@ -9,6 +9,14 @@
   X-Frame-Options: DENY
   Content-Security-Policy: frame-ancestors 'none'; base-uri 'self'; object-src 'none'
 
+# El prototipo de DesignOps Copilot se navega dentro de la pantalla de su caso (iframe del mismo dominio,
+# 2026-11-01): solo esa carpeta se deja incrustar, y solo desde aquí. «!» quita la cabecera general antes.
+/maqueta/designops/app/*
+  ! X-Frame-Options
+  ! Content-Security-Policy
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'; base-uri 'self'; object-src 'none'
+
 # Bundles de Next (nombre con hash): inmutables de verdad.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable

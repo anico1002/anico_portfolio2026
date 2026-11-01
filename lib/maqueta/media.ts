@@ -158,7 +158,11 @@ export function moreCases(slug: string): { items: MoreItem[]; all: { label: stri
   const list: MoreItem[] = (
     games
       ? casesIn("games")
-      : [{ name: "Gloop", slug: "gloop", year: "2026" } as Pick<CaseCopy, "name" | "slug" | "year">, ...productInOrder(), ...casesIn("brand")]
+      : (() => {
+          // Gloop justo detrás del primero de Product (DesignOps Copilot desde el 2026-11-01).
+          const [first, ...rest] = productInOrder();
+          return [first, { name: "Gloop", slug: "gloop", year: "2026" } as Pick<CaseCopy, "name" | "slug" | "year">, ...rest, ...casesIn("brand")];
+        })()
   ).map((c) => ({ name: c.name, href: `${BASE}/${c.slug}`, thumb: thumbOf(c.slug), year: c.year }));
   const i = list.findIndex((x) => x.href === `${BASE}/${slug}`);
   const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];

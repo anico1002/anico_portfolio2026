@@ -11,6 +11,7 @@ export const THEMES: Record<string, Theme> = {
   [`${BASE}/product`]: "dark",
   [`${BASE}/games`]: "light",
   // Product
+  [`${BASE}/designops`]: "light", // el producto es claro y sus escenas, gris de estudio (2026-11-01)
   [`${BASE}/gloop`]: "dark",
   [`${BASE}/swift-project`]: "light",
   [`${BASE}/7news`]: "dark",
