@@ -20,6 +20,10 @@ mandar a la gente a https://anico-design.pages.dev, que sigue sirviendo la web c
 3. Puente: `node deploy/build.mjs cloudflare` y subir `deploy/cf-redirect-out` (wrangler, con OK de Alberto):
    pages.dev pasa a redirigir a anico.design (decidido por Alberto; más adelante, borrar el proyecto con su OK).
 4. Quitar anico.design de Vercel. Con OK: borrar la carpeta `new/` vieja del servidor y cambiar la contraseña del FTP.
+5. **Repaso exhaustivo final** con Alberto, ya en producción (pedido 2026-11-02).
+
+**Antes de la subida:** Alberto revisa la web en escritorio y móvil y puede traer cambios a la próxima sesión.
+Ojo: pages.dev NO tiene lo de hoy (cabecera iPad, vídeo vertical, arreglos de móvil); eso solo está en local.
 
 **Hecho hoy:** cabecera de DesignOps en la foto del iPad con teclado (`scripts/case-media/designops/hero.sh`);
 titular en una línea con el año en todos los casos; DesignOps más ligero en móvil; «On the go» crece en pantallas
