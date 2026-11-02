@@ -2,7 +2,33 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (cierre 2026-11-01) — caso DesignOps Copilot terminado y publicado en el puente
+## ▶ EMPEZAR AQUÍ (2026-11-02, MacBook) — salida a anico.design: esperando el certificado
+
+**Estado:** web nueva en el servidor de Carlos (134.0.9.249), rutas sin `/new` (home `/`, `/product/<slug>`,
+`/games/<slug>`, atajos `/<slug>`, 301 de `/new/*` y `/proyecto/*`). DNS hecho y propagado: Spaceship (anico.design
+y www → A 134.0.9.249) y Piensa (anico.es y www → A 134.0.9.249; MX y SPF intactos). Analítica Umami (sin cookies).
+
+**Bloqueo:** certificados. El panel de Carlos generó uno solo para `www.anico.es` (sin `anico.es`) y el de anico.design
+está «Nuevo»; Carlos ha abierto ticket a su hosting. Mientras, anico.design da aviso de conexión no privada (HSTS):
+mandar a la gente a https://anico-design.pages.dev, que sigue sirviendo la web completa.
+
+**Cuando haya certificado (en este orden):**
+1. `SITE_URL=https://anico.design EXPORT_STATIC=1 npm run build && node deploy/build.mjs apache` (SIN `HTTPS=0`: ya
+   fuerza https) — el paquete de hoy ya pasó `npm run qa` limpio, pero hay que regenerarlo: no lleva el arreglo del
+   carrusel (8624a61). Subir con `python3 deploy/subir-ftp.py` y `npm run qa -- https://anico.design`.
+2. Comprobar http→https sin bucle y que anico.es/www → anico.design.
+3. Puente: `node deploy/build.mjs cloudflare` y subir `deploy/cf-redirect-out` (wrangler, con OK de Alberto):
+   pages.dev pasa a redirigir a anico.design (decidido por Alberto; más adelante, borrar el proyecto con su OK).
+4. Quitar anico.design de Vercel. Con OK: borrar la carpeta `new/` vieja del servidor y cambiar la contraseña del FTP.
+
+**Hecho hoy:** cabecera de DesignOps en la foto del iPad con teclado (`scripts/case-media/designops/hero.sh`);
+titular en una línea con el año en todos los casos; DesignOps más ligero en móvil; «On the go» crece en pantallas
+grandes; carrusel del final que no carga hasta destaparse (enganchón en móvil); vídeo de motion prueba 16 con
+DesignOps en las ráfagas y **versión vertical para móvil** (`V=1 node scripts/hero-reel/render.mjs`).
+Safari «About desde Dovla a 242 px»: no se reproduce (2 pasadas completas de WebKit); que Alberto lo mire en su
+Safari en anico.design. Ideas aparcadas (tema por sección, «sigue bajando») **descartadas** por Alberto.
+
+## ▶ (anterior) cierre 2026-11-01 — caso DesignOps Copilot terminado y publicado en el puente
 
 Caso en **`/new/designops`** (proyecto propio, primero en Product). Alberto lo dio por bueno («está perfecta»).
 Código: `components/case-study/designops/` + `app/new/designops/page.tsx`. Publicado en https://anico-design.pages.dev
@@ -978,7 +1004,7 @@ de Alberto. El trabajo estaba íntegro aquí. Si reaparece: buscar qué la crea 
 - **Safari: «About» desde el caso de Dovla se queda a 242 px del bloque** (escritorio, WebKit; en Chrome bien). Ya pasa
   en la versión publicada del puente: no viene de la reorganización de rutas.
 
-- **«Sigue bajando para el siguiente proyecto»** (idea de Alberto, 2026-10-20, aparcada para después de enviar la web
+- ~~DESCARTADA 2026-11-02~~ **«Sigue bajando para el siguiente proyecto»** (idea de Alberto, 2026-10-20, aparcada para después de enviar la web
   al recruiter). Al final de un caso, junto al carrusel «Drag», un aviso «continúa para el siguiente proyecto»; si se
   sigue haciendo scroll, sube la cortinilla negra (la de los enlaces, `Portal.tsx`) y se destapa el siguiente caso de
   la lista. Objetivo: que el visitante se quede más tiempo.
