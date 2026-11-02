@@ -11,6 +11,7 @@ import Boot from "@/components/case-study/Boot";
 import AnimatedFavicon from "@/components/case-study/AnimatedFavicon";
 import LoopGate from "@/components/case-study/LoopGate";
 import { siteMeta } from "@/lib/maqueta/meta";
+import SiteAnalytics from "@/components/SiteAnalytics";
 import "../globals.css";
 import "./system.css";
 
@@ -92,6 +93,7 @@ export default function MaquetaLayout({ children }: { children: React.ReactNode 
           <AnimatedFavicon />
           <LoopGate />
         </div>
+        <SiteAnalytics />
       </body>
     </html>
   );
