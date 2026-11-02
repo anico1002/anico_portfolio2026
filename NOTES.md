@@ -23,7 +23,9 @@ mandar a la gente a https://anico-design.pages.dev, que sigue sirviendo la web c
 5. **Repaso exhaustivo final** con Alberto, ya en producción (pedido 2026-11-02).
 
 **Antes de la subida:** Alberto revisa la web en escritorio y móvil y puede traer cambios a la próxima sesión.
-Ojo: pages.dev NO tiene lo de hoy (cabecera iPad, vídeo vertical, arreglos de móvil); eso solo está en local.
+pages.dev tiene ya TODO lo de hoy (subido 2026-11-02 como copia completa con noindex: `deploy/cf-out` = `apache-out`
+sin `.htaccess` + `deploy/cloudflare/{_headers,robots.txt}` + `_redirects` de atajos generado a mano). Al pasar a
+anico.design se sustituye por la redirección (`deploy/cf-redirect-out`).
 
 **Hecho hoy:** cabecera de DesignOps en la foto del iPad con teclado (`scripts/case-media/designops/hero.sh`);
 titular en una línea con el año en todos los casos; DesignOps más ligero en móvil; «On the go» crece en pantallas
