@@ -229,10 +229,20 @@ function sphere(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, size: 
       if (b > 0.05) ctx.fillRect(c + nx * sc - rad / 2, c + ny * sc - rad / 2, rad, rad);   // pixels while it talks
       else { ctx.beginPath(); ctx.arc(c + nx * sc, c + ny * sc, rad / 2 + 0.1, 0, 7); ctx.fill(); }
     }
-    if (!reduce && !still) raf = requestAnimationFrame(frame);
+    if (!reduce && !still && visible) raf = requestAnimationFrame(frame);
   };
+  // Portfolio (2026-11-02): only animate while on screen. Three big spheres on one page, all drawing every frame from
+  // the moment it opened, made the phone stutter in the sections around them.
+  let visible = true;
+  const io = new IntersectionObserver(([en]) => {
+    const was = visible;
+    visible = en.isIntersecting;
+    if (visible && !was) { last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
+    if (!visible) cancelAnimationFrame(raf);
+  }, { rootMargin: "100px 0px" });
+  io.observe(canvas);
   raf = requestAnimationFrame(frame);
-  return () => { cancelAnimationFrame(raf); window.removeEventListener("pointermove", move); document.removeEventListener("pointerleave", leave); };
+  return () => { io.disconnect(); cancelAnimationFrame(raf); window.removeEventListener("pointermove", move); document.removeEventListener("pointerleave", leave); };
 }
 
 /** The icon: the copilot as a still halftone, symmetric top to bottom so it works as a logo. A
@@ -284,7 +294,9 @@ export function CopilotMark({ size = 20, tone = "color", thinking = false, class
     const canvas = ref.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
-    const dpr = Math.max(2, Math.min(3, window.devicePixelRatio || 1));
+    // 2× at most: at 3× (phones) the big sphere's canvas grew to millions of pixels to clear and fill every frame,
+    // and its fine dots look the same at 2× (portfolio, 2026-11-02).
+    const dpr = 2;
     canvas.width = ext * dpr;
     canvas.height = ext * dpr;
     ctx.scale(dpr, dpr);

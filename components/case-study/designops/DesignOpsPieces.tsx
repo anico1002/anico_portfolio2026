@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import LazyVideo from "@/components/case-study/LazyVideo";
 import Img from "@/components/case-study/Img";
 import { DUR, EASE, STAGGER } from "@/lib/maqueta/motion";
@@ -50,7 +50,7 @@ const DECISIONS = ["Fix it, with your approval", "Keep it, with a reason", "Repo
 
 /** Píldora de cristal: blanco translúcido, desenfoque de lo que pasa por detrás (el brillo del fondo), canto
     iluminado. Entra deslizándose hacia el Copilot y luego flota, cada una a su ritmo. */
-function Pill({ children, dim = false, from, delay, k, on }: { children: React.ReactNode; dim?: boolean; from: number; delay: number; k: number; on: boolean }) {
+function Pill({ children, dim = false, from, delay, k, on, live }: { children: React.ReactNode; dim?: boolean; from: number; delay: number; k: number; on: boolean; live: boolean }) {
   const still = useReducedMotion();
   return (
     <motion.span
@@ -60,7 +60,7 @@ function Pill({ children, dim = false, from, delay, k, on }: { children: React.R
       className="inline-flex"
     >
       <motion.span
-        animate={still ? undefined : { y: [0, -4, 0] }}
+        animate={still || !live ? { y: 0 } : { y: [0, -4, 0] }}
         transition={{ duration: 4.2 + k * 0.7, ease: "easeInOut", repeat: Infinity, delay: k * 0.5 }}
         className={`inline-flex items-center rounded-full border border-white/80 bg-white/55 px-4 py-2.5 t-small shadow-[inset_0_1px_0_rgba(255,255,255,.9),0_10px_30px_-14px_rgba(44,35,87,.35)] backdrop-blur-xl backdrop-saturate-150 ${dim ? "text-[#2C2357]/60" : "text-[#2C2357]"}`}
       >
@@ -71,11 +71,11 @@ function Pill({ children, dim = false, from, delay, k, on }: { children: React.R
 }
 
 /** Un hilo de luz entre las columnas y el Copilot: una chispa que lo recorre hacia la derecha. */
-function Wire({ delay }: { delay: number }) {
+function Wire({ delay, live }: { delay: number; live: boolean }) {
   const still = useReducedMotion();
   return (
     <span aria-hidden className="relative hidden h-px w-10 overflow-hidden bg-[#2C2357]/15 md:block lg:w-16">
-      {!still && (
+      {!still && live && (
         <motion.span
           className="absolute top-0 h-px w-6"
           style={{ background: "linear-gradient(90deg, transparent, var(--g2), transparent)" }}
@@ -95,6 +95,9 @@ export function FlowDiagram() {
   const box = useRef<HTMLDivElement>(null);
   // useSeen y no whileInView: en Safari, llegando navegando, whileInView no se disparaba (primitives.tsx).
   const on = useSeen(box, "-15% 0px");
+  // Las animaciones en bucle (flotar, chispas) solo con el diagrama en pantalla (2026-11-02: el iPhone se calentaba;
+  // el cristal desenfocado moviéndose es de lo más caro de pintar).
+  const live = useInView(box, { margin: "100px 0px" });
   const d0 = 0.15;
   return (
     <div ref={box} style={AI_LIGHT} className="relative -mx-4 overflow-hidden px-4 py-16 md:-mx-6 md:px-6 md:py-28">
@@ -105,15 +108,15 @@ export function FlowDiagram() {
         <div className="absolute right-[6%] top-[20%] h-[56%] w-[30%] rounded-full opacity-[.12] blur-[90px]" style={{ background: "var(--g4)" }} />
       </div>
       <div className="relative grid grid-cols-1 items-center gap-8 md:grid-cols-[1fr_auto_1fr] md:gap-0">
-        <div className="flex flex-wrap gap-2 md:flex-col md:items-end md:gap-3">
+        <div className="flex flex-wrap justify-center gap-2 md:flex-col md:items-end md:justify-start md:gap-3">
           {SOURCES.map((s, k) => (
-            <Pill key={s} dim from={wide ? -40 : 0} delay={d0 + k * STAGGER} k={k} on={on}>
+            <Pill key={s} dim from={wide ? -40 : 0} delay={d0 + k * STAGGER} k={k} on={on} live={live}>
               {s}
             </Pill>
           ))}
         </div>
         <div className="flex items-center justify-center">
-          <Wire delay={0} />
+          <Wire delay={0} live={live} />
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={on ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
@@ -129,11 +132,11 @@ export function FlowDiagram() {
               <Wordmark className="text-[17px] md:text-[19px]" />
             </div>
           </motion.div>
-          <Wire delay={0.8} />
+          <Wire delay={0.8} live={live} />
         </div>
-        <div className="flex flex-wrap gap-2 md:flex-col md:items-start md:gap-3">
+        <div className="flex flex-wrap justify-center gap-2 md:flex-col md:items-start md:justify-start md:gap-3">
           {DECISIONS.map((s, k) => (
-            <Pill key={s} from={wide ? 40 : 0} delay={d0 + (6 + k) * STAGGER} k={k + 4} on={on}>
+            <Pill key={s} from={wide ? 40 : 0} delay={d0 + (6 + k) * STAGGER} k={k + 4} on={on} live={live}>
               {s}
             </Pill>
           ))}
@@ -155,6 +158,7 @@ export function SphereStage() {
   const size = wide ? 480 : 250;
   const box = useRef<HTMLDivElement>(null);
   const seen = useSeen(box, "-20% 0px");   // los puntos llegan de los lados al entrar la sección
+  const live = useInView(box, { margin: "100px 0px" });   // la demo de preguntas, solo en pantalla (vuelve a empezar)
   // la caja de la bola: el lienzo es más grande que la bola dibujada; se recorta el aire de arriba y abajo
   const ball = size * 0.72;
   return (
@@ -183,7 +187,7 @@ export function SphereStage() {
           </div>
         </div>
       </div>
-      <AskDemo run={seen} onThink={setAsking} />
+      <AskDemo run={seen && live} onThink={setAsking} />
       <p className="absolute bottom-5 left-5 hidden t-small text-[#2C2357]/60 md:bottom-7 md:left-7 md:block">Move your cursor over it</p>
     </div>
   );
@@ -213,6 +217,9 @@ export function MarkSizes() {
 /* ── El iPad navegable ───────────────────────────────────────────────────────────────────────── */
 
 const APP = { w: 1600, h: 900, src: "/maqueta/designops/app/health/" };
+// En móvil (2026-11-02): el recorrido de la cabecera (scripts/case-media/designops/ipad-tour.sh), grabado a 4:3 como
+// un iPad de verdad, y la pantalla del marco a esa misma proporción para que no se recorte nada.
+const TOUR = { w: 4, h: 3, src: `${M}/ipad-tour.mp4` };
 
 /** iPad de frente, en apaisado 16:9, con su marco de verdad: aro de aluminio, bisel negro y cámara. Sombra corta y
     nítida, como las fotos de producto de Apple (una de contacto y otra más abierta, sin bruma). En escritorio, el
@@ -261,14 +268,14 @@ export function LiveIpad() {
           <div
             ref={screen}
             className="relative overflow-hidden rounded-[clamp(8px,1.2vw,22px)] bg-[#E9E6F4]"
-            style={{ aspectRatio: `${APP.w} / ${APP.h}` }}
+            style={{ aspectRatio: wide ? `${APP.w} / ${APP.h}` : `${TOUR.w} / ${TOUR.h}` }}
           >
-            <Img
+            {wide && <Img
               src={`${M}/dashboard-poster.png`}
               alt="The Health dashboard of DesignOps Copilot"
               sizes="100vw"
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${ready ? "opacity-0" : "opacity-100"}`}
-            />
+            />}
             {wide && near && scale > 0 && (
               <iframe
                 src={APP.src}
@@ -280,9 +287,9 @@ export function LiveIpad() {
             )}
             {!wide && (
               <LazyVideo
-                src={`${M}/walkthrough.mp4`}
+                src={TOUR.src}
                 className="absolute inset-0 h-full w-full object-cover"
-                aria-label="A walkthrough of the DesignOps Copilot dashboard"
+                aria-label="A walkthrough of DesignOps Copilot, from onboarding to the dashboard"
               />
             )}
           </div>
@@ -337,14 +344,16 @@ export function ClosingOrb() {
     las esquinas) y sube con parallax por encima. */
 export function OnTheGoStage() {
   const still = useReducedMotion();
+  const wide = useWide();
   const orbRef = useRef<HTMLDivElement>(null);
   const seen = useSeen(orbRef, "-20% 0px");
+  const live = useInView(orbRef, { margin: "100px 0px" });   // las manchas se mueven solo en pantalla
   const blob = (bg: string, cls: string, a: number[], b: number[], t: number) => (
     <motion.div
       aria-hidden
       className={`absolute rounded-full blur-[70px] ${cls}`}
       style={{ background: bg }}
-      animate={still ? undefined : { x: a, y: b }}
+      animate={still || !live ? undefined : { x: a, y: b }}
       transition={{ duration: t, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" }}
     />
   );
@@ -361,9 +370,8 @@ export function OnTheGoStage() {
               partículas sueltas). Se forma al entrar, como la de la sección de la bola. */}
           <div ref={orbRef} aria-hidden className="absolute inset-0 flex items-center justify-center">
             {/* justo detrás del móvil y más grande que él, para que asome por los dos lados (feedback 2026-11-01) */}
-            <div className="scale-[.7] md:scale-100">
-              <CopilotMark size={820} kind="sphere" tone="white" gather={seen} />
-            </div>
+            {/* En móvil, dibujada ya al 70 % y no encogida con CSS: el lienzo era 2,4 veces más grande de lo que se veía */}
+            <CopilotMark size={wide ? 820 : 574} kind="sphere" tone="white" gather={seen} />
           </div>
         </div>
       </MaskReveal>

@@ -450,8 +450,10 @@ export function FadeIn({
   return (
     <motion.div
       ref={ref}
-      // Margen por abajo dentro de la máscara para no cortar g, j, p (ver MaskText).
-      className={`pb-[0.25em] -mb-[0.25em] ${className}`}
+      // Margen por abajo dentro de la máscara para no cortar g, j, p (ver MaskText). Solo si el bloque no trae ya su
+      // relleno o margen de abajo: los dos a la vez chocaban y ganaba este, así que filas con `py-10` se quedaban sin
+      // aire debajo y el filete pegado al texto (feedback 2026-11-02, What's next de DesignOps).
+      className={`${/(^|\s)(p|py|pb)-/.test(className) ? "" : "pb-[0.25em]"} ${/(^|\s)-?(m|my|mb)-/.test(className) ? "" : "-mb-[0.25em]"} ${className}`}
       initial={reduce ? false : hidden}
       animate={reduce || seen ? { clipPath: "inset(-30% -5% -30% -5%)", y: 0 } : hidden}
       transition={{ clipPath: { duration: DUR.base, ease: EASE.inOut, delay }, y: { duration: DUR.base, ease: EASE.out, delay } }}
@@ -484,9 +486,11 @@ export function YearSup({ year }: { year: string }) {
   return <sup className="cap-sup ml-[0.12em] t-small font-normal tracking-normal text-[var(--case-muted)]">({year})</sup>;
 }
 
-/** Titular del caso en una sola línea a todo el ancho: mide el texto y ajusta el cuerpo para
-    llenar el hueco (tope 12vw / 200 px). Si en pantallas estrechas quedara por debajo de 44 px,
-    se permite partirlo en dos líneas. Sin estado: escribe el estilo directamente. */
+/** Titular del caso SIEMPRE en una sola línea a todo el ancho, con el año entero al lado (feedback 2026-11-02:
+    en el iPhone 13 mini se partía en dos y pisaba el año; en otros móviles el año se cortaba). Mide el texto y ajusta
+    el cuerpo para llenar el hueco (tope 12vw / 200 px). El año va a tamaño fijo (t-small): no escala con el
+    titular, así que se descuenta aparte. Vale para cualquier nombre, por largo que sea. Sin estado: escribe el
+    estilo directamente. */
 /** Ola de las letras (s entre una y la siguiente): la misma que la de «¿Hablamos?» (45 ms en system.css). */
 const WAVE = 0.045;
 
@@ -500,15 +504,13 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
       const el = h.current;
       const b = box.current;
       if (!el || !b) return;
-      b.style.setProperty("--fit-ws", "nowrap");
       b.style.setProperty("--fit", "100px");
-      el.style.width = "";
-      const size = Math.min(window.innerWidth * 0.12, 200, (100 * b.clientWidth) / el.scrollWidth);
-      if (size < 44) {
-        b.style.setProperty("--fit-ws", "normal");
-        b.style.setProperty("--fit", "44px");
-        el.style.width = "100%";
-      } else b.style.setProperty("--fit", `${size}px`);
+      // Ancho del año (fijo) y del resto (proporcional al cuerpo): ancho(f) = fijo + f · porPx. Un 2 % de margen para
+      // la tinta que sobresale de la caja de las letras.
+      const fixed = el.querySelector<HTMLElement>("[data-fit-fixed]")?.getBoundingClientRect().width ?? 0;
+      const perPx = (el.scrollWidth - fixed) / 100;
+      const size = Math.min(window.innerWidth * 0.12, 200, ((b.clientWidth * 0.98 - fixed) / perPx));
+      b.style.setProperty("--fit", `${Math.max(size, 12)}px`);
     };
     fit();
     document.fonts?.ready.then(fit);
@@ -525,7 +527,7 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
     >
       <h1
         ref={h}
-        className="w-max max-w-none font-bold leading-[0.88] tracking-[-0.055em] [font-size:var(--fit,clamp(44px,9vw,200px))] [white-space:var(--fit-ws,nowrap)]"
+        className="w-max max-w-none whitespace-nowrap font-bold leading-[0.88] tracking-[-0.055em] [font-size:var(--fit,clamp(44px,9vw,200px))]"
       >
         <span className="sr-only">{text}</span>
         {/* Entrada en ola, letra a letra desde la máscara (2026-10-17): el mismo gesto que «¿Hablamos?» del pie.
@@ -564,7 +566,9 @@ function FitTitle({ text, delay, sup }: { text: string; delay: number; sup?: str
             animate={{ y: "0em" }}
             transition={{ duration: DUR.slow, ease: EASE.out, delay: delay + text.replace(/ /g, "").length * WAVE }}
           >
-            <YearSup year={sup} />
+            <span data-fit-fixed className="inline-block">
+              <YearSup year={sup} />
+            </span>
           </motion.span>
         )}
       </h1>
