@@ -1,9 +1,9 @@
 import Script from "next/script";
 
 // Analítica sin cookies (Umami Cloud): no necesita banner de consentimiento.
-// Queda inactiva hasta que el build lleve NEXT_PUBLIC_UMAMI_WEBSITE_ID, y solo cuenta
-// visitas en los dominios de producción (ni localhost, ni el alias del hosting, ni el puente).
-const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+// El ID es público (sale en el HTML). Solo cuenta visitas en los dominios de producción:
+// ni localhost, ni el alias del hosting, ni el puente de Cloudflare.
+const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID ?? "47b40bc6-6e30-4d89-939b-73213060bd21";
 
 export default function SiteAnalytics() {
   if (!WEBSITE_ID) return null;
