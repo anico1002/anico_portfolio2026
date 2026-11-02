@@ -12,6 +12,13 @@ y www → A 134.0.9.249) y Piensa (anico.es y www → A 134.0.9.249; MX y SPF in
 está «Nuevo»; Carlos ha abierto ticket a su hosting. Mientras, anico.design da aviso de conexión no privada (HSTS):
 mandar a la gente a https://anico-design.pages.dev, que sigue sirviendo la web completa.
 
+**PRIMERO en la próxima sesión (pedido por Alberto):** que el paquete NO lleve nada que no se muestre en la web.
+Hoy se cuelan archivos de proyectos descartados: `projects/two-dots/` (2,3 MB, porque `lib/maqueta/opt.json` va en los
+chunks de JS y `build.mjs` copia todo lo que nombran) y `maqueta/obliq/` + `opt/maqueta/obliq/` (porque se copian las
+carpetas `maqueta` y `opt/maqueta` enteras; Obliq sigue en `lib/maqueta/games.ts` aunque no tenga página). Arreglo:
+`build.mjs` solo copia medios de casos publicados (los que tienen página en el export) y falla si se cuela otro.
+Volver a subir pages.dev después. La redirección `/proyecto/two-dots` → `/games` se queda (no sube archivos).
+
 **Cuando haya certificado (en este orden):**
 1. `SITE_URL=https://anico.design EXPORT_STATIC=1 npm run build && node deploy/build.mjs apache` (SIN `HTTPS=0`: ya
    fuerza https) — el paquete de hoy ya pasó `npm run qa` limpio, pero hay que regenerarlo: no lleva el arreglo del
