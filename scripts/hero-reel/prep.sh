@@ -40,6 +40,9 @@ i=0; for f in gloop/media/photo-echoes.jpg gloop/media/mock-rocas-bn.jpg gloop/m
 j=0; for f in gloop/screens/home.png gloop/screens/game.png gloop/screens/night.png gloop/screens/moments.png gloop/screens/crew.png dovla/screens/home.png dovla/screens/cards.png dovla/screens/splash.png dovla/screens/welcome.png 7news/screens/portada.png 7news/screens/art-design.png 7news/screens/tema-tech.png; do
   j=$((j+1)); "$FF" -v error -i "$f" -vf "scale=-2:1080,format=rgb24" -q:v 3 -y "$OUT/st/s$j.jpg"; done
 
+# DesignOps Copilot (2026-11-02): primeros planos del dashboard para la ráfaga (d1–d3), trabajo de interfaz
+d=0; for n in score kpi copilot; do d=$((d+1)); "$FF" -v error -i "designops/media/cu-$n.png" -vf "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080" -q:v 3 -y "$OUT/st/d$d.jpg"; done
+
 # Componentes del kit de Dovla (con transparencia)
 for n in card-credit card-virtual card-physical card-disposable balance chart-clean actions transactions-clean promo discover-clean contacts freeze detail-clean accounts benefits button button-2 months tabbar wealth-clean thumbs; do
   cp "dovla/media/kit/$n.png" "$OUT/kit/"; done

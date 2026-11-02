@@ -8,7 +8,8 @@ const p = await ctx.newPage();
 const tag = `[${engName}/${vpName}/carrusel]`;
 let fails = 0, where = "";
 const fail = (m) => { fails++; console.log(tag, "✗", m); };
-p.on("response", (r) => r.status() >= 400 && fail(`HTTP ${r.status()} ${r.url()} @${where}`));
+// Umami (analítica, sobre Vercel) frena con 403 a los navegadores automáticos; a las visitas reales no (2026-11-02).
+p.on("response", (r) => r.status() >= 400 && !r.url().startsWith("https://cloud.umami.is/") && fail(`HTTP ${r.status()} ${r.url()} @${where}`));
 p.on("pageerror", (e) => fail(`JS ${e.message} @${where}`));
 const bare = (s) => (s.length > 1 ? s.replace(/\/+$/, "") : s);
 const CASES = ["product/gloop", "product/7news", "product/dovla", "product/elreto-masterchef", "product/interactius", "product/swift-project", "product/wineup", "product/designops", "games/asphalt-9", "games/asphalt-unite", "games/asphalt-xtreme", "games/cybertitans", "games/disney-karting"];

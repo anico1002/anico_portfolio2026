@@ -60,6 +60,18 @@ img.full{object-fit:cover}
 #track{position:absolute;left:0;width:1920px;backdrop-filter:brightness(1.18) contrast(1.06) saturate(.85)}
 #track:after{content:"";position:absolute;left:0;right:0;top:40%;height:2px;background:rgba(255,255,255,.45)}
 #vig{background:radial-gradient(120% 95% at 50% 50%,transparent 55%,rgba(0,0,0,.45) 100%)}
+/* Vertical para móvil (comp.html?v, 2026-11-02): 1080×1920. Mismos tramos, recolocados: componentes arriba y móvil
+   abajo que crece hacia arriba; los textos grandes, más pequeños y en más líneas. */
+html.v,html.v body,html.v #root{width:1080px;height:1920px}
+html.v .full{width:1080px;height:1920px}
+html.v #ms{height:1920px}
+html.v #blk{top:600px;font-size:205px}
+html.v #r1{margin-left:24px}html.v #r2{margin-left:120px}html.v #r3{margin-left:14px}
+html.v #cmps{width:1080px;height:960px}
+html.v #cbg{width:1200px;height:1080px}
+html.v .gl{top:600px;width:1080px;font-size:290px}
+html.v #gA{margin-left:60px}html.v #gB{margin-left:240px}html.v #gC{margin-left:40px}
+html.v #track{width:1080px}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute">
   <filter id="rgb" x="-5%" y="0" width="110%" height="100%" color-interpolation-filters="sRGB">
@@ -101,6 +113,8 @@ img.full{object-fit:cover}
 </div>
 <script>
 const FR = new URL("fr/", location.href).href; // fotogramas que genera prep.sh
+const V = new URLSearchParams(location.search).has("v"), W = V ? 1080 : 1920, H = V ? 1920 : 1080;
+if (V) document.documentElement.classList.add("v");
 const FPS = 30;
 const $ = (id) => document.getElementById(id);
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -131,6 +145,7 @@ function hitAmt(t) { let a = 0; for (const h of HITS) if (t >= h) a = Math.max(a
 // Ráfaga: cortes de 4–6 fotogramas entre vídeos y fotos a sangre. Interactius lleva un corte largo
 // para que se vea el movimiento de su web (aro → ciudad → espigas).
 // Las dos ráfagas tiran de un mismo mazo barajado, sin repetir: la del final sigue donde acabó la del principio.
+const DOPS_END = 10; // posición del plano de DesignOps en la ráfaga del final (comprobado: cae dentro)
 const POOL = (() => {
   // Solo material que sale en la web (comprobado contra las páginas el 2026-10-29), más dos fotos de la app Gloop.
   const v = ["f_mc", "f_wu", "f_sw", "f_ia", "f_7n", "f_kit", "f_flow", "f_fd", "f_gh", "f_am", "f_rec"].map((x) => ({ v: x }));
@@ -139,6 +154,12 @@ const POOL = (() => {
   // alterna vídeo / foto / pantalla en lo posible para que el ritmo no se apelmace
   const by = (f) => all.filter(f), q = [by((o) => o.v), by((o) => o.s)], out = [];
   for (let i = 0; out.length < all.length; i++) { const b = q[i % 2]; if (b.length) out.push(b.shift()); }
+  // DesignOps (2026-11-02): primeros planos de su dashboard, uno en cada ráfaga y en sitio fijo para que siempre salgan
+  // (la ráfaga tiene menos cortes que el mazo). Tras un vídeo, para no juntar dos fijos.
+  // Ocupan el sitio de dos fotos de Gloop (p11, p12): con más planos, el corte largo de Interactius no entraba.
+  out[out.findIndex((o) => o.s === "p11")] = { s: "d1" };
+  out.splice(out.findIndex((o) => o.s === "p12"), 1);
+  out.splice(DOPS_END, 0, { s: "d3" });
   return out;
 })();
 const LONG = { f_ia: 16 };
@@ -206,7 +227,7 @@ async function buildGrid() {
 }
 
 // Frase final: se carga con glifos (números y símbolos), se queda y entramos por la «I» de «IN».
-const PHRASE = [["gA", "DESIGN"], ["gB", "IN MOTION"]];
+const PHRASE = V ? [["gA", "DESIGN"], ["gB", "IN"], ["gC", "MOTION"]] : [["gA", "DESIGN"], ["gB", "IN MOTION"]];
 // Collage: 8 columnas de pantallas (16 grabaciones distintas, 2 por columna) que suben y bajan por su cuenta.
 // 12 pantallas distintas, todas de la web: 10 grabaciones (k1–k10) y dos fijas de Dovla (k11, k12).
 const CN = 12, STILL = [11, 12], CFR = [];
@@ -252,7 +273,7 @@ window.render = async function (t) {
       el.style.transform = `translateY(${(1 - expoOut(prog(t, T.blk + 0.02 + i * 0.07, T.blk + 0.42 + i * 0.07))) * 110}%)`;
     });
     document.querySelectorAll("#blk .mask").forEach((m) => (m.style.overflow = t > T.blk + 0.7 ? "visible" : "hidden"));
-    const sw = 520 * expoOut(prog(t, T.blk + 0.2, T.blk + 0.55));
+    const sw = (V ? 300 : 520) * expoOut(prog(t, T.blk + 0.2, T.blk + 0.55));
     $("slotw").style.width = sw + "px";
     const d = Math.max(0, t - T.blk), tremor = (s) => (hash(Math.floor(f / 2), s) - 0.5) * 5;
     $("r1").style.transform = `translateX(${-d * 38 + tremor(1)}px)`;
@@ -285,7 +306,7 @@ window.render = async function (t) {
     [0, 1, 2].forEach((c) => { const col = CMPS.find((o) => o.c === c).col; col.style.transform = `translateY(${COLV[c] * (t - T.split)}px)`; });
     $("cmps").style.transform = `scale(${1 + 0.02 * (t - T.split)})`;
     const g = IO(prog(t, T.grow, T.full)), x = 960 * (1 - g), w = 960 + 960 * g;
-    for (const id of ["plum", "next"]) Object.assign($(id).style, { left: x + "px", width: w + "px" });
+    for (const id of ["plum", "next"]) Object.assign($(id).style, V ? { left: "0px", width: W + "px", top: x + "px", height: w + "px" } : { left: x + "px", width: w + "px" });
     await setImg($("next"), FR + "dovla/" + pad(Math.max(1, Math.min(195, Math.floor((t - T.split) * FPS) + 1))) + ".jpg");
     const pr = IO(prog(t, T.split, T.split + 0.7));
     $("next").style.clipPath = `inset(${((1 - pr) * 50).toFixed(2)}% 0% ${((1 - pr) * 50).toFixed(2)}% 0%)`;
@@ -307,6 +328,7 @@ window.render = async function (t) {
     const dw = Math.min(t, T.dive) - T.word, tremor = (k) => (hash(Math.floor(f / 2), k) - 0.5) * 5;
     $("gA").style.transform = `translateX(${-dw * 40 + tremor(4)}px)`;
     $("gB").style.transform = `translateX(${dw * 44 + tremor(5)}px)`;
+    if (V) $("gC").style.transform = `translateX(${-dw * 36 + tremor(6)}px)`;
     // el punto de entrada sigue a la «I» hasta que empieza la inmersión, y ahí se fija
     if (t < T.dive || !$("gk").dataset.o) { $("gk").style.transform = "none"; const sr = DIVE_CH().getBoundingClientRect(); $("gk").dataset.o = `${sr.left + sr.width * 0.5}px ${sr.top + sr.height * 0.55}px`; }
     const zp = IO(prog(t, T.dive, T.hold)); // sin prisa: luego el móvil se queda solo hasta la ráfaga
@@ -323,20 +345,20 @@ window.render = async function (t) {
     const lf = Math.floor((t - T.coll) * FPS);
     await Promise.all(CFR.map((o) => setImg(o.im, FR + "k" + o.n + "/" + pad(STILL.includes(o.n) ? 1 : Math.min(72, lf + 1)) + ".jpg")));
     const q = IO(prog(t, T.coll, T.blk));
-    $("cplane").style.transform = `rotateX(${30 - 10 * q}deg) rotateZ(${-15 + 5 * q}deg) scale(${1.05 + 0.3 * q})`;
+    $("cplane").style.transform = `rotateX(${30 - 10 * q}deg) rotateZ(${-15 + 5 * q}deg) scale(${(V ? 1.75 : 1) * (1.05 + 0.3 * q)})`;
     [...$("cplane").children].forEach((col, c) => (col.style.transform = `translateY(${(c % 2 ? 1 : -1) * 70 * (t - T.coll)}px)`));
   }
 
   // Colapso en franjas tras la «E»
   const st = $("bm");
   if (t >= T.bands && t < T.split + 0.6) {
-    const N = 40, base = 1080 / N, pts = [];
+    const N = V ? 64 : 40, base = H / N, pts = [];
     for (let i = 0; i < N; i++) {
       const d = hash(i, 11) * 0.25, len = 0.1 + hash(i, 12) * 0.2;
       const k = 1 - expoIn(clamp((t - T.bands - d) / len)), keep = Math.pow(k, 1.6) * (0.5 + hash(i, f) * 0.5);
       const c = base * (i + 0.5) + (hash(i, 13) - 0.5) * base * 0.6, h = base * keep;
       const y1 = (c - h / 2).toFixed(1), y2 = (c + h / 2).toFixed(1);
-      pts.push(`0 ${y1}px`, `1920px ${y1}px`, `1920px ${y2}px`, `0 ${y2}px`);
+      pts.push(`0 ${y1}px`, `${W}px ${y1}px`, `${W}px ${y2}px`, `0 ${y2}px`);
     }
     st.style.clipPath = `polygon(${pts.join(",")})`;
     st.style.transform = `translateX(${(hash(f, 7) - 0.5) * 30}px)`;
@@ -364,10 +386,10 @@ window.render = async function (t) {
   };
   small("u1", 0, U[0], 18, 9, 2.6);
   small("u2", 1, U[1], 62, 7, 2.1);
-  small("u3", 2, U[2], 975, -8, 2.4);
-  small("u4", 3, U[3], 1048, -6, 1.9);
+  small("u3", 2, U[2], H - 105, -8, 2.4);
+  small("u4", 3, U[3], H - 32, -6, 1.9);
   if ($("u4").textContent && !$("u4").textContent.endsWith("_")) $("u4").textContent += ` ${pad(f, 4)}`;
-  Object.assign($("bars").style, { left: PADX + "px", top: 955 - 6 * ((t % 2.4)) + "px", display: hash(Math.floor(t / 1.3), 9) > 0.35 ? "flex" : "none" });
+  Object.assign($("bars").style, { left: PADX + "px", top: H - 125 - 6 * ((t % 2.4)) + "px", display: hash(Math.floor(t / 1.3), 9) > 0.35 ? "flex" : "none" });
   document.querySelectorAll("#bars i").forEach((b, i) => { b.style.height = `${2 + 8 * hash(i, Math.floor(f / 2))}px`; });
 
   // Texturas
@@ -375,7 +397,7 @@ window.render = async function (t) {
   $("scan").style.transform = `translateY(${f % 3}px)`;
   const tr = hash(Math.floor(t * 2.5), 41) > 0.86 || hit > 0.8;
   $("track").style.display = tr ? "block" : "none";
-  $("track").style.top = `${((t * 520 + hash(Math.floor(t * 2.5), 42) * 1080) % 1180) - 100}px`;
+  $("track").style.top = `${((t * 520 + hash(Math.floor(t * 2.5), 42) * H) % (H + 100)) - 100}px`;
   $("track").style.height = `${30 + hash(Math.floor(t * 2.5), 43) * 80}px`;
   $("leak").style.opacity = 0.07 + hit * 0.18 + 0.04 * Math.sin(t * 1.3);
 };

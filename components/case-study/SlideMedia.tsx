@@ -11,8 +11,9 @@ import { REEL } from "@/lib/maqueta/sections";
    una diapositiva puede ser imagen o vídeo. Convención: el póster de `x.mp4` es `x-poster.jpg`,
    al lado (primer fotograma); se pinta mientras el vídeo carga y en el telón. */
 
-/** Versión para móvil de un vídeo, que el navegador elige por ancho: 1280 px (~2 MB) frente a 1920 px (~5 MB) en
-    escritorio. Con menos se veía roto (feedback 2026-10-29): en el móvil solo se ve la franja central, muy ampliada. */
+/** Versión para móvil de un vídeo, que el navegador elige por ancho. Desde el 2026-11-02 el reel de móvil es una pieza
+    vertical propia (720×1280, `V=1 node scripts/hero-reel/render.mjs`): antes era el horizontal a 1280 px y en el móvil
+    solo se veía su franja central, muy ampliada. */
 const LIGHT: Record<string, string> = { [REEL]: "/maqueta/hero-reel/reel-m.mp4" };
 
 export const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);

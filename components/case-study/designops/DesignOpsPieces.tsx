@@ -376,7 +376,9 @@ export function OnTheGoStage() {
         </div>
       </MaskReveal>
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <Parallax speed={220} className="w-[50%] max-w-[330px] md:w-[48%]">
+        {/* Sin tope de ancho (2026-11-02): con 330 px, en pantallas grandes el fondo seguía creciendo y el móvil ya
+            no sobresalía por arriba ni por abajo. Ahora escala con el fondo y se ve igual que en el portátil. */}
+        <Parallax speed={220} className="w-[50%] md:w-[48%]">
           <div className="rotate-[14deg] drop-shadow-[0_40px_50px_rgba(44,35,87,0.35)]">
             <RealPhone src={`${M}/mobile.mp4`} label="Approving six fixes from a notification" />
           </div>

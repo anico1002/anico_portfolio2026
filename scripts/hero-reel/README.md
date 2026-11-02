@@ -15,6 +15,15 @@ node scripts/hero-reel/render.mjs                    # vídeo entero → out/pru
 en vivo, y por eso cada fotograma sale exacto. El vídeo de fondo se sirve como secuencias de JPG (`fr/`),
 no como `<video>`, para no depender de los códecs del navegador sin cabeza. `fr/` y `out/` no van a git.
 
+## Prueba 16 (2026-11-02) — publicada en la web
+
+- **DesignOps en las ráfagas:** dos primeros planos de su dashboard (`st/d1` «Good morning 82», `st/d3` tarjeta del
+  Copilot) en sitio fijo, uno por ráfaga; ocupan el hueco de dos fotos de Gloop para que siga entrando el corte largo
+  de Interactius.
+- **Versión vertical para móvil:** `V=1 node scripts/hero-reel/render.mjs` (comp.html?v, 1080×1920): componentes
+  arriba y móvil abajo que crece hacia arriba; «DESIGN / IN / MOTION» en tres líneas. En la web, `reel-m.mp4`
+  (720×1280, crf 25); el de escritorio, `reel.mp4` (1920, crf 25). Las versiones anteriores, en la prueba 15.
+
 ## Estado (prueba 11, 2026-10-29, 12,4 s) — pendiente de que la vea Alberto
 
 | Tiempo | Qué pasa | Tempo |
@@ -48,7 +57,7 @@ sin commitear: el MP4 no está en git.
 1. Feedback de Alberto a la prueba 11 y a cómo queda en el Launcher.
 2. Textos pequeños: Alberto va a revisar los de Yakushev para afinar; si no quedan con sentido, se quitan.
 3. Copy final de «SHAPE THE INTERFACE» (le gusta) y «DESIGN IN MOTION» (provisional).
-4. Versión vertical para móvil, WebM, póster y versión estática para `prefers-reduced-motion`.
+4. ~~Versión vertical para móvil~~ (hecha, prueba 16). Queda: WebM y versión estática para `prefers-reduced-motion`.
 
 ## Referencia: qué hace Yakushev (análisis de sus 10 piezas)
 

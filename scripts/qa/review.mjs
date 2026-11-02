@@ -9,7 +9,8 @@ const fails = [];
 const tag = `[${engName}/${vpName}/${phase}]`;
 const fail = (m) => { fails.push(m); console.log(tag, "✗", m); };
 let where = "";
-p.on("response", (r) => r.status() >= 400 && fail(`HTTP ${r.status()} ${r.url()} @${where}`));
+// Umami (analítica, sobre Vercel) frena con 403 a los navegadores automáticos; a las visitas reales no (2026-11-02).
+p.on("response", (r) => r.status() >= 400 && !r.url().startsWith("https://cloud.umami.is/") && fail(`HTTP ${r.status()} ${r.url()} @${where}`));
 // WebKit da por «error» las precargas de Next (datos y páginas de la web) que corta un page.goto de la propia prueba:
 // se cuentan aparte. Comprobado 2026-10-20: navegando sin cortes, 0 errores.
 let aborted = 0;
