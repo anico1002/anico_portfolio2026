@@ -56,17 +56,22 @@ DirectoryIndex index.html
 
 RewriteEngine On
 
+# La validación del certificado (Let's Encrypt) entra por http y no debe redirigirse a ningún sitio.
+RewriteRule ^\.well-known/acme-challenge/ - [L]
+
 # --- Un solo dominio: anico.es y los www llevan a https://anico.design, con la misma ruta (Alberto, 2026-11-02) ---
 # Solo esos nombres: el alias del hosting (anico.es.mialias.net) sigue sirviendo la web tal cual, para pruebas.
 RewriteCond %{HTTP_HOST} ^(www\.)?anico\.es$ [NC,OR]
 RewriteCond %{HTTP_HOST} ^www\.anico\.design$ [NC]
-RewriteRule ^ https://anico.design%{REQUEST_URI} [R=301,L]
+RewriteRule ^ @@ESQUEMA@@://anico.design%{REQUEST_URI} [R=301,L]
+# @@HTTPS@@
 # http → https. Comprobar tras publicar que no hace bucle (si el servidor tuviera un proxy delante, %{HTTPS} no
 # vería el https: para eso la condición de X-Forwarded-Proto).
 RewriteCond %{HTTP_HOST} ^anico\.design$ [NC]
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !=https
 RewriteRule ^ https://anico.design%{REQUEST_URI} [R=301,L]
+# @@/HTTPS@@
 
 # --- URLs viejas y atajos (generado por deploy/build.mjs a partir de las páginas del export) ---
 # @@REDIRECCIONES@@

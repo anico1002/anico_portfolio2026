@@ -125,7 +125,13 @@ if (!tpl.includes("# @@REDIRECCIONES@@")) {
   console.error("✗ La plantilla deploy/apache/.htaccess no tiene la marca # @@REDIRECCIONES@@.");
   process.exit(1);
 }
-writeFileSync(join(DEST, ".htaccess"), tpl.replace("# @@REDIRECCIONES@@", rules.join("\n")));
+// Hasta que el servidor tenga el certificado de anico.design, nada lleva a https (daría error de seguridad): se arma con
+// HTTPS=0 y, con el certificado puesto, se vuelve a armar sin él y se sube solo el .htaccess (2026-11-02).
+const https = process.env.HTTPS !== "0";
+let htaccess = tpl.replace("# @@REDIRECCIONES@@", rules.join("\n")).replaceAll("@@ESQUEMA@@", https ? "https" : "http");
+if (!https) htaccess = htaccess.replace(/# @@HTTPS@@[\s\S]*?# @@\/HTTPS@@\n/, "# (sin http → https: falta el certificado; se arma con HTTPS=0)\n");
+writeFileSync(join(DEST, ".htaccess"), htaccess);
+if (!https) console.log("  ⚠ .htaccess sin https (HTTPS=0): volver a armar y subir el .htaccess cuando esté el certificado.");
 
 // 4. El sitemap solo nombra páginas que están en el paquete (y en el dominio del destino).
 const sitemap = readFileSync(join(OUT, "sitemap.xml"), "utf8");
