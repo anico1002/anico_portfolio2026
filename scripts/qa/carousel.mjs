@@ -11,10 +11,10 @@ const fail = (m) => { fails++; console.log(tag, "✗", m); };
 p.on("response", (r) => r.status() >= 400 && fail(`HTTP ${r.status()} ${r.url()} @${where}`));
 p.on("pageerror", (e) => fail(`JS ${e.message} @${where}`));
 const bare = (s) => (s.length > 1 ? s.replace(/\/+$/, "") : s);
-const CASES = ["gloop", "7news", "dovla", "elreto-masterchef", "interactius", "swift-project", "wineup", "asphalt-9", "asphalt-unite", "asphalt-xtreme", "cybertitans", "disney-karting"];
+const CASES = ["product/gloop", "product/7news", "product/dovla", "product/elreto-masterchef", "product/interactius", "product/swift-project", "product/wineup", "product/designops", "games/asphalt-9", "games/asphalt-unite", "games/asphalt-xtreme", "games/cybertitans", "games/disney-karting"];
 for (const c of CASES) {
   where = c;
-  await p.goto(`${base}/new/${c}/`, { waitUntil: "load" });
+  await p.goto(`${base}/${c}/`, { waitUntil: "load" });
   await p.waitForTimeout(800);
   // Hasta el final con la rueda/scroll real (la página usa Lenis).
   for (let i = 0; i < 60; i++) { await p.mouse.wheel(0, 1200); await p.waitForTimeout(60); }
@@ -22,8 +22,8 @@ for (const c of CASES) {
   await p.waitForTimeout(1500);
   // Primera tarjeta del carrusel que se vea entera en pantalla.
   const card = await p.evaluate(() => {
-    const a = [...document.querySelectorAll('a.shrink-0[href^="/new"]')].find((e) => { const r = e.getBoundingClientRect(); const cx = (r.left + r.right) / 2; return cx > 40 && cx < innerWidth - 40 && r.top >= 0 && r.top + 60 < innerHeight && r.width > 0; });
-    if (!a) return { none: [...document.querySelectorAll('a.shrink-0[href^="/new"]')].slice(0, 3).map((e) => JSON.stringify(e.getBoundingClientRect())), y: scrollY, h: document.body.scrollHeight };
+    const a = [...document.querySelectorAll('a.shrink-0[href^="/product/"], a.shrink-0[href^="/games/"]')].find((e) => { const r = e.getBoundingClientRect(); const cx = (r.left + r.right) / 2; return cx > 40 && cx < innerWidth - 40 && r.top >= 0 && r.top + 60 < innerHeight && r.width > 0; });
+    if (!a) return { none: [...document.querySelectorAll('a.shrink-0[href^="/product/"], a.shrink-0[href^="/games/"]')].slice(0, 3).map((e) => JSON.stringify(e.getBoundingClientRect())), y: scrollY, h: document.body.scrollHeight };
     const r = a.getBoundingClientRect(); return { href: a.getAttribute("href"), x: (r.left + r.right) / 2, y: r.top + 40 };
   });
   if (!card.href) { fail(`sin tarjeta visible en el carrusel @${c} ${JSON.stringify(card)}`); continue; }

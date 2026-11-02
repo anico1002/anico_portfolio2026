@@ -1,5 +1,5 @@
-/* Metadatos de la web nueva (auditoría 2026-10-19). Fuera de buscadores (enlace privado, memoria
-   «produccion-anico-new»), pero con título, descripción e imagen propios: es lo que sale al pegar el enlace en
+/* Metadatos de la web (auditoría 2026-10-19). Desde el 2026-11-02 es la web pública de anico.design y se indexa
+   (antes, enlace privado con noindex). Título, descripción e imagen propios: es lo que sale al pegar el enlace en
    WhatsApp, LinkedIn o un email. Antes heredaba la tarjeta de la web vieja y títulos internos («Gloop · maqueta»).
    Las descripciones son los textos de entrada de cada home, no copy nuevo. */
 import type { Metadata } from "next";
@@ -16,13 +16,8 @@ export const GAMES_INTRO =
 const posterOf = (src: string) => src.replace(/\.mp4$/i, "-poster.jpg"); // como en LazyVideo (módulo de cliente)
 const OG = { url: "/maqueta/og.jpg", width: 1200, height: 630, alt: "anico — Product & Game Design" };
 
-// noindex en todas sus formas; las imágenes y los vídeos los cubre además la cabecera X-Robots-Tag (next.config.ts).
-const robots: Metadata["robots"] = {
-  index: false,
-  follow: false,
-  nocache: true,
-  googleBot: { index: false, follow: false, noimageindex: true, "max-snippet": 0 },
-};
+// Web pública (2026-11-02): se indexa, con vista previa grande de imágenes en Google.
+const robots: Metadata["robots"] = { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } };
 
 // Función y no constante: los años suben solos y las páginas se regeneran a diario (lib/maqueta/years.ts).
 export const siteMeta = (): Metadata => ({

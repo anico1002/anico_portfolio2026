@@ -1,8 +1,7 @@
 import { SLIDES } from "@/lib/maqueta/sections";
 import HomeView from "@/components/case-study/HomeView";
-import { casesIn } from "@/lib/maqueta/cases";
+import { caseHref, casesIn } from "@/lib/maqueta/cases";
 import { thumbOf } from "@/lib/maqueta/media";
-import { BASE } from "@/lib/maqueta/base";
 import { GAMES_INTRO, pageMeta } from "@/lib/maqueta/meta";
 
 // Se regenera a diario: los años de experiencia suben solos.
@@ -21,7 +20,7 @@ export default function GamesHome() {
     type: c.services[0],
     year: c.year,
     thumb: thumbOf(c.slug),
-    href: `${BASE}/${c.slug}`,
+    href: caseHref(c.slug),
   }));
   return (
     <HomeView

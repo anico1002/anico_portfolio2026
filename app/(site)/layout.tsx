@@ -65,8 +65,8 @@ const themes = `
 // Antes de pintar: el color de la página (lib/maqueta/theme.ts), sin parpadeo. Ya no hay selector sol/luna.
 const pick = `(function(){var r=document.getElementById('case-root');var m=${JSON.stringify(THEMES)};var p=location.pathname.replace(/\\/$/,'');r.dataset.caseTheme=m[p]||'dark';try{localStorage.removeItem('case-theme')}catch(e){}})();`;
 
-// Layout raíz propio (desde el 2026-10-19 la web nueva vive en /new, en su propio grupo): sin la Inter, el JSON-LD ni
-// la canonical de la web de siempre (app/(classic)/layout.tsx). Sin analítica: se publica fuera de Vercel.
+// Layout raíz de la web (2026-11-02: pasa a la raíz de anico.design; antes, enlace privado en /new). La web de
+// siempre queda retirada en app/_classic (carpeta privada: Next no la publica). Analítica: SiteAnalytics (Umami).
 export default function MaquetaLayout({ children }: { children: React.ReactNode }) {
   // La única fuente que se ve en todas las páginas: que llegue con el HTML y no tras leer el CSS.
   preload("/fonts-licencia/Satoshi-Variable.woff2", { as: "font", type: "font/woff2", crossOrigin: "anonymous" });

@@ -3,7 +3,7 @@
    va el texto y la dirección de cada caso. Fuente de los hechos: el content.txt de cada
    proyecto — nada inventado. Estructura de textos inspirada en plastic.design (resumen con
    el reto como pregunta, capítulos con titular-frase) y concisión de Metalab. */
-import { BASE } from "@/lib/maqueta/base";
+import { BASE } from "./base";
 
 export type CaseSection = "product" | "brand" | "games";
 
@@ -739,5 +739,16 @@ export function nextCase(slug: string): { name: string; href: string; slug: stri
         })();
   const i = list.findIndex((x) => x.slug === slug);
   const n = list[(i + 1) % list.length];
-  return { name: n.name, slug: n.slug, href: `${BASE}/${n.slug}` };
+  return { name: n.name, slug: n.slug, href: caseHref(n.slug) };
 }
+
+// Proyectos con página propia en app/(site)/product/<slug> (ruta fija, que manda sobre la plantilla [slug]).
+// El Reto pasó a proyecto vertical el 2026-10-15 (su página a medida queda en app/(site)/_elreto-a-medida).
+export const BESPOKE = new Set(["gloop", "designops", "swift-project", "interactius", "7news", "dovla", "wineup"]);
+
+/** Sección en la URL: Games o Product («Marca y web» va dentro de Product, como en la navegación). Gloop no está en
+    CASES (página propia) y es de Product. */
+export const urlSection = (slug: string): "product" | "games" => (caseBySlug(slug)?.section === "games" ? "games" : "product");
+
+/** URL de un caso (2026-11-02): /product/gloop, /games/asphalt-9… Los atajos /gloop redirigen aquí. */
+export const caseHref = (slug: string) => `${BASE}/${urlSection(slug)}/${slug}`;

@@ -1,14 +1,16 @@
-# anico.es — web nueva (export estático de Next). Servida por Apache en MindYourGap.
-# Réplica de las cabeceras que daba Vercel (next.config.ts), más lo que Apache necesita de más:
-# tipos MIME de los medios modernos y la raíz llevando a la portada.
-# Generado 2026-10-19 (auditoría final). Fuente: deploy/apache/.htaccess.
+# anico.design — export estático de Next servido por Apache en MindYourGap. anico.es redirige aquí.
+# Réplica de las cabeceras que daba Vercel (next.config.ts), más lo que Apache necesita de más: tipos MIME de los
+# medios modernos, el dominio único y las redirecciones de URLs viejas y atajos.
+# Plantilla: deploy/apache/.htaccess. deploy/build.mjs rellena las redirecciones (@@REDIRECCIONES@@).
 
 Options -Indexes +FollowSymLinks
 DirectoryIndex index.html
 
-# --- Enlace privado: fuera de TODO buscador (meta robots no cubre imágenes, vídeos ni fuentes) ---
 <IfModule mod_headers.c>
-  Header set X-Robots-Tag "noindex, nofollow, noarchive, noimageindex"
+  # Web pública desde el 2026-11-02: se indexa. Solo las tipografías con licencia quedan fuera de buscadores.
+  <If "%{REQUEST_URI} =~ m#^/fonts-licencia/#">
+    Header set X-Robots-Tag "noindex, nofollow"
+  </If>
 
   # --- Seguridad (igual que en Vercel) ---
   Header set X-Content-Type-Options "nosniff"
@@ -18,7 +20,7 @@ DirectoryIndex index.html
   Header set Content-Security-Policy "frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
   # El prototipo de DesignOps Copilot se navega dentro de la pantalla de su caso (iframe del mismo dominio,
   # 2026-11-01): solo esa carpeta se deja incrustar, y solo desde aquí.
-  <If "%{REQUEST_URI} =~ m#^/(new/)?maqueta/designops/app/#">
+  <If "%{REQUEST_URI} =~ m#^/maqueta/designops/app/#">
     Header set X-Frame-Options "SAMEORIGIN"
     Header set Content-Security-Policy "frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
   </If>
@@ -52,9 +54,22 @@ DirectoryIndex index.html
   AddType application/manifest+json .webmanifest
 </IfModule>
 
-# --- La raíz del dominio lleva al lanzador (pantalla partida Product / Games), como en Cloudflare (Alberto, 2026-10-20) ---
 RewriteEngine On
-RewriteRule ^$ /new/ [R=302,L]
+
+# --- Un solo dominio: anico.es y los www llevan a https://anico.design, con la misma ruta (Alberto, 2026-11-02) ---
+# Solo esos nombres: el alias del hosting (anico.es.mialias.net) sigue sirviendo la web tal cual, para pruebas.
+RewriteCond %{HTTP_HOST} ^(www\.)?anico\.es$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^www\.anico\.design$ [NC]
+RewriteRule ^ https://anico.design%{REQUEST_URI} [R=301,L]
+# http → https. Comprobar tras publicar que no hace bucle (si el servidor tuviera un proxy delante, %{HTTPS} no
+# vería el https: para eso la condición de X-Forwarded-Proto).
+RewriteCond %{HTTP_HOST} ^anico\.design$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://anico.design%{REQUEST_URI} [R=301,L]
+
+# --- URLs viejas y atajos (generado por deploy/build.mjs a partir de las páginas del export) ---
+# @@REDIRECCIONES@@
 
 # --- 404 propio del export ---
 ErrorDocument 404 /404.html

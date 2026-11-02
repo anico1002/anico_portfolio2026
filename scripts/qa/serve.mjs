@@ -2,9 +2,25 @@
 // y Apache) y peticiones por rangos (sin ellas Safari no carga los vídeos y da falsos fallos). Puerto 4789 (o PORT).
 import http from "node:http"; import fs from "node:fs"; import path from "node:path";
 const root = process.argv[2];
+// Redirecciones del .htaccess del paquete (2026-11-02): las RewriteRule [R=…] sin RewriteCond delante (las de dominio
+// llevan condición de host y en local no aplican). Así la revisión prueba las mismas que servirá Apache.
+const rules = [];
+try {
+  let cond = false;
+  for (const line of fs.readFileSync(path.join(root, ".htaccess"), "utf8").split("\n").map((l) => l.trim())) {
+    if (line.startsWith("RewriteCond")) { cond = true; continue; }
+    const m = /^RewriteRule\s+(\S+)\s+(\S+)\s+\[R=(\d+)/.exec(line);
+    if (m && !cond) rules.push({ re: new RegExp(m[1]), to: m[2], code: +m[3] });
+    if (line.startsWith("RewriteRule")) cond = false;
+  }
+} catch {}
 const types = { ".html":"text/html", ".js":"text/javascript", ".css":"text/css", ".txt":"text/plain", ".avif":"image/avif", ".webp":"image/webp", ".png":"image/png", ".jpg":"image/jpeg", ".mp4":"video/mp4", ".woff2":"font/woff2", ".svg":"image/svg+xml" };
 http.createServer((req, res) => {
   let u = decodeURIComponent(req.url.split("?")[0]);
+  for (const r of rules) {
+    const m = r.re.exec(u.slice(1));
+    if (m) { res.writeHead(r.code, { location: r.to.replace(/\$(\d)/g, (_, i) => m[+i] ?? "") }); return res.end(); }
+  }
   let f = path.join(root, u);
   if (fs.existsSync(f) && fs.statSync(f).isDirectory()) {
     if (!u.endsWith("/")) { res.writeHead(308, { location: u + "/" }); return res.end(); }

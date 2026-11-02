@@ -92,6 +92,7 @@ scripts/mockups/photoshop/run.jsx
 /out/
 /deploy/cf-out/
 /deploy/apache-out/
+/deploy/cf-redirect-out/
 /.qa-logs/
 
 # hero reel: fotogramas y renders regenerables (scripts/hero-reel/prep.sh y render.mjs)

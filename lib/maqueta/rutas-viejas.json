@@ -1,0 +1,4 @@
+{
+  "_nota": "Casos de la web de antes (/proyecto/<slug>) que no existen en la de ahora: adónde lleva su URL vieja. Los que sí existen redirigen a su caso solos. El resto de /proyecto/* lleva a /product. Lo leen next.config.ts y deploy/build.mjs (2026-11-02).",
+  "/proyecto/two-dots": "/games"
+}

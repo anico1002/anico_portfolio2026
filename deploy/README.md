@@ -1,27 +1,33 @@
-# Publicar la web nueva fuera de Vercel
+# Publicar la web fuera de Vercel
 
-Export estático de Next (`/new`) para un hosting de archivos: hoy el puente de **Cloudflare Pages**
-(anico-design.pages.dev), mañana el **Apache de MindYourGap** (anico.es). Los dos se arman igual.
+Export estático de Next para el **Apache de MindYourGap**, que sirve **anico.design** (anico.es redirige ahí).
+Desde el 2026-11-02 la web vive en la raíz y es pública: `/`, `/product`, `/games`, `/product/<caso>`, `/games/<caso>`.
+
+**Atajos y redirecciones, solos.** `build.mjs` mira qué casos hay en el export y escribe en el `.htaccess`, para cada
+uno, su atajo (`/gloop` → `/product/gloop/`), su URL vieja de `/new` y la de la web anterior (`/proyecto/<caso>`).
+Un caso nuevo no necesita nada más que su página. Las URLs viejas de casos que ya no existen: `lib/maqueta/rutas-viejas.json`.
+En desarrollo hace lo mismo `next.config.ts` (`redirects`).
+
+El puente de **Cloudflare Pages** (anico-design.pages.dev) queda solo para redirigir: `node deploy/build.mjs cloudflare`
+arma `deploy/cf-redirect-out/` (todo → anico.design, misma ruta). Subirlo cuando anico.design ya esté en el servidor.
 
 ## Pasos
 
 ```bash
 # 1. Export con el dominio donde se va a publicar (la imagen para compartir el enlace lo lleva escrito)
-SITE_URL=https://anico.es EXPORT_STATIC=1 npm run build          # Apache
-SITE_URL=https://anico-design.pages.dev EXPORT_STATIC=1 npm run build   # Cloudflare
+SITE_URL=https://anico.design EXPORT_STATIC=1 npm run build
 
-# 2. Paquete auditado (falla si falta cualquier archivo o si el dominio no cuadra)
-node deploy/build.mjs apache        # → deploy/apache-out/   (lleva .htaccess y robots.txt)
-node deploy/build.mjs cloudflare    # → deploy/cf-out/       (lleva _headers, _redirects y robots.txt)
+# 2. Paquete auditado (falla si falta cualquier archivo, si el dominio no cuadra o si el sitemap nombra algo que no está)
+node deploy/build.mjs apache        # → deploy/apache-out/   (lleva .htaccess con redirecciones, robots.txt y sitemap.xml)
 
 # 3. Revisión de navegación real del paquete, en local (~15 min). Tiene que salir «TODO LIMPIO».
 npm run qa -- deploy/apache-out
 
 # 4. Subir (Cloudflare: npx -y wrangler@latest pages deploy deploy/cf-out --project-name=anico-design --branch=main;
-#    Apache: el contenido de deploy/apache-out/ por FTP, .htaccess incluido —es un archivo oculto, que no se quede fuera—)
+#    Apache: python3 deploy/subir-ftp.py — el contenido de deploy/apache-out/, .htaccess incluido)
 
 # 5. La misma revisión sobre la web ya publicada
-npm run qa -- https://anico.es
+npm run qa -- https://anico.design
 ```
 
 No se arma nunca un paquete a mano ni se sube sin los pasos 3 y 5.
@@ -42,11 +48,14 @@ existieran archivos; ninguna navegaba de verdad.
 
 ## Lo que hay que mirar en Apache en concreto
 
-- **Barra final**: Apache con `DirectorySlash` (por defecto) redirige `/new/games` → `/new/games/`, igual que
+- **Barra final**: Apache con `DirectorySlash` (por defecto) redirige `/games` → `/games/`, igual que
   Cloudflare. Si el servidor de Carlos lo tuviera desactivado, las URLs sin barra darían 404: el paso 5 lo detecta
   (prueba la carga directa de cada página con y sin barra).
 - **Peticiones por rangos** (Safari no reproduce vídeo sin ellas): Apache las da de serie; el paso 5 lo comprueba en WebKit.
-- **`.htaccess`** necesita `AllowOverride` activo en el servidor; si no, no hay noindex, ni cabeceras, ni la
-  redirección de la raíz. Comprobar con `curl -sI https://anico.es/new/ | grep -i x-robots`.
-- **La raíz** lleva a `/new/`, el lanzador (pantalla partida Product / Games), en los dos hostings (decidido por
-  Alberto, 2026-10-20). Comprobar con `curl -sI https://anico.es/ | grep -i location`.
+- **`.htaccess`** necesita `AllowOverride` activo en el servidor; si no, no hay cabeceras ni redirecciones.
+  Comprobar con `curl -sI https://anico.design/gloop | grep -i location` (→ `/product/gloop/`).
+- **Dominio único**: `curl -sI http://anico.es/new/gloop` → 301 a `https://anico.design/new/gloop` (y de ahí a su
+  caso). Y que `curl -sIL http://anico.design/` acabe en 200 sin dar vueltas: si el servidor tuviera un proxy
+  delante, la regla http → https podría hacer bucle (ver el `.htaccess`).
+- **Analítica**: Umami (`components/SiteAnalytics.tsx`) solo cuenta en anico.design; el alias `anico.es.mialias.net`
+  sirve la web para pruebas sin contar visitas.

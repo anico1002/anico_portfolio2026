@@ -1,9 +1,9 @@
-// Revisión de navegación real de la web nueva, antes y después de publicar (2026-10-20). Por qué existe: deploy/README.md.
+// Revisión de navegación real de la web, antes y después de publicar (2026-10-20). Por qué existe: deploy/README.md.
 //
-//   npm run qa -- deploy/cf-out                     el paquete, servido en local como lo haría el hosting
-//   npm run qa -- https://anico-design.pages.dev    la web ya publicada
+//   npm run qa -- deploy/apache-out          el paquete, servido en local como lo haría el hosting
+//   npm run qa -- https://anico.design        la web ya publicada
 //
-// Chrome y WebKit (Safari), móvil y escritorio: 15 páginas enteras (404, errores JS, imágenes y vídeos rotos, scroll
+// Redirecciones (atajos y URLs viejas) y, en Chrome y WebKit (Safari), móvil y escritorio: 16 páginas enteras (404, errores JS, imágenes y vídeos rotos, scroll
 // lateral, «N years»), cada enlace interno pulsado, el menú Product/Games/About desde cada página, el carrusel del final
 // de cada caso y atrás/adelante. Tarda ~15 min. Sale con código 1 si algo falla.
 import { spawn } from "node:child_process";
@@ -20,8 +20,8 @@ if (!target) {
 let base = target.replace(/\/$/, "");
 let server;
 if (!/^https?:/.test(target)) {
-  if (!existsSync(join(target, "new", "index.html"))) {
-    console.error(`✗ ${target} no es un paquete de la web (falta new/index.html)`);
+  if (!existsSync(join(target, "product", "index.html"))) {
+    console.error(`✗ ${target} no es un paquete de la web (falta product/index.html)`);
     process.exit(1);
   }
   server = spawn("node", [join(HERE, "serve.mjs"), resolve(target)], { stdio: "ignore" });
@@ -29,7 +29,7 @@ if (!/^https?:/.test(target)) {
   await new Promise((r) => setTimeout(r, 800));
 }
 
-const jobs = [];
+const jobs = [["redirects.mjs"]];
 for (const e of ["chromium", "webkit"]) {
   for (const v of ["mobile", "desktop"]) {
     for (const ph of ["static", "nav", "menu"]) jobs.push(["review.mjs", e, v, ph]);

@@ -1,11 +1,11 @@
 import type { NextConfig } from "next";
-import { BASE } from "./lib/maqueta/base";
+import { BESPOKE, CASES, caseHref } from "./lib/maqueta/cases";
+import OLD from "./lib/maqueta/rutas-viejas.json";
 
 // Cabeceras (auditoría 2026-10-19).
 // - Seguridad básica para todo el sitio. Sin CSP estricta: hay scripts y estilos en línea (tema antes de pintar,
 //   PhoneMockup), y una CSP con 'unsafe-inline' apenas protege; frame-ancestors sí, para que nadie la incruste.
-// - La web nueva (/new, y /maqueta mientras exista) es un enlace privado: fuera de buscadores también sus imágenes,
-//   vídeos y fuentes, que el <meta name="robots"> no cubre.
+// - Desde el 2026-11-02 la web es pública y se indexa; solo las tipografías con licencia quedan fuera de buscadores.
 // - Caché de medios: un día y revalidación en segundo plano una semana. No `immutable`: los nombres no llevan hash
 //   y a veces se rehace un archivo con el mismo nombre.
 const SECURITY = [
@@ -41,7 +41,7 @@ const nextConfig: NextConfig = {
           { key: "Content-Security-Policy", value: "frame-ancestors 'self'; base-uri 'self'; object-src 'none'" },
         ],
       },
-      ...["/new", "/new/:path*", "/maqueta", "/maqueta/:path*", "/opt/maqueta/:path*", "/fonts-licencia/:path*"].map((source) => ({ source, headers: NOINDEX })),
+      { source: "/fonts-licencia/:path*", headers: NOINDEX },
       ...["/maqueta/:path*", "/opt/:path*", "/fonts-licencia/:path*"].map((source) => ({ source, headers: MEDIA_CACHE })),
     ];
   },
@@ -55,11 +55,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Demo de la maqueta (2026-10-12): en el proyecto de Vercel aparte «anico-maqueta» la raíz lleva
-  // directamente a /maqueta. En anico.design (otro proyecto) esto no se activa.
+  // Redirecciones de URLs viejas y atajos (2026-11-02), para desarrollo y Vercel. En el hosting (export estático) las
+  // escribe deploy/build.mjs en el .htaccess con la misma lógica. Atajo de cada caso: /gloop → /product/gloop.
   async redirects() {
-    if (!process.env.VERCEL_PROJECT_PRODUCTION_URL?.startsWith("anico-maqueta")) return [];
-    return [{ source: "/", destination: BASE, permanent: false }];
+    if (EXPORT) return [];
+    const slugs = [...new Set([...BESPOKE, ...CASES.map((c) => c.slug)])];
+    const to = (source: string, destination: string) => ({ source, destination, permanent: true });
+    return [
+      to("/new", "/"),
+      to("/new/:section(product|games)", "/:section"),
+      ...slugs.flatMap((s) => [to(`/${s}`, caseHref(s)), to(`/new/${s}`, caseHref(s)), to(`/proyecto/${s}`, caseHref(s))]),
+      ...Object.entries(OLD).filter(([k]) => k.startsWith("/")).map(([k, v]) => to(k, v)),
+      to("/proyecto/:slug", "/product"),
+      to("/new/:path*", "/:path*"),
+    ];
   },
   // El prototipo exportado de DesignOps Copilot (public/maqueta/designops/app) pide sus páginas como carpetas
   // (`/health/`) y sus datos como `/health/index.txt`. Apache y Cloudflare sirven el index.html de cada carpeta

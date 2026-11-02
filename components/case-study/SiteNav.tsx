@@ -13,7 +13,7 @@ import { LINKEDIN, email } from "@/lib/maqueta/contact";
 import Arrow from "@/components/case-study/Arrow";
 import LogoAnico from "@/components/case-study/LogoAnico";
 import RollText from "@/components/case-study/RollText";
-import { BASE, bare } from "@/lib/maqueta/base";
+import { BASE, HOME, bare } from "@/lib/maqueta/base";
 
 /** En la cabecera el bucle es un guiño de vez en cuando (Alberto, 2026-10-18): unos 15 s formado entre vueltas. */
 const WINK = 15000;
@@ -211,7 +211,7 @@ export default function SiteNav({
         className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50 mix-blend-difference"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts !== "all" ? "pointer-events-none" : ""}`}
       >
         {parts !== "menu" && (
-          <TLink href={BASE} aria-label="anico · home" className="pointer-events-auto">
+          <TLink href={HOME} aria-label="anico · home" className="pointer-events-auto">
             {/* Logo nuevo en bucle (2026-10-18, a prueba). El de antes sigue en public/anico_logo.svg. */}
             <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
           </TLink>
@@ -270,7 +270,7 @@ export default function SiteNav({
                 aria-label="anico · home"
                 onClick={() => {
                   setLeaving(true);
-                  window.setTimeout(() => go(BASE, { covered: true }), DUR.fast * 1000);
+                  window.setTimeout(() => go(HOME, { covered: true }), DUR.fast * 1000);
                 }}
               >
                 <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto md:h-[1.375rem]" />

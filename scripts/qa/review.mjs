@@ -10,15 +10,15 @@ const tag = `[${engName}/${vpName}/${phase}]`;
 const fail = (m) => { fails.push(m); console.log(tag, "✗", m); };
 let where = "";
 p.on("response", (r) => r.status() >= 400 && fail(`HTTP ${r.status()} ${r.url()} @${where}`));
-// WebKit da por «error» las precargas de Next (datos y páginas de /new) que corta un page.goto de la propia prueba:
+// WebKit da por «error» las precargas de Next (datos y páginas de la web) que corta un page.goto de la propia prueba:
 // se cuentan aparte. Comprobado 2026-10-20: navegando sin cortes, 0 errores.
 let aborted = 0;
-p.on("pageerror", (e) => (/access control checks/.test(e.message) && /\/new\//.test(e.message) ? aborted++ : fail(`JS ${e.message} @${where}`)));
+p.on("pageerror", (e) => (/access control checks/.test(e.message) && /\/(product|games)\/|__next/.test(e.message) ? aborted++ : fail(`JS ${e.message} @${where}`)));
 p.on("console", (m) => m.type() === "error" && !/Failed to load resource/.test(m.text()) && fail(`console ${m.text().slice(0, 200)} @${where}`));
 const bare = (s) => (s.length > 1 ? s.replace(/\/+$/, "") : s);
 const PORTAL = 'div.fixed.inset-0[class*="z-[90]"]';
 
-const PAGES = ["/new/", "/new/product/", "/new/games/", "/new/gloop/", "/new/7news/", "/new/dovla/", "/new/elreto-masterchef/", "/new/interactius/", "/new/swift-project/", "/new/wineup/", "/new/asphalt-9/", "/new/asphalt-unite/", "/new/asphalt-xtreme/", "/new/cybertitans/", "/new/disney-karting/"];
+const PAGES = ["/", "/product/", "/games/", "/product/gloop/", "/product/7news/", "/product/dovla/", "/product/elreto-masterchef/", "/product/interactius/", "/product/swift-project/", "/product/wineup/", "/product/designops/", "/games/asphalt-9/", "/games/asphalt-unite/", "/games/asphalt-xtreme/", "/games/cybertitans/", "/games/disney-karting/"];
 // Tras cargar, espera a que se vaya la capa de arranque (Boot, z-95: tapa la página hasta que llega la tipografía).
 // Pulsar por debajo de ella no lo puede hacer una persona, y Playwright movía la página buscando hueco y desajustaba el
 // scroll suave: falso fallo de «About no baja» en Safari (2026-10-20).
@@ -69,7 +69,7 @@ if (phase === "nav") {
   for (const u of PAGES) {
     await load(u);
     // El carrusel final (a.shrink-0) se mueve solo: lo cubre carousel.mjs, que pulsa por coordenadas.
-    const hrefs = await p.evaluate(() => [...new Set([...document.querySelectorAll('a[href^="/new"]:not(.shrink-0)')].map((a) => a.getAttribute("href")))]);
+    const hrefs = await p.evaluate(() => [...new Set([...document.querySelectorAll('a[href="/"]:not(.shrink-0), a[href^="/product"]:not(.shrink-0), a[href^="/games"]:not(.shrink-0)')].map((a) => a.getAttribute("href")))]);
     for (const h of hrefs) {
       if (bare(h.split("#")[0]) === bare(u) && !h.includes("#")) continue;
       await load(u);
@@ -92,16 +92,13 @@ if (phase === "menu") {
       await load(u);
       where = `${u} menú ${label}`;
       try {
-        if (mobile) {
-          await p.getByRole("button", { name: "Open menu" }).click({ timeout: 8000 });
-          await p.waitForTimeout(900);
-          await p.locator("ul button", { hasText: label }).first().click({ timeout: 8000 });
-        } else {
-          await p.locator("nav a", { hasText: new RegExp(`^${label}`) }).first().click({ timeout: 8000 });
-        }
+        // Hamburguesa también en escritorio desde c2c2d32 (antes, enlaces sueltos en la barra).
+        await p.getByRole("button", { name: "Open menu" }).filter({ visible: true }).first().click({ timeout: 8000 });
+        await p.waitForTimeout(900);
+        await p.locator("ul button", { hasText: label }).first().click({ timeout: 8000 });
       } catch (e) { fail(`menú ${label} @${u}: ${e.message.split("\n")[0]}`); continue; }
       const games = /asphalt|cybertitans|disney|games/.test(u);
-      const target = label === "Product" ? "/new/product" : label === "Games" ? "/new/games" : games ? "/new/games" : "/new/product";
+      const target = label === "Product" ? "/product" : label === "Games" ? "/games" : games ? "/games" : "/product";
       const ms = await arrived(target, `menú ${label} @${u}`);
       if (ms < 0) continue;
       if (label === "About") {
@@ -110,7 +107,7 @@ if (phase === "menu") {
         if (top === undefined || Math.abs(top) > 200) fail(`About no baja al bloque (top=${top}) @${u}`);
       }
       await p.waitForTimeout(1200);
-      if (mobile && (await p.getByRole("button", { name: "Close menu" }).count()) && (await p.getByRole("button", { name: "Close menu" }).isVisible())) fail(`menú sigue abierto tras ${label} @${u}`);
+      if ((await p.getByRole("button", { name: "Close menu" }).filter({ visible: true }).count())) fail(`menú sigue abierto tras ${label} @${u}`);
       console.log(tag, "ok", u, "menú", label, ms + "ms");
     }
   }
@@ -118,17 +115,17 @@ if (phase === "menu") {
 
 if (phase === "history") {
   // Cadena real: lanzador → Product → Gloop → (menú) Games → CyberTitans; luego atrás hasta el principio y adelante hasta el final.
-  const visited = ["/new/"];
-  await load("/new/");
+  const visited = ["/"];
+  await load("/");
   const click = async (to) => {
     where = `click ${to}`;
     await p.waitForTimeout(1500);
     const a = p.locator(`a[href="${to}"]:not(.shrink-0)`).filter({ visible: true }).first();
     if (await a.count()) { await a.scrollIntoViewIfNeeded(); await a.click(); }
-    else { await p.getByRole("button", { name: "Open menu" }).click(); await p.waitForTimeout(900); await p.locator("ul button", { hasText: "Games" }).first().click(); }
+    else { await p.getByRole("button", { name: "Open menu" }).filter({ visible: true }).first().click(); await p.waitForTimeout(900); await p.locator("ul button", { hasText: "Games" }).first().click(); }
     if ((await arrived(to, `ir a ${to}`)) >= 0) visited.push(to);
   };
-  for (const to of ["/new/product/", "/new/gloop/", "/new/games/", "/new/cybertitans/"]) await click(to);
+  for (const to of ["/product/", "/product/gloop/", "/games/", "/games/cybertitans/"]) await click(to);
   console.log(tag, "visitadas", visited.join(" → "));
   for (let k = visited.length - 2; k >= 0; k--) { where = `atrás → ${visited[k]}`; await p.waitForTimeout(800); await p.goBack(); if ((await arrived(visited[k], `atrás a ${visited[k]}`)) >= 0) console.log(tag, "ok atrás", visited[k]); }
   for (let k = 1; k < visited.length; k++) { where = `adelante → ${visited[k]}`; await p.waitForTimeout(800); await p.goForward(); if ((await arrived(visited[k], `adelante a ${visited[k]}`)) >= 0) console.log(tag, "ok adelante", visited[k]); }

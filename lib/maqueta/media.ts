@@ -2,7 +2,7 @@ import "server-only";
 import fs from "fs";
 import path from "path";
 import { getScannedProject } from "@/lib/scan-project";
-import { caseBySlug, casesIn, productInOrder, type CaseCopy } from "./cases";
+import { caseBySlug, caseHref, casesIn, productInOrder, type CaseCopy } from "./cases";
 import { GAME_BLOCKS } from "./games";
 import { BASE } from "@/lib/maqueta/base";
 
@@ -163,8 +163,8 @@ export function moreCases(slug: string): { items: MoreItem[]; all: { label: stri
           const [first, ...rest] = productInOrder();
           return [first, { name: "Gloop", slug: "gloop", year: "2026" } as Pick<CaseCopy, "name" | "slug" | "year">, ...rest, ...casesIn("brand")];
         })()
-  ).map((c) => ({ name: c.name, href: `${BASE}/${c.slug}`, thumb: thumbOf(c.slug), year: c.year }));
-  const i = list.findIndex((x) => x.href === `${BASE}/${slug}`);
+  ).map((c) => ({ name: c.name, href: caseHref(c.slug), thumb: thumbOf(c.slug), year: c.year }));
+  const i = list.findIndex((x) => x.href === caseHref(slug));
   const items = [...list.slice(i + 1), ...list.slice(0, Math.max(0, i))];
   return { items, all: games ? { label: "All games", href: `${BASE}/games` } : { label: "All projects", href: `${BASE}/product` } };
 }
