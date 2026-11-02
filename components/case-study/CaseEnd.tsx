@@ -173,7 +173,10 @@ export default function CaseEnd({ items }: { items: MoreItem[]; all?: { label: s
     // así que la referencia ya está puesta cuando empieza a medir.
     end.current = (ref.current?.previousElementSibling?.querySelector("[data-case-layer-end]") as HTMLElement) ?? null;
     if (!end.current) return;
-    const io = new IntersectionObserver((es) => setNear(es.some((e) => e.isIntersecting)), { rootMargin: "0px 0px 100% 0px" });
+    // Arranca cuando el final del caso entra en pantalla, es decir, cuando el carrusel empieza a destaparse (2026-11-02).
+    // Con una pantalla de margen, sus vídeos se cargaban y se reproducían tapados mientras se leían las últimas
+    // secciones (el navegador los da por visibles aunque estén detrás): en el móvil bajaba a 30 fps al final de DesignOps.
+    const io = new IntersectionObserver((es) => setNear(es.some((e) => e.isIntersecting)), { rootMargin: "0px 0px 10% 0px" });
     io.observe(end.current);
     return () => io.disconnect();
   }, []);
