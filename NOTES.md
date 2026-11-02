@@ -970,6 +970,14 @@ de Alberto. El trabajo estaba íntegro aquí. Si reaparece: buscar qué la crea 
 
 ## Pendientes
 
+- **Publicar en anico.design (2026-11-02)** — rutas, atajos, redirecciones, SEO y analítica (Umami) listos y probados
+  en local. Falta Carlos: alias anico.design en `web/`, SSL de los 4 nombres y cambio de DNS coordinado. Después:
+  build + `deploy/subir-ftp.py`, `npm run qa -- https://anico.design`, comprobar que http→https no hace bucle,
+  subir `deploy/cf-redirect-out` al puente y quitar anico.design de Vercel. En el servidor sigue la carpeta `new/`
+  vieja (no estorba: la tapa la redirección); borrarla con OK.
+- **Safari: «About» desde el caso de Dovla se queda a 242 px del bloque** (escritorio, WebKit; en Chrome bien). Ya pasa
+  en la versión publicada del puente: no viene de la reorganización de rutas.
+
 - **«Sigue bajando para el siguiente proyecto»** (idea de Alberto, 2026-10-20, aparcada para después de enviar la web
   al recruiter). Al final de un caso, junto al carrusel «Drag», un aviso «continúa para el siguiente proyecto»; si se
   sigue haciendo scroll, sube la cortinilla negra (la de los enlaces, `Portal.tsx`) y se destapa el siguiente caso de
