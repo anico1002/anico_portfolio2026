@@ -68,7 +68,26 @@ const copy = (rel) => {
 };
 const ROOT_PAGE = readdirSync(OUT).filter((f) => f === "index.html" || f === "index.txt" || /^__next\..*\.txt$/.test(f));
 const PAGES = ["product", "games"];
-[...ROOT_PAGE, ...PAGES, "_next", "404.html", "robots.txt", "sitemap.xml", "maqueta", "opt/maqueta", "fonts-licencia"].forEach(copy);
+
+// Solo viajan los medios de los casos que tienen página en el export (2026-11-03). Antes se colaban los de proyectos
+// descartados: Obliq (sigue en lib/maqueta/games.ts sin página) y Two Dots (nombrado en lib/maqueta/opt.json, que va
+// en los chunks de JS). Las carpetas de medios usan a veces el nombre corto del caso (elreto → elreto-masterchef,
+// swift → swift-project); las que no son de ningún caso, pero sí de la web, van en SHARED.
+const SHARED = ["hero-reel"];
+const slugsOf = (section) => readdirSync(join(OUT, section)).filter((d) => existsSync(join(OUT, section, d, "index.html")));
+const SLUGS = [...slugsOf("product"), ...slugsOf("games")];
+const isLiveFolder = (dir) => SHARED.includes(dir) || SLUGS.some((s) => s === dir || s.startsWith(`${dir}-`));
+// Ruta relativa → carpeta de caso a la que pertenece (o null si no está dentro de una carpeta de medios de casos).
+const caseFolder = (rel) => rel.match(/^(?:opt\/)?(?:maqueta|projects)\/([^/]+)\//)?.[1] ?? null;
+const skipped = new Set();
+
+[...ROOT_PAGE, ...PAGES, "_next", "404.html", "robots.txt", "sitemap.xml", "fonts-licencia"].forEach(copy);
+for (const base of ["maqueta", "opt/maqueta"])
+  for (const f of readdirSync(join(OUT, base))) {
+    const isDir = statSync(join(OUT, base, f)).isDirectory();
+    if (isDir && !isLiveFolder(f)) skipped.add(`${base}/${f}/`);
+    else copy(`${base}/${f}`);
+  }
 
 // 2. Todo archivo que nombren las páginas (HTML y datos RSC) o el CSS/JS: rutas absolutas con extensión de medio.
 const MEDIA = "avif|webp|png|jpe?g|gif|svg|ico|mp4|webm|mov|woff2?|ttf|otf|pdf|txt|json|xml|webmanifest";
@@ -86,6 +105,11 @@ let copied = 0;
 for (const r of refs) {
   const rel = r.slice(1);
   if (/^(_next|product|games|maqueta|opt\/maqueta|fonts-licencia)\//.test(rel)) continue; // ya van enteros
+  const folder = caseFolder(rel);
+  if (folder && !isLiveFolder(folder)) {
+    skipped.add(rel.replace(/[^/]+$/, ""));
+    continue;
+  }
   if (!existsSync(join(OUT, rel))) {
     // Las rutas de los datos RSC de Next (`/product/x/__next.*.txt`) y similares no son archivos de public/.
     if (!/\.(txt|json|xml)$/.test(rel)) missing.push(r);
@@ -99,8 +123,7 @@ for (const r of refs) {
 // 3. Redirecciones (2026-11-02), sacadas de las páginas que existen en el export: así cada caso nuevo tiene su atajo
 //    (/gloop → /product/gloop) y su URL vieja de /new sin tener que acordarse. Las de la web anterior (/proyecto/…)
 //    van a su caso si sigue existiendo; si no, adonde diga lib/maqueta/rutas-viejas.json, y si no, a /product.
-const casesOf = (section) =>
-  readdirSync(join(OUT, section)).filter((d) => existsSync(join(OUT, section, d, "index.html"))).map((slug) => ({ slug, href: `/${section}/${slug}/` }));
+const casesOf = (section) => slugsOf(section).map((slug) => ({ slug, href: `/${section}/${slug}/` }));
 const live = [...casesOf("product"), ...casesOf("games")];
 const dupes = live.filter((c, i) => live.findIndex((x) => x.slug === c.slug) !== i);
 if (dupes.length) {
@@ -141,6 +164,15 @@ if (!locs.length || badLocs.length) {
   console.error(`✗ Sitemap con URLs que no están en el paquete o en otro dominio:\n   ${badLocs.join("\n   ") || "(vacío)"}`);
   process.exit(1);
 }
+
+// 5. Nada de proyectos sin página en el paquete. Como el script no borra, esto también caza restos de un paquete
+//    viejo en la carpeta de salida: si salta por eso, borrar deploy/<destino>-out (con OK) y volver a armar.
+const strays = [...new Set(walk(DEST).map((f) => relative(DEST, f)).filter((r) => caseFolder(r) && !isLiveFolder(caseFolder(r))).map((r) => r.match(/^(?:opt\/)?(?:maqueta|projects)\/[^/]+\//)[0]))];
+if (strays.length) {
+  console.error(`✗ El paquete lleva medios de proyectos sin página:\n   ${strays.join("\n   ")}`);
+  process.exit(1);
+}
+if (skipped.size) console.log(`  · Fuera (proyectos sin página): ${[...skipped].sort().join(", ")}`);
 
 if (missing.length) {
   console.error(`✗ ${missing.length} archivo(s) nombrados por la web no existen en el export:`);
