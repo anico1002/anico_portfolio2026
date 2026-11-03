@@ -20,6 +20,8 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
 5. **Próximo caso: anicOS** — SO ficticio del futuro inmediato (móviles con agentes de IA, sin apps instaladas).
    Alberto lo está dando forma en Cowork; cuando lo pase, se monta como DesignOps Copilot.
 
+**Rama:** todo se trabaja y se publica desde `case-study-maqueta` (`main` está atrás y no se usa para publicar).
+
 **Permisos:** Alberto no teclea comandos. Los deploys (`deploy/subir-ftp.py`, `wrangler pages deploy …`) están en el
 allow de `.claude/settings.local.json`. Los borrados en el servidor los frena el clasificador si el alcance no se ve:
 pasar las rutas escritas en el comando. La regla vieja `Bash(rm *)` se quitó: todo borrado vuelve a pedir OK.
