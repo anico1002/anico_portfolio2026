@@ -24,7 +24,9 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
 `_machine-config/claude/projects/-Users-anico-Vibe-Projects-anico-portfolio2026/memory`, pero el hook no enlaza scopes
 de memoria solo. Allí: `bash ~/Vibe_Projects/_machine-config/fix-memory-sync.sh` (en seco) y luego `--apply`. Fusiona
 sin borrar nada; si hay fichas distintas en los dos Macs, las deja en `_conflictos-memoria/` para revisarlas.
-Analítica: Umami Cloud → https://cloud.umami.is (cuenta de Alberto).
+Analítica: Umami Cloud → https://cloud.umami.is (cuenta de Alberto). Para que no cuenten sus visitas:
+https://anico.design/no-contar/ una vez en cada navegador/dispositivo (`public/no-contar/`, noindex y fuera de robots).
+Cada subida deja en el servidor los archivos de `_next/` del build anterior: limpiar de vez en cuando (con OK).
 
 **Rama:** todo se trabaja y se publica desde `case-study-maqueta` (`main` está atrás y no se usa para publicar).
 
