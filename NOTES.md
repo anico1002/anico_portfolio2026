@@ -13,10 +13,13 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
 `deploy/build.mjs` ya solo mete medios de casos con página y falla si se cuela otro (o si quedan restos en la salida).
 
 **Pendiente:**
-1. Quitar anico.design de Vercel (proyecto `anico_portfolio2026`): ya no recibe tráfico, el DNS apunta a Carlos.
-2. Cambiar la contraseña del FTP (ha pasado por chats) y actualizarla en el Llavero (`deploy/guardar-acceso-ftp.sh`).
-3. Más adelante, con OK: borrar el proyecto de Cloudflare Pages `anico-design` si los recruiters ya no lo usan.
-4. Repaso exhaustivo final con Alberto en producción.
+1. Borrar el proyecto de Vercel `anico_portfolio2026`: Vercel exige que lo confirme Alberto en su panel (enlace dado
+   el 2026-11-03). Después, corregir el `CLAUDE.md` del proyecto («Push to `main` triggers auto-deploy» ya no es así).
+2. Contraseña del FTP: se queda como está por ahora (decisión de Alberto, 2026-11-03).
+3. Cloudflare Pages `anico-design`: **se queda indefinidamente** como redirección (no cuesta nada, no rompe enlaces).
+4. Repaso en producción: lo hace Alberto poco a poco; se seguirán subiendo casos.
+5. **Próximo caso: anicOS** — SO ficticio del futuro inmediato (móviles con agentes de IA, sin apps instaladas).
+   Alberto lo está dando forma en Cowork; cuando lo pase, se monta como DesignOps Copilot.
 
 **Permisos:** Alberto no teclea comandos. Los deploys (`deploy/subir-ftp.py`, `wrangler pages deploy …`) están en el
 allow de `.claude/settings.local.json`. Los borrados en el servidor los frena el clasificador si el alcance no se ve:
