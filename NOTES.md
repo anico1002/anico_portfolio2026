@@ -20,6 +20,12 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
 5. **Próximo caso: anicOS** — SO ficticio del futuro inmediato (móviles con agentes de IA, sin apps instaladas).
    Alberto lo está dando forma en Cowork; cuando lo pase, se monta como DesignOps Copilot.
 
+**Si abres en el OTRO Mac:** la memoria del portfolio vivía solo en el MacBook; desde el 2026-11-03 está en
+`_machine-config/claude/projects/-Users-anico-Vibe-Projects-anico-portfolio2026/memory`, pero el hook no enlaza scopes
+de memoria solo. Allí: `bash ~/Vibe_Projects/_machine-config/fix-memory-sync.sh` (en seco) y luego `--apply`. Fusiona
+sin borrar nada; si hay fichas distintas en los dos Macs, las deja en `_conflictos-memoria/` para revisarlas.
+Analítica: Umami Cloud → https://cloud.umami.is (cuenta de Alberto).
+
 **Rama:** todo se trabaja y se publica desde `case-study-maqueta` (`main` está atrás y no se usa para publicar).
 
 **Permisos:** Alberto no teclea comandos. Los deploys (`deploy/subir-ftp.py`, `wrangler pages deploy …`) están en el
