@@ -116,4 +116,20 @@ Los originales no se tocan nunca.
 
 ## Deployment
 
-Vercel project: `anico_portfolio2026` → domain `anico.design`. Push to `main` triggers auto-deploy.
+**No hay Vercel** (proyecto `anico_portfolio2026` borrado el 2026-11-03): un push a cualquier rama no publica nada.
+La web es un export estático en el servidor Apache de Carlos / MindYourGap (134.0.9.249, carpeta `web/`), por FTP.
+
+- **Dominio:** `https://anico.design` (Spaceship). `www.anico.design`, `anico.es` y `www.anico.es` (Piensa; MX
+  intacto) → 301 a anico.design. Certificado Let's Encrypt de los 4 nombres, lo renueva el panel de Carlos.
+- **Publicar** (guía y fallos ya vistos en `deploy/README.md`):
+  ```bash
+  SITE_URL=https://anico.design EXPORT_STATIC=1 npm run build && node deploy/build.mjs apache
+  npm run qa -- deploy/apache-out        # revisión con navegación real (Chrome + WebKit) antes de subir
+  python3 deploy/subir-ftp.py            # sube solo lo nuevo o cambiado; --dry para ver qué subiría
+  npm run qa -- https://anico.design     # y otra vez en producción
+  ```
+  `build.mjs` solo mete medios de casos con página y falla si se cuela otro. `subir-ftp.py` no borra nada en el
+  servidor: lo que sobre se borra aparte, con las rutas escritas en el comando y con OK de Alberto.
+- **Cloudflare Pages `anico-design`** (anico-design.pages.dev): solo redirige a anico.design (`node deploy/build.mjs
+  cloudflare` → `deploy/cf-redirect-out`). Se queda indefinidamente para no romper enlaces viejos.
+- Los deploys los lanza Claude y Alberto los aprueba; él no teclea comandos.
