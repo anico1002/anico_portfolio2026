@@ -2,7 +2,27 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
-## ▶ EMPEZAR AQUÍ (2026-11-02, MacBook) — salida a anico.design: esperando el certificado
+## ▶ EMPEZAR AQUÍ (2026-11-03, MacBook) — anico.design EN PRODUCCIÓN
+
+**Hecho y comprobado:** certificado Let's Encrypt para anico.design, www.anico.design, anico.es y www.anico.es
+(caduca 2027-01-31, lo renueva el panel de Carlos). Todo va a `https://anico.design` sin bucles (http → https, www y
+anico.es → 301). Paquete nuevo subido (https forzado + arreglo del carrusel) y `npm run qa -- https://anico.design`
+limpio (una prueba cortada por la red, repetida sola: sin fallos). pages.dev ya es **redirección** a anico.design
+(enlaces viejos `/new/...` incluidos). Servidor limpio: borrados Obliq, Two Dots, la `new/` vieja, `anico_logo.svg`
+y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
+`deploy/build.mjs` ya solo mete medios de casos con página y falla si se cuela otro (o si quedan restos en la salida).
+
+**Pendiente:**
+1. Quitar anico.design de Vercel (proyecto `anico_portfolio2026`): ya no recibe tráfico, el DNS apunta a Carlos.
+2. Cambiar la contraseña del FTP (ha pasado por chats) y actualizarla en el Llavero (`deploy/guardar-acceso-ftp.sh`).
+3. Más adelante, con OK: borrar el proyecto de Cloudflare Pages `anico-design` si los recruiters ya no lo usan.
+4. Repaso exhaustivo final con Alberto en producción.
+
+**Permisos:** Alberto no teclea comandos. Los deploys (`deploy/subir-ftp.py`, `wrangler pages deploy …`) están en el
+allow de `.claude/settings.local.json`. Los borrados en el servidor los frena el clasificador si el alcance no se ve:
+pasar las rutas escritas en el comando. La regla vieja `Bash(rm *)` se quitó: todo borrado vuelve a pedir OK.
+
+## ▶ (anterior) 2026-11-02 — salida a anico.design: esperando el certificado
 
 **Estado:** web nueva en el servidor de Carlos (134.0.9.249), rutas sin `/new` (home `/`, `/product/<slug>`,
 `/games/<slug>`, atajos `/<slug>`, 301 de `/new/*` y `/proyecto/*`). DNS hecho y propagado: Spaceship (anico.design
