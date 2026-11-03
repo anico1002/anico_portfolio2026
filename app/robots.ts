@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/maqueta/meta";
 // los de IA (GEO). Fuera solo las tipografías con licencia, que no son contenido.
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/fonts-licencia/"] }],
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/fonts-licencia/", "/no-contar/"] }],
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,
   };

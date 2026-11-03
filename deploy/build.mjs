@@ -81,7 +81,7 @@ const isLiveFolder = (dir) => SHARED.includes(dir) || SLUGS.some((s) => s === di
 const caseFolder = (rel) => rel.match(/^(?:opt\/)?(?:maqueta|projects)\/([^/]+)\//)?.[1] ?? null;
 const skipped = new Set();
 
-[...ROOT_PAGE, ...PAGES, "_next", "404.html", "robots.txt", "sitemap.xml", "fonts-licencia"].forEach(copy);
+[...ROOT_PAGE, ...PAGES, "_next", "404.html", "robots.txt", "sitemap.xml", "fonts-licencia", "no-contar"].forEach(copy);
 for (const base of ["maqueta", "opt/maqueta"])
   for (const f of readdirSync(join(OUT, base))) {
     const isDir = statSync(join(OUT, base, f)).isDirectory();
@@ -104,7 +104,7 @@ const missing = [];
 let copied = 0;
 for (const r of refs) {
   const rel = r.slice(1);
-  if (/^(_next|product|games|maqueta|opt\/maqueta|fonts-licencia)\//.test(rel)) continue; // ya van enteros
+  if (/^(_next|product|games|maqueta|opt\/maqueta|fonts-licencia|no-contar)\//.test(rel)) continue; // ya van enteros
   const folder = caseFolder(rel);
   if (folder && !isLiveFolder(folder)) {
     skipped.add(rel.replace(/[^/]+$/, ""));

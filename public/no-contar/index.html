@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- Página privada (2026-11-03): marca este navegador para que Umami no cuente las visitas de Alberto.
+     Umami lee `localStorage["umami.disabled"]` en anico.design: hay que abrirla una vez en cada navegador/dispositivo.
+     No carga Umami, no sale en el sitemap, robots la excluye y lleva noindex. -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>anico · visitas</title>
+<style>
+  :root { color-scheme: light dark; --bg: #fff; --fg: #0a0a0a; --muted: #6b6b6b; --ok: #0a7d3b; --line: #e5e5e5; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0a0a0a; --fg: #fafafa; --muted: #9a9a9a; --ok: #4ade80; --line: #262626; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100dvh; display: grid; place-items: center; padding: 24px;
+         background: var(--bg); color: var(--fg); font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
+  main { max-width: 360px; width: 100%; }
+  h1 { font-size: 28px; line-height: 1.15; margin: 0 0 12px; font-weight: 800; letter-spacing: -0.02em; }
+  p { margin: 0 0 24px; color: var(--muted); }
+  #estado { color: var(--fg); font-weight: 600; }
+  #estado.on { color: var(--ok); }
+  button { width: 100%; padding: 14px 16px; border-radius: 999px; border: 1px solid var(--fg); background: var(--fg);
+           color: var(--bg); font: inherit; font-weight: 600; cursor: pointer; }
+  button.sec { background: transparent; color: var(--fg); border-color: var(--line); margin-top: 8px; }
+  a { color: var(--muted); font-size: 14px; display: inline-block; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tus visitas</h1>
+  <p id="estado">Comprobando…</p>
+  <button id="off">No contar este navegador</button>
+  <button id="on" class="sec">Volver a contarlo</button>
+  <a href="/">Ir a anico.design</a>
+</main>
+<script>
+  const KEY = "umami.disabled";
+  const estado = document.getElementById("estado");
+  const pinta = () => {
+    let off = false;
+    try { off = localStorage.getItem(KEY) === "1"; } catch (e) {}
+    estado.textContent = off
+      ? "✓ Este navegador ya no cuenta en la analítica."
+      : "Este navegador cuenta como una visita más.";
+    estado.className = off ? "on" : "";
+  };
+  const set = (v) => { try { v ? localStorage.setItem(KEY, "1") : localStorage.removeItem(KEY); } catch (e) {} pinta(); };
+  document.getElementById("off").onclick = () => set(true);
+  document.getElementById("on").onclick = () => set(false);
+  pinta();
+</script>
+</body>
+</html>
