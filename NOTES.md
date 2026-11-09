@@ -19,6 +19,27 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
 4. Repaso en producción: lo hace Alberto poco a poco; se seguirán subiendo casos.
 5. **Próximo caso: anicOS** — SO ficticio del futuro inmediato (móviles con agentes de IA, sin apps instaladas).
    Alberto lo está dando forma en Cowork; cuando lo pase, se monta como DesignOps Copilot.
+6. **⏰ RECORDAR A ALBERTO AL RETOMAR: revisar la auditoría de rendimiento del 2026-11-09** (abajo). Nada tocado aún.
+
+### Auditoría de rendimiento con el MCP de Awwwards (2026-11-09) — pendiente de revisar con Alberto
+
+Medido anico.design contra Huy Phan Vol.2 (huyml.co, SOTD). Comparar no aportó mucho (las dos homes son de una
+pantalla; el WebGL del rival bloqueó la medición), pero la auditoría de lo propio sí encontró tres cosas reales,
+comprobadas en el código:
+
+- **Blur de 22 px en vivo**: `.glass-ios` en `app/(site)/system.css:454` (`backdrop-filter: blur(22px)`), más
+  `backdrop-blur-xl` (24 px) en tarjetas de SwifT (`components/case-study/swift/FeatureCards.tsx`, `ShortcutDemo.tsx`)
+  y `blur(16px)` en `gloop/KitLaptop.tsx`. Solo afecta a los casos **Gloop y SwifT**, no a la home. Choca con la regla
+  «nada de blur en vivo» (hornearlo). **Decisión de diseño de Alberto**: no tocar sin él.
+- **Zona táctil pequeña en móvil**: el logo del nav (`nav.fixed > a.pointer-events-auto`) mide 84×18 px (<24 px de
+  alto). Arreglo de una línea.
+- **Animaciones infinitas que siguen fuera de pantalla**: `marquee`, `gloop-drift`, `reto-blob`, `flag-wave`, `wf-pan`
+  (`app/globals.css`, `app/(site)/system.css`, `swift/FeatureCards.tsx`). Pausarlas con IntersectionObserver o
+  `animation-play-state` cuando no se ven. Coste pequeño.
+
+Descartado como ruido: los «30 fps» (sin tareas largas; peor fotograma 36 ms = cadencia de 30 Hz, huele a límite del
+Chrome headless) y los 70 avisos de «anima width/margin…» (son la lista `transition-property` de Tailwind en el CSS
+minificado). La herramienta no ve framer-motion.
 
 **Si abres en el OTRO Mac:** la memoria del portfolio vivía solo en el MacBook; desde el 2026-11-03 está en
 `_machine-config/claude/projects/-Users-anico-Vibe-Projects-anico-portfolio2026/memory`, pero el hook no enlaza scopes
