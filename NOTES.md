@@ -25,6 +25,12 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
    textos muy pequeños tipo listado/índice (Grégory Lallé, Jam Area, Gianluca Gradogna, AW Portfolio…). Quiere
    aplicarlo en algún punto de la web, **no ahora**. Él concretará a qué se refiere exactamente; partir de esas
    referencias: https://claude.ai/artifact/5G4nGej5FEMoV7Zx7RE3TC
+8. **⏰ RECORDAR A ALBERTO: el logo no se entiende** (2026-11-09). Se lo han dicho un par de personas y hay que
+   arreglarlo; **él le va a dar una vuelta primero** (el diseño es suyo). Condición: sigue dibujado a mano con
+   cuadrados (`LogoAnico.tsx`) y conserva el efecto de formarse desde ellos. Diagnóstico medido: ninguna letra tiene
+   contraforma (son siluetas macizas) y a 12–22 px se lee «aaico»/«anlco». **No usar Satoshi para el logo**: es ITF
+   FFL y pasarla a trazado como logo exige permiso escrito (lo cazó la skill brand-identity). Se probaron ideas
+   (huecos cuadrados, píxel 3×3, símbolo + palabra) y no le convencieron; esperar a su propuesta.
 
 ### Auditoría de rendimiento con el MCP de Awwwards (2026-11-09) — pendiente de revisar con Alberto
 
