@@ -20,6 +20,11 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
 5. **Próximo caso: anicOS** — SO ficticio del futuro inmediato (móviles con agentes de IA, sin apps instaladas).
    Alberto lo está dando forma en Cowork; cuando lo pase, se monta como DesignOps Copilot.
 6. **⏰ RECORDAR A ALBERTO AL RETOMAR: revisar la auditoría de rendimiento del 2026-11-09** (abajo). Nada tocado aún.
+7. **⏰ RECORDAR A ALBERTO: contraste tipográfico titular gigante + listado diminuto** (pedido 2026-11-09). Le gustó
+   esa tendencia en las 10 referencias de Awwwards que le pasé (le gustaron todas), sobre todo titulares enormes junto a
+   textos muy pequeños tipo listado/índice (Grégory Lallé, Jam Area, Gianluca Gradogna, AW Portfolio…). Quiere
+   aplicarlo en algún punto de la web, **no ahora**. Él concretará a qué se refiere exactamente; partir de esas
+   referencias: https://claude.ai/artifact/5G4nGej5FEMoV7Zx7RE3TC
 
 ### Auditoría de rendimiento con el MCP de Awwwards (2026-11-09) — pendiente de revisar con Alberto
 
