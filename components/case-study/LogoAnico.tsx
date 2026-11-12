@@ -1,7 +1,7 @@
 "use client";
 
 import { animate, useReducedMotion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
 /* Logo nuevo de anico, dibujado por código (2026-10-18, propuesta de Alberto; Figma «ANICO-Portfolio-2026», nodo
@@ -12,7 +12,6 @@ import { DUR, EASE } from "@/lib/maqueta/motion";
 
 const H = 62; // alto del módulo
 const W = 62; // ancho del módulo
-const GAP = 6;
 const S = 0; // esquina recta (2026-10-18, Alberto: sin el redondeo mínimo, que restaba limpieza)
 const F = 31; // esquina a tope
 const K = 0.5523; // Bézier que imita un cuarto de círculo
@@ -53,29 +52,6 @@ function rect(x: number, y: number, w: number, h: number, [tl, tr, br, bl]: Half
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const mixHalf = (a: Half, b: Half, t: number) => a.map((v, i) => lerp(v, b[i], t)) as Half;
 
-const FLAT: Half = [0, 0, 0, 0];
-/** La «o» va pegada a la «c» (Alberto, 2026-10-18): con la boca y las esquinas curvas de la «c», el hueco normal la
-    dejaba despegada. Mientras crecen rectas, las dos forman un solo bloque y se separan al curvarse. */
-const gapAfter = (l: string) => (l === "c" ? 0 : GAP);
-
-/** Las cinco letras colocadas una tras otra. Cada una crece desde abajo con su ancho final como un rectángulo de
-    esquinas rectas (`g`: 0 = sin alto, 1 = alto entero) y después se curva donde toca (`c`: 0 = recta, 1 = letra).
-    2026-10-18, Alberto: «que crezcan todos desde abajo… y después le aplicamos las curvas». */
-function layout(g: number[], c: number[]) {
-  let x = 0;
-  return WORD.map((l, k) => {
-    const L = LETTERS[l];
-    const h = Math.max(0, H * g[k]), y = H - h, m = y + h / 2;
-    // Mientras crece, las curvas no pueden pasar de la mitad de lo que ya mide.
-    const cap = (r: Half) => r.map((v) => Math.min(v, h / 2)) as Half;
-    const d = h <= 0 ? "" : rect(x, y, L.w, h / 2 + SEAM, cap(mixHalf(FLAT, L.top, c[k]))) + rect(x, m - SEAM, L.w, h / 2 + SEAM, cap(mixHalf(FLAT, L.bot, c[k])));
-    x += L.w + gapAfter(l);
-    return d;
-  });
-}
-const ONE = WORD.map(() => 1);
-const WIDTH = 4 * W + W / 2 + 3 * GAP;
-
 /** Una sola letra a medio camino de otra (0 = `from`, 1 = `to`), centrada en x = 0 y con la parte de arriba en
     y = 0. Para el favicon, que pasa de una letra a la siguiente con el mismo gesto que el logo. */
 export function glyph(from: Shape, to: Shape, t: number) {
@@ -84,21 +60,80 @@ export function glyph(from: Shape, to: Shape, t: number) {
 }
 export { H as MODULE };
 
-const SPRING = { type: "spring", stiffness: 120, damping: 16 } as const;
+
+/* ── Logo en Satoshi (2026-11-12, Alberto) ────────────────────────────────────────────────────────────────────────
+   El de módulos no se leía (siluetas macizas, sin contraformas: «aaico», «anlco»). Ahora son cinco bloques que crecen
+   desde abajo y, arriba, se recogen hacia la izquierda y destapan «anico» en Satoshi Black.
+   Nacen iguales y repartidos; mientras se recogen se ajustan a su letra y la palabra se junta (Alberto, 2026-11-12).
+   La «i» va sin punto (Alberto): se recorta con una máscara justo encima del asta.
+   Licencia ITF FFL: la palabra es TEXTO VIVO con la fuente de la web, nunca trazos (pasarla a contornos como logo
+   exige permiso escrito de ITF). El favicon sigue con las piezas de módulo de arriba.
+   Medidas de Satoshi Black a 100 px (canvas measureText): avance, tinta izquierda/derecha, ascendente, descendente. */
+const FS = 100;
+const TRACK = -2;
+const XH = 51.6; // altura de la x: el alto del logo. Todo lo que pase de aquí (el punto de la «i») queda fuera.
+const METRICS: Record<(typeof WORD)[number], [adv: number, l: number, r: number, b: number]> = {
+  a: [56.4, 3.7, 51.2, 1.3],
+  n: [60.6, 5.8, 55.4, 0],
+  i: [27, 4.6, 22.1, 0],
+  c: [56.9, 3.1, 54.3, 1.3],
+  o: [61.3, 3.1, 58.2, 1.2],
+};
+const GLYPHS = (() => {
+  let x = 0;
+  return WORD.map((ch) => {
+    const [adv, l, r, b] = METRICS[ch];
+    const g = { ch, x, l: x + l, w: r - l, b };
+    x += adv + TRACK;
+    return g;
+  });
+})();
+const VB_X = GLYPHS[0].l;
+const VB_W = GLYPHS[4].l + GLYPHS[4].w - VB_X;
+const VB_B = Math.max(...GLYPHS.map((g) => g.b));
+const FONT_TEST = "900 16px Satoshi";
+/** De dónde salen los bloques: cinco cuadrados iguales, desde el borde izquierdo del logo y algo más separados de lo
+    que acaba midiendo la palabra (sobresalen un poco por la derecha). Al destaparse, cada uno se ajusta a la caja de su
+    letra (la «i» se estrecha) y se desliza hacia la izquierda a su sitio: la palabra se junta mientras se van. */
+const START_GAP = 10;
+const START_W = XH + VB_B;
+const START_L = WORD.map((_, k) => VB_X + k * (START_W + START_GAP));
+
 const FORM = 3800; // el logo formado, quieto, en cada vuelta del bucle
 const EMPTY = 500; // sin logo, un instante, antes de volver a crecer
 
-/** El logo. `play`: crece desde abajo, una letra tras otra, y se curva (con movimiento reducido, ya formado).
-    Cambiar `replay` lo vuelve a lanzar. `loop`: se forma, descansa, se deshace hacia abajo y otra vez, mientras esté
-    montado (cabecera y cortinilla de carga). `rest`: cuánto descansa formado entre vuelta y vuelta. */
+/** El logo. `play`: los bloques crecen desde abajo, una letra tras otra, y destapan la palabra (con movimiento reducido,
+    ya formado). Cambiar `replay` lo vuelve a lanzar. `loop`: se forma, descansa, se tapa y baja, y otra vez, mientras
+    esté montado (cabecera y cortinilla de carga). `rest`: cuánto descansa formado entre vuelta y vuelta. Si la fuente
+    aún no ha llegado, los bloques esperan arriba en vez de destapar una letra de otra fuente. */
 export default function LogoAnico({ className = "", play = true, replay = 0, loop = false, rest = FORM, color = "currentColor" }: { className?: string; play?: boolean; replay?: number; loop?: boolean; rest?: number; color?: string }) {
-  const paths = useRef<(SVGPathElement | null)[]>([]);
+  const rects = useRef<(SVGRectElement | null)[]>([]);
+  const texts = useRef<(SVGTextElement | null)[]>([]);
   const reduce = useReducedMotion();
+  const clip = `anico-x-${useId().replace(/:/g, "")}`;
   useEffect(() => {
     const on = play && !reduce;
+    // g: cuánto ha crecido el bloque (0–1). p: cuánto ha pasado de bloque igual a la caja de su letra, en su sitio
+    // (0–1). m: cuánto se ha recogido hacia la izquierda para destapar la letra (0–1).
     const g: number[] = WORD.map(() => (on ? 0 : 1));
-    const c: number[] = WORD.map(() => (on ? 0 : 1));
-    const draw = () => layout(g, c).forEach((d, k) => paths.current[k]?.setAttribute("d", d));
+    const p: number[] = WORD.map(() => (on ? 0 : 1));
+    const m: number[] = WORD.map(() => (on ? 0 : 1));
+    const draw = () =>
+      GLYPHS.forEach((G, k) => {
+        const h = (XH + G.b) * g[k];
+        const x = lerp(START_L[k], G.l, p[k]);
+        const w = lerp(START_W, G.w, p[k]);
+        const r = rects.current[k];
+        r?.setAttribute("x", String(x));
+        r?.setAttribute("y", String(G.b - h));
+        r?.setAttribute("height", String(h));
+        // Se recoge hacia la izquierda: el borde derecho del bloque corre hacia su borde izquierdo.
+        r?.setAttribute("width", String(w * (1 - m[k])));
+        // La letra viaja con su bloque hasta su sitio.
+        const t = texts.current[k];
+        t?.setAttribute("x", String(G.x + x - G.l));
+        t?.setAttribute("opacity", m[k] > 0 ? "1" : "0");
+      });
     draw();
     if (!on) return;
     let alive = true;
@@ -110,19 +145,33 @@ export default function LogoAnico({ className = "", play = true, replay = 0, loo
       runs.push(r);
       return r;
     };
-    // Crecer con la curva de las imágenes (inOut, la de máscaras y recortes; Alberto, 2026-10-18), por coherencia.
-    // Formar: cada letra sube recta y, al llegar arriba, se curva. Deshacer: se endereza y baja.
-    const form = () => {
+    const fontReady = () => document.fonts.load(FONT_TEST).then(() => undefined, () => undefined);
+    // Crecer con la curva de las imágenes (inOut), y destapar con la misma, un poco más rápido.
+    const form = async () => {
       runs = [];
-      return Promise.all(WORD.map((_, k) =>
-        tween(g, k, 1, { duration: DUR.base, ease: EASE.inOut, delay: k * 0.09 }).then(() => tween(c, k, 1, SPRING)),
-      ));
+      await Promise.all(WORD.map((_, k) => tween(g, k, 1, { duration: DUR.base, ease: EASE.inOut, delay: k * 0.09 })));
+      await fontReady();
+      if (!alive) return;
+      // Juntarse y destapar a la vez: el bloque empieza a ajustarse a su letra y, poco después, a recogerse.
+      await Promise.all(WORD.flatMap((_, k) => [
+        tween(p, k, 1, { duration: DUR.base, ease: EASE.inOut, delay: k * 0.06 }),
+        tween(m, k, 1, { duration: DUR.base * 0.75, ease: EASE.inOut, delay: k * 0.06 + DUR.base * 0.35 }),
+      ]));
     };
-    const unform = () => {
+    // Deshacer: el espejo de la entrada, más corto (las salidas van más rápidas). Los bloques vuelven a tapar sus letras
+    // de izquierda a derecha y, a la vez, la palabra se abre otra vez en cuadrados iguales; luego bajan todos. Se abre
+    // empezando por la «o» para que ningún bloque pise al de su derecha. (Antes cada letra encadenaba tapar → separarse
+    // → bajar por su cuenta y, con el desfase, unas se separaban mientras las vecinas seguían tapando; Alberto,
+    // 2026-11-12.)
+    const unform = async () => {
       runs = [];
-      return Promise.all(WORD.map((_, k) =>
-        tween(c, k, 0, { duration: DUR.fast, ease: EASE.inOut, delay: k * 0.09 }).then(() => tween(g, k, 0, { duration: DUR.fast, ease: EASE.inOut })),
-      ));
+      const n = WORD.length - 1;
+      await Promise.all(WORD.flatMap((_, k) => [
+        tween(m, k, 0, { duration: DUR.base * 0.5, ease: EASE.inOut, delay: k * 0.05 }),
+        tween(p, k, 0, { duration: DUR.base * 0.6, ease: EASE.inOut, delay: 0.15 + (n - k) * 0.05 }),
+      ]));
+      if (!alive) return;
+      await Promise.all(WORD.map((_, k) => tween(g, k, 0, { duration: DUR.base * 0.5, ease: EASE.inOut, delay: k * 0.06 })));
     };
     (async () => {
       await wait(350);
@@ -145,10 +194,31 @@ export default function LogoAnico({ className = "", play = true, replay = 0, loo
     };
   }, [play, reduce, replay, loop, rest]);
   return (
-    <svg viewBox={`-1 -1 ${WIDTH + 2} ${H + 2}`} className={className} role="img" aria-label="anico" overflow="visible">
-      {WORD.map((l, k) => (
-        <path key={l} ref={(el) => void (paths.current[k] = el)} d={layout(ONE, ONE)[k]} fill={color} />
-      ))}
+    <svg viewBox={`${VB_X - 1} ${-XH - 1} ${VB_W + 2} ${XH + VB_B + 2}`} className={className} role="img" aria-label="anico" overflow="visible">
+      <defs>
+        <clipPath id={clip}>
+          <rect x={VB_X - 10} y={-XH - 0.5} width={5 * START_W + 4 * START_GAP + 20} height={XH + VB_B + 10} />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${clip})`} fill={color}>
+        {GLYPHS.map((G, k) => (
+          <text
+            key={G.ch}
+            ref={(el) => void (texts.current[k] = el)}
+            x={G.x}
+            y={0}
+            fontSize={FS}
+            fontWeight={900}
+            style={{ fontFamily: "Satoshi, sans-serif", fontKerning: "none" }}
+            aria-hidden
+          >
+            {G.ch}
+          </text>
+        ))}
+        {GLYPHS.map((G, k) => (
+          <rect key={G.ch} ref={(el) => void (rects.current[k] = el)} x={G.l} y={-XH} width={G.w} height={0} />
+        ))}
+      </g>
     </svg>
   );
 }

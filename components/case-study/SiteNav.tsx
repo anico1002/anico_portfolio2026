@@ -211,7 +211,7 @@ export default function SiteNav({
         className={`${docked ? "relative" : "fixed inset-x-0 top-0 z-50 mix-blend-difference"} flex h-[3.5rem] items-center ${parts === "menu" ? "justify-end" : "justify-between"} px-4 md:px-6 ${parts !== "all" ? "pointer-events-none" : ""}`}
       >
         {parts !== "menu" && (
-          <TLink href={HOME} aria-label="anico · home" className="pointer-events-auto">
+          <TLink href={HOME} aria-label="anico · home" className="pointer-events-auto -m-3 p-3">
             {/* Logo nuevo en bucle (2026-10-18, a prueba). El de antes sigue en public/anico_logo.svg. */}
             <LogoAnico loop rest={WINK} className="h-[1.125rem] w-auto text-white md:h-[1.375rem]" />
           </TLink>
@@ -268,6 +268,7 @@ export default function SiteNav({
               <button
                 type="button"
                 aria-label="anico · home"
+                className="-m-3 p-3"
                 onClick={() => {
                   setLeaving(true);
                   window.setTimeout(() => go(HOME, { covered: true }), DUR.fast * 1000);
