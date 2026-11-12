@@ -4,62 +4,8 @@ import { animate, useReducedMotion } from "framer-motion";
 import { useEffect, useId, useRef } from "react";
 import { DUR, EASE } from "@/lib/maqueta/motion";
 
-/* Logo nuevo de anico, dibujado por código (2026-10-18, propuesta de Alberto; Figma «ANICO-Portfolio-2026», nodo
-   2335:8957). Cinco piezas del mismo módulo (62 × 62, hueco 6) y lo único que cambia es el radio de cada esquina,
-   más el ancho de la «i» (medio módulo). Cada letra son dos mitades apiladas (arriba y abajo), cada una con sus
-   cuatro esquinas: así se construye la «c» de Alberto —dos medios módulos con las esquinas opuestas a tope, que dejan
-   la boca en el centro— y cualquier letra se puede interpolar con cualquier otra. El logo crece desde abajo y se curva. */
-
-const H = 62; // alto del módulo
-const W = 62; // ancho del módulo
-const S = 0; // esquina recta (2026-10-18, Alberto: sin el redondeo mínimo, que restaba limpieza)
-const F = 31; // esquina a tope
-const K = 0.5523; // Bézier que imita un cuarto de círculo
-const SEAM = 0.6; // las dos mitades se solapan un poco para que no se vea la junta
-
-type Half = [tl: number, tr: number, br: number, bl: number];
-type Shape = { w: number; top: Half; bot: Half };
-
-export const LETTERS: Record<"a" | "n" | "i" | "c" | "o", Shape> = {
-  a: { w: W, top: [F, F, 0, 0], bot: [0, 0, S, F] },
-  // Cúpula entera. Se probó solo el hombro de arriba a la derecha (un test leyó «AMICO»), pero también podía leerse
-  // como «M» y Alberto prefirió esta (2026-10-18).
-  n: { w: W, top: [F, F, 0, 0], bot: [0, 0, S, S] },
-  i: { w: W / 2, top: [S, S, 0, 0], bot: [0, 0, S, S] },
-  c: { w: W, top: [F, S, F, 0], bot: [0, F, S, F] },
-  o: { w: W, top: [F, F, 0, 0], bot: [0, 0, F, F] },
-};
 export const WORD = ["a", "n", "i", "c", "o"] as const;
-
-/** Rectángulo de esquinas independientes, siempre con los mismos comandos (para poder animar de una forma a otra). */
-function rect(x: number, y: number, w: number, h: number, [tl, tr, br, bl]: Half) {
-  const q = (r: number) => r * (1 - K);
-  const n = (v: number) => +v.toFixed(3);
-  const R = x + w, B = y + h;
-  return [
-    `M${n(x + tl)} ${n(y)}`,
-    `L${n(R - tr)} ${n(y)}`,
-    `C${n(R - q(tr))} ${n(y)} ${n(R)} ${n(y + q(tr))} ${n(R)} ${n(y + tr)}`,
-    `L${n(R)} ${n(B - br)}`,
-    `C${n(R)} ${n(B - q(br))} ${n(R - q(br))} ${n(B)} ${n(R - br)} ${n(B)}`,
-    `L${n(x + bl)} ${n(B)}`,
-    `C${n(x + q(bl))} ${n(B)} ${n(x)} ${n(B - q(bl))} ${n(x)} ${n(B - bl)}`,
-    `L${n(x)} ${n(y + tl)}`,
-    `C${n(x)} ${n(y + q(tl))} ${n(x + q(tl))} ${n(y)} ${n(x + tl)} ${n(y)}Z`,
-  ].join("");
-}
-
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const mixHalf = (a: Half, b: Half, t: number) => a.map((v, i) => lerp(v, b[i], t)) as Half;
-
-/** Una sola letra a medio camino de otra (0 = `from`, 1 = `to`), centrada en x = 0 y con la parte de arriba en
-    y = 0. Para el favicon, que pasa de una letra a la siguiente con el mismo gesto que el logo. */
-export function glyph(from: Shape, to: Shape, t: number) {
-  const w = lerp(from.w, to.w, t);
-  return rect(-w / 2, 0, w, H / 2 + SEAM, mixHalf(from.top, to.top, t)) + rect(-w / 2, H / 2 - SEAM, w, H / 2 + SEAM, mixHalf(from.bot, to.bot, t));
-}
-export { H as MODULE };
-
 
 /* ── Logo en Satoshi (2026-11-12, Alberto) ────────────────────────────────────────────────────────────────────────
    El de módulos no se leía (siluetas macizas, sin contraformas: «aaico», «anlco»). Ahora son cinco bloques que crecen
@@ -67,7 +13,8 @@ export { H as MODULE };
    Nacen iguales y repartidos; mientras se recogen se ajustan a su letra y la palabra se junta (Alberto, 2026-11-12).
    La «i» va sin punto (Alberto): se recorta con una máscara justo encima del asta.
    Licencia ITF FFL: la palabra es TEXTO VIVO con la fuente de la web, nunca trazos (pasarla a contornos como logo
-   exige permiso escrito de ITF). El favicon sigue con las piezas de módulo de arriba.
+   exige permiso escrito de ITF). El favicon (AnimatedFavicon) usa estas mismas medidas y el mismo gesto.
+   El logo de módulos anterior (2026-10-18, letras de esquinas redondeadas) está en el historial de git.
    Medidas de Satoshi Bold (700) a 100 px (canvas measureText): avance, tinta izquierda/derecha, ascendente, descendente. */
 const FS = 100;
 const TRACK = -1;
@@ -92,6 +39,7 @@ const VB_X = GLYPHS[0].l;
 const VB_W = GLYPHS[4].l + GLYPHS[4].w - VB_X;
 const VB_B = Math.max(...GLYPHS.map((g) => g.b));
 const FONT_TEST = "700 16px Satoshi";
+export { METRICS, XH as X_HEIGHT, FONT_TEST };
 /** De dónde salen los bloques: cinco cuadrados iguales, desde el borde izquierdo del logo y algo más separados de lo
     que acaba midiendo la palabra (sobresalen un poco por la derecha). Al destaparse, cada uno se ajusta a la caja de su
     letra (la «i» se estrecha) y se desliza hacia la izquierda a su sitio: la palabra se junta mientras se van. */

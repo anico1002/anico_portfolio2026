@@ -31,7 +31,8 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
    izquierda y destapa «anico» en **Satoshi Bold (como los titulares; primero fue Black), texto vivo** (licencia ITF FFL: nunca a trazos sin permiso
    escrito). La «i» va **sin punto** (máscara). La vuelta del bucle es el espejo, más corta. Descartadas antes: letras
    de módulo con contraformas (4 variantes, no le gustó ninguna) y huecos cuadrados / píxel 3×3 / símbolo + palabra.
-   **El favicon sigue con las letras de módulo viejas** (`AnimatedFavicon.tsx`): pendiente pasarlo si cuaja.
+   Favicon pasado al logo nuevo (2026-11-12): misma casilla, el bloque tapa → se ajusta → destapa la letra siguiente;
+   fijo sin JS = `public/maqueta/favicon-bloque.svg` (un bloque blanco, nada de la «a» a trazos por la licencia).
 9. ~~Zona táctil del logo en móvil~~ — HECHO 2026-11-12: `-m-3 p-3` en el enlace y en el botón del menú → 102×40 px.
 10. CV en anico.design (2026-11-12): `/product-cv` y `/games-cv` (+ `/videogames-cv` → `/games-cv`).
 

@@ -39,8 +39,10 @@ const flipTech = Chakra_Petch({ variable: "--font-flip-tech", subsets: ["latin"]
 
 export const metadata: Metadata = {
   ...siteMeta(),
-  // La «a» fija; AnimatedFavicon la hace pasar por las letras del logo (E5).
-  icons: { icon: "/maqueta/favicon-anico.svg" }, // logo nuevo (2026-10-18); el de antes, favicon.svg
+  // Fijo: el bloque blanco del que nace el logo (sin JS o hasta que llega Satoshi). AnimatedFavicon lo convierte en la «a»
+  // y la hace pasar por las letras del logo. No es la «a» dibujada: Satoshi solo va como texto vivo (licencia ITF FFL).
+  // Los de antes: favicon-anico.svg (logo de módulos, 2026-10-18) y favicon.svg.
+  icons: { icon: "/maqueta/favicon-bloque.svg" },
 };
 
 // Fondo negro/blanco puros. Desde el 2026-10-17, el color lo decide cada página (lib/maqueta/theme.ts); antes había
