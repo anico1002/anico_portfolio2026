@@ -2,6 +2,26 @@
 
 > Retoma rápida entre Macs. Detalle de arquitectura en `CLAUDE.md` / `INIT.md`.
 
+## ▶ CIERRE 2026-11-12 — logo y favicon nuevos en producción
+
+**Hecho y subido a anico.design (comprobado en producción):**
+- **Logo en Satoshi Bold** (`LogoAnico.tsx`): cinco cuadrados iguales crecen desde abajo, se ajustan a su letra (la «i»
+  se estrecha, sin punto), la palabra se junta hacia la izquierda mientras cada bloque se recoge y destapa la letra.
+  Vuelta del bucle en espejo. Texto vivo, nunca trazos (licencia ITF FFL). Alberto: «no me acaba de convencer del
+  todo, pero se lee» → **lo quiere seguir puliendo**.
+- **Favicon** con el mismo gesto en una casilla (a→n→i→c→o); fijo sin JS = `public/maqueta/favicon-bloque.svg`.
+  Arreglado que Next re-añadía sus iconos fijos tras hidratar (cada fotograma va a todos + MutationObserver).
+- **Zona táctil del logo en móvil**: 102×40 px.
+- CV en `/product-cv` y `/games-cv` (commit anterior de hoy).
+
+**Pendiente para la próxima (Alberto lo deja para otra sesión):**
+1. Pulir el logo (punto 8 de abajo).
+2. Auditoría de rendimiento: blur en vivo de Gloop/SwifT (decisión suya) y pausar animaciones infinitas fuera de
+   pantalla. La zona táctil ya está.
+3. Contraste titular gigante + listado pequeño (punto 7).
+4. anicOS, cuando llegue de Cowork.
+5. Limpiar del servidor los `_next/` de builds viejos (hoy se ha subido 4 veces), con OK y rutas escritas.
+
 ## ▶ EMPEZAR AQUÍ (2026-11-03, MacBook) — anico.design EN PRODUCCIÓN
 
 **Hecho y comprobado:** certificado Let's Encrypt para anico.design, www.anico.design, anico.es y www.anico.es
