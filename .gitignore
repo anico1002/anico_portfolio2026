@@ -92,6 +92,7 @@ scripts/mockups/photoshop/run.jsx
 /out/
 /deploy/cf-out/
 /deploy/apache-out/
+/deploy/cv-out/
 /deploy/cf-redirect-out/
 /.qa-logs/
 

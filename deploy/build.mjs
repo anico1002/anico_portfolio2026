@@ -81,7 +81,9 @@ const isLiveFolder = (dir) => SHARED.includes(dir) || SLUGS.some((s) => s === di
 const caseFolder = (rel) => rel.match(/^(?:opt\/)?(?:maqueta|projects)\/([^/]+)\//)?.[1] ?? null;
 const skipped = new Set();
 
-[...ROOT_PAGE, ...PAGES, "_next", "404.html", "robots.txt", "sitemap.xml", "fonts-licencia", "no-contar"].forEach(copy);
+// Las dos webs del CV (2026-11-12) son HTML estático con el PDF dentro: llegan ya hechas desde el repo CV-anico
+// (`publicar-en-portfolio.sh` las copia a public/product-cv/ y public/games-cv/) y van enteras.
+[...ROOT_PAGE, ...PAGES, "_next", "404.html", "robots.txt", "sitemap.xml", "fonts-licencia", "no-contar", "product-cv", "games-cv"].forEach(copy);
 for (const base of ["maqueta", "opt/maqueta"])
   for (const f of readdirSync(join(OUT, base))) {
     const isDir = statSync(join(OUT, base, f)).isDirectory();
@@ -104,7 +106,7 @@ const missing = [];
 let copied = 0;
 for (const r of refs) {
   const rel = r.slice(1);
-  if (/^(_next|product|games|maqueta|opt\/maqueta|fonts-licencia|no-contar)\//.test(rel)) continue; // ya van enteros
+  if (/^(_next|product|games|maqueta|opt\/maqueta|fonts-licencia|no-contar|product-cv|games-cv)\//.test(rel)) continue; // ya van enteros
   const folder = caseFolder(rel);
   if (folder && !isLiveFolder(folder)) {
     skipped.add(rel.replace(/[^/]+$/, ""));
@@ -135,6 +137,7 @@ const esc = (s) => s.replace(/[.+*?^$()[\]{}|\\]/g, "\\$&");
 const rule = (from, to) => `RewriteRule ^${from}/?$ ${to} [R=301,L]`;
 const rules = [
   rule("new", "/"),
+  rule("videogames-cv", "/games-cv/"),
   rule("new/(product|games)", "/$1/"),
   ...live.flatMap(({ slug, href }) => [rule(esc(slug), href), rule(`new/${esc(slug)}`, href), rule(`proyecto/${esc(slug)}`, href)]),
   ...Object.entries(OLD)

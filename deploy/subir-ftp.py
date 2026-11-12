@@ -11,7 +11,9 @@ Uso: python3 deploy/subir-ftp.py [--dry]
 import ftplib, os, subprocess, sys
 
 HOST, USER, REMOTE = "134.0.9.249", "anico62", "web"
-LOCAL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "apache-out")
+# FTP_LOCAL=<carpeta> sube solo esa carpeta (p. ej. deploy/cv-out: las dos webs del CV y el .htaccess, sin tocar el
+# resto de la web; 2026-11-12). Por defecto, el paquete entero.
+LOCAL = os.path.abspath(os.environ.get("FTP_LOCAL") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "apache-out"))
 TEXT = (".html", ".css", ".js", ".json", ".txt", ".xml", ".htaccess", ".webmanifest", ".svg")
 DRY = "--dry" in sys.argv
 
