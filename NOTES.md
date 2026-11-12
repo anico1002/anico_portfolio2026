@@ -25,12 +25,15 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
    textos muy pequeños tipo listado/índice (Grégory Lallé, Jam Area, Gianluca Gradogna, AW Portfolio…). Quiere
    aplicarlo en algún punto de la web, **no ahora**. Él concretará a qué se refiere exactamente; partir de esas
    referencias: https://claude.ai/artifact/5G4nGej5FEMoV7Zx7RE3TC
-8. **⏰ RECORDAR A ALBERTO: el logo no se entiende** (2026-11-09). Se lo han dicho un par de personas y hay que
-   arreglarlo; **él le va a dar una vuelta primero** (el diseño es suyo). Condición: sigue dibujado a mano con
-   cuadrados (`LogoAnico.tsx`) y conserva el efecto de formarse desde ellos. Diagnóstico medido: ninguna letra tiene
-   contraforma (son siluetas macizas) y a 12–22 px se lee «aaico»/«anlco». **No usar Satoshi para el logo**: es ITF
-   FFL y pasarla a trazado como logo exige permiso escrito (lo cazó la skill brand-identity). Se probaron ideas
-   (huecos cuadrados, píxel 3×3, símbolo + palabra) y no le convencieron; esperar a su propuesta.
+8. **Logo — EN PRODUCCIÓN la versión Satoshi (2026-11-12), Alberto quiere seguir puliéndolo.** «No me acaba de
+   convencer del todo, pero se lee». Ahora (`LogoAnico.tsx`): cinco cuadrados iguales crecen desde abajo, se ajustan a
+   la caja de su letra (la «i» se estrecha), la palabra se junta hacia la izquierda mientras cada bloque se recoge a la
+   izquierda y destapa «anico» en **Satoshi Black, texto vivo** (licencia ITF FFL: nunca a trazos sin permiso
+   escrito). La «i» va **sin punto** (máscara). La vuelta del bucle es el espejo, más corta. Descartadas antes: letras
+   de módulo con contraformas (4 variantes, no le gustó ninguna) y huecos cuadrados / píxel 3×3 / símbolo + palabra.
+   **El favicon sigue con las letras de módulo viejas** (`AnimatedFavicon.tsx`): pendiente pasarlo si cuaja.
+9. ~~Zona táctil del logo en móvil~~ — HECHO 2026-11-12: `-m-3 p-3` en el enlace y en el botón del menú → 102×40 px.
+10. CV en anico.design (2026-11-12): `/product-cv` y `/games-cv` (+ `/videogames-cv` → `/games-cv`).
 
 ### Auditoría de rendimiento con el MCP de Awwwards (2026-11-09) — pendiente de revisar con Alberto
 
@@ -42,8 +45,7 @@ comprobadas en el código:
   `backdrop-blur-xl` (24 px) en tarjetas de SwifT (`components/case-study/swift/FeatureCards.tsx`, `ShortcutDemo.tsx`)
   y `blur(16px)` en `gloop/KitLaptop.tsx`. Solo afecta a los casos **Gloop y SwifT**, no a la home. Choca con la regla
   «nada de blur en vivo» (hornearlo). **Decisión de diseño de Alberto**: no tocar sin él.
-- **Zona táctil pequeña en móvil**: el logo del nav (`nav.fixed > a.pointer-events-auto`) mide 84×18 px (<24 px de
-  alto). Arreglo de una línea.
+- ~~**Zona táctil pequeña en móvil**~~ — HECHO 2026-11-12 (102×40 px).
 - **Animaciones infinitas que siguen fuera de pantalla**: `marquee`, `gloop-drift`, `reto-blob`, `flag-wave`, `wf-pan`
   (`app/globals.css`, `app/(site)/system.css`, `swift/FeatureCards.tsx`). Pausarlas con IntersectionObserver o
   `animation-play-state` cuando no se ven. Coste pequeño.
