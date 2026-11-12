@@ -49,9 +49,10 @@ export default function AnimatedFavicon() {
     if (!ctx) return;
     let alive = true;
     let timer = 0;
-    let icons: HTMLLinkElement[] = [];
-    let saved: (readonly [string, string])[] = [];
     let link: HTMLLinkElement | null = null;
+    let watch: MutationObserver | null = null;
+    // Lo que tenía cada icono antes de tocarlo, para devolvérselo al salir.
+    const saved = new Map<HTMLLinkElement, readonly [string, string]>();
 
     /** Un fotograma: letra `ch` a la vista (o ninguna) y un bloque en `x`, `w`. */
     const render = (ch: string | null, x: number, w: number, bottom: number) => {
@@ -105,8 +106,15 @@ export default function AnimatedFavicon() {
       frames.set(key, url);
       return url;
     };
+    // Cada fotograma busca TODOS los iconos que haya en ese momento: Next vuelve a meter los suyos (favicon.ico y el
+    // bloque fijo) después de hidratar, y Chrome se queda con el último. Con la lista sacada una sola vez al arrancar,
+    // los que llegaban más tarde no se tocaban y se veía el bloque quieto (2026-11-12).
+    let last = "";
     const show = (url: string) => {
-      for (const l of icons) {
+      last = url;
+      for (const l of document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]')) {
+        if (!saved.has(l)) saved.set(l, [l.href, l.type]);
+        if (l.href === url) continue;
         l.type = "image/png";
         l.href = url;
       }
@@ -134,8 +142,9 @@ export default function AnimatedFavicon() {
       link.rel = "icon";
       link.type = "image/png";
       document.head.prepend(link);
-      icons = [...document.querySelectorAll<HTMLLinkElement>('link[rel~="icon"]')];
-      saved = icons.map((l) => [l.href, l.type] as const);
+      // Si Next mete un icono mientras el favicon descansa (sin fotogramas), se le pone el fotograma actual al momento.
+      watch = new MutationObserver(() => last && show(last));
+      watch.observe(document.head, { childList: true });
       // Llegada: el bloque fijo se convierte en la «a».
       await morph(null, 0);
       // Guion: descanso en la «a» y después cinco cambios (a→n→i→c→o→a) con una pausa en cada letra.
@@ -151,9 +160,11 @@ export default function AnimatedFavicon() {
     return () => {
       alive = false;
       clearTimeout(timer);
-      icons.forEach((l, k) => {
-        l.href = saved[k][0];
-        l.type = saved[k][1];
+      watch?.disconnect();
+      saved.forEach(([href, type], l) => {
+        if (l === link) return;
+        l.href = href;
+        l.type = type;
       });
       link?.remove();
     };
