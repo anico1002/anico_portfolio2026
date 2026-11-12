@@ -63,21 +63,21 @@ export { H as MODULE };
 
 /* ── Logo en Satoshi (2026-11-12, Alberto) ────────────────────────────────────────────────────────────────────────
    El de módulos no se leía (siluetas macizas, sin contraformas: «aaico», «anlco»). Ahora son cinco bloques que crecen
-   desde abajo y, arriba, se recogen hacia la izquierda y destapan «anico» en Satoshi Black.
+   desde abajo y, arriba, se recogen hacia la izquierda y destapan «anico» en Satoshi Bold (el peso de los titulares de la web; primero fue Black).
    Nacen iguales y repartidos; mientras se recogen se ajustan a su letra y la palabra se junta (Alberto, 2026-11-12).
    La «i» va sin punto (Alberto): se recorta con una máscara justo encima del asta.
    Licencia ITF FFL: la palabra es TEXTO VIVO con la fuente de la web, nunca trazos (pasarla a contornos como logo
    exige permiso escrito de ITF). El favicon sigue con las piezas de módulo de arriba.
-   Medidas de Satoshi Black a 100 px (canvas measureText): avance, tinta izquierda/derecha, ascendente, descendente. */
+   Medidas de Satoshi Bold (700) a 100 px (canvas measureText): avance, tinta izquierda/derecha, ascendente, descendente. */
 const FS = 100;
-const TRACK = -2;
-const XH = 51.6; // altura de la x: el alto del logo. Todo lo que pase de aquí (el punto de la «i») queda fuera.
+const TRACK = -1;
+const XH = 50.88; // altura de la x: el alto del logo. Todo lo que pase de aquí (el punto de la «i») queda fuera.
 const METRICS: Record<(typeof WORD)[number], [adv: number, l: number, r: number, b: number]> = {
-  a: [56.4, 3.7, 51.2, 1.3],
-  n: [60.6, 5.8, 55.4, 0],
-  i: [27, 4.6, 22.1, 0],
-  c: [56.9, 3.1, 54.3, 1.3],
-  o: [61.3, 3.1, 58.2, 1.2],
+  a: [54.81, 4.09, 49.07, 1.27],
+  n: [58.92, 6.34, 53.18, 0],
+  i: [24.84, 4.93, 19.7, 0],
+  c: [55.04, 3.37, 52.17, 1.27],
+  o: [59.59, 3.37, 56.22, 1.2],
 };
 const GLYPHS = (() => {
   let x = 0;
@@ -91,7 +91,7 @@ const GLYPHS = (() => {
 const VB_X = GLYPHS[0].l;
 const VB_W = GLYPHS[4].l + GLYPHS[4].w - VB_X;
 const VB_B = Math.max(...GLYPHS.map((g) => g.b));
-const FONT_TEST = "900 16px Satoshi";
+const FONT_TEST = "700 16px Satoshi";
 /** De dónde salen los bloques: cinco cuadrados iguales, desde el borde izquierdo del logo y algo más separados de lo
     que acaba midiendo la palabra (sobresalen un poco por la derecha). Al destaparse, cada uno se ajusta a la caja de su
     letra (la «i» se estrecha) y se desliza hacia la izquierda a su sitio: la palabra se junta mientras se van. */
@@ -208,7 +208,7 @@ export default function LogoAnico({ className = "", play = true, replay = 0, loo
             x={G.x}
             y={0}
             fontSize={FS}
-            fontWeight={900}
+            fontWeight={700}
             style={{ fontFamily: "Satoshi, sans-serif", fontKerning: "none" }}
             aria-hidden
           >

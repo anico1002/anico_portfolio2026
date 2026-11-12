@@ -28,7 +28,7 @@ y restos de builds de `_next/` (con OK de Alberto); queda calcado al paquete.
 8. **Logo — EN PRODUCCIÓN la versión Satoshi (2026-11-12), Alberto quiere seguir puliéndolo.** «No me acaba de
    convencer del todo, pero se lee». Ahora (`LogoAnico.tsx`): cinco cuadrados iguales crecen desde abajo, se ajustan a
    la caja de su letra (la «i» se estrecha), la palabra se junta hacia la izquierda mientras cada bloque se recoge a la
-   izquierda y destapa «anico» en **Satoshi Black, texto vivo** (licencia ITF FFL: nunca a trazos sin permiso
+   izquierda y destapa «anico» en **Satoshi Bold (como los titulares; primero fue Black), texto vivo** (licencia ITF FFL: nunca a trazos sin permiso
    escrito). La «i» va **sin punto** (máscara). La vuelta del bucle es el espejo, más corta. Descartadas antes: letras
    de módulo con contraformas (4 variantes, no le gustó ninguna) y huecos cuadrados / píxel 3×3 / símbolo + palabra.
    **El favicon sigue con las letras de módulo viejas** (`AnimatedFavicon.tsx`): pendiente pasarlo si cuaja.
